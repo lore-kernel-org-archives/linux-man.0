@@ -1,77 +1,132 @@
-Received: from 10.mo533.mail-out.ovh.net (10.mo533.mail-out.ovh.net [46.105.72.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3102AC17
-	for <linux-man@vger.kernel.org>; Wed,  9 Apr 2025 21:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.72.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084072135AD
+	for <linux-man@vger.kernel.org>; Wed,  9 Apr 2025 23:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744234968; cv=none; b=ktEC1kO8zxfqXBrU9SBG3p95RPoTPnnna3g0mao5LyBvCsIYXPGtkjz1SmtFzL5gdNr4z4yrUEuvkcgQdma+cil2f0lsyEqHGQa8n7xA6BKhixWtb41ram/2mQY7jCYiWPbo+869bEmTjkoDcvZJ+fP51EbdUXKRrZXjm46mydE=
+	t=1744241139; cv=none; b=ZIexaQpU0+h4sM6yEkVByG2f+zAOJsJ31KQ6tF1SWOApQlaR9HOoYzFj0R0f8+f09ca+pMYO0X2UuH6xdlsFOESHnTxRWjz+rJvpoOwvtLu3FF5s9kUG3E87f0BmKHyHuH1Horg6kDYdpXnOzjiBi54w1ScknAOFR62GaQAV8oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744234968; c=relaxed/simple;
-	bh=eFO1zOrl6BTSNrNDw0EU+j/Sk6LOd9HAGG1jivhbR2g=;
+	s=arc-20240116; t=1744241139; c=relaxed/simple;
+	bh=iyxwZpyUBtrhKsZW9s+zLs3JA2pm3yOoVq07ESpy6vQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZIaW4N26qPRqFDU1vg9sGViABJNnyf3/gi6AkvrgjyuWQ8huI+6UKrSKGJJgFcqaKAnepu//wLKKaOzMonzezZA0jTTpmaT4BNdlKpqro0TA1KTSUfRowXzvhJ3dBAuQoCBOSddzquPzQyLA6IyF4xIwPsrfg24+6vigjfAqqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jwilk.net; spf=pass smtp.mailfrom=jwilk.net; dkim=pass (2048-bit key) header.d=jwilk.net header.i=@jwilk.net header.b=KUpVLlNE; arc=none smtp.client-ip=46.105.72.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jwilk.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwilk.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jg5xfkh0D3nte7xkH/CJk2vebQ5gH7L/rLvGyw+jC2sRtVqItpZIC9NYEh5YT9GaOQZkD6dNccqGvwM5llaFoUe9A7GyhAebV/02LoNmNA1GimsSN5eBfCjXSKzqRNrx/QTUMRkBoSNvvCrcSXiJrflIl9ABtfucrDE/8hZZLq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=odNAs9sS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jwilk.net header.i=@jwilk.net header.b="KUpVLlNE"
-Received: from director2.derp.mail-out.ovh.net (director2.derp.mail-out.ovh.net [79.137.60.36])
-	by mo533.mail-out.ovh.net (Postfix) with ESMTPS id 4ZXvbP3zSGz1Tj1;
-	Wed,  9 Apr 2025 20:25:53 +0000 (UTC)
-Received: from director2.derp.mail-out.ovh.net (director2.derp.mail-out.ovh.net. [127.0.0.1])
-        by director2.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <jannh@google.com>; Wed,  9 Apr 2025 20:25:53 +0000 (UTC)
-Received: from mta6.priv.ovhmail-u1.ea.mail.ovh.net (unknown [10.110.113.158])
-	by director2.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4ZXvbP2cN0zyFY;
-	Wed,  9 Apr 2025 20:25:53 +0000 (UTC)
-Received: from jwilk.net (unknown [10.1.6.7])
-	by mta6.priv.ovhmail-u1.ea.mail.ovh.net (Postfix) with ESMTPSA id 9F5B5D43CC9;
-	Wed,  9 Apr 2025 20:25:51 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-111S0055da57c81-5475-4f80-97fb-45673ac00651,
-                    C2CDD821AA5C8083AD722228536C98132DCF5F8A) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp:31.0.176.58
-Date: Wed, 9 Apr 2025 22:25:48 +0200
-From: Jakub Wilk <jwilk@jwilk.net>
-To: Jann Horn <jannh@google.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org
-Subject: Re: [PATCH man] mmap.2: Document danger of mappings larger than
- PTRDIFF_MAX
-Message-ID: <20250409202548.unp4btmb7ktq2igk@jwilk.net>
-References: <20250409200316.1555164-1-jannh@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="odNAs9sS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41766C4CEE2;
+	Wed,  9 Apr 2025 23:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744241138;
+	bh=iyxwZpyUBtrhKsZW9s+zLs3JA2pm3yOoVq07ESpy6vQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=odNAs9sS6KCORAr1peSC/NIQxCr53jsQA2UnyRFnUXmny4gsQLKfWGWKZjAtTfZoW
+	 1GvFFNUWW35MCbRufw4qvROGEk5e6xvvjc/TNjV3EJTB6pC5gTsY0eaOgUo5lizQDl
+	 47KAQs58OiJSfpuNLnD+g6+6kc57trkUK0xS8ni6oS2Rj/FxGXs0dU0ADd55DsabcI
+	 v+KU8p0d/SioGJ7/eDCQ6gEIaG+I6hHi7THLvTc2FH6WFF5tdslWnkwJYCIy054xtt
+	 aoV5iKfC21UENh/902dsW6U/dDycOyVqjnxpCnU+qctGlNz/FvMIJUKoNr83u2Zf3x
+	 DMxi03DWA6BAw==
+Date: Thu, 10 Apr 2025 01:25:34 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Eugene Syromyatnikov <evgsyr@gmail.com>, linux-man@vger.kernel.org, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Amit Pinhas <amitpinhass@gmail.com>
+Subject: Re: Removing in-source contribution records contributer
+Message-ID: <jpin2dbnp5vpitnh7l4qmvkamzq3h3xljzsznrudgioox3nn72@57uybxbe3h4p>
+References: <cover.1739389071.git.amitpinhass@gmail.com>
+ <c45f3d934ec20ec5fc813400a4a56079c2241ed1.1739389071.git.amitpinhass@gmail.com>
+ <wwjzzwjpbh2ayydhorwgs4jhycjgwhxfzlk5tfym7dxx4w7kll@yaspehl62eik>
+ <20250212230210.3kkixsk7bi3cdc4d@illithid>
+ <lvhwk4czikqmx4acydi5t5q3nshvgdipedz6xkt7auvz5mnmwp@auuzri4hvsrn>
+ <CACGkJdsEQENG1ZOQ14iueMzh4p5ywDenYp5eaN-itvrFfK+kmg@mail.gmail.com>
+ <37qabjc65x7co7f3oiibpgwtvhnigk5z7tpmmzgrjhisi4nqmz@ypx33dbbltdn>
+ <856467f3-73b4-4b45-a2c4-f7b4f44b1de2@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="imfhehatn5pt6q3f"
 Content-Disposition: inline
-In-Reply-To: <20250409200316.1555164-1-jannh@google.com>
-X-Ovh-Tracer-Id: 15551210988846066793
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeileeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepudeftefhleekkeelvddvgfeiieegffefgeejhefhgfefiedvudeujeekkeekgfffnecuffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucfkphepuddvjedrtddrtddruddpfedurddtrddujeeirdehkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdpnhgspghrtghpthhtohepkedprhgtphhtthhopehjrghnnhhhsehgohhoghhlvgdrtghomhdprhgtphhtthhopegrlhigsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepnfhirghmrdfjohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvgdrtghomh
- dprhgtphhtthhopehvsggrsghkrgesshhushgvrdgtiidprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehfeefmgdpmhhouggvpehsmhhtphhouhht
-DKIM-Signature: a=rsa-sha256; bh=PlSb+3ER9DX08ffcuHcb/SKT+kBQGPDkv39kOiQ23O0=;
- c=relaxed/relaxed; d=jwilk.net; h=From; s=ovhmo917968-selector1;
- t=1744230354; v=1;
- b=KUpVLlNE/09Vt21bjO5cgh/LgRVyL2UvAic0yS0u/J4tw8rD6WUKpNHDKjsc6k0gBA0VAadP
- xFFuh3PN3VXGIYsTHLwqFBPkx4B4CdJh54jOYbZiLU0i+PPH39POZ8ru19ouKHzy2wCsZY8FXWi
- +/7TPB6dEwkWcJnSoDWRMPOmcOCKiFmL27TiFk4nd1DI1VQPSWSs8NYyyQScN/uZCe2HWVuJk1n
- BEh5PGdQaC+hgx4FHjN4AsqDtCkx7fEFvh1hbHE4AP8lWCv7bm1Lh023Qq44KYHWwiqZbHYLH3P
- N30X+69vFme1LG4zQcEKrlvbEXa008omQsmZI9h03AGYA==
+In-Reply-To: <856467f3-73b4-4b45-a2c4-f7b4f44b1de2@redhat.com>
 
-* Jann Horn <jannh@google.com>, 2025-04-09 22:03:
-> - glibc malloc restricts object size to <=PTRDIFF_MAX in
->   checked_request2size()
 
-FWIW, this is done only since glibc v2.30 (released in 2019):
-https://sourceware.org/cgit/glibc/commit/?id=9bf8e29ca136094f
+--imfhehatn5pt6q3f
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Eugene Syromyatnikov <evgsyr@gmail.com>, linux-man@vger.kernel.org, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Amit Pinhas <amitpinhass@gmail.com>
+Subject: Re: Removing in-source contribution records contributer
+References: <cover.1739389071.git.amitpinhass@gmail.com>
+ <c45f3d934ec20ec5fc813400a4a56079c2241ed1.1739389071.git.amitpinhass@gmail.com>
+ <wwjzzwjpbh2ayydhorwgs4jhycjgwhxfzlk5tfym7dxx4w7kll@yaspehl62eik>
+ <20250212230210.3kkixsk7bi3cdc4d@illithid>
+ <lvhwk4czikqmx4acydi5t5q3nshvgdipedz6xkt7auvz5mnmwp@auuzri4hvsrn>
+ <CACGkJdsEQENG1ZOQ14iueMzh4p5ywDenYp5eaN-itvrFfK+kmg@mail.gmail.com>
+ <37qabjc65x7co7f3oiibpgwtvhnigk5z7tpmmzgrjhisi4nqmz@ypx33dbbltdn>
+ <856467f3-73b4-4b45-a2c4-f7b4f44b1de2@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <856467f3-73b4-4b45-a2c4-f7b4f44b1de2@redhat.com>
 
--- 
-Jakub Wilk
+Hi Carlos,
+
+On Wed, Apr 09, 2025 at 05:15:21PM -0400, Carlos O'Donell wrote:
+> > > In strace, FWIW, we have the following:
+> > >   * the copyright notice looks like "Copyright (c) <year>-<year> The
+> > > strace developers.";
+> >=20
+> > Hmmm, interesting.  And actually, it's more accurate than the usual
+> > copyright lines.
+>=20
+> The value of the line "Copyright (c) The Foo Developers" is to indicate
+> that the works are copyrighted, and it avoids anyone who infringes from
+> arguing they "didn't know." It is in itself not a copyright statement.
+
+Hmmm.
+
+> What value is there in maintaining the year?
+
+A copyright notice requires the year AFAIK, although if this is not a
+formal copyright statement, I guess we can remove it.  That means
+significantly less maintenance work, which is good.
+
+> Note:
+> Copyright Notices in Open Source Software Projects (Steve Winslow)
+> https://www.linuxfoundation.org/blog/blog/copyright-notices-in-open-sourc=
+e-software-projects
+
+Thanks for the link!
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--imfhehatn5pt6q3f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmf3Ae4ACgkQ64mZXMKQ
+wqmg6hAAkxE11bn/6vwS8ZzMbb5WJWSBsoUuP0LR5Z//VY54xWCSeALRWH4gbJnn
+C7RL7407tcPvnNnDh4g7T/plUAy9zM7q+wgguoWF/dZp6Iw5K6TdZiMyDv7m/tdU
+TmmlEGVIO0M6X6xCLXUCZ4JlN1uH9h1uSbJl7HxDyCEP5oEl9DIEA2lAjDng/dlt
+hrgPjCicUx/7M/gKFeEfmEIiTRA7NIhveva8ZrzfEjSk1PtopZMweqUvqv0xqZ82
+oTinpfu+w9gG1sY/RfHKFnlnJ6wsvG4fdEAh+Ob0jQ7EUFz/m61NJeg1mPzKS1et
+RddFvXPaveMqD4jRTJQwqCDlZRvDn5HYWSXxHZIaoyGhoG79NUUVWy+KjPBGiTa+
+WWSQAD4KWATIMgu2IPMxtcBjRqpPxobmrA28NyXshCUo5dA75r/F+Q/X1MeNBExe
+/xzx5UE+Mly4U4FzU+ADtghCQOszRWvoJ7tQ6xihRDNXSH17YtYgLeU43b6seI0c
+wQXuHXGsktOVzLFeT8CsBySb/+LhiI4NG7jg4PTtHtkwsnD01IRh+UcZiBMoseR5
+XW2vZim+0scSQ8SMPGpesqigfuIVi6bCqNHz9mOLNhcH1AZ7fcbscAscSPz9UgwB
+ftDBOP1pBYDBMEzO2/9U5cqfdPM64Ze5X6GTnVbp0pjj+1+lC2M=
+=Jyl7
+-----END PGP SIGNATURE-----
+
+--imfhehatn5pt6q3f--
