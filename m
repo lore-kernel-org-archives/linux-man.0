@@ -1,118 +1,155 @@
-Received: from 7.mo576.mail-out.ovh.net (7.mo576.mail-out.ovh.net [46.105.50.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A826BB5B
-	for <linux-man@vger.kernel.org>; Fri,  9 May 2025 13:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.50.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6740328F528
+	for <linux-man@vger.kernel.org>; Fri,  9 May 2025 13:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746796911; cv=none; b=C820AyDWnx9mAQnawQCkery9JC5a+nWX1cnoVuNxJylcQyeetE2Io/tBMEjduVpC0fkNlyaoim8Ymb4HQJ4ka7fdCr3yfLdEdxhYvWyp9pd4ugQzBYJKVb1YOUzWTMO+D+CpBUthXtN6Tafrtb/BZ07D0iioiSy11NMAI+T24eI=
+	t=1746797504; cv=none; b=O1RS+f3ZU6YsjkGYnhdUAwpmynisCewxv/YUXLrFsGl8t4TmPLhwnvw5OhP/6x/iI0RVwxW5OyAyKoN743NMrTJhZiz6dUAwb29My8c9X2aw6TXBPWI3+Mm2WBUR0pFYzOcaD1mKYh/1X4zHJzdV4PK4kV2Pgxl/odkn3oZ6lgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746796911; c=relaxed/simple;
-	bh=dg7Z9wrqo3miX1RHONskTEUN2sK4uHY8rAAza1ZByL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nPtoMmxwFRjUcQK++RugD4VHFOaVcwBbZI2DYPIka8MKC8X80ltPfMPBOfFvVBf64QBtM/MS3IJ0TwrFSRlQiDrF+1IdLhodrLYtRcj31gQEvKk7T6FtWKuED7g8PVfDmIZSb8YtWFpj/ubtwT4P6upgokBmge4o3HIyGNaKrCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk2.org; spf=pass smtp.mailfrom=sk2.org; dkim=pass (2048-bit key) header.d=sk2.org header.i=@sk2.org header.b=HsZARZ6q; arc=none smtp.client-ip=46.105.50.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk2.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk2.org
+	s=arc-20240116; t=1746797504; c=relaxed/simple;
+	bh=WJMGIwJS4qg+Dr4PZtAlzP988Si6jWEnyPBCUPy38vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JEJHdb0ISx/lbvO+qISSmikdjM8TPJp0qMBdZr3iux+wGTEQkvQhcCS6HKSJ6REjaG1iwqcaqO1WVj/vz/JlVaTX0VKXbtjSkJqT9wtRCHrDTBM/EzzlU8yPSWBea9iG481v2plIDaeg056iaU30vZspbUUR5thMX+5CiViEnNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nu9RqZSi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sk2.org header.i=@sk2.org header.b="HsZARZ6q"
-Received: from director7.ghost.mail-out.ovh.net (unknown [10.109.148.38])
-	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 4Zv8Nz5gYmz28g8
-	for <linux-man@vger.kernel.org>; Fri,  9 May 2025 13:05:07 +0000 (UTC)
-Received: from ghost-submission-5b5ff79f4f-c594s (unknown [10.110.164.228])
-	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5C6081FD7B;
-	Fri,  9 May 2025 13:05:07 +0000 (UTC)
-Received: from sk2.org ([37.59.142.109])
-	by ghost-submission-5b5ff79f4f-c594s with ESMTPSA
-	id 4YXWDYP9HWgrpwAA2RPGTQ
-	(envelope-from <steve@sk2.org>); Fri, 09 May 2025 13:05:07 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-109S00340232c21-63ec-4356-b6ab-5ce11865c3c0,
-                    8ADD276010C6621F5FBBBC8B9033BF5DACDC93C7) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Fri, 9 May 2025 15:04:59 +0200
-From: Stephen Kitt <steve@sk2.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Carlos O'Donell <carlos@redhat.com>, "G.
- Branden Robinson" <g.branden.robinson@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nu9RqZSi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7603C4CEE4;
+	Fri,  9 May 2025 13:31:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746797500;
+	bh=WJMGIwJS4qg+Dr4PZtAlzP988Si6jWEnyPBCUPy38vc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nu9RqZSiNe4oY+hSzhCR8AIlESaMEaYp+HujqpbL2w80XMOK9ZSDBZwWXRLRPF3GK
+	 tZ8k7d4V6qr393j4wJQdvKJijAwUoutYaI36ENudordOUi6qXvvpOFrNk05Nr8ORzw
+	 +pFv+2To/A0TLOcCwjj7ovub9Yry0xjWtAwTWG1V5zPu2RcBdzLBqlzED1HilZuMs6
+	 BtjYECwBJJZGqmNfXRvQUOINPxUCFu5cCYvxaumWCuAFnOLEccXrJbMnLhywN7APX1
+	 USB6iHUfzzj+xhSLrxQnJ35h1bfoojw8WQu/n+BZEfQQWrH/C//nFx+nnOFmr2SH8W
+	 vgZ8Ix4fCib7w==
+Date: Fri, 9 May 2025 15:31:37 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-man@vger.kernel.org, "G. Branden Robinson" <g.branden.robinson@gmail.com>
 Subject: Re: Removing in-source contribution records contributer
-Message-ID: <20250509150459.06f9fab7@heffalump.sk2.org>
-In-Reply-To: <2tmwbk6ennuamcvjdqnialvh4ez3zen666qatcklevasimlihu@n7o5hp6aejqp>
-References: <cover.1739389071.git.amitpinhass@gmail.com>
-	<c45f3d934ec20ec5fc813400a4a56079c2241ed1.1739389071.git.amitpinhass@gmail.com>
-	<wwjzzwjpbh2ayydhorwgs4jhycjgwhxfzlk5tfym7dxx4w7kll@yaspehl62eik>
-	<20250212230210.3kkixsk7bi3cdc4d@illithid>
-	<lvhwk4czikqmx4acydi5t5q3nshvgdipedz6xkt7auvz5mnmwp@auuzri4hvsrn>
-	<gatqfsr5gvyy5iuq7gmlpibawerkcmbg4dl4ahzswbe5bgbec6@xyfht7yewjfv>
-	<20250408124238.2gbis6jq5pdz7yoi@illithid>
-	<7a09c8a5-6329-412e-be41-9950a758e55e@redhat.com>
-	<nfwircxzu43boe5tme6loarzsq2rcecazpuox6eujeqjj6a7rv@nhzkijkx4lix>
-	<2tmwbk6ennuamcvjdqnialvh4ez3zen666qatcklevasimlihu@n7o5hp6aejqp>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Message-ID: <gbdubaqqeyeqgoibxyls23mo34ewz76wegrcyf4xch4ubcfnib@4zriaxxoghw2>
+References: <wwjzzwjpbh2ayydhorwgs4jhycjgwhxfzlk5tfym7dxx4w7kll@yaspehl62eik>
+ <20250212230210.3kkixsk7bi3cdc4d@illithid>
+ <lvhwk4czikqmx4acydi5t5q3nshvgdipedz6xkt7auvz5mnmwp@auuzri4hvsrn>
+ <gatqfsr5gvyy5iuq7gmlpibawerkcmbg4dl4ahzswbe5bgbec6@xyfht7yewjfv>
+ <20250408124238.2gbis6jq5pdz7yoi@illithid>
+ <7a09c8a5-6329-412e-be41-9950a758e55e@redhat.com>
+ <nfwircxzu43boe5tme6loarzsq2rcecazpuox6eujeqjj6a7rv@nhzkijkx4lix>
+ <2tmwbk6ennuamcvjdqnialvh4ez3zen666qatcklevasimlihu@n7o5hp6aejqp>
+ <c684271a-9c1c-4c91-9ef8-db44cb924320@efficios.com>
+ <d9b988f8-ebd9-4a0e-aa27-cab14f1f3a96@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wfK8Ek=PCZ8EoiJIZmdtH1j";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 18267444515521922694
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvieelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepgedtieevheduudejjeelheetvdejudehvdejudfggfetteekffevvdehjeekkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpkedvrdeihedrvdehrddvtddupdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheejiegmpdhmohguvgepshhmthhpohhuth
-DKIM-Signature: a=rsa-sha256; bh=yfOCEf2UqxENFLaWZaiFg0UWmou6+dhdnQNz5MfEhJo=;
- c=relaxed/relaxed; d=sk2.org; h=From; s=ovhmo304764-selector1;
- t=1746795907; v=1;
- b=HsZARZ6qO+RrOS6ZhrlGdgJ7dUvQ8lXZffX+Q/8jT4Xaza1XxGNTOQzFUcU2nuFFaM1ZGMQZ
- vIxAEANCTn96s+ZxORuSe0K5jNu+1hx1IoyA/vX7lD9ho0A7sF8ccWBFcouQhlvJbEE76CTbvDQ
- D3Gp6ATrU8dSRrRr0acAgnp4nuAvcSMtMtTBVtuGij5Jn/goWe99crVjqc3E7uRuzOgS8yJt+YW
- we4sD4XVThz4uAzS0BOJOInx/HAQlKweb8NLtWj0woS4cwm+G3BcuQef9z8QSNJNJNUCwHzGfr4
- cr9QGnJU5WxhPn48Gn95Na1/5AqUfaITBhzs24sEOaqvA==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6jifcisti6s37iht"
+Content-Disposition: inline
+In-Reply-To: <d9b988f8-ebd9-4a0e-aa27-cab14f1f3a96@redhat.com>
 
---Sig_/wfK8Ek=PCZ8EoiJIZmdtH1j
-Content-Type: text/plain; charset=UTF-8
+
+--6jifcisti6s37iht
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-man@vger.kernel.org, "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Subject: Re: Removing in-source contribution records contributer
+References: <wwjzzwjpbh2ayydhorwgs4jhycjgwhxfzlk5tfym7dxx4w7kll@yaspehl62eik>
+ <20250212230210.3kkixsk7bi3cdc4d@illithid>
+ <lvhwk4czikqmx4acydi5t5q3nshvgdipedz6xkt7auvz5mnmwp@auuzri4hvsrn>
+ <gatqfsr5gvyy5iuq7gmlpibawerkcmbg4dl4ahzswbe5bgbec6@xyfht7yewjfv>
+ <20250408124238.2gbis6jq5pdz7yoi@illithid>
+ <7a09c8a5-6329-412e-be41-9950a758e55e@redhat.com>
+ <nfwircxzu43boe5tme6loarzsq2rcecazpuox6eujeqjj6a7rv@nhzkijkx4lix>
+ <2tmwbk6ennuamcvjdqnialvh4ez3zen666qatcklevasimlihu@n7o5hp6aejqp>
+ <c684271a-9c1c-4c91-9ef8-db44cb924320@efficios.com>
+ <d9b988f8-ebd9-4a0e-aa27-cab14f1f3a96@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <d9b988f8-ebd9-4a0e-aa27-cab14f1f3a96@redhat.com>
 
-Hi Alex,
+Hi Mathieu,
 
-On Fri, 9 May 2025 14:54:31 +0200, Alejandro Colomar <alx@kernel.org> wrote:
-> I've added to BCC everyone whose copyright notices have been removed
-> (those that noted an email).  The full thread for this discussion can be
-> found here:
-> <https://lore.kernel.org/linux-man/jpin2dbnp5vpitnh7l4qmvkamzq3h3xljzsznr=
-udgioox3nn72@57uybxbe3h4p/T/#u>
+On Fri, May 09, 2025 at 09:14:56AM -0400, Carlos O'Donell wrote:
+> On 5/9/25 9:05 AM, Mathieu Desnoyers wrote:
+> > On 2025-05-09 08:54, Alejandro Colomar wrote:
+> > > Hi all,
+> > >=20
+> > > I've added to BCC everyone whose copyright notices have been removed
+> > > (those that noted an email).=C2=A0 The full thread for this discussio=
+n can be
+> > > found here:
+> > > <https://lore.kernel.org/linux-man/jpin2dbnp5vpitnh7l4qmvkamzq3h3xljz=
+sznrudgioox3nn72@57uybxbe3h4p/T/#u>
+> > >=20
+> > > Please let me know if it's okay to you to transform your copyright
+> > > notices to make them uniform?=C2=A0 That is, do you approve
+> > > <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?=
+id=3D9f2986c34166085225bb5606ebfd4952054e1657>
+> > > in what affects you?
+> >=20
+> > I was not sure if I should reply to all (including the mailing list).
+> > Please clarify for others.
+
+One person has replied in private, but all others in public.  I prefer
+if people reply in public, because then we have the list archives as a
+record of the statement, which may have legal consequences.
+
+I only used BCC, because having 100+ recipients is problematic.
+Please reply on-list (but if someone prefers to reply off-list, that's
+okay too).
+
+> >=20
+> > This change is OK as far as I am concerned. I'm always happy to
+> > help lessen the maintenance burden. Eliminating redundant,
+> > copyright information appears to be a good way to it.
+> >=20
+> > The git history holds detailed information about the
+> > line-by-line modifications to each file anyway.
 >=20
-> Please let me know if it's okay to you to transform your copyright
-> notices to make them uniform?  That is, do you approve
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=
-=3D9f2986c34166085225bb5606ebfd4952054e1657>
-> in what affects you?
+> 100% agree with Mathieu here.
+>=20
+> This is OK for me and something we already did in glibc to lessen the
+> maintenance burden.
 
-That=E2=80=99s fine by me, I approve.
++1.
 
-Regards,
+Thank you all!
 
-Stephen
 
---Sig_/wfK8Ek=PCZ8EoiJIZmdtH1j
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--6jifcisti6s37iht
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmgd/XsACgkQgNMC9Yht
-g5zW7A/+OwAbF+c3USJrZm0eDwvG6fePuDHwWupxqfMLNaWu4D7g9z/49pQC/21M
-tBYL3ZgnnzTzaTXKeU0vb4iw4rBQPu7C2ei038udQB8Ad2H0kxd2aEq8cZbaSkJV
-eJipWUJrgbW1jKOQZcDoM7SZPSJb5DB0QlHgdQ2pUJICDD4xSQvh3wxFsA1ZG/8V
-jlfxfjVh3JlR70tehmQ1r5hJ0h5zk/IcPgF3HoYmNar6qZ5Wpy8xnKAF7LR9fn1t
-JUwQiWsTtratTsU8I5zqjj6owzqC8ALlyBVF+c864K2zGBGwK1YGnJmkvlW//1iL
-je98U4bU61xOCms2x7OVU/M7ihyDyPbbovBtT+UdtFyT2xARg9uLvglWBJRbatDL
-2EIW/qSB6GwhYUCArr/qzUn8UhMrVMXHYgXUW4lguOfIpjuDBCStFk+yK81BV/b7
-6bUzep9Gc1rsPUTc2NKUfxsz3OkjrEBnZosTTzSWcqic9gHURHCBDh1SWhxp9jmD
-TiQEUqGJaoj8f8NrJgeJ4aXl1lAsf+upvBjjXEZ9oWVKZmenXkP2ukChFcYNn3OL
-JSYfnLTLqzdWUHSSxo/dubU7Ng+RqJoiCys94u17moM4cnq25sYSSCkcynu68p7g
-w3E4TBLGkRgWVsvUsM1yXq1ACHNV1b8orcRhOOVCqd2lDdWgNNU=
-=gT3T
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmgeA7kACgkQ64mZXMKQ
+wqlmxhAAkSegBfDnxdZxAHjyzAFPQX4cCS3zoSTi0PjV2A53aQ7pkn1l7VUBKO/Y
+iS+3s/sj5x/gOlDSLKYlBz+kdN2W/x4YwZRXf8Cyop/qzWzZ0a6eprhPf6jIlHak
+t5bqAEwC4c93o5bsxB/Xkis0ia3o/QB5NRbxMsSo8hOj2jzO33QAGdvf8lrtub/m
+gbx9cLWCsKeVMBPGCWUZx+cc68oGdW32DY6JdIiX1Do9Dpyy7rKRwjUtDvHAA8AN
+jtazaisI40fRwOLR0RkNfX1UpxEaqOt/SfJpDneW2FJ3GjFGIAdfwGtraQkSTrqy
+KKirRSo6EJyA2ClZO5GaCluJBjcieVLkQzIPBIn8lr0ywsFdleZp6OGY5/2MBhje
+GkYZjehx5qbHAQzvBALAgmdD39uh0nyDujVHJTDBiQO9MiHhVfsGuBk46XeN54AZ
+thgmNUXoW2wsPKmUJG67DPj3w7jROYi9sKV6JnqyoG6VQafuPObH2dTCsYCowT3O
+OJDDI2j8vmshDa1jnNOYlOzQBuzF2D5aIBUGttz0MsA/KXg3Viinq4QzT6t4KYEa
+yC0f7Fpl/OoDarKdk+dB720wlEA0XUDV00fyk5BnudKmJTpRJwLMe4a6U/cFbJPQ
+Cm4Wa9pBWL5+MMkoM0q4Cnan9dOWjziGYzPzvcj7OW3wTkjfAvA=
+=0msS
 -----END PGP SIGNATURE-----
 
---Sig_/wfK8Ek=PCZ8EoiJIZmdtH1j--
+--6jifcisti6s37iht--
