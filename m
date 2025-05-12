@@ -1,100 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E52A2920BC
-	for <linux-man@vger.kernel.org>; Mon, 12 May 2025 11:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB11296D0F
+	for <linux-man@vger.kernel.org>; Mon, 12 May 2025 17:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747050049; cv=none; b=Yh7A0wCAUVaucbaF/hjdSOborUTgL3ucug4zuxRuOrD3AL7M+uAXMRMjCUNHIHARJu7/fFj7rMXXdKk1XRHAJKDPU4qzBSzLVqEuf33gyd0itaxHWDYPU/2hebda8V0FO9BKvBJoS5q3awjOF7eaPGXLKXy+P+IeY9v5+1CPrL4=
+	t=1747070373; cv=none; b=uW07QzbNNeBOuuCGPPko5Ybj2FR42dG3eHvJSSfvXGM2SzXbBw0ebRmKwnRdjOYhpO9bClxPfEVINzQXev1i0/isdFSzSa9mvCDXM8aq2t6rrI4H/P0IGTyPuuLHyOY9G9O+jwmSS54NFHvMqlYQ1Zip+i2RQL3M+99Wwxph/pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747050049; c=relaxed/simple;
-	bh=8NQuQX3pP7tHA1BZz3Oie2tBWCQdbeovAw3orIpuydg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l1KVghNIs+k+ZPrp06UqSZP9yAOHBUBmYCooyyegSlx1pJknVFeTWSQvRHJEbSN3AxZRmKojk0wHH4oC+qB8c7cWFGnNZoxEntnaeqS8TN3e/MffzS4PKA/ruDmysA2iPUEOIvAMw6gOaQD/V8AuN9UEm373U14yy+adYo/bq6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5BF50150C;
-	Mon, 12 May 2025 04:40:35 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 977B23F5A1;
-	Mon, 12 May 2025 04:40:45 -0700 (PDT)
-Date: Mon, 12 May 2025 12:40:39 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Carlos O'Donell <carlos@redhat.com>,
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>
-Subject: Re: Removing in-source contribution records contributer
-Message-ID: <aCHeN7Kh3VNOGP5c@e133380.arm.com>
-References: <gatqfsr5gvyy5iuq7gmlpibawerkcmbg4dl4ahzswbe5bgbec6@xyfht7yewjfv>
- <20250408124238.2gbis6jq5pdz7yoi@illithid>
- <7a09c8a5-6329-412e-be41-9950a758e55e@redhat.com>
- <nfwircxzu43boe5tme6loarzsq2rcecazpuox6eujeqjj6a7rv@nhzkijkx4lix>
- <2tmwbk6ennuamcvjdqnialvh4ez3zen666qatcklevasimlihu@n7o5hp6aejqp>
- <aB4N4eD1gbZi6Cao@e133380.arm.com>
- <vvom7m3xnrzq6w64rm5wue4byj64mg6jynme7kqdzjs3xkpttp@elcgfz4quzdw>
- <aB4iqKfkuNpOXUuY@e133380.arm.com>
- <bwtcqxfzrtnr2genjayihmgmqonac7blka6m43a5kbhq73mba7@l5jkhkp34h2d>
- <juos3oxvdsxkwzwe5rcst3jft3wsnhh4dxs6xasvfk2nzp7jdo@h2tz4hvtkqp7>
+	s=arc-20240116; t=1747070373; c=relaxed/simple;
+	bh=6jrxi2OgPIlVyLawUTKOAWprABtCqGgriEH2/6Se5Qs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HUWaYuy1xWfmmgHB6H5/saHwYh6Z1WCAAUFKh/N70CMgug4jIdLhSDUomdYqvBCscNROppogeBBFaEKxXc/aTfsrk9l2NeCKE7nWlp/+B5J3j65oFZhIlPcoLGGy1bE2IK3DzDarUVEJGMzeuv8Eb5q84g0PZHjeIjUANbm/uAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bSmyzx4O; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bSmyzx4O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747070370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CWI3XlZ8DiHOSNmvwLFcrT7CheTTJj0Amd4kgoFoUz8=;
+	b=bSmyzx4Oa8I+ciQK/3Eldx49dfhPVvvXiN8KKgMo8Zzo8AMZ1PmIKhFZL9EqeomzKxgise
+	1VPNrmp0V3c/tl2UA2OZsN5w+NsKxv7A/rmqR3kRkD5TUz+8/90p+TfjgsodOThaBmipBv
+	nsNc7Rwr0Vo3XI1XgGSW4ZugH2nHiU8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-100-shdGLbdwNXOJ_4kq2ap9jg-1; Mon, 12 May 2025 13:19:29 -0400
+X-MC-Unique: shdGLbdwNXOJ_4kq2ap9jg-1
+X-Mimecast-MFC-AGG-ID: shdGLbdwNXOJ_4kq2ap9jg_1747070368
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5f3b94827so725206685a.0
+        for <linux-man@vger.kernel.org>; Mon, 12 May 2025 10:19:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747070368; x=1747675168;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CWI3XlZ8DiHOSNmvwLFcrT7CheTTJj0Amd4kgoFoUz8=;
+        b=MiZu1Lbe9jkub2IYr4u6brCm8UP+prI5upSytcR8vJI6NGts6Wct4vYAkbqdW9bB04
+         0K5OhdKLaf4dWpIzyVwZ2baaAxeFxXP2dsvuUPTfpaWgDY67e+yxfaKcSPgoPU8lDtFQ
+         Bd80o7UBBztgZPyaWmMtwdA4ZuycLNkXFP4nb3sZsOlqJxP+aYyFwDRm1MBu2JswpgcG
+         rEUTDJu2hL0/n6N7l+kf+XNVdy7Xfcfd9h7BWvtSXl+Z6AoeapTk8MP3uZsMpqYCkOMd
+         PGDoHMgzhZ6oPToOhIlAmSkdl8mPDcj9f8vCYPky/ynZd9TQ2a2FPIP2peswd21Z8YPZ
+         SeTw==
+X-Forwarded-Encrypted: i=1; AJvYcCXiRPT+SZKBuktodkYHc9rzSDNAJlM7aZI5YJC3xKFoHYmtjeYdhJu25+5MjatRGGO/GlAj3re9WWk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6+eOQ5dScX49NNsVzYCjFVt8YwH+unrNlM/OYnCHxv/VsbxAP
+	mr2840T+KINQYniZJGBkLiD4+wQP1xXmqWXepb+daXzvNuVmyxYy+izMwDFsNfLf66vvmW7Cz8d
+	AGG7IW+WTVuwS8HkJ95TdS/dPmLlqux1+XVnvebcLUYfidpdv+9q6O60Xig==
+X-Gm-Gg: ASbGncs+5WQQy9mzx/PbHx6x0ytdLT0AAixi0aFyeNSroJAYPsZfu8MxOr2A2ocULCm
+	6Q041BjP3lrXW24vpf8MbRuZMH0BQz7+yemDb3ZhB3hAiQ97l64jiInsV+R2kgqZGfqUel5bmsy
+	WABq8dq5ni2/hG8Y2T4IAL+jFbBfUmjKzty2MHsVGmlQ+djzBd9B1YknrotOF02cI3lnRh1qK/p
+	dizbeihFuOKAwEvHL2CvwLsREK7Lkj6ZC4sVEFZdgh8FMZG/k5AChMjRPUtYZyPWnNNfz9wg2Py
+X-Received: by 2002:a05:620a:2488:b0:7c7:6543:2018 with SMTP id af79cd13be357-7cd010f42d8mr2542746385a.7.1747070368503;
+        Mon, 12 May 2025 10:19:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFE7u5GopyAen1aodLf0OH/i6/dXL0hCylOx/TfWNJi6vpOxB0Aqq+17CE6uEEEKzezAlrWdQ==
+X-Received: by 2002:a05:620a:2488:b0:7c7:6543:2018 with SMTP id af79cd13be357-7cd010f42d8mr2542743885a.7.1747070368188;
+        Mon, 12 May 2025 10:19:28 -0700 (PDT)
+Received: from x1.com ([85.131.185.92])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd00fde7c9sm574237485a.75.2025.05.12.10.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 May 2025 10:19:27 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: Alejandro Colomar <alx@kernel.org>,
+	linux-man@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Kyle Huey <me@kylehuey.com>,
+	linux-mm@kvack.org,
+	peterx@redhat.com,
+	Robert O'Callahan <robert@ocallahan.org>,
+	Suren Baghdasaryan <surenb@google.com>
+Subject: [PATCH 2/2] UFFDIO_API.2const: Add an entry for UFFDIO_MOVE
+Date: Mon, 12 May 2025 13:19:22 -0400
+Message-ID: <20250512171922.356408-3-peterx@redhat.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250512171922.356408-1-peterx@redhat.com>
+References: <20250512171922.356408-1-peterx@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <juos3oxvdsxkwzwe5rcst3jft3wsnhh4dxs6xasvfk2nzp7jdo@h2tz4hvtkqp7>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add the entry for UFFDIO_MOVE in UFFDIO_API.
 
-On Fri, May 09, 2025 at 09:07:47PM +0200, Alejandro Colomar wrote:
-> Hi Dave,
-> 
-> On Fri, May 09, 2025 at 08:49:39PM +0200, Alejandro Colomar wrote:
-> > Hi Dave,
-> > 
-> > On Fri, May 09, 2025 at 04:43:36PM +0100, Dave Martin wrote:
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ man/man2const/UFFDIO_API.2const | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-[...]
+diff --git a/man/man2const/UFFDIO_API.2const b/man/man2const/UFFDIO_API.2const
+index 1c554107a..17ea6f905 100644
+--- a/man/man2const/UFFDIO_API.2const
++++ b/man/man2const/UFFDIO_API.2const
+@@ -204,6 +204,12 @@ ioctl.
+ If this feature bit is set,
+ the write protection faults would be asynchronously resolved
+ by the kernel.
++.TP
++.BR UFFD_FEATURE_MOVE " (since Linux 6.8)"
++If this feature bit is set,
++the kernel supports resolving faults with the
++.B UFFDIO_MOVE
++ioctl.
+ .P
+ The returned
+ .I argp->ioctls
+-- 
+2.49.0
 
-> > > Just a suggestion, would something like this work in README:
-> > > 
-> > > +   AUTHORS
-> > > +       List of individuals and organizations that have contributed
-> > > +       content to the project.
-> > > +
-> > 
-> > Certainly.  Thanks!
-> > 
-> > > This will still be a true description regardless of whether the list
-> > > is complete or if non page content contributors are included.  (There
-> > > are probably plenty of borderline cases as to whether something counts
-> > > as a page content contribution or not.)
-> > 
-> > Yep.  For now, I haven't documented it, but I've drawn the line at:
-> > 
-> > 	-  Had its name either in a copyright notice,
-> > 	-  or in a source line saying something like "modified by"
-> > 	-  or was 'Author' in a git commit.
-> > 
-> > Anyone who meets at least one of those has been included in CREDITS (to
-> > be renamed to AUTHORS).
-> > 
-> > Exceptions are authors of code that was taken by this project, but who
-> > didn't contribute to this project themselves.  For example, the regents
-> > of the University of California wrote pages that have been incorporated
-> > into this project, but they didn't consciously contribute to this
-> > project.  Thus, I've retained their copyright notices, and didn't add
-> > them to CREDITS.
-
-Seems reasonable.
-
-> I've applied both changes already (currently in my branch):
-> 
-> <https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/commit/?h=contrib&id=98c87fcf783f20da7aae8adbe21e1954d9e8f310>
-> <https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/commit/?h=contrib&id=d5218b220e41a1ed031eea6219237fda0a93d9b2>
-
-Looks good to me.  Thanks for the credit.
-
-Cheers
----Dave
