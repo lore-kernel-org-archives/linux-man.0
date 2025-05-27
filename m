@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272752561A2
-	for <linux-man@vger.kernel.org>; Tue, 27 May 2025 12:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0721EEA3C
+	for <linux-man@vger.kernel.org>; Tue, 27 May 2025 12:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748348617; cv=none; b=SJG4UmC3MOvXax812OHnLezZRt2B9lFd+0/NLzGJ3koeyxr4qJ1rqfFEhM36rKp68FC2DR5b8z0YyB3+FzzWxSm8n/JQ4LZr4JehfYQllyCtjL67SzKwxGKNFJvVPQ+RyM/VhD55yNvAuml7zpq0sN/c/SxuK0nzx1BgXFkC43k=
+	t=1748348904; cv=none; b=Qx4I5zaHDtmc9RPXA+0WvCtPZ3mPQ7yVgvf8uCkkW+FASJ5Sb6W/UjkDBy+/lvzkXMyEj20yJc2AUlI7U0H6y6cCmyyrWeWS4YCVSm3AH6b1BAHYr80CseqiL3yg6lMXlFFy7OpoBvmI6/ZTe7QAH0vPizf4neK3X5Esh5zJZqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748348617; c=relaxed/simple;
-	bh=YW1KSuj/z+Lb0YqVTqnEg3uPvdBm9Ai06U4FfjZ+Etw=;
+	s=arc-20240116; t=1748348904; c=relaxed/simple;
+	bh=SXlO5/x/scp4/Bel4LewJgDawg0G2aqKV59UbNturos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jG1Oc38KFF9od9XhfAFgqQeTCc2rYJ+36xqhXpb8zoiWKNqXJnx66SIv1l6ma1d6UbWGyrzb0G8p5uR6OU6E2jy2LD2AxopoYKDDZUpENIyznzEOY86PmvOb994o+sBzGNaaRUqZMXvOL6D9/MxDYMlzdRj6IY7QjSHDcuGGgx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ClR2t/Mw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jyYiQbUt0s4hG1un2eN37h5kozINBRZp6zPObQs5eUgfBV16yUIgR54jhFHi9ZSxdEbezsfivgH9IXbVplne824VOq3zLfJSsxyuFTHQzdwEBfDOC3BKJvV3jvgJOtGqFRddyyB2MtA2LvMnsIKBNFNjQSnm36OoNdpUogB9aNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ax7EJI6r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ClR2t/Mw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE46CC4CEE9;
-	Tue, 27 May 2025 12:23:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ax7EJI6r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88FF8C4CEE9;
+	Tue, 27 May 2025 12:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748348616;
-	bh=YW1KSuj/z+Lb0YqVTqnEg3uPvdBm9Ai06U4FfjZ+Etw=;
+	s=k20201202; t=1748348904;
+	bh=SXlO5/x/scp4/Bel4LewJgDawg0G2aqKV59UbNturos=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ClR2t/MwXmOexlNVBt0G/vvveokoWL7jKfVPynrIE6TPL85VY2agD+1Eq3Abh9ax3
-	 6+xOye7j/S25ROsgSM0OOMuxq5NY8AarQZZIq+pbATM8Dc7JE9tOUSMgNSUe++DYfW
-	 yIUW3Ja20MO8fsPvehm1aGj8A8tRS/fAPOvWXSbRzx+fu31GGykituTHkZ84Cfvos6
-	 IXHVvDSckDRWerHFXvi0/6aMcpc5q6dM+ie2/p4b48kqjwVyDRe9yCdpfmighZZdvM
-	 DveuFgixGY8Ei59fkEyQbFK8qKpKIv2iFjCnkLnqgKAzfNFPLAx+8dskmjWpWaCrOv
-	 +wAOt+71gxxVA==
-Date: Tue, 27 May 2025 14:23:33 +0200
+	b=Ax7EJI6rgmF9lghXu9SQPOtQJZznvhHA8aB0RAXXIpL8YF9uhM6hrLJYueTjxJFaX
+	 k+W+HX8RtKYBmkIoC9TKRvHZQH82nIQsWk4k7DEwxudy9M/5yaI6wlRUsxATona/GK
+	 vitGwaLErNFYgYlzMnQrMKCRz3aHRIedl4xh9fCZ3EpkrpUqyxQU1ssVvEdF2GX7kU
+	 UpWghoeESylPFLolChFnLIFXvowU2JYZ8rQomTTqeIC7QlRzFZGvBD2XC8V+SzXATz
+	 sPapDgPP5kWeou1hBc6r4vvIsGBEsaU04bAVUQbFYBZSvlaisUgVctdsdpsjTNpSUF
+	 G920HgcWi2/mA==
+Date: Tue, 27 May 2025 14:28:20 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Carlos O'Donell <carlos@redhat.com>
 Cc: =?utf-8?B?SuKCkeKCmeKCmw==?= Gustedt <jens.gustedt@inria.fr>, 
-	linux-man@vger.kernel.org
+	Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, Ulrich Drepper <drepper@redhat.com>, 
+	Ingo Molnar <mingo@kernel.org>, Todd Lewis <todd.lewis@gs.com>, 
+	Alexandre Oliva <aoliva@redhat.com>
 Subject: Re: bug in futex.2, FUTEX_CMP_REQUEUE
-Message-ID: <xea5hgyrqs7uktyp7awn4d7l7nn64k7jprrzcuwohe4iixxglx@fmyt2rav6myd>
+Message-ID: <zrwfojd3ddditnyyppbyxwmzc5xoqp32gkitffxws4gxabnvm6@bpm6xy7f2l7w>
 References: <20250527115303.3304206e@inria.fr>
- <8b77ea67-2662-411a-83c8-e0e23755244f@redhat.com>
+ <s5ec3atfffzxdetxbkjgkdiarnuk2yucnpi5j3h3ppqr72mxna@ml6zpucwnbz6>
+ <7d4c29a5-6836-48bd-a6c8-009264be000c@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,157 +45,142 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4fxgmybd6to3wjuj"
+	protocol="application/pgp-signature"; boundary="gi37iy45gyako7ov"
 Content-Disposition: inline
-In-Reply-To: <8b77ea67-2662-411a-83c8-e0e23755244f@redhat.com>
+In-Reply-To: <7d4c29a5-6836-48bd-a6c8-009264be000c@redhat.com>
 
 
---4fxgmybd6to3wjuj
+--gi37iy45gyako7ov
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: Carlos O'Donell <carlos@redhat.com>
 Cc: =?utf-8?B?SuKCkeKCmeKCmw==?= Gustedt <jens.gustedt@inria.fr>, 
-	linux-man@vger.kernel.org
+	Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, Ulrich Drepper <drepper@redhat.com>, 
+	Ingo Molnar <mingo@kernel.org>, Todd Lewis <todd.lewis@gs.com>, 
+	Alexandre Oliva <aoliva@redhat.com>
 Subject: Re: bug in futex.2, FUTEX_CMP_REQUEUE
 References: <20250527115303.3304206e@inria.fr>
- <8b77ea67-2662-411a-83c8-e0e23755244f@redhat.com>
+ <s5ec3atfffzxdetxbkjgkdiarnuk2yucnpi5j3h3ppqr72mxna@ml6zpucwnbz6>
+ <7d4c29a5-6836-48bd-a6c8-009264be000c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8b77ea67-2662-411a-83c8-e0e23755244f@redhat.com>
-
-On Tue, May 27, 2025 at 07:30:09AM -0400, Carlos O'Donell wrote:
-> On 5/27/25 5:53 AM, J=E2=82=91=E2=82=99=E2=82=9B Gustedt wrote:
-> > Hello Alex and everybody,
-> > I stumbled upon this confusing text in the futex man page
-> >=20
-> >    Typical values to specify for `val` are `0` or `1`.  (Specifying
-> >    `INT_MAX` is not useful, because it would make the
-> >    `FUTEX_CMP_REQUEUE` operation equivalent to `FUTEX_WAKE`.)  The
-> >    limit value specified via `val2` is typically either `1` or
-> >    `INT_MAX`.  (Specifying the argument as `0` is not useful, because
-> >    it would make the `FUTEX_CMP_REQUEUE` operation equivalent to
-> >    `FUTEX_WAIT`.)
-> >=20
-> >    The `FUTEX_CMP_REQUEUE` operation was added as a replacement for the
-> >    earlier `FUTEX_REQUEUE`.  The difference is that the check of the
-> >    value at `uaddr` can be used to ensure that requeueing happens only
-> >    under certain conditions, which allows race conditions to be avoided
-> >    in certain use cases.
-> >=20
-> >=20
-> > This has several issues, the most severe beeing the word `FUTEX_WAIT`.
-> >=20
-> > - How can an operation that only does wakes, ever be equivalent to a
-> >    wait?
->=20
-> My opinion is that the text is correct.
+In-Reply-To: <7d4c29a5-6836-48bd-a6c8-009264be000c@redhat.com>
 
 Hi Carlos,
 
-I disagree.  Let's see FUTEX_WAKE and FUTEX_REQUEUE side-by-side (to
-ignore the check of FUTEX_CMP_REQUEUE).
+On Tue, May 27, 2025 at 08:12:41AM -0400, Carlos O'Donell wrote:
+> > > This has several issues, the most severe beeing the word `FUTEX_WAIT`.
+> > >=20
+> > > - How can an operation that only does wakes, ever be equivalent to a
+> > >    wait?
+> >=20
+> > That seems to be a typo.  It seems to me that it would be equivalent to
+> > FUTEX_WAKE (just like a few sentences before).
+>=20
+> As noted in my earlier response, this is not a typo?
 
+See my response to that one for more details.
 
-	FUTEX_WAKE:
+>=20
+> > <https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git=
+/commit/?h=3Dcontrib&id=3D74aa7971e5148f67d5def9977ed87cced638016a>
+> >=20
+> > 	commit 74aa7971e5148f67d5def9977ed87cced638016a
+> > 	Author: Alejandro Colomar <alx@kernel.org>
+> > 	Date:   Tue May 27 13:07:19 2025 +0200
+> >=20
+> > 	    man/man2/futex.2: tfix
+> > =09
+> > 	    Fixes: 3dfcc11d4630 (2015-12-15; "futex.2: Expand description of F=
+UTEX_CMP_REQUEUE")
+> > 	    Fixes: 8297383e9eeb (2015-12-15; "futex.2: Clean-ups and FIXME rem=
+oveal after feedback from Thomas Gleixner")
+> > 	    Reported-by: Jens Gustedt <jens.gustedt@inria.fr>
+> > 	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> >=20
+> > 	diff --git a/man/man2/futex.2 b/man/man2/futex.2
+> > 	index 128612ee1..9a15a0fdb 100644
+> > 	--- a/man/man2/futex.2
+> > 	+++ b/man/man2/futex.2
+> > 	@@ -501,7 +501,7 @@ .SS Futex operations
+> > 	 (Specifying the argument as 0 is not useful, because it would make the
+> > 	 .B FUTEX_CMP_REQUEUE
+> > 	 operation equivalent to
+> > 	-.BR FUTEX_WAIT .)
+> > 	+.BR FUTEX_WAKE .)
+>=20
+> This is incorrect.
+>=20
+> A value of zero means no tasks are woken.
 
-		long syscall(SYS_futex, uint32_t *uaddr, FUTEX_WAKE,
-		             uint32_t val);
+I'll show the patch with more context.  It's val2 which is 0, not val.
 
-		Wakes up to 'val' waiters.
+	$ git show -U7
+	commit 74aa7971e5148f67d5def9977ed87cced638016a (HEAD -> contrib, alx/cont=
+rib)
+	Author: Alejandro Colomar <alx@kernel.org>
+	Date:   Tue May 27 13:07:19 2025 +0200
 
+	    man/man2/futex.2: tfix
+	   =20
+	    Fixes: 3dfcc11d4630 (2015-12-15; "futex.2: Expand description of FUTEX=
+_CMP_REQUEUE")
+	    Fixes: 8297383e9eeb (2015-12-15; "futex.2: Clean-ups and FIXME removea=
+l after feedback from Thomas Gleixner")
+	    Reported-by: Jens Gustedt <jens.gustedt@inria.fr>
+	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
 
-	FUTEX_REQUEUE:
+	diff --git a/man/man2/futex.2 b/man/man2/futex.2
+	index 128612ee1..9a15a0fdb 100644
+	--- a/man/man2/futex.2
+	+++ b/man/man2/futex.2
+	@@ -497,15 +497,15 @@ .SS Futex operations
+	 The limit value specified via
+	 .I val2
+	 is typically either 1 or
+	 .BR INT_MAX .
+	 (Specifying the argument as 0 is not useful, because it would make the
+	 .B FUTEX_CMP_REQUEUE
+	 operation equivalent to
+	-.BR FUTEX_WAIT .)
+	+.BR FUTEX_WAKE .)
+	 .IP
+	 The
+	 .B FUTEX_CMP_REQUEUE
+	 operation was added as a replacement for the earlier
+	 .BR FUTEX_REQUEUE .
+	 The difference is that the check of the value at
+	 .I uaddr
 
-		long syscall(SYS_futex, uint32_t *uaddr, FUTEX_REQUEUE,
-		             uint32_t val,
-		             uint32_t val2, uint32_t *uaddr2);
-
-		Wakes up to 'val' waiters,
-		and then requeues up to 'val2' more waiters to wait for
-		something else.
-
-If val2 is 0, then FUTEX_REQUEUE is equivalent to FUTEX_WAKE, as Jens
-said.
-
+>=20
+> The key question here is how do you define or document the semantics
+> of the linked WAKE/WAIT that puts the tasks in the new queue.
 
 Have a lovely day!
 Alex
 
-> The operation can WAKE tasks.
->=20
-> The operation can also cause tasks to WAIT in a *different* queue.
->=20
-> If zero tasks are woken (val=3D=3D0), and all tasks moved to WAIT on a
-> different queue, then the operation has WAIT semantics on the
-> new and distinct queue.
->=20
-> Since there is no concept of MOVING in the futex, you could
-> conceptually discuss this as a linked WAKE/WAIT sequence i.e.
-> REQUEUE, which is what the operation does.
->=20
-> > But then, even if we assume that both subphrases mean to talk about
-> > `FUTEX_WAKE`, the assumption that this can ever be equivalent is
-> > bogus. In fact `FUTEX_CMP_REQUEUE` checks for `val3` still being
-> > pressent in the memory location, which `FUTEX_WAKE` doesn't.
->=20
-> Both subphrases are not meant to talk about FUTEX_WAKE.
->=20
-> > So I think that specifying any of the values that are pointed out in
-> > this paragraph can make sense, because of the added comparison to
-> > `val3`.
-> >=20
-> > I suggest to change to something along
-> >=20
-> >    The limit value specified via `val2` is typically either `1` or
-> >    `INT_MAX`. Specifying the argument as `0` makes the
-> >    `FUTEX_CMP_REQUEUE` operation equivalent to `FUTEX_WAKE`, only that
-> >    the operation then also ensures an atomic check for `*uaddr =3D=3D
-> >    val3`.  Typical values to specify for `val` are `0`, `1` or
-> >    `INT_MAX`.
-> >=20
-> >=20
-> >    The `FUTEX_CMP_REQUEUE` operation was added as a replacement for the
-> >    earlier `FUTEX_REQUEUE`.  The difference is that the check of the
-> >    value at `uaddr` can be used to ensure that requeueing happens only
-> >    under certain conditions, which allows race conditions to be avoided
-> >    in certain use cases.  In particular, a combination of `val =3D=3D 1`
-> >    and `val2 =3D=3D 0` is similar to the operation of `pthread_cond_sig=
-nal`
-> >    with an additional check for `val3`; `val =3D=3D 1` and `val2 =3D=3D
-> >    INT_MAX` is similar to `pthread_cond_broadcast` with such a check.
->=20
-> Does my clarification above obviate the need to make any changes?
->=20
-> Or do you think the text needs further clarification?
->=20
-> --=20
-> Cheers,
-> Carlos.
->=20
->=20
-
 --=20
 <https://www.alejandro-colomar.es/>
 
---4fxgmybd6to3wjuj
+--gi37iy45gyako7ov
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmg1rsUACgkQ64mZXMKQ
-wqn3qBAAuLMrmiT8AAc3ZO4JEehscI5g8fsNaiIbJOTyGo0VFJtRikYjoW1HSCj+
-UMN/B1ibB3ULDypocK9svqf4+rUi3Ags7y1KknthFo8pXfs3o7EBUm+n/80uMII7
-wOV0vNkbVAk2QTXGY/M21qKG2STuenjGnoKz7SYh0OdLaPjScTYWUw+EGMwwBMjK
-pcOkP9FIIf3PZegdkj+OO9WLakr2XQcpH+XUW9m1WxzBg0ib4fuxvxSeS/bo0azU
-Bezs53lGN2TWZbcEMLnj+ORp9uMpP3s+cgwrPr6iZ9X6u2wXt55xiFxD+ImZvo6p
-mVRoP6f24ICuTC1WQOTsnGX/KFfy36d+0FA3Hzk3+0POrMazwNDpYc9g8u7uainF
-3e96+o7jIQpRBhcfUYCIy45bulWaTHjfWQkjkZNEEsAUeM57nU4+Yy6yPt9kX2as
-W2Gu0VgDUdhUFudc2IdS73YJmj753aq1i13Nn1mQaShlAoLPA6lvUk+DEA9Ie0N1
-H88AKRlTZy/rtNs/36pj08SDHqzKZ5+a7bDim2vyaXORThLKoVGzxa4LMLAJYyvM
-7E9qwDIEp2VelTbePIYwm4kmyFiElJj7mkkFos+PmM8BkpAwlwYrKPH4B8xClI7C
-biRU+Re/8PFrcYAi9IxSQMhi+P/Gytg407aL25bJNxbGCdLyziI=
-=4wqv
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmg1r+QACgkQ64mZXMKQ
+wqm6sQ//enoXOPvMfZ6u31Kw9oBAXGzskedif+N179iqMaq3cGHOXfYVpPTF6SBE
+N8jw/7wh/xQRiD0UhuMyNxfppGIO4K7k7bENAD39Jzy/sEz5aLBNh1YiFRzBGj6G
+NrEkIBFdYOTlYq8LQrc9TDEGYO9rzKvz7b2pYiQRvTekW/FlXcdJL6ymtsMLpz/N
+GWDvdcMcgvHn2HrVtkPyE1D2C/dy88jgni2PLpE+buXwFhyjyELTWa6y/YCEsxHT
+kVvqLkRF5ey7fG5UqlLfToSPVJYsLjlEycvtdJ9twMGmzGmtWcY4VZR7B2D22kO+
+jWruIkhd0j4ufuLMER/pNeV3Rt9ZUmr8r5r3RZkeSwuiBXrZG9EKTOL5JAKCXaxn
+aUn/KtK2+bjsEYUnKUcR5g/jYvvS8t9MLTPbFmB0v/3zwHEhNuhAMUItKue1JOGA
+jRzuM/TYupeYCN57WjnOW0S7/awxJGjZ52o6bE8hFFhsHtcqdWt1my0C37IKkT/N
+2kAkATR1WRJ3Ye09WIys0pJCVhBoEId3ZAvWQEdsQ4VtfV1RpAP1ioyR/KNV+GKE
+BZI+y++SDRdFE2MmQckmTQib48KAncJ92u33yATShiBESdxYRWIX70YAMZkJF6Tt
+7J/myVRNopbZKYsmHENqYRTLv29qzSMJnsJ0U/4PwwNqwemyuvg=
+=84rQ
 -----END PGP SIGNATURE-----
 
---4fxgmybd6to3wjuj--
+--gi37iy45gyako7ov--
