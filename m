@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8308943AA9
-	for <linux-man@vger.kernel.org>; Wed,  4 Jun 2025 13:15:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA79217F3D
+	for <linux-man@vger.kernel.org>; Wed,  4 Jun 2025 13:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749042942; cv=none; b=OJn1EX0kCoRN3zDDb8FPuwjcVFduF1DAEJEkDKAbohb7mxnwhLXxiGaJhsmjzEz7EK37wyBY4O8pzksz2VoR6aFjug5T2pD/er/F3Kd8lo/kbwDVLanwmNkWbSTpGJyk0YT93tNzplbUaTLRPTCjrz5sDhpUwtLtTyDd9XwvYbI=
+	t=1749042958; cv=none; b=kGYtc4SQhOFscUCU29Ec/opMBTtT9hee5uHo1nTrvcGL2QoW4c6Mj+3fxoX468DF+CJtAA4B7s1QKCDIK+c/nCabnWxahy1cQI3RTno2cc3YfnwptJsTkTirQ4AVS2T4kTEFR7oy+1733jzP7JCWbYLPoBgzAe62jY6D78YznDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749042942; c=relaxed/simple;
-	bh=5pjyRyVUk2we00xUuodHu6gz+pbYV+jeUPAadoCEzAA=;
+	s=arc-20240116; t=1749042958; c=relaxed/simple;
+	bh=muhz29UQAR0pHj6y0WotvaJ6U8AjihZxh2mA1iJ0nRE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BvMK7UJrxRxMfqYIa8qBaUMPSAIQi7e0OYjl2AYK5UQ8akDv82qRPWt+yTLoBJMvIlDOolKAUxWbdpfowdn+FDl3c/qzfkD9kO+rPmXTMR0Nm8Tnh/MLuOqiwXLIJUnM6ZZit12jJrOpvp1/h+tFaHxPGHE+ygLgtGi0TMNFwY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4voye/u; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=kOBdCKkjKj9oMg07uf3lAaEYEQHaH++mFpPLZmaaBmbpRizTHe67PlB56FA2d80p2CWhSEDGgRbPS3ZRP3phLgZfZSxKk1fn2vzK4Fo0vnKCJQVRduwZxnekt0nDkq0GQXqTx7Jw+b/nFlpUn5CzU35qKLpbBuKIYtaIns1a8dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGdEDsA6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4voye/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ED3FEC4CEF2
-	for <linux-man@vger.kernel.org>; Wed,  4 Jun 2025 13:15:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGdEDsA6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C8028C4CEE7
+	for <linux-man@vger.kernel.org>; Wed,  4 Jun 2025 13:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749042942;
-	bh=5pjyRyVUk2we00xUuodHu6gz+pbYV+jeUPAadoCEzAA=;
+	s=k20201202; t=1749042957;
+	bh=muhz29UQAR0pHj6y0WotvaJ6U8AjihZxh2mA1iJ0nRE=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=N4voye/uWUPkdm49i2GLbLDN0f7e+Ru/vne2V1RXg4/gt53V/msi3K8tQ1fIW9nsz
-	 MFvPdMx+jUoTB5uPfPg5HxJQYiI0Tab6AW2QDLluik/rRVkkcPPK8uoN2/JbWyXCKP
-	 dtWE1H4kZMD3iGx4lq6Jc9eobZBIwvQKSNbL+BERGsxr6uPoyfIU9OxYZlXsqDOqpL
-	 bG7ok/VXDT272F8aN44Y3ra+5rox5fyn2Us7XupDMd2yjOi+iCYE3tDpGStA7vX5mW
-	 u1tPEblxUXtvv50mP9OzqjY80ngOCiQ814JeJ4MMfHcJMTwCRQmrUsgeBKl1FmULXK
-	 SgEhIYH3J11tQ==
+	b=lGdEDsA6FM55GpXD2asm4kTymHjmiftB36KKAKDuR75nBUYtw5zZMedkgzkqxOVAi
+	 v505d8ByqxvhIiMdyjwAJNrj328T5pGuuft3FzI4pwlFX7b772/8uxmE0RytIjFeJ0
+	 bDfHxzPqfmpvHrkipuC4qvv7lah5g+i3Wwg9OG5xtsKSPbN1eDs6sERGce2dAVvrv4
+	 s1RyIZRL0WJJEvffcFh30d4RrezXZzyi6ns0NGVaSm1iqnp+DH4j38KpzEPb1URm9D
+	 8w2OGtMss+yMLrrsOaW3xPTHsAm+e0V1s57Z64W1kLGpwmcVfUcCaCnY7jIWYVPAgE
+	 A+7vAahoGF/Hg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id DE523C4160E; Wed,  4 Jun 2025 13:15:41 +0000 (UTC)
+	id B8D17C41616; Wed,  4 Jun 2025 13:15:57 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-man@vger.kernel.org
 Subject: [Bug 220192] Duplicate size parameter in setxattr manpage
-Date: Wed, 04 Jun 2025 13:15:41 +0000
+Date: Wed, 04 Jun 2025 13:15:57 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -42,13 +42,13 @@ X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: paul.f.fee@gmail.com
-X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Status: CLOSED
 X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-220192-11311-PsIL1irSJ8@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-220192-11311-9Mcy5z4GjI@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220192-11311@https.bugzilla.kernel.org/>
 References: <bug-220192-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,13 +68,7 @@ Paul Fee (paul.f.fee@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
-
---- Comment #2 from Paul Fee (paul.f.fee@gmail.com) ---
-Thanks for the prompt response and link to the explanation.  Closing as thi=
-s is
-not a bug.
+             Status|RESOLVED                    |CLOSED
 
 --=20
 You may reply to this email to add a comment.
