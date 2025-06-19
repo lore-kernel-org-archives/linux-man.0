@@ -1,87 +1,136 @@
-Received: from evolvis.org (evolvis.org [217.144.135.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BCB11712
-	for <linux-man@vger.kernel.org>; Thu, 19 Jun 2025 15:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.144.135.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6845819D8BE
+	for <linux-man@vger.kernel.org>; Thu, 19 Jun 2025 17:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750348063; cv=none; b=nx0D+6B+T9P3kGetztx0cNzVfk8q6zs+8gBZzr1GYAYJHMAjxKbonQq5ryZY/jknnkqg+rRcXGp9NCr5hdWh2gJ9xob0Si6BEaTNiE4TIxRo0sZyrZ4C0rYFD5alKdcOGopa0aWjZjE1Qpg+qL2NPcvihKYnHkRwGaeEQEo3SBk=
+	t=1750355678; cv=none; b=Qi7p344ND8z2qt2Aa2QZJAVpdCOwb9IDisO71hEczzWenmxZsxyLWYmJRrmasAzjRK0LUwljW51u8RMaT2V1Y+pSK74/NL6i3fA1x5ns4wcITRoop4bB6k0Ubvu1CfX+smAeOpMs0NyVlLn4KPqMVIP6OmFqouYKjvQEy3bGq5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750348063; c=relaxed/simple;
-	bh=TIqxLzDd7mB4j2kTfFN5Gz8QMJ4bySo6/FJtUfMUgWw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=N3Aseu7zgWbRocCCqISXWFXaMuOfAOQ45UUBRjauoPa1N5b3IQ4izj9TSjgr1ScD+Vx4ZNejzMt2+kI2GPwtw+sTu2PBufIe6YrTvKzqfCeO88ozVq/cpluhGqDMbt+PXc1n5cb2/oYL9OdeOHRUICPjlSeml+OpzNWH6IZREOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirbsd.de; spf=pass smtp.mailfrom=mirbsd.de; arc=none smtp.client-ip=217.144.135.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirbsd.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mirbsd.de
-Received: from x61p.mirbsd.org (2001-4dd7-543d-0-21d-e0ff-fe77-c17b.ipv6dyn.netcologne.de [IPv6:2001:4dd7:543d:0:21d:e0ff:fe77:c17b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X448 server-signature RSA-PSS (2048 bits))
-	(Client did not present a certificate)
-	(Authenticated sender: x61p@relay.evolvis.org)
-	by evolvis.org (Postfix) with ESMTPSA id E7F14100118;
-	Thu, 19 Jun 2025 15:38:15 +0000 (UTC)
-Received: by x61p.mirbsd.org (Postfix, from userid 1000)
-	id A28A81421F2; Thu, 19 Jun 2025 17:38:15 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by x61p.mirbsd.org (Postfix) with ESMTP id 9DAB31421F1;
-	Thu, 19 Jun 2025 17:38:15 +0200 (CEST)
-Date: Thu, 19 Jun 2025 17:38:15 +0200 (CEST)
-From: Thorsten Glaser <tg@mirbsd.de>
-To: musl@lists.openwall.com
-cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
-    libc-alpha@sourceware.org, Paul Eggert <eggert@cs.ucla.edu>, 
-    Bruno Haible <bruno@clisp.org>, bug-gnulib@gnu.org
-Subject: Re: [musl] [v2] malloc.3: Clarify realloc(3) standards conformance
-In-Reply-To: <20250619153209.GG1827@brightrain.aerifal.cx>
-Message-ID: <65bc2156-fb06-49b8-29f1-b6df8d98ed6d@mirbsd.de>
-References: <hndkzd4b5ajt2yvrflar36ddfdftc2irr5enprn5737spwarwf@mhs3xde6kruv> <3cx3oylv6hid2eunibcre7c5oqncuxkrk25x2plme2fqzmdpsf@sh7tmopzzgd5> <20250619153209.GG1827@brightrain.aerifal.cx>
-Content-Language: de-Zsym-DE-1901-u-em-text-rg-denw-tz-utc, en-Zsym-GB-u-cu-eur-em-text-fw-mon-hc-h23-ms-metric-mu-celsius-rg-denw-tz-utc-va-posix
+	s=arc-20240116; t=1750355678; c=relaxed/simple;
+	bh=xuhILc91Ls6PUHLOTG97xKIAlkQ0+LU8zk02T2aHvTw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NG/wzwqxUsEigQcbwGs6SVLnBn720OP4HwgXlnpokEklNmU6Gpdq8cFwfyRonoTOoXbMcM53TpIpL5Z7vfp7AfPZaKcLSnZ0pcXJEWQjLyN1JwUenR8yumxBzxHd54I5kQqmRj12ttl2vuVmzzo+JDGqTe5SwRAB0DY99znSSag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V0tu53HP; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V0tu53HP"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7fd35b301bdso1239642a12.2
+        for <linux-man@vger.kernel.org>; Thu, 19 Jun 2025 10:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750355676; x=1750960476; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PzeVj31dvzUppdcz/GOrDGLpFu2vPFrZP7/nLnn5ErE=;
+        b=V0tu53HP4yl4CQvmkIjwE/Z/cfsE+YgdkYahrVKdioFUlryIZl05Q4792U/Mm3qOLL
+         1rZOncGsvJRPxDx6zrf5MTK3HzTZarWbfWW6hZxUMhHnB/EegjmTIqpaqOVgElDlnogD
+         l2ZzQcCmnKQ/bh26lCA1GsYCVvoDBKYe8WEVUl1B5UUOgRY6FroAksgvgVXX7xxVRnnM
+         Z3qB4e5beT9VCYs3yet3aZvDwX7TytzIGOIA8zB1S4l+Y4P0aGpfzWWhpYujdEGKPr87
+         xmAYKl5t46TtRs8HV7w61BMKt5IFcbL6PnnCua9g6MDsdeXlg2LJ65Hi2m+85uSv5mL8
+         9Ukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750355676; x=1750960476;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PzeVj31dvzUppdcz/GOrDGLpFu2vPFrZP7/nLnn5ErE=;
+        b=JMCJLpNaj8PTvkcTrUETtrNm5VVicVsYyWmJ0RLcVUBceUE9b1TJv0TyVoDF0ltmRq
+         QwBw34Umfkcj6dATvT8JmveLik0FczEoULHZw/XCDKwHlKHQuz0o0B6WQXLsKrGpzJ8I
+         j6SoPEYreOox3NlGD2nkiSAMjdmU/fOToRj7kie5DYYetGLJIP2h8j4CnH1aOQ4Bu+Nt
+         zWlTmgFq/wErwKomp6+J6z2Ie2SCF1AlxCKWmXzQop6RUgI2FvC+6YN6XWVO0ljoYR4/
+         EU7KZs96qDW5xs74GQ6F+nfZRJSCSPSyvTEVZxzXbpmz9rrCk8OHDCNVAzi6YD3QS4nl
+         z9pg==
+X-Gm-Message-State: AOJu0YzfFIectDnhJiJkaRaMQVoEnLNuBFTfvK+wzi3kncTcBvn/R4x+
+	1cbcsQWXDulHrekUlkn/N/JE2poF8AIWVsLXSGSq53m1VBmcATCf+GMXCkmRkA==
+X-Gm-Gg: ASbGncttX/mjId3vnqMl3QYcdQwHegfvdYw6guRKE2J3F9uaoBgeBwNebPZBjZ9pNj7
+	bm/oz9i805zVxNr2O+uRw0rflZapuFoNGOiJtx2Uc6oBzURm+UHRCe5ycBGLBW0aILu3QeC42Ju
+	OPm/FiLvyVHpTAZBWi4XivLjbvxpSO1rfx5FD5ow73pUvb/7kDn0YahDYg2rgLn2FnkbpvV8EWy
+	qanmSKmgw8W6SPKBIp+VGO6rEOufbv1iw9569aKxjEH5lepCowL8NbCEDu4r3F+2sBC4jxchJUg
+	+R1m/ypUb9xMBZVxakUolChaU7QP6IB2O7QBVYWayGg=
+X-Google-Smtp-Source: AGHT+IGAGJMbDcupro0NrmuPC3fbqnD2XmnYNudNNrnmY7XEoNIvnMZUFMGklHJjb80LoSHtjXO9yw==
+X-Received: by 2002:a17:90b:2dd0:b0:312:1c83:58f7 with SMTP id 98e67ed59e1d1-3159d56e343mr381702a91.0.1750355676347;
+        Thu, 19 Jun 2025 10:54:36 -0700 (PDT)
+Received: from fedora ([2601:646:8081:3770::53de])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a2f4c23sm2541561a91.29.2025.06.19.10.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 10:54:35 -0700 (PDT)
+From: Collin Funk <collin.funk1@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH 1/3] man/man2/gettimeofday.2: Declare gettimeofday with
+ [[deprecated]].
+In-Reply-To: <tc6b4trkpv5sow3pxgul7i3rc6bjnz7iupryyqzx7a7hxkdnou@65zruztgsi5c>
+References: <c9251b002761c8c5756780432e5fccd2bc58e67b.1750306917.git.collin.funk1@gmail.com>
+	<tc6b4trkpv5sow3pxgul7i3rc6bjnz7iupryyqzx7a7hxkdnou@65zruztgsi5c>
+Date: Thu, 19 Jun 2025 10:54:32 -0700
+Message-ID: <877c17liqv.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-On Thu, 19 Jun 2025, Rich Felker wrote:
+--=-=-=
+Content-Type: text/plain
 
->> +       The glibc implementation of realloc() is not consistent with
->> +       that, and as a consequence, it is dangerous to call
->> +       realloc(p, 0) in glibc.
+Hi Alex,
+
+Alejandro Colomar <alx@kernel.org> writes:
+
+>> -.BI "int gettimeofday(struct timeval *restrict " tv ,
+>> -.BI "                 struct timezone *_Nullable restrict " tz );
+>> +.BI "[[deprecated]] int gettimeofday(struct timeval *restrict " tv ,
 >
->It's not dangerous if you know what it's doing. Rather it's
->non-portable.
+> Please put the attribute in a separate line, to avoid bad alignment.
 
-Nope.
+I thought my patch had lines that were too long, but I wasn't sure of a
+better way to format it. If I understand correctly, you suggest:
 
-It=E2=80=99s actually dangerous in all libcs.
+    .BI "[[deprecated]]"
+    .BI "int gettimeofday(struct timeval *restrict " tv ,
+    .BI "                 struct timezone *_Nullable restrict " tz );
 
-GCC is a repeat offender of taking things that are Undefined
-Behaviour in C (and GCC 15 even defaults to C23) and optimising
-in a way that breaks programs and libraries that depend on the
-behaviour of the respektive system and libc, which they even
-guarantee.
+But I think the [[deprecated]] looks a bit strange alone on that line.
+Maybe the return type 'int' should be placed on the line with it. What
+do you think?
 
-This is an unperiodic reminder that GCC lacks a -std=3Dposix2024
-and similar.
+>>  .BI "int settimeofday(const struct timeval *" tv ,
+>>  .BI "                 const struct timezone *_Nullable " tz );
+>
+> Should settimeofday(2) be considered deprecated too, even if it was
+> never standard?  It doesn't seem to make much sense to keep it intact if
+> the get*() one is deprecated.
 
-This is also why I was a bit angry that C23 made it UB. Had
-they made it unspecified (POSIX verbiage) / IB (C verbiage),
-implementations could actually do things and compilers would
-not be allowed to break things that rely on it, i.e. it would
-merely have been unportable. But when ISO C says UB it=E2=80=99s not
-unportable, it=E2=80=99s dangerous.
+Sure, it seems pretty uncontroversial to deprecate it ourselves. In V2 I
+can also add the [[deprecated]] there and recommend 'clock_settime'
+instead in HISTORY.
 
-bye,
-//mirabilos
---=20
-<ch> you introduced a merge commit        =E2=94=82<mika> % g rebase -i HEA=
-D^^
-<mika> sorry, no idea and rebasing just fscked =E2=94=82<mika> Segmentation
-<ch> should have cloned into a clean repo      =E2=94=82  fault (core dumpe=
-d)
-<ch> if I rebase that now, it's really ugh     =E2=94=82<mika:#grml> wuahhh=
-hhh
+I will wait for your input on the declaration formatting first though.
+
+Collin
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAEBCgAdFiEEI3EYVQjRMXvVeOXMjOZJGuMNfXUFAmhUTtgACgkQjOZJGuMN
+fXVJig/3ZRlprKwAZadmkO3RRzkujhT1rx9+yMBynyoMWNiA0VBjJQtGGkWak9LC
+FE0JNT9+Gs77fnLzf1JMi+eNxY2lCqzfBbO303u2f6txMzRI5bqF9qa8Ha8RwJU8
+xb8e9IxnTmTlNmP+4qfuZyNhTk2lOpia2dtA5Arrc+QwHJlIDt0FCTXl1cdDDVLY
+w7gxs/IPo9pi2aMYsCUBTImflT2h+xVbwics/mmMJREzWq/bI78PSnKFX98iu5U2
+UFseepRL1dndhAT7J/25jJcJbLmjMBcrj8tJsHqE1PdP+LhmW3/knAYDvhFYAa5C
+s8gl9zcJA4jzYyhSRbh5LYc0STVPYzM06dy5jv6i2aE3GkYYjswj3lIUxA25ydcc
+YjTM+dKpyFP6gFRL+TSb4ld6qTHgQQHo+Y4ikqiVohwXq0ormrpk4cWmE9VhATvN
+Tx3xMcjluUb5jewkskn9CsYX9M/nc7VIiTyYjuP8EGKRuntN86R5k1Yh2D8tkXF5
+LeCPcueUM3eiDWrljVQpFQlY1IQwk6w+8Eea5tRAjZYd+DHQq0luG/BkaxqIC6lg
+AvFgkDk3VRCopYSMzNWpHiJ0dH9rb2uylhSoxnLaTZHBG0rQs4FxpWcOgZ8dLvbg
+u746x02cx2WE0XD0zuN368+fX5B5stcEVVMbBwmCWWPVoy2/yw==
+=I3OG
+-----END PGP SIGNATURE-----
+--=-=-=--
