@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE182E36FE
-	for <linux-man@vger.kernel.org>; Tue,  5 Aug 2025 10:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA25241691
+	for <linux-man@vger.kernel.org>; Tue,  5 Aug 2025 10:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754390112; cv=none; b=aNyyFQziq5uFRVfLJcWz+gkW7xXo8Vm1jc+D94EDi5DS7VZbLY+Dl0DPSzVF71FNnMrPzE9m0Ac+7CQzntMaXT95DdXx4h2cSVu3GpKCnaRlrMSaFwWaqYuX9K3g56iJVl/1Rbl6l3tm/7oHutdDCJvg88jzOaXhLNcnztHRAnw=
+	t=1754390867; cv=none; b=n11hcAzNIk7KhNH8dTgmXDnsozUPUp1Dh0rTQh5FUYkJrJqK//dMk9uRVDGw0d8J1pFAf86ncWL4RhARnK3BpQ9vjeYe/LWo/qY76paWmTCED+nPWOaDgbIiUsvSPob0RJb1pZCVXog5G6DIHV1rAYOB2f9dCovV/vgt9q8XFxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754390112; c=relaxed/simple;
-	bh=HcpunazfqTbOHyKq8SjeLdZnPSDF1JjxeCOGBri9eLU=;
+	s=arc-20240116; t=1754390867; c=relaxed/simple;
+	bh=8AUkea5YMh9WAs7SzbjaWRIYbL3ypcVOI3SJlWNq+IU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PcJI8HWZbHqnNjfGmZY2ITxYFOj57e+zvo4i2tGF3xKqZuiDNkRJYY9C9PfXxTr1M4I+h+J04wmAKgtzW8YModj6Fw6YoNqcux2dM5PoTwaj+ejUu0FZmZqiyxRjVKcFVnx5biR7/oOTpSWsC08yE/+j1EAAjqQMBj6sbn2PMME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H9TgMZ49; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=O6jRVaXdnTlx/zFNR3rRC2typgBLA717UAY8k3wuZ4zf+35/AcTzLcYL1FlE9ogFDDGekVHmLwsmL3lkq28W2KUatvbx1KgxGg0hfCfYk9EbzhSXqOa42WxsZf22pf8Motxj5yaG5HdQ9RVDRuFItGeNDgvFrsrC/zJU3skWsA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJ10BMwF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H9TgMZ49"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4242C4CEFB
-	for <linux-man@vger.kernel.org>; Tue,  5 Aug 2025 10:35:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJ10BMwF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B2EBC4CEFA
+	for <linux-man@vger.kernel.org>; Tue,  5 Aug 2025 10:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754390112;
-	bh=HcpunazfqTbOHyKq8SjeLdZnPSDF1JjxeCOGBri9eLU=;
+	s=k20201202; t=1754390867;
+	bh=8AUkea5YMh9WAs7SzbjaWRIYbL3ypcVOI3SJlWNq+IU=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=H9TgMZ49zXEdJ6J7ZQRUl7K+NM9rRHW+n3GSt+H6EE8XnJOqmbKvE7a9+2qJA0T6x
-	 8sSMKh6xGLdHMQeum6lkw2EF6OT2KqwHetART4MajQ1PNHQ1GprL5Amg3aPPtET/IH
-	 pqmAjt0T40AmHShfc99GA0hW5s1TgsrhFlfkgOLsfO8JU7OsNfkTfpGKwz6QusFzNL
-	 YcAx131zUYC6OHle1wS6r9NwciMtbUgkOpxOu8m4cz/7+/khVJfjYE9pHafaZjTnvf
-	 S4xWkisz9a6TbaZ5/UOdsmtRGHsUq5B6hcXyZ9xhwcoGvyj7weLqehcADHcvYGii/X
-	 j3QMuMjrMrddg==
+	b=UJ10BMwFJz43txM2/vkjJjKV+qwPz50+I1ly6nvolthgdGiwjUUmsiJyhtlMp0g1u
+	 +4NeJ/bmGu8H98l7pmL1x8j5MUWfLlptLeqSiAhlu3fWEN/Sn/CEb7JGTprKIWZqpt
+	 V7b00fxUAQgBcccI6WBk+GAButTAq2w881qqJrL7zgFFKkzJ+K/T2kNAnGGU0C2MvK
+	 0vm7oc8aM8KhfoJ4S8F8juLjodYz0LHEFK2ixI5alD5oojVnbk4kWQCz+Oq7GH7ZLN
+	 QaxF3+YwQi/oE3+EhF8WuPU7uPH2v//gd4keCnpb4OtIEZT2fDHaD/JY12KAWRv0bq
+	 mpb+28IdO5HjA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 9DB4CC3279F; Tue,  5 Aug 2025 10:35:12 +0000 (UTC)
+	id 51DC2C53BC5; Tue,  5 Aug 2025 10:47:47 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-man@vger.kernel.org
 Subject: [Bug 220405] can mmap a page, but munmap fails with EINVAL
-Date: Tue, 05 Aug 2025 10:35:12 +0000
+Date: Tue, 05 Aug 2025 10:47:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -41,14 +41,14 @@ X-Bugzilla-Component: man-pages
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Who: alx@kernel.org
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220405-11311-hvFB8mIZjb@https.bugzilla.kernel.org/>
+Message-ID: <bug-220405-11311-XdlTQLbliw@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220405-11311@https.bugzilla.kernel.org/>
 References: <bug-220405-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,9 +64,21 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220405
 
---- Comment #5 from Artem S. Tashkinov (aros@gmx.com) ---
-Let's change the component to man-pages and hope someone notices this bug
-report and updates the documentation.
+--- Comment #6 from Alejandro Colomar (alx@kernel.org) ---
+Hi Artem,
+
+On Tue, Aug 05, 2025 at 10:35:12AM +0000, bugzilla-daemon@kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D220405
+>=20
+> --- Comment #5 from Artem S. Tashkinov (aros@gmx.com) ---
+> Let's change the component to man-pages and hope someone notices this bug
+> report and updates the documentation.
+
+Do you have any suggested changes for the manual pages?
+
+
+Have a lovely day!
+Alex
 
 --=20
 You may reply to this email to add a comment.
