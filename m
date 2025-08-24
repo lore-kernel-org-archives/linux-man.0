@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D942DFF04
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8B92DFF19
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046962; cv=none; b=HqB9GMbsjVCzF3lauXEO+PPsgi/MLW4cjRjFE0LNhwTG9smLW7By6GZwg3/oYVwposga42tEE3Ot17VcffBYcq4vzd7UWpZ/IBlnYvS51LNf/BOTxlAn++NTCw6101/tcQc7nKZEh6p7wSpAIqwAFSGEbIllcBAjq1RhadfvR3E=
+	t=1756046962; cv=none; b=e+7tP/EPpw22dCloJsHvM8jhAhGrriBjpqkyoqBag94Lwio7ooECckaOl6ooEh2C3tbtuP88FVdz6YHmz7yHIa4rpubn+h0nQce6awkTzJ4L0+xLZCm4ILRLSt5Bo/lZ6DlbNV2MCfac+9n7k7111XNPe1f3LCoRtrlrLsfkiNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046962; c=relaxed/simple;
-	bh=rzIXr3fdLVrKwYDHRTltdIN2XNikHRRnQwjB1qp849c=;
+	bh=M9gPvf3k/OYkNA+KtmEknh7b9lUAkKg2OQjRIrj50J8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ep1c7vD2TofXDP8iQPUcG3RNzfdHPbY+NpUtgZi5VQm/HstxVOkbotamfQCFg69Xr9u+BE8j353QUSW+qj/zIOT9d/5Xa0WQCTNvrPzAreektD/MF2azPk7371VQcQSfd7IoBQQAFy76oTJu8Xtsakz3mZK9sR//XOj2p4AR1wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=d4TH8il1; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=okRlKYFj6PEcTZubjRGIjS/mGoTnBIIF9MbrAyBxUPBi5EjVPpCqcRqiqmBokp64YJBi/HY36KBKj+4QgI0X5w3OmXhmk/JLKeE6udwrlbh5TuN+6t0NCoB97q3/7akxJQFomHogibrXh641zUflaUziWaUX3w3hjPSuPK1TfFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=kg0JkYJj; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="d4TH8il1"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="kg0JkYJj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046924;
-	bh=pxsVU8aHCHt5YiOymu8LpENTNuf6UZmssFuEhfiocvw=;
+	bh=YAN3SV6F8JqWoCHLMWUmPH6zrSOi7JsOD5BE8NobbDI=;
 	h=Date:From:To:Cc:Subject;
-	b=d4TH8il1h5gCTJXoUM/mPlKlK8Ey8cpazLb05n0DiCWHoglimzSCkH8zDIl+pY74D
-	 bgEve1HY/zaOy9FBUd67kHMHdxxQMWjd9Bu7aoUeJIwdPEC16dCy8iEq5fuNa6X858
-	 fw4cQgaQO1G27rLGpPWNNTliQjZcqw+LnSZkQ685cUSHqTdPbYIwEOa2iSgGcAmTa+
-	 nRNDASEx9AdppN28ycTuVcbsLO/1TJlP6lX6RH1HAgRwwliUWtYxjnPLB9XINKgCJ2
-	 dTm5FcCiHhqiaM7UsItnOAKUKz7iHYPdJRtBGjo3bsq55nu7Wr/z8QLZk7diUgXzUN
-	 EUPtdbElLEHMw==
-Original-Subject: Issue in man page memfrob.3
+	b=kg0JkYJjU4u8lsTTCwAbi5IV6PKV9ioeh0rMrmrGL+mSXg1O5cJ3cliBeIjuEBqes
+	 oPssJ4KWhA0p0t8jM86SgKC0hstPcXzZsvDsTZfvzqXGDxLbj58U+We2A9ASz/mUEZ
+	 Nnug3FntqnPmIChW/Pxkz4LqHfBU6IbrTAwTJ8oovVuCy3Zknh0HqI2C7VcI3WeNhD
+	 iKya7xzwBlc6npdlWwCzIxlXjzw3BJ2SHAhD/o4Zdr5BNL5+1lssmUp28/+kGh2NAv
+	 9kNE8W4SjGZU3FtJIh5RHROY5rvSImXGRRkQ4I5TDIWGLnhqRr7bq5jrIBKs5IiVq7
+	 pRESbQWawQN0w==
+Original-Subject: Issue in man page bcopy.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000215DD.0000000068AB264C.00139470; Sun, 24 Aug 2025 14:48:44 +0000
+  id 00000000000215F6.0000000068AB264C.00139489; Sun, 24 Aug 2025 14:48:44 +0000
 Date: Sun, 24 Aug 2025 14:48:44 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page memfrob.3
-Message-ID: <aKsmTKERf0sCMlSX@meinfjell.helgefjelltest.de>
+Subject: Issue in man page bcopy.3
+Message-ID: <aKsmTDSFRXAA5Zt-@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -55,6 +55,5 @@ Without further ado, the following was found:
 
 Issue:    B<…>size_t n → B<…size_t> I<n>
 
-msgid ""
-"B<void *memfrob(>size_t n;\n"
-"B<              void >I<s>B<[>I<n>B<], size_t >I<n>B<);>\n"
+"B<[[deprecated]] void bcopy(>size_t n;\n"
+"B<                          const void >I<src>B<[>I<n>B<], void >I<dest>B<[>I<n>B<], size_t >I<n>B<);>\n"
