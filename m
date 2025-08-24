@@ -1,92 +1,60 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EC22DE703
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051AB2DC32B
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046926; cv=none; b=swTwqD7F1PBNQb99D3+64gIqdseemVoxKW0VPThNmIJWXETU+fvIW9j7P+s9nyqB7tBbL5NxmUg51i2RWUWEf2I4mLC1Dn15SQicwXpthmpjRA4rnZ2qktGCuvepbxE8tVIwqcnchCqKDIh5JMLiE1rU3q0wwlpEedA9GLryCjs=
+	t=1756046926; cv=none; b=pouFD/jSfdGe3IKJgV0YAVQ7zBgT/ewWsr6GNK4O13qH6UOZLj5P8cgRrn0ZeIFo4wACbQ2hGgqqd6YRobU34DMbY/O7dvxmVC2VJZVoqJUObYhotKi8TMiKVOp2YGDvAfByyLqmJwWDxNzOC5M+73rH6HBRjvxSD4Kk65L7tuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046926; c=relaxed/simple;
-	bh=v1WgvDtsDo17zrm9RV2IkNcgpYzqvJFHxrpn1/7fHh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=I7I1gbKrINxBoTkcjVDhIXsyjT4cCFKHr9OEqXs9uq5XHjB/XCo350UB1SJy7Q1dzIx54SYQQN6IN1lBlnX+77GFoOuuXZQL6XQ8P319UPOX7ChjLHDhWHP3RCnoeTlFgmaF6pazTYfe582cozVIILG3goZ/4JL9o7zg3G8Cfew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=P3mPSK49; arc=none smtp.client-ip=142.132.201.35
+	bh=RG3rd9HAY4YQ+JKYmKZ4Cheeve5e08xEiVr1z3y7tqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Koz/TdsycUX6uLxbwvp184cwupYfju194WQ75Dt+6UiohDWk/fjgGniqD2B6+QZKA1F3thxf3muHnkLQZJDty2j0NNvF+1IW/DwLPznlwjg8guLoGR0swhvrymafiEa2FUw5CTi1K/Uti4f7bCoIwqOHnpqsH+m5VFB3CU1+qDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=R72Y3ZzK; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="P3mPSK49"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="R72Y3ZzK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046915;
-	bh=4C+0bhUI+6MuP42r+lvbNhvDTKZ2pwOSSH7geGg3IWg=;
+	bh=Lm8vSLluFAc4VviIYm8N/Ttab15E2WnwoJgL59z30Yo=;
 	h=Date:From:To:Cc:Subject;
-	b=P3mPSK49V00p2+H4d1bTxC7/7cpLWa/QJGPzNVg6WcifIsfV0DyXytrZmuMSmzxX9
-	 rupZF5Yt19tc54+qeSCvpaVQkQDJL0ngAH/UGfkafD4Y1nebzJefpLqRK98vboDxiT
-	 d5OPrauJIPPOWtfZ4m+DTYE6RbePGSULTyiHTgEAOc9IWqgYp73NbCGfk7DAiwKnbM
-	 7ewOWplKiNWFAkw+bkuhVj1fmIr9rnbFOLAK31X/pc/BW13qWaeypJ/25ckUmcSfLf
-	 6jDC+wDfzZ6rKvQpP4hQUPrVSbC9ZbAFsaRW/ZBy/Zhg8GK5HZW0weKGjwBnNON21e
-	 fe7IpOpONxueg==
-Original-Subject: Issue in man page console_codes.4
+	b=R72Y3ZzKewZKYKsBzgMZ3ZZoUlECHTA507aqx21/5GLFGmJWTZMqwQoREkpVQ5V68
+	 sHawJjRkjKCiLzLEV5crO+yks3lOrlqimHwdJsYhfsbsvORL6cx4EqVVf8C7uEYeCi
+	 tXHkReTPGRDtrBqPNA4rC5HJIsuwDuPgul1hxZslAY6NNR0SkAo/Dx+snsHZAeAsGV
+	 y6DQ1c11xhFNVLO8OJdhqUuNZwnSalmWkNvPqD+1ukC2kP9+jDsOlyGJUlxlXNxN9T
+	 7KG5QHqDuLzG6BJ6gUfltQg/qxXOw0QMnMTD20cGoiaGpuMhpFA05umOsYqrnmMMRo
+	 8tuiip5q8ikCg==
+Original-Subject: Issue in man page swab.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000215FC.0000000068AB2643.00138D32; Sun, 24 Aug 2025 14:48:35 +0000
+  id 0000000000021606.0000000068AB2643.00138D4B; Sun, 24 Aug 2025 14:48:35 +0000
 Date: Sun, 24 Aug 2025 14:48:35 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page console_codes.4
-Message-ID: <aKsmQ-CU1ZWBzU0c@meinfjell.helgefjelltest.de>
+Subject: Issue in man page swab.3
+Message-ID: <aKsmQ56DLXLsffUb@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Why is hard wrapping introduced here?
+Issue:    B<…>ssize_t n → B<…ssize_t> I<n>
 
-"Select user mapping - the map that is loaded by the utility\n"
-"B<mapscrn>(8)."
-
-"Set palette, with parameter given in 7 hexadecimal digits\n"
-"I<nrrggbb>\n"
-"after the final P.\n"
-"Here\n"
-"I<n>\n"
-"is the color (0\\[en]15),\n"
-"and\n"
-"I<rrggbb>\n"
-"indicates\n"
-"the red/green/blue values (0\\[en]255)."
-
-"Set screen blank timeout to\n"
-"I<n>\n"
-"minutes."
-
-"Set icon name and window title to\n"
-"I<txt>."
-
-"Change log file to\n"
-"I<name>\n"
-"(normally disabled by a compile-time option)."
-
-"Cursor to lower left corner of screen (if enabled\n"
-"by\n"
-"B<xterm>(1)'s\n"
-"B<hpLowerleftBugCompat>\n"
-"resource)."
-
-"Cursor to lower left corner of screen (if enabled\n"
-"by\n"
-"B<xterm>(1)'s\n"
-"B<hpLowerleftBugCompat> resource)."
+"B<void swab(>ssize_t n;\n"
+"B<          const void >I<from>B<[restrict >I<n>B<], void >I<to>B<[restrict >I<n>B<],>\n"
+"B<          ssize_t >I<n>B<);>\n"
