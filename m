@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231AB2DE719
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD02DECB1
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046952; cv=none; b=rxzVhGvOkZDU1gqfWdYWVjU0KthIwos0aphq3VH5n5aV/RPSOfsvXdZX3JmYHavEUSV1uPx7N/ZixSq7qT2HK0X5N1vPZ1l5zoYZPdfMzyjSiz3ZwtB5d+kYoq3KQunhmKSLJIiAt1DNxr7GPxw1IFF4/eJwEH1D4L77njk4gQU=
+	t=1756046953; cv=none; b=npbs3K8y7iJnB8p5UkAO1j1J9a3C+qT0Bn8tmgbjwOdwBV+0oHloigGGljfgB9YyZV3T5oy9mdVmHacQy1SPGXN7mGWEUrVlRnwjPqqAaBKIICXZxKib+rtOzyf/3qV2T9o/e0Isbm7PZ7Yiit25FhdMONNe+w8Oq1TtUkiqza0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046952; c=relaxed/simple;
-	bh=zJ/Ywi0IW+EI39fmPGShghLsLuErsrshQwSJG+0HpNE=;
+	s=arc-20240116; t=1756046953; c=relaxed/simple;
+	bh=V5Fot4bM0vcW7FCHoXjSOdEC7wITF1QI2l+Ic/7qIjU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DzWrlpwYP/YPI3iOnw8s7fgPnmKqUGiTMoLl3xreL5mXy1Yb9ACgLksdZbgIuVFUnKQjkAvo4UMpEY/ZPC4dgwe1LMfJFGDlfhExi8tP+rYVfiEU7gRAk3i0FRWx7Zo6jKoCkkdDqNtdj7dWYWxagjU4gmiFrb4dIWEEH2kxmB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=tmbVCy3d; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=qmFEcTepJEt8zSJnqMYmlD69S+JGrK8eZR2hwT+tcHm+M4XySlthM5cHzMhOJYH164bTyxhogqrwxeG7macJaZ3BCYotEQKmoCyESCvFXB5HAM90yHYjmyaLLFdqJDO0Pbrjamuz3DFcFTWSCqlS9Ep7CW8osoa/QB9S0lGjIvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=m/e2uzIm; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="tmbVCy3d"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="m/e2uzIm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046922;
-	bh=KBWcZe65iQxn0Mr2kSqk6xFz5l93vQZZEZIa1wDqrDw=;
+	bh=S7oSULC4GFDFjSOujdoxH37BHptUPT7Kk5E2loZQ2f8=;
 	h=Date:From:To:Cc:Subject;
-	b=tmbVCy3du/66Dx6G1gsWFjuLdjhZ4GEBUxQDMKxBZEat9fcHSBZG7c8oPmyBBKsnG
-	 Bo2Rlsw2q91Bd8AZbII84JpuKRWkDQnYgHRqKON1hqBrF0BUBIuAmgSesv7Gv1i0ST
-	 wYxQE9kY/9NAKpvR/TGSPw7lzy2V0UaD+AzsEz0vweSfpVWGfbAj9ilS2FXSN4JtfL
-	 0p6/5Rs+3H8EQkE2rfPmPxFbmiSVdN62RHG3xNOVlp9Xy5/EWWA+F5a37AC9pm/PHR
-	 w1pQtbrwXodvrCwcNo8P6zCoYw5Tp+yUPQSiOcXVQG9x/bRBYKZZPba8LaNLd13pdg
-	 kpsVrdyQjelNQ==
-Original-Subject: Issue in man page getxattr.2
+	b=m/e2uzImQzHSRNMMniulnpKp3WjiqfHQYrjBogf8jeaL8Zat8ik++b9TO+R1Sfr7k
+	 UyC6u26WmBBKfkNYmhN2McNO8bpraKBADC1G8N9bSzoyy1IYMzlIMLlycUFL9KN4kn
+	 7hnbRN3jswrfJ85UrmouVDpMNg0PgQAJfCD3bO7+aNjp+UHkdxz64w009o5kTke0Gv
+	 oORz1NlL6ZDvUUCOgbh+zUqj9vCbnjhw0PqlWGm+rUU33ORGiVzKK+NXylQhasOZJh
+	 eqlgCJYELhSMS7DB9xv6ZjNQtyDepM89iFOCogDlCHho1p3iazkaSZ5doKNjJ6YFHH
+	 5wKWk/x0TG1AA==
+Original-Subject: Issue in man page gnu_get_libc_version.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002171C.0000000068AB2649.0013927A; Sun, 24 Aug 2025 14:48:41 +0000
-Date: Sun, 24 Aug 2025 14:48:41 +0000
+  id 000000000002171E.0000000068AB264A.00139293; Sun, 24 Aug 2025 14:48:42 +0000
+Date: Sun, 24 Aug 2025 14:48:42 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page getxattr.2
-Message-ID: <aKsmST2vJitemjdL@meinfjell.helgefjelltest.de>
+Subject: Issue in man page gnu_get_libc_version.3
+Message-ID: <aKsmSqu8Ty29qLuk@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,14 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t size → B<…size_t> I<size>
+Issue:    indicates → indicating
 
-"B<ssize_t getxattr(>size_t size;\n"
-"B<                 const char *>I<path>B<, const char *>I<name>B<,>\n"
-"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
-"B<ssize_t lgetxattr(>size_t size;\n"
-"B<                 const char *>I<path>B<, const char *>I<name>B<,>\n"
-"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
-"B<ssize_t fgetxattr(>size_t size;\n"
-"B<                 int >I<fd>B<, const char *>I<name>B<,>\n"
-"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
+"The function B<gnu_get_libc_release>()  returns a string indicates the "
+"release status of the glibc version available on the system.  This will be a "
+"string such as I<stable>."
