@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2260F2DECCB
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB99C2DE6E5
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046971; cv=none; b=YpBDlE6RL4YrX0R9GFqQhLcRdLijpLkr4N05ZuSEuVveGSJsJBYvtRvHAW8a52YISdGfNgUv4GziHqFb/SiV4mfFbw68XPzqN9ViZu3nZq/PaODaI6yGir1h6HOqcMwsSPPqzJWC+PKOlxhOqCHPEuKZMnpLA5/4Eprd81GqERI=
+	t=1756046972; cv=none; b=C80Lg9GBsXfNZuzlQ9QgIv0m1stjhuIbxX+0Sp2tJT86svTvo4h+9X/tGG8QlDv812vtbn/sXDky4SaInmgMtANUoHY6AiX69CxOlLe8xVmzGVq3xmqiwMjDoMvDUeCxQcKurjdGwFF45PfG8lChu29E7EZn30/YtqIPMW6Z4bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046971; c=relaxed/simple;
-	bh=dMeusXMPMJAfRGZj8skO/ca8XGLgvdsQpPjCBNP5gZ0=;
+	s=arc-20240116; t=1756046972; c=relaxed/simple;
+	bh=oxmHwI0Qlu9jKMXrP5Qtxs1f1g1hVeqzJGUsXwFYqhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U4nZ/5M0b5KC7jmUX+6+NP67E23NHR7TFLquu8q4JmzpOAJS8CFwA2c49iUeFpKvSnCGt4wkPw1OuAIpBPBJCVn89nlr0X3zfMl93+149kRn1mm4ib2Mn4Tx05ILUMMheETuWzRufDdbzKChIuuteA/ckukEr9QnJvruQzJpXXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=NtMhp2Ph; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=F8GYh9lvaDn3Xjct/6DLaIUemIz4y5lAc9HJ9HxEbx/s2NDUlWoxzHF3eC3f2uXEu+bfJTOZZ0dR2aBjHlLLT4peBFAQ7wP7A5SHZ+xkQS5aGVjDepl/ZIprdaNy72WfUU237A7wvFMF7tj43/AQ5AwQA+FdijxfhFLR6UyLYss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=h96n0STG; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="NtMhp2Ph"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="h96n0STG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046927;
-	bh=qIoTnVsl6WrZqlP4jSyn7qHZn6x/02A53PuOODzpNo8=;
+	bh=pYBW2MZEwgKaRG9aP/wafn+sejXhy4LoOdD/ik3wMbE=;
 	h=Date:From:To:Cc:Subject;
-	b=NtMhp2PhVZ9hbHReous2bna9G9JAjxIcxDOTrZ0cuUwG7VhaILPCpipIxUmnv3KXz
-	 dQ8Yr6ute5evdG0CmbcOnUW0Ur9d2S0DLvZHwEByL7j4hWWZN9gaJjd3rFXlY82EMn
-	 I1BVwjDAnvcIi+r/BN9v30Izstrh5n/hQ/mgst9LcPKoIZp2aSxsGYbKsE6oYalaK4
-	 5gwYbb2BkrGNvm1xAD7gNzAQ+znRzvYQXXfzLKB0/JKJ2tX2nJvULtf6y2LmoefN23
-	 kNXKfMXAJRo0SC3/CfJ5kXZmsIv9UbUX7MRtddVMXc1maDTktOcwMOy4kE/vHVFcOi
-	 WOWYyas5A0nUg==
-Original-Subject: Issue in man page PR_GET_AUXV.2const
+	b=h96n0STGx7glFXwccvXFF4aBmo61koAXMLOXKuI9C+afxvhoupJXjMkFhbyqPkuDI
+	 HnqmuTsmI3rwHGfaVjDZBnxF0cLwykNAa53RwNr8LqMuKJVzxQNoMMW7JV5h4bj5cB
+	 Kxip+D7X2/m7wIhAiiZ7QaKnFsCuNYuHnKsj0c9wa0PER84/WZ2GRiSIQqglgB1ctJ
+	 KfGmByiWYCKefAt+AVtLqvBEdZdbYpP+1NnRRdXNu3Zf5j6MoI2Mo4knU/TNsf7GVD
+	 7Mu/kdLIZvJxGsIgpNbk68vGnADA8DtwLuU/6WALc3NVK3l+NkrAuDbaJ7pd1bw56c
+	 A3GDOMHzCkbFg==
+Original-Subject: Issue in man page PR_GET_ENDIAN.2const
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021633.0000000068AB264E.0013964B; Sun, 24 Aug 2025 14:48:46 +0000
-Date: Sun, 24 Aug 2025 14:48:46 +0000
+  id 0000000000021764.0000000068AB264F.00139664; Sun, 24 Aug 2025 14:48:47 +0000
+Date: Sun, 24 Aug 2025 14:48:47 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page PR_GET_AUXV.2const
-Message-ID: <aKsmTiwiVDxouiE_@meinfjell.helgefjelltest.de>
+Subject: Issue in man page PR_GET_ENDIAN.2const
+Message-ID: <aKsmT-lJBqSQAr8f@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,9 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t size → B<…size_t> I<size>
+Issue:    endian-ness → endianness
 
-"B<int prctl(>size_t size;\n"
-"B<          PR_GET_AUXV, void >I<auxv>B<[>I<size>B<], unsigned long >I<size>B<, 0L, 0L);>\n"
+"PR_GET_ENDIAN - get the endian-ness of the calling process"
+
+"Return the endian-ness of the calling process, in the location pointed to by "
+"I<endianness>."
