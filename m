@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891C42DF3C6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8F42DE6EF
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046958; cv=none; b=GNhYgwqKEykZONi0tE4Fvpq06Qg/5S2pG70dkOLUTgtABEB+e3/DdvBLHJkCT6vrscubINXLZX5XsgWb7OH7uStFKgce8wxTwQHdYnr+sSkAA9lJbvbkDY8R+roATV9oAPFSm92DC/Hmmf/BLOarCVRkPwyvUloxtL5kAFXA1ag=
+	t=1756046959; cv=none; b=HKX0ymb9XLI9eVvd6Sq3rA0oKlZkbgYdeIMAp//8t4Ck5i4edwYAbeMvzSSg9DyghBQaozX51nGeP9fplkt9/78NuVYcVMmEcLItj4Rdg/2CLDp4sCvoDec3EsHMBa9oXDPed4Rj2yLa38KReitIfTwne5gtfPH7ZsFhGU1qHj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046958; c=relaxed/simple;
-	bh=Bqla1smh7LKCUnevLm23TCSUT3hB3d6vOKeDvy47bis=;
+	s=arc-20240116; t=1756046959; c=relaxed/simple;
+	bh=i9kcHRm78xk6nLtxHwiwhLEfdWjcVBLdFx3Kkg84iEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KjYTr6d3K2xG/0THVxYze4HXp9j4a1CXKWMlgBITAGRQuncxoyoXjNFmlFGVrgGqPoKT+JUT8X/uYAbjQTM090N0snvzYjn6oX4lNH74EnrdlJjDB563N6Ecved8YXW6lQDufEgpAukJz2a2GleZ4c4zsZMhc2UH3otw8e9BMPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=dXEYCmoA; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=n79rjVygkU3dgQbBZFWmNSKYaUm1DUSMa/RFmsJwhqkAc7KQDCFa/7jgRFhdKHo6n9eMYCJlXO+bkHm+PqiyaEfVxVtGP/bmlJMzngJk8X0fCg0FulcI+wnpy8PzLSu9zeP6RUIl3s4cuywE49GIa//zV8Z57IsatxCPWNQCab4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=pLVkQn0t; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="dXEYCmoA"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="pLVkQn0t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046923;
-	bh=bKVH+SdMNR4ptnxXZ7XSAJAY/OtJPBFZV3QGD58toHE=;
+	bh=Z0y9kpLGAjdZogVFD9I1c6j3uSgSxIeVgLd66XMT8ps=;
 	h=Date:From:To:Cc:Subject;
-	b=dXEYCmoAFb6c2YGmnySOYhv/QQ+2u/gDRctTqOIvtKrMpPuCJ5q1v8zWr5N+7lmXP
-	 pfj5jEodzwoclTF1vjCH5fbXhersfS0npdwYjFtf2Cao2hmCtT96CvNBirI32Gs9pf
-	 XA5XaYb7eLneC8Wop9RC5/UoZuW1Z1TTlZLLV6XiEAhVSVF3n5Jsd8H6sCA0zqy6Qs
-	 PW32sVGuap7lJ+cspcWkbyTNUYUtmSYCGYCMZcYUcKo0EamJyWWNWeqeWE4WGD/kGf
-	 0H+tZ8RxBclhPsZzYQiZs7p5BnSRhsJ9ojR1hr3xkX7akLUUetWOd+bSp3zLvwkZlr
-	 jdecuuS9GYCFg==
-Original-Subject: Issue in man page mblen.3
+	b=pLVkQn0tqeCEKGtvn3p5RirXHjzUPRnL70IYtZkV5064brgaaz/inZqVTuaZmwVup
+	 hCWFDORNpIM4MFJkBAGTq8DXA5R+M6+riwAER5Fn4K/cdaz5GR1iJ+LAQ0tAAmu0XS
+	 mpPDWFY/kDzWFOkQwN7hN1+8P5Y2IWWu2Q3hXQ67y8suyU15Ai+X3XT7uzF3U43B9L
+	 izikcxDyBjLuwhqt/7Pi8AYoU+Ql2LoteyjVOQxV4xyElg0gO8eI9/Pkb/dWCvmvMR
+	 m7ltF/r81ZZulXQSlWouBkO6RA3UlodZ7O0GsyRxUj67qs+wMXmInU270VuiWDINe3
+	 BYXtEvQj1N9hQ==
+Original-Subject: Issue in man page mbrlen.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021733.0000000068AB264B.001393C1; Sun, 24 Aug 2025 14:48:43 +0000
+  id 0000000000021734.0000000068AB264B.001393DA; Sun, 24 Aug 2025 14:48:43 +0000
 Date: Sun, 24 Aug 2025 14:48:43 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page mblen.3
-Message-ID: <aKsmS3LKSC8aqezl@meinfjell.helgefjelltest.de>
+Subject: Issue in man page mbrlen.3
+Message-ID: <aKsmS1JPuy5Hz2RF@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -55,5 +55,6 @@ Without further ado, the following was found:
 
 Issue:    B<…>size_t n → B<…size_t> I<n>
 
-"B<int mblen(>size_t n;\n"
-"B<          const char >I<s>B<[>I<n>B<], size_t >I<n>B<);>\n"
+"B<size_t mbrlen(>size_t n;\n"
+"B<              const char >I<s>B<[restrict >I<n>B<], size_t >I<n>B<,>\n"
+"B<              mbstate_t *restrict >I<ps>B<);>\n"
