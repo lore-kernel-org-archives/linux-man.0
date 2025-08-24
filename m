@@ -1,59 +1,60 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DCA2E03F8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C332E03E1
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046966; cv=none; b=lTOHLE9+nQEvGS5YNGQ1MMFPlMJK7mLdDAu0JlBxpUVyyHZ4cDJ3yvzOjGG1JwgmciZ6Hb7KJ2DtPAEPq6e8ve5JxiRskBlVpm0IvmrTKOiaioyI3lhSx1Y/VFS/hfIpaqK1lGwGTFxuWF83SLwehRG70U0YLM7PonxyGFd0UD4=
+	t=1756046967; cv=none; b=QgqHpKpVLle3ByKWtUcJgq4vMrM8OJUtdQnskVv+LVbgaMK9PFmEFA2tP/7/1tQZjA3lnYVKNH3JwTnk4K1nV5q4JtVWEUkZ8ZgeH1MrAWlhGENMCgVL4A8kUY4qNqd8MpO1lyt/po8PVpmMoGsvHolcPkOqqiQwwLwEbDFmtNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046966; c=relaxed/simple;
-	bh=buoGeJJBUPH5Y8DRtYg/zwRZY15KEDHmBpx7mUR4Zlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=qjB8IOM932jG42hjblXwduKKaVBnKbE0YzzGq2qeAqy1pFlbvRuCYGoJ6wEb0bVvLqBCyqOmvexool4Fxq+VFew/bjdaQ3tbq1rkC5ZiXdgrYy2rCz8QTahUXKY7ZdHp5AGpbh4MWMTw7KFPvkuOPfnVrJLZ/gKugC7VMCUxzmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=uvE6M3Hc; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1756046967; c=relaxed/simple;
+	bh=kUbrgylETIYgMz515r3mmtYlAQ8qgJEtKg/YS6sw5as=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OcOvzCv7axkm5C9VpF6ibh5+u3ZJFYHl7CeYLCOIdO0LBgPl8V0kr+R5XOIJ4KLitGwgisvhIBuFGG3aYwd99vq+moFMQI0A6V8avhy6IZya2IX69U3OamWdPa0syu3dJpxb5kNeKjTDh4/Gky+12Em47Ph6GNs+b6UofTdwT1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=i2h/znWl; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="uvE6M3Hc"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="i2h/znWl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046925;
-	bh=QkL1Dw0+SoEqgeKmJY8vLVHbSkY6qsyyXOX6GG3WfgU=;
+	bh=65PgBllAXf8/itHzovK9TfRju5qwFRZz/nJuCsomg/0=;
 	h=Date:From:To:Cc:Subject;
-	b=uvE6M3HcH6LR19eRjUmU4l6euEatHDxF38U/rdJO3Z8pIzhaHWfx3gFNtgeZajh25
-	 jqp6wwZwdGUb2q68o/kPw21eSBko/HAHJPrUgqNf3zbGxyUmrYzFCtcZWNDS1WWbsK
-	 YKC0FQr+Yyc54b6a+H7FbvrHXsQXtTYfJaw4Ut2ebaXBm3kKqG6CL1Lwo4DRA9liDt
-	 IVO31aGnUxS9oCiUfyOPS+znOZK97+QAKnf2FMlh/UMQyD4tPcaRunS20nDpMmwo6L
-	 55tdwWcO3M37/4cG7qrXB7h+SKGfmZVFp7lwOlR29sj61IuEKoG1eETuaaSuah2pHR
-	 se38GoIstwyJg==
-Original-Subject: Issue in man page motd.5
+	b=i2h/znWlO/x2MNVsEr/0sKKCoTSvj2oDRQMwct/8A2fZhz019GLjJY9rO/dTgh0XX
+	 Gkhy72RX3P/ynXw5jIS60C0J0I20vTGNN88PWf6Sqax2/Qz/HA2ATWK4bkIbaxhid3
+	 mQlFHoXtnZ83+OGZUt61twuLhE+Q8zhry2yS/aITMxj+gQzZI2tbdL9D6XmVIxVoos
+	 v/6TbHbQYWNEISRgDxGaKtyHHwaeJiLv6aUr7naJlDZ8bhs8F0WoofzVzdtBWtQn2J
+	 FV2usBX7yqcWTYDzIfgdqbhEj7bvp3E7IOCMMnS22tsWh3ffC0/fOplX08T1zDSiQ1
+	 OqvaQjAohS7RA==
+Original-Subject: Issue in man page mremap.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002174E.0000000068AB264D.00139551; Sun, 24 Aug 2025 14:48:45 +0000
+  id 0000000000021752.0000000068AB264D.0013956A; Sun, 24 Aug 2025 14:48:45 +0000
 Date: Sun, 24 Aug 2025 14:48:45 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page motd.5
-Message-ID: <aKsmTShE9A4C9Zof@meinfjell.helgefjelltest.de>
+Subject: Issue in man page mremap.2
+Message-ID: <aKsmTUFjDHvaTXJ3@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    double space before "after"
+Issue:    B<…>size_t old_size → B<…size_t> I<old_size>
 
-"The contents of I</etc/motd> are displayed by B<login>(1)  after a "
-"successful login but just before it executes the login shell."
+"B<void *mremap(>size_t old_size;\n"
+"B<             void >I<old_address>B<[>I<old_size>B<], size_t >I<old_size>B<,>\n"
+"B<             size_t >I<new_size>B<, int >I<flags>B<, ... /* void *>I<new_address>B< */);>\n"
