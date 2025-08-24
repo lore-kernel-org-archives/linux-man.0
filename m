@@ -1,62 +1,61 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4852DE6FC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDADD2DCC01
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046946; cv=none; b=ey8vDu+BJ2MS8CBaPBCvOZx29KPJ3ZoDNtlqrkLqL/4+r5O3qdbX0W1co77P3OyiWINQ2NOw8ng3rTGODcBVlymn/rK4Awbhor+mFFQddAD3OAhBWI+KC9K4vYyMbLxeQ7xW9yDQy4WwRVn5qcg3spzFzsHFWnsxnUDniKxTTv4=
+	t=1756046947; cv=none; b=BUKN3hP3L1mSJkiDN4pqTdgHokn6+raAierCPjVLp3JLqf3cX/jEXoM9riPWrGwzP36lNeJUWeex0qCmjRgDkH90vkKA6uAA3yDPUUjmnMlJUMnlBCPf3YtOAHVdhaaamybByBerRLOXjA6n4JJeYJqI7HN84RJ7mANaJeMviqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046946; c=relaxed/simple;
-	bh=cLAk+V4SBO/iTwMp4fHQLOzJYCDgphfpNYUykAP/66w=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=kVjUCp+As9grxE/VRKOV9O2IrLPUBD2RLKR1nK193oXnQB+wNVsrPfw5gWbMkj5emwmHvXdIQOeZa2jnV6dIRd5NcFHlBVTsZoFqC6gaiRP6S2YswbsPkTfkD/jX+zOvhOQeT0fQWxdzq3Vd7M3Xb1g1fut30oZdJWhFVK+fdxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=CWYUNxdN; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1756046947; c=relaxed/simple;
+	bh=dXVXTEYKZ9qj1A0yC2gPivn7ddOrk47UPYuq5dTgoQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SCKVZzscYr+ykwOmJjHNhbMz59Krk/zzNQGL9dNR7FJcFdMpICgNWCXFActDKHJn2BENM8meBxszu+KcSyBD5szpA8gHv+emkb1ZcTnqwHo5ENsOlqx3+yaMk9DvYegOPRtKJZT5/E0fISPbru1ExRePS9GvJurZ/SUsLIfF2Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=gTCamwUX; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="CWYUNxdN"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="gTCamwUX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046920;
-	bh=ZUf3mdai3xz+fQqvGaPI2W3PbNWHvSSzamD2tUGcij4=;
+	bh=Bsqi+UM6elB4ZdMTpJ7R7qzOkd0qRhRhlDUpGX3n2mI=;
 	h=Date:From:To:Cc:Subject;
-	b=CWYUNxdNqE8/4DD2uXHHRLj1M6DDFZ+VeRNVnd4rtlAo/ePDXBMosMkJfb1QiO56Z
-	 lYFuwtnnynnAhhC8qbYF3LhSiWPFY7xf57VrfUy2fVgwlWYxOlQ0/+YBR6X1IIAdXv
-	 X0PtkhTN7VMZS/ngY3RtmbelgeftBRrCxAleV3oC7/PTKNB+1tOPuzdevA0wlYRZSF
-	 YdaH2f/3BxcOt6UQiBEIC2U1Vql+g3HO+8/8nkuGn3ZA24+zyKNzvHVx4Au61lVlPA
-	 QA3jAe7HLPREu3i6n+L1HgIIJKfNi1xltgHgTa6RjVBvYvYXYDbQKPxAmfyDJGFHw6
-	 TqdjS96BL53VQ==
-Original-Subject: Issue in man page addseverity.3
+	b=gTCamwUXUa91dsU///s5Gq4oTckh/F4M0huSYfZP2Ata7bbL5o4jKaJTdm5KjjD67
+	 VOkT4Xw80sYQe9eAZGZZQmPeg97s2Ij4AU1Bv61C0Yj/qaTzBMEfSzO/urw83U+8S6
+	 D/vycwdEp5LQRIbXHrlHQJ/ihbZtEK/d+Kk83frU18lVE2dpc/9qO9UKorVlL+QlsJ
+	 di08BUa0yeCVlhR0cZAaQ08dKzukDozHeyA1mEQXgxidj8y89NNmKWuT/hbnMzUkst
+	 UMrW9xYbIrGFOGFcKDVd4esXVtXOV4RPeBHA/aBBSR9YBTLvBAYas2nuKuWFLSJklS
+	 jVhD5mPvvAy7g==
+Original-Subject: Issue in man page gethostbyname.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021459.0000000068AB2648.0013914E; Sun, 24 Aug 2025 14:48:40 +0000
+  id 0000000000021704.0000000068AB2648.00139167; Sun, 24 Aug 2025 14:48:40 +0000
 Date: Sun, 24 Aug 2025 14:48:40 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page addseverity.3
-Message-ID: <aKsmSJY7MV8yssf3@meinfjell.helgefjelltest.de>
+Subject: Issue in man page gethostbyname.3
+Message-ID: <aKsmSJNfDOMklG18@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Does this mean, for glibc 2.19 both options are applicable, i.e. _DEFAULT_SOURCE AND _SVID_SOURCE are necessary?
+Issue:    B<… *gethostbyaddr(>socklen_t size → B<…*gethostbyaddr(socklen_t> I<size>
 
-msgid ""
-"    Since glibc 2.19:\n"
-"        _DEFAULT_SOURCE\n"
-"    glibc 2.19 and earlier:\n"
-"        _SVID_SOURCE\n"
+"B<[[deprecated]] struct hostent *gethostbyname(const char *>I<name>B<);>\n"
+"B<[[deprecated]] struct hostent *gethostbyaddr(>socklen_t size;\n"
+"B<                                             const void >I<addr>B<[>I<size>B<],>\n"
+"B<                                             socklen_t >I<size>B<, int >I<type>B<);>\n"
