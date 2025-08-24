@@ -1,60 +1,57 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EE52DF6E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B762DECD8
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046953; cv=none; b=bbglYQHcjK4Vd16ozjRCG/J0rGqwNA+ILwUmD5FyYMq0FbOp1PzaG/TNC94Zdcx2Yhlz7mTSkLR4WZfHGO7xDLCEODzvNdI3K8aUJj0MsKyx1AFY2vpTaZbqy8yKbuWE/FDpAm4AE+zMCQysMTTKiALQNTpygkGjQPZC5bijI/Y=
+	t=1756046954; cv=none; b=S23Wo0E6SEZrz19/HS5yf/wRlNCzYhgP04ab3U8ERU7YK6KVJDVy2XLrcA9lu2KxJIq62BkDAcLQoJg3hDQShqJmMJMABYfCKkYvzTMJTrpAt4flNtFaFXxnyU1Reu4VJeBhPcPxjq5apDPLXLOfOBL7wm8njm9vE8vZruoJOJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046953; c=relaxed/simple;
-	bh=sUP8zoTmvgBqngV+9lnD31d3myYPkKHqWFTpW1T9h0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=kunN6ts+F/6vnZUNgJp1zmju/9BqsqTgtjFG23G3bD1+O7ez++CbmfYjpAMLYNUfaEXBThev4rsbI6NucAa9Zf8pAz7JsRKmfsF7pwaRhI411k9rzoLGMaWDxZ6TZAqAmI2SABYuyu0ldM132EONwSipChqj2Ks3exelG9OFdYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=ezHxdftZ; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1756046954; c=relaxed/simple;
+	bh=N/eUxRUOKs2FYH4x0hYS/fvkBZY6icSJWItKjnEaXoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ij8yoE886kC+EaiSy6pFq85NW5dYell72BqGJ0AznWpORH11gML3rK8LhFluL7ndcQrTp3NOjfbvz10nd8fRYB4FT6d/R/N5y48Q+/3GtSol5/D65lyXWSbI5iyShp7A8V+raBu/RtPSNTvzD7Ut+zyW1eTTlGhcE6L2Yrvdpj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=KfFAeaSg; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="ezHxdftZ"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="KfFAeaSg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046922;
-	bh=hb8bHX6QI6e+3Btvk+FrLakHb//vDAZayC1pXU0JI7c=;
+	bh=A9aPNXw2EC4l1rKjuV7/p/xgJC16MHb1wOOS6E1hvT8=;
 	h=Date:From:To:Cc:Subject;
-	b=ezHxdftZO4w/KS+fbq6HC0MkVnPV9FBvgnogbklxOzQy96fkAr3KRezmAVAb6pO9E
-	 bl0epthj/1Js1xIm7Il/4cpOhXBqSyMVwGIf2uMR2n2yDm8ZJvzxfGNOqAWDpXI+Yo
-	 QinJAzvHjCnF5/YplV37ivs4DvOAiWzjxs20ZeaMsNCTk9LjmpfmR8LJBpxKdYVJpC
-	 HNMVb94nh7GUrpdd7qiDr30B6/R3KppoBnPja7k1hObYjH9Xu5GGXVGymNHnPv/yxk
-	 kFIxevd1m0AMA/Qs+87G/N6rHvE0oE5JTIaY651cuPZKnNen8XRZQrzzlFpn9OgrBL
-	 sBWAWX+ENSUJg==
-Original-Subject: Issue in man page ioctl.2
+	b=KfFAeaSgiEQRv/pAt/3MEwGPX8lJJ2ns8cqNEdWxc8oFerE44GlU577HCVnyHlKNi
+	 jUJG+8vB+DgzyZnsjNj8plc+5/iNQIiOHHCQAcKCg1LzWYLP3eSSsGljuYfLhO24Bc
+	 KnUwP4DfTKZqjlRIfq3KgC0aMieoS2J80Sj1Y9h3bPLMO/ivKVsyhzsx1qh5JrZoIv
+	 tfF1i+4ThrK8r29iejMAnuc1qysjpJgF3boht/uaOLgvtWMXqIIdsuVcbq5M/PAzdO
+	 hshEJr9e3JoY+RAH4rAHYU+hBw7oIVSLVIgEvgcRfZlSs1ifBhAu07QWeYa8/+1/kn
+	 39RQJGokkwC8Q==
+Original-Subject: Issue in man page ioctl_pipe.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002149D.0000000068AB264A.001392C5; Sun, 24 Aug 2025 14:48:42 +0000
+  id 00000000000214D1.0000000068AB264A.001392DE; Sun, 24 Aug 2025 14:48:42 +0000
 Date: Sun, 24 Aug 2025 14:48:42 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page ioctl.2
-Message-ID: <aKsmStw-BIV8ppku@meinfjell.helgefjelltest.de>
+Subject: Issue in man page ioctl_pipe.2
+Message-ID: <aKsmSrDlvlHVi2Li@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    What is fildes?
-
-"B<ioctl(int >I<fildes>B<, int >I<op>B<, struct sgttyb *>I<argp>B<);>\n"
-
-"B<ioctl(int >I<fildes>B<, int >I<request>B<, struct sgttyb *>I<argp>B<);>\n"
+Issue:    as below in the text: General → general
+"ioctl_pipe - ioctl() operations for General notification mechanism"
