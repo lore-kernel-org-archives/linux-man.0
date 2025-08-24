@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C5F14EC46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C704917332C
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046918; cv=none; b=mtcapf0LBRKcQ4g8rU3DUu5RMVW3BLWsX8/GlLRVjgP/IM6L0JVltYZxN2qMeXO1NbDcUv0c9DOWwZsdRwGerSsqWez+wxLWLtwxqUJMxHglH/MbqTGUx2OOTeiIaxlhyVw40KAVDp1uGAFHoveqCdj5ZaCttzYYOPl5KKiJ/Kg=
+	t=1756046918; cv=none; b=IGdUci4u5OD2A4BCVe7ItNZ5krvHgDTZWgJ9dQlH4soLV5LymcOM6kwJslmTNXtny3cwB7UJOo56aaLure4y3XLQFQARfcWN75Hlhje6dZfy79y7MbnypFwB8FIi90CC+xacXQhnF7oyjtPlDWtyD8+V9DpMmEmS28dyNWAIg6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046918; c=relaxed/simple;
-	bh=FGZqo/vauBiURxZs0ieDMYrA6gYkcQmd3eBOW3ELlXA=;
+	bh=bH8x6pKMdTWtqiRveY6/blvxCNcTThkjXmGnz++L2dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WC4RwiwUK8Ze7oqGBLkvyOi0KvYc4DPXtltCl7DfgROxI6QV37X2M8MyuijHwAdn9kl/NnHqVC35LOvc3MOkFL5WxJ/5wPiZ3HdQgGDNoz32SnDZ5a2IEpEwWjC2yH0Gl1162x61G1qVW9SdpHDIh5zd3QqGV1AzX0bGb37TvIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=Anie603H; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=TjAprdt0zqSbazs+Rz3NtkEMPItWTDwCU/PW4ztByMqVbwpMVuwpQiWYyWzPwEAyiopEgd6o18MzlwAEFeo5SusBC87mnsiNHLoWwh9urk6ShtG/foDE3RhcwKoXP8SN+C6GhEQtGvaiMmc/GxSWk5zzMO0cyaUJk7Hi3e+rKxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=o+SWfsVy; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="Anie603H"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="o+SWfsVy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046913;
-	bh=qZrrlqUHj5fky+9GL+4oqAoHS0vYAtjqErnLXYLE49I=;
+	bh=B96dYkIYGbCZ8oEBOiEuZCUZehv1cQbAHal5CU6nXc4=;
 	h=Date:From:To:Cc:Subject;
-	b=Anie603HCMHZdRr2KPE2pC27j8SAmP/1PgoKzhdfd9cCIghtVqKXrWks08tF1Vdcn
-	 n604q5Liu10FYzUY6M0KFJm+Fe3MCWqgcwFfQGiCIniHKLpaBSsixY77di3P2OC4un
-	 nBaEOegMBWQn0nVp16JtnMHZ3C52Pdl6L0I30AewnowhQva1jTJvMvI7Y8YTnU5Ril
-	 ABOSpKEHgLjAbj/QiGRPLSuYbkLeVBTUVDTWH/4RW18JsgnfrbCk5N0zrzyVVVErNs
-	 YRxlxAjZur9jn4/iPta33VY0y3eJmuwVBelkbvHilg3S6BxGyV+jVbDgNAR5pW1Lus
-	 bR9UgTYwG1W1g==
-Original-Subject: Issue in man page s390_pci_mmio_write.2
+	b=o+SWfsVy7kGyu98XG4nQ7HrXe0Ey/osfH+ly77EyjhVRLzaWMX1e9U5jCFt/hy9VN
+	 eojNuNr2Jo31fMSnWXJn+VYNAmoAZdoyEcM2awCFxF0eimee4l+RrQHe01v2jkLuow
+	 Q8uZ2UauSSevmOVFLXMlRNoF65wK1hGbW+nJRP8e6x4HHqVcL5X3T4qL/Ru8EfT6kh
+	 zJDGxWOhUl3p9IrNGqetjdItbPd0K6nlpgas8mG2+FPt9hcEMbau/kk2EEJClQ4FmM
+	 pYdOyWREaV02NmDE6afgcEI0N2HmXDD8NPAQMmBjnt22DfaPS1JF8TWwfzkwxyzIco
+	 GszbaQrnxK6IQ==
+Original-Subject: Issue in man page sched_rr_get_interval.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020A24.0000000068AB2641.00138B96; Sun, 24 Aug 2025 14:48:33 +0000
+  id 0000000000020B51.0000000068AB2641.00138BAF; Sun, 24 Aug 2025 14:48:33 +0000
 Date: Sun, 24 Aug 2025 14:48:33 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page s390_pci_mmio_write.2
-Message-ID: <aKsmQagMCXmUdyZb@meinfjell.helgefjelltest.de>
+Subject: Issue in man page sched_rr_get_interval.2
+Message-ID: <aKsmQXsWjhZYpQCT@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,11 +53,6 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t length → B<…size_t> I<length>
+Issue:    pid. → I<pid>.
 
-"B<int syscall(>size_t length;\n"
-"B<            SYS_s390_pci_mmio_write, unsigned long >I<mmio_addr>B<,>\n"
-"B<            const void >I<user_buffer>B<[>I<length>B<], size_t >I<length>B<);>\n"
-"B<int syscall(>size_t length;\n"
-"B<            SYS_s390_pci_mmio_read, unsigned long >I<mmio_addr>B<,>\n"
-"B<            void >I<user_buffer>B<[>I<length>B<], size_t >I<length>B<);>\n"
+"Invalid pid."
