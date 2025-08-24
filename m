@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC8018A6A7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D3919ABD8
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046957; cv=none; b=TgVRvh9N+RVTh2z5sy1guYKQPs5xc//ifLEA65AQ7m2MvE0KO0NL3zb9hIWurlR+Ho9Q0AWERkno8HKH5TPjFkt1F6j8sZm9qn65UlEI2FhAuWpljYj12qLI1iMDtI4K2r+N5Gm+ClnTK1MZuDzPsxkjM7C01+BkrV5oll3Leds=
+	t=1756046958; cv=none; b=HqoL/uILLY/7iyKpLW/5BQIf9g5J6t3VBqeFnVmnBpcPTX2eBE1b7Bx504pCBYAkDh2TBgoNr1B7PDvw29PWx72637B4Fc6K78V/hvmB4/bm0R8ZNY9rUN+C04sN0ABQkLz1qYvCHi0gIRwwJtJprql/6rEXw3yPOQ5GAJcH+F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046957; c=relaxed/simple;
-	bh=mexgWEoIKk/UGoCidThaV3J5wrCT9+MWdJ7WjZK2RKc=;
+	s=arc-20240116; t=1756046958; c=relaxed/simple;
+	bh=+d0Ry30oW7OF+jZ2ev6Qq8WZ7s7mdn0733QoQ4VZUIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G5VSiIsOdhS7Q0sUE3G71ytSM2wwbGwubzyORBDdwLSPnKTU+EOGL/oicJ/h6RYCSWksK4y6D/mzkg0DSGagnxYh4sZTIcnNgp110xPZZ1ljTxJmjx1ZHjb3Dw+K7DEjmXBhMw1yzj+huEhK1oUXoh9wzbfqtrFVa1qh0QiCupI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=B8bxK+A2; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=RDCzVgsQo5KJNHvRnqgfgd9P9VUl9uv6w5yv0JjaPrHe48mqvk4K0+qGzngAkJf6IxayyxUAijVpXrecdtu0+PqLx6bR1+5HtJ/8uQqcUkZIS5jTlyCQT+QlLwv7ltx6cSAnfJLu+zbDjWwbXTxpP5xzZ35FYu95DrMe4SgiYPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=alvOM+ks; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="B8bxK+A2"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="alvOM+ks"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046923;
-	bh=GWsGQoxB9IWA0btFoFy2X/ZC7rEnrVPb32Th0rJk/o0=;
+	bh=3F0DMI5AcXblAsIc+jWzlFCOr20AcoyEannzzoVAGLQ=;
 	h=Date:From:To:Cc:Subject;
-	b=B8bxK+A2VI+n6CoVzODOmKcF/hWyr1Runhl9o1F91WfvRiIYuPK2KzQlGwQ3De2bL
-	 kr6Q24rKoyxoG0CarwbfeOvx/JqrwjwTIowPkrkNN1nEQf2vhgrZX+PaXvqaL6Gekk
-	 7LMv9CODh0LPx+ZQQCH4NpHNYwKqTK/VH+a6FXTbyav8LvtUYgAOjf77xshFheXWtj
-	 AOUAudOrWQ0odD1kP8U9R5yJ3IhWCdzfIdt3AqeLLnZDKgfqhZCDQjLdTzJV7ewxu/
-	 evsAWdjdK+H3wyhPRTZiYl3++LHUr54ZxMdAF3T7zlUJzwBEwA8sp+XQ7mOPrzd13L
-	 Ne6kCSdTA7Krg==
-Original-Subject: Issue in man page lsearch.3
+	b=alvOM+ksB7jMWxPGuI3vvTmvaYUGMdpf2U01BAB9yRFzvo3qr7qsN+K2w+/IMrjJh
+	 YtuEjElpY4BNEeYlgQOtzLXUN/DOQDr7gUrszR96XfgN8kxKNAi/EwtGSlDolzLg75
+	 uRhJaxtkyJLVHy1EUBPqqvjHtsk3SkgvjmesZVlXO81HEhyihb5+5s+JqbCfwBb2GC
+	 azfRDtASt9+JzrpEmaycB4UPu094JjC9KwngU64TjWiD2czyBR4Zr5bHXuBV4ynwUR
+	 gN6Ura7MqyDYF+SNX2IDavkfN3wLV8wLcUsSKd8C6pg+BKmEAMqlWZuSoiwvzrVoqM
+	 7J0mtOocgrJ7g==
+Original-Subject: Issue in man page malloc.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002172D.0000000068AB264B.0013938F; Sun, 24 Aug 2025 14:48:43 +0000
+  id 000000000002172F.0000000068AB264B.001393A8; Sun, 24 Aug 2025 14:48:43 +0000
 Date: Sun, 24 Aug 2025 14:48:43 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page lsearch.3
-Message-ID: <aKsmS6OPOfKDd-Rh@meinfjell.helgefjelltest.de>
+Subject: Issue in man page malloc.3
+Message-ID: <aKsmS1f0DzFgPxS0@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,15 +53,13 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t *n, size_t size → B<…size_t> I<*n>, B<size_t> I<size>
+Issue:    enough that → enough, so that
 
-"B<void *lfind(>size_t *n, size_t size;\n"
-"B<            const void >I<key>B<[>I<size>B<], const void >I<base>B<[*>I<n>B< * >I<size>B<],>\n"
-"B<            size_t *>I<n>B<, size_t >I<size>B<,>\n"
-"B<            typeof(int (const void [>I<size>B<], const void [>I<size>B<]))>\n"
-"B<                *>I<compar>B<);>\n"
-"B<void *lsearch(>size_t *n, size_t size;\n"
-"B<            const void >I<key>B<[>I<size>B<], void >I<base>B<[*>I<n>B< * >I<size>B<],>\n"
-"B<            size_t *>I<n>B<, size_t >I<size>B<,>\n"
-"B<            typeof(int (const void [>I<size>B<], const void [>I<size>B<]))>\n"
-"B<                *>I<compar>B<);>\n"
+"The behavior of I<realloc(p,\\ 0)> in glibc doesn't conform to any of C99, "
+"C11, POSIX.1-2001, POSIX.1-2004, POSIX.1-2008, POSIX.1-2013, POSIX.1-2017, "
+"or POSIX.1-2024.  The C17 specification was changed to make it conforming, "
+"but that specification made it impossible to write code that reliably "
+"determines if the input pointer is freed after I<realloc(p,\\ 0)>, and C23 "
+"changed it again to make this undefined behavior, acknowledging that the C17 "
+"specification was broad enough that undefined behavior wasn't worse than "
+"that."
