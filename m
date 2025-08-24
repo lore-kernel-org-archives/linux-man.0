@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0B1F92E
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C5F14EC46
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046916; cv=none; b=eBfwvb1MLjMTLpdHtW2KyuAGerV5emaq34SBJ/ok7OF3g84bQ21Y1P3sNaacw/vP4V82UxujDJJ3ArS8YYrm+d+Ag5swHhrJRtX1WwfZKZAgqUVZsrLZCmGHbXp8RLCkuXUD2FHp2wd0bzRmPJNRkvKGudWRXi7l32xoNLvyXLM=
+	t=1756046918; cv=none; b=mtcapf0LBRKcQ4g8rU3DUu5RMVW3BLWsX8/GlLRVjgP/IM6L0JVltYZxN2qMeXO1NbDcUv0c9DOWwZsdRwGerSsqWez+wxLWLtwxqUJMxHglH/MbqTGUx2OOTeiIaxlhyVw40KAVDp1uGAFHoveqCdj5ZaCttzYYOPl5KKiJ/Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046916; c=relaxed/simple;
-	bh=214zSCUyMnMjejTlW2WF9AmjGefs6nLFbNfe0sDBZdI=;
+	s=arc-20240116; t=1756046918; c=relaxed/simple;
+	bh=FGZqo/vauBiURxZs0ieDMYrA6gYkcQmd3eBOW3ELlXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dcnF8rfZBduYi2gIwSVUarv2QgpY3CY4xASGqtg8GCRjBWBYzsS2xirUSY+MwoYlvdLedktaiytLq2ndkRR7UVHP8+ltHlgiXphRxphiwIkl31epRve/vGEk/xPFsj13wUW/y5S6BHEZR5OBBO4qab3+BYyR8ayoQVegLM6dw4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=tejCgTn0; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=WC4RwiwUK8Ze7oqGBLkvyOi0KvYc4DPXtltCl7DfgROxI6QV37X2M8MyuijHwAdn9kl/NnHqVC35LOvc3MOkFL5WxJ/5wPiZ3HdQgGDNoz32SnDZ5a2IEpEwWjC2yH0Gl1162x61G1qVW9SdpHDIh5zd3QqGV1AzX0bGb37TvIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=Anie603H; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="tejCgTn0"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="Anie603H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046913;
-	bh=y2uqXVabO5mMoIvOg324UDxisDqDtcypm9zAq//LXPk=;
+	bh=qZrrlqUHj5fky+9GL+4oqAoHS0vYAtjqErnLXYLE49I=;
 	h=Date:From:To:Cc:Subject;
-	b=tejCgTn0LzvjFgNh5sTcS8GjjvpiU7suG2UJTGe1kdvvSIeFOYbcvgp2TmKdBiB5D
-	 FjYslvT1tkY5P3Ntjh0NEtQGHU2TMFQL7J5sEXNNp52xpYSqYt8dxiOmoFgj3seOvg
-	 i98AkmdYHGiHHXmAuUBOjStEip+AHRyNtm/wSjYjWj8Uw/vdWaOQw5Y7AkMYb30e1l
-	 xdZfq6c2vbrqZ05tVoxdSXl9Qaalpy5mLySVJCgVeeW+9bK3Kv0XE/yPn4DE6ogibm
-	 MrU40vov9FVzqYY1REp3F2NKvqpTTkWpjq8xgYkRNhxN/bS9HJnf4XGqfExAPZToYh
-	 BdRYBV5Tf2R+Q==
-Original-Subject: Issue in man page resolver.3
+	b=Anie603HCMHZdRr2KPE2pC27j8SAmP/1PgoKzhdfd9cCIghtVqKXrWks08tF1Vdcn
+	 n604q5Liu10FYzUY6M0KFJm+Fe3MCWqgcwFfQGiCIniHKLpaBSsixY77di3P2OC4un
+	 nBaEOegMBWQn0nVp16JtnMHZ3C52Pdl6L0I30AewnowhQva1jTJvMvI7Y8YTnU5Ril
+	 ABOSpKEHgLjAbj/QiGRPLSuYbkLeVBTUVDTWH/4RW18JsgnfrbCk5N0zrzyVVVErNs
+	 YRxlxAjZur9jn4/iPta33VY0y3eJmuwVBelkbvHilg3S6BxGyV+jVbDgNAR5pW1Lus
+	 bR9UgTYwG1W1g==
+Original-Subject: Issue in man page s390_pci_mmio_write.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020943.0000000068AB2641.00138B79; Sun, 24 Aug 2025 14:48:33 +0000
+  id 0000000000020A24.0000000068AB2641.00138B96; Sun, 24 Aug 2025 14:48:33 +0000
 Date: Sun, 24 Aug 2025 14:48:33 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page resolver.3
-Message-ID: <aKsmQfDAWKGtKAjs@meinfjell.helgefjelltest.de>
+Subject: Issue in man page s390_pci_mmio_write.2
+Message-ID: <aKsmQagMCXmUdyZb@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,9 +53,11 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>int msglen, int anslen → B<…int> I<msglen>, B<int> I<anslen>
+Issue:    B<…>size_t length → B<…size_t> I<length>
 
-"B<[[deprecated]]>\n"
-"B<int res_send(>int msglen, int anslen;\n"
-"B<           const unsigned char >I<msg>B<[>I<msglen>B<], int >I<msglen>B<,>\n"
-"B<           unsigned char >I<answer>B<[>I<anslen>B<], int >I<anslen>B<);>\n"
+"B<int syscall(>size_t length;\n"
+"B<            SYS_s390_pci_mmio_write, unsigned long >I<mmio_addr>B<,>\n"
+"B<            const void >I<user_buffer>B<[>I<length>B<], size_t >I<length>B<);>\n"
+"B<int syscall(>size_t length;\n"
+"B<            SYS_s390_pci_mmio_read, unsigned long >I<mmio_addr>B<,>\n"
+"B<            void >I<user_buffer>B<[>I<length>B<], size_t >I<length>B<);>\n"
