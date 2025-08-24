@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FC319ABD8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D324518A6A7
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046930; cv=none; b=XdsbYXntQPuPe+4XYum8M65rvEafuZSdnEXKJ0Tk2YDvAoNICx86OyA3+k34S8vIkjysQWhoSjyCxxD4wHa9w7e8MUh15vHiPwxTzJD7s2r7j6B9TJ6NisSYjwkq0QLSxPXZYmqsZepAcWBWFJIkMtqSDQo6rJy3xS13EXE0zDM=
+	t=1756046931; cv=none; b=VHYsYSsFea95U8qD4zAtNzQ96+PvJxealA+jBwLsR4lr+v55v9tHzM4yxNmCX40NtA4GnwiYASkVyGS7GFQV6ohQfz9eoFZXUW/hmNhv8L2vgrkmpqwIuQp9ljziJ+shIjyXhqJqHLWsVOSD4OYI2CrU1ABX8RlxKJXiLHp7ARQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046930; c=relaxed/simple;
-	bh=NxD0EbBehbPQ9+kQ5BP+YSFf1ugJv5pKWs35iFQrM9E=;
+	s=arc-20240116; t=1756046931; c=relaxed/simple;
+	bh=8E2ngp159uUbJYKa/aco2gjcjNODco+8LlNzjE2wcHI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mszPrOgmoz1wh985JbbLU+DzNyOu+fQXN3mWQIqmTzkOVYwvkkoYvEgRpFgtjwM9Z3cwW5r/hnn8vAsVnmLyXe0b40ZCl14aVg9n4HH75Ie/iNOs3uziwJAW8s+qeA9IP5+6WPi9ulU3oh1L1cJ1470eR6P9ALSWU11q5iPrZtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=gG7uk+uC; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=b+DJgA2bC9L3po9yYYwtMhoJ9XkVxYl9FpVIhL374CZRyqi19BMht1LhfOAaKJv1o7VsHDKHqQTxlecgS8OoGpS0Bhk5Foe81yv/FU7kXiSyYx73HkCAUAGUtxNHuvA0t+KnyQKswm5i3rp3WxTjZ2vA3eL0LPKkqg+t/Zn8DP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=T6wOa1+6; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="gG7uk+uC"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="T6wOa1+6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046916;
-	bh=t6e3GghZKnWgWs4sZx9c1rVtRsRNlKGGYM6+05EIn2E=;
+	bh=feXaoTbz5aN3O7cyt2HvwmMOrGpdBIb3sIJzgBihOfI=;
 	h=Date:From:To:Cc:Subject;
-	b=gG7uk+uCyTzy42h9vDfZoDxy5UbNsQLYytSej9BQFa4Bl5zz/CxRSNT2DAuzYDXtv
-	 OiSYuVpZBQeTOYPYa3wOkONAPKJpJUD0p8Fph9/2tPHpztThkl6LXl6pz0bVKmkDyR
-	 7pZxQyAiXio2dT2/SSQu5hScy7jjOtHvRiY1dVxXVca0Cs/Wj4LWZw4vnJUB1NTapW
-	 rFj+8MKkQKDw9owL2OXp39hZmbjjGL9loVrw576Oa80OTBs8Yl6A3nITy7nH+6ihAL
-	 wM1IYBESfxyj8OsLYWifB8YZIyjhSpw0SAc43rAUGg85RjrbmAaQpfJadIbIV2X7To
-	 pjao/d6Ax0U3g==
-Original-Subject: Issue in man page wcsncpy.3
+	b=T6wOa1+6asIn64vRwO/yhE3fWEd6k/SnI3m194no3fQH+7vr0i2PpudOZDWDWzRYv
+	 GM+TAqaAs4tmscK0QbQbaRa/rY5u2XmPme+a6UjJT7hIooFlbQV8nqdoncI28GixJw
+	 js0tZWC4IYkxYMcsihlkU6+8rNNmaZJXIZotJNIuc40cMsfV/8jAJ2N4+hu6lMTiT6
+	 sX1Veyuagbiu75enCvYchHRP9XE379mx4f02KAHSpmkxDyZa9NjXXIrHYI8ZDccj2Z
+	 L1SRSbwun06QbOByeQsLlo8O4QiMQu9gruYe50M9o0jkJ1WxKHK9e1+lEb3CFDGA7B
+	 Ju55Yx7uwj+2g==
+Original-Subject: Issue in man page console_codes.4
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020594.0000000068AB2644.00138E2C; Sun, 24 Aug 2025 14:48:36 +0000
+  id 000000000002047C.0000000068AB2644.00138E45; Sun, 24 Aug 2025 14:48:36 +0000
 Date: Sun, 24 Aug 2025 14:48:36 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page wcsncpy.3
-Message-ID: <aKsmRBaQOUxYyMer@meinfjell.helgefjelltest.de>
+Subject: Issue in man page console_codes.4
+Message-ID: <aKsmRHY3W6FcsLso@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,9 +53,15 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t n → B<…size_t> I<n>
+Issue:    B<xterm (1)> → B<xterm>(1)
 
-"B<wchar_t *wcsncpy(>size_t n;\n"
-"B<                 wchar_t >I<dest>B<[restrict >I<n>B<],>\n"
-"B<                 const wchar_t *restrict >I<src>B<,>\n"
-"B<                 size_t >I<n>B<);>\n"
+"Linux \"private mode\" sequences do not follow the rules in ECMA-48 for "
+"private mode control sequences.  In particular, those ending with ] do not "
+"use a standard terminating character.  The OSC (set palette) sequence is a "
+"greater problem, since B<xterm>(1)  may interpret this as a control sequence "
+"which requires a string terminator (ST).  Unlike the B<setterm>(1)  "
+"sequences which will be ignored (since they are invalid control sequences), "
+"the palette sequence will make B<xterm (1)> appear to hang (though pressing "
+"the return-key will fix that).  To accommodate applications which have been "
+"hardcoded to use Linux control sequences, set the B<xterm>(1)  resource "
+"B<brokenLinuxOSC> to true."
