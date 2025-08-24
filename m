@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01FA2DCC01
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654322E03F9
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046968; cv=none; b=Pt5hgODM9aZ2jvJs5KDiWdh0J0zgxdc+KnZevK4rbMnCjCGzJE1sXAsBz2jnMyJ8qmxKlsPheruPvf2c8c3nCIFmBlKnMI46rXwv9dPKKnP69nhcwMzLFmbQ8Ct+XPJWJIrrLS8hOwTEjiMe3HkRs9mJ6h8j2rjC9REE23rnp18=
+	t=1756046968; cv=none; b=AulT6zp13bVM/2h5FIT0/8FUzm1cVlMaazg2XV/iJXq+HUIa6dpbchZx+ZMojrDgc/CH5vnfafPCf7Tf80yl6PhkuuyypDHsEirU1v2cCeuKcIvIAn2UQIsIqLLzMMpNZjyGrytZL0GPMoPwLAU+Dk+FVEH9RnwrcSrhjNy9KZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046968; c=relaxed/simple;
-	bh=+qng4uy6XTknB5TKw6MR0A5xHk227DHCKhzr6h+5D18=;
+	bh=2VtzD6/04WQunmY6j7j5NGF5Xl0J697MuOyNjusgmsg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F+cXrJSTVXjf+xNDJzimtKXYyFwARzTBFb0qusufSNXZ0yqM+j66H6iyhL1QYvAf0KDmPn034BOWaikbkNkPRq8xfkgVgim4heE//9Vc4Upuj3qXKQkCuPqQa/5kx3iUVRRG0HAXK/FtyJv9RO3o0RjNbO0nW9JmuyHWsAZiLqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=nhIC2oab; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=DUG9rO4ZnPxS44KmOvtq6H55TG0hyD3C6g6CLOh+DoqQoo6vbbqcq8RIdIe+mki3VCe/3QJXbRFY5v9rNdSjS5K0y8XSOj1Va3IIcOpO7itGvHk6rVVE6swSj6wm3Kr/C3f49GFgguL6HdL1HCquMAG9GrIUwC4CsdsX906WWZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=WJdquFTW; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="nhIC2oab"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="WJdquFTW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046926;
-	bh=30FRr1yVkvtUg2O/7re0lky7s/zg9AWfMfY1ShJHEnY=;
+	bh=86r9qKDHA0FIg5vfcxf0ApEdZb21bn6lumzt60UdzWA=;
 	h=Date:From:To:Cc:Subject;
-	b=nhIC2oabdchNtsD9gRk6ahhBnqk+gTIypdWiY+MwHLd/up8APhHfsLSC2vv5T4+UI
-	 lKkVy5aQE1/ryrEQwCiyJ+DXwlxmYpMBBiRsVbjW6mp1iS32+frHMiSxaSvxGvjRbe
-	 jkXd6wIl2DKC9+QlHo6DBFNN2plsxnLQa73W9+R1YskWfNd+FNUm1M4RvmGa4Wjr3M
-	 mJYn1RuHQfMEbA3WI6IDpyGo50Dr7VIJ6mincidPl4WjaHQZeG9m1K5cM9NWMoqOBG
-	 RLuIHgY8dYQ3ttVBrIIZMe2Zgu+NjUnhQ9tXgiiDZS1UpZXsnnCzEoyGDsACxcnGrj
-	 hnoxj0om7sauA==
-Original-Subject: Issue in man page bsearch.3
+	b=WJdquFTW959lCCMizrvYp6qkiAfEk1XVyVFHXfNNqiap6IhKCwFmQBqdtvfah2C3e
+	 LzyE/4YS4/E+s+wQuxJ8ev4zTZQ1cwBoq979M1lUlBkSL1B497hEKTRm7Nyub2nDPo
+	 Zx2XgGAfP5ufU96piHRgrXLosTpnC0JqaVyt5NUp7SC0OEwT6Fd699cP5AHrdFNBA6
+	 Z3vqheFLS6+RmJhuSmKzNm0HjyHey2xqY1C/ctX6CbmwfWRNljU2uJkXYisk3T8Ke6
+	 c7SYa8UqTE83612F3qFmRjtK3R2nJqNpGl64I3P8fg6M/G6O4glu3gehwcG9ZXeBzq
+	 bR4t9PmsHuENw==
+Original-Subject: Issue in man page open.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021756.0000000068AB264E.0013959C; Sun, 24 Aug 2025 14:48:46 +0000
+  id 00000000000215FC.0000000068AB264E.001395B5; Sun, 24 Aug 2025 14:48:46 +0000
 Date: Sun, 24 Aug 2025 14:48:46 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page bsearch.3
-Message-ID: <aKsmThLKLx20ELEq@meinfjell.helgefjelltest.de>
+Subject: Issue in man page open.2
+Message-ID: <aKsmTm5mxKd2tPSt@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,10 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t n, size_t size → B<…size_t> I<n>, B<size_t> I<size>
+Issue:    the open → B<open>()
 
-"B<void *bsearch(>size_t n, size_t size;\n"
-"B<              const void >I<key>B<[>I<size>B<], const void >I<base>B<[>I<size>B< * >I<n>B<],>\n"
-"B<              size_t >I<n>B<, size_t >I<size>B<,>\n"
-"B<              typeof(int (const void [>I<size>B<], const void [>I<size>B<]))>\n"
-"B<                  *>I<compar>B<);>\n"
+"If I<path> is not a directory, cause the open to fail.  This flag was added "
+"in Linux 2.1.126, to avoid denial-of-service problems if B<opendir>(3)  is "
+"called on a FIFO or tape device."
