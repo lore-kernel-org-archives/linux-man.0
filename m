@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682012DECD3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C050B21D3C5
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046940; cv=none; b=Xq2u7ej66O5IZtc9TROOlflv3s2ISTiE43/+kQJ3ASARVCRmymAjsd4A4ijJGHyux4qu0Wpe2KLsminLl/kQ4uDjfMCJ3KDQQ+YCNtLtChHYG9q253lhwMdyTVDZ6VbNq2lyPaYlvlMLBk+a+ZRNDHm0gPcSl0Plulotuk+Xz18=
+	t=1756046941; cv=none; b=rvu22NB4KKqWek39spS/rXbDvyEB20bCNvEymOmeHdA4eOc8iURjroKRRpe5+Q28sE5dNvcB7fL6dkG5fuBdoa/TkFn6ocyOHVsv/BVgRSfXPV79eOy2vh6ZQXN26k3xt9w0/A5d5IPwsXvUT3qbCboKst+gosqpMnP270cyYaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046940; c=relaxed/simple;
-	bh=9tfHZDcOca66SCArpEdCRVfHF7vPfsBxRjhC7Gd8L/E=;
+	s=arc-20240116; t=1756046941; c=relaxed/simple;
+	bh=oLrGQqW7BB9kyBjKCoVpv3EWZSj8WsHW+EZErakcZHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=qno6SrFvodacdwWwkjIYY77RUwvBeQBrPYDDtBDHYLbx/zIbtcRmGGpb47tfySSRUVz4JURvEWL5EcLsDGrS5Coastrr21GKiEpdlHTNtVf2AhCLO/ZjHG5w9t0s553O0qujjG76rSAxiZ3Vd80VSCW6WP2xZyCkIvM4DcUeUBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=PEnrWKoV; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=e8hJxbrX8WHmrHhSkIMxsOABNyI5KuuO6GTOuAqd+cIjNYvgFpwow87n6lFdiuJxf2bQrCz8QZbRnnvGAHnaHXAjpCEZWveITRZc0DRuSHIweKO/fvR2lnaNS/La6cskU4XH5v/3AgJehixeZ0IQMVJcpiFRHVTkkpMUhrDDWpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=MKkEm/Ax; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="PEnrWKoV"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="MKkEm/Ax"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046919;
-	bh=2eC2+vHPn7l05s6PFr1HCD+JWQtmLfZ3uVxHKrwAR5I=;
+	bh=oLrGQqW7BB9kyBjKCoVpv3EWZSj8WsHW+EZErakcZHU=;
 	h=Date:From:To:Cc:Subject;
-	b=PEnrWKoVSk+QjCBug/zRpKwkTAm/7k+rjnnb13u1hyNgVFm3lictOdMBcSJVVB29Q
-	 ui6t8h2d0TMtxSCXHAt6xrQh/IRAqg11ffbAPKlz1C9DvT8x4EmPeFXzypK1H8XHiW
-	 toDHlI2sDQnF9lTmfL/KogmFq6i1dhLkp818HZepKD9DWydeVmXHncssr5Or7IBoTd
-	 5XmW+OS1gPOOTnzwpvdVG9OUWiQXD7WXmaqi/P2xGsC1Fcr5ZybC/Pf4R8bF/P30O3
-	 XNYOQ2uZMHEwS9iWqCFh1lK3x6WHbgMoIy72YEtvHMZYOfBAx8ggqE/RKKB1S6GMa0
-	 Z9Ag3h/5eQeLw==
-Original-Subject: Issue in man page fgetpwent.3
+	b=MKkEm/AxRzbk9mx0xPy5yGK0fB/kmkVlZNQvvyFe1tYY5qe+K70WBuVnELLL8Us2w
+	 4k6+YMoQujtPoLvQYxgSKLGGjHY/Ltjo9j3b5IOzAvkA0ZRt336XReB2sp02NN8ymi
+	 Q1Y0n2xf+iu2oXEs1qEkThy4oqsdaHW3uMFGv0NIiW5lUftuVEDq2YUWrATAGFRcPJ
+	 vKG0Vu2inzBQu4dz6X7F2kAZOElc1XCD0Rw/sHCR99ugtSi5KCc/5sck328F9ZFECJ
+	 GIaEudf6ZPQqviP1xEoc6UfKhMIuxAL08GW+lxT0Q/GbWPqkIV6I95GADhwZjULEoC
+	 1q4iSxeFPavEw==
+Original-Subject: From: Helge Kreutzmann <nc-kreutzhe6@NetCologne.de>
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021117.0000000068AB2647.00139022; Sun, 24 Aug 2025 14:48:39 +0000
+  id 00000000000216DF.0000000068AB2647.0013903B; Sun, 24 Aug 2025 14:48:39 +0000
 Date: Sun, 24 Aug 2025 14:48:39 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page fgetpwent.3
-Message-ID: <aKsmR0fBU3ycNnmb@meinfjell.helgefjelltest.de>
+Subject: From: Helge Kreutzmann <nc-kreutzhe6@NetCologne.de>
+Message-ID: <aKsmR62LiOdAxUvj@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,9 +53,47 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Does this mean, for glibc 2.19 both options are applicable, i.e. _DEFAULT_SOURCE AND _SVID_SOURCE are necessary?
+To: alx@kernel.org
+Cc:
+Bcc:
+Subject: Issues in man pages of linuxmanpages
+Reply-To:
 
-"    Since glibc 2.19:\n"
-"        _DEFAULT_SOURCE\n"
-"    glibc 2.19 and earlier:\n"
-"        _SVID_SOURCE\n"
+Dear manpages maintainer,
+the manpage-l10n project[1] maintains a large number of translations of
+man pages both from a large variety of sources (including manpages) as
+well for a large variety of target languages.
+
+During their work translators notice different possible issues in the
+original (english) man pages. Sometimes this is a straightforward
+typo, sometimes a hard to read sentence, sometimes this is a
+convention not held up and sometimes we simply do not understand the
+original.
+
+We use several distributions as sources and update regularly (at
+least every 2 month). This means we are fairly recent (some
+distributions like archlinux also update frequently) but might miss
+your latest upstream version once in a while, so the error might be
+already fixed. We apologize and ask you to close the issue immediately
+if this should be the case, but given the huge volume of projects and
+the very limited number of volunteers we are not able to double check
+each and every issue.
+
+Secondly we translators see the manpages in the neutral po format,
+i.e. converted and harmonized, but not the original source (be it man,
+groff, xml or other). So we cannot provide a true patch (where
+possible), but only an approximation which you need to convert into
+your source format.
+
+Finally the issues I'm reporting have accumulated over time and are
+not always discovered by me, so sometimes my description of the
+problem my be a bit limited - do not hesitate to ask so we can clarify
+them.
+
+I'm now reporting the issues for your project. If future reports
+should use another channel, please let me know.
+
+[1] https://manpages-l10n-team.pages.debian.net/manpages-l10n/
+
+The individual reports now follow in subsequent e-mails.
+
