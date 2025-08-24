@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6622DE1F0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2E18A6A7
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046926; cv=none; b=AunhbG+4uXEeLGo29nVcjW9F1YVDdBHFXrGI/WUeQLAJb8JFg6djYkQPvOSpOpsgNWHpSDENMEm9zw4oNknMTlHNquAzw4A531oVDppWbHqqHV2/L6d6RrhE1ALzYU/Tpy9xDKmoDEeFSKqmJyEnP7dpxk+639FfplxXig9emQo=
+	t=1756046927; cv=none; b=cDNv5TUSux4ojgLxBqTZDBFx5EVJLk23Q2T4/N48h/Vao/ru79lEtNVeMjt5xRa1a5p4xUclMOo8jwvzK31mK/pH/i0/3IjJUiR2kTY8av6YwHreihV5nPA5U2DRddBwCP1Y4gHgJizH94x83hAxi67oNGKyqFSbudzmFp3p1Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046926; c=relaxed/simple;
-	bh=8HRbQ/dHjpOzOTCrV+W0QxJFgCtkZrvHJqtmiK9/5xU=;
+	s=arc-20240116; t=1756046927; c=relaxed/simple;
+	bh=cT1Io4kfogIldxw/sAkjc0qDwEPhZrPweriuL1O4r8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=igITgFVTcMb8MgY2n1QSBIIKdQENgrHMDlfOcTLF6GNnPclPrI2FMr2B8xyO7Mbh2fEAMwkUDk+bzWd0+o8/znn8MlOuuBCZrZYUEJAdMRfjHfvgyI/CjUsn/n04odVyE9TKj9nReM0m+4IP8k50hXT3HVUXugMpBfAtVsvtF4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=TGy0tUQX; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=GqGYXvsm3BYUo2Ee7RUAkb2NQSGHNqabR2NKsCkDSwRc8LF2dIRdZsr3yNy+lCrK3mrigShs1OErnh0WM8kLAvkcsdj5QmOIQuBPknVG16C+uvapU/v7w98cCKAtfZpMIF2R+r9T26aecgXxm0iohKemK7uFFkALQ47Pan+S1OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=OU4LpOjE; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="TGy0tUQX"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="OU4LpOjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046915;
-	bh=6n0IWSKA7Z4YiHj1Xpgm2f5Y8Kq950zy7HyM/p31tM0=;
+	bh=xGZx7j7ciJ2i9joooau1FBwp+F8ww/XN5aXZ3XL9ENs=;
 	h=Date:From:To:Cc:Subject;
-	b=TGy0tUQXl4yk/cYvuswhQKfXmxaX47F2QTMqkcSnENNqz2dQh6F0jx+Wm0RfV0NVR
-	 hXWI75dSB56w5d7rC71JCyecG/egrHYXeMg9LWDO2/epTC2D2aWjDrP2JYdX2RmaGm
-	 jm5e8P61JeYO/DvW+bgwVOoRp2VIcD2sKD+ApZ7pUhe8QZHnUmzzAPZ7s1BI4BOac7
-	 5a0xXWf/zNkJ5BQ509KykZSbP1ccYnm8xW64zyhu8PG8ougV9m3mX4nL8DKhxsazPR
-	 JIgeYBW6C5X4drWuaRFOT43dy+b0L4a5jgJpZ1t91/qq6QoGf7xBp3YPvmWRxM0FZS
-	 j4B7vkrwuEJ2A==
+	b=OU4LpOjEtwfBoFGmaWCfP8bEcB9kbPN2ZqwUHPwcyGtUByUV8ns9nekU5AD9OM56S
+	 6gwU+jTZXCN7O/hm5AXcHn5XY9U8ElggV6PmPMCWqLiWffSSMsEAH/Vm9eJSjvJs7C
+	 eaSS+YV0vDEtmSubmkpvp7c1Rtzf3E7kWgD+sQGJK07RxMWWwgWK0E/dx8DNf5O3uk
+	 vwQ2V0fbyeiqZ1Sr0OP+T4/hHE+oStZXkshF/+Vd4p2rsnch2OnVfUXB+W59jlWhJK
+	 dVUJk0uqBkqdd1hcgQX+lKMVC47kxYBs9Bl0GRCfBpOPPXH+EDK96h3H+pLqR66Hcm
+	 CrVJBOroelIVg==
 Original-Subject: Issue in man page syscalls.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002162D.0000000068AB2643.00138D64; Sun, 24 Aug 2025 14:48:35 +0000
+  id 0000000000021634.0000000068AB2643.00138D7D; Sun, 24 Aug 2025 14:48:35 +0000
 Date: Sun, 24 Aug 2025 14:48:35 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page syscalls.2
-Message-ID: <aKsmQ14u93nwpoaV@meinfjell.helgefjelltest.de>
+Message-ID: <aKsmQxHHcdMZfePH@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,13 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    GID -> UID?
+Issue:    Why these strange line breaks?
 
-"returns a pair of GID and effective GID via registers B<r0> and B<r20>; it "
-"is provided instead of B<getuid>(2)  and B<geteuid>(2)."
+"See\n"
+"B<chown>(2)\n"
+"for\n"
+"version details"
+
+"Alternative name for\n"
+"B<setpgid>(2)\n"
+"on Alpha"
