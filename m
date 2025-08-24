@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C332E03E1
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36089244663
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046967; cv=none; b=QgqHpKpVLle3ByKWtUcJgq4vMrM8OJUtdQnskVv+LVbgaMK9PFmEFA2tP/7/1tQZjA3lnYVKNH3JwTnk4K1nV5q4JtVWEUkZ8ZgeH1MrAWlhGENMCgVL4A8kUY4qNqd8MpO1lyt/po8PVpmMoGsvHolcPkOqqiQwwLwEbDFmtNQ=
+	t=1756046967; cv=none; b=Z+ajrJEkx+r7jZE+0gYt6WNSOXDajeAceIRYK9wergWzj4f1F+sPlNGEV9mEk3f1hLKAkieCRfnw4YYjKP6e2vqIDJBykEzydfVjm0F7py9I0MZ6lAZ+q/+Fq86Hqz0Swb1LNhSaax4j+GrtDy5i9kOVYXBIarGt14pGXuwI6Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046967; c=relaxed/simple;
-	bh=kUbrgylETIYgMz515r3mmtYlAQ8qgJEtKg/YS6sw5as=;
+	bh=f7yR7WIn+Ulk3uWlyd8GmUg7+FiuPVnyUtsxR5PLf74=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OcOvzCv7axkm5C9VpF6ibh5+u3ZJFYHl7CeYLCOIdO0LBgPl8V0kr+R5XOIJ4KLitGwgisvhIBuFGG3aYwd99vq+moFMQI0A6V8avhy6IZya2IX69U3OamWdPa0syu3dJpxb5kNeKjTDh4/Gky+12Em47Ph6GNs+b6UofTdwT1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=i2h/znWl; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=KfoTMHeJ0F70rWgAiP+0+oIAT5BWxsNS4wZVDdVQgz1ycV8JQgPedA8hZWiEkdy1YIKTiTocia9yo5ojcmIYUEYY8PCpUViq3sw1Pgl88puyhDX+Du2FvUvKgdG5Y7J+TwKuuy1nlwWd9nb90H8d6fHqj0lLrNDnOfenUvbAZL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=fNL353Cw; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="i2h/znWl"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="fNL353Cw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1756046925;
-	bh=65PgBllAXf8/itHzovK9TfRju5qwFRZz/nJuCsomg/0=;
+	s=selector.helgefjell; t=1756046926;
+	bh=WO2M5YboqxBqVmGSOx8aktn9BL0Gn0Cdu9Z1tvdqC5U=;
 	h=Date:From:To:Cc:Subject;
-	b=i2h/znWlO/x2MNVsEr/0sKKCoTSvj2oDRQMwct/8A2fZhz019GLjJY9rO/dTgh0XX
-	 Gkhy72RX3P/ynXw5jIS60C0J0I20vTGNN88PWf6Sqax2/Qz/HA2ATWK4bkIbaxhid3
-	 mQlFHoXtnZ83+OGZUt61twuLhE+Q8zhry2yS/aITMxj+gQzZI2tbdL9D6XmVIxVoos
-	 v/6TbHbQYWNEISRgDxGaKtyHHwaeJiLv6aUr7naJlDZ8bhs8F0WoofzVzdtBWtQn2J
-	 FV2usBX7yqcWTYDzIfgdqbhEj7bvp3E7IOCMMnS22tsWh3ffC0/fOplX08T1zDSiQ1
-	 OqvaQjAohS7RA==
-Original-Subject: Issue in man page mremap.2
+	b=fNL353CwP2NH4J2zncFo3GGzSgVtwnzqXnTnGI4su01BK9/wWHDLaLn+J5jkSXVSY
+	 6b8ADfLl3WtXAGD1W/hA8/2CnrkfzzCZsF5BaRKDfEViuuOHGdcnhgngWo9q/GC7aO
+	 v4Wdb5+WAA/VoT5IhB++TeRS86sUPpxy6Yx3SCiyzGZFki4Pdd+MrQpjbgnqw//y1R
+	 NT67AYReBt1lR0WAT7am94Knw3EOEsNZd25cyGq3Vwes899wnfoujuF/PRI/GWM8bH
+	 roZ1KF+vnEwjgHfezd4KX4g3ukUkPYuxcyYXmUxpfUgtC5UHDVMf2Xv5p6O2IK0I07
+	 1Fl9bHchfULwA==
+Original-Subject: Issue in man page msync.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021752.0000000068AB264D.0013956A; Sun, 24 Aug 2025 14:48:45 +0000
+  id 0000000000021755.0000000068AB264E.00139583; Sun, 24 Aug 2025 14:48:46 +0000
 Date: Sun, 24 Aug 2025 14:48:45 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page mremap.2
-Message-ID: <aKsmTUFjDHvaTXJ3@meinfjell.helgefjelltest.de>
+Subject: Issue in man page msync.2
+Message-ID: <aKsmTWiuL2FhkHlO@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,7 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t old_size → B<…size_t> I<old_size>
+Issue:    B<…>size_t length → B<…size_t> I<length>
 
-"B<void *mremap(>size_t old_size;\n"
-"B<             void >I<old_address>B<[>I<old_size>B<], size_t >I<old_size>B<,>\n"
-"B<             size_t >I<new_size>B<, int >I<flags>B<, ... /* void *>I<new_address>B< */);>\n"
+"B<int msync(>size_t length;\n"
+"B<          void >I<addr>B<[>I<length>B<], size_t >I<length>B<, int >I<flags>B<);>\n"
