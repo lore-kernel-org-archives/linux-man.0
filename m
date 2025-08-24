@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE102D543E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EE52DF6E6
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046953; cv=none; b=B8pxeTQnBFajsLPNFDIpFfiAbtwLMVXhQvpOK4ejZKI3ijMy5KV4MBxSD++lXSobcMj8llxyjW2sijRCJshFHaRaIMx+8kpiLRxSJUbdHKvsce7OQ7otgM0ldmZtRABN49McoXh65kg6laPhIF10sJCT7oQlMju7SzM+m+RvbfE=
+	t=1756046953; cv=none; b=bbglYQHcjK4Vd16ozjRCG/J0rGqwNA+ILwUmD5FyYMq0FbOp1PzaG/TNC94Zdcx2Yhlz7mTSkLR4WZfHGO7xDLCEODzvNdI3K8aUJj0MsKyx1AFY2vpTaZbqy8yKbuWE/FDpAm4AE+zMCQysMTTKiALQNTpygkGjQPZC5bijI/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046953; c=relaxed/simple;
-	bh=9tfHZDcOca66SCArpEdCRVfHF7vPfsBxRjhC7Gd8L/E=;
+	bh=sUP8zoTmvgBqngV+9lnD31d3myYPkKHqWFTpW1T9h0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=BH5x6AtUGtZGc+uZQhSx1ta8/C8V982ozTNECkbVE4ueVNBlXW7KsR94PciJ1DDseZlRUX6fd03Qut0RHJZVjmAWtV6Cpnx3QOOQsD6JH5Jn/2SzE1qYS58zzDKCbXtqRb0c6dZhLzcqASEhxtn7r6Lixflgi0BHjHVwgqtIMQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=qRDB5sJS; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=kunN6ts+F/6vnZUNgJp1zmju/9BqsqTgtjFG23G3bD1+O7ez++CbmfYjpAMLYNUfaEXBThev4rsbI6NucAa9Zf8pAz7JsRKmfsF7pwaRhI411k9rzoLGMaWDxZ6TZAqAmI2SABYuyu0ldM132EONwSipChqj2Ks3exelG9OFdYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=ezHxdftZ; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="qRDB5sJS"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="ezHxdftZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046922;
-	bh=2eC2+vHPn7l05s6PFr1HCD+JWQtmLfZ3uVxHKrwAR5I=;
+	bh=hb8bHX6QI6e+3Btvk+FrLakHb//vDAZayC1pXU0JI7c=;
 	h=Date:From:To:Cc:Subject;
-	b=qRDB5sJSJ0+6gMIe8EwwijzCWnxqqP1PDTgQ/WNd8jw8lkrg7CgCN9IEBCwiNJe5M
-	 RxMA3QL9ukcubIFLyt2yuuHkDRGbNlD9H3pSBwU4WIPweS7YilGG9iLzlA+o2VZR3+
-	 fR3QlypQvhQatOrHT4NXG5sW6sr1beMK1nbvjQj9S0csH8P4bl9LoBd2Rl2hq8VRAW
-	 IsUFWVU9Dq2kacG73vBHi+x0MykemxpOG2lIOmtRAra8SdGOeRN7oswRxeDKfuavJp
-	 8HXeNk38cstgbmRP+9959rmzhwcxb+ktvCZ2Hi+VjXWLNhthyA1Vbl6SmwxbGTIpG8
-	 ODZHBjSA8mOXQ==
-Original-Subject: Issue in man page gsignal.3
+	b=ezHxdftZO4w/KS+fbq6HC0MkVnPV9FBvgnogbklxOzQy96fkAr3KRezmAVAb6pO9E
+	 bl0epthj/1Js1xIm7Il/4cpOhXBqSyMVwGIf2uMR2n2yDm8ZJvzxfGNOqAWDpXI+Yo
+	 QinJAzvHjCnF5/YplV37ivs4DvOAiWzjxs20ZeaMsNCTk9LjmpfmR8LJBpxKdYVJpC
+	 HNMVb94nh7GUrpdd7qiDr30B6/R3KppoBnPja7k1hObYjH9Xu5GGXVGymNHnPv/yxk
+	 kFIxevd1m0AMA/Qs+87G/N6rHvE0oE5JTIaY651cuPZKnNen8XRZQrzzlFpn9OgrBL
+	 sBWAWX+ENSUJg==
+Original-Subject: Issue in man page ioctl.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021722.0000000068AB264A.001392AC; Sun, 24 Aug 2025 14:48:42 +0000
+  id 000000000002149D.0000000068AB264A.001392C5; Sun, 24 Aug 2025 14:48:42 +0000
 Date: Sun, 24 Aug 2025 14:48:42 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page gsignal.3
-Message-ID: <aKsmSnLgDchJexSF@meinfjell.helgefjelltest.de>
+Subject: Issue in man page ioctl.2
+Message-ID: <aKsmStw-BIV8ppku@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,9 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Does this mean, for glibc 2.19 both options are applicable, i.e. _DEFAULT_SOURCE AND _SVID_SOURCE are necessary?
+Issue:    What is fildes?
 
-"    Since glibc 2.19:\n"
-"        _DEFAULT_SOURCE\n"
-"    glibc 2.19 and earlier:\n"
-"        _SVID_SOURCE\n"
+"B<ioctl(int >I<fildes>B<, int >I<op>B<, struct sgttyb *>I<argp>B<);>\n"
+
+"B<ioctl(int >I<fildes>B<, int >I<request>B<, struct sgttyb *>I<argp>B<);>\n"
