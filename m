@@ -1,65 +1,60 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2E18A6A7
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7612DE719
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046927; cv=none; b=cDNv5TUSux4ojgLxBqTZDBFx5EVJLk23Q2T4/N48h/Vao/ru79lEtNVeMjt5xRa1a5p4xUclMOo8jwvzK31mK/pH/i0/3IjJUiR2kTY8av6YwHreihV5nPA5U2DRddBwCP1Y4gHgJizH94x83hAxi67oNGKyqFSbudzmFp3p1Gw=
+	t=1756046928; cv=none; b=ofvLaC3Qc9xwoKjcxCnzzSf6sc/lDmLtBp85/aLcgSNlSB3BH6opgYEShbHLsVzkZR5YVBwS8+2VfZ6UrrzEvAqm0SwJr2gIG8hZxtXkI19RHI+cL8a2X7iqSleDFdw/2T/Xbzq5S0I55FXapo74+z1aZUyVssJHqQ/UHYadIPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046927; c=relaxed/simple;
-	bh=cT1Io4kfogIldxw/sAkjc0qDwEPhZrPweriuL1O4r8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=GqGYXvsm3BYUo2Ee7RUAkb2NQSGHNqabR2NKsCkDSwRc8LF2dIRdZsr3yNy+lCrK3mrigShs1OErnh0WM8kLAvkcsdj5QmOIQuBPknVG16C+uvapU/v7w98cCKAtfZpMIF2R+r9T26aecgXxm0iohKemK7uFFkALQ47Pan+S1OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=OU4LpOjE; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1756046928; c=relaxed/simple;
+	bh=4hjsg0B1bLZKTtzcy+NTtcbj5ccT832ko5nA14/L3wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fQx9qWDrq44S2TX5npSyCaRb0knvHOL9R9t2ykCRTVZXiGlaU1HaNaqhi8RPzutvuuyIX1x+qRnB7fzBE8RNG/u8JNRAr49XijIdowaYFDSpmm2iPG6Tpk6qqriKeDkdM+rGzC5trflPhg5SC2bdVtoMdOYS6BOKPsVHfT9UJiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=VKMPXubP; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="OU4LpOjE"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="VKMPXubP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046915;
-	bh=xGZx7j7ciJ2i9joooau1FBwp+F8ww/XN5aXZ3XL9ENs=;
+	bh=0rX0jhUHK7IfReoSCFBp0s+ZdKj0Lotjl10HADmFvoc=;
 	h=Date:From:To:Cc:Subject;
-	b=OU4LpOjEtwfBoFGmaWCfP8bEcB9kbPN2ZqwUHPwcyGtUByUV8ns9nekU5AD9OM56S
-	 6gwU+jTZXCN7O/hm5AXcHn5XY9U8ElggV6PmPMCWqLiWffSSMsEAH/Vm9eJSjvJs7C
-	 eaSS+YV0vDEtmSubmkpvp7c1Rtzf3E7kWgD+sQGJK07RxMWWwgWK0E/dx8DNf5O3uk
-	 vwQ2V0fbyeiqZ1Sr0OP+T4/hHE+oStZXkshF/+Vd4p2rsnch2OnVfUXB+W59jlWhJK
-	 dVUJk0uqBkqdd1hcgQX+lKMVC47kxYBs9Bl0GRCfBpOPPXH+EDK96h3H+pLqR66Hcm
-	 CrVJBOroelIVg==
-Original-Subject: Issue in man page syscalls.2
+	b=VKMPXubPBuMSjzvgMBm6ubXgPWPZS7kJFAGfAQbdZ1i1Auq7b8qdv0stDQrFkdJcm
+	 JefYCcSn6ELsblhVwbfeY63SQIAfEUIiCtwpZbpwF6eAkb2mGRN+Tx/NxoAG/fmsSu
+	 sSWVKLgrO6cz3cLKPcRO/OluxqiB7WpG3LSsiViL/nZXkpU/dB4PGrlgkjjDtRbHAb
+	 F5ZEd5ATwVtZCADpgS/4YXeJy+sU6ish9pB5pug80XoFqj7WbGXlm79jB6NRiUKOGS
+	 L11QhLBQI5v/sq0pAQSFGDjaAatQ+NRexQ56cmZ/uE1f/9E/RuPAtl6HYfTeLXjToJ
+	 iPUj3WT8VJ5Wg==
+Original-Subject: Issue in man page ttyname.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021634.0000000068AB2643.00138D7D; Sun, 24 Aug 2025 14:48:35 +0000
+  id 000000000002164C.0000000068AB2643.00138D96; Sun, 24 Aug 2025 14:48:35 +0000
 Date: Sun, 24 Aug 2025 14:48:35 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page syscalls.2
-Message-ID: <aKsmQxHHcdMZfePH@meinfjell.helgefjelltest.de>
+Subject: Issue in man page ttyname.3
+Message-ID: <aKsmQ29LwDHW5I05@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Why these strange line breaks?
+Issue:    B<…>size_t size → B<…size_t> I<size>
 
-"See\n"
-"B<chown>(2)\n"
-"for\n"
-"version details"
-
-"Alternative name for\n"
-"B<setpgid>(2)\n"
-"on Alpha"
+"B<char *ttyname(int >I<fd>B<);>\n"
+"B<int ttyname_r(>size_t size;\n"
+"B<              int >I<fd>B<, char >I<buf>B<[>I<size>B<], size_t >I<size>B<);>\n"
