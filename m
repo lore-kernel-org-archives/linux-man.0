@@ -1,66 +1,61 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC327381B
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E86F1F92E
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046918; cv=none; b=Wdhg1cgijb7f1fMu+pkLUkmetThszMJZBxrWwSC8ZiV7UA9EkzkiE7MLHclT6gEgbjljqNAYNjuwVuiESrgy/vUGbhxQQg/5x6HbrlgAY4CTPzApK7Z67iBlOa+4DK9rvCpduXS+9Soc9utuXJiJkqKNEeZelzMeTGtCKz/Bm/0=
+	t=1756046918; cv=none; b=KsLfpjLjo4isakt4JQ9k8rHbTO/5btYo2HC+gLr7GfIV5sW/nBz7trldak1DvkBhY3f+sA5qWL2ehQnQfwBDyiu6OqGuaAdw4qzpOjTkXUbGHNG1ARDSYEvYm0kHNN+4ztPhbIQjjNLH0swrIgwoud3xOQuA4nUcSR3hlx3/GRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046918; c=relaxed/simple;
-	bh=TZ9bdbOX0/dUsUm1mYVNERM4uFj8BZKweGK+RiKaNb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uemKxoeh2WQMfJCIQ64y5OdD2/01+nE4V34pQsBfiem+SZ4EbzRGYMmi9vhSPNNVAOtqlKIFWosug12vZfwBUhZSgVfF7ERkugirnu0MJUPmP7yQT2GV9OsYimg5utNzb/Nl4Lkif/Jz258AC8pyK5UIx/s3/mQf1T2B+IM7Gi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=slL5mJBk; arc=none smtp.client-ip=142.132.201.35
+	bh=fXd4yI2yTgkLUnisABU1dvjoTs9eg+vYhA4v9VcZI2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
+	 Content-Disposition; b=HFqt0f/rzJBkH1JEZJyVZUSZJI/cziDudSDXDyYuwVx2sz1pb6YtYNXMISrmeYdz8hvWk/+YG/gFVbIgsSowpd9kgYHOuKjKgiqa+GIC8UW92gZKS1qR9GvbRcnUJcvW2KbZ5RapWMD8NHoOPePbdfVVs7HRXuam5wMovFESJpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=UCqm3yQ1; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="slL5mJBk"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="UCqm3yQ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046913;
-	bh=Pw4B2YmUnMb5rwlFPygZwwHUhVqmQMlUY99f3pizSHc=;
+	bh=EP0wtk2g3Z9JO88+bhYq1iDoQk5ibPh+IFGPrkse64M=;
 	h=Date:From:To:Cc:Subject;
-	b=slL5mJBkv12LI5MT5huPy9gmRvytk9janqushUJcKQ8H6f808g2uVZnUd7GurXvj2
-	 lth9i1O+WYs6flWztlygcQdf0dh87cejaHrkPIbOiT6GMImrnCuRleNiVGAxrd7vx8
-	 c2H1HaQEQ9+Uzb16r6XyMG2Ikq7YU/gPeK2ECLUrveHXTL9YrdAwYFeya8GCjsFrdQ
-	 BrhtwQ2BvAwV0pvmU9vCrKO7qh5AXoGlRTrUK4G8KjJtrGZky/X8wtzbdldMAeZofb
-	 2mcvw3LoFOFQLsKwN8577Ns5l9jgOV5VxUKsIrR13FaoGpINVySZniGdMd1X78puEB
-	 12FaNw5MVeIFA==
-Original-Subject: Issue in man page setbuf.3
+	b=UCqm3yQ1JxWtbGyT4CPlDewqx5BSLvQXohqNKji0uPDMuifs3KhEpU1UxKSjFQmQv
+	 AkjPuOTuluZ9VEWdBfBlmRdpeh9VTQhdlmMzW+8cagUHs0Wt5xFz6WO1trxYgHGvJg
+	 zB0AEr4fqUCHyqdZmWeIVKtByicCabYrg78G+4Sq7oIp+bM84FjRu4Gs8Zs6PgGeAG
+	 BTGoWYDpm0yjUCkcKKkebsNCPHUg5lPEPwvqomtP2tdHknCpwYp8i2JwcgAhBp2qwB
+	 NBMB0HKfalcANHSfaNeSlHGtECs/ThIZNnlG4rrg/QntNDDYn9b0ws061K9WGSMD16
+	 ZZ/99TBCeSq8g==
+Original-Subject: Issue in man page shmget.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020EE8.0000000068AB2641.00138BC8; Sun, 24 Aug 2025 14:48:33 +0000
+  id 0000000000021117.0000000068AB2641.00138BE1; Sun, 24 Aug 2025 14:48:33 +0000
 Date: Sun, 24 Aug 2025 14:48:33 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page setbuf.3
-Message-ID: <aKsmQYx_Y5mzBMBQ@meinfjell.helgefjelltest.de>
+Subject: Issue in man page shmget.2
+Message-ID: <aKsmQa-EJjkkTWB4@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t size → B<…size_t> I<size>
+Issue:    B<proc>(5) does not describe hugetlb_shm_group
 
-"B<int setvbuf(>size_t size;\n"
-"B<            FILE *restrict >I<stream>B<, char >I<buf>B<[restrict >I<size>B<],>\n"
-"B<            int >I<mode>B<, size_t >I<size>B<);>\n"
-
-"B<void setbuf(FILE *restrict >I<stream>B<, char *restrict >I<buf>B<);>\n"
-"B<void setbuffer(>size_t size;\n"
-"B<            FILE *restrict >I<stream>B<, char >I<buf>B<[restrict >I<size>B<],>\n"
-"B<            size_t >I<size>B<);>\n"
-"B<void setlinebuf(FILE *>I<stream>B<);>\n"
+"The B<SHM_HUGETLB> flag was specified, but the caller was not privileged "
+"(did not have the B<CAP_IPC_LOCK> capability)  and is not a member of the "
+"I<hugetlb_shm_group> group; see the description of I</proc/sys/vm/"
+"hugetlb_shm_group> in B<proc>(5)."
