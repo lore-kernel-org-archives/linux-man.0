@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9693C2DF6E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231AB2DE719
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046952; cv=none; b=ChrsQbgF5xQ7nNKy8JvHTzz1FzojVIy30gZ3XFDmJ3bpLG756VVTChuEB1pYvyLob4Dm60Iqj1IJeXhX9D0yvpOerIxSQTxdCwbKxlEcbowCGE5gANF87Np5tKTy8rICqcxK1lGfKRROoFX8AZdLh1BxiYvvLubWrHH5QePbDPM=
+	t=1756046952; cv=none; b=rxzVhGvOkZDU1gqfWdYWVjU0KthIwos0aphq3VH5n5aV/RPSOfsvXdZX3JmYHavEUSV1uPx7N/ZixSq7qT2HK0X5N1vPZ1l5zoYZPdfMzyjSiz3ZwtB5d+kYoq3KQunhmKSLJIiAt1DNxr7GPxw1IFF4/eJwEH1D4L77njk4gQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046952; c=relaxed/simple;
-	bh=Mm+F4A7Ek370CDGzdsjc3XsHW7/kpa6qNBxWuQXgurw=;
+	bh=zJ/Ywi0IW+EI39fmPGShghLsLuErsrshQwSJG+0HpNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YrjNdY6LtCMj+YdnBWA9xUlXPg8+fpEgLF1jgCfaGFzjTfwe3DqrhVDFbkXrHxpcW2r1fPNJvPWKxF2GXreEklOfcNrn0pVR0IfsMkHwhfB5diJBa1dqzdcaatmqUr8uRfpZeImFTqkzqg2SiZJNIzVjbay4H9oFZv7O0Y/LYBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=eugPM+Rs; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=DzWrlpwYP/YPI3iOnw8s7fgPnmKqUGiTMoLl3xreL5mXy1Yb9ACgLksdZbgIuVFUnKQjkAvo4UMpEY/ZPC4dgwe1LMfJFGDlfhExi8tP+rYVfiEU7gRAk3i0FRWx7Zo6jKoCkkdDqNtdj7dWYWxagjU4gmiFrb4dIWEEH2kxmB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=tmbVCy3d; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="eugPM+Rs"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="tmbVCy3d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1756046921;
-	bh=vZNsNpI+9mIRMpbqWllxx/v4gTVTrq23TaORyzihkWs=;
+	s=selector.helgefjell; t=1756046922;
+	bh=KBWcZe65iQxn0Mr2kSqk6xFz5l93vQZZEZIa1wDqrDw=;
 	h=Date:From:To:Cc:Subject;
-	b=eugPM+RsVY8UXzSC6NQ6SejtotoBlZcqytLA08XhVcu6va7KdFvNXyr+x/+x2pOmY
-	 EdxYVvdoqFNTzMvQMDbWnI8ID/2yC/UiTurhD+BytJnUQOuuYJtuxOI/6PImyH/yAo
-	 W74q6geRylSSjQ2V9gbaNc6WG4CTtu7uPwRIJ3glGoB5vXDdtVGdrn21iLa0e509VW
-	 F6/M7JY2G2n2WFzc+lhrbDwHQTBcUHxLNECSv3Qk/+lNio9TxBKinQDDT0jJpQxRAD
-	 oEEEwmr8Me3ourVP9JdUu7bPSp/yPZC0hxUdl0GwyTJ+54vmcGaVAAoN0nSm6WCHVS
-	 FhrW1j1K8ba6g==
-Original-Subject: Issue in man page attributes.7
+	b=tmbVCy3du/66Dx6G1gsWFjuLdjhZ4GEBUxQDMKxBZEat9fcHSBZG7c8oPmyBBKsnG
+	 Bo2Rlsw2q91Bd8AZbII84JpuKRWkDQnYgHRqKON1hqBrF0BUBIuAmgSesv7Gv1i0ST
+	 wYxQE9kY/9NAKpvR/TGSPw7lzy2V0UaD+AzsEz0vweSfpVWGfbAj9ilS2FXSN4JtfL
+	 0p6/5Rs+3H8EQkE2rfPmPxFbmiSVdN62RHG3xNOVlp9Xy5/EWWA+F5a37AC9pm/PHR
+	 w1pQtbrwXodvrCwcNo8P6zCoYw5Tp+yUPQSiOcXVQG9x/bRBYKZZPba8LaNLd13pdg
+	 kpsVrdyQjelNQ==
+Original-Subject: Issue in man page getxattr.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021718.0000000068AB2649.00139261; Sun, 24 Aug 2025 14:48:41 +0000
+  id 000000000002171C.0000000068AB2649.0013927A; Sun, 24 Aug 2025 14:48:41 +0000
 Date: Sun, 24 Aug 2025 14:48:41 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page attributes.7
-Message-ID: <aKsmSYpPKR1MPD8H@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getxattr.2
+Message-ID: <aKsmST2vJitemjdL@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,15 +53,14 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue 1:  The function → Functions marked with
-Issue 2:  reads → read
+Issue:    B<…>size_t size → B<…size_t> I<size>
 
-"The function marked with I<hostid> as an MT-Safety issue reads from the "
-"system-wide data structures that hold the \"host ID\" of the machine.  These "
-"data structures cannot generally be modified atomically.  Since it is "
-"expected that the \"host ID\" will not normally change, the function that "
-"reads from it (B<gethostid>(3))  is regarded as safe, whereas the function "
-"that modifies it (B<sethostid>(3))  is marked with I<const:hostid>, "
-"indicating it may require special care if it is to be called.  In this "
-"specific case, the special care amounts to system-wide (not merely intra-"
-"process) coordination."
+"B<ssize_t getxattr(>size_t size;\n"
+"B<                 const char *>I<path>B<, const char *>I<name>B<,>\n"
+"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
+"B<ssize_t lgetxattr(>size_t size;\n"
+"B<                 const char *>I<path>B<, const char *>I<name>B<,>\n"
+"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
+"B<ssize_t fgetxattr(>size_t size;\n"
+"B<                 int >I<fd>B<, const char *>I<name>B<,>\n"
+"B<                 void >I<value>B<[>I<size>B<], size_t >I<size>B<);>\n"
