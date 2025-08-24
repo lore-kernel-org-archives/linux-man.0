@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C704917332C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC327381B
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046918; cv=none; b=IGdUci4u5OD2A4BCVe7ItNZ5krvHgDTZWgJ9dQlH4soLV5LymcOM6kwJslmTNXtny3cwB7UJOo56aaLure4y3XLQFQARfcWN75Hlhje6dZfy79y7MbnypFwB8FIi90CC+xacXQhnF7oyjtPlDWtyD8+V9DpMmEmS28dyNWAIg6A=
+	t=1756046918; cv=none; b=Wdhg1cgijb7f1fMu+pkLUkmetThszMJZBxrWwSC8ZiV7UA9EkzkiE7MLHclT6gEgbjljqNAYNjuwVuiESrgy/vUGbhxQQg/5x6HbrlgAY4CTPzApK7Z67iBlOa+4DK9rvCpduXS+9Soc9utuXJiJkqKNEeZelzMeTGtCKz/Bm/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046918; c=relaxed/simple;
-	bh=bH8x6pKMdTWtqiRveY6/blvxCNcTThkjXmGnz++L2dk=;
+	bh=TZ9bdbOX0/dUsUm1mYVNERM4uFj8BZKweGK+RiKaNb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TjAprdt0zqSbazs+Rz3NtkEMPItWTDwCU/PW4ztByMqVbwpMVuwpQiWYyWzPwEAyiopEgd6o18MzlwAEFeo5SusBC87mnsiNHLoWwh9urk6ShtG/foDE3RhcwKoXP8SN+C6GhEQtGvaiMmc/GxSWk5zzMO0cyaUJk7Hi3e+rKxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=o+SWfsVy; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=uemKxoeh2WQMfJCIQ64y5OdD2/01+nE4V34pQsBfiem+SZ4EbzRGYMmi9vhSPNNVAOtqlKIFWosug12vZfwBUhZSgVfF7ERkugirnu0MJUPmP7yQT2GV9OsYimg5utNzb/Nl4Lkif/Jz258AC8pyK5UIx/s3/mQf1T2B+IM7Gi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=slL5mJBk; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="o+SWfsVy"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="slL5mJBk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046913;
-	bh=B96dYkIYGbCZ8oEBOiEuZCUZehv1cQbAHal5CU6nXc4=;
+	bh=Pw4B2YmUnMb5rwlFPygZwwHUhVqmQMlUY99f3pizSHc=;
 	h=Date:From:To:Cc:Subject;
-	b=o+SWfsVy7kGyu98XG4nQ7HrXe0Ey/osfH+ly77EyjhVRLzaWMX1e9U5jCFt/hy9VN
-	 eojNuNr2Jo31fMSnWXJn+VYNAmoAZdoyEcM2awCFxF0eimee4l+RrQHe01v2jkLuow
-	 Q8uZ2UauSSevmOVFLXMlRNoF65wK1hGbW+nJRP8e6x4HHqVcL5X3T4qL/Ru8EfT6kh
-	 zJDGxWOhUl3p9IrNGqetjdItbPd0K6nlpgas8mG2+FPt9hcEMbau/kk2EEJClQ4FmM
-	 pYdOyWREaV02NmDE6afgcEI0N2HmXDD8NPAQMmBjnt22DfaPS1JF8TWwfzkwxyzIco
-	 GszbaQrnxK6IQ==
-Original-Subject: Issue in man page sched_rr_get_interval.2
+	b=slL5mJBkv12LI5MT5huPy9gmRvytk9janqushUJcKQ8H6f808g2uVZnUd7GurXvj2
+	 lth9i1O+WYs6flWztlygcQdf0dh87cejaHrkPIbOiT6GMImrnCuRleNiVGAxrd7vx8
+	 c2H1HaQEQ9+Uzb16r6XyMG2Ikq7YU/gPeK2ECLUrveHXTL9YrdAwYFeya8GCjsFrdQ
+	 BrhtwQ2BvAwV0pvmU9vCrKO7qh5AXoGlRTrUK4G8KjJtrGZky/X8wtzbdldMAeZofb
+	 2mcvw3LoFOFQLsKwN8577Ns5l9jgOV5VxUKsIrR13FaoGpINVySZniGdMd1X78puEB
+	 12FaNw5MVeIFA==
+Original-Subject: Issue in man page setbuf.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020B51.0000000068AB2641.00138BAF; Sun, 24 Aug 2025 14:48:33 +0000
+  id 0000000000020EE8.0000000068AB2641.00138BC8; Sun, 24 Aug 2025 14:48:33 +0000
 Date: Sun, 24 Aug 2025 14:48:33 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page sched_rr_get_interval.2
-Message-ID: <aKsmQXsWjhZYpQCT@meinfjell.helgefjelltest.de>
+Subject: Issue in man page setbuf.3
+Message-ID: <aKsmQYx_Y5mzBMBQ@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,6 +53,14 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    pid. → I<pid>.
+Issue:    B<…>size_t size → B<…size_t> I<size>
 
-"Invalid pid."
+"B<int setvbuf(>size_t size;\n"
+"B<            FILE *restrict >I<stream>B<, char >I<buf>B<[restrict >I<size>B<],>\n"
+"B<            int >I<mode>B<, size_t >I<size>B<);>\n"
+
+"B<void setbuf(FILE *restrict >I<stream>B<, char *restrict >I<buf>B<);>\n"
+"B<void setbuffer(>size_t size;\n"
+"B<            FILE *restrict >I<stream>B<, char >I<buf>B<[restrict >I<size>B<],>\n"
+"B<            size_t >I<size>B<);>\n"
+"B<void setlinebuf(FILE *>I<stream>B<);>\n"
