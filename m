@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA48321D3C5
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEA92DEA99
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046945; cv=none; b=kX5X3OGJhDbtIk0PiG5XRIm75RDSrIUsNmlL1InccNmWj2rTh0Jedxc/wXU4P/C97xfJO1k+KBHFAkGZ2kPqmIUksyAwN0sTmbtbYG+faspNY5wJI8H4VngfksY9EUS2marc76FOzNPueatkd9wjUC7pbYsdjtIFsEvEsuo6Pkw=
+	t=1756046945; cv=none; b=UjXFr1TqaiHzkoP4tqMCianE+/0X90thHZVX0Jw1WCZsTiq0jQinDsM/6PVPeOwA60xFX1ZJBUm12k+J/sNcaYa1Jxi/F04EOOkvWjiZ2lyM+ZNtG3TbqVAM0j0zucE9YNvufSoky4cUlK9WyQi2F6PnP+AzMb4slgDTty+44Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046945; c=relaxed/simple;
-	bh=rZJQZJqKvM14TOc8EcA6yfuaC5oduvRS3S+tGtbU8sA=;
+	bh=RBS4VFJH3LNhpZenO70O8QusbAWtcOmkfJZRFkApnZ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H2H8gAxx2rgYgLiL192ftJAR2/ks5Vd6xBqxdjWalhXYrSEISwX/yxaTCsQXErHMU1nsgmXKr+hiBX7wtRTHfTYH0k2WQWTAAucuw1foA8UjqrPZeDd3SpCnHsgcJOXVl6EMXBI3tOY4SCy8OIDjqOHnu4rudYPSuoLvpsmUZlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=qkETN7gO; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=j8Bm95k4aeoPYo7FJc3QjnT9gzZFu07qTr4WVw/GCou8UEmqpr5CD9UfB0Cj6CbmYzm4j3KAZO5JrSaXHY6kte/81MnbDlumSgb2j7tJCbS/GfpLalRlrkOp5/h1OwzLcGlR4V6vu1cePYFaDIqA9IHVCtZ8o89AIHIx8UVQ2lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=fqUoapkv; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="qkETN7gO"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="fqUoapkv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046920;
-	bh=j6O6kms2XpYDggCUoBO02Wi8XSqUU1ZHS1G03HLZn3g=;
+	bh=vP49KfTL43Q/67fzLWXBaOnJ2M/lT6bE7FWKVd8+eao=;
 	h=Date:From:To:Cc:Subject;
-	b=qkETN7gOLRNSpUXQKChRHq82S10KEF1jNvsabmy41BRFDvuOSRd72nxCgTl/G2fjy
-	 VPODeM5hWs/so0CVjI/UlWpelkCzUmg2Ad45BjdNEivZjfnfOjhipxqTdw+heoXIP+
-	 ugzMtjAEc0j3Pl0jp37MQfq7bSYLVgWsqpMJE9EXlBETKk6mTfWxECpL2z6a853Rfw
-	 A7mGUq5YYS8Z8Hemvk6ZoFjnr3Jgwc9VLbb7YKvuneKUFf+l3vE1GnIb5yKTCHnhY7
-	 RZQP17C0DfAUcoBahIH+Gai2MZV19lvTSQIIc6btkEfv6rvkWVjhSWmphk4gKNCUK9
-	 fnZYR95A/nDkg==
-Original-Subject: Issue in man page getdirentries.3
+	b=fqUoapkv9380NEbdHtx/bg0thjzIOSkYcZu+NOF10aZ/C9endla29UsH0lg1BLTV2
+	 1PhwbmJPPiEGrUD794hl2k4hZjyOZWyy+aG1PVVBL/yzdM8ZEWI+qYWJgQ1guQGlWN
+	 ++YuCM9+Gi9g9efwpMl5m+OkztGwkRYBE7ACZOTH86IpYxGH6EKOT9V9/7JVm46Yef
+	 93qbNiyo3WOLkcD6rJkCmhzjusbdYJqo261ey97lg0iPHxRCkbS7avkV07Y9bTGFzW
+	 pB+ciChARBkQyRAfvD/8Br0KnmYw8O4OSc7BrOx8QDrsWV48OBP0f5Q8M40h9QjvOD
+	 Wa7AYwC6AdAjQ==
+Original-Subject: Issue in man page getdomainname.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000216FD.0000000068AB2648.00139103; Sun, 24 Aug 2025 14:48:40 +0000
+  id 0000000000021700.0000000068AB2648.0013911C; Sun, 24 Aug 2025 14:48:40 +0000
 Date: Sun, 24 Aug 2025 14:48:40 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page getdirentries.3
-Message-ID: <aKsmSCDwkxQ3fjQp@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getdomainname.2
+Message-ID: <aKsmSD0OqkD-5wMA@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,9 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t nbytes → B<…size_t> I<nbytes>
+Issue:    B<int getdomainname(>size_t size → B<int getdomainname(size_t> I<size>    (2x)
 
-"B<ssize_t getdirentries(>size_t nbytes;\n"
-"B<                      int >I<fd>B<, char >I<buf>B<[restrict >I<nbytes>B<], size_t >I<nbytes>B<,>\n"
-"B<                      off_t *restrict >I<basep>B<);>\n"
+"B<int getdomainname(>size_t size;\n"
+"B<                  char >I<name>B<[>I<size>B<], size_t >I<size>B<);>\n"
+"B<int setdomainname(>size_t size;\n"
+"B<                  const char >I<name>B<[>I<size>B<], size_t >I<size>B<);>\n"
