@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388842DE1F0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18092D979B
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046924; cv=none; b=ayAl5t6tscnrpMQWHZTFuKo9kMinHQga1xjNNY5JCsRsoGLm79HECAnDUkgzSbjRutctr81Xi4qEIH12C6JyH1aIgtuxB6oign++GrhG5JQnBFlHTiaqKkQcxjF+C4e0mrhzWvXbwlIuwCFsmm3MGlC3/nWhgY/5DUiNENI143g=
+	t=1756046925; cv=none; b=DGBX5HZ3J0drzAakDiNPge+ih6t29igEyUaJJFc6iJErMsv8QHyL2+G23TG6U6at8/xxtYiQqxQTiMiEfltndCfD9Atragnak6MOl6RdhisWQn7bMVnBSmCPalBdDJ0VEvN8+yLGHL7HJAMrpz2aPp/TIk1z5XECfqHPtM2xqms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046924; c=relaxed/simple;
-	bh=iAnsmPtCDBS1ZMWwzLSFkJ3b+UvUp8S0lg6iUf11GAU=;
+	s=arc-20240116; t=1756046925; c=relaxed/simple;
+	bh=wH2iA83ZpiUeADxnn5uAgXmt+SacxtS/mOQlnTBQ4iQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eBMHOxxBoFhr9HjokwYvVplGaeThNVVOGlfR21ay7AWpau1vWYSYdRQ3X3YM8of+yZGDRQ7WQddz7xnQ+ezXYR0UdD/QmnMRKYDiUg+ezk3SzytRPtQWH7SZ8/81jUjO1dyuQd4bJbxyJ3+PpAOo3ry5rM6ke1UZ7CRjxo6Aggg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=NLGMcqPA; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=LfAhCBaZS5rqevD7oRw5LkOuYlN/JtdGqogLs021j/UstrRt5ZWooVHLK9xoXMmSroxH4wFWx6jPNGk5zbtl5BhyVozHdoBnbFJ8rTeXVEWn3rran7iO2ad4pr2jEXM3O+wDhAyVhZkRPrdlfIhLbeBSMriK4CJvx/Ur1CGJ9Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=qdXZiqfo; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="NLGMcqPA"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="qdXZiqfo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1756046914;
-	bh=YkAawnHP9/PiggkiABERV0qRYYBgdqOkBppNNc/in5g=;
+	s=selector.helgefjell; t=1756046915;
+	bh=ESkRRUO1ocr4ZWRmMx9obp2gdpOi+OAks9Owvx8HwNg=;
 	h=Date:From:To:Cc:Subject;
-	b=NLGMcqPAJkkuf+hr7jUot6w26+VGKt5t/529yWhbDSM9vHysifOcUH8Ha8q/Ug7sP
-	 1XPIWT+kR9k/EK1w14pLT+AZe1g3kiRCvJ/MSNc3OGfi0a3MAFElGpF0Ndm3T1XMdE
-	 OprA4hSCq2QgJK84e2sgo/7ACLBJivLaYVnKr4g2YYLFND2kLgQLf+Epmbk8gK7IYR
-	 NWt/GeY/ylYCJAofl3Qx83/QFx+3LkN/MeLfz4+t+h3UmFs/3PsNeHEJ9UP6V76YmI
-	 HjEN6m9gvtfiy4rlpnuIS7IhPRwVXV1x0bOdcppLGbEqUiGq6i5xOrCednrygX8ID5
-	 mRZgRs44cLhDQ==
-Original-Subject: Issue in man page strxfrm.3
+	b=qdXZiqfo1HRK6cVGARmFfGnMghGWuvNCa1n+XXcpbK7A01aPcx11QMjyQrwCEi31H
+	 bf4v5XJQJoo18wokvTf8cc9RmVt3DMSlMkgH6IWotsXd8SEgkEU0WJNt+vLex7N9D/
+	 +MlkuNEosAJXMoVlv8qJ+TU4J7MG40oGUJA4fMVj/e6/Meb9Lqh1IUDZtXQlSQa0zQ
+	 uiaTsj56LawvzBbsT/A15ENzR2ZlfVnpkOLOI1jBGc2XQgv+znew7ZIXt14UkBun1d
+	 ffo3wWoCc8q+7kAKFL6V7wxsLbs+Exg/wRF4xjVmeR1dbYQc4u5GHnJnNGG33gZF9i
+	 kl4En4Jena9jw==
+Original-Subject: Issue in man page suffixes.7
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020405.0000000068AB2642.00138D00; Sun, 24 Aug 2025 14:48:34 +0000
-Date: Sun, 24 Aug 2025 14:48:34 +0000
+  id 00000000000215DE.0000000068AB2643.00138D19; Sun, 24 Aug 2025 14:48:35 +0000
+Date: Sun, 24 Aug 2025 14:48:35 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page strxfrm.3
-Message-ID: <aKsmQsKFTnQsBZ5C@meinfjell.helgefjelltest.de>
+Subject: Issue in man page suffixes.7
+Message-ID: <aKsmQ4FJIlUvX9uS@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,12 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t n → B<…size_t> I<n>
+Issue:    tar(1) → \\f[B]tar\\fR(1)
 
-"B<size_t strxfrm(>size_t n;\n"
-"B<               char >I<dest>B<[restrict >I<n>B<], const char >I<src>B<[restrict >I<n>B<],>\n"
-"B<               size_t >I<n>B<);>\n"
+"tar(1) archive compressed with \\f[B]compress\\fR(1)"
+
+"tar(1) archive compressed with \\f[B]bzip2\\fR(1)"
+
+"tar(1) archive compressed with \\f[B]gzip\\fR(1)"
+
+"tar archive compressed with \\f[B]gzip\\fR(1)"
