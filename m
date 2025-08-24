@@ -1,67 +1,63 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6740F2DECBC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B801DDC1D
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046936; cv=none; b=psr0RZS6tDDXmAcYwK1CsxYL4u7Ym8EnelxhWSh7aHhGdvNJuQZ9Ok0ap4XZar51aLq2y7yqLke1RjzT1LOSmolPgY3kOkOkIHHOjyB3b6QpWoBWmOn6POE6qbNC6hHkgSkXWNiWTH7zfSgc7qc0d1KG/+SLOVXVHMM2LLWdyFQ=
+	t=1756046937; cv=none; b=iecyaqTwlD6NGkb3cBCv98uRtauxI/YFte7HdpnxWc5T+mKzM2PGs9V6IVG8BRJ2a9fsHgwJcCfB7eikCQ1yJ7IIdPUrlMzc1NNEglOWfcPBsx37c3jMVgeQoPApPrC6YJaZ1526HvF/ZPqmmXdAq5Baj7TFoaOusovFOggtoz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046936; c=relaxed/simple;
-	bh=EXsKlyQ+CMFPhd4jlRGbXeGzpreVfAX+uYpfowY6Tsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=qQh70U/jKIy5WO1RVqCwovVx7epDfDWfgiD9ett3Fd/is6MUBYt5ifl7d6lsF15MGu1uHjZb+Wo7NxbzrOkX0jeZTRmjEJ8GE5hcUf/r8gajeX8q9ZQ1HoUGJKl2pfUyu7wb6pPsOoAHIvsfDCfWH+8DxB+/WKfUsW4MxwWEElo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=b3Y4okS4; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1756046937; c=relaxed/simple;
+	bh=rDMyqRffNu7oZq11H9rJQ5bG8gYx6iNgo/H7mgX85O4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a5gd2pynj6ma/edJTPZIcCN1zh1k1w8QrUVhQaQY1P/l6dwXKzCKOibhqIk1O4bJDLKljxjB2ao/CigRfY04XvOV9lgxcfEscUBQj323+JeWkMR0zHcmW/fcSMz0gR6iaN4t4FjPrFRwJc75e/N87EiNlFiarJGmsDWecllRJrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=GlZJMPZO; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="b3Y4okS4"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="GlZJMPZO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046918;
-	bh=AXY2sfd3mAK9gvWR5MzfS7KV5nPl5TrnEHju146GpPg=;
+	bh=NFC9OdXEW++yFcYzRqJ47HL3BevlZJHAMdkYPXvgt0k=;
 	h=Date:From:To:Cc:Subject;
-	b=b3Y4okS4vdL3qvo7vKrsz6QQSrdcFwi6OXNyWpG15GjpD4+lbbKPil9O0EnrxE2U2
-	 9A+aQ5uuz2xBmPUOqVHHxaoijurV7+nZqhp8wsug7bSslKmAlqv6bwQDk9vdfkddav
-	 ticnbiv4c1tpweNjQvTbs+eUaHg9qpjVRs4e1XzbqPByva0PZqpQtIPr+BrjqNICes
-	 YGhUsnMZD+xfmTDMV0CK8sCPgOZ0mUJLrwsZQASbj7Bbaydg+ghZVPRS+mDPJCDXuF
-	 2zZEtkXTMdzGeBTIdydXneamzKPxB6jn+E/jkp2VauPnjYRdQP9nmbMdtAmMHlYvxe
-	 MLh0vfZGq7RhA==
-Original-Subject: Issue in man page crypt.3
+	b=GlZJMPZO4VLwdgcAqee4TRNUkoyw5g5zomTtK87Wqhb4AEdSBp5Qlo+rptutV768p
+	 ygkKQgepzLYmMZvNtzgxR9D10Sav89+4kaoiiArSVWzDCLx1QKEti6BNsQpAXrY4Z6
+	 LmwxmN+I/QYKhD0ZphIp1SiBc/+zsKAloSDFXiiQ6Dey6PJiAnFPZsdTzwawJHwgIV
+	 1kgVUX/67xXL6PIsErtDPvEyRsSSbHWeDHW3A4I2uaNzCvFJIQ34ASYgG7uUtX2FsZ
+	 7wEj4ypGbhwlp01EVtQyeZ6lrKc6/tIm9/COintsJdo+yc5e288sbW6LjZX+9Gdnee
+	 zs/30h5bjWDcA==
+Original-Subject: Issue in man page wprintf.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000216CD.0000000068AB2645.00138F5A; Sun, 24 Aug 2025 14:48:37 +0000
-Date: Sun, 24 Aug 2025 14:48:37 +0000
+  id 00000000000216CF.0000000068AB2646.00138F73; Sun, 24 Aug 2025 14:48:38 +0000
+Date: Sun, 24 Aug 2025 14:48:38 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page crypt.3
-Message-ID: <aKsmRSS7QJuxhK0o@meinfjell.helgefjelltest.de>
+Subject: Issue in man page wprintf.3
+Message-ID: <aKsmRkNmoS5CkRfr@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    "fail closed"??
+Issue:    B<int vswprintf(>size_t n → B<int vswprintf(size_t> I<n>
 
-"The behavior of E<.Nm crypt> on errors isn't well standardized.  Some "
-"implementations simply can't fail (except by crashing the program), others "
-"return a null pointer or a fixed string.  Most implementations don't set "
-"E<.Va errno>, but some do.  POSIX specifies returning a null pointer and "
-"setting E<.Va errno>, but it defines only one possible error, E<.Er ENOSYS>, "
-"in the case where E<.Nm crypt> is not supported at all.  Some older "
-"applications are not prepared to handle null pointers returned by E<.Nm "
-"crypt>.  The behavior described above for this implementation, setting E<.Va "
-"errno> and returning an invalid hash different from E<.Fa setting>, is "
-"chosen to make these applications fail closed when an error occurs."
+"B<int vwprintf(const wchar_t *restrict >I<format>B<, va_list >I<args>B<);>\n"
+"B<int vfwprintf(FILE *restrict >I<stream>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, va_list >I<args>B<);>\n"
+"B<int vswprintf(>size_t n;\n"
+"B<             wchar_t >I<wcs>B<[restrict >I<n>B<], size_t >I<n>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, va_list >I<args>B<);>\n"
