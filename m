@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9452DE703
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10CB2DCC01
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046948; cv=none; b=KAZP7m11udfi+biUw/LO7yU5jculcAScmzBG/+fyTbdkzgjj125YRw84Q7wrwFgXQVQaYLvW5kdj85UpCZGiRj8hMq235M+33H/mWiRBSKB6XQnDUswqCzcr7JdOliDL2af0rLYtgSapCuCk6lZLF0eIDIBAwcO68FG5nPN0CNY=
+	t=1756046949; cv=none; b=N19oNZQyiIIb4Gw8LJWwdqMVoOwLf5cEO8ywBOGgK6pVvRL4+P/xRe9ZlL5ftMBybdWFyY3XuOOA4Is8EanHFOtQC7C+WiV9AMHVXgKySS8mIZEDM2s63mMMXdydiwKItkwX2Vs5qsCkE/IkfLEji1FsOyLOfkuTKTrPV43C3z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046948; c=relaxed/simple;
-	bh=NCK+G3MDrqM83UKwaeRb8WdZapD1d3gyWia2h88FZs8=;
+	s=arc-20240116; t=1756046949; c=relaxed/simple;
+	bh=49QsrHbaNBSJkc6iqFU/eAILjVskzZEayiRb2teshWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MCSPsz0SR/PljrT/yAwENliPDG8DKDnIFkITup6It2Sj74oBJ/peXexcMfnAI/vlSfBh8Cm1Lb9OC9YB5y126Hww1fgwY7ernm6n80I3jGF/0uiwJbWUN73fAGiaTTYylZrbyiUSziISHEitsLKGhvBl3qf67qo6gkBz8j5lCFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=A3q7KPRY; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=cyWz04KScnJlUSBKFjRXYGJ5bzy1bUhT1gf34FM6KV69W81xw9UkCncv97ZrGjrzehYDT8Bh7ho4RVv7EYirOGr4B8y3Sdbg8iCmZS6xKGdIJwaGDiN28x8eBgErMwFNkT3GfVm553I9rRQOL1zJgv81891pKXso/dgRPLVPApE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=LXq19Y2r; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="A3q7KPRY"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="LXq19Y2r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1756046920;
-	bh=oDHsw9dcFfZGcQfy/Bwwfp9rqfgGYUp9CiCvK5OpyQk=;
+	s=selector.helgefjell; t=1756046921;
+	bh=lVZ45mee3cDNa+0cKCzrUcdYtJAZKgfy2Nb06aW9V2E=;
 	h=Date:From:To:Cc:Subject;
-	b=A3q7KPRYOUhiqwqZbUHQ7eSlIFCR6S0rWZrZvAydB6l85Hx+pUqlgJ2IgxLM2q/0E
-	 P0V5AhEA5qq3uJgjnDIgEZS/U1+zEeC9NEzudYB8JfzzIP15japKp78PHxU8OPgIry
-	 RRJ+9IFUGEchzZWpmteOqnr0reX6B7vSdBToxF+ioc/ocy8RGipy/JlqAubkfmntfg
-	 sLvGCxrO68g/M7HC4O6iS4G7j1HwwKqwJ/bVchRa86d4v+Z4bjEiSPJVbOX63P6Xab
-	 yaZTwszJSnkqL6Ac7zy0J9mYSEr8HzzjE+fES8XKr1EIb5iaeHoa/EN+eEC2abYkqM
-	 nxRku7fYWqBTg==
-Original-Subject: Issue in man page gethostbyname.3
+	b=LXq19Y2rQvo31FXU/xuHU+jGS5JxrMOKL4xnOtuaTtQbrbfvWNeo4fVubL1+YqMqJ
+	 /GOScpqmB+nK7xYXw5O2UqE9YBm9rzwiiTchCR3T1nIdGamai/H6prXhfj4uP0MuBy
+	 snsgbZCEBJUdLdGfsayT6qYSs70f2FNHsXlxq+K378Ji41EcBtrl78xWjvEnxUKUVe
+	 f0mvPDUdDMya1xGWvn0WoTQBZSseovk8POQhicFG/mEkvRUJ/4JeKS8+/OCxkdWjkn
+	 wOmbNS9Oui2cugCVbf4VGi5YzuiPodZVh9ghD9NR+VhrJdCT2r3ecPI2duvSBopZAW
+	 vsx/mn0xc7I+w==
+Original-Subject: Issue in man page getmntent.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002170B.0000000068AB2648.001391B2; Sun, 24 Aug 2025 14:48:40 +0000
-Date: Sun, 24 Aug 2025 14:48:40 +0000
+  id 000000000002147D.0000000068AB2649.001391CB; Sun, 24 Aug 2025 14:48:41 +0000
+Date: Sun, 24 Aug 2025 14:48:41 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page gethostbyname.3
-Message-ID: <aKsmSFzbvWX7IQQp@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getmntent.3
+Message-ID: <aKsmSWsktdvQ72SK@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,12 +53,9 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    size I<len> → size I<size>
+Issue:    B<…>int size → B<…int> I<size>
 
-"The B<gethostbyaddr>()  function returns a structure of type I<hostent> for "
-"the given host address I<addr> of size I<len> and address type I<type>.  "
-"Valid address types are B<AF_INET> and B<AF_INET6> (defined in I<E<lt>sys/"
-"socket.hE<gt>>).  The host address argument is a pointer to a struct of a "
-"type depending on the address type, for example a I<struct\\ in_addr\\ *> "
-"(probably obtained via a call to B<inet_addr>(3))  for address type "
-"B<AF_INET>."
+"B<struct mntent *getmntent_r(>int size;\n"
+"B<              FILE *restrict >I<streamp>B<,>\n"
+"B<              struct mntent *restrict >I<mntbuf>B<,>\n"
+"B<              char >I<buf>B<[restrict >I<size>B<], int >I<size>B<);>\n"
