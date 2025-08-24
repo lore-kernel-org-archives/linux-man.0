@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F612DE6E5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF2F2DC32B
 	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046935; cv=none; b=PO8Lv6sLV9wGtTvzv8w/q5RjsyqMHXFwWPOqOjib0aoAb2jZWgaDToAe/MFifAGTAmgz61R1iPkL996WNHec2fVHUVwQg7xvP5v4Oj6X7VRodh8Qx9iUBISHb/zt+n7TxOqka/xq4SCqa5Kdh2u5z/vA0SgOky3KYnZXuOcRP58=
+	t=1756046936; cv=none; b=Y9tKz9CKkaSDFR/OJKvWY07NDepnTz3z0rOwCRpVvZSsZoutnBR8ujuWWzvWtQLOWhWXFxmUAOJzr6gVo71UQq+fC50ggLQED9+FSIAx+i4NW+RWDvo+HCgpheYqhl2WRlHZAG64kQDlfuXzWlyHqSMFapWmEq6k6Dfwcqle/Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756046935; c=relaxed/simple;
-	bh=OZEXR0rCDp+/3/xLinSHuTvPw/jzEvI1tbdvtDyx81s=;
+	s=arc-20240116; t=1756046936; c=relaxed/simple;
+	bh=sxjTFgsjZzh8pDGzBSmEY/XuFYdoAUXQ00lDWO2zWKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DE6Gz40ASuh6xuNRxHrFdExHpqyy/Bog6bU8VvcNs+W1Ub6f+5YGo5B02H/D3CeXuJfEXte711hQKWQpnUVJkT9K8AJqt76Lhmi5pTWX+s2xlFsa/A3o3ZftrJBeeiLoxrCv/OyEi/eTB90VLhIVOyZEh1yGvK8a3BbDN8f4wsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=DhXgFHkO; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=WPCnUnsBoFLs/o9ytde5MQGrk2fa0oh2kRaGXLg95cr4yYskmUWdZ4RGcHcO1kfhZvDb75wru3otdMFIQotL28Y0FahYE0A9XV9y1BMFQL8oOAGZCFcawP35Zuk2y2sUsVwXTayZ0Jt1ou6/SiPk1T2xQ5YJPED24/T6P7vFQwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=Wg/rdLER; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="DhXgFHkO"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="Wg/rdLER"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1756046917;
-	bh=wvaT/Goo/rbFpRUIpSe2pJ+Qep/g/rLA1GLQITlNIPQ=;
+	bh=KedNrPxMRnSljQFssDTgIpVA8FohAMbZj9eejy5l9z0=;
 	h=Date:From:To:Cc:Subject;
-	b=DhXgFHkOq2YJDnJkDeWz3Y5bNjNICZwWCvREDPzNRsdvgXB2o4dSJHBsua+lZVtw0
-	 wV3/4ICEvFKNAEhPH1rDY+++Zi4QzAVD4F2qJ5FgcvGZioMZtAihbUtMD55lZdyPNc
-	 zsryOfC0gCLusJmmI28dhUjRQb5n9UuESbKUknACirDJzqltBMijbwlQTefp9GrGMC
-	 Eit7IgrfcunNcC6+Aedqq85dW9vQRpQ8hkaWwbyHr/Ka4v9GhyB6Kl4Mv54aBeMUT8
-	 c+FmYScavKruyzndSz3K8aKTEBVEK5Z4lkyfhVZT8Udn6x1vt3mZ7jJXKYQ3WDLK/m
-	 KnTa5WzgocZMA==
-Original-Subject: Issue in man page wmemset.3
+	b=Wg/rdLERg3XQDamuS+f1h+9IIre4p3xWkZdm57r0VNCbE2wDNKJh/wlJGcWIvOwHL
+	 DXh3IKYXW2p1ucCPzQR8iOiPQ6w2zZLRXCJ+973n/jdJLdYrwUwnxXa4TL7YN85yG6
+	 Is9ZamcTr4huQGlG/mH39WIt7bxdio14OxMLESxtbtD/cw20oQvjaASrgZUa8IEVMD
+	 9c+jAlxlV36Vsjh+ftAEH01JtB24sLBeEkGxnhmDRRIT1Q6llliLuRwLCt1dSNhsOK
+	 1pEy0Uw6kFR3nrytBMh9eZ2AB37rHTY6cU5rhXNUyD+hk3hAt/HEYIWeqrkqW0jV+v
+	 W9fPcMeHQJAAA==
+Original-Subject: Issue in man page wprintf.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000216C6.0000000068AB2645.00138F28; Sun, 24 Aug 2025 14:48:37 +0000
+  id 00000000000216CA.0000000068AB2645.00138F41; Sun, 24 Aug 2025 14:48:37 +0000
 Date: Sun, 24 Aug 2025 14:48:37 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page wmemset.3
-Message-ID: <aKsmRYxJUCV3zYRc@meinfjell.helgefjelltest.de>
+Subject: Issue in man page wprintf.3
+Message-ID: <aKsmReZ__hHFGICW@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,18 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t n → B<…size_t> I<n>
+Issue:    B<int swprintf(>size_t n → B<int swprintf(size_t> I<n>
 
-"B<wchar_t *wmemset(>size_t n;\n"
-"B<                 wchar_t >I<wcs>B<[>I<n>B<], wchar_t >I<wc>B<, size_t >I<n>B<);>\n"
+"B<int wprintf(const wchar_t *restrict >I<format>B<, ...);>\n"
+"B<int fwprintf(FILE *restrict >I<stream>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, ...);>\n"
+"B<int swprintf(>size_t n;\n"
+"B<             wchar_t >I<wcs>B<[restrict >I<n>B<], size_t >I<n>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, ...);>\n"
+msgstr ""
+"B<int wprintf(const wchar_t *restrict >I<format>B<, …);>\n"
+"B<int fwprintf(FILE *restrict >I<datenstrom>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, …);>\n"
+"B<int swprintf(size_t >I<n>B<;>\n"
+"B<             wchar_t >I<wzz>B<[restrict >I<n>B<], size_t >I<n>B<,>\n"
+"B<             const wchar_t *restrict >I<format>B<, …);>\n"
