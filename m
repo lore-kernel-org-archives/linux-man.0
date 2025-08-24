@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37022DECCD
-	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1F32DCBFD
+	for <linux-man@vger.kernel.org>; Sun, 24 Aug 2025 14:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756046944; cv=none; b=N/lzACrN5JumJ7JnvIvyRNuWWIRs3Q2vZOZberEUFibUFhiCQ4iINqwI0nizpM0IUngb4zym0nYikhMgnjvSVhNj+VlQnWgr2g8iydEW30hl0ncgz5fbeqe82w5lwYiZkD76uRTya7kWfuNqD4ugvMTH/7z+pi3SY0Gd+LSg3V4=
+	t=1756046944; cv=none; b=o0cvKgV6kbAGYrTwtmcgd22AAX2HU2BNkdpF96HgYd7l1Kt9Cvovd5wK74NLZh+pJjmNlzuszBkbPdIsh5zO7qknzVmbhvOZ23AsV1B5AnHbloUeq3oG/BWVWWyPMGVcZ3yQAv0hkvOQRzvCYwPpbib4yFcvxr6AcS1RW7uC6Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756046944; c=relaxed/simple;
-	bh=H68TdJonoZQCmzng4dokvUWtn/E+5XDEM4o/bzEUxNw=;
+	bh=xH/5yCSV1DK65AcWNIFISCz+9sobXeJmHa76R6dcW54=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sTnfnIx7AXBHmePApvZP1/NwUSHVJREafXzqEBgpxAIVzkpGbAiJH4ueWCAYwpxcJ6B8rwf+6OudaHyvmBL40JKzU+/csFBVCMuakfQhQNvDPHDh2/TynDSo+l2ORNAQKFxrC4YeCnkXdK5DleGMQkoZyOTLKWn+N8LKkBZwZ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=ldBcTITx; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=ntL1GHnUDDQRpToqpGacueVhd8hVgEZQnDrSKQBQBolTSK5LEJhMGQ83gZ/pHPTywsM4pG/3ZzpOAKzj+xE4CmQtYEAeGCOw7PtYV03MS7QE84viPPmLKGMu97RVxlJONto1ek5IbDXyQyu1zmNbxaI+3WdRGlPizNzUlznx3ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=c3n1K9Xl; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="ldBcTITx"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="c3n1K9Xl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1756046919;
-	bh=jiMs9bT7UEyc2ddtc5WE2lAeRv6oStvilBoxZsI6gXo=;
+	s=selector.helgefjell; t=1756046920;
+	bh=/vWkJleOt2cHi+0lQHsJM7JefCRfeQ3rSADSc2WnPug=;
 	h=Date:From:To:Cc:Subject;
-	b=ldBcTITxQ547sBZZk3xJfvmb5wJoSoODeEAzkhxX64gZd4AjkwzUCrADtoGKScakk
-	 G2zCkBNUX77cmqZpiiC05fHFDk0IocGOsDh4dUWJmFtD/awP1pbGlmXxtRjs02LENj
-	 alocp1CcgOB2NR6Wl9iH9mGzK9t74kZO8jqsJbSNp1Fw5QJGDEQuKbOXwoWIdbn7lR
-	 z6s0qvnKAs42yeYSbtj8KIpa1QwowFO2ImhwV/v6PYUcQyzTOndZhLGG+LzPfsYZGb
-	 bOmnnRP2WnzU4xo1HHGyydYWd8zd0TCf/B3OPoKigt20iNci/ifq8VtfQ6z3f9PPAG
-	 9/4KAQEsXLxGw==
-Original-Subject: Issue in man page getcwd.3
+	b=c3n1K9Xl4s/ww2+YuPzQroaxUtvVbTqYJs9R6rLb5ZiqJskbd/5N2llOoQnJjhx6Z
+	 z48whZN65uLYpiT583q0TMcb4cyh0VgT11QDTxjm2D4suGitgxp1+fA1iqkLNrYQGc
+	 yUaq0/KSsqjJ0sl0RHhRNuM3dZLcXVnrhn18Y7Im3oOV2YGBZSRIo3QN5aBDGYuLaN
+	 N90/Axtp310VYqdWnRGu00Z0XPLXFIT0cGQzb/+UPnPKxe1xTNGvpR47oqik8Bwwlz
+	 7rtaMs1Ib50B1aDB58cGhhYxc1BPuOhgGVzQ0T9YH9dfQAe3a5W/A3bsBtaOqAFdgE
+	 cQQYgAf7tJMSQ==
+Original-Subject: Issue in man page getdents.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000216F5.0000000068AB2647.001390D1; Sun, 24 Aug 2025 14:48:39 +0000
+  id 00000000000216F9.0000000068AB2647.001390EA; Sun, 24 Aug 2025 14:48:39 +0000
 Date: Sun, 24 Aug 2025 14:48:39 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page getcwd.3
-Message-ID: <aKsmR_YdZU3IJ2Yp@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getdents.2
+Message-ID: <aKsmR84IfORc9E0C@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,7 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    B<…>size_t size → B<…size_t> I<size>
+Issue:    B<ssize_t getdents64(>size_t count; → B<ssize_t getdents64(size_t >I<count>B<;>
 
-"B<char *getcwd(>size_t size;\n"
-"B<             char >I<buf>B<[>I<size>B<], size_t >I<size>B<);>\n"
-"B<char *get_current_dir_name(void);>\n"
+"B<ssize_t getdents64(>size_t count;\n"
+"B<                   int >I<fd>B<, void >I<dirp>B<[>I<count>B<], size_t >I<count>B<);>\n"
