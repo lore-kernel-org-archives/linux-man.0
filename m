@@ -1,76 +1,184 @@
-Received: from 10.mo533.mail-out.ovh.net (10.mo533.mail-out.ovh.net [46.105.72.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AED42749C7
-	for <linux-man@vger.kernel.org>; Sat, 20 Sep 2025 20:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.72.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312811A0BF3
+	for <linux-man@vger.kernel.org>; Sat, 20 Sep 2025 21:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758399076; cv=none; b=FFEdiK74E7kYbRiCAjSAAHPzq7c+4/xPXgDcLb+iw5++BvEVu4EWjDFJtpMUEDlnCQik/oaAemrbEibFSESYBuCHzb7gi7WAb+Bg3DlQOrGJrrjDyZcwWd2uQNeKIYK0KukZT/rYlpCyKQQ7pKbtIDIkRktzyKv2TdJsIpoOtmc=
+	t=1758402341; cv=none; b=sMv4IX+2CCKWkj4A/SVLhr6tO7lBSTIAiRmnrhKLju2CRcD4aYA8b5ggR7UQCLmbWXeN+K0czJNPhR8Ys+B+FQyOsAYcV0YvCMqH6029tBWC+EcE027sJliFhU1ZdQaz+l+Pr9YKMtGZvSoEk1ayk3hqCrRkuZOXf5xHyd5d/jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758399076; c=relaxed/simple;
-	bh=5agf7UHiNOs3a5ekNSQl7ugw2vV4ngCdP6mGmGCYv3E=;
+	s=arc-20240116; t=1758402341; c=relaxed/simple;
+	bh=iny9M2YUoYPMS8vozyz7H47iH2wpeBkotw3A4QZm+5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=joGuCC3pmQ3ZiV6tWB2xmUAWNwpSe5PXHrB46yRmfKiYBk7M6v/ndiOftBx60aI3oEAoyCkxlDyvKF4bhvxcqbZngR9Ze05QH4zffSw6QjAuyoHiKLW4iVIpegf8nLB6n+ROIOCinkWTMPygOLRedTpnbEALFaDJBM0AMITSw20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jwilk.net; spf=pass smtp.mailfrom=jwilk.net; dkim=pass (2048-bit key) header.d=jwilk.net header.i=@jwilk.net header.b=Z5orsrWZ; arc=none smtp.client-ip=46.105.72.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jwilk.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwilk.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=MqkgTY24Hu+eiiBxkUCRuzGOG0i9MlcujXIXl4EFXUn11d/2yuePgvI3AJNNJ2VrQ32MAK74Vjn6trDcVExCxRQPw2Lmez1BuqLDcemzAFTG/P1Ynt0s5DXIOeRZV4so51CBpO8UG7/c4idVwRpwtcht0LIuP1C8ODLk3OxL5Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tcat3Lxe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jwilk.net header.i=@jwilk.net header.b="Z5orsrWZ"
-Received: from director3.derp.mail-out.ovh.net (director3.derp.mail-out.ovh.net [152.228.215.222])
-	by mo533.mail-out.ovh.net (Postfix) with ESMTPS id 4cTcCf3F3Zz5xWQ;
-	Sat, 20 Sep 2025 17:42:54 +0000 (UTC)
-Received: from director3.derp.mail-out.ovh.net (director3.derp.mail-out.ovh.net. [127.0.0.1])
-        by director3.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <coreutils@gnu.org>; Sat, 20 Sep 2025 17:42:54 +0000 (UTC)
-Received: from mta6.priv.ovhmail-u1.ea.mail.ovh.net (unknown [10.110.164.229])
-	by director3.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4cTcCf0Qv5z5vPD;
-	Sat, 20 Sep 2025 17:42:54 +0000 (UTC)
-Received: from jwilk.net (unknown [10.1.6.10])
-	by mta6.priv.ovhmail-u1.ea.mail.ovh.net (Postfix) with ESMTPSA id 15CD18E341D;
-	Sat, 20 Sep 2025 17:42:51 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-105G006b5f082e2-9322-46e0-928b-d26a11dae780,
-                    56193ADCF0A1B0CBF96D1EB55EAA1E6A1B096629) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp:31.0.179.202
-Date: Sat, 20 Sep 2025 19:42:49 +0200
-From: Jakub Wilk <jwilk@jwilk.net>
-To: linux-man@vger.kernel.org
-Cc: coreutils@gnu.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tcat3Lxe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6475C4CEEB;
+	Sat, 20 Sep 2025 21:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758402340;
+	bh=iny9M2YUoYPMS8vozyz7H47iH2wpeBkotw3A4QZm+5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tcat3Lxes+enfg1vEdrn8eCyTl3cnxfDltGn0aGgqrLAsjNM0TdP/vAHfQOjCCAWl
+	 5KYLyVddP00wgOcfU3wZugTzpGRl1qUXJRYUtqFUHl9TBPZ+ooZW9ED8IKxw0onzmA
+	 9htx0euyGdfFJVyGjBEn5YFP1dbs30xyUPwN3+W9gETYwg4celB08BZX6fnieHH7Sy
+	 1xLUSfIgqRM06JdnTS8i7U7klg4UuOEs0U6CnoNgsieCqmoH4eP+Rey0oScBlw8JJM
+	 T6+yvKP6Kb1QaatIHckvEjijOO6vZO+VKu/lv78HOM3pzxanIjzQzwa1LgcCk7vqwd
+	 HfZZpT2n/qzFQ==
+Date: Sat, 20 Sep 2025 23:05:35 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: =?utf-8?Q?P=C3=A1draig?= Brady <P@draigbrady.com>, coreutils@gnu.org, 
+	linux-man@vger.kernel.org
 Subject: Re: Move GNU manual pages to the Linux man-pages project
-Message-ID: <20250920174022.zjqt6fiv4vxo6vh2@jwilk.net>
+Message-ID: <nry5d4nhpdnujv63wyzxvuwkowzladgeqvjcqpm5yubd6p6xn2@qhce56dl465s>
 References: <wqfzoyixsh4l3wg7tkz3c4bjejy4wlski2s5g2pwoqiy2wg3ty@lkqy5semt757>
  <e8152fd3-5095-4c5b-a52f-8451f67272de@draigBrady.com>
  <53jjjhuovjnbju4ex56hwoke2zz5rshxr6qjeqe3tidgcls4sw@zfnfbdktmtpb>
  <4e842b01-5251-495a-9a49-1ce59676acc9@draigBrady.com>
+ <jcxx3nfilug5tfk7ktgr4n4sw3nsvympz7tslsblqlqxbm6ou3@hu34rdpdtajr>
+ <87o6r4zy73.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ceine3zv3isqxfzf"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e842b01-5251-495a-9a49-1ce59676acc9@draigBrady.com>
-X-Ovh-Tracer-Id: 16689777272169442409
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: dmFkZTECElSYjP+AGJ0tYaDCTM2dL/gFhs2HiYtU+CyrfKPNuCSs7fFWJIi2iy0K477jTAtttPNuq3KTrn69QI2XOAsdOf22kGvvO/OyMz+kkee4V++d1Z6uwgf+SAxR+HG0gC45/xRSwp/2DlD6f1OXCC6w9Jo7AucbHwRLYyO3gav5g0+bpeYP0vyv06mQaXYC48oPN8azr0ZRXl6XC19693W/kKZIS/SGWp0e5yVFM0M5N+cxdjL23yGQLRpSewmABeK0LGa+Vlo0LM+uwHqmKu1haJrOpc6W0L1uAvClVgR/C7UOCDqPNGBpuAdMNSy6tKLHR4BcvzLFGcqyt8kqn0DnrsXEKY/XyXOCXfzItWexBNRDADt7bzG8ahqfSs2cHtI5HLdw4QIPE6psp5/hJ66FbXIyqdmO+QTim+2qMb5gUHDOIQ34wXg/uM96KLC1FVV1ga3Oho/w6sXq3vJobveKdC2wZGSH5ztGN8hGuNS8e/9UU7sWPRJNvHhv7xJVIUX7yH88DKdaiA6wSFv4DRGCLbDdtdx2IrKblg5+8JLI4SzJrDxaCUhzih4gWT1SIiRCSl7+4k6Ddcp6Hs41rVk64in75UKLteKLb9N4mDXJnM6mAMFMwjY05bVmtHLYZTwsjuaiDHVkI5C3ZcshUKFVxp1DvyyT5q7CVWdWYtBQcw
-DKIM-Signature: a=rsa-sha256; bh=HsOw0esXO0LZuKscHLE8L7I5I8tmyY5rjDF1nUu0hPU=;
- c=relaxed/relaxed; d=jwilk.net; h=From; s=ovhmo917968-selector1;
- t=1758390174; v=1;
- b=Z5orsrWZ73Lwq21u9Ig5IgH2Yg8rrpqzy4xCHT4X27FFDqbNIu9wh2hc55hU86BruKZBPe32
- umsEV2dyLYc6sKnlWXtqHJb5z087X3MXHXGSD3q2VyfbUmITmr5RvkPkmaX19HdoZf2hlPIGmYj
- ZlhTiYNbIEZ7mjkTw1cwMNqW2b0aEYWNg0QhRZfq1SIntqWmF2EPOmnGM+hGlYqI70bTXJFb1SK
- cmh+mwQGbRaQdtLRQtmeuzn5OwvMvvADacs6uYfefylgVjCIWAG3yWfPb/v7ZQvM4QpmUESO4oH
- 81hzuSGws8lZk/K4ayyPSP1j/Y4TT8yWcnljHeIJZCN9g==
+In-Reply-To: <87o6r4zy73.fsf@gmail.com>
 
-* Pádraig Brady <P@draigBrady.com>, 2025-09-20 18:01:
->I my experience user don't enjoy the info _reader_, while the docs are 
->fine.
 
-If you've been avoiding info docs because of the horrors of the info(1) 
-user interface (like I had been doing for 20 years or so), you should 
-give https://github.com/jwilk/informan a try.
+--ceine3zv3isqxfzf
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: =?utf-8?Q?P=C3=A1draig?= Brady <P@draigbrady.com>, coreutils@gnu.org, 
+	linux-man@vger.kernel.org
+Subject: Re: Move GNU manual pages to the Linux man-pages project
+Message-ID: <nry5d4nhpdnujv63wyzxvuwkowzladgeqvjcqpm5yubd6p6xn2@qhce56dl465s>
+References: <wqfzoyixsh4l3wg7tkz3c4bjejy4wlski2s5g2pwoqiy2wg3ty@lkqy5semt757>
+ <e8152fd3-5095-4c5b-a52f-8451f67272de@draigBrady.com>
+ <53jjjhuovjnbju4ex56hwoke2zz5rshxr6qjeqe3tidgcls4sw@zfnfbdktmtpb>
+ <4e842b01-5251-495a-9a49-1ce59676acc9@draigBrady.com>
+ <jcxx3nfilug5tfk7ktgr4n4sw3nsvympz7tslsblqlqxbm6ou3@hu34rdpdtajr>
+ <87o6r4zy73.fsf@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <87o6r4zy73.fsf@gmail.com>
 
--- 
-Jakub Wilk
+Hi Collin,
+
+On Sat, Sep 20, 2025 at 01:05:52PM -0700, Collin Funk wrote:
+> Alejandro Colomar <alx@kernel.org> writes:
+>=20
+> > Hi P=C3=A1draig,
+> >
+> > On Sat, Sep 20, 2025 at 06:01:21PM +0100, P=C3=A1draig Brady wrote:
+> >> > > All of the man pages have links to the info docs for full document=
+ation.
+> >> >=20
+> >> > I know.  However, many users don't enjoy the info docs.
+> >>=20
+> >> I my experience user don't enjoy the info _reader_, while the docs are=
+ fine.
+> >> The full docs are on the web though and also linked from each man page.
+> >
+> > Yeah, the info online docs are much nicer.  However, I (and others)
+> > don't enjoy going online for documentation, when offline documentation
+> > is available.
+>=20
+> I wish distributions installed the HTML docs to
+> /usr/share/doc/coreutils, or somewhere similar (and substitute package
+> name for other packages). The gnu.org site is down or takes ages to load
+> frequently nowadays.
+
+While having offline HTML docs would be better than having online docs,
+I really prefer something I can read comfortably from the terminal.
+man(1) is really comfortable to find and use documentation.
+
+And if I want to sit down and slowly read documentation --as opposed to
+just consulting quickly a detail--, I can read it as PDF with pdfman(1),
+which has essentially the same command line interface as man(1), but
+opens the page on a PDF viewer.
+
+> That said, I have seen complaints about the Coreutils man pages being
+> "incomplete". However, it is grown on me personally. I use the man pages
+> as a quick reference when I want to find an option or understand what it
+> does. And the info page for examples and/or commentary that is too long
+> to reasonably fit in --help.
+
+I personally would remove documentation from help, and only print a
+usage line.  The user is welcome to read the manual page for consulting
+the documentation.
+
+This is what I'd use in a command:
+
+	Usage: foo [OPTIONS] FILE
+
+> Writing all of that in groff would be a pain. More of my time would be
+> spent understanding the syntax than it would be focusing on the content.
+> Texinfo's syntax is much more readable and easy to remember. And the
+> HTML and PDF output look nice to read.
+
+I volunteer to maintain the man(7) source.  To me it's quite
+comfortable.  When you get used to it, it's not bad.  The syntax is
+actually quite simple.  You don't need to learn the full roff(7)
+language; the man(7) macros are quite small compared to it.  mdoc(7) is
+much more complex than man(7), for comparison.
+
+The PDF output of man(7) also looks nice.  Please have a look at the
+PDF book of the Linux manual pages:
+<https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.=
+15.pdf>
+
+Or you can read single-page PDFs by running pdfman(1), which some
+distros already package, or you can find pdfman(1) in the man-pages.git
+repo (it's a shell script).
+
+HTML is not yet good, although groff maintainers are slowly improving
+it.
+
+And the build system of the Linux man-pages has a lot of lints to make
+sure the man(7) source code is of the highest quality, apart from also
+helping catch easy mistakes.
+
+> I guess Markdown or reStructuredText would be more friendly to new
+> contributors since many do not know Texinfo. However, I haven't seen
+> good PDFs generated by them (though I concede that I very well could be
+> unaware of examples).
+
+I doubt Markdown or RST would be good for quality documentation.
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+Use port 80 (that is, <...:80/>).
+
+--ceine3zv3isqxfzf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjPFxkACgkQ64mZXMKQ
+wqmXZA/8CnGRcvSywYLimlbQmnq411qVGyas4uGBlWs7RbD1W4pbAjDA1WOAGt7U
+YPBSVXAvzUyaQJCruB+P0oOeArE31rgUQagIhSpaAK+ekFJjjXMD6Zfx2OMkNh+6
+yV3vcWBOwteqUr6L9HnKrdg0bGT0NdTP83/RrLe5mPF6hLn0zF4be+23Loja92mg
+qH4FRV79RhukCJv1Wey3mrYRDZ4WjRDbaiorQHmiAnuJNElUJf4UOCEo90C4+XYR
+mNUnMOUHzkWKJIbhD9gUjMdsqYC1u8mIzWzEOSSHnhquEqhl6NGbK+wADaTPitle
+QWyRXghWTixOo1MsURAS9oOKCmqIyd+StstdEbid+62OhZ1B06q864GnAF8/BCct
+iQiq9oGs8NxTKFTUQ4uaAXLt2b7p5lQtBfVh0xZXD3TU+PATrKbRqi4htkW13lrU
+lM24wHNmGQoGwL3jdJHebkn+JEPihscy2FNLInmKcnWXMO5pPl8AdJjQpKX+t0/d
+b90z2Lsn/JqhubIfoaZ1u7PRWL7pinCLc+pFlAd9VJHf7H/MNdqr5HtZ94zklceq
+3DE4IEbyWKydh1r0Hm/pf7go5ZpYE6cd3HPSWLs3I0fMq8sSfG+bJlKcfttVn2Of
+kKrvri5pZ71Ah4v+tGF4oANY9qcr9XEhtWc1/YL5TCcbr7zofPw=
+=m1qM
+-----END PGP SIGNATURE-----
+
+--ceine3zv3isqxfzf--
