@@ -1,75 +1,75 @@
 Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A256C148
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 04:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE2BC148
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 04:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758513665; cv=none; b=Cu4K9vT45R81U6VYUcMoUkQcfJMYIs+Y9jgUMUY6PJeq/0B2B3Y2bBfvXoFV/AInffdzqLfa/l0gxxckRBvQatWoP6TFHUBlwFh71wBy87TpgYdLfg0gmUXAs3KQGLCLUwTFOzOZY4NQucN4Tg72JNzbjCCxOMRFJqrQGGxWks4=
+	t=1758513667; cv=none; b=XzfffM1BM9bW5Bp+d8zV7NCTdao/Jf8OjuYcEx1W00y19TH2mUVZ7d3gVASuvFoXl5jGRCdWbYmfRVVy5hBL4G0km6j5riYV21gNsGEX0xkBE1YezcxK2E7MZTD5jmKlORngRWgMoLxnr6Q+icXfWNG8qE8P8aO14M+cNpb+wSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758513665; c=relaxed/simple;
-	bh=mokNJ1aLM5s9U7HjkCZmvt5jSPZbyL2Rnsj3q34aueQ=;
+	s=arc-20240116; t=1758513667; c=relaxed/simple;
+	bh=wIOfbvrXcK/HcLYYW2BpR/5a3t9FC37gvXCZVkPmxro=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SXfNzCj+y1+PBbxRY630gU2ldQ6pYg2V2vxWklJHM/WBAskRYH/OC1OYV4U2O9MS0t09DoPMQ1PJbj8iktRlBA1k9QLGdyeys5ij/jJfOV7uVmIb2a3Lt/2MMt712cSRJkgvEVZO47I4x75yegZp5+brA/lZ97ebdwABw1+mbDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=udycdVP8; arc=none smtp.client-ip=148.163.135.74
+	 MIME-Version; b=RdfJVdKmq3E3JY+69o3oT7zKjbXp3dmAO/PQRVfn2VzECvXLxoJjdl1Oi/TEvtb2xRsnpwbzAii78w6I8J90+mwdhkkNtP1WH6+QwiNm7ozZbQqz5h+wgvE9i0W8s2v6j2m45QxgGMUACJz1Ov9oUgLHx4DuZoy+kux282ALYBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=DdH39Pd0; arc=none smtp.client-ip=148.163.135.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="udycdVP8"
-Received: from pps.filterd (m0167070.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M1MX2P008960
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:00:56 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="DdH39Pd0"
+Received: from pps.filterd (m0167071.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M1MuAo015607
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pps01; bh=gT1+V7ONE2qDCtq
-	ugTju2/2N6tCEDeHUq0iYwrbmz5Q=; b=udycdVP8w0IuI+eNcEz9BJs1M7fCpJp
-	XQq8UbcT+xxg9IXAvRWadyU6Rww9Ld5Mdfv1OHgYL638arsg4c9lJGHS2YXw9ZDV
-	o6YCGUcD9esPMf4MgqTrDyjjkyXQY0y+R5ZMOSpiuLjZ8pdDZvgfATDIkcZRdy9T
-	pkLeVp7s/8SBQ1PFlj5vmQzMzW0wD8IY0Deu5/5FhIFEEZ33KAKFGpncHOQtroaa
-	pGTeKrW6Yu8gMXhuBA7l3qrubU94mNNZnMZLvOA2CYgoi1TKgsVoVjeCVelcwzY5
-	jrWzFoWDvvPdb6mw118GDBBM8yyq2jamGX06pXC+TaK1azGl67YRk5w==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 49a9d5ngh2-1
+	:mime-version:references:subject:to; s=pps01; bh=wi9SaRsdXNaH2tG
+	maZcEKQy4zIAl9qBzEj6X3QxOWRQ=; b=DdH39Pd0R8/RoD0qfA6hiXLH44FSx19
+	tbTGe5UCnrOHzUE3TcW1J4aQcEIrJG9c8f16YoftM7synFvan0YKQFI4zrWBqgHE
+	Y4xH35LW5G7GS8bCfNkzLmR6yTOTG15+CzonunaeUiMWWWNZ+LtlKrz4clL+/aNO
+	80KNxXBsGx4rOhJIFF2JT3A1FXJ78exPiL59vHBVlZl8LmPeCTnIasDU0Sq++rXo
+	1pL8zcp2cDSAuqX86uQ+1oZOGQEwfLiSuOMVvvyjQTGRAH3T1n543nGzs71VDk1t
+	ES0aiTGdnbcBXdC2URj47ncJd4ONq0XMfR4Mn2JE486BUwWmlnEJ6gQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 49a956wj9c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:00:56 -0400 (EDT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-78e50889f83so105752276d6.1
-        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 21:00:56 -0700 (PDT)
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:04 -0400 (EDT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-7bb414430c2so20720216d6.0
+        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 21:01:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758513655; x=1759118455;
+        d=1e100.net; s=20230601; t=1758513663; x=1759118463;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gT1+V7ONE2qDCtqugTju2/2N6tCEDeHUq0iYwrbmz5Q=;
-        b=LHSC1d/oikD7fzdq7l+hULJ1jfdNJVFJMYR8EbKfYNLXR3K5uZdylu5+7SPJTyGMTQ
-         SUL9YPaBpXTYvFnorgWE2/5Mv+DUtgAPFqd08bMBqecqsjjxRb977sfBGjnN2hcbJxHO
-         XSq35zF1RXAnBgUOdiK/oC1KgdWoV0CsYu+R2587b3lSLQNfPm0CgkDQtuXGfD2ewpoE
-         4Dv25H8uRPPayd3SuvSMNCwFd2IYzYtPL74IzCfGigvxOLrj9yxL7Aijzi7epzfgQaHU
-         /3HXb+kK37qGKtPBLXhhzzyi43GStlRrOGXdzH7sgVhhU+bVdjvQ7pQJ8t7OZrX+2moV
-         VbDg==
-X-Gm-Message-State: AOJu0YxrnNhKBiizjQbImgU7Hc6ufJq5uTIzC19iyXtl+rg4iZrj0JwK
-	UDga2zlwydg6zxlxpQbUYaon1fswpwQNcE9xaijHADFR8jK3m+rYkXrPya358U+Q+iNnhx8InvA
-	ho66uDU4ny+j2qnhC05GvaRiOexx0Jclolf6tF3xLRcGEIuE/n0GbqzHwPAc9qL5crQ==
-X-Gm-Gg: ASbGnct5+hwyN+UROJtF0PpwrVlXVGq/d7Z82S5ImoyF/67rhXZ04Rf3IzY9yKTcWgl
-	QwDf3+Bf7dezy2VAEI7TzsVQz1zdSGMM7CoYT43y9BryPHUAEHmec7fllMc0/N/8ihGIPuapZug
-	vsnRaxTZsJ3bGgTMXJWu2riCtlYjzZ5rMBYnS+eDTCqQn8kK2bjFXBFTsYC1c15LeQuX0rbBXO5
-	UKl+iQn7azDnP8H+xZZTEaItW0Dw+5I/gxG/8S+H4zFGFcDvtf/gl8jJww+gYav404f6WnvkuBM
-	lIEk7Fq4/mjHinY1OZj3SHK/F+C5UQBaxL/dBGAKjPfuPYJWspSiBP+HFjmVdTClNkOAc7jk4A=
+        bh=wi9SaRsdXNaH2tGmaZcEKQy4zIAl9qBzEj6X3QxOWRQ=;
+        b=pfkQBma7+vrHZpSFGaF2FQ6QxJGaJ9jsSaiqLF6oH+Bwcp5qMl0QsKrSyFjZSS8C/J
+         R+ZmE8gn68ZxgSjARoqc6HOvw0gKZkrWNEJZawjt3CPhTqXQ2Q8S1TD9893C4MtuGuc9
+         tOLTH0geFCKSfklHGWEcfb13KuxzfvSL1cDGh2i9nH0EOptc2l0DputeWq88hzAqU5bM
+         Do+A44r05HB6lNc/JI7JSILw444OFqd6UdC2Im19zkgZi96t3UcfzHzM9dMSjs2UnfEi
+         iJ0fH6Qu4PkgECN9ejR2bvBVl4vP5h1v/d/yBILhNg9cN1NQlwNhC6bVtv5XRurgg/ee
+         3CcA==
+X-Gm-Message-State: AOJu0YxFoB3K6kdCFG1AlRXN7MJ/qrLUbJeIiGcZgKZWjyEqV+Hjnmuq
+	3dZZRdQtwa/IYPOCg1U0SEMZ7cG/FBPh7QYvlUPEm2nuISJeTb9W8GuWqFN0Pp16l8rtL/68sih
+	iz+OnMg7ty+8jmpGPtr3pc9knaFRcTbJB5Bk2jbZPIzZjmhrqdb8QtY3Npw==
+X-Gm-Gg: ASbGncs0KAT6uHPf44f9a7pdDJXm1icEjpomRseQOAZwYJFyIB7ZEB/ZoG4aKol9XYy
+	4w8oNQA8e6+DG4Vq0iy8X9eskukzgn8eEvfnoE4ZOQkQtz803oCVmbBmpVjG4pcNoGb4wZijSR8
+	QEemFozQwEkJ+JsPi5h9hespV6EjIsENuO66NZdumGCG7CNaPedUxVE+fGkr82WSM+ncsiGtHoK
+	uftMtXqMUFfRK+x9T1murcmFkW7PUTvyLtnM1P0uONNZM96fJagZ/n3VjlduOsI2QrGAfpqweSn
+	fCJlnxfaj+3CfeHZKlfPGQoVSUgikIA2KphZsjTHiIyTU1MnU/GPNprv2QkSM2sUwowIf1cUjQ=
 	=
-X-Received: by 2002:a05:6214:519a:b0:78c:9cc4:7624 with SMTP id 6a1803df08f44-799211db36dmr107383556d6.62.1758513655212;
-        Sun, 21 Sep 2025 21:00:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHdLbx6FfKlC1LSHndP9Xi7mnf4s5Kmb/+ioXC0qP2dxS9WgYTO6yaJNf17GE8D2jo1++5f1g==
-X-Received: by 2002:a05:6214:519a:b0:78c:9cc4:7624 with SMTP id 6a1803df08f44-799211db36dmr107383376d6.62.1758513654675;
-        Sun, 21 Sep 2025 21:00:54 -0700 (PDT)
+X-Received: by 2002:a05:6214:20a1:b0:775:6a7c:dbd5 with SMTP id 6a1803df08f44-798c72124afmr114262746d6.33.1758513663230;
+        Sun, 21 Sep 2025 21:01:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFRgB8e7IBibv2IlOBHv3vEwsSBYwi9fCArhkdhsPLsSFz+3Nm8wvkwoMD+QIDkz5KSz8ifuw==
+X-Received: by 2002:a05:6214:20a1:b0:775:6a7c:dbd5 with SMTP id 6a1803df08f44-798c72124afmr114262606d6.33.1758513662945;
+        Sun, 21 Sep 2025 21:01:02 -0700 (PDT)
 Received: from rivalak.cs.columbia.edu (kele.cs.columbia.edu. [128.59.19.81])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-793469322f1sm67218036d6.20.2025.09.21.21.00.54
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-793469322f1sm67218036d6.20.2025.09.21.21.01.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 21:00:54 -0700 (PDT)
+        Sun, 21 Sep 2025 21:01:02 -0700 (PDT)
 From: Kele Huang <kele@cs.columbia.edu>
 To: alx@kernel.org
 Cc: linux-man@vger.kernel.org, Kele Huang <kele@cs.columbia.edu>
-Subject: [PATCH 1/6] man/man2/getitimer.2: grfix
-Date: Sun, 21 Sep 2025 23:59:29 -0400
-Message-ID: <20250922035934.446271-2-kele@cs.columbia.edu>
+Subject: [PATCH 4/6] man/man2/rt_sigqueueinfo.2: grfix
+Date: Sun, 21 Sep 2025 23:59:32 -0400
+Message-ID: <20250922035934.446271-5-kele@cs.columbia.edu>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250922035934.446271-1-kele@cs.columbia.edu>
 References: <20250922035934.446271-1-kele@cs.columbia.edu>
@@ -80,45 +80,45 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIxMDAzMSBTYWx0ZWRfX0lRnXvHKQ0b8
- lJkgF6BKg/3GFA2kO6PkAkgL4MNfOIcP4EpKy002NrZd/c8341mohDRfLRz2wRul9q+n5Akj1/P
- S56GTdoYVsGqfGvnoTjuV1ij+VbDjScgb21PdqfNzzH0AHQqlP9XM94PaBJ+JyEZoKNld/w7vwf
- 23WA8eVTyhOX1gDO9ac708MaQ0eaAX4PL0E61haxxXbPqvKM/ZupUcWKtYfDEyKQEKmgpHplrwj
- iN8xDuGYYeoapVCI8FpXqQstWzneEsZYNJ8sge6tFZVEeQ7kh3SbPU+XI3aUMmoptcpgpRV/fL/
- fyV9boIsfUk4zMQVN1I6FvSW3pmu0mPEvIjeQLuzFlFsmmlqpvKD8YyPmaBffoaJPX1U8RK64SC
- mxVjNL2c
-X-Proofpoint-GUID: DtoHqJ4kZDI3JabJ2ix5dbUzIyM-XOMg
-X-Authority-Analysis: v=2.4 cv=SJtCVPvH c=1 sm=1 tr=0 ts=68d0c9f8 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=3s50gvPmqPWyIM6FhyrXAw==:17
- a=yJojWOMRYYMA:10 a=KdpxGcdQdKQXK64bDFoA:9 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: DtoHqJ4kZDI3JabJ2ix5dbUzIyM-XOMg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIxMDAyOCBTYWx0ZWRfX11qAK7rwU/7Y
+ AnMxuwR+Fx82po5C0b9qGf0pQ6wjiWGfziQ0ybDTNxu0vAGZGXDkDpiKUS8CSrLswdQhOWrVq0K
+ IcUVqOaVnysl7/Tn+JCpOT96d/JS+E0rfTvi3ziFCn55UUaGnisKZa7oQP7+dv3zMY4+LilnSCU
+ ysVTAqLrUIQyhFBTGJImwnVA+sg6GPdhhFPeRDzfBijIjupOwNuZr2YDi8OrVZgEV83BEx6BSaQ
+ sc0nD4hQG36LAogIVFm+/HAkQA0rnfV5uPY/IpVdBAvOHlIMNHkJsIkkWIszYeQcNc4QubmOq1P
+ yi7brRrZlIztoKbPVC0KErXZnly6dmi9D97vcPq46OZEm34II+HS1apUISuWod4F4d4RXQmo18g
+ y7cgE/SB
+X-Proofpoint-ORIG-GUID: Xi5TdJ4_WlhR7jAU-IIZGyZnxCYdmvXV
+X-Authority-Analysis: v=2.4 cv=cIjgskeN c=1 sm=1 tr=0 ts=68d0ca00 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=3s50gvPmqPWyIM6FhyrXAw==:17
+ a=yJojWOMRYYMA:10 a=RZtWSt38TsdYJtjMHBsA:9 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: Xi5TdJ4_WlhR7jAU-IIZGyZnxCYdmvXV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-21_10,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=10
- clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509210031
+ phishscore=0 suspectscore=0 malwarescore=0 bulkscore=10 priorityscore=1501
+ impostorscore=0 spamscore=0 adultscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509210028
 
 Signed-off-by: Kele Huang <kele@cs.columbia.edu>
 ---
- man/man2/getitimer.2 | 2 +-
+ man/man2/rt_sigqueueinfo.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man/man2/getitimer.2 b/man/man2/getitimer.2
-index adf1dd350..40467b661 100644
---- a/man/man2/getitimer.2
-+++ b/man/man2/getitimer.2
-@@ -139,7 +139,7 @@ is set to indicate the error.
- .IR old_value ,
- or
- .I curr_value
--is not valid a pointer.
-+is not a valid pointer.
+diff --git a/man/man2/rt_sigqueueinfo.2 b/man/man2/rt_sigqueueinfo.2
+index 1f853d783..286de6ecf 100644
+--- a/man/man2/rt_sigqueueinfo.2
++++ b/man/man2/rt_sigqueueinfo.2
+@@ -131,7 +131,7 @@ is set to indicate the error.
+ .SH ERRORS
  .TP
- .B EINVAL
- .I which
+ .B EAGAIN
+-The limit of signals which may be queued has been reached.
++The limit of signals that may be queued has been reached.
+ (See
+ .BR signal (7)
+ for further information.)
 -- 
 2.51.0
 
