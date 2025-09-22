@@ -1,84 +1,78 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B16414A60F
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 01:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3E02EC0BF
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 03:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758503444; cv=none; b=m5y1KvZCL3sibL+YY1jID/SlVkHK6ametYUWOaQFoV+U3Qf13zjk7pRX0JvP+PZZvq6Fdn+P/BQK2X2CsNTkBJ4wcXd9ILG3LfSwi8W4qYyT4Y0W0tOnM3GxTV5pPzrCEmVU8by75gO1ZpvQjLkNDDp956v0ylcUvhBYTgzkvYc=
+	t=1758513544; cv=none; b=F7QrXC5PKrn0UQu5S/qswZ+MyqBp/zL2ium728UyA7x+EWsio/V78ygIrahKJ3mbHm2Y+6SkHMa5MSPsD/5SnSQqeq3Vbc1J08z+gorVhjDgG4RvOwIo3SweAk07cDWFDiTaeaB7+WJvjgWCKwiuOcqc4Vj5f0KPe+IWRpbjpJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758503444; c=relaxed/simple;
-	bh=M5wz9xqOwUfHtDVvMp9nzAi5BBDdS8BQxS9fvLMQ0nE=;
+	s=arc-20240116; t=1758513544; c=relaxed/simple;
+	bh=mokNJ1aLM5s9U7HjkCZmvt5jSPZbyL2Rnsj3q34aueQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YgdCfI9JNbpzhovVfV0PE9qEEOkrfE3tuVyrWfAv61Pv4SQ6vBpwT9ADIAYwSb8yIcew2ZVMMxg885MUDCuVsgGzN/Yy3BeTaQ+Fw7XESFctWrNGT3cIedvWeHWf4tEgw5Jxp4VeWuI+u5RQrgoGOg6tTD6UEv4448C2h9V2Z2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8ZoIfv9; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=kGBcpWLqm5fLbK3Ql4VZb7QMWZjLLzO1mlkxJ1FpEhNETUvvPwY4/U9VBNn18jU4Bp/YmwlzCoJVdZFV3hGoFrC671ofOFlupoT01ZQYbTk7pIchvjZAVLFMMYS0eZm337/VYzvKAV4HCGRWPa3IROuOudsWa9Kf5XwZTzeSmXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=hsLp96Sz; arc=none smtp.client-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8ZoIfv9"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b2d92b52149so17384266b.1
-        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 18:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758503441; x=1759108241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8MkJ7oUnUH/4XWT8grjBfyBKEOMi6atBFTqk4gqmuuc=;
-        b=H8ZoIfv9DSR1/hp6JpXytlIGxWeyxbDOAgZ1ldhM7onVV0tw9ZOLtFyVaywrJxmn+j
-         DDSO0l47Z9Qeoi8mnW2W8tJS0CDzx/NvkJVhlimIf6QKIIJ+++gy6ddVxb/s9NO0pzpQ
-         ohzmZRk3iuXgw3lFYA7H+h1WxCaY5OLsfoBZL70HL44Q89ZHURlpvTdsndiUplxTVCho
-         fAZyp7KXHYeyXPjrdAF1vn66OXoDvfbpVzF8dfzqdB2GHL+PlESDX9nsyW3SCBpSNIgT
-         mc6XdOXDZ9DtNg9H3iTRCIgrA3VDrI7X1OGGvN8K5Dh5Y5kKrB47Wt3Bw++oZqh2fGcQ
-         tCpw==
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="hsLp96Sz"
+Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M1MWCI002973
+	for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 23:59:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pps01; bh=gT1+V7ONE2qDCtq
+	ugTju2/2N6tCEDeHUq0iYwrbmz5Q=; b=hsLp96SzyKIqacM3PWNN8/SAv5eP5Gg
+	Uay1DQWokJwRGiQZzQuZzLJ8TjhlhEkvuc5Gm23KSzYjy8Uucvc19dHrRFwQUhjT
+	5sF+7sQOyyrE9Tiv98UgmwA5NR0lXtTMK11368MSfYoNfr3DePED/86zan6FlgS8
+	/cU4uVD5qBa6YuvVzlMbMh4NWGIT2jl7xy2cEe7Qzs32BVT9UzENWIHPl32wbJIM
+	PvTLUPLoJiafWER1k9mBIc0icNIln44Df8w4uFrvbUI1BuB6cG4698m14CsLKNjU
+	z2EMsCsgqgtk9UksmD5TDbLU4FcPJXQt5e/PQW7dYPRyHURIhim+y4A==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 49a9ek5j1x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 23:59:01 -0400 (EDT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b5e303fe1cso67155361cf.2
+        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 20:59:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758503441; x=1759108241;
+        d=1e100.net; s=20230601; t=1758513540; x=1759118340;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8MkJ7oUnUH/4XWT8grjBfyBKEOMi6atBFTqk4gqmuuc=;
-        b=N+Gh36qLd+czOBpxtE6GCVQRU+ki37TL9ghX3eFbuTxr+AK/jhmPAzyRPzcDvH4Vth
-         QhNskj0ILOD/Sn5yhOQ2nyblX4n2Tz3gmnpvK//Z67Q5EiOCVgYjhxyVuFJ4h+KhBDno
-         naxPPOskEvWPxh+zdb4ClbSnXa7T8QqqbHJF6QYjfkuC7mNOqcnSqeLcQySGBV6t/0EF
-         CCmTl4ecpgPaXdMw/C39tKAhTDk2j7y+AkI6O4fY9oaE3b3RUI4V+11niloPbiCkdLnr
-         NWjt3DDewkbAY+zmpzDlhmcXABrBwr+RoTVTH2U4AJjJy7pd0a9tcRZiVJFaVbSxdxqp
-         tChQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX50o6Wt59CXOnnWqsr9vAYfrvkyFNXDAFUZHQAmMGJZSkzU+yFK4biEe0/0oDKync34cAP1u0QnEM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Hx/FLrtEC+yuK2L7WA0aRvhcLawI7zWiQzg39zJfr1vFLaXx
-	UvJKb3cU2YzII9DLKIJWZuZoFv6N9TLhY4Eb0PBbtg6KkLZNdg/ECAjE
-X-Gm-Gg: ASbGncuHXrHMPtuSLfpy3hTdSD4YoI2SV94yHawkyQCGgSANBIX6KgWrsv6vZfJhcKV
-	5q7YU5r9jrU10Q+HIAeXEnCR6J3HJgg18cThdFAr4A8Q64TueUiYce6FuQUk2jm//qwocbO1vjB
-	XD0qLQnsyAX+6hnuLLpQXXWuTGcRXTyS2/RmMgDm0Qi6AGKJnIKeXFrXjcZvZex/D4G9y6FU9sn
-	8amZrqmv4avIMDiw4dW49KsiiWU6CBj9PPRS0lmyJW/XU9tLkqhvZJZreiu/aKo9VW5G5aSZiZx
-	EHdQ5pkvo0wr0ItBDSz6vXIjulGrSXkC7QL19Dcfri6x4TWJ00atnl1Sbo/EYy7Gix0vv5j7Zo/
-	lmfl7owZ7vM+sTy9hjuM=
-X-Google-Smtp-Source: AGHT+IEvTen8ntQeNOQqNFT2eKUrH0+zq+HnLQQTKn/Su0UVk9XUetSFBmS6KjUaD9cJm9/WF53iGg==
-X-Received: by 2002:a17:907:d0d:b0:b04:6546:345a with SMTP id a640c23a62f3a-b24f442d830mr1120956366b.52.1758503441503;
-        Sun, 21 Sep 2025 18:10:41 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b1fcfe88bc3sm956702866b.51.2025.09.21.18.10.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Sep 2025 18:10:41 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: safinaskar@gmail.com
-Cc: alx@kernel.org,
-	brauner@kernel.org,
-	cyphar@cyphar.com,
-	dhowells@redhat.com,
-	g.branden.robinson@gmail.com,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	mtk.manpages@gmail.com,
-	safinaskar@zohomail.com,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v4 05/10] man/man2/fsmount.2: document "new" mount API
-Date: Mon, 22 Sep 2025 04:10:34 +0300
-Message-ID: <20250922011034.96618-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250921230824.92612-1-safinaskar@gmail.com>
-References: <20250921230824.92612-1-safinaskar@gmail.com>
+        bh=gT1+V7ONE2qDCtqugTju2/2N6tCEDeHUq0iYwrbmz5Q=;
+        b=Vb++vYonDxaTlxpAy+I5I23HEyAAh15rz1z+hkgeFuprJHNjFWg+hEqkR1fY+0OlWu
+         mjkYYYjHEQbC+KW3h3vsbSSC4Udy+Zg6r8B1Q0yVZFCAWacbtFHyLUE9R4BQakkBdRCl
+         T5HbJSFBWtGbrRoHZDcR3LoRuaYLPG/9XoVonJPyqPzuiWcGFqNhiEV2F+lLiaK0Rdqm
+         igcPIZOik7TUlPuWkMEjTNcAN1ES6UCWCLg3JVZlu+n5tb0K/svEDmf0DAHjqTwieJ3Y
+         +8XKUFnT96XRfFnkk5Fvujmon0oKlsdSx0Oz0CDubIn6Ym5rLkuug/TiDALg3FdNeksv
+         PUgw==
+X-Gm-Message-State: AOJu0YxIHk7qjHjVZx7KNaIyDyHgpph4Sd1vyJvbrlXtg1xFveVEXa3R
+	P9Ev1Ym2Ps9Sa7g7B0VIwgXDM6yUMzH8CjVawZzS4sqAF0Fk/iKDTcV/Av4gNlfZwCor5R+agtQ
+	dDwtQrZlncdY3S80uAV2u5krpe72e5OADXTgjQ7rXiSwdho/6KUmKgDDYOYYtYxLJtw==
+X-Gm-Gg: ASbGnctOUs2CHlI8DJGPfXT8WJDmstxY353KJdRo57ZejJwLc1ne1p8QTtxvNICbTKE
+	8qjN4pA+cgE5Q5MCXKulkizQqo7qH/KDNTiAyOAYic8jA9v3R8kdDurzo5+mLJPA+SW7GPUhAMX
+	FKixznGDTv31uAZuvn687UejzIf/77XlZLx1aZaKzyWfOa9RBpPib1haw3r/SaZ6NJ1xiuMAAeV
+	OHNNpec0JJJvxryXmvm/j+qLjLP5SkezDV2im9P+IVsrRnp6ed77fb9dHlQVjCJGuMIwIdi2bB8
+	oyn7vYVYnESJs0uGJhJR0vBMs+w4ukzb0fcuGiOA+XmVhL+BOlGXyaDfhrCJfeg/TwyoC8mOAA=
+	=
+X-Received: by 2002:a05:622a:5e1a:b0:4c0:c983:4328 with SMTP id d75a77b69052e-4c0c9928605mr91621301cf.25.1758513540391;
+        Sun, 21 Sep 2025 20:59:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG1F2vlAm19BbV9LBJMuatFIzJa+17lXuS6b7/OQj/KLhW2ipPdfdniejoOashrkDyIy10S9A==
+X-Received: by 2002:a05:622a:5e1a:b0:4c0:c983:4328 with SMTP id d75a77b69052e-4c0c9928605mr91621261cf.25.1758513540051;
+        Sun, 21 Sep 2025 20:59:00 -0700 (PDT)
+Received: from rivalak.cs.columbia.edu (kele.cs.columbia.edu. [128.59.19.81])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4bdaa787eb7sm63807121cf.48.2025.09.21.20.58.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 20:58:59 -0700 (PDT)
+From: Kele Huang <kele@cs.columbia.edu>
+To: alx@kernel.org
+Cc: linux-man@vger.kernel.org, Kele Huang <kele@cs.columbia.edu>
+Subject: [PATCH 1/6] man/man2/getitimer.2: grfix
+Date: Sun, 21 Sep 2025 23:55:55 -0400
+Message-ID: <20250922035600.445802-2-kele@cs.columbia.edu>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250922035600.445802-1-kele@cs.columbia.edu>
+References: <20250922035600.445802-1-kele@cs.columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -86,10 +80,45 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: le5ILQJgVDpOik31wSqW5NF5de32Cu77
+X-Authority-Analysis: v=2.4 cv=e6IGSbp/ c=1 sm=1 tr=0 ts=68d0c985 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=3s50gvPmqPWyIM6FhyrXAw==:17
+ a=yJojWOMRYYMA:10 a=KdpxGcdQdKQXK64bDFoA:9 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: le5ILQJgVDpOik31wSqW5NF5de32Cu77
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIxMDAzMSBTYWx0ZWRfX3VrFC5UG+Ky9
+ lNTlHdml0O6IZNFMLdB73DsCD0rAXNrqdASG8Fy7Mg7ht/YpdAMqz0IEhlUvLEv3Z9m2r2r+hJt
+ C1iQBQjbvUJ/e4JKExXVn8OOJ7VHxNmzHwyKTfe7piijjBR+ezljBsd1iI30nQ9q58Jp65AF/bA
+ /1KXZJq9TxWzHQIVOqEx0xFfbIlk0NXzoy0qnB+4tILwg8oJ+BfeP97STLsBIshv14IEHKfSFCh
+ e1y30cOeds7X5t+NyYnFWuQNYSYXgwDWFruJpg4WzfZpe9IFZXKn7bKTWuKK4R/Ti6Rcr5qweN9
+ zv/x4CEalI3pFVzop8/FC/4l1FIBZ+DPbpeZhmtbNj5G29V/wE6ARr1mOswHtLYW1dgHh31OgML
+ j34AErEb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-21_10,2025-09-19_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=10 malwarescore=0 suspectscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509210031
 
-> MNT_DETACH, not MOUNT_DETACH
+Signed-off-by: Kele Huang <kele@cs.columbia.edu>
+---
+ man/man2/getitimer.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Same for open_tree and open_tree_attr
-
+diff --git a/man/man2/getitimer.2 b/man/man2/getitimer.2
+index adf1dd350..40467b661 100644
+--- a/man/man2/getitimer.2
++++ b/man/man2/getitimer.2
+@@ -139,7 +139,7 @@ is set to indicate the error.
+ .IR old_value ,
+ or
+ .I curr_value
+-is not valid a pointer.
++is not a valid pointer.
+ .TP
+ .B EINVAL
+ .I which
 -- 
-Askar Safin
+2.51.0
+
