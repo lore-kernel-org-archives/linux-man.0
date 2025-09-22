@@ -1,75 +1,75 @@
 Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF00192B75
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 04:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609851D88D0
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 04:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758513670; cv=none; b=qGTsNBowAAhUTLjEEGx4XyqbaBa73TSVUvXpd3dJt4wigGfNc+76BjeaBoxF0CBebHfpkKuY6hfDfvg75UKP4mM8jwvaeeyQHDBJxpxmstsB4Vw5n/OCWE5UpzssLoh7md37TIiBzS05ILI6nQJeJ+Bh/IEcGVoy+II0SD8OB4g=
+	t=1758513670; cv=none; b=fs8prxgzzMkOlJybGKJRmVuSTsf1OwgrlCwLhRotRmfb/QvqDrRvvep/jBvfTuWs4Dwz5pUgzANVJSp8kxy1yHwvNefNy4RwL1X3xRO9dW9sSiQ8r2X48DSsnDzU0wGVe/YwmLQ7ND6hGQJknRrALumc6WRU5Z9NIFeeWUVrpTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758513670; c=relaxed/simple;
-	bh=Zu2zC2RPYRYabkrXYnwDXyhjrYPwWmL5oxQw0bzD1i8=;
+	bh=i5A35fWUnpk/WiuICrXeJpE+Q52nzBSPnYLXaiPWi10=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nm7sOtlWOtlcfGI7cSaCWmlkeYPDn56Pdku0uOgjw8PGXFpApi10+7HheL7Hu1hB2hpfnG+ic9w1hpH1N56VIrV+SXZte1yvn5LmrPspVY11UZu7l29FczSUJTUn6x4KDmIvCSkTOZxdbPCJSM73iHTib3VgJmNyDVlm4S5QixU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=dMpeX3CL; arc=none smtp.client-ip=148.163.135.74
+	 MIME-Version; b=BnINcAbSaeEmOspaV98o49pkAmHp4cbcaG3trfaxqsdjYKX6SW4fNP1AB8z/Nuqun2voqGhrenP1dHRFv2eLvJ19JdK+dDo9HhoKgLicPOpU1fv7vTUWzpRxX5aLChZ0axP247WQv8sqM8Qva83MHZ2slApFQ6DQ3abqN3dez4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=CsGEaNpH; arc=none smtp.client-ip=148.163.135.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="dMpeX3CL"
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="CsGEaNpH"
 Received: from pps.filterd (m0167070.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M1tmOB017304
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:02 -0400
+	by mx0a-00364e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M1MSK1008752
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pps01; bh=t3fCcl0LAeCFkJN
-	l29sgongJkP4xqGT9bvt3G9otWEw=; b=dMpeX3CLIo8xwOd83+DvWBCm9Hvoxg3
-	DKgvNcvH2j/MjwVnqU35jkUVmh1Ugv4C2BuekaYGM+AWGKIpqa4KfoaAs1o+5xHt
-	74bXgVtwQe6jcBIuJ168o3SraUHaX/ka/u/5cP2PtPH/UKWxae9k4ycZDpSywN1+
-	/5I4/gA9nD0UAjlgaNBiW3fzKtbAvyK+9GMuO1s5DF3i+l56DZJx49PiezDbeIdU
-	OZIrS4VImqSp3G1bcC2rweokGjCwlFmWgQRa78HGVHxU8v03x7iSEv4qOm0nq1J5
-	YjxDcE2Kq63cOUZmeo1txkgfQ85gpeuPCCP5UTzX3Bal5t0vQ+Xu/tA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 49a9d5nghp-1
+	:mime-version:references:subject:to; s=pps01; bh=7eaVpfR32ne4OnK
+	BmmLGoFu+EyCBGkFBR6e3kEVvCB4=; b=CsGEaNpH15rjpzXom5r5ypEj0Sh7RLi
+	xWu+Mtl1C8A4HWiWvxF3PDKaebjxmh2QzrlL0GhtASO8ITG3pqGGKwpZoaqw0nxF
+	9h8WYcTZbm6bUu3BKKTk2lR7oBLxwpXSEaY6zSOcsUfjp0qZRJ3JsWiFKmyAX2wT
+	U4/7F+leQm/H1Q9mN5XsYF+46ZL8v+hnlzcHMqhT/Oz3dneIQ6f/A3A6SJbSglof
+	+1HSjjgvxcg8yFjsWA4EaGM5Rl1HBTioIrL94dkkT3fNaKWvkZVbdzBbcRpHB04X
+	I4WSW+hLbnyk61FKgnbM5ak5XD7tLIHhUY08ezRaCXDu1KTbMRUYNbQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 49a9d5ngja-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:02 -0400 (EDT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-81312a26ea3so915352285a.0
-        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 21:01:02 -0700 (PDT)
+	for <linux-man@vger.kernel.org>; Mon, 22 Sep 2025 00:01:08 -0400 (EDT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-82e5940eef8so906910385a.1
+        for <linux-man@vger.kernel.org>; Sun, 21 Sep 2025 21:01:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758513661; x=1759118461;
+        d=1e100.net; s=20230601; t=1758513667; x=1759118467;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t3fCcl0LAeCFkJNl29sgongJkP4xqGT9bvt3G9otWEw=;
-        b=L1Kqd2XtdmmPUv0HHgZlb7n4+KEJ5wYF5AnWC+qMpmRHVsYN3JYQcpdqEnUbve8ehh
-         IzBEtzHxLecX1PL52Dimjok3T1OwzobQCbWlT/Hv0AbUQ7Yh7EhW9WC3YF48uduhOVJa
-         Xea1OkSo/GfPb9JsNcGh6CJFcWr2FoTWNw/ur7cW6OtRt1GLMPdFuvn+PviHA71M5Tfa
-         FIQIR0izsVz2OU4EOcei1NyfTmjlIrD5jYEjsGg/TOL3ZZ2D6kR+2f1qbb00g2lvr8R1
-         faw/O3glXR00apfYYaogL5nigF3cswtIhigkI2ZFJXd/A5z3SlHG1/2tUXwACj14OSzt
-         wBjw==
-X-Gm-Message-State: AOJu0Yzd33mQPpLSPDXuNkR8YVw7Al+GL5CB3t/9jrCmT3g44Genugp0
-	TlSUIGnrhW6UGMB05u25OLFD2qknLPobU3RBPwznR7RuM7lFmeL0N8lv6PMY9YVrVXnzo/+sU4l
-	VbwmiT3GNJMnqs7Gy20V9ZkKodbmdLnzqS1QwHlifkbAYNqVoo4ulwRS62g==
-X-Gm-Gg: ASbGncs8klSP/n3BFD31fkfqqJftu1+5yTrUp4urPtZ8DU37YX+XcPMgzTsrcfNU8jQ
-	ZQeFove6CBqHuzL7P4qkT9MVe4/aqFUG7PCbxt3AD1zmwopUZDwA0bXO8ZUrVZJEy8ljsv5hZvi
-	gOSlmpAkUTqu5cgMHVmgntUqtVzmTiATSarHv3GqQTeIJ7ZIUZe1YHmCir1dBmYZK4R+TPDE6Xm
-	O/3qD6cOzTmKweABfR1sXeBLz/GzwWG60qoDJmBbynWc+Ed0hnCAGTzc6KyXH6BlkK9Zn3ZdhIy
-	WHOK+Ged04MCwVej7ctNcDuDmA0JA2q5WTvJ3GP77F/js3bIJu9/luXPjIgyNuHmjEB/TDydkQ=
+        bh=7eaVpfR32ne4OnKBmmLGoFu+EyCBGkFBR6e3kEVvCB4=;
+        b=L24+7bDY3V2MWXNI7hecCh4ms3JcnQG5Q4XIoMXkkgKQ2AgCn/GzNTLnZffkGjkYsT
+         PTDzjgVE6KIuzY+T6S3b3ha30xZU4DsL/UdkJStx6OCE00V1XAfXnfY1Ikrhgs2SjJ+v
+         UOgUsrI+MxinpifWmoVbTitOhPKzbsBjjgseYg0muSRLM28ZVTrLFiVSCIa9L/kbuf4K
+         +L7C1nSmriD92sxh+3G/qC0bhf/lAo6wClktYoNpNmvhBDBg+tROLSZ6+HeulrcuGxkM
+         rjQebzIPgRMBQ7mdVdmOq7z1DW5lUDvH/Bp6opLQA2sW2IpXCqzICyarwQzILIXd5dIT
+         S6lA==
+X-Gm-Message-State: AOJu0Yz2oTjTuQV3lp2j1GYjucvFqtAI6WxrDHHDnhsnPlZbKuTqmyuJ
+	pz5QGd+n+fZ7ovixZ3MuD6HZqoYz91CQm1yEXwMyqZH5MCHkYuuV1MtW/XbCHxhuOAV0JtfA3cR
+	E+BqJpEuZ/HvX9w9+C5pu4dYf09vj+JdQWh92JmuSpupQDa36YGF/zfQSJQ==
+X-Gm-Gg: ASbGnctRY7QqdX7MvH84dW6h8wZ25HtnOq6vjnYRciH2gzw9WWlJUflMt95IfEjirpU
+	DbHikKt3zgOG4RKG5dwQdm6916yAgKN/3d3WXOvQMwQzm5vbmZJmUiblStBDcRsAxlXT6XvxwOb
+	A2qO0k52EGD7N97lWsm616O+mOcQe1sHpyyoaY0MZDfULhb1od0/oj7pa39ElkQBN9qASXfXJ3i
+	9gKnYBuQSooWg1sMLtUPCqXL0CijRrjK5PavfNQnPtVr7kIBBQz3+h+8CTCKxvyDKRwWcsflQ4i
+	g+w/QaqnkpSS4VnONCTL7VeKRjLqkDLIzYtFLCRyyvvfimc0g2w5bph7AZv1JMKXTkYCojUsMw=
 	=
-X-Received: by 2002:ad4:5be9:0:b0:782:1086:f659 with SMTP id 6a1803df08f44-79912a78486mr124061706d6.26.1758513661044;
-        Sun, 21 Sep 2025 21:01:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGxrVUEBwjWyfk/1ZkZRZNEL6BreHzQ9FqtaiesrdgCjDuLItLc2Y7HSS0f/X/fPJmz0PlhPw==
-X-Received: by 2002:ad4:5be9:0:b0:782:1086:f659 with SMTP id 6a1803df08f44-79912a78486mr124061526d6.26.1758513660699;
-        Sun, 21 Sep 2025 21:01:00 -0700 (PDT)
+X-Received: by 2002:a05:6214:f01:b0:78f:145b:56cc with SMTP id 6a1803df08f44-7991cbb107bmr119601676d6.51.1758513667111;
+        Sun, 21 Sep 2025 21:01:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTMhs6Rm9Rr4HhyRV1aKzXWjRmOKWw+6/CMvk8JR9kN+RD1Q1WvDtNVyfEU2A6FTmy6/f2rQ==
+X-Received: by 2002:a05:6214:f01:b0:78f:145b:56cc with SMTP id 6a1803df08f44-7991cbb107bmr119601486d6.51.1758513666720;
+        Sun, 21 Sep 2025 21:01:06 -0700 (PDT)
 Received: from rivalak.cs.columbia.edu (kele.cs.columbia.edu. [128.59.19.81])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-793469322f1sm67218036d6.20.2025.09.21.21.01.00
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-793469322f1sm67218036d6.20.2025.09.21.21.01.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 21:01:00 -0700 (PDT)
+        Sun, 21 Sep 2025 21:01:06 -0700 (PDT)
 From: Kele Huang <kele@cs.columbia.edu>
 To: alx@kernel.org
 Cc: linux-man@vger.kernel.org, Kele Huang <kele@cs.columbia.edu>
-Subject: [PATCH 3/6] man/man2/unshare.2: grfix
-Date: Sun, 21 Sep 2025 23:59:31 -0400
-Message-ID: <20250922035934.446271-4-kele@cs.columbia.edu>
+Subject: [PATCH 6/6] man/man2/fanotify_mark.2: grfix
+Date: Sun, 21 Sep 2025 23:59:34 -0400
+Message-ID: <20250922035934.446271-7-kele@cs.columbia.edu>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250922035934.446271-1-kele@cs.columbia.edu>
 References: <20250922035934.446271-1-kele@cs.columbia.edu>
@@ -80,45 +80,99 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIxMDAzMSBTYWx0ZWRfX84atv1cT/IjM
- XfFY+erAyVh5pB4XiravVnV/vsBChy6eHBcPBE0IBvWJbG8wsoOhCWxWQ19cNq4FzOWuPzBD47J
- v2lZFpQGNETsT3XxopwN3IuCPcKVEUaW830GDg82UOEbJkL3CEuozOTGJ5BTuLtaEIZ8Zh+j/xM
- OyiksoTBUag1mXCnEIEyevgeoQXtIy8zmUnGzRYXsBpM4p+BvS0nBZj41Ja0qTq1+HUGzl98O5w
- QwEQ4RGzpyTGqfmRDqrwJ4gFbzdPLDTFqpZwOSR4ATJAIRJWJNJt3crhaDYqA0eWgCmRiRB0Ewf
- /xyUItWjTOOODu7AH7e90OLCWJIRbTuR50H4s440JP38ejyxuZPyWF2yq40zVbGoiKVuP4ZLCaE
- u6Zdhwun
-X-Proofpoint-GUID: BWB0_HwHyyiDPn2yr922sXgiyFoUmHcB
-X-Authority-Analysis: v=2.4 cv=SJtCVPvH c=1 sm=1 tr=0 ts=68d0c9fe cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=3s50gvPmqPWyIM6FhyrXAw==:17
- a=yJojWOMRYYMA:10 a=qPDIba2egV4Hj5FxyY0A:9 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: BWB0_HwHyyiDPn2yr922sXgiyFoUmHcB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIxMDAzMSBTYWx0ZWRfX/RbZgs9kyjvr
+ 8dim5IniXUIgz+cCFOOXuYMskT0oRiN2d9MxFcg5GcpmTgXJpRLr//DI8LTjfIu5HWtBkSOyFHk
+ 8kmDBZAbOj4C3bOvlRxfJUQkbbYBFCA/dUjkg4/cTNWATBSrqHQVezxQmgyS74CvbV4LpswZPj3
+ pSR4af9hM+e+NML9/GWcy5XAEJiojL0Vz8qstYNEDvcBBg7DTqKm7QxotJ/UI+cIFP7yx+copRE
+ Tbf1VQ3Biiu+8Iw2wGB8UdOlbAToIten5rmocr7NNCY03PAK5NJXjuITl3uhhbia3gL53QFv1NL
+ Y82ncr8zwb3yzaO0efRXh76ilf8fi2KgpOLllFoQuLnjCoYizTs2iF/tsk602GBueee2APIklP1
+ oWv/34zt
+X-Proofpoint-GUID: Qf343UnRmfTL_au-2eODznPDgB4eJ99-
+X-Authority-Analysis: v=2.4 cv=SJtCVPvH c=1 sm=1 tr=0 ts=68d0ca04 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=3s50gvPmqPWyIM6FhyrXAw==:17
+ a=yJojWOMRYYMA:10 a=mSxDhFL_xtvxtgIUEMEA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: Qf343UnRmfTL_au-2eODznPDgB4eJ99-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-21_10,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=10
- clxscore=1011 priorityscore=1501 suspectscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509210031
 
 Signed-off-by: Kele Huang <kele@cs.columbia.edu>
 ---
- man/man2/unshare.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man/man2/fanotify_mark.2 | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/man/man2/unshare.2 b/man/man2/unshare.2
-index 59d94ad1e..eea59aa37 100644
---- a/man/man2/unshare.2
-+++ b/man/man2/unshare.2
-@@ -285,7 +285,7 @@ is specified as zero, then
- is a no-op;
- no changes are made to the calling process's execution context.
- .SH RETURN VALUE
--On success, zero returned.
-+On success, zero is returned.
- On failure, \-1 is returned and
- .I errno
- is set to indicate the error.
+diff --git a/man/man2/fanotify_mark.2 b/man/man2/fanotify_mark.2
+index 6d191dfaa..6c4234947 100644
+--- a/man/man2/fanotify_mark.2
++++ b/man/man2/fanotify_mark.2
+@@ -4,7 +4,7 @@
+ .\"
+ .TH fanotify_mark 2 (date) "Linux man-pages (unreleased)"
+ .SH NAME
+-fanotify_mark \- add, remove, or modify an fanotify mark on a filesystem
++fanotify_mark \- add, remove, or modify a fanotify mark on a filesystem
+ object
+ .SH LIBRARY
+ Standard C library
+@@ -22,7 +22,7 @@ For an overview of the fanotify API, see
+ .BR fanotify (7).
+ .P
+ .BR fanotify_mark ()
+-adds, removes, or modifies an fanotify mark on a filesystem object.
++adds, removes, or modifies a fanotify mark on a filesystem object.
+ The caller must have read permission on the filesystem object that
+ is to be marked.
+ .P
+@@ -663,7 +663,7 @@ or
+ .IR mask ,
+ or
+ .I fanotify_fd
+-was not an fanotify file descriptor.
++was not a fanotify file descriptor.
+ .TP
+ .B EINVAL
+ The fanotify file descriptor was opened with
+@@ -713,7 +713,7 @@ is associated with a filesystem that reports zero
+ .I fsid
+ (e.g.,
+ .BR fuse (4)).
+-This error can be returned only with an fanotify group that identifies
++This error can be returned only with a fanotify group that identifies
+ filesystem objects by file handles.
+ Since Linux 6.8,
+ .\" commit 30ad1938326bf9303ca38090339d948975a626f5
+@@ -727,7 +727,7 @@ and
+ .I path
+ does not exist.
+ This error also occurs when trying to remove a mark from an object
+-which is not marked.
++that is not marked.
+ .TP
+ .B ENOMEM
+ The necessary memory could not be allocated.
+@@ -794,7 +794,7 @@ The object indicated by
+ .I path
+ is associated with a filesystem
+ that does not support the encoding of file handles.
+-This error can be returned only with an fanotify group that identifies
++This error can be returned only with a fanotify group that identifies
+ filesystem objects by file handles.
+ Calling
+ .BR name_to_handle_at (2)
+@@ -815,7 +815,7 @@ resides within a filesystem subvolume (e.g.,
+ which uses a different
+ .I fsid
+ than its root superblock.
+-This error can be returned only with an fanotify group that identifies
++This error can be returned only with a fanotify group that identifies
+ filesystem objects by file handles.
+ Since Linux 6.8,
+ .\" commit 30ad1938326bf9303ca38090339d948975a626f5
 -- 
 2.51.0
 
