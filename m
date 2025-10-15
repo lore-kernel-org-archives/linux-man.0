@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF333254B5;
-	Wed, 15 Oct 2025 21:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0BE226863;
+	Wed, 15 Oct 2025 21:53:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760564840; cv=none; b=Tr6dHCM2F6MS6x0+DQXqWNbhL9teMmTIA8dyIgUq/+xrQr58G9htdpDX3C90JFxHQB30pQ7nh+IiattxYW4YllEMQbIIgZ4cv7k8uFAPeGJfimXgYo84nV7zXph/0vU30CPFcfD4y99uQNgQ/DyumfXwCRnxl161bu6z3h3yVr0=
+	t=1760565226; cv=none; b=nk28H2LGeqOTwiEY3PqVfrgz0I4914iz7fFUA8/hnm40LiPq0UtL7wX2WocG27BGdyBur2rjW+XrcsWMh8UxKsbJhrC0bGPfeWf7UjvkMYMlR2dLYYFIhg6wZ7lKCLZfbG/lZADoBezxnPxC3jncu37i6sdSXyKaRKoW4eP1Vg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760564840; c=relaxed/simple;
-	bh=xJ+vIk5KC5F1xnpnsmsN9qpeSze7SRjsKUVliuwCx1k=;
+	s=arc-20240116; t=1760565226; c=relaxed/simple;
+	bh=TUP3G+3YBjuKMU90+gsh+SHhAT+Wrly3xy+ikFDxeNc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DIU4YT/GrFTC20emwB+etKt26PiPh2ndZXlAvcnvuYEQSZbS/YMKszjrl2xkd+QeHe/4DRSRgijoshfZ7iVLGEDbvfRinOY3AqgZjClo7o1KVZIu9WhIrR5/ZSWsaVLzUMCXlJp7hxmdqsLfyPhC24F3aezocoJo7cxdRFGGP6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVVSdh49; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIt4Nx5jEcPL+Ohc6ba6WQ5TnDSLGNS1l/Fplxip5fOlOzi1SXUrTUYqfG8oW+CSFTDlRjpGbRiVpGKU30jQM3eaqRfKsbztKDIEw2+o4zZk9TOtNseCuT7sUG+uwOgyP7FJNJk11CXpN/OMCHYsUqVXRTRxRLzBoO8cEuDn+j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hVuZZ5E3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVVSdh49"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5217C4CEF8;
-	Wed, 15 Oct 2025 21:47:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hVuZZ5E3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F03C4CEF8;
+	Wed, 15 Oct 2025 21:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760564840;
-	bh=xJ+vIk5KC5F1xnpnsmsN9qpeSze7SRjsKUVliuwCx1k=;
+	s=k20201202; t=1760565225;
+	bh=TUP3G+3YBjuKMU90+gsh+SHhAT+Wrly3xy+ikFDxeNc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LVVSdh49R1/9O8fC5Q7o++Vr1PlEkyFpLLaueAaDUY0Q1J1InYy0RZoLxP34hjaga
-	 1ajpPkbjFrUmz1PoTHnfsdOeXGZC+LVivuocJa9EWz6w3Vw6Tn0ZspvSi213RIC4xk
-	 eBX6PyofgNfz2TFx7l3y4YiPvVb9/gHhFbzBef1o/4qjiNCo9IpyVU7CitXLmAJ+XE
-	 jNav/0+0/MoK2ZNLbdDTOVsch/orqsVpSHk3daj4LM05lF54g5pjAlF+86q3m4QoG7
-	 cBM3uIDDT3eFBCiT/TuIuoLn1QB1z7WVLE4WkdNIYDySjBII5SRXMbeTlBLCPUp5fT
-	 GUm75B1ADesjg==
-Date: Wed, 15 Oct 2025 23:47:15 +0200
+	b=hVuZZ5E37mL2DdQWd0Wsg/fpBLcG2a1zeHEBf/8MjqmRSSbJrBVxYwDCdDwaxIKMK
+	 rDSvDMUH4M+/8klTwgRcZ7+r2L5wZ/5MgJGmS65oLwTCxWEY0+VL/Y0hcE67A9lRdP
+	 /FF6d5Q3bh0sWrYJmLjkOJWZpOo1YnxvWzbt33qSKtmtCBxsBBTdDHX6Al2TJOaWXf
+	 cFolv/MEhXR4BtFRovn0LqmV9KOQHVfPPIaxYeXKiEdX7dauePRK7lq8M4KtY7I2dc
+	 VkxSb1JAu3sv2YnzBR9/xNGsSysHKQAvd41YJxeZFonB7TgGawGL8QG1zoQXasIPUf
+	 q4Ct0FpE7Xhlw==
+Date: Wed, 15 Oct 2025 23:53:41 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, 
@@ -34,11 +34,12 @@ Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
 	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>, 
 	Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Valentin Schneider <vschneid@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH v2 4/5] man/man2/futex.2: Update the link reference again.
-Message-ID: <yibk3ihxkx3iqkcnuekznvmpjccfo3sq74yjwr647kbfrif2q3@ld2zazy6mh7q>
+	Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v2 5/5] man/man3/pthread_cond_init.3: Add a note
+ regarding real-time usage
+Message-ID: <e2i2tn3a7i4ehzoeglv4n52q657hn4l3vauial2xyaqyrjyvcm@vagxk3mquxfw>
 References: <20250915141305.906440-1-bigeasy@linutronix.de>
- <20250915141305.906440-5-bigeasy@linutronix.de>
+ <20250915141305.906440-6-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -46,12 +47,12 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="okoiu3lx7tlykw4z"
+	protocol="application/pgp-signature"; boundary="gsvjs2qzdyde7s4d"
 Content-Disposition: inline
-In-Reply-To: <20250915141305.906440-5-bigeasy@linutronix.de>
+In-Reply-To: <20250915141305.906440-6-bigeasy@linutronix.de>
 
 
---okoiu3lx7tlykw4z
+--gsvjs2qzdyde7s4d
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -62,55 +63,123 @@ Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
 	Davidlohr Bueso <dave@stgolabs.net>, Ingo Molnar <mingo@redhat.com>, 
 	Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Valentin Schneider <vschneid@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH v2 4/5] man/man2/futex.2: Update the link reference again.
-Message-ID: <yibk3ihxkx3iqkcnuekznvmpjccfo3sq74yjwr647kbfrif2q3@ld2zazy6mh7q>
+	Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v2 5/5] man/man3/pthread_cond_init.3: Add a note
+ regarding real-time usage
+Message-ID: <e2i2tn3a7i4ehzoeglv4n52q657hn4l3vauial2xyaqyrjyvcm@vagxk3mquxfw>
 References: <20250915141305.906440-1-bigeasy@linutronix.de>
- <20250915141305.906440-5-bigeasy@linutronix.de>
+ <20250915141305.906440-6-bigeasy@linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20250915141305.906440-5-bigeasy@linutronix.de>
+In-Reply-To: <20250915141305.906440-6-bigeasy@linutronix.de>
 
 Hi Sebastian,
 
-On Mon, Sep 15, 2025 at 04:13:04PM +0200, Sebastian Andrzej Siewior wrote:
-> Carlos O'Donell says based on the context, it should be the former link
-> from that day.
+On Mon, Sep 15, 2025 at 04:13:05PM +0200, Sebastian Andrzej Siewior wrote:
+> The "old" implementation led to priority inversion and was more or less
+> easy to trigger. It seems that after the rewrite the issue disappeared
+> especially since the old workaround does not apply anymore.
 >=20
-> Update the link accordingly.
+> Add a note mentioning the old problem and why the issue is not gone
+> since the rewrite in glibc 2.25 but harder to trigger.
 >=20
-> Cc: Carlos O'Donell <carlos@redhat.com>
-> Link: https://lore.kernel.org/all/710e8f05-b0b3-489a-9e89-8967cf6a9e70@re=
-dhat.com
 > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Thanks!  I've applied the patch.
+Thanks!  I've applied the patch, with the following amendments:
+
+	diff --git i/man/man3/pthread_cond_init.3 w/man/man3/pthread_cond_init.3
+	index 779f6de6d..9c151dd8c 100644
+	--- i/man/man3/pthread_cond_init.3
+	+++ w/man/man3/pthread_cond_init.3
+	@@ -115,7 +115,7 @@ .SH DESCRIPTION
+	 this guarantees that the condition cannot be signaled (and thus ignored)
+	 between the time a thread locks the mutex
+	 and the time it waits on the condition variable.
+	-See NOTES below.
+	+See CAVEATS below.
+	 .P
+	 .BR pthread_cond_timedwait ()
+	 atomically unlocks
+	@@ -241,13 +241,14 @@ .SH "SEE ALSO"
+	 .BR gettimeofday (2),
+	 .BR nanosleep (2).
+	 .
+	-.SH NOTES
+	+.SH CAVEATS
+	 The implementation of the provided functions until
+	 glibc 2.25 used an internal data lock.
+	 This lock did not support priority-inheritance and
+	 was subject to unbounded priority inversion,
+	 visible on a real-time system.
+	-After the rewrite of the implementation in 2.25
+	+.P
+	+After the rewrite of the implementation in glibc 2.25
+	 the usage of internal lock changed.
+	 The internal lock is always acquired by
+	 the signaling functions
+	@@ -256,10 +257,11 @@ .SH NOTES
+	 .BR pthread_cond_broadcast ().
+	 The waiting function acquires the lock
+	 if the waiting process was interrupted.
+	-The interruption can be caused for instance by a specified timeout
+	+The interruption can be caused for instance by a specified timeout,
+	 and denoted by the error value
+	-.B ETIMEDOUT
+	-or a received signal which is denoted by the error value
+	+.BR ETIMEDOUTA ,
+	+or by a received signal,
+	+which is denoted by the error value
+	 .BR EINTR .
+	 .
+	 .SH EXAMPLE
 
 
-Have a lovely night!
+Cheers,
 Alex
 
 > ---
->  man/man2/futex.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man/man3/pthread_cond_init.3 | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >=20
-> diff --git a/man/man2/futex.2 b/man/man2/futex.2
-> index fe4a239c3812c..1a7cb1b5e08c4 100644
-> --- a/man/man2/futex.2
-> +++ b/man/man2/futex.2
-> @@ -6,7 +6,7 @@
->  .\"
->  .\" FIXME Still to integrate are some points from Torvald Riegel's mail =
-of
->  .\" 2015-01-23:
-> -.\"       https://lore.kernel.org/lkml/1422037788.29655.0.camel@triegel.=
-csb
-> +.\"       https://lore.kernel.org/lkml/1422037145.27573.0.camel@triegel.=
-csb
->  .\"
->  .\" FIXME Do we need to add some text regarding Torvald Riegel's 2015-01=
--24 mail
->  .\"       https://lore.kernel.org/lkml/1422105142.29655.16.camel@triegel=
-=2Ecsb
+> diff --git a/man/man3/pthread_cond_init.3 b/man/man3/pthread_cond_init.3
+> index 0045e7ecee075..779f6de6d064b 100644
+> --- a/man/man3/pthread_cond_init.3
+> +++ b/man/man3/pthread_cond_init.3
+> @@ -115,6 +115,7 @@ if all threads always acquire the mutex before signal=
+ing the condition,
+>  this guarantees that the condition cannot be signaled (and thus ignored)
+>  between the time a thread locks the mutex
+>  and the time it waits on the condition variable.
+> +See NOTES below.
+>  .P
+>  .BR pthread_cond_timedwait ()
+>  atomically unlocks
+> @@ -240,6 +241,26 @@ Some threads are currently waiting on
+>  .BR gettimeofday (2),
+>  .BR nanosleep (2).
+>  .
+> +.SH NOTES
+> +The implementation of the provided functions until
+> +glibc 2.25 used an internal data lock.
+> +This lock did not support priority-inheritance and
+> +was subject to unbounded priority inversion,
+> +visible on a real-time system.
+> +After the rewrite of the implementation in 2.25
+> +the usage of internal lock changed.
+> +The internal lock is always acquired by
+> +the signaling functions
+> +.BR pthread_cond_signal ()
+> +and
+> +.BR pthread_cond_broadcast ().
+> +The waiting function acquires the lock
+> +if the waiting process was interrupted.
+> +The interruption can be caused for instance by a specified timeout
+> +and denoted by the error value
+> +.B ETIMEDOUT
+> +or a received signal which is denoted by the error value
+> +.BR EINTR .
+>  .
+>  .SH EXAMPLE
+>  Consider two shared variables
 > --=20
 > 2.51.0
 >=20
@@ -119,24 +188,24 @@ csb
 <https://www.alejandro-colomar.es>
 Use port 80 (that is, <...:80/>).
 
---okoiu3lx7tlykw4z
+--gsvjs2qzdyde7s4d
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjwFmMACgkQ64mZXMKQ
-wqnjFg/9Ht8+49V0qkleku83fSlQg58lAlT9tjUo6NlP07MGkPAaNbsM0Ix2okkf
-Kq8qLh/FeapaTzMQY6/SmyNZgfR+U3XuzHZYOtepnWG+O80qH4g2jPXlV8zKqmcx
-qLdAx9AE6EDr6LM0VPLJXl2p1+7JZUpCJIckeBWcgUhYXOCQt5p6YyeXE7tYKVQp
-WSoyac6P2fkUpj6zzep03QO4w8c6oCKDRpUZ2sz/J8BibyQXSbIazb+zpdY8a6ia
-NEFu3sS6ZzgsTF3qPbyRuTWCaw4LVncrLjaoq9rZxpYpS4PGrWWIXnaap/brdAWr
-3RC8LpJUTP9hNyC/1CsnOqE4S+1b53X/cHR3Wnc9UmrR4Tef1dvS1xT4ynEo3Q6o
-u30bVUKHcujs889g5WJ/l64s+DtoEiuIiRU4la0iBIU1cALgbvsJx5aDc9IQqj0b
-3hPLB+o5coIvmFu0LAJIDm9mQUqDHT756aoy/+u5m9zFmj6aOs7Ow+DQN7GCJQ1g
-+uQ6cNRXt2qcmtH72VX71X+2ejiirlWZbYRcfE4/IZaRF1qu4nzHUOAkQW47ta0O
-pJhUrRtmoWkjP9MSmWBDqI2WEDbfAjHvQQxSy9j+cZmJggSiWUC8XSmZkqYGiMs5
-1Ez77rPkOgz239V2x83qWWB3MQAKAc7Fw8ZKqzIuDf7FBinYyno=
-=CH17
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjwF+QACgkQ64mZXMKQ
+wqm2cw//YqWq53J159zcl52qzbL4qJlktdZYuMfFM+igA8cl5GmEOObRglXMEFt6
+4HciWEkSHQhEAR+leyKA6JJ7fQxCEeNKvKPQpsh87dQW+kNZFxDeA7iaZMqJfnw+
+Fkz4ghHO31G0hmjAfQ5qlNz9Al1gE12j+dOmHBgb3IaBr8+zLKQsawcp88LWPxdn
+TqUDlF+/y78ImVAbqCmVXUyuwvQiQjlzrUUzm5fUK9UROw0quRt8Yvv4QdhjUO+w
+djaYCMahRerp2QfyEM8Mqn8yjKGpVs4EA0tyeMOs48uNL4lGS4Ry+RUOVyB6ddFr
+sjoWKufqZPy/XpiKWaRxTJl5Wr/TX0UKy+dyVUv+tV+YZiClfI2dwURyp+c+DYME
+xW3q4drckn+W+KtAmKApd5o+Xb62c4b2OMCupkPUpb16B2Xx2axszmNbrTk9lPif
+90TM2Fts29uDqENgBd+DeAz/kszeRD/QJect+hDqmWBl7hUim1AXqMjFmk7hnkM4
+deF6sQAhKWsdKcNrX9ulkU6UKLV8UPfLtkIRCWvMknSG5WCrd2QH0tRoo8Db6Law
+j6dVMMYRyJGA/uglK1F5yXj1WYDSGFh267U/4yFXPpvbIQ3ueIK4pJtp7JZa6ou8
+sy3cn6yYmitG7muC0WwB0mz7mKyRGEMs9WRomyJTNQAEFf03IUU=
+=+mw2
 -----END PGP SIGNATURE-----
 
---okoiu3lx7tlykw4z--
+--gsvjs2qzdyde7s4d--
