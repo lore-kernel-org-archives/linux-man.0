@@ -1,124 +1,92 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD3026B955
-	for <linux-man@vger.kernel.org>; Fri, 17 Oct 2025 08:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E6C296BCB
+	for <linux-man@vger.kernel.org>; Fri, 17 Oct 2025 08:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760689154; cv=none; b=e5exhz4bIn5uME6h9AGlwxMCTFFXDkZV0opivfcmrVDM7ZdmUmoungKz+4K64FEMb9B1GEFCCHRFKV40CmXHOBRppK2RTTw5PsdGhiwBq2MBaFKnRtabOlalgtOpUypWDLiJoaZPLra6jNV0h8PeSDqNV/PNCuMHHRuO1teITlk=
+	t=1760690857; cv=none; b=uXHbTdLQ9kVJDkVm2qAfc88w9Vh3vV/OSlNvUFIKF09TD09zZUntxdrELGQskVeTat9cMzokLyJw4HBtLBk42E4ibab+rTFJsAtpfoHOubwfR2hVjqxNyKeyEr3CnTeZYfOcbnio46a+ZV315Tm5ysIfHdoOms5OrS66CNbxG50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760689154; c=relaxed/simple;
-	bh=fjG69EZH3PKlDUYxNR6GGha8meVr8+NXsVqZjM4pC74=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h815CNspvS0/4NeOTMv0hcBY+yZ3zLeTj1tkA6nsQ1LvbVOmPTiKKqh7Knmh7/z0mcdYNB6yxbTn6ZlKLS55zRXA82LX9KP/xFQH5TdTplJUxzB8v6ZwIk+K1DTMvtXa/ctxTbExt978NB7/EGMcVkDm2X3cuhVeSXTDq7aLrQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/+DH+cu; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760690857; c=relaxed/simple;
+	bh=XBVQKSujFaEyjXkG0jVUOrqJmcdAesSNBm8jqAULd5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-type; b=rDJ70afs9u1epEUbXZAnnWE/+NFQWwXN/648VcUr0lbv84b//yPXrRfMDPvSNjmnCl88N9/ixZBdOdPsd5Bdv15/y/r7jTAtKLnvJFF4xzm0vKttCFuGEPEX4B0UfOH8snVl98qTpQILd03h0pwH0mL0ayMLBXeRup7vrRFSIDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fw9KY6US; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/+DH+cu"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-290d14e5c9aso8840065ad.3
-        for <linux-man@vger.kernel.org>; Fri, 17 Oct 2025 01:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760689152; x=1761293952; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K4ozeaLG5gFLLCCtOANRgk9zzMJ4tB9PbpcT0wOKcuU=;
-        b=B/+DH+culsngyBhWbMUIobazX4VxrH0dgHtgBg22QU9MlevULjjDkeqvbkL5YbPlRA
-         17qZcAnmsmZjnxHX301qDbKPoAeV5dM4rLvid4IRNX9hWHm2/sMEk2OL8Kz9/gy+5nve
-         a4TTu6826bUqwVLXahQqo7YD1catvPvth3dRMsahVSa6KV7Y0XsASH4J9+vuMou9MccT
-         1WvQDHX9jFzXZw8et2IXycxZ3ZcSrKwmD4k+Vo9BaJOYXGcrphPKmVjWWg/bqd2hU1Qb
-         2e0xFXCrb/og6KJJdQ8K7k7lF+ZIt8OKw8JSphiZtdZAVW2dJI9EOHsGmrGq2v5uIF+r
-         qvVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760689152; x=1761293952;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K4ozeaLG5gFLLCCtOANRgk9zzMJ4tB9PbpcT0wOKcuU=;
-        b=AD6l73ixw9PI59HnSriCvzY/BioTDd7TsrxfAI4jEyjsW22JweITPPDJ5RBeEYChTZ
-         oeTpcEUtmFo4KPrkm+BzMKGEdE9RoP4RQGCcygce1dJpSplX0gqPmoVQ5c67pqGl8/gX
-         5p8qrNCrx8djU6OylhNZx+OZZTOycR+q72RiFBlAvP+hywS4lwVH3qkbwJRZrxDqzD/b
-         VpXrS05msSU755ZhFQIm5TNWUmTM4A9oFoKfQ5OmKCZLvqT/1xnMbp/LQchQFk8FiQyY
-         3alS1gtCd9N7K4YEMmyVNgRxjRn9dVNarSwZSWd1JzOBilR7hqiVhkZna2wo/azU23HM
-         4LVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWEWAIwoUrqQgpKCcdoNuJYlh7/rXltGItNPADHqy2/StDJz7oetPDbz80ywNexnX57+PDGDykxBnU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziXZLCURe549ceg5UdsJvpfv6pRqpMxeufulXnwHdHvogA5i06
-	HM+nkIpKBuzZeGUjBIyAr5E/iw3TQg0eaEFJ1+9+EyvEh6zrFhtmWc03
-X-Gm-Gg: ASbGncuFcvwPHxAbFBziyg606m5XoX19YPegTGt9PppnUbidWaIy2qR1iEvtb9+fAbL
-	NyxqTBG0+n00zOTUNyY3B4naGJ7BMezykiXo3SaPIvD6PrJpxWBhIsAXsS+ICfNhdZYjwy0WK/n
-	9I92g6xgj+y4im+QHYKSRMIFB92I9+qCl+Gy1oN2zVTB/rBa+Te6efsP0d/6dKwzroyfABMinML
-	9tIiQT9wBGLwgIGPAZvrOeXizuOl3JhBUZRnRDUfmqcVm9pJD45cz2LZBY4brCJgdOsD/6qk6gL
-	cJZo7QGvw3CB9pRYttSyyeoxdRGbzfRfJd5PMHfO3yrYd/AOORDyGFVEoOvQ8pJQ4QA4xKU2/aZ
-	xiYIZL+Td7r3YqnuH2Y7CboOH/ViNx3hu//PqNybTm8oDlzowwWtYpnkxSQ==
-X-Google-Smtp-Source: AGHT+IHsfISct4TL/tdQ5lz6CNgk4m53YGcuNFJauKWcSGbXZWFBEjSU50gH/WAW59j12KP6EmNPSQ==
-X-Received: by 2002:a17:902:f68c:b0:25c:d4b6:f119 with SMTP id d9443c01a7336-290c9c89ce1mr36843315ad.12.1760689152265;
-        Fri, 17 Oct 2025 01:19:12 -0700 (PDT)
-Received: from fedora ([2601:646:8081:3770::43bc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-290ad977cacsm45910855ad.105.2025.10.17.01.19.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 01:19:11 -0700 (PDT)
-From: Collin Funk <collin.funk1@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Collin Funk <collin.funk1@gmail.com>,
-	linux-man@vger.kernel.org
-Subject: [PATCH] man/man3/opendir.3: document that long file names result in ENAMETOOLONG
-Date: Fri, 17 Oct 2025 01:18:43 -0700
-Message-ID: <4266061219d7406c0aa737f8d52108fea7e0f7fb.1760689006.git.collin.funk1@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fw9KY6US"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760690855;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oWHKmyRGDnijKGetuUi8i7DuKqQ4X+F9JLfgCF6E7V8=;
+	b=Fw9KY6USojMImFSf8Qa1wncOFDLSNw1rj3SeTbLhDEnoBm83nokAuR2s7gIzbadnB+IHtz
+	F4pN+4ZUh2519+ZFpgvJFvW8aAA9mY0PYGHf/C4DCcFBubF7gyYteqvjB5PHB9Obnba8DD
+	5UTQadP7w9AGbK3F+YDf7vbRXiurvOg=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-JMfg9ljqNleHJwnsPdIqfA-1; Fri,
+ 17 Oct 2025 04:47:33 -0400
+X-MC-Unique: JMfg9ljqNleHJwnsPdIqfA-1
+X-Mimecast-MFC-AGG-ID: JMfg9ljqNleHJwnsPdIqfA_1760690852
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 55C901800451;
+	Fri, 17 Oct 2025 08:47:32 +0000 (UTC)
+Received: from MiWiFi-R3L-srv.redhat.com (unknown [10.72.112.94])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8DBBE1800579;
+	Fri, 17 Oct 2025 08:47:29 +0000 (UTC)
+From: Baoquan He <bhe@redhat.com>
+To: linux-man@vger.kernel.org
+Cc: Baoquan He <bhe@redhat.com>,
+	chrisl@kernel.org,
+	baohua@kernel.org,
+	alx@kernel.org
+Subject: [PATCH] iman/man2/swapon.2: update the description about default priority value iman/man2/swapon.2: update priority section
+Date: Fri, 17 Oct 2025 16:47:25 +0800
+Message-ID: <20251017084725.318029-1-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-This behavior can be see with the following example program:
+This update the description about default priority value which is
+changed in kernel.
 
-    $ cat main.c
-    #include <string.h>
-    #include <stdlib.h>
-    #include <stdio.h>
-    #include <dirent.h>
-    #include <errno.h>
-    int
-    main (int argc, char **argv)
-    {
-      if (argc < 2)
-        return EXIT_FAILURE;
-      DIR *dir = opendir (argv[1]);
-      if (dir == NULL)
-        {
-          fprintf (stderr, "%s\n", strerror (errno));
-          return EXIT_FAILURE;
-        }
-      closedir (dir);
-      return EXIT_SUCCESS;
-    }
-    $ gcc main.c
-    $ mkdir -p `python3 -c 'print("./" + "a/" * 32768)'`
-    $ ./a.out `python3 -c 'print("./" + "a/" * 32768)'`
-    File name too long
-
-Signed-off-by: Collin Funk <collin.funk1@gmail.com>
+Link: <https://lore.kernel.org/all/20251011081624.224202-1-bhe@redhat.com/>
+Signed-off-by: Baoquan He <bhe@redhat.com>
+Cc: chrisl@kernel.org
+Cc: baohua@kernel.org
+Cc: alx@kernel.org
 ---
- man/man3/opendir.3 | 4 ++++
- 1 file changed, 4 insertions(+)
+ man/man2/swapon.2 | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/man/man3/opendir.3 b/man/man3/opendir.3
-index a9af16269..6a5c7880f 100644
---- a/man/man3/opendir.3
-+++ b/man/man3/opendir.3
-@@ -73,6 +73,10 @@ .SH ERRORS
- .B EMFILE
- The per-process limit on the number of open file descriptors has been reached.
- .TP
-+.B ENAMETOOLONG
-+.I name
-+was too long.
-+.TP
- .B ENFILE
- The system-wide limit on the total number of open files has been reached.
- .TP
+diff --git a/man/man2/swapon.2 b/man/man2/swapon.2
+index df5e8d8c7ec6..20e213827733 100644
+--- a/man/man2/swapon.2
++++ b/man/man2/swapon.2
+@@ -60,9 +60,8 @@ These functions may be used only by a privileged process (one having the
+ capability).
+ .SS Priority
+ Each swap area has a priority, either high or low.
+-The default priority is low.
+-Within the low-priority areas,
+-newer areas are even lower priority than older areas.
++The default priority is the lowest,
++and all default areas share the same priority value, -1.
+ .P
+ All priorities set with
+ .I swapflags
 -- 
-2.51.0
+2.41.0
 
