@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91AD3587CB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F125358D17
 	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587113; cv=none; b=cz35p5MrCZrXeAZ46BnjTzemSHiBkWviNe5YP+gCQDNUCbRONTunXrmE8xCSU6eRj+2EomLdj/xXyHHd2vSpOEOjs8BwraFfhj5bvpZXf7GyM1mOgywn+Z75Kin3NCi3oKBEyu77s3u5k/okB+wNINmZHvh1xb8JUMjmAtKiS08=
+	t=1766587113; cv=none; b=rJQLgOfEMRNhn9SDA6aGS7T4qsjxaAxaYSBBSxxJBATnJloAcELIoTiw/rkk2PaALgKeFIXdZ5mWNGVLC9QKTa3RcFygaXlF4hMBHte7+tV7iLPVcwxkO3zo4fZ3OzGGPCDQDqEozxjO8v3bz4sTFi5CPPayTKZ2f2nV0Sevk/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766587113; c=relaxed/simple;
-	bh=MByktzvKZ6yucLNeA4H0tqcuBdW8LEZ61v7BOXx6JxQ=;
+	bh=WQ4TSjeLwIq7uy/FRvDN41auJeOhXOdcVv6lrAOePW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=N05BCZrjGsliqo3oG8sJTjvmAVe2aNT6TSkr5MKGh1WmdOIU/hwF7Gdm8EAfnLYRDFjk8EJZ/Tbs+n3jDXR55qsFDaY9yvJFP5pKU7DJKM5c5MgTQaTsHFKZX3yu0gXvWRdFOKVOzrXazbfovRxGGbMNtfgZhayEGVRL2YxJt5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=I/yRyXhV; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=JLvVVA+QfnOKZ+Me8mwkkXMkxo32gCiTtyIVzDXqT8dA6bQHAut871EM3gIBlu3lWbdXs3GQdgceeb0Upk8shOHt4hCNKNFBIlhkdBP+kN8mwHQnrGW9VsE7uqUSfdV2BkbaVxyYF0KmwAx3wCNNjkM7+X93MWMuH/kpsNe7lSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=CRuYqERa; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="I/yRyXhV"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="CRuYqERa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587103;
-	bh=hUbvnoRJA5GYKzz+/hGLfE/Zq/Cc+SYiv6WnDUEfYE4=;
+	bh=sgvCrWhqd+KpSugcnc0FW9Nezvv3A5WktaBQTagrV3g=;
 	h=Date:From:To:Cc:Subject;
-	b=I/yRyXhViLzB2//HrATG2V+uXu2kgkqj63TIn5oQ+Oxr51+XxYis4ReO1izZgYyNN
-	 KaMs+VFRZbL5Dmw/rhYH2oqaPb3tyJEbbHYjNHwXuaDVjgHnkTLnQ3gGDHxG3TvBE4
-	 dCN18z2bH/n27dLmJWrkseL5vfUocUgItGRPRam9f/lfSKpcZJGkKhYgRLblz0JmNx
-	 Yqxt9iFF1DVJkYRxT1yp8w8lB22+TWVQ4mgf/1CUyWkojNqJ6zNsvW/R9Fq/d8m0pZ
-	 t8UJGgMfvUTfdE1sua4kHaUrg13HuU2JmmrufPavARAxTTWrWcbHw3DhS8pfNbR+yp
-	 oGoqIiXZyOM8Q==
+	b=CRuYqERa7YrHWv+CYzZuIyatpj3wPJq/vbYOz8pQm72SMk2lX49UaJJLmgGaXQjHy
+	 zV0VSRPEwiZr7YjUU7hdUy7wHToigJwmGnkZZuWPk+C5ca+X5udhE7t6/svOLMNXph
+	 QbQMBqXpDrlkzE8TQBLI6AEXtUEvgdlC7/6MNBVJck/94/h7k5yPDf+pjb6s5X8Hdz
+	 EyxIs+4uyZzypxZVbJ9HeKm9qZxfWfV0udngBscGPvDQs/D9MBCtoVKlJ8QogCrMnp
+	 clFuYbkwZgedBny6JbtBo6VLhFFG2GuehL8KZZvY8FVUEwtHEFh/J0WxcJnFWsayrQ
+	 9dareaRpTof0w==
 Original-Subject: Issue in man page  PR_SET_FPEXC.2const
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020931.00000000694BFADF.0031985D; Wed, 24 Dec 2025 14:38:23 +0000
+  id 000000000002095A.00000000694BFADF.00319876; Wed, 24 Dec 2025 14:38:23 +0000
 Date: Wed, 24 Dec 2025 14:38:23 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page  PR_SET_FPEXC.2const
-Message-ID: <aUv633JB452XrwIU@meinfjell.helgefjelltest.de>
+Message-ID: <aUv63xJI6tagZGQB@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,6 +53,6 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:     "enables" sounds strange here? Maybe activation?
+Issue:     Is this the opposite to "enables" above? This is past tense, on purpose?
 
-"Use FPEXC for FP exception enables."
+"Use FPEXC for FP exceptions disabled."
