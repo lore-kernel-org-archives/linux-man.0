@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F73B3590B6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BE63590BA
 	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587124; cv=none; b=Bo/OO2r5IhXh2sDVz6I63DCGEwoCsQPauDSG3uAOdJbVehQBbNZguKGxs/fDyWGCfL1R/qPcWctLdGXRxuCuJZTXVmGKmnkWl0NLzoo4TZ8oBkgC32tUMw+7Z+/GPoEZU7V+NdM9MGlWYkGm0Z1wJsR8MbCCy0SQ2ZuE7vZmElU=
+	t=1766587124; cv=none; b=d9PlYmhXrLMiMwSvGtDa5gIUrj9qQg9JkemJiFTGnuOL8ABX2QlZ8blTdPjUjsE5PEGG12I729MxBCixp+lVrfg/N4jPbanJ5N6pluvFsMlm1TXuZzfQ8Zm/JwnABLp4d12Ko5HlWDFw8dCOloXglVf8QIwhAnl/+I+FR3Ka3HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766587124; c=relaxed/simple;
-	bh=SR6GfPHAisFNXqpVWEBoJxBrm0634xkuwpJv+0hWpjw=;
+	bh=BFgpSiY1L4xpbnEZEuKg5yJAvxb+C6/2FgBaaX+6oyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SZvrGVdI4ELd1nBVeG3GEhoac2vig4rmd5Ypu6CSYk39ElZT5eWu1DwKEp5FS9OqaGXUnraf5VvTQ6iRTf0AJ+1qE8/r1hwG7mJES/FDeKWefeW7+Yashv9rT/sV/SvEhmgof+5Rhd0nb0gS3weLVjxQpwP9EM6M8uIlMtaAJdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=KguBuhjS; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=VaqhIGJb+r6UIMnPuuwvJUKF5VU19j7BzeiVL1ZjIrTAKkN27OtdoCfC6T0dnmEaE82NxhNG12fXGOBqU1FEJKKumJwf1QaXRS4kTX83TFYqzL5qm6CNmEh6poYSzfn6NyIMBZdwuHiYuogQnRQ5NXXiRSFyBnxyYmFEzIvYes0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=pp6rYkLd; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="KguBuhjS"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="pp6rYkLd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1766587105;
-	bh=HHvGWycr0MJy0kvkGQa72tbBoUg574H7RYZSqpq/qck=;
+	s=selector.helgefjell; t=1766587106;
+	bh=8UqTywLT9fN4FVu8SFjPHJJbOjQ7x3P/JuDZz8g5u+Q=;
 	h=Date:From:To:Cc:Subject;
-	b=KguBuhjSqJkNEkUTg6L8bmAnIN5WYofP0ovNKjumqW6H5hc87Nxk9iQQO77IxWVIN
-	 dF32Kbv6tgf/P42+HCaWH5WXteStyoZCEXJ52n9sZ9zd+d9LLA22/9slOfyRpCAqDt
-	 qxbFEGUo1BDOoVmLa/EkSqG63tK85P5oyAO6J/H7gGnkCpG02+SBsT8Gtem9wX5Xv3
-	 LXYxNpbCNwOMZBapUMT6lZtGuRv30PI+ZO9FAaLNX+w87pHKVhCde3j9f4fgHNg7b7
-	 jL9lbsaHiJLfwA3DPH1keNtzIsqLGKw/fa5qqTxHyhrER6yT0iyzZfo4B6mb6mnmeo
-	 MqRiXi7sZDGwQ==
-Original-Subject: Issue in man page fmod.3
+	b=pp6rYkLdsPXXb5W8231Wjv2P4iN06kWOh9BimHOUEaybMPJ6Eijerjyb5EWvbo3Sm
+	 N5RJlSw7vTCx2J7u2MwmTTqctPwrmvOok3GvHstKWvHxxTp0dcSx1CwuGVFhXC+8cc
+	 mh4ccjMCh+oaoMSoa3BJcezbqy96ruIDI5TQfDfAkGTI/4Wjr3GyZ0tTiScrvUu66H
+	 cxg0FgKfmOsiPyk4TAdvTUQU9xOY12QgEHhkRYNMHPVilZ/g+7VamdvK/08nZT/Zlf
+	 kV5BVRwpzG9Gf/j2xZkS5orVq0x+ETNPxADy+V+z2cHtc5zNKxdWoI7xlskFOFT5qf
+	 AIRMmn9zpFmBQ==
+Original-Subject: Issue in man page getpt.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020B39.00000000694BFAE1.00319A53; Wed, 24 Dec 2025 14:38:25 +0000
-Date: Wed, 24 Dec 2025 14:38:25 +0000
+  id 0000000000020B55.00000000694BFAE2.00319A85; Wed, 24 Dec 2025 14:38:26 +0000
+Date: Wed, 24 Dec 2025 14:38:26 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page fmod.3
-Message-ID: <aUv64bXVpofjc_6H@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getpt.3
+Message-ID: <aUv64tskHbjzCiMI@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,11 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    I<x\\ -\\ n*y> → I<x>\\ -\\ I<n>*I<y>
+Issue:    multiplexor → multiplexer
 
-"On success, these functions return the value I<x\\ -\\ n*y>, for some "
-"integer I<n>, such that the returned value has the same sign as I<x> and a "
-"magnitude less than the magnitude of I<y>."
+"B<getpt>()  opens a new pseudoterminal device and returns a file descriptor "
+"that refers to that device.  It is equivalent to opening the pseudoterminal "
+"multiplexor device"
+
+"on Linux systems, though the pseudoterminal multiplexor device is located "
+"elsewhere on some systems that use the GNU C library."
