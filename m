@@ -1,60 +1,67 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E344C358D37
-	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB5C358D34
+	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587118; cv=none; b=bTPoujQkQuM9PqVIRt901RRRQYB1lfK07mpg1L2C1j5BEIQOrh7nt2gQRafHHAk8glLVhuc2rFMAuuma9F/9+4OEnIpTXXiWktWyx2X1lOg5QpfDgE30jN+RM6FZNsleJ5d/QdreEiD3mzFjARkOzkB0GydrQUU/9k3sd+eTzS8=
+	t=1766587119; cv=none; b=e3Vhx/1pNSi1v+7gh3aU68J3qKA15i1k+nQCgqcOmLTGBFilUtADA0DrOucoyu6ikNVqVaB6+vXb1RjuVN78+0XMq5Mgv1WRzlzytpLecXdCGffhD/Tm3itPMd7dQWf9SnYf67aE6IErE2WEO2iUCAiu73RqRVRwVF9uaoREMg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587118; c=relaxed/simple;
-	bh=Y04IQzOkhUTmRQA+caerkYTqdzipAxsAxdISXXDELJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZRCl6gZrJbZFXjvmVrL3+Hn0PgSWu/qbzY9CjllZpVZSaTMcxNuljw+8koCHPwUkubK5VYIoCHW7di+iWhmhV/JMDswgU2R5P+1odmdBkWFaTOEi7cg1e3pMDTQvEo4EpxA0/OJfP6hloY2M8GqlJApl9mtjM++/qHCuD1DlVeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=XMZque1H; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1766587119; c=relaxed/simple;
+	bh=og31fwbLM/2jywa8f2Gv31sqrhwKMdq3ibOOHlB3+S0=;
+	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
+	 Content-Disposition; b=Hj9OVGpcqMD/9Q3fjMf8ZksiYb0KrVQU+flD/t3GztLYu9NIUpODx+zT3qrbBa50/QYzzeWPyUf2uSlB+MijSRa1ZZzHewI4FNYokXH95DljjcRPnGl2yjmtHNRYksDzFG5C67ZtiQmFY6vSh33u2gazakpvz8F1vSFjewKAYLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=O9mfi1zu; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="XMZque1H"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="O9mfi1zu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587104;
-	bh=NVugzt2E5IXNrX72w8tIKlYZQ07BtmFJOKiZ4VfbLqk=;
+	bh=PiT/z4zTjLaAW/8zdFryuy/g0Tb/h9Q9vZSbhjWwEj0=;
 	h=Date:From:To:Cc:Subject;
-	b=XMZque1HjQH1XuxMbmBM8I/YU6XLVV+Lmc500hFRTi6BqtB7sPVTJLOXSXsOCod0a
-	 5Wg1VLEotyzdfUKcl5V6HcQqkglZgDPvXgnJCiH+3ucVagAc9+gelQ4q9MwsZNfwqH
-	 xjvBFvX8Lad8FWjtuBxhtrM+SE9gfPFp7MN5B835bFaTYRSmeUtUwMswp6pKDludVc
-	 qUVYQ3yOwGp936dVK+WpWbFiHNtKyUNRKKPfaEJZFVwtcUlFbibG7xLFrdcgwmK0Kw
-	 iZqLe0Hqs3ZDZSIrTNoAtmGRSZ+pMCiPHz+hAsau/2IIOECWm3E5SFXk3cbz+UoHQf
-	 1RYoPhBKTjGbQ==
+	b=O9mfi1zu+/PY3d5CTbmcSMj4iY5X7cg5m3eOEZ33UY+558Dw4tkGdUdAXNhVrow9W
+	 cKZ5I2DFr9W80UZkgQZZSJnbrNvRuKUn5XGpAyEaZQgfyUQ06A1IQa+duiSlfEszlh
+	 kh0dd+WueH+wrbE8G8TV/o+2WnMVgTGE8vUj55aT8eyD6BVvFEOG2koe/9UEbTGMwJ
+	 4EZbnZCwkLq6Ks4EEM1Qt0tQ2qY/tBfJ5lKIAa12pUP8iYTsZlpqZcnau/LVJVRnwa
+	 beFVc+hWFVXRFyAEDTYaqtMSht9x3LPtnh0wQxwOHLPfa+JizbsPy9neYeR4oc49l7
+	 wZG86ydqlkmeA==
 Original-Subject: Issue in man page  sigaction.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020A51.00000000694BFAE0.00319959; Wed, 24 Dec 2025 14:38:24 +0000
+  id 0000000000020A69.00000000694BFAE0.00319972; Wed, 24 Dec 2025 14:38:24 +0000
 Date: Wed, 24 Dec 2025 14:38:24 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page  sigaction.2
-Message-ID: <aUv64KTVybnf2hB-@meinfjell.helgefjelltest.de>
+Message-ID: <aUv64Ecu6dwxcii9@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:     behaviour → behavior  (according man-pages(7) american English is used)
+Issue:     Inconsistency detected by ld.so: dl-open.c: 930: _dl_open: Assertion `_dl_debug_update (args.nsid)->r_state == RT_CONSISTENT' failed!
 
-"POSIX only guarantees B<SI_TIMER> for signals created by "
-"I<timer_create>(2).  Implementations are free to also provide it for other "
-"types of timers.  The Linux behaviour matches NetBSD."
+"$B< sprof -p libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile>;\n"
+"Flat profile:\n"
+"\\&\n"
+"Each sample counts as 0.01 seconds.\n"
+"  %   cumulative   self              self     total\n"
+" time   seconds   seconds    calls  us/call  us/call  name\n"
+" 60.00      0.06     0.06      100   600.00           consumeCpu1\n"
+" 40.00      0.10     0.04     1000    40.00           consumeCpu2\n"
+"  0.00      0.10     0.00        1     0.00           x1\n"
+"  0.00      0.10     0.00        1     0.00           x2\n"
