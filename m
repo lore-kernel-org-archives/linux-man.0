@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0933590AE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E99358D37
 	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587122; cv=none; b=tWvcJ6r43DCV9EACE/9nB0R4C4mMaNrGetQbQbq3X3TtZoB5Yb4fBPrRDJXVmPIIYlPSd0OJXJnkJQWB4tSM/JdXCZeyX0hNm0pCojxxCiVwwB6rwWZNgf1T2ZqSifQqNzvlaoH0iZ6jJrYJG/nC7q0+AL6ctBZPNoFywJrFhGI=
+	t=1766587122; cv=none; b=J/d3ePEycX4+TiYxlcVoCg3QDfsq9UXfFBFENk9IwiviXG+HtPFPKJAI8Uk/D8tdm8ATY39ZeLlrUWNyKgxgYpJRHz4tstK3we3SEyHtQdrJVtPFVmCZzXmKKBrA/asRjF6sv4tynt98fmghy4yWGhtIpFs/+j7CDvok3n6XoYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766587122; c=relaxed/simple;
-	bh=dZeANJOiTYDI/K05s2S+tlJOIK6NQ2jgIaGu5W8cRW0=;
+	bh=9YPsW+x5f/zFr6sw+pe6gZ6HaQlb3+AqHbhZtxZf0Ng=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RIKLnNQ5iFzqC2PjsumpEmJtAkoLt2CeaBYKIRfGF3HbGo83LQjMluaprVtVRaa2WZYPA9rf4ubitlX3v4qbbott0hmlQCVgH8zb/QwA02ldCqMDyovvoKX6jIHrSkxrqM7yfAkdJVNHvgjobd3mpWB6Y/TNjJbhCaakpe5nD7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=dcZT4gII; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=dJjzuNC3GTUkJIJDY94THiGWQ0BU3eQrQaw+IjbimUZ+eAxQSDd8XB5VfPIjYDx92EtsnuuyY4dTknrc8BNVdQWFTccY1N+D3q9Dtn31R2CSLXjoO5vu+6XmiK5BpnSPbTWVKjiu0WcTAl2oMz6YUe5AjNW5sZR4tXzpThDWUpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=M6xzXi52; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="dcZT4gII"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="M6xzXi52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587105;
-	bh=9Yk/ptLLNWzEkqEtQ9xS7/7+0XkNAFEoL/6JdGHwhR0=;
+	bh=PNCXaTxAtlUZsd059W7+JBq7q7why0QoE11gHhJZhFo=;
 	h=Date:From:To:Cc:Subject;
-	b=dcZT4gIIa0K34YWDvb1irP680uOQGlTWcu6bGr3vfOqb+OP55VZgbaxLD4aFwJ5m3
-	 X1aAjmuSoJKolMypXTFq6/vCZDOj+Q+FMzKwnzL7TsouQkOwsaGi6k3iI779DGXQd3
-	 opojuszRI96Vbf2FX1htiGvVemTOWstDKwxdtji2OX8KWwa1p8eSCFSBetSzI/YH6f
-	 X92LWG0JdJXoZ4K3L7NQfGfsLpnkCjVvBndw1qlLPwhNB0UouZl3/mgi2eMxJPLGJN
-	 f2/s1M5JNVUUUdxBi0ld0KsiMuvcyGy94/wFsboV+SlZet+1+j1RPySc0hLotVIaxg
-	 M0sQ/bx2tbjQA==
-Original-Subject: Issue in man page console_codes.4
+	b=M6xzXi52Zy2C3GzZ70OEfS8Tz0BphqH1S0opuPRPwRnRnl+cZ4LMx0AVvYWDLGane
+	 6Ujqg5Ze627CUmiwylUaflzuCtzLa0+Ge1RWJqvZJuEf9cTChRKp+XTML+QyBdty1C
+	 hjexjUTUhiBNcSUDi0UR1+6xo7DRFxtsoiIYvHRZKKjSN8b7eCDjs52Ewft9wIxNdR
+	 Fmk59ySEaOQK4FyUxahrQUUFUaXiBJITNl/lDxZFH5dQgZMWZqdYFqsTySWquJV/bT
+	 c2qI+ZzF0NXcPKlnzFJubcM9QwGLm9dINghLnxtKylUHOPG1Pe/DGczyy3hcoKYDIY
+	 HiHCRPXZH21Dw==
+Original-Subject: Issue in man page fclose.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020A92.00000000694BFAE1.00319A08; Wed, 24 Dec 2025 14:38:25 +0000
+  id 0000000000020AA2.00000000694BFAE1.00319A21; Wed, 24 Dec 2025 14:38:25 +0000
 Date: Wed, 24 Dec 2025 14:38:25 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page console_codes.4
-Message-ID: <aUv64TjNJQdRtZh7@meinfjell.helgefjelltest.de>
+Subject: Issue in man page fclose.3
+Message-ID: <aUv64SFmIBh71jdL@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    I<asctime(localtime(t))> → B<asctime(localtime(>I<t>B<))>
+Issue:    behaviour → behavior  (according man-pages(7) american English is used)
 
-"The call B<ctime(>I<t>B<)> is equivalent to I<asctime(localtime(t))>.  It "
-"converts the calendar time I<t> into a null-terminated string of the form"
+"The behaviour of B<fclose>()  is undefined if the I<stream> parameter is an "
+"illegal pointer, or is a descriptor already passed to a previous invocation "
+"of B<fclose>()."
