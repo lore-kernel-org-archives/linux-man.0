@@ -1,58 +1,58 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059CD358D37
-	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24051358D3C
+	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587120; cv=none; b=FM38YhaOLejEINGtvCLuqx2c2wW0FQJQI8OHkLAKWWNUZiWALmHhd/M3COMFUSqVJFCGL8fEo4j2LB9Cul7rYZnbaeVoxxWkQQZzC1sg+Eyl5gLKlDHrY0i+aBoGFfwawJBlhBRoU3bl0+iTgrfv9PGIhEqRU3QvrObgh9Afm1Y=
+	t=1766587121; cv=none; b=DAaQp9VLohqrjhBP53JJBc1D9Sfn2rxN18KLuWHpbZKNJtKleFAKlFRU3ODCfCcFXOIWM+lStZnkr1xzWsu7bm4rOX3Uib0qfk/8ppfcrxUHKp/cbcrLX7Be3T1FvJp+JCErgUYGMxlzyBMt07rR0o+trCRjodgZrVHqTqEUHlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587120; c=relaxed/simple;
-	bh=WnWT/eGFhORlioqbOWnS0SK+pn+9OcXB+cd2E0DCjtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jt96pPmiH4sR1zpNfX8v+q3z5E78Dv08JHwdNLjKVi2+YOoaMCitC1xelp+iuwKSJtXNdQVQbNkX62Xy1lBBNK/x7GfWeD0BR34GxpdqcgtwTsnOddlFsMXijobZMzjSxdHK3guhCA719Nb2nmXxIFTvcAy+LNHrkNTCBKbyCcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=U/83uwwV; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1766587121; c=relaxed/simple;
+	bh=+xXDrU5uKBax5RsoLuEqbA84iRDtaYes4XvZzTYyarA=;
+	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
+	 Content-Disposition; b=oOczsTK1aMi20qIMEF5lMwIbo780Vzt7X0g4RjW+IIvAoXjdbebHJyLiBHnnj8ENnpJ3A2CTlCTVwM8Ev7+dzl9Ii2UuLjBIPz4rN+dbLvvQNDNGfw/bVGq0rbnWSYWfJ3m53WPpNKO7Z3gcfZlaGrySJArPHetkPn+YfdsJR/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=mC7X3YV+; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="U/83uwwV"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="mC7X3YV+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587105;
-	bh=cuefkgMavM7Cy1zDZ3RGAEI8PXX4KvLTj04FJe6FwUA=;
+	bh=Z+UelajP04NChbEZr04wzqYivqvW+YTeFaaNN+lOEik=;
 	h=Date:From:To:Cc:Subject;
-	b=U/83uwwVujYF4EJKtyb0duTfM38nu/Vr3mThEiDVVf8zAG1uCmepuG0K8oIDEvo8V
-	 sV+ToBE51UncPbM2Wlbp64szmJA60kSUwjc42MKmtao9+QbWpY/tgiYaPqCPj1LFCT
-	 CLnh8LFXyqUL8QeABoAPvKPCoNGeFoUBDgpsVe9NWvCrbdtmAs6QGFWq60vUtl8gid
-	 8svrVJf45g0taWjgAv+sJ18lW4RPpg9VEG9g1JVqyY1eV2NNZf3Bgez9WJDbrxgQDq
-	 4gTvUcaDa1ZDgs1wPeejs7LJmIqcaKnRreBp0YaRfnqImQ4p7Tphjsp8349cUJqQjg
-	 /f+86CJZDycTw==
-Original-Subject: Issue in man page console_codes.4
+	b=mC7X3YV+bAMreCtKItcrVLtFJ/nti9oLbplE+XQNySWmJaNPa+mL0x4L4+Fet+nmz
+	 Tnq+TIT/6G3+YjQHX+CRpZLFRWeyWkB414ZNcw+HH8keUy5ArpFqJGhGxlB/T46XAc
+	 191rWjBLLoy9f82xSfXjHwNykBeAuVRF/+9is5JcfYTAbXHyPs17DWxfx3aK+TSfoh
+	 2fM+R1sIDmicSBWWMgrkT6DJdv5TE7ZyxW2V0LUiyezvEvTWCMQxwQqKk5OzB1r0YM
+	 GK6OZX0idboK4WXT+ahJi5gHC7ywN4e1FEkQrImoon3W7b5zATnXVGFPy91p9lTm6O
+	 xJkbHs1X3q7Cw==
+Original-Subject: Issue in man page  timespec_get.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000203AB.00000000694BFAE1.003199BD; Wed, 24 Dec 2025 14:38:25 +0000
+  id 00000000000203B7.00000000694BFAE1.003199D6; Wed, 24 Dec 2025 14:38:25 +0000
 Date: Wed, 24 Dec 2025 14:38:25 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page console_codes.4
-Message-ID: <aUv64dL4Nw-pcSp_@meinfjell.helgefjelltest.de>
+Subject: Issue in man page  timespec_get.3
+Message-ID: <aUv64coBiLDIm9NP@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    I<vttest> → B<vttest>(1)
+Issue:     No trailing comma
 
-"The I<vttest> program"
+"Standard C library (I<libc>,\\ I<-lc>),"
