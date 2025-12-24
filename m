@@ -1,58 +1,60 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C5C3590B4
-	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F73B3590B6
+	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587123; cv=none; b=GiKZU4fu1sdpytLhlaDRkdJHN9TeS+L9CVrlI1QPloqqqF3sQAt/7fSaRSOZOc8oc5TMJQiIifotDfWH8i16vuzzTytoA6QcIMDHL0QtVWI4+PzSxyGuo/zSzztwU50r4uvUyqNzMnbPSLpRKTAwNV3Z0BfyW8w0NuneAHSFSqs=
+	t=1766587124; cv=none; b=Bo/OO2r5IhXh2sDVz6I63DCGEwoCsQPauDSG3uAOdJbVehQBbNZguKGxs/fDyWGCfL1R/qPcWctLdGXRxuCuJZTXVmGKmnkWl0NLzoo4TZ8oBkgC32tUMw+7Z+/GPoEZU7V+NdM9MGlWYkGm0Z1wJsR8MbCCy0SQ2ZuE7vZmElU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587123; c=relaxed/simple;
-	bh=636Ek8Ck1CVnfdmL5jfZ2Oc3O7vBc5SbNbfTN8h6ebc=;
-	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=SyVKkSP410YDNx7oukwltVVvXzYCSbWQF9/EkgU8/tTIfoW/+4Na0rmRjFn3TGqVm4/IS+r+Uiq6LUb6v8WW3wI/89FWFsZdankk0epaqw6n3++zPiuz7vEtMqLGw8dAaI727YrEw8VN0a/4IbKWiX5uhygYKFVmBGeVe0LLhPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=sQOOYHpQ; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1766587124; c=relaxed/simple;
+	bh=SR6GfPHAisFNXqpVWEBoJxBrm0634xkuwpJv+0hWpjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SZvrGVdI4ELd1nBVeG3GEhoac2vig4rmd5Ypu6CSYk39ElZT5eWu1DwKEp5FS9OqaGXUnraf5VvTQ6iRTf0AJ+1qE8/r1hwG7mJES/FDeKWefeW7+Yashv9rT/sV/SvEhmgof+5Rhd0nb0gS3weLVjxQpwP9EM6M8uIlMtaAJdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=KguBuhjS; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="sQOOYHpQ"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="KguBuhjS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587105;
-	bh=NbJZDUqmdK4/qfiN5vFBULbYUNSVIAeWSYKFTcjCHp4=;
+	bh=HHvGWycr0MJy0kvkGQa72tbBoUg574H7RYZSqpq/qck=;
 	h=Date:From:To:Cc:Subject;
-	b=sQOOYHpQSBQ1TTt+DyYetg5hbjaslxh5xckl6DNQa7fjA5oQoRw0vie1HIGgzKOQX
-	 /w+yTgbTYvlcHsutHzhv9IYbpG+dC5dLwaQg/AKE1aoLzBdd+LujxZW50e0j1u3Qm6
-	 ChVdzpQffruoHghypD6xOzK0nxFBoba+lZXoBDOl4zqPdntw8+mQ9e9xSZtPKzSF6u
-	 vv9+qnwOy5ZpPscvpok71qBuhXAQ0yH6uVfnxe0/Uryntml+Wrpc63brIQYoau/5zq
-	 6AI10lGqJllplq0Hhgp+NvSMOjHqFB3H7dxXrxny4825rEKhmEJSN2DLlrGSYcOKIz
-	 VfAwhi191Z9VQ==
-Original-Subject: Issue in man page fma.3
+	b=KguBuhjSqJkNEkUTg6L8bmAnIN5WYofP0ovNKjumqW6H5hc87Nxk9iQQO77IxWVIN
+	 dF32Kbv6tgf/P42+HCaWH5WXteStyoZCEXJ52n9sZ9zd+d9LLA22/9slOfyRpCAqDt
+	 qxbFEGUo1BDOoVmLa/EkSqG63tK85P5oyAO6J/H7gGnkCpG02+SBsT8Gtem9wX5Xv3
+	 LXYxNpbCNwOMZBapUMT6lZtGuRv30PI+ZO9FAaLNX+w87pHKVhCde3j9f4fgHNg7b7
+	 jL9lbsaHiJLfwA3DPH1keNtzIsqLGKw/fa5qqTxHyhrER6yT0iyzZfo4B6mb6mnmeo
+	 MqRiXi7sZDGwQ==
+Original-Subject: Issue in man page fmod.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020B06.00000000694BFAE1.00319A3A; Wed, 24 Dec 2025 14:38:25 +0000
+  id 0000000000020B39.00000000694BFAE1.00319A53; Wed, 24 Dec 2025 14:38:25 +0000
 Date: Wed, 24 Dec 2025 14:38:25 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page fma.3
-Message-ID: <aUv64cN0_EE0VVlM@meinfjell.helgefjelltest.de>
+Subject: Issue in man page fmod.3
+Message-ID: <aUv64bXVpofjc_6H@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    According to above, a domain error also occurs when I<z> is a NaN?
+Issue:    I<x\\ -\\ n*y> → I<x>\\ -\\ I<n>*I<y>
 
-"Domain error: I<x> * I<y> + I<z>, or I<x> * I<y> is invalid and I<z> is not a NaN"
+"On success, these functions return the value I<x\\ -\\ n*y>, for some "
+"integer I<n>, such that the returned value has the same sign as I<x> and a "
+"magnitude less than the magnitude of I<y>."
