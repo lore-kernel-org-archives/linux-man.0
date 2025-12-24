@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F0B357A54
-	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D452E358D20
+	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587116; cv=none; b=HboVXTl9rqIjpf+KkTCow0GcLfCMVn4K+wLQxm3CjprOyNxTkc/FTpCPzK5smPH2+ES5TL3yUVa3OSPYrX/ql4vLNB/qNh6Nc/bq2AReAzuykwhIOBkCycTKHDjMdfcKCJFEW9qjb3ztFowtrtLB+b8IRciP/oYLaCSylf/oqLA=
+	t=1766587117; cv=none; b=R4GuQo+gMa5133EP/nTpO7+fJ3vUIu32cc7mIthOyfwqddfTIU3cKysJnCI2cbGGwWLrozoSz72uHMZoLY0RySN/QZ//JsVRXDGwdCPc0tnvQT2azVRqQuKgoqm7wR3Xb6M2r8gQtQ9UBNGae8a5ne0TRKu7gx4FZwUZNsXZZ2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587116; c=relaxed/simple;
-	bh=VmqRfOVr2n2pnMDe2377vBj/uSXT0D+HkxyjnytgNo4=;
+	s=arc-20240116; t=1766587117; c=relaxed/simple;
+	bh=Hm9QyO8+7kZiCJJ91/tl/deFYMmetb/1P1O0rS4LLMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SHTgGYBfUB3vnp+M6pAYi8Bq/535z5ocCFrM8vT4lV+t2RrACsQumSgMCe9LWkaNhRW51iZ/Dml0hNtiqWN/X0eonIYVWkBX6Ba9yjJh91AQzw4esHTpdo/zwMF8iMyjEQA5/pI0/436ypxeF6T/VC08q1l+ZGwnZnpwiqCRsq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=Sc7/ynjM; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=VC9DMwfN2488Gn/zyr3N7QlBnCqLUnb+eBgh5yv3mEn5F8U72oZarHXU6KiGvgFdc8YNoXnPlCxZCGIwnJ3H4lkrIwAhjk5BKpaIhA7WEy8sQwLJ/F4/gYBEbnj3a46j3VZV10ph/beaTgUI/Cs/q3sN5uB5t03j6oetYkq4nzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=aOf47uSr; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="Sc7/ynjM"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="aOf47uSr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1766587103;
-	bh=B6bvkX6DwfvGPn3rOzR6BzJUP/CKKdz7bpnbO9tDtF4=;
+	s=selector.helgefjell; t=1766587104;
+	bh=ROrQ4EpiArQqRV4PqOLSM369eeSnABahWpYK6AtQVHY=;
 	h=Date:From:To:Cc:Subject;
-	b=Sc7/ynjMWzRN0yOsAZYHJGGj6L/22U5OpaYQUfc5P6O4AaFUZylb+V6OX/YaXs11a
-	 /Oe7vjFPmpsEBREiXG4RUTQqh2ydbwIzPdenPZWTZ1GMGmdLuodBOu1o8hGNQdcGyc
-	 6nZ5hewwPtSLk2epW84SeW6nbwGDes8lMAbdK0R3FmtjhxrRhOV0DbDW22mkr9Y9Lg
-	 BrUFCHB1K4xwNkJyx4ItJW9o9Hph47tMP/SubjMSfkE0xC31/CnIBceNn4PwkHzwqJ
-	 CrsTtfYoksrABGbLnPGAEN7H0MEd8fk57D6VxQ31sIzWCJUf9pwINTZ4oMFw5ZHEx3
-	 XHGr+/DMPBgGA==
-Original-Subject: Issue in man page  PR_SET_TIMERSLACK.2const
+	b=aOf47uSr55kiI+/tunpvV0A8Igg+XExz0LVBiplAB0SxezulxDVXd5yVAKZouE17u
+	 LSdJOjr3h6sD/00GT/yiK9tm2+TjgSfkKyxC54NZdy/T+T8bEfUIr3tAxXbRzBWlc3
+	 +DAyT+3PzzxFe3w5LAjjFXzXPppRF2MIYP9SLYSIVw+y69P9nkRoX9dKxvmC/Fjyva
+	 Fkr10DPT3K3Tq0LY3zPD4eZLGLzyKZs+1+obZ8kVFnY1keXtOpj7cfO9dI9enwQJeY
+	 bo04Fa+6EJ6ZEOJ4kE03UDMbj1UtI0pESO/9DfXDoNQtHBA7fYmsCrzlnyCdkh3kZb
+	 /TYQ/yaWIzrhA==
+Original-Subject: Issue in man page  PR_SET_TIMERSLACK.2const.po
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020A20.00000000694BFADF.003198F3; Wed, 24 Dec 2025 14:38:23 +0000
-Date: Wed, 24 Dec 2025 14:38:23 +0000
+  id 0000000000020A27.00000000694BFAE0.0031990C; Wed, 24 Dec 2025 14:38:24 +0000
+Date: Wed, 24 Dec 2025 14:38:24 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page  PR_SET_TIMERSLACK.2const
-Message-ID: <aUv636Ne0XcB5LYQ@meinfjell.helgefjelltest.de>
+Subject: Issue in man page  PR_SET_TIMERSLACK.2const.po
+Message-ID: <aUv64Kcx3sZIGgDr@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,12 +53,7 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:     I<init> → B<init>
+Issue:     process → thread ?
 
-"When a new thread is created, the two timer slack values are made the same "
-"as the \"current\" value of the creating thread.  Thereafter, a thread can "
-"adjust its \"current\" timer slack value via B<PR_SET_TIMERSLACK>.  The "
-"\"default\" value can't be changed.  The timer slack values of I<init> (PID "
-"1), the ancestor of all processes, are 50,000 nanoseconds (50 "
-"microseconds).  The timer slack value is inherited by a child created via "
-"B<fork>(2), and is preserved across B<execve>(2)."
+"Since Linux 4.6, the \"current\" timer slack value of any process can be "
+"examined and changed via this file."
