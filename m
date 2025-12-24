@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F13C3587CA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D43357A4B
 	for <linux-man@vger.kernel.org>; Wed, 24 Dec 2025 14:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587106; cv=none; b=kVJcyD2IR1SfsAFYMeuQr2kPhBQXS6jl2l407G0ECxlU8dGIMS/jsfyj7NMrOD0Gb6Z4CaQJki/cbPGmzHKmZtkUR85+J6XktcBA2/bNrNRrCqPBjzY35pLTWEmCeWshPnPPdEoougUssqwnZdvPORA+Ww5Kujkdo54SUN3F42E=
+	t=1766587106; cv=none; b=gZCTamZQ1fKpCpQuyJVTaOnzZreapzksDCt5rwc1ZIiR91zp3UOF5R3SBXXf32qai6f92XIYe5dbLD1Tur0yVFymw4BzAyh/Quvh8url7aWdDuO1luhichXgfsGXFACJu6Ul1uzIaJyTW4wzTi2nS/mcFU6vDMFkvTh4soW4QDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766587106; c=relaxed/simple;
-	bh=mkq/TVpXASIyFzqwclkXunQqQN69AQfk8inDioLKFBg=;
+	bh=HBEXhvKft7abP6w5W2KiowhqX8eqk9Ser9/XfYQKCSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=KoVk2SBlrRAEwSe5LyNguc4/goI9f4ITWKfp5qMJWGlj0vo9vCuQ7J7bbFVogLwzdzPDvXWQORv9g9oZhCPjAQqCrOqkPof9CBQmp1LxnNq5u3q3JECICSwlypsiQiPTbswfqT7DBIhViqWw9Z21tdI1cw6BvCFkzYtC8xD1Nc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=DqtPvWeC; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=HVPtmi7bnDdo25I/Jc8SrNT/TsQe7jVBXazVhG4MN3kA+tMhh38hErLT2N8HmFS/eHujLeWnpr8ZZepMiMkXm2lEYxoy5rIfZQTbj42psVoSoeDARWfkqNmBo6TlgsY1ZLXFp5IFPY0JzRL8hlQZ0GU2y/+O/0RFBG7pvia6u6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=h8m2zSXj; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="DqtPvWeC"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="h8m2zSXj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1766587101;
-	bh=7h+Bq0IQYvPZwSjlCW2QMURzr6L6Xg/p1dfJ6MTVDOE=;
+	bh=62Pd2pr7TPO4d6CdTt7UlCX42Xtf90c3irFOEIZEqq0=;
 	h=Date:From:To:Cc:Subject;
-	b=DqtPvWeCzJyZSkZwUpdYJ6nR+ZONpnAVNOMhTV8mq9l3ix3dI5FuG+TTS2d/ur3d4
-	 FCHVh3rMo8+DOBIkFCxoAG3vHUekrmR5QuMI7sfd5kMpNKFU5VxonYa2RpogTRlE/k
-	 NMJOWhFWmBMSrgP1qOALfDCWac9tNennjBnbMztSk80do9EofbRTy7ech60QDxrsqy
-	 aUSSkt3wkOA9Wax1M4VHIV3cCJJiY5ONYIGxx7ccKKQKkM49hTmrPuz70OfU4q8o5f
-	 RnpEJ4Ok4oUaju1VRj4dFVqksVR53LXm1C4o2z1KXPYJMxi1BeRwcY4vRjTkAdoECb
-	 dQiHykQAkbtwQ==
-Original-Subject: Issue in man page mremap.2
+	b=h8m2zSXjeGChwruIvWI1bn60imdvekJJDRE2kMMSG11eh85gjyOiKbkDir8LSG6DQ
+	 Y/3YIWC/AOGxAN+isUQmwDBQj0kTGTWDFIkuucJKfNMtc8Iabmsx49fwRDPrFH0xe3
+	 lxVk5lEFCqRlG1vgq6IuWePm6llrEHW02uX7QJ0vvLbaczYnmm713rdlV5iBigGW1R
+	 0DWWlj91UJ5mIWcosjvEydkzTRwIuAABRJcCV0k8nuuzrprXPjFVvEnCIrnOthLKgp
+	 7uunYtNzLa0HbdVBHex2EvMurrWIgA6IEKJaeAKa3GaECOhyP3lGvMXZvGB9IDn2Sg
+	 dCIyzCOpU/7PQ==
+Original-Subject: Issue in man page mknod.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020550.00000000694BFADD.00319723; Wed, 24 Dec 2025 14:38:21 +0000
+  id 0000000000020539.00000000694BFADD.00319708; Wed, 24 Dec 2025 14:38:21 +0000
 Date: Wed, 24 Dec 2025 14:38:21 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page mremap.2
-Message-ID: <aUv63blJVbEyCqOs@meinfjell.helgefjelltest.de>
+Subject: Issue in man page mknod.2
+Message-ID: <aUv63WkdjBYbXoSc@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Why is the comma bold?
+Issue:    This is the man page of B<mknod>, what is "like B<mknod>()" supposed to refer to? Itself?
 
-"Moving multiple mappings is not permitted if any of those mappings have "
-"either been registered with B<userfaultfd>(2)B<,> or map drivers that "
-"specify their own custom address mapping logic."
+"If I<path> is relative and I<dirfd> is the special value B<AT_FDCWD>, then "
+"I<path> is interpreted relative to the current working directory of the "
+"calling process (like B<mknod>())."
