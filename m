@@ -1,73 +1,73 @@
 Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABCC227BB5
-	for <linux-man@vger.kernel.org>; Thu,  8 Jan 2026 03:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F4C20F09C
+	for <linux-man@vger.kernel.org>; Thu,  8 Jan 2026 03:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767841453; cv=none; b=nSucbG8V9lv8/rKafQESa6vhKsK0OKuXwAXYQEmLb2CpEtHuiVK7ejgABlka2dbH277lad50iETC+LI0rrjjfdl34IoG/q9L1exIOMFArl1cR6yKa+CWr3SXrPa4QWQcL++KVOqEZOl3ZGyGODjaONuZXOgorykp5iBRktsCOAI=
+	t=1767841455; cv=none; b=eGo7v5uTQDoegQnq+GzoU0LTqakU066KRa04++Iyybl0irf8JSNbGeYFSz310lxu396dAJ8ovlLBLDK4Qg5XWEGRjqGX16Y4MxBTdYGvgFerpY0v3pwgcTY9x+5aIyh6y6qe+suPOCGbU14PeSlP4T2siE/v0zHFjeCFERDtn2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767841453; c=relaxed/simple;
-	bh=2xDuGeVGI7I7CAHV4gVoUBN7WROuhRxeC0tq+uoX6eA=;
+	s=arc-20240116; t=1767841455; c=relaxed/simple;
+	bh=CigvikmGyPQ9pcH41rfipf2EKEL1RleBlQbdbGYB78g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AjKBbfIhOaGzS8Z0sYGHGgQe/0ndErK1noGHhQOoYnR7ghh3EgwBq8SnRz8ZXlOg33cRgDJqLoETMad47tsEfGMrOp75D/KsOAsGbSbTmTQbsmbUyyLc66M/B9CJsrADYecRtPH3dCvrZrydsNjl4G10RCFvnZ29lwmiS7kRZ+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpHvPYi0; arc=none smtp.client-ip=209.85.210.196
+	 MIME-Version; b=sgGWYedbvBlA4aje7ox6G071u0c3koIi2Mif4g3uf6rTCUIxniUpY20a/qkncDIs3Ws6YUSPUqqVA9kN9ysTnMjlPhAkVCrQqn+BSl61fS0PvZZByDiMZvCOV0UaTKlqDTME03sJ6Ou3AeLHZTVDdbiZoXiQAkmL/RWVt+emu1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TzX3Ndwu; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpHvPYi0"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7ade456b6abso1833658b3a.3
-        for <linux-man@vger.kernel.org>; Wed, 07 Jan 2026 19:04:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TzX3Ndwu"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so1658590b3a.1
+        for <linux-man@vger.kernel.org>; Wed, 07 Jan 2026 19:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767841451; x=1768446251; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767841453; x=1768446253; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=to3Zhvw4J6xqOqxPHnFF+jqNhjbHhu9TPBH3BiESmgI=;
-        b=JpHvPYi0Ucg9Gij1UqEUloIgWrFykF52V/3OrbPKWuoS8WojjCOryymzU9Rpis4Fcu
-         r+1SJ2qnEMZ7KCj73giPNj8ZooUfmUrHlBR0z7QB4ibavz7RjOzdXuwcBeCdRfVaY4VF
-         Si9zWHfmWfSpOun1WCnjEw3DsSYUETrVm5ODnkNz3peJRjD1vbLfcRrEanJLlzGW1Y9m
-         J9/z3FvEhjD9bt5Ee0wGZB9suZAjKJr4qupK7yxcEe45eO5iaM0UpD/BIkEFnUCH/54Q
-         h1zc9SyhI2aSKSJH+PpkvQXf5AgPwk2O7y8V5pAvwDK3vtNp4NuCzQIKsB12jfUHmQwu
-         A4EA==
+        bh=Wlw8gavUOVPdYkmxoiPFWJ4NIcGITrJGA18S7X3Uti0=;
+        b=TzX3NdwuyzSqNUg7Vr/N3UptmBAHuGY/DR0LREtNnB3QWV3WrKq3seKH5AhDeTWdLO
+         fWJeh1hzlcOpFSfJfo6KQbNL9baTmXXQeZqHyg406rjhRjcBTI8T1qcsluHXzmoxI5i0
+         H3xxQzkH0aVTALnRh4VX4bd7QIf8xdXTgTLK2O72eB2GGf4sPuGmJ8VDWFflEYPTvjqq
+         FMIY4+z7a2TzOAfhl1Dx9S3Q4XSYtYaHG0JJQvWIn/DvulkLcXTLSbTs1l09wHIwe2DU
+         2lAcuMBf0Y+15uVD31ltYIe1CA/VlmeQul/3mugVlPiwMcBSopdeqsurY4Q6FPQn3Jyv
+         hZPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767841451; x=1768446251;
+        d=1e100.net; s=20230601; t=1767841453; x=1768446253;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=to3Zhvw4J6xqOqxPHnFF+jqNhjbHhu9TPBH3BiESmgI=;
-        b=rFTsaSCxnXNy2SuL1ACeV7ObwkG/ZopX/e5rqfwg8rk1gO/IuUqo4qm07q7G8+bsyJ
-         UrebGkkU+uQ8o/COPLDt3lwCRFNz5LvgeKswgwNHFKDQvGa3JzVs4e5CHPv7M479Z0Rj
-         pzM/nr8tn7W8mqxi/1sdK7iCelPRg0WVX4wFl2+XYnT7qZEZMA09eyDLPwzf0nMm+b8Y
-         AIkG9W0YcnoqIsKvXHzmWi0kdFyFbqChitl7+XYeLO6xpeC/PCNbzHBdDker5Hc9b7kL
-         /qjYvCGk5MO4+DTBQP8UCrUwgnBBLpI2JMphjMKtEGdrQ/Iak3VRTSwdDQ4CzFog53G9
-         LwQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmAc6UebbC7vEBn97y///2CbJ2xoEvYXrR79dqIPoLICG5ux/OIu+xzya1TWU6qgxMKsVFh37RWBI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfZ3Rj4fFv31Xm5+rMjxHeG8FEgTyNP6fqBqqsGwHMT4S8Vbyo
-	6yQ9dk/qpgEYbPxRc6MYJFhQ4Ua24DfyijBqlFCpbg9J1TbV5VwdvYaz8CyBrobk
-X-Gm-Gg: AY/fxX7VbbOnsOzA5UVWeB+Ih9NTfamymX2cDlE7GFvQw1oaYqiMjFIibHGv6I+W9J/
-	iRSpqxIOmdxBfcgIWcYfpllMMmZdHLlhZv4/X5dNlLP9rhMysF+IvfLAog9GAlsk6jp538waDgb
-	RvCvl6NrtIafoPXJLSttY+GCjawljs4u7GybQ/Tfw/plVT2hCw33POAuvWKB1GeJmUHkFFxHyGA
-	2l5Fv0mBODhhUK3PoLefYwQT6bUbAomAC7XrnNlb0QsArsFJZHbB8xbESaWvzBGwVhay4GgwwAu
-	K/42opxiDuLSnu24ww2ViX59270XlwtbfsFZLi1EuiOhC/DKrwsdE8rabt1Zv6yeyKTy4xYf+S5
-	Ot1WOuQF2lA3qyzKnMsNXGJtH4eq5U/6nmKOH+LQ8tRMKzd1YWbz1U4NdQozqIOynAF+9s4LYRN
-	hWOozQmJ53qRcLne3HPriwUAsT8u+TQ+ThReZQegusUp5xAjAtFezmNs2Jw0bMAUO1YzhN5V0EM
-	xkkhOqj4IE72eI=
-X-Google-Smtp-Source: AGHT+IHKaLJ/gX8ww77dpBqAd0c6bWtfQ44WddVcIyCoBw3LZlrpVsDKE9mhyvOC9xZZ/mMr/T1vYA==
-X-Received: by 2002:a05:6a00:4212:b0:7e8:4471:8d2 with SMTP id d2e1a72fcca58-81b7f6e0a6fmr4166196b3a.51.1767841451175;
-        Wed, 07 Jan 2026 19:04:11 -0800 (PST)
+        bh=Wlw8gavUOVPdYkmxoiPFWJ4NIcGITrJGA18S7X3Uti0=;
+        b=gO9D7mR0jPwAOWcK14TF+enzXSKIpqIamzTTIbkSvU5R1NSGEYXcwIC7znJKlL6gJT
+         riWH75q06p3qHBVaKl1JGZbm9CHRorUErPx35Gww/6N9f5kK6mZ+EJNV8M8wp//vpaDV
+         /Vp3bb9orNwXgevIFu97ld6BBUEKbOmlc4fXZvZ/jHSeGb88AIZqxMS14Y2WGOzcj5FB
+         NNnQIFlLN6dzi7yWtxUXWtpEH2D8Cbk5/lmuDwF/0VIbDaFbVbEpq8IwUjGhg3eUuP8t
+         GoETuRtVyaD2j83zYXOgLqVvFx63PUj0wzAzUwPQRpkt7e2Z1/9hxv7+ML+AQLZYH/G0
+         caRg==
+X-Forwarded-Encrypted: i=1; AJvYcCXctYJ0HawinB+SD+MD7j+DygeUPc0XgjGR7+xLw21sYP29kGKPbxHpf0CanXvQbYFKSvCjrKWHgPQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmLP7A92EnGe54x94Mx3brR3ATgu1eOJ6qrYs7sHvKh0X0Hxgb
+	N9so7gc7vuehEy66q2gOH8cjBiitcx//9gJUVGG0uv2YXyHl/Pru5n+w
+X-Gm-Gg: AY/fxX7rCVfIwAZpMlQKL4gy2z+rrYb6qHNVc8Epetpx4tneBhR2AVpdj0qkblVBW5O
+	zgshTX/4gGPM6CIbJhjN/6YU5bWWtntK1okh0BOddlZY9FQCCuzSuGPYSlgKZF48T1cDQ4pwp0E
+	FLl4vkBy9XnS2Fc3of+RKPaJU+sk5bXunMIKOYjjktNLFP34GoW5qQ2p1GWuPfZxX6gNpxDk3Qu
+	SijXnUZJ7L5Vrxu9R0lxikv3MTJn04KTWfkAM7Cat8JJGfUuhxwTcarRRhJ0n5cr+UC1FiQ6iEF
+	B4bZtiurypdDfeeDc2fNT07IrD83e8xc0s050hGGZbMmCZKn4VJYdfTTGadxVKtqMMJWZZ2R559
+	Xno1nvXPUs7jCo77YMS3bEMKf9uYTjlI9c91uM0bzao1TTOuo530eECPdtxfZTxInPp8+IFFzoc
+	zgdhCxswj3tGwInRX1p8xcBjHvVs/KjnxNslJfJJTSqGU2ikdhcikNqNXRItOxaO8LtzBTRUkW4
+	Bcei5DVFzom5iI=
+X-Google-Smtp-Source: AGHT+IEuKv2LY8zLmkmAgUxPQKAvq1wDSpsuKU4/qhymtXtpB8CkQVSlXWol27gT6Yq/nCxZ6YHs2A==
+X-Received: by 2002:a05:6a00:328f:b0:7a4:460e:f86a with SMTP id d2e1a72fcca58-81b7dc62dcfmr3732371b3a.25.1767841453385;
+        Wed, 07 Jan 2026 19:04:13 -0800 (PST)
 Received: from McDaDebianPC.local (2403-580b-5de8-0-ce7d-5796-70e-21eb.ip6.aussiebb.net. [2403:580b:5de8:0:ce7d:5796:70e:21eb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb4c85bfsm6120312b3a.30.2026.01.07.19.04.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb4c85bfsm6120312b3a.30.2026.01.07.19.04.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 19:04:10 -0800 (PST)
+        Wed, 07 Jan 2026 19:04:13 -0800 (PST)
 From: Seth McDonald <seth.i.mcdonald@gmail.com>
 X-Google-Original-From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: Seth McDonald <sethmcmail@pm.me>,
 	linux-man@vger.kernel.org
-Subject: [PATCH v1 08/11] man/man3type/stat.3type: HISTORY: Specify first POSIX appearance of st_{rdev,blksize,blocks}
-Date: Thu,  8 Jan 2026 13:03:14 +1000
-Message-ID: <9d3a705508aaaec7b2ee5c79bb284fd508008fce.1767840410.git.sethmcmail@pm.me>
+Subject: [PATCH v1 09/11] man/man3type/stat.3type: HISTORY: Specify initial datatypes of st_{blksize,blocks}
+Date: Thu,  8 Jan 2026 13:03:15 +1000
+Message-ID: <e13690db2fb6c6e08cc488dd5c197464762dc08a.1767840410.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1767840410.git.sethmcmail@pm.me>
 References: <cover.1767840410.git.sethmcmail@pm.me>
@@ -82,39 +82,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Seth McDonald <sethmcmail@pm.me>
 
-The st_rdev, st_blksize, and st_blocks fields of the stat(3type)
-structure first appeared in SUSv1.[1]  They were added to POSIX.1-2001
-when POSIX and SUS merged, but as an XSI extension (still SUS-only).[2]
+The st_blksize and st_blocks fields of the stat(3type) structure were
+both specified as 'long' integers in SUSv1.[1]  SUSv2 then changed them
+to blksize_t(3type) and blkcnt_t(3type), respectively.[2]
 
 [1] X/Open CAE Specification, System Interfaces and Headers Issue 4,
 Version 2, Chapter 4 "Headers", p. 830.
-[2] IEEE Std 1003.1-2001, Volume 1, Chapter 13 "Headers", p. 356.
-<https://pubs.opengroup.org/onlinepubs/009604499/basedefs/sys/stat.h.html>
+[2] CAE Specification, System Interfaces and Headers, Issue 5, Chapter 4
+"Headers", p. 1169.
+<https://pubs.opengroup.org/onlinepubs/7908799/xsh/sysstat.h.html>
 
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man3type/stat.3type | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ man/man3type/stat.3type | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/man/man3type/stat.3type b/man/man3type/stat.3type
-index 44d45b4a52b4..83f6e881a5ae 100644
+index 83f6e881a5ae..82f0dd6e778d 100644
 --- a/man/man3type/stat.3type
 +++ b/man/man3type/stat.3type
-@@ -137,6 +137,14 @@ .SH STANDARDS
- .SH HISTORY
- POSIX.1-1988.
- .P
-+The
-+.IR .st_rdev ,
-+.IR .st_blksize ,
+@@ -144,6 +144,13 @@ .SH HISTORY
+ .I .st_blocks
+ fields first appeared in SUSv1
+ before being added to POSIX.1-2001 XSI.
++Initially, SUSv1 specified
++.I .st_blksize
 +and
 +.I .st_blocks
-+fields first appeared in SUSv1
-+before being added to POSIX.1-2001 XSI.
-+.P
++with type
++.IR long .
++This was remedied in SUSv2.
+ .P
  Old kernels and old standards did not support nanosecond timestamp fields.
  Instead, there were three timestamp fields
- .RI \[em] .st_atime ,
 -- 
 2.47.3
 
