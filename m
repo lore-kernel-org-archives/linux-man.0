@@ -1,73 +1,73 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315B120F09C
-	for <linux-man@vger.kernel.org>; Thu,  8 Jan 2026 03:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0583A0B24
+	for <linux-man@vger.kernel.org>; Thu,  8 Jan 2026 03:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767841457; cv=none; b=C0fvHvI71bzIMP7KSQxERUSYMEoC2eRSW3I2ClhZ+EYfjP/8QWw22P/7xVMhrqZd5I12I2KBw3TReT/l0OqcoraUqh6N5q2WFbX0wOdzjpcS4ap+bjubAL4Se39gi08iLRhn3q5VmShTaWl3W4JwE/TFyyulUZWHVapCv/f/S2g=
+	t=1767841459; cv=none; b=gmTwD+AsKtyI2UVhu3pjnsg5rerhOppKpixOsWiy565K8a+jfbqwHHMU9SNEztLF4ZnEH9DT3oQVlO8aJmrK1P31dNJBODlKrw7GScaRbemKvsFS75hRpGpMIKz0AIUU9p8Ed+Cgai1lu3aeLLvx6rRNFHqOKEklnFBcgDcHgtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767841457; c=relaxed/simple;
-	bh=XP8IDAcfwHa49J84EhHMknTOiiH/T27MYDthIMvulM8=;
+	s=arc-20240116; t=1767841459; c=relaxed/simple;
+	bh=UzrpAUHfWX0MONNODQDR/OXADtRTcXpc2Fp6xfFfSqE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OQhOzxvoGgjp83DnYY+k4VMzi1W7b8UAtOOQkTNMHD1l6EAG7sPUeG5HKi16ELVP3nmZ2q0uprydqJiuWQ8+R7RdR2lK1+vfmCNveW05N0vxSfXcYrQx6yGKTx8nS7o8dHu5Wv+WEzk/Fmgawbmzu5Bgip9T2Px0qTnC73mbptA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GZysS7ZY; arc=none smtp.client-ip=209.85.210.196
+	 MIME-Version; b=KwQPqhCggCr+Rt5vB4qWusPZ4YGmYEErVqaoqOyLtxE4v/MUJIfdQPn7JxxXgITZlRPXMtvIOMV7qJErEkRhPOZFRt/I32VcSmjokojqSIgfeO5UdQI9Wd3RmmK3geos5vzWmzSWTRGQ7KTpN1xQuXEx6IHGHoU/OAmaQHzxIRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TzS/PPM8; arc=none smtp.client-ip=209.85.210.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GZysS7ZY"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7bab7c997eeso2199120b3a.0
-        for <linux-man@vger.kernel.org>; Wed, 07 Jan 2026 19:04:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TzS/PPM8"
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso2127245b3a.2
+        for <linux-man@vger.kernel.org>; Wed, 07 Jan 2026 19:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767841455; x=1768446255; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767841458; x=1768446258; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=qXxzY3BpUF9liI9poopvv8JHbN1s2eNJDjQTw8j1Ww8=;
-        b=GZysS7ZYFtvqXeYwvkvJox2oj9l6b50UeNOKu8hGdCZbPIdJJhoMkss6VUDqxK1UJl
-         EuRUdq672KIe8YrxIqP+6znTkSb/7ZhrWfHnfdwOm8xrkzItGSGPE9gQdtpuJPwrwlzn
-         xdh/OzoUYjFfsZe6zkqvHxi5XgU5ymmMGy328TgHwFWNr2JEwzm31KxnCN9Gm5C7u7UC
-         RguwZLR75zocHjWmI/ZyXt+b9gHOMfrUagOYl1psFBqrgcO49gPh1HZHi8zi6ggzzxyQ
-         ySF06+ksxevv1QBAekOl2x4GonK1d5XTXyY7wm7RyzoKDUz3xEBb9wSeNrp2CkdSaM4O
-         VttA==
+        bh=tE7V4Vf84Fm91eTsBQ+sD9pgMu92bfcygsHSYyTfAIs=;
+        b=TzS/PPM8SYi97YuvdKMLynvz2aBSHrgLMADo3oTa/zm+uiB9es7yGnC3xYdbwfgeYx
+         SMc4bFMlS48AoSL73waO/LufqBkbl8o++FX/Slqqj/oUc9qMNX6zVA8dOJfFNlKp4jvF
+         KsecfhfuPnf6WwMR1F+KCx7mMY/Y6bbarQnogSX3aseB2BC+r8uZSBCIxtRiPlcUq7wx
+         gQWoPEXP+NX10fv+uiilfW5OLV4xdW8nLK9HUx6N8kpQPH1XfKO6LUL6Q/Aj1bfTBRKx
+         fnQTxsE5k0sNqhWCwsZW9aqYiXCiiXlbnmHyxlab3DGIecLvsrP1FMUJEEdB8xqvsbA4
+         zvLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767841455; x=1768446255;
+        d=1e100.net; s=20230601; t=1767841458; x=1768446258;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qXxzY3BpUF9liI9poopvv8JHbN1s2eNJDjQTw8j1Ww8=;
-        b=OhSZWwAreGHUFYgtEzgVot5tXkop9D5Do4o6dy2B5BuQVn1IOBGJK63di8sahAdsDH
-         EdVxLvWP06Ukf16CSR+sYsVTg14IFwUd9MeYcSxcWXfP0gYwvZHA9pjeCtsIEiGl1dBw
-         PuveIcEgHvYnVShIfp4mgbllfXghF+JB6+xua9XcyP7BvzxPjGu5OncJebs/9VskrYlC
-         dIO91bN6GiY+K6nQH0Um/EYKnkB1v3uIW4Gkj0nucRKukckcTr+nkInIlhb6Bik4pg5T
-         5JE7YbX0JQCt6nRBrF2EeW4rfsW+JxkyL+KU5gwqkhiG3SEnwFsAcemD932zzrSOc24D
-         cWEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0s36uXV7tpgIMe8fqjYl9iCI2k9TqQzKJ+Tru3Z2/YcAHtW030mC7YqyNpQaOBiJExYdAuS6Zjd0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNu0piHH1aECqheVls4nW+XnNeIJPggPGslREvo4bhQ3RNVcgf
-	H6mmbU86LmTV0fQ5n08pds485bVVPFgFSpkkwwGmRpzAtzRR0yATFyrH
-X-Gm-Gg: AY/fxX4B2ucOYMldHcOA7WJ4dvkoxb2Q70PKUw1dSVq/96IVNKx+AVTsZpg1jPYcZ/K
-	/tduJKZ4zmOkbmQBxEinjMt5b9xujwa/7alywH/RRRHs5oZolsvJTsMLPXs9MRgDID9JSg4durf
-	MawfevGEpoWgvDuUc0kMTq0ySQhUVKGvqHRd4sb0pBCQ5yWvGaBmcXABoFvN6pg+scUyqPn1Phx
-	1naILFlsM3BO3LyCsJLNrNi0D3grWswZn2BdUKItdhDAmhkiDyz3pqxaNEdnJ3n4cP/FE08xAeS
-	RlZAOMyBt9zuu8iizAWgPEQc5AlzKRLHy5QkaYfy0KQa4wbwA8Y6SpPo45S4E+Rjc70eb8rYcng
-	H6J/OOSt6+2f0SECE+czugzp9ZSkb5CeUJOwAvKhIrZEpzMlIl3VFWKJDcPKUckvIrKqSZt8JDt
-	feeO5tFfqrAXkB89fFa76kil/3r6Xyb69uZut5ltlX5BKVapmuXslF0I8H3pzi8PUSXHvEkSzXF
-	UXtPjptjtrN+8w=
-X-Google-Smtp-Source: AGHT+IHXR3S3wP5oROl+KHAYettgPG1Hn2yDqlP2nOAecoxuukA6kWjACwcfvn4+PVts+psUSEQ7DQ==
-X-Received: by 2002:a05:6a00:6c87:b0:7f1:fad7:2ce with SMTP id d2e1a72fcca58-81b7fbc91acmr4622597b3a.48.1767841455539;
-        Wed, 07 Jan 2026 19:04:15 -0800 (PST)
+        bh=tE7V4Vf84Fm91eTsBQ+sD9pgMu92bfcygsHSYyTfAIs=;
+        b=r2naDeZTHJ7cY/oNER15GGXL0ITGEKKMdzRqkiG34DxdrNcVjqC0NuREddHoyXNTiz
+         82TsOxWo3nQieB7t+OaRc0zTAWHBctobhbn1RHdUQLGEkgl3fxIuHq1SfJ7/A3nEyE/P
+         OhzlEdc7HHO4tn7O3443EodV5zT3rlxf4OZgyZ8MS6GaKGpc4ZXkVI0eEialf2Q61Q7G
+         ay7ax41xYsHrezIm9bcOcupBwQKCL56QWnhedizmRCADaepVl1GKMbnzn46+52Btp5+x
+         PvhORBm3YABfGdZfuUZ6c5On/Vi6LWIx+ApeBUoVTxki8xffApgUowk5ewsTqIoJ2zd/
+         X8DA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7nJyiqQ13qaootGhs85cyJax2TBkjsFKHw3G7KEiwMdWZ7yWO5msDoOhlaJ+zIpzvXm+Xz+HLa+c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvWB/PwuOk/xoiT99xVL9s0PERAnoiEd5DmsS2q/cT9fCTKWEu
+	VPCxYpLT3mFP6sUH2ucZDH2HXmw11UtfokwNamFbJ76NvNEuSZuU01UexMJxKFF3
+X-Gm-Gg: AY/fxX5mgTCx0OlB9vOsjh8yRk6H1RSrFTkqGjdPCthYBZCvUf7apZDMFvdbNP5rJKD
+	rIUp+Kjw46FxyjGcYTdG0H3SAC162+aGrwv8kpQh+2ZlP53gnlr0TVntGpmBukoa4dfAJCDG3Vj
+	Ynt74tlUko5B1qTpPpcOYi2ME0c3rCFHguiqlUVKwJChtAnI1GlFFJwoL4ie4XF9c35n8cgQKYP
+	agVvf/HIMQEKlV4fpmeqP/shHVYzGK1WXPRtZCBfZVlrveMN8MGosEW81QJxgA6i65z5eCG5mLK
+	T6OlbhJiNjDqj3K2XnF8eNCM4eh9psTLPUhdaPU8Ttt/m4bFRCknPGyWVNzwD1uKFoUHlRXCPit
+	6CmSiDAD4M93WvRtUtiVJQdrwgB8wI2hLJ4C1P6LG6LN0ZjF1lILynGOw0ITh2wK1070HfO3zd4
+	wGYyaFQ0aiWC7BgBA26OwjtY8NOsv9O61Ad4ngN79YAjmOaz51Pzn6p/HXxyDPmManQabOyvMr2
+	ES3n+pjtzSiijM=
+X-Google-Smtp-Source: AGHT+IHAz4UjaAIVsv8ykuxWf8e6wFUyABEJXsUzbXe2JoJyKr4hLVuzmL6aljHWDQebeX8y03ScDw==
+X-Received: by 2002:a05:6a00:90a2:b0:7e8:4398:b360 with SMTP id d2e1a72fcca58-81b7fccabbfmr4407766b3a.51.1767841457669;
+        Wed, 07 Jan 2026 19:04:17 -0800 (PST)
 Received: from McDaDebianPC.local (2403-580b-5de8-0-ce7d-5796-70e-21eb.ip6.aussiebb.net. [2403:580b:5de8:0:ce7d:5796:70e:21eb])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb4c85bfsm6120312b3a.30.2026.01.07.19.04.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb4c85bfsm6120312b3a.30.2026.01.07.19.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 19:04:15 -0800 (PST)
+        Wed, 07 Jan 2026 19:04:17 -0800 (PST)
 From: Seth McDonald <seth.i.mcdonald@gmail.com>
 X-Google-Original-From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: Seth McDonald <sethmcmail@pm.me>,
 	linux-man@vger.kernel.org
-Subject: [PATCH v1 10/11] man/man3type/timer_t.3type: HISTORY: Update first POSIX appearance of timer_t(3type)
-Date: Thu,  8 Jan 2026 13:03:16 +1000
-Message-ID: <eb28bf22aed931e9f0afdaa6dfc8f6061bfcae60.1767840410.git.sethmcmail@pm.me>
+Subject: [PATCH v1 11/11] man/man3type/timespec.3type: HISTORY: Update first POSIX appearance of timespec(3type)
+Date: Thu,  8 Jan 2026 13:03:17 +1000
+Message-ID: <d25e140aaabe3e33585635c7601b24761a4f5d3e.1767840410.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1767840410.git.sethmcmail@pm.me>
 References: <cover.1767840410.git.sethmcmail@pm.me>
@@ -82,28 +82,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Seth McDonald <sethmcmail@pm.me>
 
-timer_t(3type) first appeared in POSIX.1-1996.[1]
+timespec(3type) first appeared in POSIX.1-1996.[1]
 
-[1] ISO/IEC 9945-1:1996, Section 14.1.3 "Type Definitions".
+[1] ISO/IEC 9945-1:1996, Section 14.1.1 "Time Value Specification
+Structures".
 
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man3type/timer_t.3type | 2 +-
+ man/man3type/timespec.3type | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man/man3type/timer_t.3type b/man/man3type/timer_t.3type
-index ff907871815f..b1b8ba632669 100644
---- a/man/man3type/timer_t.3type
-+++ b/man/man3type/timer_t.3type
-@@ -20,7 +20,7 @@ .SH DESCRIPTION
+diff --git a/man/man3type/timespec.3type b/man/man3type/timespec.3type
+index 30bad58d1cf4..3e4d939bb3b3 100644
+--- a/man/man3type/timespec.3type
++++ b/man/man3type/timespec.3type
+@@ -38,7 +38,7 @@ .SH VERSIONS
  .SH STANDARDS
- POSIX.1-2024.
+ C11, POSIX.1-2024.
  .SH HISTORY
 -POSIX.1-2001.
 +POSIX.1-1996.
  .SH NOTES
- The following header also provides
- .IR timer_t :
+ The following headers also provide this type:
+ .IR <aio.h> ,
 -- 
 2.47.3
 
