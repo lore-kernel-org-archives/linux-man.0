@@ -1,43 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4627D318EC2;
-	Tue, 20 Jan 2026 15:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387EB395266
+	for <linux-man@vger.kernel.org>; Tue, 20 Jan 2026 22:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768924689; cv=none; b=ZCx+m8qI9LTFyEN/DHWjqJ0sZ742aWTtwYOb+JaJAoNe7+WLtZZy/iQUV9LAX77tYr5fhu/QxK6q6zyUN0qAYGoRcoZ4MwYeEbq03WA5sJ/kLikz61V41OXlRfT/nUJ0O7gfHZxUgU19iJiY9xISY6Rt0gZk4xQrccLW2G275nw=
+	t=1768946842; cv=none; b=DrOj5dZvBYVlU5haaYX9DNvGhyD9xCFK+J38hSDct1pAimchZnJdvHD4XDf5inCpGLOAZ/y1V7w8FxkbEcM6vdZ91YH1fFF9FSlsDqWevfBLk6c0RCyFZYKHIQC3RSWD/HQD1GqXKuhQNU1Ddqiz3TvDWBGO0x/4eoe1B1LTDWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768924689; c=relaxed/simple;
-	bh=AhstODG38bdyDyLiCc8mj/cuBgvBpuc6n6lZANC27Sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pStXJ/XFf3vUkNsOkhDb8xvO67t22KWfH9xOEZXe6DYXy/u6EHgdWblpnHHVAB2uLYopVnkppGhntYkrOXDgfMXCFucJjsTs6/1McTBVMLN26LHymnr8hOGPQIjs0327Mbv6ge2GwpKY0X6fm2nyibyo5u4fIsOTRCZaqRclVZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPlXKkYF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768946842; c=relaxed/simple;
+	bh=C9Y97Hzy9ITK6EGH+m5pjIO7RqCVQuVtThE6MymVwxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=niqeolTCHKfEdjHgdbsiS9yBqmqIFXPDywYbQMFgFx0kHItHuipn7yXrHZJdvaJxkzGdpLbdwNNb9mZ1XRGB0RTUz7KaoIRXpfybJaadIE8tTVnHUHooGP43cR6dRjVDajOef+PsfI8al4EE+G07vpWbtLN2/d9sOSmZw7Q05Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alejandro-colomar.es; spf=pass smtp.mailfrom=alejandro-colomar.es; dkim=pass (2048-bit key) header.d=alejandro-colomar.es header.i=@alejandro-colomar.es header.b=adZswXhC; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alejandro-colomar.es
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alejandro-colomar.es
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPlXKkYF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F13DC16AAE;
-	Tue, 20 Jan 2026 15:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768924689;
-	bh=AhstODG38bdyDyLiCc8mj/cuBgvBpuc6n6lZANC27Sw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mPlXKkYF4Emk7naxVuwIZ7j/DKi2pRUrP0dFkD3gf/WIoKGcLHfFO/mS+fx5wD/P1
-	 8KzeyYzjMbHtU7yG5du3wlVZBlydtD2vOSCkfsuPacOB3sm2zDhNZ0ehP3uQawXH/4
-	 KLCyQ9j6VHJQJ4B/BvjB+QMnhgKLpH4I9g5LTolB5+iQRBJBGemcGEmsCAjVCQcW4l
-	 INx/2o9fW2XDz5QmFDOWAiHZ1kI80Zq0Pm4MLkH2TI1BU7p/SdlKANfjPpFbEilmtj
-	 8mEX+PjZ9VvaFNKOEDY1DZ6peNuhCzrgpuWMHGP1BMm1hLJeuU3T06N3JJ90GX+DQn
-	 EDM4uX4gqLU3g==
-Date: Tue, 20 Jan 2026 16:58:06 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3] man/man2const/F_[SG]ETDELEG.2const, man/man2/fcntl.2:
- Document F_SETDELEG and F_GETDELEG
-Message-ID: <aW-k3ml5kwHnLkM7@devuan>
-References: <20260114-master-v2-0-719f5b47dfe2@kernel.org>
- <5b283a25dbe2ab9ed78719c132885d9d3157f2bb.1768750908.git.alx@kernel.org>
- <a0916b361406fa52771cf3dd507521fa1cc31d7c.camel@kernel.org>
- <aW-awBnQ6RU8o19b@devuan>
- <1fa92006626f975663c53d903d363e260c0c7ae1.camel@kernel.org>
+	dkim=pass (2048-bit key) header.d=alejandro-colomar.es header.i=@alejandro-colomar.es header.b="adZswXhC"
+Date: Tue, 20 Jan 2026 23:07:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alejandro-colomar.es;
+	s=key1; t=1768946836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=4hwpgAEchkaDM71nzjd5bkTP4car8Phd6NnLVZLEvrs=;
+	b=adZswXhCkdj4Z+tSD3kIHU/SIf5qk2lbEgSZsXbtMJ3uiyS9+f7n+tOJi0dYlwvdbJeEYN
+	mwnWJ/3V9xEaK5sbGs2Dq4pn+Jj/xjoeqIIFBc4/2JyFuLRaImn/97WESWG/g8uasLNhzM
+	h8176aGGqAEck4GtfGDa9O6KMjm6c+kwZs53rRiFtYJ91DsIhAZznxNRbQ/vYpXyOLsYDE
+	TpqTc4CEuTEClAluebnRxjQupje3vqkwqpQWHWUOnuitxu6iyJ2VnViiuiUJ+2EsZ6Bt1R
+	BD3xi6CS02v9AIvwDq3MTtn04Y927J6O4DBwW9j++HWRMXMDv1x73mgki1sKLQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alejandro Colomar <une+c@alejandro-colomar.es>
+To: Robert Seacord <rcseacord@gmail.com>, 
+	C Committee <sc22wg14@open-std.org>
+Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, 
+	musl@lists.openwall.com, Florian Weimer <fweimer@redhat.com>, 
+	David Svoboda <svoboda@cert.org>, Robert Seacord <rcseacord@gmail.com>, 
+	"sc22wg14@open-std. org" <sc22wg14@open-std.org>, Carlos O'Donell <carlos@redhat.com>, 
+	Aaron Ballman <aaron@aaronballman.com>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, 
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Paul Eggert <eggert@cs.ucla.edu>
+Subject: Updates on n3752, alx-0029r8 - Restore the traditional realloc(3)
+ specification
+Message-ID: <aW_51O7XVxxAMXby@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -45,82 +47,76 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xry7a2t2pjbffvny"
+	protocol="application/pgp-signature"; boundary="t2vwkf7i5ioed7wn"
 Content-Disposition: inline
-In-Reply-To: <1fa92006626f975663c53d903d363e260c0c7ae1.camel@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
 
---xry7a2t2pjbffvny
+--t2vwkf7i5ioed7wn
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3] man/man2const/F_[SG]ETDELEG.2const, man/man2/fcntl.2:
- Document F_SETDELEG and F_GETDELEG
-Message-ID: <aW-k3ml5kwHnLkM7@devuan>
-References: <20260114-master-v2-0-719f5b47dfe2@kernel.org>
- <5b283a25dbe2ab9ed78719c132885d9d3157f2bb.1768750908.git.alx@kernel.org>
- <a0916b361406fa52771cf3dd507521fa1cc31d7c.camel@kernel.org>
- <aW-awBnQ6RU8o19b@devuan>
- <1fa92006626f975663c53d903d363e260c0c7ae1.camel@kernel.org>
+From: Alejandro Colomar <une+c@alejandro-colomar.es>
+To: Robert Seacord <rcseacord@gmail.com>, 
+	C Committee <sc22wg14@open-std.org>
+Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, 
+	musl@lists.openwall.com, Florian Weimer <fweimer@redhat.com>, 
+	David Svoboda <svoboda@cert.org>, Robert Seacord <rcseacord@gmail.com>, 
+	"sc22wg14@open-std. org" <sc22wg14@open-std.org>, Carlos O'Donell <carlos@redhat.com>, 
+	Aaron Ballman <aaron@aaronballman.com>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, 
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Paul Eggert <eggert@cs.ucla.edu>
+Subject: Updates on n3752, alx-0029r8 - Restore the traditional realloc(3)
+ specification
+Message-ID: <aW_51O7XVxxAMXby@devuan>
 MIME-Version: 1.0
-In-Reply-To: <1fa92006626f975663c53d903d363e260c0c7ae1.camel@kernel.org>
 
-Hi Jeff,
+Hi Robert, and all,
 
-On Tue, Jan 20, 2026 at 10:30:00AM -0500, Jeff Layton wrote:
-> > > > +.SH NOTES
-> > > > +Delegations were designed to implement NFSv4 delegations for the L=
-inux NFS server.
-> >=20
-> > Do we have a link to the NFSv4 specification of delegations?  It could
-> > be useful, I think.  What do you think?
-> >=20
-> > [...]
-> >=20
->=20
-> RFC8881 is the NFSv4.1 spec, and that's what defines them. The
-> description is spread out all over the document however. Section 10.2
-> probably has the best basic description. It's not exactly succinct
-> though.
+I've been talking with the team at Microsoft that is responsible for
+realloc(3).
 
-Ahh, ok.  Then I guess I'll say
+They are "definitely interested in incorporating the change".  They are
+also going to "coordinate [with the OS group] to perform thorough
+testing to understand the impact of the change".
 
-	... to implement NFSv4 (RFC 8881) delegations ...
+This may take some time, and will come back to me with the feedback of
+that.  The communication with them is quite fluent, BTW.
 
-That should be enough for the reader to know where to find the spec if
-needed.
+I think this is great news for fixing and unifying realloc(3).  Also,
+it's also great to see a big company like Microsoft will put their
+resources into testing this, as they have resources that we voluntary
+maintainers of open source projects don't have (or would have to take
+=66rom some other changes).
+
+Robert, I'd like to withdraw the paper from the next meeting.  I'll
+write a new paper once Microsoft tells me their testing results and
+feedback, incorporating them.
 
 
-I'll tweak that and push this evening.  Thank you!
-
-
-Cheers,
+Have a lovely night!
 Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---xry7a2t2pjbffvny
+--t2vwkf7i5ioed7wn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlvpggACgkQ64mZXMKQ
-wqnPrQ/9EOnzvGm6dHjOnyISGp5igEK3khcvn+WbxaeuRT7xwEfWRm9eahgMzspz
-l45UZ55Jm89exrpetnGLfDpXIk5eHtT4OupuHbH/d24YX26M56KHlrPNO2vjK6i4
-YUnTIhxFBL7cp3/ZrM7I8LSZXLpIlf1Fd4SKds4aGT6GVFSkcpA9CTgp44/pPod3
-q6Z/xKYbYUPboRiIfvhhKthTDynW9QapHJ34n0QBq9Pqwjpk4rmvw6NHkbkj0x2m
-But80kObHcm3vHjEPSqZWZX1Qi1Rm9NubpT5wNxUzMWsq9srAWPxpKfrzbw2yEYk
-z//TtraSGWeAnAncUNKfJAoBCbAkTy/etxGKUWUTd0+nyCHjx5fstM4THdVGEVRY
-ZiMwtHPqaivnDjSnbYL9naft61zLP1CIaRy3QiVAkZTmlyv681SNJBaEeuJvFnVa
-G3klmVVqjVyQq4VAhGC7qI8CvI5LsyZv+MSQ5BW96RsjkdkTyVXQa4PjlPaFU3/Y
-IHks4FvX3041giqK9PAhSJ10xuKEQUGKp/t/iJUjFWp5x7320CEadLpaKI3cDh8a
-bjZbSpxCB1KJRnZhuQ25nrS+G4IbbbBJrqjxiAUKk202ac6IE/UYEQQtH452d2UT
-HpUdAke5npw5V5IoHsMw8poxdhDKiOx7sK36o5AhEaRkmblu3Gk=
-=pTpc
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlv/IkACgkQ64mZXMKQ
+wqnuYw//YuKXSokIS81zxUx1xQQBR+Xi7o3e7nhNBl2sZBjwp7dPioXxOG0h3weU
+fwkoHx68b1dfNtl/lmH/jV0nMlG+XNFbLyR/wlr42YXy6I/5tZ0iU+LDy+QRHrw4
+fmnbxBMO7j4p3UEOtp+d3oAdV/6uUSOaUVlpTTiQ6RkMPs/I/RjSD+V8qQESUL70
+Na0mB7F8motQ4TAUA+iFbXNF37xUfz3v9i6xgx1ebz2YvIsQl0oZy4LGjKDDQIVt
+wm1cedOPY4rZEqElLBCgz2BMelnzJNcYmj+ODnBFXcSl8b6WAIE9VQKsr/FQeb0p
++wKTxm86Czo5G2rQgF9ohOxcSA+CqwwDDS0fz3GsXoog7xKk9IBdnaKFnuAXmuV8
+Z9eECr68hms/2BJQ5StMQnFFKy3FVEaxorfcNCyZOh4U7OXduYlr1ksIA7W+oFww
+xP0eH3rMu8YxYCmoyEa1ZLUsLwhDKpxNiyQbocZiqg1oC76OOyKUze3TLVqY0zbJ
+2Uzp0I5sX9ZRKzylIwzxMCAJ6Ax5oBhKRsTG8hnkqlf30su0BEgBeewFAfUZzscV
+rvnYAWnUWVIsIjexvHHMy5FvuPLIZiGZrVDInhPQS8DY19ZsxMUAX0yO2pwbpFay
+yju3rSs2x/rgWyyzIHZqDhRrro6euFe3wgBL8buaMMy6vG9+8I4=
+=toyR
 -----END PGP SIGNATURE-----
 
---xry7a2t2pjbffvny--
+--t2vwkf7i5ioed7wn--
