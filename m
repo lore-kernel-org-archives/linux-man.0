@@ -1,95 +1,96 @@
-Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
+Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C5E23EA8A
-	for <linux-man@vger.kernel.org>; Wed, 21 Jan 2026 12:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72197342C8B
+	for <linux-man@vger.kernel.org>; Wed, 21 Jan 2026 12:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768997258; cv=none; b=YXHLzW93tGMIzE8N7jc2XxlDj3MgH+3qZU6cT+euhVxme+tpyThlDzXcWnikjQfms2R5VwSP19k9YocHbjYPqtYRE+P/Gkiadn9c5vkAZGAemkxMT26D/IdOkVV6uea8g7Ol/QXa/KDbLuo/M4VTTSyqfcRlom5UeBgUAgsx24k=
+	t=1768997263; cv=none; b=qQ2r4mAZybDFYqWN8TR5Gm1xN3PyZq+wpzW5RCraF6fFN42+1tFEqKQ/O25/qhtgG8ZuuT8+JPoamN2ebZ2g9ElfmAw5fULaYYyBGarAVcjUueLK4NBsn4LhVOxzmCdghqEVODI1j6jtlwSGE3WC2R5e8LZBBPLfuUJOGQmrzoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768997258; c=relaxed/simple;
-	bh=QPEKHTQqPUjdg2CrkvQitgg/CtyAYDVps5sdrNfWqCI=;
+	s=arc-20240116; t=1768997263; c=relaxed/simple;
+	bh=Oz/wnwQpBidt591m5mabv+1bfQ5HojPvpLkx4pQMgy4=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ex+ImqW1KCQb45skVgpfdKWlJ0FbweFpJkOI1TUL4N08bYftnVM85Vjl9Ptr3DB4z42cr/crdfTxJTBhm6SmKywhGQZfW8xNqKr0F7Uy3xLG7+Ky2FufeSFYOhQeqJe1pAKHyO5s5Jvbef02FdWBMUmgCULdBd21AyXxbQq7+dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=CItd41dC; arc=none smtp.client-ip=185.70.43.100
+	 MIME-Version:Content-Type; b=BB3oDLmADv43fWWgy7m+0KDfbclRZQX8aCsybCT0IjMwJmcxczj+y7X4WQRpYbyOaQ2c48eGCTZtOOK57S69cMBbG2c3aFGZrNfOr5n8Bq6Amf31aDVXDaCjkCH/Z2XHMjb40wFv3tcOIFbRf/VeNqq4IQssWFcbmpuhiqAo8SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=S/09qjq5; arc=none smtp.client-ip=109.224.244.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="CItd41dC"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="S/09qjq5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1768997255; x=1769256455;
-	bh=QPEKHTQqPUjdg2CrkvQitgg/CtyAYDVps5sdrNfWqCI=;
+	s=protonmail3; t=1768997260; x=1769256460;
+	bh=Oz/wnwQpBidt591m5mabv+1bfQ5HojPvpLkx4pQMgy4=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=CItd41dC7U/GBWG5w1bStpY2rhUVXPNEipGDHLhQKd2pOxxamBCbbSzU5G9bv+9V3
-	 ISgva4LUtLWE2EASqbUUUGnjJeVPDB3m0TNcyuoF9RUlQ3qrw2LmYix5QNvWmHeamg
-	 RIfpt/mdVkqQ6tjvzIMwYO4A+MF9H6xvWg2gEuGWKm/u3jw36BhjL0nqp55MqZajAP
-	 +XyamRkv+tzYUe1AiX1alP8ezEMKq+F5hXWxNwmgAQX7PJkPzUi6bvM639EwVtmws7
-	 CSje7MdL2fFhAi0M0as0BPNS4nqVn7UvNRdzvKN7Yl4+Fb9FDxDjZdKOOVu9qMWIGX
-	 772pQ/eRbGdAA==
-Date: Wed, 21 Jan 2026 12:07:30 +0000
+	b=S/09qjq59hAel36XNv1vsk7iFLiaH9Hz7Jcfbkp8SlcKSScCVBZKBn5yMODE89nj8
+	 jtC8rTseKVxWzEMFwxSVPRAdCzi0G3u/LjKlQiaBsOW26lgLoRw+FY1EeN0hU/QJeR
+	 uHVSI22wiIgxi6E5b0QFSLRscIAGx8RzRb+S6epJDA3PXEVj3hQne1bJacPPD/6qzc
+	 1mtycxW1kvaVqwf0xP8o5ioKItqjzkf0Mu43YBraUQ8oi1Mj/7QBdoGVjSFEGfkwJK
+	 bS0TfRPj4/UB+FDm2HU0jJLWcPpFxqku1irBwiPuYfd72wPXajsUkjvqFvA0scVbtT
+	 vEIsSq5xkJsnw==
+Date: Wed, 21 Jan 2026 12:07:35 +0000
 To: Alejandro Colomar <alx@kernel.org>
 From: Seth McDonald <sethmcmail@pm.me>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 08/23] man/man2/fork.2: HISTORY: Update first POSIX appearance of fork(2)
-Message-ID: <7404e99ec6900a598552b310b152c325000163ff.1768995315.git.sethmcmail@pm.me>
+Subject: [PATCH v1 09/23] man/man2/fsync.2: HISTORY: Split fsync(2) and fdatasync(2)
+Message-ID: <163be42a70eada3b63225fe5989911ff4ac9e4c3.1768995315.git.sethmcmail@pm.me>
 In-Reply-To: <cover.1768995315.git.sethmcmail@pm.me>
 References: <cover.1768995315.git.sethmcmail@pm.me>
 Feedback-ID: 171233811:user:proton
-X-Pm-Message-ID: df85105b1c25597da383fa7d02865dee7bf59e01
+X-Pm-Message-ID: e600377d217d64dfd2bc136c1d9c9298af274a7a
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------5d0a54f9e96a517db035e700b7ef9c7281aa27f6d7b32c80cf83d18cbbf43741"; charset=utf-8
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------9a59e51f95d2115cd3466dd4414d1210f5f03b03d7d3ba7692455ed3d111a9e5"; charset=utf-8
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------5d0a54f9e96a517db035e700b7ef9c7281aa27f6d7b32c80cf83d18cbbf43741
+--------9a59e51f95d2115cd3466dd4414d1210f5f03b03d7d3ba7692455ed3d111a9e5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 08/23] man/man2/fork.2: HISTORY: Update first POSIX appearance of fork(2)
-Date: Wed, 21 Jan 2026 22:05:43 +1000
-Message-ID: <7404e99ec6900a598552b310b152c325000163ff.1768995315.git.sethmcmail@pm.me>
+Subject: [PATCH v1 09/23] man/man2/fsync.2: HISTORY: Split fsync(2) and fdatasync(2)
+Date: Wed, 21 Jan 2026 22:05:44 +1000
+Message-ID: <163be42a70eada3b63225fe5989911ff4ac9e4c3.1768995315.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768995315.git.sethmcmail@pm.me>
 References: <cover.1768995315.git.sethmcmail@pm.me>
 MIME-Version: 1.0
 
-fork(2) first appeared in POSIX.1-1988.[1]
-
-[1] IEEE Std 1003.1-1988, Section 3.1.1 "Process Creation".
-
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man2/fork.2 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ man/man2/fsync.2 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/man/man2/fork.2 b/man/man2/fork.2
-index 995b7dd22639..9a8ea99e5b21 100644
---- a/man/man2/fork.2
-+++ b/man/man2/fork.2
-@@ -278,7 +278,9 @@ .SS Async-signal safety
+diff --git a/man/man2/fsync.2 b/man/man2/fsync.2
+index d59e346ef165..e4f8b9b9456d 100644
+--- a/man/man2/fsync.2
++++ b/man/man2/fsync.2
+@@ -151,7 +151,14 @@ .SH VERSIONS
  .SH STANDARDS
  POSIX.1-2024.
  .SH HISTORY
--POSIX.1-2001, SVr4, 4.3BSD.
-+4.3BSD,
-+SVr4,
-+POSIX.1-1988.
- .SH NOTES
- Under Linux,
- .BR fork ()
+-POSIX.1-2001, 4.2BSD.
++.TP
++.BR fsync ()
++4.2BSD,
++POSIX.1-2001.
++.TP
++.BR fdatasync ()
++4.2BSD,
++POSIX.1-2001.
+ .P
+ In Linux 2.2 and earlier,
+ .BR fdatasync ()
 --=20
 2.47.3
 
 
---------5d0a54f9e96a517db035e700b7ef9c7281aa27f6d7b32c80cf83d18cbbf43741
+--------9a59e51f95d2115cd3466dd4414d1210f5f03b03d7d3ba7692455ed3d111a9e5
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -97,13 +98,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: ProtonMail
 
-wqsEARYIAF0FgmlwwYEJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmfapNTIlhXKtfRXlpifNdTAFiEEIzbo0v6xUwBp
-LGKpWDlq2JJD02kAAOehAP94eIq4cuTyA5OVEBa4kv3DexarbeYWk0rX8Aut
-6vy4OQEAoh8nr2oFKtyPVoMq+jWSkk3lp44odVbHcvuOp2gEaQo=
-=StUc
+wqoEARYIAF0FgmlwwYYJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdw7FCGbJGhVOPVNY3B3Vn5FiEEIzbo0v6xUwBp
+LGKpWDlq2JJD02kAAHKiAPdib10f0Rvf06L6IV8NeGUwzYXUpuryKeitaox7
+cB5FAP4uNNTo5BVW4qSIe5/v8uOnXkd4Z5gUi778m6T31o6kDg==
+=qdgW
 -----END PGP SIGNATURE-----
 
 
---------5d0a54f9e96a517db035e700b7ef9c7281aa27f6d7b32c80cf83d18cbbf43741--
+--------9a59e51f95d2115cd3466dd4414d1210f5f03b03d7d3ba7692455ed3d111a9e5--
 
