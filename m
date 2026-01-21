@@ -1,107 +1,102 @@
-Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
+Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB4A2D7DF6
-	for <linux-man@vger.kernel.org>; Wed, 21 Jan 2026 12:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BAC33CE92
+	for <linux-man@vger.kernel.org>; Wed, 21 Jan 2026 12:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768997328; cv=none; b=YI86SEy+nzADfEGI5L5vI6xoUVB07dRoXwsRhJaCDXp7E6qiRvtHeTvA5XInYJvKe2qy3mgkDSKJWmWbCiKx0JVli6YDXCNk/B2DqHO1R3Ex136GKSDDKy0Mf82YS0sZy7chylcQa24hMUzDJB2a7JzfnosLnXRYPmjpNdm9Pkc=
+	t=1768997329; cv=none; b=puK0GcH45bkZJee0g5PlK/+xb9kfsO4br8v4rHX9/7TEUJbJAwONzXdyGRmr6ycpeBpFVcw3VdDfB6/gX04kYpTQ+AeLO671JBXYyW3VH/jxQv/Jzvtn1+QcXxe9xc9f1cJa8WlUnicdzabidtzwvEeDbFBHcKERZiyQysi3csk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768997328; c=relaxed/simple;
-	bh=M6dJF866P0UQ/2QvgKvi6ZOEZjP6izEK7DkBVTQKO9k=;
+	s=arc-20240116; t=1768997329; c=relaxed/simple;
+	bh=PtLF/agf33v40XmNeHbaBXbinYdgb103BYYAusK7wVY=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pHbe539MMFsXTa3l5syoz/eU+GeYxPQt+keycnwxstWbrgKUkIPCCjTQ+1wnQZK/glIaSONHL9vKiZEcdiXndyWZOoW7Vwsarvn6fEnKpNB3Zi2B31B1sLD8w+pjhUOVwX2Yz7oVEq/DDJ3ns4IyRb4HJ3TlmbBawfcuHX5Ym4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=hmiVYU5i; arc=none smtp.client-ip=79.135.106.29
+	 MIME-Version:Content-Type; b=dd+K8Dp+VxU883osXXNHvRw0nWxEb5wUcd53ijBkRBzJaJ8ob3JHaEu3cqgsWLZjcgE5lqE0te2YnMdyqooygORI0pzKC1lezf2sj1YGn9tQkzf7JsJyFyKmKGCNMxCv0SIa35VoeEH9ewK3/n/41yEht2Bznv6QZ4rj+vehRYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=sLb4huf/; arc=none smtp.client-ip=109.224.244.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="hmiVYU5i"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="sLb4huf/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1768997318; x=1769256518;
-	bh=iZgebvurkFdTLd7byEXyKROj/IZGuuu74IHdtd4srao=;
+	s=protonmail3; t=1768997326; x=1769256526;
+	bh=4bcCW+qB3iCBXhsB3z1OPfsgdHrSodxz3gschYAGQF0=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=hmiVYU5i08K6Uvg29/WSKXQinix/uGQYEDzLnJEvrrv3Sa1c4MCVZ5EfBytYjpKUn
-	 swukGoxqY3ddS52FIb+3euvcjWw3DQRWvMr6mxBXOBcbZ5UytwcAfr4BEPZkrXJggF
-	 3rrglXYvD46qksYInJshqhJUCDrKG/LFec/wgbgbfSa5SwINIEvMKt5wjEU/IvHtTM
-	 W2NcUR9GN50kQui+JgggFgjciEXD3g3pcDzO7MBdv8mOe2JBAIW86x6fMTHXRLyy6d
-	 aKHBgvLjJ3k0Z+bTlryrWHNXeBU+OTiPIgBEhYP6xFbLKw59mOZ4cocW15iKdfbvnU
-	 Aw6MO5DTwdoiA==
-Date: Wed, 21 Jan 2026 12:08:31 +0000
+	b=sLb4huf/AEiIbSH7mi+mCWRwhZ4tMDJyvXdav3FB37pKteOOhH3qlAz/R4YAcnRH1
+	 585Y8lZ5EdqeYS2WcO6xeWZkCkNfK3NJMiYhWErgGN2t/P2zN/8LH8BipF3NDIT1ep
+	 xps8RQvAVFAopu2AM2I3h7S8V1Re3iuWsIJ8kdpLdrYmYx2fJ+m9DvdwqRLNoogteU
+	 lFBnxVRIJmsVsr9bccM+ie37RBJBioFOeh3wxJ6Dv1cPkZuRWtGOCjdduXbkJeuW0W
+	 ia987hCMsESaSa6uzvtvNp9DuQHWvTk3IrlGhMsb3UAqqybOULiNOlmLNozfktJ55x
+	 +/uuapYOINlpQ==
+Date: Wed, 21 Jan 2026 12:08:42 +0000
 To: Alejandro Colomar <alx@kernel.org>
 From: Seth McDonald <sethmcmail@pm.me>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 20/23] man/man2/getrlimit.2: HISTORY: Update first POSIX appearance of [gs]etrlimit(2)
-Message-ID: <5e54217b8cecd530cb0d3a8f802ebca79b99bccc.1768995315.git.sethmcmail@pm.me>
+Subject: [PATCH v1 22/23] man/man2/getrusage.2: HISTORY: Update first POSIX appearance of getrusage(2)
+Message-ID: <b93c17918b36a5909f2db95459c406970378df24.1768995315.git.sethmcmail@pm.me>
 In-Reply-To: <cover.1768995315.git.sethmcmail@pm.me>
 References: <cover.1768995315.git.sethmcmail@pm.me>
 Feedback-ID: 171233811:user:proton
-X-Pm-Message-ID: 1e07d0a5964b36a487b318dcc3e2cf03d8cb9781
+X-Pm-Message-ID: ab4b6be46c646d1a3b85cc54a523790d1fc8710b
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------03745375e51fbd4359f793a1d1f1b9ed2ff2fd56aa134d8a475a56ecf0fba40e"; charset=utf-8
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------6151eaceabe2f1017a6683f04a1d1d54c1fca122a67ab1f533c19b76af131166"; charset=utf-8
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------03745375e51fbd4359f793a1d1f1b9ed2ff2fd56aa134d8a475a56ecf0fba40e
+--------6151eaceabe2f1017a6683f04a1d1d54c1fca122a67ab1f533c19b76af131166
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 20/23] man/man2/getrlimit.2: HISTORY: Update first POSIX appearance of [gs]etrlimit(2)
-Date: Wed, 21 Jan 2026 22:05:55 +1000
-Message-ID: <5e54217b8cecd530cb0d3a8f802ebca79b99bccc.1768995315.git.sethmcmail@pm.me>
+Subject: [PATCH v1 22/23] man/man2/getrusage.2: HISTORY: Update first POSIX appearance of getrusage(2)
+Date: Wed, 21 Jan 2026 22:05:57 +1000
+Message-ID: <b93c17918b36a5909f2db95459c406970378df24.1768995315.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768995315.git.sethmcmail@pm.me>
 References: <cover.1768995315.git.sethmcmail@pm.me>
 MIME-Version: 1.0
 
-getrlimit(2) and setrlimit(2) first appeared in SUSv1.[1]  The functions
-were added to POSIX.1-2001 when POSIX and SUS merged, but as an XSI
-extension (still SUS-only).[2]  Then POSIX.1-2024 added them to the base
-specification.[3]
+getrusage(2) first appeared in SUSv1.[1]  The function was added to
+POSIX.1-2001 when POSIX and SUS merged, but as an XSI extension (still
+SUS-only).[2]
 
 [1] X/Open CAE Specification, System Interfaces and Headers Issue 4,
-Version 2, Chapter 3 "System Interfaces", pp. 269-270.
+Version 2, Chapter 3 "System Interfaces", p. 271.
 [2] IEEE Std 1003.1-2001, Volume 2, Chapter 3 "System Interfaces", pp.
-551-553.
-<https://pubs.opengroup.org/onlinepubs/009604499/functions/getrlimit.html>
-[3] IEEE Std 1003.1-2024, Volume 2, Chapter 3 "System Interfaces", pp.
-1176-1179.
-<https://pubs.opengroup.org/onlinepubs/9799919799/functions/getrlimit.html>
+554-555.
+<https://pubs.opengroup.org/onlinepubs/009604499/functions/getrusage.html>
 
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man2/getrlimit.2 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ man/man2/getrusage.2 | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/man/man2/getrlimit.2 b/man/man2/getrlimit.2
-index f53add91c4d7..39d0f6ab44e2 100644
---- a/man/man2/getrlimit.2
-+++ b/man/man2/getrlimit.2
-@@ -554,7 +554,11 @@ .SH HISTORY
- .BR getrlimit ()
- .TQ
- .BR setrlimit ()
+diff --git a/man/man2/getrusage.2 b/man/man2/getrusage.2
+index 44ec2fb469e9..a2a0a1d57707 100644
+--- a/man/man2/getrusage.2
++++ b/man/man2/getrusage.2
+@@ -195,7 +195,10 @@ .SH STANDARDS
+ .B RUSAGE_THREAD
+ is Linux-specific.
+ .SH HISTORY
 -POSIX.1-2001, SVr4, 4.3BSD.
 +4.3BSD,
 +SVr4,
 +SUSv1,
-+POSIX.1-2001 XSI,
-+POSIX.1-2024.
- .TP
- .BR prlimit ()
- Linux 2.6.36,
++POSIX.1-2001 XSI.
+ .P
+ Before Linux 2.6.9, if the disposition of
+ .B SIGCHLD
 --=20
 2.47.3
 
 
---------03745375e51fbd4359f793a1d1f1b9ed2ff2fd56aa134d8a475a56ecf0fba40e
+--------6151eaceabe2f1017a6683f04a1d1d54c1fca122a67ab1f533c19b76af131166
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -109,13 +104,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: ProtonMail
 
-wqsEARYIAF0Fgmlwwb4JkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmdFEKM51+ZGpz5E9oeXv86uFiEEIzbo0v6xUwBp
-LGKpWDlq2JJD02kAACRbAQDTg7HKs8b3WZDQMgtA/4mw55fUNY+W/uSJg7BI
-J8a8jAEAs1kuo9oDdf3KPjCKd1jQ7F9zviovTtYSHZER8epFxAs=
-=HgeO
+wqsEARYIAF0FgmlwwcoJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdOebgSGDe496UVjhDouBF/FiEEIzbo0v6xUwBp
+LGKpWDlq2JJD02kAAF2AAP9MgQ6OxQk3Cni5NfHgk8AW5FEjsBBlcWB1bZkg
+iwUOkgEAh8I59F+HcWtUbs7y0eTb5q7hNHVlo5pzJvfGMBLE7wA=
+=Ybkt
 -----END PGP SIGNATURE-----
 
 
---------03745375e51fbd4359f793a1d1f1b9ed2ff2fd56aa134d8a475a56ecf0fba40e--
+--------6151eaceabe2f1017a6683f04a1d1d54c1fca122a67ab1f533c19b76af131166--
 
