@@ -1,104 +1,107 @@
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8CA195811
-	for <linux-man@vger.kernel.org>; Thu, 22 Jan 2026 02:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C216A22A7E4
+	for <linux-man@vger.kernel.org>; Thu, 22 Jan 2026 02:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769048757; cv=none; b=Vx8swOVEWpCFhkdnKJunl3yNDuANqelHXzI8eo55XWXZEOWmEyBYMKpoO6jHrZPTg2N/2qYql7mmDrGdGb5pF3AEmIJKvs6/s9mXtVuPxyq0HVQ35kGE6UCNeFNbjSFgBaehdXqYFahT7zrL4/WOaQMAkpPr1cil++ZIl3w+cUk=
+	t=1769048760; cv=none; b=mgsrZ46XY9ma8fyyebZBbQcZWPnHixortpz8oYwd5zQS/BGrlG9yh0/ciEx6zgsPoGki1P/2N5ORcLHCmWd6kmYK33m8sh+D4Uen1GGdvSNQXrq9svmRvMRLpeBuZZ/Lkq5EBjTdspm4hvuhHI0rw6LflnbiC5vr+dnxBUi9Q68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769048757; c=relaxed/simple;
-	bh=8L7Ppx2WC0MCF3tiOdkCJKQFo8YCYGCzGqUdL/UzUoA=;
+	s=arc-20240116; t=1769048760; c=relaxed/simple;
+	bh=VTkyIpgWyEq3zK/oqUxrEdFoRY0mKLxQAimHR1ug+xA=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sK9uD4vwLt7z8HSMQW6B9SFhqj5iAumbV/o9HqgMYnpGtiGNqDpVOZlO3rE87Gt3vW/rckbP8JL1iJTik6BxGff4Ppqxx+icPsfezYLPXvL5oXmHnjNiPGswWwh/aSY1UYhbiMMapMiEQZGGt1jaYGWLLiE7Fx4K6tlbtDlLllU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=UM2Ku1TJ; arc=none smtp.client-ip=109.224.244.116
+	 MIME-Version:Content-Type; b=MuDGGiU8JaR1Sho5ZnSquMiodHHJKFGxpi+Web5Pp3NxnTY95sCtbL9+g9jufYlJQ9N9iroe2Knt9bxLNbRQ48oWjm4CXhmkobq3fcoS/Z8IBHdyC5WNwa2M1B6FV82iFWdLoQxZx/kGVJ7M8ggO6xQ/4Xya0ErP+yWtSprYk7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=GcuMNB3H; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="UM2Ku1TJ"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="GcuMNB3H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1769048747; x=1769307947;
-	bh=g1T6wifUMn+jf2xKC1MovvNt2+gR1Q4+SwCCy2t7rOc=;
+	s=protonmail3; t=1769048756; x=1769307956;
+	bh=BC1DuYNSQyKTyzBEJ8hE/9pzr5jwN60lB3eyz3qdhCg=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=UM2Ku1TJaKRT1SN66zhHMkGmFvQafHDYfymRHQJRa/8CCXTLhgZ019tFfNs3JPCNw
-	 Ed5NLjoWlDbbUXr05p1MMTHntzakn1yjOX9Uq1m0sFUi+lXxEygYoyF3MxoEmTkcLe
-	 s6fJKFHNbh4eL5XRTlLxHtD3/EsrbuTJWLyqKdVzDUl7aThCEf+cea0b3/nBuCj4Ac
-	 CVoLzallWB7Z8KlWSoBVr1vdF+j8nJXZzqcQt4v9OFMJ5EJLm0wKIo+UHZly44H8xN
-	 KlIFz//Fib25aakpo9GutZUhzS/8CoVvTX6+3/u2xoNs6GLQAxKfQRvLWrarrogdOX
-	 JTpR8jhdG57DA==
-Date: Thu, 22 Jan 2026 02:25:44 +0000
+	b=GcuMNB3H0MDzIQ2fdaP0791BHgEtz2oxiYo9ZUO9wy7bawdrK0BCpGo5Xi+Mc/1xb
+	 bht+w4st3I5w7HgK/jGQtr6vCLyz3RUVL9dwapBNdJmivrsB4iifLHOKm9Tu9IyZYj
+	 D5ANeFt6KzQgmOG27E2mYBkSzvUYlueX1yGWiXGqgIGI0/vUKbJ4cMLLPsLu1d7eL3
+	 hXd1kjvYlXrr8sAtxNaHObgl4SVWrmdRM3cYUVYY5edDdyVGS+okvTcwF85Yu5NGel
+	 FuckgLKobMtdIJjv5Pg4B45tw/CohB/tbwQrTohdhj2GjEE+Z5Nrdb/fL4GISIYlzu
+	 sgxucQzUlUUYg==
+Date: Thu, 22 Jan 2026 02:25:52 +0000
 To: Alejandro Colomar <alx@kernel.org>
 From: Seth McDonald <sethmcmail@pm.me>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v2 18/23] man/man2/getpriority.2: HISTORY: Update first POSIX appearance of [gs]etpriority(2)
-Message-ID: <6bcf34a705e3f58af4e47f0b55e383787ddaa959.1769047228.git.sethmcmail@pm.me>
+Subject: [PATCH v2 20/23] man/man2/getrlimit.2: HISTORY: Update first POSIX appearance of [gs]etrlimit(2)
+Message-ID: <ffb23d5856179db3b8fd8a6514203418b28eb7be.1769047228.git.sethmcmail@pm.me>
 In-Reply-To: <cover.1769047228.git.sethmcmail@pm.me>
 References: <cover.1768995315.git.sethmcmail@pm.me> <cover.1769047228.git.sethmcmail@pm.me>
 Feedback-ID: 171233811:user:proton
-X-Pm-Message-ID: 0b17274a3c282e9b5f9bf1afced56b16c9395f21
+X-Pm-Message-ID: d5b889f61cbd5ec4cf937777013c9f2819329cec
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------5476ac56b16715b9048d2bcf133b36b5993eb97776cc228399161a7842278748"; charset=utf-8
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------27589f229075e84454ff679e957fa9f54bf7f0f4c454cf8f6ad553b1baeeba0b"; charset=utf-8
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------5476ac56b16715b9048d2bcf133b36b5993eb97776cc228399161a7842278748
+--------27589f229075e84454ff679e957fa9f54bf7f0f4c454cf8f6ad553b1baeeba0b
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v2 18/23] man/man2/getpriority.2: HISTORY: Update first POSIX appearance of [gs]etpriority(2)
-Date: Thu, 22 Jan 2026 12:24:10 +1000
-Message-ID: <6bcf34a705e3f58af4e47f0b55e383787ddaa959.1769047228.git.sethmcmail@pm.me>
+Subject: [PATCH v2 20/23] man/man2/getrlimit.2: HISTORY: Update first POSIX appearance of [gs]etrlimit(2)
+Date: Thu, 22 Jan 2026 12:24:12 +1000
+Message-ID: <ffb23d5856179db3b8fd8a6514203418b28eb7be.1769047228.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1769047228.git.sethmcmail@pm.me>
 References: <cover.1769047228.git.sethmcmail@pm.me>
 MIME-Version: 1.0
 
-getpriority(2) and setpriority(2) first appeared in SUSv1.[1]  The
-functions were added to POSIX.1-2001 when POSIX and SUS merged, but as
-an XSI extension (still SUS-only).[2]
+getrlimit(2) and setrlimit(2) first appeared in SUSv1.[1]  The functions
+were added to POSIX.1-2001 when POSIX and SUS merged, but as an XSI
+extension (still SUS-only).[2]  Then POSIX.1-2024 added them to the base
+specification.[3]
 
 [1] X/Open CAE Specification, System Interfaces and Headers Issue 4,
-Version 2, Chapter 3 "System Interfaces", pp. 262-263.
+Version 2, Chapter 3 "System Interfaces", pp. 269-270.
 [2] IEEE Std 1003.1-2001, Volume 2, Chapter 3 "System Interfaces", pp.
-540-542.
-<https://pubs.opengroup.org/onlinepubs/009604499/functions/getpriority.html=
->
+551-553.
+<https://pubs.opengroup.org/onlinepubs/009604499/functions/getrlimit.html>
+[3] IEEE Std 1003.1-2024, Volume 2, Chapter 3 "System Interfaces", pp.
+1176-1179.
+<https://pubs.opengroup.org/onlinepubs/9799919799/functions/getrlimit.html>
 
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man2/getpriority.2 | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ man/man2/getrlimit.2 | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/man/man2/getpriority.2 b/man/man2/getpriority.2
-index 63509ee35216..b5ce79ebb654 100644
---- a/man/man2/getpriority.2
-+++ b/man/man2/getpriority.2
-@@ -139,8 +139,10 @@ .SH ERRORS
- .SH STANDARDS
- POSIX.1-2024.
- .SH HISTORY
--POSIX.1-2001,
--SVr4, 4.4BSD (these interfaces first appeared in 4.2BSD).
-+4.2BSD,
+diff --git a/man/man2/getrlimit.2 b/man/man2/getrlimit.2
+index f53add91c4d7..39d0f6ab44e2 100644
+--- a/man/man2/getrlimit.2
++++ b/man/man2/getrlimit.2
+@@ -554,7 +554,11 @@ .SH HISTORY
+ .BR getrlimit ()
+ .TQ
+ .BR setrlimit ()
+-POSIX.1-2001, SVr4, 4.3BSD.
++4.3BSD,
 +SVr4,
 +SUSv1,
-+POSIX.1-2001 XSI.
- .P
- The details on the condition for
- .B EPERM
++POSIX.1-2001 XSI,
++POSIX.1-2024.
+ .TP
+ .BR prlimit ()
+ Linux 2.6.36,
 --=20
 2.47.3
 
 
---------5476ac56b16715b9048d2bcf133b36b5993eb97776cc228399161a7842278748
+--------27589f229075e84454ff679e957fa9f54bf7f0f4c454cf8f6ad553b1baeeba0b
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -106,13 +109,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: ProtonMail
 
-wqsEARYIAF0FgmlxiqcJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmfgdRUvW8ca0wl+76RyMKCGFiEEIzbo0v6xUwBp
-LGKpWDlq2JJD02kAANVUAQDEsXDhUqyTZAo7xhUM7h9KJKTfumB41UAE3TDN
-3aIyKQEA7A66rR5uDDUvObqHrwmfjrmUkzxRrOqyycU2lue5Ngc=
-=hrLK
+wqsEARYIAF0FgmlxirAJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmfdBNWm5cZe88hf4vVNek/AFiEEIzbo0v6xUwBp
+LGKpWDlq2JJD02kAAMkPAP46HFO0KJbzmqJbBfxPTIvuQv8w5VFsVqu7WZ5D
+O52YagEA7wJrdlE6VCS9j+EmkH/2tcvyPCdP6+vT1+z26g9d3gs=
+=XnCP
 -----END PGP SIGNATURE-----
 
 
---------5476ac56b16715b9048d2bcf133b36b5993eb97776cc228399161a7842278748--
+--------27589f229075e84454ff679e957fa9f54bf7f0f4c454cf8f6ad553b1baeeba0b--
 
