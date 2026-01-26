@@ -1,96 +1,102 @@
-Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
+Received: from mail-43103.protonmail.ch (mail-43103.protonmail.ch [185.70.43.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52DD2EA481
-	for <linux-man@vger.kernel.org>; Mon, 26 Jan 2026 12:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A3522E3F0
+	for <linux-man@vger.kernel.org>; Mon, 26 Jan 2026 12:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769430600; cv=none; b=NuOIQfJabOOUPDOkK/dbYuGtVxQHPQYP1AHaW0Ncne2Nd2EvOqxk3CclC/AiFLLZra/R8XLmAb37biwwhrRosFAUHHHYSTVd6p8ldu37XaPN+dle2Q9KsWK1ij4lwr+emf9Elj4h7RoEsqJaF6RQPzz6QpNtTXnC0UC3ykPEkfw=
+	t=1769430602; cv=none; b=hAd3jD5rmC6WriB3ZtwKPFa8PWq76Em7xajlUkFcLb49R+wh9a8GWucVClaNHhLAgTiTCn+gfFLKfi9KZR/UfP2Mhzvsm5ZOLVGc/JhDjdEIhC6CHlGvc/ZBxjmOc1xddonfXhT351ouF2OdjK00u4eux+pPmpMdqjmSVy9m5zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769430600; c=relaxed/simple;
-	bh=uXk1T0zdnVmlCQqkROe4eug6HkaPj/DtVNabM7YVB9Q=;
+	s=arc-20240116; t=1769430602; c=relaxed/simple;
+	bh=p0YUACVThW9nDnQT+656hsSaLVBfHbM9bcrb5O8HHII=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PQzCXszKF13Fa8cNq2B/a2lFdeftctx8MSvHdWxzj6Z4GyuMc5glLPRgIYFBHoe3YCdgkfYcFlslAmvQx7KTHMTcAMQNABz/8eHw79PfGuA5GxJmO4S1m1xRJNdwzacnW6LcQCzIwDYentuUQkWZS+uEjNVq070ByQ4fpQJD8sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=W15mC0c0; arc=none smtp.client-ip=109.224.244.17
+	 MIME-Version:Content-Type; b=bq/uNSWI3UNWIOhAfOXFE2mJXObZBzTcN+c6+3QtG1vQFyTCfcqAjaGXG0x3ySBrlm2Zh6togQu7VMLyG5zplpKb3fe0Zv+z0TgdXD4l7wBghtVzo/e9gCQ7Jv/sAarSHVgxkBE93c478+Yjlf98S28kItk/uh0sU2XJYgCQEIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=a3LA62E8; arc=none smtp.client-ip=185.70.43.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="W15mC0c0"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="a3LA62E8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1769430590; x=1769689790;
-	bh=uXk1T0zdnVmlCQqkROe4eug6HkaPj/DtVNabM7YVB9Q=;
+	s=protonmail3; t=1769430599; x=1769689799;
+	bh=IMz3Qpj4fn6xM9I9iFAO/yhGY3pPcR6A2Lujif+C4f4=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=W15mC0c0H+l/69gQJu710t2y8n67HAnngFcQFA49e8cr9Kxhj+exo18iCDdppbKoM
-	 AJ4HF7sys7LXiP+DJfiNcHF5VVGxVnX2+WIUMGZVuHwjicVHhNclwMYV2dqgOFJsk4
-	 UhUh6xVT8wVsTKuhFBXGse7D0ZYrdLnSjek1ZHuObBQQXvi9DX3Adm5aFX8fHyg9Wa
-	 TQJNDI1Oxs5zx92oRlhyitkAm1Jyuj1z12fjAVQXFUiWP0Tw2C9z4cCko6aUrBYmoW
-	 9u60pBJ/7fHLRGrY/waTWmL7g7ItOle8xyqlgIEW7Xs6jRv8yanz7x+XmyiV7jLZjg
-	 b+4QXA0hB87Ag==
-Date: Mon, 26 Jan 2026 12:29:46 +0000
+	b=a3LA62E8fDkB5UcwAslMYdY+hht4as5fhmrZWCgDuHfTGM+q+EqrS978D3VoYvkMZ
+	 Kh82h7Uw+zBUB/oU9BfTtMaDh9z/GbCr/Gm9gxb0i4Ym+KCTGSclEx0pQTJAa5o3TN
+	 n1fQoNqZJDpJtSbXUYrZfWAyleaEeUumZUZU01nhEq/Ye4wuk5Ez5/CJfyzVIEBouu
+	 OKG+K8M0iD0LapfeIfJkDYvmjZFWNYX0N/McvAG/VkiE60gVRL9PKxT2opGGpmL2n5
+	 DW+F7UxcE7DFKr0FsryLRpd5NWsIc3+ivI5LQ5ei+uAKReV3yzp8b7w2hPLZ5EEi7a
+	 vb90iYWckXSbw==
+Date: Mon, 26 Jan 2026 12:29:56 +0000
 To: Alejandro Colomar <alx@kernel.org>
 From: Seth McDonald <sethmcmail@pm.me>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 13/21] man/man2/mknod.2: STANDARDS: Update
-Message-ID: <32bd25fd363096217afa576fd79412f0de74e0ae.1769429341.git.sethmcmail@pm.me>
+Subject: [PATCH v1 15/21] man/man2/mmap.2: HISTORY: Update POSIX appearances of m(un)map(2)
+Message-ID: <57292b4f60c41b05274f5906ed0b8196cb053515.1769429341.git.sethmcmail@pm.me>
 In-Reply-To: <cover.1769429341.git.sethmcmail@pm.me>
 References: <cover.1769429341.git.sethmcmail@pm.me>
 Feedback-ID: 171233811:user:proton
-X-Pm-Message-ID: d5d7a407c958461d23225b8b632cc3a9c771ba91
+X-Pm-Message-ID: f539ffa86e7788dadd3095e186b8363fc352881c
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------e9b56942d614e113a64dc99e1f0c3083342e7ccfd608c77b3646a110811a9000"; charset=utf-8
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------3ee403332fcc2480b2215f38f50958d2c0e4378485a577581016de1c0c5902c3"; charset=utf-8
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------e9b56942d614e113a64dc99e1f0c3083342e7ccfd608c77b3646a110811a9000
+--------3ee403332fcc2480b2215f38f50958d2c0e4378485a577581016de1c0c5902c3
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 From: Seth McDonald <sethmcmail@pm.me>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v1 13/21] man/man2/mknod.2: STANDARDS: Update
-Date: Mon, 26 Jan 2026 22:27:54 +1000
-Message-ID: <32bd25fd363096217afa576fd79412f0de74e0ae.1769429341.git.sethmcmail@pm.me>
+Subject: [PATCH v1 15/21] man/man2/mmap.2: HISTORY: Update POSIX appearances of m(un)map(2)
+Date: Mon, 26 Jan 2026 22:27:56 +1000
+Message-ID: <57292b4f60c41b05274f5906ed0b8196cb053515.1769429341.git.sethmcmail@pm.me>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1769429341.git.sethmcmail@pm.me>
 References: <cover.1769429341.git.sethmcmail@pm.me>
 MIME-Version: 1.0
 
-mknod(2) and mknodat(2) are specified in POSIX.1-2024 as an XSI
-extension.[1]
+mmap(2) and munmap(2) appeared in SUSv1.[1]  The functions were then
+added to POSIX.1-1996.[2][3]
 
-[1] IEEE Std 1003.1-2024, Volume 2, Chapter 3 "System Interfaces", pp.
-1421-1424.
-<https://pubs.opengroup.org/onlinepubs/9799919799/functions/mknod.html>
+[1] X/Open CAE Specification, System Interfaces and Headers Issue 4,
+Version 2, Chapter 3 "System Interfaces", pp. 398-400, 414.
+[2] ISO/IEC 9945-1:1996, Section 12.2.1 "Map Process Addresses to a
+Memory Object".
+[3] ISO/IEC 9945-1:1996, Section 12.2.2 "Unmap Previously Mapped
+Addresses".
 
 Signed-off-by: Seth McDonald <sethmcmail@pm.me>
 ---
- man/man2/mknod.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man/man2/mmap.2 | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/man/man2/mknod.2 b/man/man2/mknod.2
-index f628ee5afe8d..b506db246d01 100644
---- a/man/man2/mknod.2
-+++ b/man/man2/mknod.2
-@@ -262,7 +262,7 @@ .SH VERSIONS
- .BR mkdir (2).
- .\" and one should make UNIX domain sockets with socket(2) and bind(2).
+diff --git a/man/man2/mmap.2 b/man/man2/mmap.2
+index 093b0caf19c7..4e893501a947 100644
+--- a/man/man2/mmap.2
++++ b/man/man2/mmap.2
+@@ -737,7 +737,10 @@ .SS C library/kernel differences
  .SH STANDARDS
--POSIX.1-2024.
-+POSIX.1-2024 XSI.
+ POSIX.1-2024.
  .SH HISTORY
- .TP
- .BR mknod ()
+-POSIX.1-2001, SVr4, 4.4BSD.
++SVr4,
++4.4BSD,
++SUSv1,
++POSIX.1-1996.
+ .\" SVr4 documents additional error codes ENXIO and ENODEV.
+ .\" SUSv2 documents additional error codes EMFILE and EOVERFLOW.
+ .P
 --=20
 2.47.3
 
 
---------e9b56942d614e113a64dc99e1f0c3083342e7ccfd608c77b3646a110811a9000
+--------3ee403332fcc2480b2215f38f50958d2c0e4378485a577581016de1c0c5902c3
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -98,13 +104,13 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: ProtonMail
 
-wqsEARYIAF0Fgml3XjkJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmfMJmPhO28li77B4U8CBXqCFiEEIzbo0v6xUwBp
-LGKpWDlq2JJD02kAAIgFAQCRmLPd6hNENDXitA261AFWHFL7eyOMYesTzUP4
-/NPPLgD/UeaBWDr7b+24b8a4VvmbbXVepFtqirLvFb6t7tfTTA8=
-=c0xB
+wqsEARYIAF0Fgml3XkMJkFg5atiSQ9NpNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmfDAUztPBok72Htgg+9xso1FiEEIzbo0v6xUwBp
+LGKpWDlq2JJD02kAAEXmAP4x8hTigBqkUE738M+p7AONSC8/Pi8QwM7un0k8
+nE0NUAD8CWzkPq7pJTnXuWQLmCqesFp/r3AlkBKXO1XD+OTrngM=
+=fo3Z
 -----END PGP SIGNATURE-----
 
 
---------e9b56942d614e113a64dc99e1f0c3083342e7ccfd608c77b3646a110811a9000--
+--------3ee403332fcc2480b2215f38f50958d2c0e4378485a577581016de1c0c5902c3--
 
