@@ -1,261 +1,163 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E00329C73
-	for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 17:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769621741; cv=pass; b=DpCn5yyDg4RCosV3b9Gshf+Jz/Xk0oIhWDc8UXjy5UqpHKbL3FIlVtr/P9y86pUD5HXYcHjtOtK9+RBk+nUvdyTMXG473tmxKgtnUYSesSWJCWdR/DkWe1qTF5N8MzpfyHhgfHMEaL626p1XEU1ZI5jjuhRcBlaI10VOT3C9u0w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769621741; c=relaxed/simple;
-	bh=b5v1lw86qkMcpupMahSO1xWXCCFOBZHnR2wepV7iSDw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LzS9ijJ2PK7PpfFviyThG7HU08JSvMwbG+/DtZf3djNSgSPXrq4SGk9PtQ9HMKC68cU1WZ+W+4hZO0g+z1mQTWVvbgsD5Df2Rft9SXO/RcMhH9JgROhdgMNvdHqH3d/8awjp80oFeeCeXzWsV47XKHU6wK/mbxS7pmYTn4mOfB0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PI0ZTvRD; arc=pass smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F8028B4FA
+	for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 17:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769621760; cv=none; b=YNX/4QMU2x2nLtvKejdZbZZ7qY5Ee1M8aLZuE9Y2rY5k692jMxZKHLTORBM8G6lHQslbdcMcl5xSCbAhODUNnk5i1RymjGkyNaJci9l3VOKyOklwXL9+UtuUXCHWqWxi003WTxOCum+r2nF8n4iV5mlyUoGnrVNMf5CVwNPzSSQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769621760; c=relaxed/simple;
+	bh=tsz0wryqBlsMBav+eZnlssY8RipslLHJSDsr50nuKao=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=U2GAYlAY5nUMx939r8PPvdCuchcnZfhHk52LmSn7EDULH3dzF4o7evhJC+t5e+NeVqHw3QEChk7CAX/oMOPyiPn1xLzBfSTioPRgRrlEe7o5+ceQdMq4hqLCbndiFd/6CrVSQ+k/WH2OboeccK17notn5NXuCbjRfAWb0evWtE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lSwYlwrI; arc=none smtp.client-ip=74.125.82.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PI0ZTvRD"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59de2d1fc2cso43421e87.2
-        for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 09:35:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769621738; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PTeNX/Kn91hH+Mv2rNKXBFBIsrHgWfl9VEUePGgYdMbrPvEh4dXUPcajBQaB5yY+9I
-         27huW7tyZscAzlBVYtQKFq/DV+Hkwna44By6/ND7dTq4Zv07fK/C6DCkLIAAMdf0Vjjo
-         K/2SlBZDlORwtbcCXoDIB8lwXS+K4t8m2dNFmzhQDievA9FZc6/TYyS5uVMoEHlC5eFG
-         fELf7W6EBoj8TLtHwqjMGxDEjBCVRo/r++OlY4Z+h2uHoVYh1Gwf0nP+VoYXdwLw0E91
-         RQgVGGdrHxgLK3u7U7mqj1mfmjH1a3xhQiLhFxjjwhZPHnnBNWC+ODSVsC3H2EFqNNXu
-         2akg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=h6QtUO84fHAyyp+NRwvUH9e3lsqrrWY4UpLcgr1yxSw=;
-        fh=MU5KU+A5JhoDyYskVQIDbsmIYIHgY/d6+1udD6HFl94=;
-        b=cwkd3bnJyEMU6SuWWinT74dxlH4Gqju4YGV7BXX9BvQJuZ/qxaO+yZcbOZCIsrv2U+
-         brclYC917Cur4ViB2Zi2JXuI8jYBuxrtWEjBA6yvPm3l6+6BfWU+lrgh48jFP8xQXw+j
-         r1IsxPHC4qRfFufovM+TPpqCaP3VvpnM6XDMgv7vZZW+qSMb2oP+unkHGYuw/yiuZ0TB
-         zzrrINrtYH2tZDqhrvHL5f8nDVS5tvmwF+k50vBBTd3MiywJn0SqSVjTpKUFp1iEELLe
-         YNNIGaiCn+xdekdPludrhz8e7vFNBeRB103FqYYIMYzhg2gHIHeEAnupTm7IT2Zn9dLE
-         dAbA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lSwYlwrI"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b6b0500e06so153022eec.1
+        for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 09:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769621738; x=1770226538; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h6QtUO84fHAyyp+NRwvUH9e3lsqrrWY4UpLcgr1yxSw=;
-        b=PI0ZTvRDwyVtlD4xTAv/MP82SBXZvuH50AvI/udoh1DrXGBym+LDWloTCrjWqnE7TW
-         R8ZP0ZgrQ9mW+pbRuz1Sli9K9g/Ae16QkMdr+YdsxbIDTLJ/qs24a5aXuxNhZ1saz9l8
-         0Aagj75VRsEMChvtnWeFgOXZjzoO+Q+b5Y9qh9oCAt7RmOwmj+aEqxQssJjMlCv2aAqC
-         4u1jbTV00qJVZt2fgxFo2KrLhV892dPSb5VMj6qZVGao5IErecXQ+m1sDM9IPyLttA0r
-         2idzk/SJTn2pnx63lczgA1TxI1oODdgA2VcoAY5d4ZUPuDwhXhR95jbsrQ4AhlqVTkaF
-         Uj9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769621738; x=1770226538;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769621758; x=1770226558; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h6QtUO84fHAyyp+NRwvUH9e3lsqrrWY4UpLcgr1yxSw=;
-        b=esz46hhhXfLQTXWxvf25xwaANbFgPxvH950gr2BVSaAIRPadp6DaiOYxDQoDgf/Zmy
-         UBB+515MzKEA5s7jLANWrnlXNyReJ+heJQcXxTTby7Me/vZqaAeWH+Wrs1ngByvSbBGU
-         V8tzRiWRVaGB1ZnNG6eG4LAox/6Q9Zu8VKXCEg4mUOwyBj3Ipg6cpAHhkzF5XS6j5+pt
-         jqXR41UZU0kNG8pc3VTj4/WcwqSdZqa1Cuha2LL8PlAPzMSFrPxhh8lHQ4NPjBJNIM64
-         PEt6Ba1cNDKVvwGq8zXcFN4pB0DicsFQd+HSppjOL822CYsCQcV7zWG34anCqmszgJi6
-         8hEg==
-X-Gm-Message-State: AOJu0YzxVih4Rwci5btop4OsGa7Uxey3cDSMRG31caaYwSFyiIGE4eIz
-	5/z5DBlYWod6hwTDPvmb5gDws276/tjsLRBsz/m35d0gg7iqxJFaxhjrUGH8wgm62rmRVLq6tpU
-	vtk88YQ4iMPGps2xO7YRwkpnr46qok0U=
-X-Gm-Gg: AZuq6aK/++Z4DhJIPVsmjic/DAHA02CkcFiSdnuSZjt8RcM02yc81YxNS1+hcK4bAZg
-	Miacj/P/X/Zw0+w3HYs+Y13bQEwqvbXpHUqRcMMXSELXv7/N7iJ0k6hfzK5vIaGm+04ZZ4S2pgc
-	R2o9o9FWWf2A7UR0ouM+odTsvhBrXvlFy06YSJuvNr2Mf1aHJsopiGXJ0iHZ8oU9ikh40O8OWL3
-	8RXygTCQ5yjbd6/F12q24Gt0cWXBvlwvHlVcypbdKLdoQSF71Z1Vc1opItArD3IhHoSySONZaFC
-	l/ET8vC+DMsxHlzWVjcv4YUC2Q==
-X-Received: by 2002:a05:6512:3d1f:b0:59d:f545:f2e0 with SMTP id
- 2adb3069b0e04-59e04013afbmr2286003e87.6.1769621737792; Wed, 28 Jan 2026
- 09:35:37 -0800 (PST)
+        bh=ph4Az9AGtSRd0vIbBjO3XGq84/n4DYf22axzWIhwE/c=;
+        b=lSwYlwrIUASC2ZLNc4ZjTOWtqWqOvAINkWd+RXByFcXIU2n26R4T5ZUU6xSMo+w+fx
+         UiurlZljW0eeRx+oqo5pG+mbTaEhdEvH/n3Bdy7vGrI2bwn2XLrUswExjWvhKavMxJ/E
+         ORnaoxCCaup1AYmkfqG70XNLd6MM1E4ouMjUTl7Zq/pCYc+dHjoM/oYPTDUp2Zbqf0cC
+         HaVpaLChXz5RA+94AufkSLkYgqR+JV6aZJcvTe9anRVVwwjH6OkrUZEuokVArywoh299
+         HcEtQK8jhuGH6TX5KcUuiPt84G157ujkJuqMDiPaL96FTSD4UOmdxpw9KMerTHyCg8m8
+         pMMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769621758; x=1770226558;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ph4Az9AGtSRd0vIbBjO3XGq84/n4DYf22axzWIhwE/c=;
+        b=USg3q886WMiOQXtaTZnPGFpCHsUNUh5Y34UdQpDSH3EL8+fL+ns5cSTdiNoADjwKCB
+         bpqTnowmcAb9LPtjEaQKTIyl4/6B21yDxPlJ+7AI2+kwqj557ySluGIFeBXIsC+hoyCU
+         7TjwvnS47tKKwehGcMVaoTjlKElHHaWPT5Z2NCZzgSHnMS8oVI/4O1/2dolhvIQIX5/+
+         +dZ5vC1HFfTrRa/rarMlCpMEIO67PxTMZXgV/xo+EQAhOukELeZ436J7Kv25B8nvfAAM
+         /Efl1A5d/cqoSl9ZXrZMfPRbuvxghMpLp3qJzlQsvECckms+oB9Vg1+vZ3jQLzYafhSj
+         KlxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUP/qfTxVB2tOUvERfuXtARdwzObaRya2bZly+t7rcLrBWmLxVM3SLAK41ZHotCjz5MtapdclJUXr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoD8ysEh0y42Yuv1Vt2RJi6YlpDov51ymiGr+s6c2q1O1umaIJ
+	iY73O91nIDw9Byp+F/pcxDFqjf8WDa1b7ciRgznexBbwL20fmGxC+UsM
+X-Gm-Gg: AZuq6aKS+dsYAXOa2R0ZjkG7ubCzxqtmi2do5GCNXZzC5bx4sOGHtzRqc5Het2y6Qtm
+	YGSkO5izQww2Nfw7LL8BQBOFaufm+uE7a3ScVsPml6MOENPr4geiFCdtJ+nMD9c132gUBS0fZn1
+	yjeSTcJYaJal7oxbEZbGnpb5jwQl0dqcn0rGqMoNCb1+mVJJeHMMt/d5/OctgnuoMJMUVxH8AKK
+	3dHVeYJ1IAJO62UoVWCvohQBreTliTlg3cAyVUf/og2IRouPIJJzjy4l7VlpxcEeqBFX+v0Mdn6
+	zYU7H01qMcQIP0vOk1gwXjJaaVGcqWUBh9EftdvyMpw3X5SP9ouPtfIxcCIXkXz3OaVFVSOW1sh
+	O5hPq91Z9Besihkc5GDvhmlextECVxLVwaXXp67Pkb62W1C6FHhxGMuoXnykI1s5PXL3ZDqxG3y
+	uVQarcoXXq9X+1EkKELjpPr6PgzMTy6KDyPKGJHUls
+X-Received: by 2002:a05:7301:1e91:b0:2b6:fcc5:a9b9 with SMTP id 5a478bee46e88-2b78d90c3bamr3963605eec.13.1769621758212;
+        Wed, 28 Jan 2026 09:35:58 -0800 (PST)
+Received: from kira.gmail.com ([2601:646:9e01:94:dd54:61d0:1c69:1eda])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1addafesm3545813eec.25.2026.01.28.09.35.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 09:35:56 -0800 (PST)
+Sender: Mark Harris <markh.sj@gmail.com>
+From: Mark Harris <mark.hsj@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Mark Harris <mark.hsj@gmail.com>,
+	linux-man@vger.kernel.org
+Subject: [PATCH v2 1/2] man/man3/timespec_get.3: Refactor to prepare for new time bases
+Date: Wed, 28 Jan 2026 09:33:03 -0800
+Message-ID: <79f235d4b360689a290d525c36c3a06a36e5164a.1769619403.git.mark.hsj@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <1b8aea00296c530f2a3a79158a98d44a46a795e5.1769581372.git.mark.hsj@gmail.com>
+References: <1b8aea00296c530f2a3a79158a98d44a46a795e5.1769581372.git.mark.hsj@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1b8aea00296c530f2a3a79158a98d44a46a795e5.1769581372.git.mark.hsj@gmail.com>
- <aXoixaxyo_OkBRJ_@devuan>
-In-Reply-To: <aXoixaxyo_OkBRJ_@devuan>
-From: Mark Harris <mark.hsj@gmail.com>
-Date: Wed, 28 Jan 2026 09:35:25 -0800
-X-Gm-Features: AZwV_QgcCNRrLB8gM-mN-p2dk7ZdEfMWbvyia0Lf3Gqu8PejzUPfJ9qfCASQ0do
-Message-ID: <CAMdZqKGEPqYSP7wdGht8jgqfpeFVZty2fncp=TN0dQ9PVs04eA@mail.gmail.com>
-Subject: Re: [PATCH] man/man3/timespec_get.3: Add ISO C23 time bases
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, 
-	Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Alejandro Colomar wrote:
->
-> Hi Mark,
->
-> On 2026-01-27T22:42:21-0800, Mark Harris wrote:
-> > Document new time bases TIME_MONOTONIC, TIME_ACTIVE, and
-> > TIME_THREAD_ACTIVE, introduced in ISO C23 and supported by
-> > glibc 2.43.[1]
-> >
-> > [1] <https://sourceware.org/git/?p=glibc.git;a=commit;h=f28a11e43f40>
-> >
-> > Signed-off-by: Mark Harris <mark.hsj@gmail.com>
->
-> Thanks!
->
-> > ---
-> >  man/man3/timespec_get.3 | 64 ++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 57 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/man/man3/timespec_get.3 b/man/man3/timespec_get.3
-> > index 79bb82226..d2be50fd4 100644
-> > --- a/man/man3/timespec_get.3
-> > +++ b/man/man3/timespec_get.3
-> > @@ -17,6 +17,25 @@ .SH SYNOPSIS
-> >  .BI "int timespec_get(struct timespec *" res ", int " base );
-> >  .BI "int timespec_getres(struct timespec *" tp ", int " base );
-> >  .fi
-> > +.P
-> > +.RS -4
-> > +Feature Test Macro Requirements for glibc (see
-> > +.BR feature_test_macros (7)):
-> > +.RE
-> > +.P
-> > +.BR timespec_get (),
-> > +.BR TIME_UTC :
-> > +.nf
-> > +    _ISOC11_SOURCE
-> > +.fi
-> > +.P
-> > +.BR timespec_getres (),
-> > +.BR TIME_MONOTONIC ,
-> > +.BR TIME_ACTIVE ,
-> > +.BR TIME_THREAD_ACTIVE :
-> > +.nf
-> > +    _ISOC23_SOURCE
-> > +.fi
-> >  .SH DESCRIPTION
-> >  The
-> >  .BR timespec_get ()
->
-> LGTM.  But would you mind separating the patch into one that reformats
-> the page without adding the new time bases, and then one patch that adds
-> the new time bases?
+Add Feature Test Macro Requirements to document functions and macros
+that require ISO C11 or C23, and arrange supported time bases as a list.
 
-No problem; I will send a v2.
+Signed-off-by: Mark Harris <mark.hsj@gmail.com>
+---
+v2: Split into two patches, add time bases to History section
 
->
-> > @@ -39,16 +58,49 @@ .SH DESCRIPTION
-> >  For a particular time base,
-> >  the resolution is constant for the lifetime of the calling process.
-> >  .P
-> > +The time base
-> > +.I base
-> > +is one of the following:
-> > +.TP
->
-> Same here.  I'd like this to be part of a pre-patch.
+ man/man3/timespec_get.3 | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
-Ok.
+diff --git a/man/man3/timespec_get.3 b/man/man3/timespec_get.3
+index 79bb82226..1c89865d5 100644
+--- a/man/man3/timespec_get.3
++++ b/man/man3/timespec_get.3
+@@ -17,6 +17,22 @@ .SH SYNOPSIS
+ .BI "int timespec_get(struct timespec *" res ", int " base );
+ .BI "int timespec_getres(struct timespec *" tp ", int " base );
+ .fi
++.P
++.RS -4
++Feature Test Macro Requirements for glibc (see
++.BR feature_test_macros (7)):
++.RE
++.P
++.BR timespec_get (),
++.BR TIME_UTC :
++.nf
++    _ISOC11_SOURCE
++.fi
++.P
++.BR timespec_getres ():
++.nf
++    _ISOC23_SOURCE
++.fi
+ .SH DESCRIPTION
+ The
+ .BR timespec_get ()
+@@ -39,16 +55,18 @@ .SH DESCRIPTION
+ For a particular time base,
+ the resolution is constant for the lifetime of the calling process.
+ .P
++The time base
++.I base
++is one of the following:
++.TP
+ .B TIME_UTC
+-is always a supported time base,
+-and is the only time base supported on Linux.
++A system-wide time base that measures real (i.e., wall-clock) time.
+ The time and resolution in this time base
+ are the same as those retrieved by
+ .I clock_gettime(CLOCK_REALTIME,\~res)
+ and
+ .IR clock_getres(CLOCK_REALTIME,\~tp) ,
+ respectively.
+-Other systems may support additional time bases.
+ .SH RETURN VALUE
+ .BR timespec_get ()
+ returns the nonzero
+@@ -78,18 +96,16 @@ .SH ATTRIBUTES
+ .SH STANDARDS
+ .TP
+ .BR timespec_get ()
+-.TQ
++C23 (though ISO C doesn't specify the
+ .B TIME_UTC
+-C23 (though ISO C doesn't specify the time epoch),
++epoch),
+ POSIX.1-2024.
+ .TP
+ .BR timespec_getres ()
+ C23.
+ .SH HISTORY
+ .TP
+-.BR timespec_get ()
+-.TQ
+-.B TIME_UTC
++.BR timespec_get "(), " TIME_UTC
+ C11, POSIX.1-2024, glibc 2.16, musl 1.1.10.
+ .TP
+ .BR timespec_getres ()
+-- 
+2.52.0
 
->
-> >  .B TIME_UTC
-> > -is always a supported time base,
-> > -and is the only time base supported on Linux.
-> > +A system-wide time base that measures real (i.e., wall-clock) time.
-> >  The time and resolution in this time base
-> >  are the same as those retrieved by
-> >  .I clock_gettime(CLOCK_REALTIME,\~res)
-> >  and
-> >  .IR clock_getres(CLOCK_REALTIME,\~tp) ,
-> >  respectively.
-> > -Other systems may support additional time bases.
-> > +.TP
-> > +.BR TIME_MONOTONIC " (since glibc 2.43)"
-> > +A time base that measures time since an unspecified point in the past,
-> > +where the time within a process will not decrease even if the
-> > +system's real time clock is set or adjusted.
-> > +The time and resolution in this time base
-> > +are the same as those retrieved by
-> > +.I clock_gettime(CLOCK_MONOTONIC,\~res)
-> > +and
-> > +.IR clock_getres(CLOCK_MONOTONIC,\~tp) ,
-> > +respectively.
-> > +.TP
-> > +.BR TIME_ACTIVE " (since glibc 2.43)"
-> > +A process-specific time base that measures CPU time consumed by
-> > +the calling process.
-> > +The time and resolution in this time base
-> > +are the same as those retrieved by
-> > +.I clock_gettime(CLOCK_PROCESS_CPUTIME_ID,\~res)
-> > +and
-> > +.IR clock_getres(CLOCK_PROCESS_CPUTIME_ID,\~tp) ,
-> > +respectively.
-> > +.TP
-> > +.BR TIME_THREAD_ACTIVE " (since glibc 2.43)"
-> > +A thread-specific time base that measures CPU time consumed by
-> > +the calling thread.
-> > +The time and resolution in this time base
-> > +are the same as those retrieved by
-> > +.I clock_gettime(CLOCK_THREAD_CPUTIME_ID,\~res)
-> > +and
-> > +.IR clock_getres(CLOCK_THREAD_CPUTIME_ID,\~tp) ,
-> > +respectively.
-> >  .SH RETURN VALUE
-> >  .BR timespec_get ()
-> >  returns the nonzero
-> > @@ -78,9 +130,9 @@ .SH ATTRIBUTES
-> >  .SH STANDARDS
-> >  .TP
-> >  .BR timespec_get ()
-> > -.TQ
-> > +C23 (though ISO C doesn't specify the
-> >  .B TIME_UTC
-> > -C23 (though ISO C doesn't specify the time epoch),
-> > +epoch),
->
-> I don't understand this change.  Could you please clarify?
-
-Previously it only listed one time base, TIME_UTC, so it was clear
-that "the time epoch" referred to the starting point of the TIME_UTC
-time base.  Now there are multiple time bases so "the time epoch" was
-changed to "the TIME_UTC epoch".
-
->
-> >  POSIX.1-2024.
-> >  .TP
-> >  .BR timespec_getres ()
-> > @@ -88,8 +140,6 @@ .SH STANDARDS
-> >  .SH HISTORY
-> >  .TP
-> >  .BR timespec_get ()
-> > -.TQ
-> > -.B TIME_UTC
-> >  C11, POSIX.1-2024, glibc 2.16, musl 1.1.10.
->
-> I'd like to have the new bases documented in HISTORY, which will allow
-> documenting also support in musl and other libraries.
-
-Ok, added in v2.
-
-
- - Mark
-
->
->
-> Have a lovely day!
-> Alex
->
-> >  .TP
-> >  .BR timespec_getres ()
-> > --
-> > 2.52.0
-> >
-> >
->
-> --
-> <https://www.alejandro-colomar.es>
