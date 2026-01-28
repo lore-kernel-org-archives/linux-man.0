@@ -1,160 +1,147 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF35028B4FA
-	for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 17:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28DD28AAEE
+	for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 18:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769621769; cv=none; b=XD1TswlBHJeHfPOlk8VO8I5xTcMNB9LSvs2kA4OuRXD8gv0oT9IpadBpFtc/URdazWkH5wYViRsjUwdn5kBA1NVvSt0rsFUpeuu10oyGTz4woIFkuq8NubjPWNvmTU8kqRJaymin0UXoiFIZhBrE1v6+yiBAzSgxGMcFtKBUJKA=
+	t=1769626546; cv=none; b=iLcQh/rL3W4FInRIkdE3vA2yLbgXjRU4t+qmw5PUXw72L96Zaoax8b0K/iGV3z8SvKaxEG2X5rgpfkVGqyPCYfIDLm/MnUUBdFGpA+ys/ZwzgxNeiyhxMEvWcyNrtvHfxFGPKX4ng0eTZRXvizwPbUn/T4tSYp9DtvDvChpehGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769621769; c=relaxed/simple;
-	bh=QdY8Q64SqnhhOjC+IaAk2VdM74ap0++BIdY8ogVQveU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XRc70po7FWZSFY0kofSlEYdIDkWPIL6lcAo1V/bPrPUInGE+8y7pIQYwFUUk7XT4tf2oxYO2r5i8NQG67ePHlNja4IEgV0xKJX41U5eV7WchNeYTE3ku+fCWg2NRuhP9g3XiZcfCR/c8vvInAJuSrz//bTrjCSZYoqceiyR3qY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4YrEuDE; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769626546; c=relaxed/simple;
+	bh=ozSy1tCZj5F1wL6cpOrtD5Ilnngdr/A7BWHPmJm07CM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kFL7qBllajxKlT9tA4cocCGk+/9APK2JqUEhZDzy8QhcQWHYBWpbQkKinF+WRbkxf1U9lEMDBZN4wR7v7tYOs7k2U4EM+NpW4p6910tYJQoMk3w1IE1Ld7GIbAm9/j3OWIZ5c6lcbpYFQY3mSJPc2gCDDh2NLil3Ew1NsqjPtJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYgexnNp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4YrEuDE"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-124566b6693so61992c88.0
-        for <linux-man@vger.kernel.org>; Wed, 28 Jan 2026 09:36:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769621767; x=1770226567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1oCjMS8iFoW46tq1nj2yA1I0Js1MPiMie383Jow3zDc=;
-        b=e4YrEuDEsZifq0i+bWLY+02u/uyruwodS6nHfZEuquQXS7qVDqHOsVyzPWlRM6pTED
-         w75mGWTnPMLeRGnWJFMNlgNBRM3D0q9yimWKojatb/SYv5F4UC9IN+t+zBXL/4jl3pCv
-         91CzPXNtiq7isNn1eSF8RYet3ySTHm6+s3+l46sbOV7t7leNIFAqGRUrUiy54AF9yP/G
-         qLsF64RGIrmG5JrG49I9KL36pEjU6oowXg9caj0coJol1+FwiuNxg2HZpuK2YtXvY8nS
-         26be5s+mCIfbLS/lM2KjIwnTLObYsoQyZrzGA3xjcLzascEKv05WJTs2b8+7SG0Y+AY2
-         a3dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769621767; x=1770226567;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1oCjMS8iFoW46tq1nj2yA1I0Js1MPiMie383Jow3zDc=;
-        b=njwCZGaoRsda4TdECBMaiEJKxcm+SKtRqsYOVbdP356jZSpj4yeCK3KsONrq2Mr9FE
-         TK9WcxwhYGZi9hn8miZ3aowrk+iP18uHL7m7q6SKmWBQodMJJfRNIqqFagabbNOTsahx
-         I+8UhWSBIlyEwnDBL3nPU6D90/Br3sVTrxrl3RJReKDpiJcsM7hNOE0cbpYrrDfDc/8r
-         7m2FhRgNIngPZYqhGNMyU37vfBZxpRh9DEpSFKiEYracP9fNxcRFzoue4pz2HM3snbxT
-         UpxdLiWoiVvIRyeRwqFT0BmzF4gkvQrozbKF4dZj8ektn89Pm+jHysjA69ydX9fnX85T
-         TlyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJqM8ADxjFPTZ/cZk7NDgZON2Nw3vKchS8bFJRM7xWwNNQ6Z9izolvaPilWG9TjGc297dSk50x2a0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQPKdUs1NZuzG3z7+wz8s5fuAJkJuxcJLCqd8wFZ8a9P0aE2n1
-	dgf6JGujVXcc+7/IOPkWtAohIUz5BrNuAvu3vSpq4ByE4UQorY9rpz45
-X-Gm-Gg: AZuq6aL4+KhgB24k4dKodNcKNHsZrM5KdmcfLpHIvZaHbgMV6HJlIRBa9uD7tZJVC+K
-	zmmG4qQwygpq/w0i9ji9kYEbReYVwSLZgt/qXzh3qJ5s1HDr16ap+u8zpynCdHQFTJZx+JImS47
-	+d+Je6ph9XCAHjLQd8mzee0mMfg3ZZCEcHgXvDUzpi1fly7EOo8A9FwwgGTF3nLlkDv5C5o3jCe
-	ioO1eS3sT/5+41jkUtXL5VR5HzhMK64OzLkvo9wRscqqAl/Gu3xYkZaKaxXlX57Q/DrvWE7eO/a
-	G4Gzhb+nJ7DpyMZ3lVr9g4CAUoilUrpBf8yTY6cZu4Weh3c9qDRQuTe9ROHiR/GWJLHP79Fwcd1
-	IfVkBAAwHGl+mDR10CZXAyLWsLVd0OAhvrZgO2B06IQo0FWkA+KhTfseK/ewSNsXRGqNCAXERsW
-	l5cBnoXOwmy3zRxrDgBQfKmgcua/78ug==
-X-Received: by 2002:a05:693c:809a:b0:2b7:a3a9:9c28 with SMTP id 5a478bee46e88-2b7a3a9a632mr1171369eec.20.1769621766592;
-        Wed, 28 Jan 2026 09:36:06 -0800 (PST)
-Received: from kira.gmail.com ([2601:646:9e01:94:dd54:61d0:1c69:1eda])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1addafesm3545813eec.25.2026.01.28.09.36.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 09:36:05 -0800 (PST)
-Sender: Mark Harris <markh.sj@gmail.com>
-From: Mark Harris <mark.hsj@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Mark Harris <mark.hsj@gmail.com>,
-	linux-man@vger.kernel.org,
-	Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Subject: [PATCH v2 2/2] man/man3/timespec_get.3: Add ISO C23 time bases
-Date: Wed, 28 Jan 2026 09:33:04 -0800
-Message-ID: <e780865ea2ba7114da21fbc385c2861c1d694e7a.1769619403.git.mark.hsj@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <79f235d4b360689a290d525c36c3a06a36e5164a.1769619403.git.mark.hsj@gmail.com>
-References: <79f235d4b360689a290d525c36c3a06a36e5164a.1769619403.git.mark.hsj@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYgexnNp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B86C4CEF1;
+	Wed, 28 Jan 2026 18:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769626546;
+	bh=ozSy1tCZj5F1wL6cpOrtD5Ilnngdr/A7BWHPmJm07CM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rYgexnNpIr7UxlVr63j5ABgH6VNlDJeghsQOXi4ZSZAbNeCQ5/pxOh8yNDjBoHjvh
+	 kCaTw1TlfCPaqIFUdnahQtmKBKYxBIhaCbByDCgLTi1+GntXbN/DMvjX+7u17OjmN1
+	 ANQHIeq3hptnZo6RizFyMqLvxIPGtRK4PC5s70B0OWCi30d93AQl6NnkZGz6qCAear
+	 kQg32p2cUi3q5Sreg9XS7LpZAZpXqhugxUdUnJMtWsMqohPtW0i5AfZ3fE09Wgw4GB
+	 X8JVXym2hA7lqCDRDgXtx0PhGSYQ13uqK7DdQlcJH39TxXG40F06FBRLiRfsd0EqE3
+	 +ErRyemvuB2VA==
+Date: Wed, 28 Jan 2026 19:55:43 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, Seth McDonald <sethmcmail@pm.me>, 
+	Douglas McIlroy <douglas.mcilroy@dartmouth.edu>, "G. Branden Robinson" <branden@debian.org>, 
+	=?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Subject: [PATCH v2] src/bin/mansectf, man/man1/mansectf.1: Add program and
+ manual page
+Message-ID: <c5da437ce6c8a41c4e5c26ee969170254b49dcab.1769626502.git.alx@kernel.org>
+X-Mailer: git-send-email 2.51.0
+References: <cover.1769497513.git.sethmcmail@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1769497513.git.sethmcmail@pm.me>
 
-Document new time bases TIME_MONOTONIC, TIME_ACTIVE, and
-TIME_THREAD_ACTIVE, introduced in ISO C23 and supported by
-glibc 2.43.[1]
-
-[1] <https://sourceware.org/git/?p=glibc.git;a=commit;h=f28a11e43f40>
-
-Signed-off-by: Mark Harris <mark.hsj@gmail.com>
+Reported-by: Seth McDonald <sethmcmail@pm.me>
+Cc: Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Cc: "G. Branden Robinson" <branden@debian.org>
+Cc: наб <nabijaczleweli@nabijaczleweli.xyz>
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
-v2: Split into two patches, add time bases to History section
+ man/man1/mansectf.1 | 56 +++++++++++++++++++++++++++++++++++++++++++++
+ src/bin/mansectf    |  9 ++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 man/man1/mansectf.1
+ create mode 100755 src/bin/mansectf
 
- man/man3/timespec_get.3 | 39 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+diff --git a/man/man1/mansectf.1 b/man/man1/mansectf.1
+new file mode 100644
+index 000000000..09f0a9fba
+--- /dev/null
++++ b/man/man1/mansectf.1
+@@ -0,0 +1,56 @@
++.\" Copyright, the authors of the Linux man-pages project
++.\"
++.\" SPDX-License-Identifier: Linux-man-pages-copyleft
++.\"
++.TH mansectf 1 (date) "Linux man-pages (unreleased)"
++.SH NAME
++mansectf
++\-
++format specific sections of manual pages
++.SH SYNOPSIS
++.SY mansectf
++.I section
++.RI [ file \~.\|.\|.]
++.YS
++.SH DESCRIPTION
++The
++.B mansectf
++command formats specific sections of manual-page files.
++.SH PARAMETERS
++See
++.BR mansect (1).
++.SH ENVIRONMENT
++See
++.BR man (1).
++.SH EXAMPLES
++.EX
++.RB $\~ "man \-w strtol strtoul | xargs mansectf \[aq]NAME|SEE ALSO\[aq] | cat";
++strtol(3)           Library Functions Manual          strtol(3)
++\&
++NAME
++     strtol, strtoll, strtoq - convert a string to a long inte‐
++     ger
++\&
++SEE ALSO
++     atof(3),  atoi(3),  atol(3), strtod(3), strtoimax(3), str‐
++     toul(3)
++\&
++Linux man‐pages 6.16       2025‐12‐01                 strtol(3)
++───────────────────────────────────────────────────────────────
++strtoul(3)          Library Functions Manual         strtoul(3)
++\&
++NAME
++     strtoul, strtoull, strtouq - convert a string  to  an  un‐
++     signed long integer
++\&
++SEE ALSO
++     a64l(3),  atof(3), atoi(3), atol(3), strtod(3), strtol(3),
++     strtoumax(3)
++\&
++Linux man‐pages 6.16       2025‐09‐21                strtoul(3)
++.EE
++.SH SEE ALSO
++.BR lexgrog (1),
++.BR groff (1),
++.BR pcre2grep (1),
++.BR mandb (8)
+diff --git a/src/bin/mansectf b/src/bin/mansectf
+new file mode 100755
+index 000000000..a80f90b06
+--- /dev/null
++++ b/src/bin/mansectf
+@@ -0,0 +1,9 @@
++#!/bin/bash
++#
++# Copyright, the authors of the Linux man-pages project
++# SPDX-License-Identifier: GPL-3.0-or-later
++
++set -Eefuo pipefail;
++
++mansect "$@" \
++| man /dev/stdin;
 
-diff --git a/man/man3/timespec_get.3 b/man/man3/timespec_get.3
-index 1c89865d5..8c68d142d 100644
---- a/man/man3/timespec_get.3
-+++ b/man/man3/timespec_get.3
-@@ -29,7 +29,10 @@ .SH SYNOPSIS
-     _ISOC11_SOURCE
- .fi
- .P
--.BR timespec_getres ():
-+.BR timespec_getres (),
-+.BR TIME_MONOTONIC ,
-+.BR TIME_ACTIVE ,
-+.BR TIME_THREAD_ACTIVE :
- .nf
-     _ISOC23_SOURCE
- .fi
-@@ -67,6 +70,37 @@ .SH DESCRIPTION
- and
- .IR clock_getres(CLOCK_REALTIME,\~tp) ,
- respectively.
-+.TP
-+.BR TIME_MONOTONIC " (since glibc 2.43)"
-+A time base that measures time since an unspecified point in the past,
-+where the time within a process will not decrease even if the
-+system's real time clock is set or adjusted.
-+The time and resolution in this time base
-+are the same as those retrieved by
-+.I clock_gettime(CLOCK_MONOTONIC,\~res)
-+and
-+.IR clock_getres(CLOCK_MONOTONIC,\~tp) ,
-+respectively.
-+.TP
-+.BR TIME_ACTIVE " (since glibc 2.43)"
-+A process-specific time base that measures CPU time consumed by
-+the calling process.
-+The time and resolution in this time base
-+are the same as those retrieved by
-+.I clock_gettime(CLOCK_PROCESS_CPUTIME_ID,\~res)
-+and
-+.IR clock_getres(CLOCK_PROCESS_CPUTIME_ID,\~tp) ,
-+respectively.
-+.TP
-+.BR TIME_THREAD_ACTIVE " (since glibc 2.43)"
-+A thread-specific time base that measures CPU time consumed by
-+the calling thread.
-+The time and resolution in this time base
-+are the same as those retrieved by
-+.I clock_gettime(CLOCK_THREAD_CPUTIME_ID,\~res)
-+and
-+.IR clock_getres(CLOCK_THREAD_CPUTIME_ID,\~tp) ,
-+respectively.
- .SH RETURN VALUE
- .BR timespec_get ()
- returns the nonzero
-@@ -110,6 +144,9 @@ .SH HISTORY
- .TP
- .BR timespec_getres ()
- C23, glibc 2.34.
-+.TP
-+.BR TIME_MONOTONIC ", " TIME_ACTIVE ", " TIME_THREAD_ACTIVE
-+C23, glibc 2.43.
- .SH SEE ALSO
- .BR clock_gettime (2),
- .BR clock_getres (2)
+Range-diff against v1:
+-:  --------- > 1:  c5da437ce src/bin/mansectf, man/man1/mansectf.1: Add program and manual page
+
+base-commit: 6754bd1a126ed1e9b7d9c2bc1d221681f5182bb3
 -- 
-2.52.0
+2.51.0
 
