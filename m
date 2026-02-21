@@ -1,144 +1,155 @@
-Received: from uggla.sjd.se (uggla.sjd.se [178.174.241.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9636606E
-	for <linux-man@vger.kernel.org>; Sat, 21 Feb 2026 20:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.174.241.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6231E7660
+	for <linux-man@vger.kernel.org>; Sat, 21 Feb 2026 20:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771705411; cv=none; b=lCXTQ6v2jP2Mis+WhHEgxiT+eFG4bBiRN8IIq0ylC3ZgzvM5bM9pKBUI8wrWnoGUN0do0P90qsSeUigQdmh5YiOKvY2p6FeMqJsj2nyKjnyuSgLcRDMFuV/NTxi/9hKW7jNG/+bszaKU5pY0b2Du3omNpT+OfBzZ7IqPTV+qshU=
+	t=1771706759; cv=none; b=TXGoyRx+pkI6CkX5iEo7cN6tX4LBtJJ8CWg38HnqL5JZxD9mLa+Ll0Ku7kFhBW8mZL9TJJQmPZue43sOkUKrSlJKIRADlQNgcy6N4loz2Yd23E/dL6ZlCiJkz+jnSqoG0d5YtbYIbVNRI9E2C5jpuRK5nBd8a5pmgpv4nasiLuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771705411; c=relaxed/simple;
-	bh=CaxHXMPd0clmr59EEeiHHu18QfObAPnG7IcxP8nRsTc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=A39EdmWyG5vFYkyN/2tPPTc40Sj8YNRK5GCtueZ8Fm2rujbehkwDhJS5pMXLFmoXTz7q3t2CZKQQ8vXPMkveKPrZ1j39JPaP/SHSA72m6ZrqQfsKy6qwfPb0gQv4XZX/44BN+qdAO7eHYSGUVmTzKHCm/LLK8mThZSYvdDy9fho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org; spf=pass smtp.mailfrom=josefsson.org; dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=JZPHURK9; dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=xfGxriUN; arc=none smtp.client-ip=178.174.241.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=josefsson.org
+	s=arc-20240116; t=1771706759; c=relaxed/simple;
+	bh=6DXSqeqUHhkcgVLbMCcavZg0zKLTWGVFq56m7zPtrIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XIflY0PXO7Vg53FtL1uVSUNNst16ISHBiaVqqL1QDExOlaS/j1mbCaL7vdWqYHNszrBiw+gppdYkwQxfs9AYFBN7rSObn/0HJO8YeN57fMzObB33JgCWD/me+ZAqfOqdVJyMaMGDcmChbRqWWMDR/FL/B0KC6735b1DBy5FDTxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLnJA0XU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="JZPHURK9";
-	dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="xfGxriUN"
-DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=ed2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HrKDhnuZlpy4YtKnPzMxrInJf9WdLU4/rK76v27VXH0=; t=1771705402; x=1772915002; 
-	b=JZPHURK9mTMSFK4221p+U/obRBwZYunrMDqWgwwCW0uicX0IhDCU/4fnKQ8zEepbupWLGVH2vu8
-	1VCRVAMXnBw==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=rsa2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HrKDhnuZlpy4YtKnPzMxrInJf9WdLU4/rK76v27VXH0=; t=1771705402; x=1772915002; 
-	b=xfGxriUNH3WfoEHoqZif3IRfXiJGkM4f/9/cOUHRvciefxArFdrf0uJ3OatIiGmar6rHDexZ53u
-	IHoKlO1JNqf8S0ZZZyqQBkJloS1OrCPovsoem+GKBX3wSuktsDR6k1UOUDJOjlahcuBwL3yY+qp7h
-	GbJ9ThdGqdYX/oQhRnrPrfnn9UkCxbKTDfmuSYVPvxuOmP9jV3ojGfebC3YpgUcgtI1ggSCMdQu92
-	lAW3jlT4KHB0VRJZ1rDCFInROiF7tDL0iLiuEBkbvOXqabEZMX+MRmUllZJRwQjfCpWeSr22asT4+
-	ucCzdoHUpgAd60bK/fxx+08LjRP6JzrY1LmAtiz4JGWs3lLXZMRIAAM9N/3IxeqtmqLofRzBxER6I
-	m/vFIE0hvpgtk5ohqDRbjh6saVqNcEcJRNd2Rf1JLPHjER30CdJzfzSVWqwEhBif42PtxloGQ;
-Received: from h-178-174-130-130.a498.priv.bahnhof.se ([178.174.130.130]:43196 helo=frallan)
-	by uggla.sjd.se with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <simon@josefsson.org>)
-	id 1vttBU-00G04B-VP;
-	Sat, 21 Feb 2026 20:02:37 +0000
-From: Simon Josefsson <simon@josefsson.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-  linux-man@vger.kernel.org,  bug-gnulib@gnu.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLnJA0XU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE3BC4CEF7;
+	Sat, 21 Feb 2026 20:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771706759;
+	bh=6DXSqeqUHhkcgVLbMCcavZg0zKLTWGVFq56m7zPtrIs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cLnJA0XUJDzu7wIENqfYUl/Q1E7vABZ2bG8rl/0GQefloQ7yEJb2yC1REpXG3qbrP
+	 Sp6aR7fFNHlremrJg04gsiZ+IB82LgybbiiClVix83KheJv0vbFw+mHxwJK2KL4mvx
+	 S7sKsARoPL59SUapN/0yBcmYLXX5rAvUFnRGla3nTPV0h4uaLpkgOGChmiiLvOHlJW
+	 l2+4q7AD6xlnt+0ipWy6Ut3m++bCFx334un/6fjqTGOAw8dVfBwHBY8Vqofy2Dx94w
+	 4f5D2sn5lfU/AcGPWtSDFo6QaTnPnbU2d7+9VzqfN0lwygHJEhsRCIBKuIMAp6RBr2
+	 /iZOtaZyaHjPw==
+Date: Sat, 21 Feb 2026 21:45:56 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Simon Josefsson <simon@josefsson.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man@vger.kernel.org, bug-gnulib@gnu.org
 Subject: Re: [PATCH v1 1/1] man/man3/strnul.3: New page
-In-Reply-To: <aZoMp9gUNpU6rGo4@devuan> (Alejandro Colomar's message of "Sat,
-	21 Feb 2026 20:56:05 +0100")
+Message-ID: <aZoZJDBj_b9wJJZL@devuan>
 References: <cover.1771686088.git.alx@kernel.org>
-	<7b2c4b363f656b51b19d23eec172b3825e931d8c.1771686088.git.alx@kernel.org>
-	<20260221174142.5e6xufffrawahxsp@illithid> <aZoMp9gUNpU6rGo4@devuan>
-OpenPGP: id=B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE;
- url=https://josefsson.org/key-20190320.txt
-X-Hashcash: 1:23:260221:g.branden.robinson@gmail.com::uWxAuq9gXcMihsOf:3FhK
-X-Hashcash: 1:23:260221:alx@kernel.org::HG0bTBR6mvq2hsRi:6oii
-X-Hashcash: 1:23:260221:linux-man@vger.kernel.org::T7evu9iXLYKUWCk+:bZOy
-X-Hashcash: 1:23:260221:bug-gnulib@gnu.org::0BZtXgW5NnrS1ck7:0TKtM
-Date: Sat, 21 Feb 2026 21:02:49 +0100
-Message-ID: <87fr6t7tli.fsf@josefsson.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <7b2c4b363f656b51b19d23eec172b3825e931d8c.1771686088.git.alx@kernel.org>
+ <20260221174142.5e6xufffrawahxsp@illithid>
+ <aZoMp9gUNpU6rGo4@devuan>
+ <87fr6t7tli.fsf@josefsson.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4dimvy3jhhsyknqa"
+Content-Disposition: inline
+In-Reply-To: <87fr6t7tli.fsf@josefsson.org>
 
---=-=-=
-Content-Type: text/plain
+
+--4dimvy3jhhsyknqa
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Simon Josefsson <simon@josefsson.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man@vger.kernel.org, bug-gnulib@gnu.org
+Subject: Re: [PATCH v1 1/1] man/man3/strnul.3: New page
+Message-ID: <aZoZJDBj_b9wJJZL@devuan>
+References: <cover.1771686088.git.alx@kernel.org>
+ <7b2c4b363f656b51b19d23eec172b3825e931d8c.1771686088.git.alx@kernel.org>
+ <20260221174142.5e6xufffrawahxsp@illithid>
+ <aZoMp9gUNpU6rGo4@devuan>
+ <87fr6t7tli.fsf@josefsson.org>
+MIME-Version: 1.0
+In-Reply-To: <87fr6t7tli.fsf@josefsson.org>
 
-Alejandro Colomar <alx@kernel.org> writes:
+Hi Simon,
 
-> Hi Branden,
->
-> On 2026-02-21T11:41:42-0600, G. Branden Robinson wrote:
->> Hi Alex,
->>=20
->> At 2026-02-21T16:02:52+0100, Alejandro Colomar wrote:
->> > +.SH RETURN VALUE
->> > +.IR s+strlen(s) .
->>=20
->> Too cute, in my opinion.  Use English.  :)
->
-> The thing is, at first I thought, am I going to repeat the same exact
-> words as in the DESCRIPTION?
->
+On 2026-02-21T21:02:49+0100, Simon Josefsson wrote:
+> Alejandro Colomar <alx@kernel.org> writes:
+>=20
+> > Hi Branden,
+> >
+> > On 2026-02-21T11:41:42-0600, G. Branden Robinson wrote:
+> >> Hi Alex,
+> >>=20
+> >> At 2026-02-21T16:02:52+0100, Alejandro Colomar wrote:
+> >> > +.SH RETURN VALUE
+> >> > +.IR s+strlen(s) .
+> >>=20
+> >> Too cute, in my opinion.  Use English.  :)
+> >
+> > The thing is, at first I thought, am I going to repeat the same exact
+> > words as in the DESCRIPTION?
+> >
+> > DESCRIPTION
+> >      strnul() returns a pointer to the terminating null byte in the
+> >      string s.
+> >
+> > RETURN VALUE
+> >      strnul() returns a pointer to the terminating null byte in the
+> >      string s.
+> >
+> > I could remove the DESCRIPTION altogether...  What would you do?
+>=20
+> Use the same style as for strlen:
+>=20
 > DESCRIPTION
->      strnul() returns a pointer to the terminating null byte in the
->      string s.
->
-> RETURN VALUE
->      strnul() returns a pointer to the terminating null byte in the
->      string s.
->
-> I could remove the DESCRIPTION altogether...  What would you do?
+>        The  strlen() function calculates the length of the string pointed=
+ to by
+>        s, excluding the terminating null byte ('\0').
 
-Use the same style as for strlen:
+Hmmm, maybe I could do this.
 
 DESCRIPTION
-       The  strlen() function calculates the length of the string pointed t=
-o by
-       s, excluding the terminating null byte ('\0').
+	strnul() calculates the position of the terminating null byte
+	in the string pointed to by s.
 
-RETURN VALUE
-       The strlen() function returns the number of bytes in the string  poi=
-nted
-       to by s.
+>=20
+> RETURN VALUE
+>        The strlen() function returns the number of bytes in the string  p=
+ointed
+>        to by s.
+>=20
+> One says what it does, the other says what it returns.
 
-One says what it does, the other says what it returns.
+Thanks!
 
-/Simon
 
---=-=-=
+Have a lovely night!
+Alex
+
+>=20
+> /Simon
+
+
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--4dimvy3jhhsyknqa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQNoBAEWCgMQFiEEo8ychwudMQq61M8vUXIrCP5HRaIFAmmaD2kUHHNpbW9uQGpv
-c2Vmc3Nvbi5vcmfCHCYAmDMEXJLOtBYJKwYBBAHaRw8BAQdACIcrZIvhrxDBkK9f
-V+QlTmXxo2naObDuGtw58YaxlOu0JVNpbW9uIEpvc2Vmc3NvbiA8c2ltb25Aam9z
-ZWZzc29uLm9yZz6IlgQTFggAPgIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgBYh
-BLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XQkBQkNZGbwAAoJENc89jjFPAa+BtIA
-/iR73CfBurG9y8pASh3cbGOMHpDZfMAtosu6jbpO69GHAP4p7l57d+iVty2VQMsx
-+3TCSAvZkpr4P/FuTzZ8JZe8BrgzBFySz4EWCSsGAQQB2kcPAQEHQOxTCIOaeXAx
-I2hIX4HK9bQTpNVei708oNr1Klm8qCGKiPUEGBYIACYCGwIWIQSx0r0Tdb7LeEz0
-+MTXPPY4xTwGvgUCZ9F0SgUJDWRmSQCBdiAEGRYIAB0WIQSjzJyHC50xCrrUzy9R
-cisI/kdFogUCXJLPgQAKCRBRcisI/kdFoqdMAQCgH45aseZgIrwKOvUOA9QfsmeE
-8GZHYNuFHmM9FEQS6AD6A4x5aYvoY6lo98pgtw2HPDhmcCXFItjXCrV4A0GmJA4J
-ENc89jjFPAa+wUUBAO64fbZek6FPlRK0DrlWsrjCXuLi6PUxyzCAY6lG2nhUAQC6
-qobB9mkZlZ0qihy1x4JRtflqFcqqT9n7iUZkCDIiDbg4BFySz2oSCisGAQQBl1UB
-BQEBB0AxlRumDW6nZY7A+VCfek9VpEx6PJmdJyYPt3lNHMd6HAMBCAeIfgQYFggA
-JgIbDBYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XTSBQkNZGboAAoJENc89jjF
-PAa+0M0BAPPRq73kLnHYNDMniVBOzUdi2XeF32idjEWWfjvyIJUOAP4wZ+ALxIeh
-is3Uw2BzGZE6ttXQ2Q+DeCJO3TPpIqaXDAAKCRBRcisI/kdFomUPAQCrSrRabgWZ
-cnWV2HkYN26ys8e82cqi7I1fJDP54TJF4wD/VDajMK0a52TTRi7Yv8hzzrrHE/F/
-zzpTgvd87XHQtgA=
-=Ssz5
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmaGYMACgkQ64mZXMKQ
+wqkfcw//Qh9ILMU2tWYf3LtFXfSAWQqzbvt55uQUVtmZ3HUy6YULgOb9Jy6zz9hQ
+CSZq0NfFasAvsHBx2P8EzFiiw1p5WugnnjkKcfCsEcDf9AI5IMkTNQYGcJt5uWiX
++EDYCfIZu2u28BnnM0sM3lKjl4gjf3knqj47h9N8zmX0NXb5IoOlDUCjnJgLHZ9r
+JeWDHQ2f2MERkKoGecqWXwK/mr6tJ5VHYtyN16ZRTsO0o7scKKt2PrOZ/2nTqclg
+yp6fALlFI1JhCGcdbStkbXGPkH+C7t1PDj3NTd28ZuEb0UMtEUCr5K8EWJDuN1Ve
+tSgO+sj0OMJotgbyKFHU8b2PILLxV7ss+kvvFS1DsJCkHu+DXlX15ovCGpQTKm79
+RKQU2kjgJrxxJ0eS+CukC7lURijx6GZ3zpp8+pc306OQ/eLzE0uNtKY+YgOG2yq6
+BNqZu0mKSwhWwhF/Y08f0lxgAOC+QVF5g+DjaTbm+jswo5N7qNWF9mxBuOB8BlY0
+ihjYYUw1p9eexRbe5prLoLWyozIU/o3ytKRX//DJWPILlVadvZL+sdsN87nUuSv2
+404QXMKLGbKAh3aJNsFQuWGk/qIywfO/VY8D7KR+9hY9zITlhsr3NnLNUysF7/ID
+IEQIavSjbeQ65SvPsK0pjGxESLmbGdSvqw0JuB3sOV/k+5mny8M=
+=TFrL
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--4dimvy3jhhsyknqa--
