@@ -1,108 +1,118 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FB110785
-	for <linux-man@vger.kernel.org>; Sun, 22 Feb 2026 14:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771769771; cv=pass; b=JDsOKYshYIYW6XoBRdevTxky5V+0KsoDaKiENu+LY+TzH9VDFJFHzzaS86MekKzMagde+kmCslYaIad600IrWdrAhLqzb+STTvfw6ryuNnXuej+NGMAWm2ujbfGVWF88nnSbavW8nh1Y2y+JZ9H3GVKJ65lu7tw6yq8weTiqHR4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771769771; c=relaxed/simple;
-	bh=/UOHWCVNMEMFLZAsidWGGrtTLDtMT5c5nd+uMBWbCsE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a12mqFSZqdJbXIdLGpvboVAPcgVkCyHL7qQ3VvV1396KOnH5B9nQriS+l+MQLfi61/vzU7O1t8PE8dmmWK00SGPnknB+FckXGGuUxnhVtMgXG5+YVmd20Rj75z8qK21U8yRPgEv+VZuQMkQdrSpEPtA5EwwohQ2P3wPkd7NBCK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org; spf=pass smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=gl9KqHfz; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=9vfajSRm; arc=pass smtp.client-ip=85.215.255.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=clisp.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F14025DB0D
+	for <linux-man@vger.kernel.org>; Sun, 22 Feb 2026 14:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771769975; cv=none; b=BtGMUVV8gWarFL2KUrcX9AynkVdus6EwXKZHRSBi/N636s/li61YMVeAeB4fRH2+7QU/u1nIBqMbAsk2lw6U1AYR7lrMcMV3W3fYORWLsADqul5tBy1+QLN+gEPjVWLyj4Pkc0gfukgh6EW4F4p1haRuuH1dkjZ4JLFrPgQYY7Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771769975; c=relaxed/simple;
+	bh=fgEKtAyjbUK+4KvUAHNiWU9me14VpfSBnDqpuJJRdmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dILuQJyTvGe2HDkJ+wn/AMR6rzxiGG0jRO4qaX6vvQPStDQJjOFGgymMDjO3PiIqptHNzJkTd+ab4dGj8ldnvKTBIdECsxaNUpJYXgftI/UyVmuv4mR6tAxV6kRt73MK/tlMGtE6/sFsTK8QJvzhy/R+GffR2xVry00DLkLON+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sfNz/yym; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="gl9KqHfz";
-	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="9vfajSRm"
-ARC-Seal: i=1; a=rsa-sha256; t=1771769403; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=LQvNf31I1dyg3Yf5ZxGnyYeiXOiNwFYim02dQ2P+G9xC/qzFRqFrLmiE8BMT7b04tl
-    iPfhfX796WCeo/0PT6dU2PylyS7y2Nm+w2PjT8AXhGWbM4Y8X97hFcDOEUsakAz3C7LI
-    omyRaWpbRCQIk68GPMlInV8S3AVea6JQS+/lTdBA4u4g6k7eKUP68RQUsh/WtwVzAFHo
-    uGo8uufXIHeXuwPzIHxB2bNS/h5wdM6cMn2x9yhOhOXAHfIpMxGPXlkz25Emp65IfNg+
-    8U1I4r4bdHofMz1O16zebZ40/oRgppwuXgdueJioFETr2SaG9gOMGGxy5B01nqNwwB56
-    j3xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1771769403;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=Q7hIY5pEeGccFqRqyHdxUscJphTLg0aki1ojhOFaC9M=;
-    b=SVrX4Y7FkL3nFrVtU7MPZvMUCBj91g48qZ3X24bUOFzZdUDLF4p71p8CFuxDoalOGR
-    AhBttiTpDZb0DykAIbsdJac0Jy8riMLYKv0WmexJnAra9f157v3XtVVFT7oerumNhifo
-    agYKtVeC7t8oBaKpeIwNMKrWyLTyuamye5S7NiHXtUPoll2FZRRUnsuoUj/v9dg3jiC1
-    IT5MN3kQFWCB8JFpO17HLr6JHRNDaWQ+7XLQOtTTtYnK+IUwqfYMIPcp0hDQUK2kadws
-    XEZZ7DGZKtwKiEHmM8VWiH5nR/E5Oxw/khj7BaOqXVnNPmo2aCIKvGvs6QX1+ht6Mjdh
-    YErg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1771769403;
-    s=strato-dkim-0002; d=clisp.org;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=Q7hIY5pEeGccFqRqyHdxUscJphTLg0aki1ojhOFaC9M=;
-    b=gl9KqHfzEI4O4y4ZiL4xp1VTGb016Iefa8vhAyzWxhbLvoeNlRD6pWfDuoJU8IZrcm
-    t7wFpjrRbB2Rj+OQdzCCI75rWqJz4Utgxejy4AYZU/nlpYsKY1Yg8rP6PjyFj0su1/pf
-    77bToo2NdFT9gpNnub1oxl+n+ECsUE7Tyigth6D4GHy4ouAOJG1eCxntbk1U7hnjoQsy
-    RVQSBREc7NKCxAvVgTcjOlajqwoX8t52NVOCGZh/EsfZKYBCRAxCxZpcb5pe8OuazDd3
-    c1nSNSZ72W1BjoPROt/fVQLXJIpQae8/Ag7Wki4N2aTGX03P2zX4sUAq3OsRAI4gYrAZ
-    UUZA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1771769403;
-    s=strato-dkim-0003; d=clisp.org;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=Q7hIY5pEeGccFqRqyHdxUscJphTLg0aki1ojhOFaC9M=;
-    b=9vfajSRm1b+5Tr6f6uQra5nU3VTHi0mCOKQ4fDqTQF0QU18FyCZHPvZIbNFiNkbisG
-    /nmi7Mlj1hfpDzcSKvDg==
-X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlLnY4jECd2hdUABIYZgv6aLDTL6XsuhNxYZcr35yqVMtF87yDfmvL3KrSSVxcfq6S"
-Received: from nimes.localnet
-    by smtp.strato.de (RZmta 55.0.1 AUTH)
-    with ESMTPSA id Nd34d621MEA35ju
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Sun, 22 Feb 2026 15:10:03 +0100 (CET)
-From: Bruno Haible <bruno@clisp.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Paul Eggert <eggert@cs.ucla.edu>, bug-gnulib@gnu.org,
- linux-man@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sfNz/yym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2941AC116D0;
+	Sun, 22 Feb 2026 14:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771769975;
+	bh=fgEKtAyjbUK+4KvUAHNiWU9me14VpfSBnDqpuJJRdmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sfNz/yymoUhn/rXwH8d+0kGWWgTdM4S3oqgkyt8/9vCyKIZfGU+vDHRhkowfDUbin
+	 uFlb8NlbupguIlu5i0Q0pUp/Ic7K+ns4oBzqWLcoYUHR38hb814YVlH3CNXHr4wRUv
+	 lXFVmAqDW4We/0msqmEurHfGhT59X/SexadZtnxyiwEsIsR81j5EHzeuLmrpKOUNN6
+	 b1edrVQiueXG8nv6oqHPyjvSzMfwqnn0tGMP3Pc7J0TSn0/QJ0tx+2zqmRa0z5GH1q
+	 C+RFEnmYNHFEY+dboLL3Go1L9YPBiHibTZVGWQIXbNrrlMBkGgNIZfQ7HG/kLe4Mu0
+	 CtlRcuRfaAlgQ==
+Date: Sun, 22 Feb 2026 15:19:31 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Bruno Haible <bruno@clisp.org>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, bug-gnulib@gnu.org, 
+	linux-man@vger.kernel.org
 Subject: Re: [PATCH v1 1/1] man/man3/strnul.3: New page
-Date: Sun, 22 Feb 2026 15:10:03 +0100
-Message-ID: <2947259.IIHS8v3jeM@nimes>
-Organization: GNU
-In-Reply-To: <aZsIJhUxHa1L1cme@devuan>
-References:
- <cover.1771686088.git.alx@kernel.org> <aZrmh5XLcUcKJz4b@devuan>
+Message-ID: <aZsPpWJ7yZ1nG2RJ@devuan>
+References: <cover.1771686088.git.alx@kernel.org>
+ <aZrmh5XLcUcKJz4b@devuan>
  <aZsIJhUxHa1L1cme@devuan>
+ <2947259.IIHS8v3jeM@nimes>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Alejandro Colomar wrote:
-> 	 .B #include <string.h>
-> 	 .P
-> 	-.BI char\~*strnul(const\~char\~* s );
-> 	+.BI QChar\~*strnul(QChar\~* s );
-> 	 .fi
-
-Ouch. This is not understandable. Why should a user learn about what 'QChar'
-is??
-
-It's basically like a C++ template with 2 instantiations. Just list them
-explicitly; this will be much clearer.
-
-It's common that the SYNOPSIS section has several lines. For example,
-man1/locale.1 has 4 separate lines.
-
-Bruno
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bqqslsvldozl4xqs"
+Content-Disposition: inline
+In-Reply-To: <2947259.IIHS8v3jeM@nimes>
 
 
+--bqqslsvldozl4xqs
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Bruno Haible <bruno@clisp.org>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, bug-gnulib@gnu.org, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] man/man3/strnul.3: New page
+Message-ID: <aZsPpWJ7yZ1nG2RJ@devuan>
+References: <cover.1771686088.git.alx@kernel.org>
+ <aZrmh5XLcUcKJz4b@devuan>
+ <aZsIJhUxHa1L1cme@devuan>
+ <2947259.IIHS8v3jeM@nimes>
+MIME-Version: 1.0
+In-Reply-To: <2947259.IIHS8v3jeM@nimes>
 
+Hi Bruno,
+
+On 2026-02-22T15:10:03+0100, Bruno Haible wrote:
+> Alejandro Colomar wrote:
+> > 	 .B #include <string.h>
+> > 	 .P
+> > 	-.BI char\~*strnul(const\~char\~* s );
+> > 	+.BI QChar\~*strnul(QChar\~* s );
+> > 	 .fi
+>=20
+> Ouch. This is not understandable. Why should a user learn about what 'QCh=
+ar'
+> is??
+>=20
+> It's basically like a C++ template with 2 instantiations. Just list them
+> explicitly; this will be much clearer.
+>=20
+> It's common that the SYNOPSIS section has several lines. For example,
+> man1/locale.1 has 4 separate lines.
+
+Hmmm; sounds reasonable.  I'll do that.
+
+
+Cheers,
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--bqqslsvldozl4xqs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmbEHMACgkQ64mZXMKQ
+wqmx5w/9GSkPv7nf0i2t/jupHYPBt0LleXWAfBVX6gnkoallNN1B861lDCFDlF+N
+FLjc95FZi/w3z+5PeKSapCD+NMSsCvDm2kiJJd5kHZTQa5hyDeyx5uN8v4oblHN1
+RrxKEXVOWfByWcwb8z0ULOrf77tN0w0+33u7KBiNYUChA/m0J8kEFCYL68KsQxUw
+FVhnUx4zeq0YkeQjmi0OdeTJqSxaiTatK5OOBWl/V+I3DR/WbQaWqVMN11uIaTLy
+oToiFpYhFFCIsAZxCeuku1sfv08OWU8Fx1738nNXdNK8jzZa96/UXf5ZOowXp9hH
+eHuaShDMoW22xbERjKX662fOSNB8Kye/TTfIvIQPdxXjBf2G7xcB98xnrSEJq3vx
+3THLvwlY+IgX8uhmx3L+vQsyYmhXG5cevmPQHQHpl6BOwEsHngURfGNMBfuSHFZI
+HgwiLxR6kLzyiXKb401nqNd1b3pb1r+AmXfCFD4mV/HwmvQT2pr56VMOiD0duYgO
+Qx9V1sb914ufl3UG/hTQv9ocb1jkCW1rYujU5SKaw0IoYGKvZRdox/kOlHiYQUTo
+GoFZ5UATEjoiO2uBsdR+5hmYOp6v5UzeGFlpuSZgiursqJn11fSVAm3wI7VlmFzO
+TE750TuOCeoLaOupdJH6NOqm4wFW0vn7AEN4Kcus0Obr/Wa4CrI=
+=cFia
+-----END PGP SIGNATURE-----
+
+--bqqslsvldozl4xqs--
