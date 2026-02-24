@@ -1,74 +1,98 @@
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FA33A7F4C
-	for <linux-man@vger.kernel.org>; Tue, 24 Feb 2026 17:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647843806A6
+	for <linux-man@vger.kernel.org>; Tue, 24 Feb 2026 17:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771953251; cv=none; b=dXo0GNdChNTkR5DggX4M13OnWsyLZFvFa4GybmsvTqaS4an06lzPLVIyuZRMxLrQH80qFmzTTMXkgfv3a/oXTnmwd/HXE2sLKzfLVMUe9VRF2I3uVfw7zJAnCnIFRIrXGgxMkfwErNlRWvYdo/32S5WK9XiSdzYeGZLhuuwflWQ=
+	t=1771954947; cv=none; b=JvjJ0YAjrhmtPpwuCkGGYXjUbvIpQsqFie3865O4jlLn0RrW0Tp5LEvtgmsyc+IacCe/0FUDunzJz3tZhbHBlb4aKAHboWrP78ns+o0KGUXjrWrKGJXJX3BoOuCfj25fC2LR+W/he7TTArwuM70kDqjFG3vGJjkJzFSkEkFYKc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771953251; c=relaxed/simple;
-	bh=S1d5lr7kmnXBLQwYq395g4UUjV6RO/OMwALfVkEa0V4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=EgqeLv43ppS7izDnRIY2PYSA3Lg0n/BoSyc0KuUOMLx68egpEGaaTCrsX5of0MUY/7aWiWZaF+6rb20j38UWWm9hSfYmaL3e7IJJQJU0IWoAJk1vY0NjHdJjT9kSaNKQopKzP1Z6Uk1e3DpipiuZ8/Id8Cj7jQji2AVdgUBYI20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=W18n/VHb; arc=none smtp.client-ip=131.179.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
+	s=arc-20240116; t=1771954947; c=relaxed/simple;
+	bh=dBsh6xgDb9ZPW+X6SdtuDBQ09fSTQ9ZflnOz9RKl5EM=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=R6+Rn62uAkcLGHx3PA6yZNFWlDItVdGOqx944XrdI8Ekn2i0+QHTcFGYHiSm9Ogc/Gi8cZrVCr4ezIO6XF+x54KThs1qpm7R9laueeQlfCabIUNG26rrw9CgHQM7N4Z489OBK4c0Rs30kGiQ5F+yU4QATwgZFFfZrq4m7UaRtUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B443tCHg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="W18n/VHb"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id E044D3C1082EF;
-	Tue, 24 Feb 2026 09:14:04 -0800 (PST)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id Rn-L7S6ttgw0; Tue, 24 Feb 2026 09:14:04 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id B7C533C1082F2;
-	Tue, 24 Feb 2026 09:14:04 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu B7C533C1082F2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1771953244;
-	bh=QJK7BY4xm57hUYngf2Yv1pIEpYcAIKbcf0KXufjia9g=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=W18n/VHbNCCX+orDvZAx5ANS+gTVdk08jFYN2g8ichLz1feBF6sIt4cQxueUnUBG2
-	 0620yH2kQr2OXrPDSgk0rc41+cMelD2l8Nr8scGw+E8eBSm1pm9J4maZkz33Y6FJFx
-	 UbNo6XkljWZPD2HeSpiacgJXI9OI2PW2J2zx3EZ5TuWdMx8BYjDjTMhtPjNF9K8y4x
-	 XpTw1ExhmC/jFvXK5a6sB6TX5pvlFb0PmbewUF3WtbgCeSdn29/976LjWJ16u5c53e
-	 Jx2oFNW92QZw97pJvoHkC3dZAzhrQ/c3bfS9dr79Xcg20d2ZXUWEsjjvJN+jvlDJOZ
-	 EVPu/Feaoe8ug==
-X-Virus-Scanned: amavis at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id k_azyXa2AwSz; Tue, 24 Feb 2026 09:14:04 -0800 (PST)
-Received: from penguin.cs.ucla.edu (47-154-25-30.fdr01.snmn.ca.ip.frontiernet.net [47.154.25.30])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 965E53C1082EF;
-	Tue, 24 Feb 2026 09:14:04 -0800 (PST)
-Message-ID: <67824728-313a-4f73-be2c-ad41697925b5@cs.ucla.edu>
-Date: Tue, 24 Feb 2026 09:14:04 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B443tCHg"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3E922C19425
+	for <linux-man@vger.kernel.org>; Tue, 24 Feb 2026 17:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771954947;
+	bh=dBsh6xgDb9ZPW+X6SdtuDBQ09fSTQ9ZflnOz9RKl5EM=;
+	h=From:To:Subject:Date:From;
+	b=B443tCHgdKPTUZAiq09ynSzWWllZtVxn8ebgWOA4ddhm0vxW9cP/twcpbxdEeGSgj
+	 xGbGNy73UGRMk8qfs+a8IKXUOJ7U+uzX9xQ8CVD0xn4/IDpy1serK4wI8RsH57Pw7K
+	 rosCTbMmutRtV1FqFBomRXkpfv/7OoGlluTwmsmIJ+8a9QrguKNrjTrTCRSLatscyo
+	 SPfu0F7MUeQQOi1L/VfriGfue6jEMDmLmWrQSkr4FV0QpwVKNu8cAcsO/eHgswYfOm
+	 aYXZ9p34AhNEHAgZ64chzbPfY5iDh5//yWaQkYeoJVOWdvNZD+dqRtsIIT2QLYZ7Q5
+	 ofvdpJvYxy1GQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 30898CAB781; Tue, 24 Feb 2026 17:42:27 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-man@vger.kernel.org
+Subject: [Bug 221134] New: Missing info in prctl's man page about
+ PR_SET_DUMPABLE being reset
+Date: Tue, 24 Feb 2026 17:42:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: h.sousou97@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221134-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: QChar and QVoid for strchr(3), memchr(3), et al.
-To: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
-References: <aZ2xBQcy7mMEXW_b@devuan>
-Content-Language: en-US
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <aZ2xBQcy7mMEXW_b@devuan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 2026-02-24 06:28, Alejandro Colomar wrote:
-> -  In the SYNOPSIS, do you prefer QChar/QVoid or overload style?
-> 
-> 	QChar *strchr(QChar *s, int c);
->     vs
-> 	char *strnul(char *s);
-> 	const char *strnul(const char *s);
-One documents strchr, the other strnul. And strchr and strnul do differ: 
-strchr has an underlying obsolescent function, and strnul does not. This 
-suggests strchr should be documented differently from strnul.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221134
+
+            Bug ID: 221134
+           Summary: Missing info in prctl's man page about PR_SET_DUMPABLE
+                    being reset
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: h.sousou97@gmail.com
+        Regression: No
+
+According to [proc pid man page
+](https://man7.org/linux/man-pages/man5/proc_pid.5.html)
+
+
+> The attribute was reset to the value in the file /proc/sys/fs/suid_dumpab=
+le
+> (described  below),  for the reasons described in
+> [prctl](https://man7.org/linux/man-pages/man2/prctl.2.html)(2).
+
+
+Its not clear where in prctl's man page those reasons are described.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
