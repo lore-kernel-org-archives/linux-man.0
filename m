@@ -1,162 +1,119 @@
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D652F8BD3
-	for <linux-man@vger.kernel.org>; Sat,  7 Mar 2026 21:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6555F2DB798
+	for <linux-man@vger.kernel.org>; Sat,  7 Mar 2026 22:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772917483; cv=none; b=rn19q9R3NQTEaYTF3oFd+MdciTCR+kmR4JSl7AIWhJGs99bJouyNTJpuphbOE5nqn/Y8r1Y1+dKpNxsfUtYY1AXBxpIxwm+90dXDsdIxPmDmm9f2XpEu62LL2MMqN+4SKYVwzo/uGsDEmbTojzX2RwbszCLCrcC2V659KwSNKs0=
+	t=1772923503; cv=none; b=MKBuG52sUb1LlPl7i1tSr55WAYYO4t/Vrf4S5ci5wwcihrAoBbj0CGHLLGCY2cUFScyu2FMVmWGF6hV52zo1c97PSLnESNrZZcCxkKQ7jKrsGd+Ihgbet0iHe5i3h93QmlKWaxgXkI/eGBUrZsGAQ0ToDHt1SPS/WVRm8/ywVO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772917483; c=relaxed/simple;
-	bh=sFOMfIQFT442qrNAcGiE1R8lDt/nqz6m9j5DBLSCI4A=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=akHkswAlXtUrFzp8CpI+uBhCQ5wZDwKwbvee7Jt3gQRZ0XGeKQ9mVDfoqRQ4xI+HnoF3Mp2Rw0uBQbWZTzlMlMFus1KUYcgoO/mdz/aA8c+oBqoUJ8c1ZSR044uQwMUhyNGqihtuXBHH13jzaGeDSniM/+daKvAlRvg0W2TUvhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=erJXq5tH; arc=none smtp.client-ip=131.179.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
+	s=arc-20240116; t=1772923503; c=relaxed/simple;
+	bh=RlNRM3RKakuANeUPaw0P5D//bYk2/c1xId+UhNjutGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp4biHAP3U6iUbCaWS7qIgxt3vceApuzDoBd2SkKsOIVRWitYElzsx+PpKAMVede11cXn36UBPehvN/4FEgJWnnuAYnah/Qa2cL/KD+OREPgk3q8ZvwxiHn7mD6WcEba/XzdEezCwAgvDes9yv452Jwb0MHHeo1XicYlpYyEZ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHbRYPoQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="erJXq5tH"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 7BD273C01EBB8;
-	Sat,  7 Mar 2026 12:59:11 -0800 (PST)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id WqEJEgjDmz2Z; Sat,  7 Mar 2026 12:59:11 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 4E4243C082C91;
-	Sat,  7 Mar 2026 12:59:11 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 4E4243C082C91
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1772917151;
-	bh=2t6XIIrrzTVX3zOopSoNRofd6wRqWlc+GdT30uCBVVg=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=erJXq5tHuvkKxk1eZguuLZgmwmc9RhAUdJmbEbqZM7VhmHD2UnzStpvdQcm5ctRhM
-	 QuaMOAfv5e2z3Apv7B55ym/x107nRn79K8ihlOGiXg2xWd55mbtPd/aiD2symMqKTH
-	 p0BzAohTcPMBgrFiKZRsDBJMx3HlaRJRBMh3AR/A/oHv1arIkSty2+8dIXUtb4o16y
-	 fM7BF1vRU/rCqDegLiyE+M2bChp+xVPuAJNoszvSB5EM2wInlDFKat0n9JmdCG06aQ
-	 6FesOzhUujGLdDDhagO/wGpTvUm6zE8ZajhwbUfB7GcOUD8UkucOt1DAdVu2pVPzUY
-	 OlaDEPTgd5eSw==
-X-Virus-Scanned: amavis at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id THTKpVntBRFJ; Sat,  7 Mar 2026 12:59:11 -0800 (PST)
-Received: from penguin.cs.ucla.edu (unknown [172.91.100.140])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 158983C01EBB8;
-	Sat,  7 Mar 2026 12:59:11 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------0BHiLGRPsulkkoXOFNvxNql0"
-Message-ID: <d3b5a021-9299-466c-b939-c54143034e86@cs.ucla.edu>
-Date: Sat, 7 Mar 2026 12:59:10 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHbRYPoQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1949DC19422;
+	Sat,  7 Mar 2026 22:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772923503;
+	bh=RlNRM3RKakuANeUPaw0P5D//bYk2/c1xId+UhNjutGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fHbRYPoQ0HCFjJPtRpAA2/7Q65fGp2To4EgBeEJxnbQoIB7dMje0B3DD56u/9Knax
+	 EkXLxXsBPNEMOdJ8T0TU8WsKKbIdH5Qs+z+WFbwicUFgiQP0ojNHG7Avyj27RzwaNZ
+	 TdZHJXkSSCyfjTIpJy8Hh4XvRCbV3o+pUh4zMfpZr9U98BgO+oSK7MvLrgjzjzQPZ9
+	 jcWuM1mbOAgdTWajXkI7zWi9ztbwytySRXAKuIIYCtNhLwO5jQsHLjsaXp9j1dCo/K
+	 Yx9HGYRB/vLKl0WRqE5384R/ltcWwd/xHi/Cp9SxrkJwD8lxvJkFmBOvcqv4iTNQcY
+	 +iIZ3vpTsb8ug==
+Date: Sat, 7 Mar 2026 23:44:57 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: bugzilla-daemon@kernel.org, linux-man@vger.kernel.org
+Subject: Re: [Bug 221186] New: clock_gettime CLOCK_TAI is incorrectly
+ specified
+Message-ID: <aaypYglgM4po78Kh@devuan>
+References: <bug-221186-11311@https.bugzilla.kernel.org/>
+ <aaw8SLhwjSGR0X4m@devuan>
+ <d3b5a021-9299-466c-b939-c54143034e86@cs.ucla.edu>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iiuq67hxbyxzpruv"
+Content-Disposition: inline
+In-Reply-To: <d3b5a021-9299-466c-b939-c54143034e86@cs.ucla.edu>
+
+
+--iiuq67hxbyxzpruv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: bugzilla-daemon@kernel.org, linux-man@vger.kernel.org
 Subject: Re: [Bug 221186] New: clock_gettime CLOCK_TAI is incorrectly
  specified
-To: Alejandro Colomar <alx@kernel.org>, bugzilla-daemon@kernel.org
-Cc: linux-man@vger.kernel.org
+Message-ID: <aaypYglgM4po78Kh@devuan>
 References: <bug-221186-11311@https.bugzilla.kernel.org/>
  <aaw8SLhwjSGR0X4m@devuan>
-Content-Language: en-US
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <aaw8SLhwjSGR0X4m@devuan>
+ <d3b5a021-9299-466c-b939-c54143034e86@cs.ucla.edu>
+MIME-Version: 1.0
+In-Reply-To: <d3b5a021-9299-466c-b939-c54143034e86@cs.ucla.edu>
 
-This is a multi-part message in MIME format.
---------------0BHiLGRPsulkkoXOFNvxNql0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Paul,
 
-On 2026-03-07 06:56, Alejandro Colomar wrote:
-> BTW, Paul, would you mind reviewing this bug report and suggestion?
+On 2026-03-07T12:59:10-0800, Paul Eggert wrote:
+> On 2026-03-07 06:56, Alejandro Colomar wrote:
+> > BTW, Paul, would you mind reviewing this bug report and suggestion?
+>=20
+> Although it's a start, we should add more detail about TAI and leap secon=
+ds,
+> and the neighboring area could use some cleanup too. Proposed patch
+> attached.
 
-Although it's a start, we should add more detail about TAI and leap 
-seconds, and the neighboring area could use some cleanup too. Proposed 
-patch attached.
---------------0BHiLGRPsulkkoXOFNvxNql0
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-man-man2-clock_getres.2-modernize-leapsec-doc.patch"
-Content-Disposition: attachment;
- filename="0001-man-man2-clock_getres.2-modernize-leapsec-doc.patch"
-Content-Transfer-Encoding: base64
+Thanks a lot!  I've split the patch into several atomic patches,=20
+minimally amended, and pushed.
 
-RnJvbSBhMTZhNTlmZDFjOGI3ZjRkOGM1YmVmYzAxNGUzMmI3NTg4NzY3MmZlIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQYXVsIEVnZ2VydCA8ZWdnZXJ0QGNzLnVjbGEuZWR1
-PgpEYXRlOiBTYXQsIDcgTWFyIDIwMjYgMTI6NTQ6NTMgLTA4MDAKU3ViamVjdDogW1BBVENI
-XSBtYW4vbWFuMi9jbG9ja19nZXRyZXMuMjogbW9kZXJuaXplIGxlYXBzZWMgZG9jCk1JTUUt
-VmVyc2lvbjogMS4wCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApD
-b250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0CgpDbGFyaWZ5IHdoZW4gY2xvY2tzIGFy
-ZSBpbmRpcmVjdGx5IHNldHRhYmxlLCBieSBzZXR0aW5nIENMT0NLX1JFQUxUSU1FLgpUaWdo
-dGVuIHVwIHRoZSBsYW5ndWFnZS4KR2l2ZSBtb3JlIGRldGFpbHMgYWJvdXQgQ0xPQ0tfVEFJ
-LCBzdWNoIGFzIGl0cyBlcG9jaCwgaXRzCmNvbm5lY3Rpb24gdG8gTlRQLCB0aGUgcGFzdCBh
-bmQgcGxhbm5lZCBmdXR1cmUgb2YgbGVhcCBzZWNvbmRzLAphbmQgd2hhdCDigJxUQUnigJ0g
-c3RhbmRzIGZvci4KClNpZ25lZC1vZmYtYnk6IFBhdWwgRWdnZXJ0IDxlZ2dlcnRAY3MudWNs
-YS5lZHU+Ci0tLQogbWFuL21hbjIvY2xvY2tfZ2V0cmVzLjIgfCA0OSArKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDM2IGluc2Vy
-dGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21hbi9tYW4yL2Nsb2Nr
-X2dldHJlcy4yIGIvbWFuL21hbjIvY2xvY2tfZ2V0cmVzLjIKaW5kZXggOTFhZjQ4NmYxLi41
-YjY0ODMzNjUgMTAwNjQ0Ci0tLSBhL21hbi9tYW4yL2Nsb2NrX2dldHJlcy4yCisrKyBiL21h
-bi9tYW4yL2Nsb2NrX2dldHJlcy4yCkBAIC0xMTUsMTYgKzExNSwxOCBAQCB0byBzdGF5IHJv
-dWdobHkgaW4gc3luYyB3aXRoIFVUQy4KIC5CUiBDTE9DS19SRUFMVElNRV9BTEFSTSAiIChz
-aW5jZSBMaW51eCAzLjA7IExpbnV4LXNwZWNpZmljKSIKIExpa2UKIC5CUiBDTE9DS19SRUFM
-VElNRSAsCi1idXQgbm90IHNldHRhYmxlLgorYnV0IHNldHRhYmxlIG9ubHkgaW5kaXJlY3Rs
-eSBieSBzZXR0aW5nCisuQlIgQ0xPQ0tfUkVBTFRJTUUgLAorYW5kIGJlaGF2ZXMgZGlmZmVy
-ZW50bHkgaWYgdGhlIHN5c3RlbSBpcyBzdXNwZW5kZWQuCiBTZWUKLS5CUiB0aW1lcl9jcmVh
-dGUgKDIpCi1mb3IgZnVydGhlciBkZXRhaWxzLgorLkJSIHRpbWVyX2NyZWF0ZSAoMikuCiAu
-VFAKIC5CUiBDTE9DS19SRUFMVElNRV9DT0FSU0UgIiAoc2luY2UgTGludXggMi42LjMyOyBM
-aW51eC1zcGVjaWZpYykiCiAuXCIgQWRkZWQgaW4gY29tbWl0IGRhMTVjZmRhZTAzMzUxYzY4
-OTczNmY4ZDE0MjYxODU5MmUzY2ViYzMKIEEgZmFzdGVyIGJ1dCBsZXNzIHByZWNpc2UgdmVy
-c2lvbiBvZgogLkJSIENMT0NLX1JFQUxUSU1FIC4KLVRoaXMgY2xvY2sgaXMgbm90IHNldHRh
-YmxlLgorSXQgaXMgc2V0dGFibGUgb25seSBpbmRpcmVjdGx5IGJ5IHNldHRpbmcKKy5CUiBD
-TE9DS19SRUFMVElNRSAuCiBVc2Ugd2hlbiB5b3UgbmVlZCB2ZXJ5IGZhc3QsIGJ1dCBub3Qg
-ZmluZS1ncmFpbmVkIHRpbWVzdGFtcHMuCiBSZXF1aXJlcyBwZXItYXJjaGl0ZWN0dXJlIHN1
-cHBvcnQsCiBhbmQgcHJvYmFibHkgYWxzbyBhcmNoaXRlY3R1cmUgc3VwcG9ydCBmb3IgdGhp
-cyBmbGFnIGluIHRoZQpAQCAtMTMyLDE1ICsxMzQsMzYgQEAgYW5kIHByb2JhYmx5IGFsc28g
-YXJjaGl0ZWN0dXJlIHN1cHBvcnQgZm9yIHRoaXMgZmxhZyBpbiB0aGUKIC5UUAogLkJSIENM
-T0NLX1RBSSAiIChzaW5jZSBMaW51eCAzLjEwOyBMaW51eC1zcGVjaWZpYykiCiAuXCIgY29t
-bWl0IDFmZjNjOTY3N2JmZjdlNDY4ZTBjNDg3ZDBmZmVmZTRlOTAxZDMzZjQKLUEgbm9uc2V0
-dGFibGUgc3lzdGVtLXdpZGUgY2xvY2sgZGVyaXZlZCBmcm9tIHdhbGwtY2xvY2sgdGltZQor
-QSBzeXN0ZW0td2lkZSBjbG9jayBkZXJpdmVkIGZyb20gd2FsbC1jbG9jayB0aW1lCiBidXQg
-Y291bnRpbmcgbGVhcCBzZWNvbmRzLgotVGhpcyBjbG9jayBkb2VzCi1ub3QgZXhwZXJpZW5j
-ZSBkaXNjb250aW51aXRpZXMgb3IgZnJlcXVlbmN5IGFkanVzdG1lbnRzIGNhdXNlZCBieQor
-VGhpcyBjbG9jayBkb2VzIG5vdCBleHBlcmllbmNlIGNsb2NrIGFkanVzdG1lbnRzIGNhdXNl
-ZCBieQogaW5zZXJ0aW5nIGxlYXAgc2Vjb25kcyBhcwogLkIgQ0xPQ0tfUkVBTFRJTUUKIGRv
-ZXMuCitJdCBjb3VudHMgc2Vjb25kcyBzaW5jZSAxOTcwLTAxLTAxIDAwOjAwIFRBSSAoMTk2
-OS0xMi0zMSAyMzo1OTo1MCBVVEMpLAorc28gaXRzIGVwb2NoIGlzIHRlbiBzZWNvbmRzIGJl
-Zm9yZQorLkJSIENMT0NLX1JFQUxUSU1FICdzLgorSG93ZXZlciwgaXRzIGltcGxlbWVudGF0
-aW9uIHJlcXVpcmVzIGhlbHAgZnJvbSBOVFAsCithbmQgaWYgdGhhdCBoZWxwIGlzIG5vdCBh
-dmFpbGFibGUgaXQgYmVoYXZlcyBsaWtlCisuQiBDTE9DS19SRUFMVElNRQoraW5zdGVhZC4K
-Ky5JUAorSXRzIHJlbGF0aW9uc2hpcCB0bworLkIgQ0xPQ0tfUkVBTFRJTUUKK2ZvciB0aW1l
-c3RhbXBzIGJlZm9yZSAxOTcyIGlzIG9ubHkgYXBwcm94aW1hdGUsCithcyB0aGUgbGVhcCBz
-ZWNvbmQgcmVnaW1lIHdhcyBpbnRyb2R1Y2VkIG9uIDE5NzItMDEtMDEuCitCZWNhdXNlIGxl
-YXAgc2Vjb25kcyBhcmUgcGxhbm5lZCB0byBiZSBkaXNjb250aW51ZWQsCitpdHMgdmFsdWUg
-ZnJvbSBub3cgb24gd2lsbCBsaWtlbHkgcmVtYWluIGV4YWN0bHkgMzcgc2Vjb25kcyBncmVh
-dGVyIHRoYW4KKy5CUiBDTE9DS19SRUFMVElNRSAncworZm9yIG1hbnkgeWVhcnMsIGFmdGVy
-IHdoaWNoIGl0cyBvZmZzZXQgZnJvbQorLkJSIENMT0NLX1JFQUxUSU1FICdzCit3aWxsIGxp
-a2VseSBiZSBhZGp1c3RlZCBieSBzb21lIG90aGVyIG1lY2hhbmlzbSBhcyB5ZXQgdW5zcGVj
-aWZpZWQuCitJdCBpcyBzZXR0YWJsZSBvbmx5IGluZGlyZWN0bHkgYnkgc2V0dGluZworLkJS
-IENMT0NLX1JFQUxUSU1FIC4KIC5JUAotVGhlIGFjcm9ueW0gVEFJIHJlZmVycyB0byBJbnRl
-cm5hdGlvbmFsIEF0b21pYyBUaW1lLgorVGhlIGFjcm9ueW0gVEFJIHN0YW5kcyBmb3IgdGhl
-IEZyZW5jaAorLklSICJ0ZW1wcyBhdG9taXF1ZSBpbnRlcm5hdGlvbmFsIiAsCitvciBJbnRl
-cm5hdGlvbmFsIEF0b21pYyBUaW1lLgogLlRQCiAuQiBDTE9DS19NT05PVE9OSUMKIEEgbm9u
-c2V0dGFibGUgc3lzdGVtLXdpZGUgY2xvY2sgdGhhdApAQCAtMTkzLDE4ICsyMTYsMTggQEAg
-b3Igc2ltaWxhci4KIC5UUAogLkJSIENMT0NLX0JPT1RUSU1FX0FMQVJNICIgKHNpbmNlIExp
-bnV4IDMuMDsgTGludXgtc3BlY2lmaWMpIgogTGlrZQotLkJSIENMT0NLX0JPT1RUSU1FIC4K
-Ky5CIENMT0NLX0JPT1RUSU1FCitidXQgYmVoYXZlcyBkaWZmZXJlbnRseSBpZiB0aGUgc3lz
-dGVtIGlzIHN1c3BlbmRlZC4KIFNlZQotLkJSIHRpbWVyX2NyZWF0ZSAoMikKLWZvciBmdXJ0
-aGVyIGRldGFpbHMuCisuQlIgdGltZXJfY3JlYXRlICgyKS4KIC5UUAogLkJSIENMT0NLX1BS
-T0NFU1NfQ1BVVElNRV9JRCAiIChzaW5jZSBMaW51eCAyLjYuMTIpIgotVGhpcyBpcyBhIGNs
-b2NrIHRoYXQgbWVhc3VyZXMgQ1BVIHRpbWUgY29uc3VtZWQgYnkgdGhpcyBwcm9jZXNzCitU
-aGlzIGNsb2NrIG1lYXN1cmVzIENQVSB0aW1lIGNvbnN1bWVkIGJ5IHRoaXMgcHJvY2Vzcwog
-KGkuZS4sIENQVSB0aW1lIGNvbnN1bWVkIGJ5IGFsbCB0aHJlYWRzIGluIHRoZSBwcm9jZXNz
-KS4KIE9uIExpbnV4LCB0aGlzIGNsb2NrIGlzIG5vdCBzZXR0YWJsZS4KIC5UUAogLkJSIENM
-T0NLX1RIUkVBRF9DUFVUSU1FX0lEICIgKHNpbmNlIExpbnV4IDIuNi4xMikiCi1UaGlzIGlz
-IGEgY2xvY2sgdGhhdCBtZWFzdXJlcyBDUFUgdGltZSBjb25zdW1lZCBieSB0aGlzIHRocmVh
-ZC4KK1RoaXMgY2xvY2sgbWVhc3VyZXMgQ1BVIHRpbWUgY29uc3VtZWQgYnkgdGhpcyB0aHJl
-YWQuCiBPbiBMaW51eCwgdGhpcyBjbG9jayBpcyBub3Qgc2V0dGFibGUuCiAuUAogTGludXgg
-YWxzbyBpbXBsZW1lbnRzIGR5bmFtaWMgY2xvY2sgaW5zdGFuY2VzIGFzIGRlc2NyaWJlZCBi
-ZWxvdy4KLS0gCjIuNTMuMAoK
+51a4b682 (2026-03-07; "man/man2/clock_getres.2: CLOCK_TAI: Modernize leap-s=
+econds documentation")
+ffcf7de8 (2026-03-07; "man/man2/clock_getres.2: Clarify what "TAI" stands f=
+or.")
+0676ddff (2026-03-07; "man/man2/clock_getres.2: wfix")
+78a707b1 (2026-03-07; "man/man2/clock_getres.2: Some clocks behave differen=
+tly if the system is suspended")
+47e30f8e (2026-03-07; "man/man2/clock_getres.2: Clarify when clocks are ind=
+irectly settable")
 
---------------0BHiLGRPsulkkoXOFNvxNql0--
+
+Have a lovely night!
+Alex
+
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--iiuq67hxbyxzpruv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmsqmkACgkQ64mZXMKQ
+wqkIeA/8CKASpyNILYoi5RytVmGH3BZ6um2ZS6tVFKkQbSczdRjKTCUhXmj8hwSw
+ev+bqrh6iiKzfsaIyq7w0Pjn6A60YQveBvTmsGoZk1z+5ry3kxzneo6VP/Ml1uMa
+lW8kzX4VXa4S60dvdGquaMc1BntALpLu/4Af+Id4XplTdIQQCChkTLKBrC+CroCZ
+6BQGLCOwi3aUmM09adcl0DSBUp7sz0RzCdBzpSlJpoq+kDUv/rkMOZSpeD7T8BSF
+A871fa1owZDK0CgBM4+uc9BzahQUaqoOcpF9un0YQEz1VIU6a4t8rnhLnMmoavbR
+aelM/xc4ZHCFo8o4Iob/IfrYA/TYtKmfgSiSX/Xxz9yoIIdwx0nxLcltV1vexi3X
+brPwdJsaHqfS9UqZRbGIxpWRg6BDiUp/PJeUPqSFnN238gMkipOwqFZdb9ZHoGyK
+dp6eBBqLQz2ebiYEWnsCzfvLhOqd609PHBtL5+O2idMFbUbBvpITOVxUm69c0Ez8
+iIG79t+boAJyWtdhoTfTlI2OR9uWUr00jitlobVP0gkArRfSTjsRERTZfdWnEV52
+IVyqZMEenko3hLVfFjsdCu8qdxT89vHeimVaCUFeogVeSa4T076mF2zELVwWyCP0
+SLhIfHqMPkfsPTgIQeBTsYB7TvmGJAoynVWxH0Ixa03B5AHC4HQ=
+=hgSv
+-----END PGP SIGNATURE-----
+
+--iiuq67hxbyxzpruv--
