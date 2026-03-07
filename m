@@ -1,65 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E3C2C1595
-	for <linux-man@vger.kernel.org>; Sat,  7 Mar 2026 14:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AAE19AD8B
+	for <linux-man@vger.kernel.org>; Sat,  7 Mar 2026 14:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772895392; cv=none; b=aHSnAvr8nJWbSSTTVH8H1p9n11hAz/wkOyEE6jzVbPw3XlzML4hbXCP9qz2PetMPEBsFWO1Iy2iUy/14TqkEqv1aaPet2lLDjUMNkTyKatgwoI/nwyZaEZZu+Q+qMWN6Bw0O+2+aC0VbwlCNqaKpi3hyG0Dqm4plD75C/OjIhb0=
+	t=1772895393; cv=none; b=GSod5v8f2McEYQ/neIVZvHsP5vJhfL9E6Q3gdK3/0hBGcaQCdKLct2m/ajZL5BIom1hM2j+h1NDrQbheak7Mnydq/8+diTk932VBYC9045T8SHP5mpVOW8cq/iTmo/+jsZal/eLz43ufJ98rk4ugPb9W6IYQStZRwJZKHdioc3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772895392; c=relaxed/simple;
-	bh=rn6Apx9jJ76rLghiBxSpkT8XfUinGhI6dAC0wIUr54w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i502HyNpo6jPP6XW4zhI5kxUXOFGQ19RaIaoxD/4aH8QGI7LLC2YLXg53vNnmAjK5FtbpuVGc5/rFEiB+uI66tOnZgo0lyEYaT3ADy6UJvfBOr0GZwbPXvyBVRm4nEv8wgWwdp2VxFUxzPwmp/OK/9HOVHtJRtGnzH+3TqgjaDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fqqXD6uI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772895393; c=relaxed/simple;
+	bh=MPK5eF2FzS1+haWDfWGg5WOu53Jh0yyEEFP/NmE2kyM=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kIGguHHDqsy3GdwZjhkS27Rc9t6+9e4SwQX39hg1V1GnhI56VyThsuysX4hz3l6o7u6fgXHvTozsBp5eZwO4kUSuLlbFAx/4GgUzdkXtiBGpuFZ/zEZ1VcO0Z3BWE8FODoVUKv4em50gTUF5o0hpbwNF1NoBG4LShlKdpWYUI8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWdXNYhp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fqqXD6uI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C088C19422;
-	Sat,  7 Mar 2026 14:56:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWdXNYhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 37C12C2BCAF
+	for <linux-man@vger.kernel.org>; Sat,  7 Mar 2026 14:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772895392;
-	bh=rn6Apx9jJ76rLghiBxSpkT8XfUinGhI6dAC0wIUr54w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fqqXD6uIqsJ5FFGdUczkwrF1MBxTCvq6xE0uoZgDq0vv7mgw5blw1d5nNyc64b7gK
-	 GHshq8u+TV8b0BTP7DLbOJsd0+LVDDirCzgLwkcDdWJwMdbJl4F1USi01kAeFVFOjM
-	 7I1UCsv6r3i3sT13BIP6/Ql+l+ryFtqJjHrCN4LOyqjrZ5eyNhPiAQorMgWVaOmX4C
-	 cVZkQDUj2iJxZfA7cPsblU7eJ6+gtIPlSz/hjGuZg+9kxG+cVJOn1e2LuYZukPjwIR
-	 nhjY6Rkv+g8vwTQFnsUS7rFVw3zxeVg/97v5ASlx4UxoCElryeCelFWn+1yydHPYNn
-	 HIKV/x6KYfCHQ==
-Date: Sat, 7 Mar 2026 15:56:28 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: bugzilla-daemon@kernel.org
-Cc: linux-man@vger.kernel.org, Paul Eggert <eggert@cs.ucla.edu>
-Subject: Re: [Bug 221186] New: clock_gettime CLOCK_TAI is incorrectly
- specified
-Message-ID: <aaw8SLhwjSGR0X4m@devuan>
+	s=k20201202; t=1772895393;
+	bh=MPK5eF2FzS1+haWDfWGg5WOu53Jh0yyEEFP/NmE2kyM=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=VWdXNYhpsGAI9uttLKPgQ8ADjYzu25rfrgSacRnDXyF7ByVDRMfynLkkACABeZ6vy
+	 r/6CIDTdHgpVpIPSzIKqKzmpVlUZUpH6EHDs8gvnkRE4KmWJYtY3UKLaFzGiUCA5Wh
+	 H4ciBOH80TYSS32pC1rAawA4yC6p0FnCFvWON5eaJrjynpp+EZ1YigwamMD5fj0+xD
+	 25jQxxn4yRu+RqQrsCNr3rKYwBu1ed/J5Urk2mgt3J0XCgoz5NZMUWeuFYc9Mdmceh
+	 mt5rZfjPeyUqaAADhQAiotbwXI3/HEhmqJK134gW11Bcv7+b9eSmSxPs/EZAY5jv/W
+	 AmQ70hz8xyZow==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 2B3F9C53BC9; Sat,  7 Mar 2026 14:56:33 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-man@vger.kernel.org
+Subject: [Bug 221186] clock_gettime CLOCK_TAI is incorrectly specified
+Date: Sat, 07 Mar 2026 14:56:32 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alx@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221186-11311-suuU8DZ6Ke@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221186-11311@https.bugzilla.kernel.org/>
 References: <bug-221186-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pqmdcfjkeeuniwii"
-Content-Disposition: inline
-In-Reply-To: <bug-221186-11311@https.bugzilla.kernel.org/>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221186
 
---pqmdcfjkeeuniwii
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: bugzilla-daemon@kernel.org
-Cc: linux-man@vger.kernel.org, Paul Eggert <eggert@cs.ucla.edu>
-Subject: Re: [Bug 221186] New: clock_gettime CLOCK_TAI is incorrectly
- specified
-Message-ID: <aaw8SLhwjSGR0X4m@devuan>
-References: <bug-221186-11311@https.bugzilla.kernel.org/>
-MIME-Version: 1.0
-In-Reply-To: <bug-221186-11311@https.bugzilla.kernel.org/>
-
+--- Comment #1 from Alejandro Colomar (alx@kernel.org) ---
 Hi,
 
 On 2026-03-07T14:21:17+0000, bugzilla-daemon@kernel.org wrote:
@@ -81,16 +86,16 @@ On 2026-03-07T14:21:17+0000, bugzilla-daemon@kernel.org wrote:
 >=20
 > The man page for clock_gettime says "CLOCK_TAI (since Linux 3.10;
 > Linux-specific)
-> A nonsettable system-wide clock derived from wall-clock time but ignoring=
- leap
+> A nonsettable system-wide clock derived from wall-clock time but ignoring
+> leap
 > seconds."
 >=20
 > When UTC was announced, it was already 10 seconds behind TAI. Since that,=
  27
-> leap seconds have been added. According to the man page, the difference b=
-etween
-> wall clock an CLOCK_TAI should be 27 seconds, but in it is 37 seconds in =
-fact.
+> leap seconds have been added. According to the man page, the difference
+> between
+> wall clock an CLOCK_TAI should be 27 seconds, but in it is 37 seconds in
+> fact.
 > The kernel is correct (it returns 37 as the difference between TAI and UT=
 C),
 > but the man page should be fixed to reflect that.
@@ -98,8 +103,8 @@ C),
 > I suggest to change the man page to:
 >=20
 > CLOCK_TAI (since Linux 3.10; Linux-specific)
-> A nonsettable system-wide clock showing physical time elapsed since Jan 1=
- 1970
+> A nonsettable system-wide clock showing physical time elapsed since Jan 1
+> 1970
 > 0:00:00.00 TAI (Dec 31 1969 23:59:50.00 UTC). This clock does not experie=
 nce
 > discontinuities and backwards jumps caused by NTP inserting leap seconds =
@@ -119,26 +124,7 @@ Have a lovely day!
 Alex
 
 --=20
-<https://www.alejandro-colomar.es>
+You may reply to this email to add a comment.
 
---pqmdcfjkeeuniwii
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmsPJYACgkQ64mZXMKQ
-wqlbShAAijCykvHH6CBIGb4egDKZ2DQdEULeci8We4wGpgf5C919X0s6Ih/au+B5
-vdrYcxZE0IuXgPHNbmX9YBsw4uQ/9QukReMmFEjmAcnU/YTkBD+Fulrxump4xthu
-L2R/6KpErE9yOhUiViQnICoelUzHfap0mM2fzSvSRug9ucTWBkXQSOj5OXTI68GN
-ViHqqxsZM1oxW86YRQait4dC0G+7TbthPDIsTiybey2aZZb6X/X9x5GYFhUnNvlE
-NUeKkXyHZGxHR+AfgzaMO8zxfGke5QCsdj/9sA4uCVJm5aNgcZfCIPwIuH7O9b5Q
-PYn0Rxtq7CZq61s1PHtGRBG66/YA3C9pTg+rMouJQebJ1G34PZjP7nS7Z+qaviEQ
-X9XccUiBsMM5H/6onzakMdUVW6nK4kO4v873QLWZcWiwdus3ubtmDhysyN2ilOSN
-+55OuJgH9cs6DJLVHhq6edNJOh6kFb9TTCbnYbHUIPqsSOBUyl6XHzfLNrD53J9d
-ZmgKvDzZ1/ghnS41EWDdh9ytVzwTxRYdm4EECHla/i5hSKoQIkfooyIJ6kb3O86n
-tetldUGX7eSDATfN+qbZK2GnN4wTND4v4MlOVal+lU61X58tjyG9+t5jNGtuOuVc
-5uNTN2/hkkntpUs67u7bRD4ZEEYSPXxAcb0yisUxblumr5DCWEA=
-=AeLn
------END PGP SIGNATURE-----
-
---pqmdcfjkeeuniwii--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
