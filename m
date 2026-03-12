@@ -1,126 +1,59 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE2840DFD4
-	for <linux-man@vger.kernel.org>; Tue, 10 Mar 2026 13:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A4D3AF675
+	for <linux-man@vger.kernel.org>; Thu, 12 Mar 2026 09:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773150786; cv=none; b=FckXD0fkpUXcuMeWAihN9d1iRgRq0TEZrOvG/hXPpFI7Q0mtdsAQx3Xi8yBx5rNKO2WQ02lPMS8CfaDDJADtzfH4GpkNLQk8J8+JOlODAeSgBUlyIoja5DwvOaYyH9buddVji1Wp/jQJYmjj7tyXBxpkIDr4nODGg8dgsSDhUhk=
+	t=1773307640; cv=none; b=Y3J4fptJJRdYJUikaFdSmI5eUA2mSZp/oG0NMOgFeTJsd3WPF2qM2GNrcnQ7EyOk8b2YG16pzYy4i3WiO/o2zi3pLhFTIaem+ggdzdjv/LenEz92AKGGdhdehpxeMz7dgKofySVUBS6Lblor6n4eW6/hZp5dSD6olium1u9yV8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773150786; c=relaxed/simple;
-	bh=pbVc4jEj5y3ALDQJXMRnKOG4NCQstF8gvHASTRDhYR8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CsTDAocjKIJmeJK9Fjwa51R6wOzXhK+DyR0RrluVuWnGj+duN2Fc0A7CE7aLZE+299N+NjVMJKSdhtGNDUyWc7LeWUHueQWxT7xJn39oQc5130ok0wunZkYL4EdutY3Zdj81MnJx6AWWq8ebdgqk1GPzF+GskCm2xvY+KYgIiIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ca9MR1WK; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773307640; c=relaxed/simple;
+	bh=G9KcYgAehPhGdZAkBFAeDDWerPnapkpQXK/yO5/DV14=;
+	h=From:Subject:To:Content-Type:MIME-Version:Date:
+	 Content-Disposition:Message-Id; b=MYY2AAEo10M0x0r5ROuEZ1o6o6hM+XTIdsJypBadAA4UWaaLHGGDPJBoYFTGL4r14JKyBXBxiwxHhXllCgHIOU2DkVXBI9EEWkG2scUc3MYgQQybJQrzy7ZuMZG7pbgCjQezok3iZ3pb/CjlFreXgxRIrxXxTFCjsLEr/R6qZV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Dtp6UsNY; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ca9MR1WK"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ae505619baso56888225ad.2
-        for <linux-man@vger.kernel.org>; Tue, 10 Mar 2026 06:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773150785; x=1773755585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IRIw4+KuPa/UPUEa+WYqD2jsMVJ3B6zr1hNrP5Qgix0=;
-        b=ca9MR1WKN3f40dr34HPX24ifK+An1i7pIn5G+vu7hVYHfckv8Y3C8dYnvOjcwMgPuS
-         3UfZaJfE+Mi7bm/qCAwKudoG8kDvTGBh5G4kh+LIvRrp8wF8sgN/Z7pLguYgpvDWTkuy
-         fDKeBsiSeAuXoMpyLXGRMSjqcapt7EADymNj4cLCUtobX2osEpi6rAw07ge0F19bC2Gw
-         nMf5/bK3UNHiidiVN5YXUNZdAvKDAtTm2uGKzTnwgfQjzFfkfFBWzf86gY8+fpiF1prp
-         R84FaAGN1YcqRgn8B+SO8XNpxZUzd568lclOA4yjCXNc/N03v87/ML+tOyuuoLugllxV
-         vn8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773150785; x=1773755585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IRIw4+KuPa/UPUEa+WYqD2jsMVJ3B6zr1hNrP5Qgix0=;
-        b=iWEoWoNWMHO+A1rh3ovobVI+JYwSyOh8UpjkWtOpY4OGXOGFk55JcKbriMOAdXONb3
-         l43f79XfZOcTz9uuHc1PCix2wec5a62XQ/qDb8pQ8ygL01HSRIHloHT+BLaP0TidlspN
-         ugkwZQGxWzx9txz8ZRB3weVeAxNtx9reE24A4wlMjjMUGDj8apfh9Bd3P7H2GiBWRt5s
-         NwgnV2j1k3Ix6XKwbV/Dpfbek/SrZsZneMxT6QFyECilN1zH6iF4Xlk8Y56yGxCxPHlK
-         KfmOxjmRswjCqU97msmnwoXj+hiHkWwiOg4rbCYX/EAmwM4K8FA/XZzAbvtteC0tBOJA
-         e8qw==
-X-Gm-Message-State: AOJu0Yx9l8ndOaGpzjOfQBWJGUAIuIosBZAK5kWSVKrO3bWH6Qurzr38
-	CJ9jXDVgBzEMu/ylddlBMLUQ3EwaZeVyJn+tOdI9eenogieMsQz3o2RnkLpBVlvkeHPJPRpf
-X-Gm-Gg: ATEYQzwCNeU0Dl0x1GJxUDYSllP9Fn16FMt0f7yHXJXxoZW4sctkygGJuNRJ5Zu+oEW
-	0voprg8plnKSZwz8qnx74SdE26cMtRfJt2m89bSYRpUaoSAPnYFRDTAiWb0sK+vNOVlQShmLXAe
-	hOQZAkyloLnxEXl8iHzOSfmKQDqRTw1qFk4C/9e8WzI+0UvEvMrmPN/aupgLQ3jAgzHbwl8qZFi
-	udnNDQj5FMgpdJ5l5Zn6Vlt+XdUEMmKOdx525SudvsEthrVOPO0exXkz5wZajCJOVm3Ck/tpgbS
-	eL+QgYNtBqncLb8/VWWmJNi4xf4J0VDuTpOpjYVoOljQgPllo/3EKUe8pAa3X7dSpXgeX+k9ubI
-	edZ/wLnwPk9hMEzhX57Q0f/xp7fn0wbffpA+nAK2FME8i7hLYk9WAi/nRuI1r3Wq86PghDgUYbI
-	0UA4Uc69N8lFy528VFsZUP
-X-Received: by 2002:a17:903:ac4:b0:2a7:d42f:7065 with SMTP id d9443c01a7336-2ae824dd11dmr150216075ad.27.1773150785004;
-        Tue, 10 Mar 2026 06:53:05 -0700 (PDT)
-Received: from Misaka ([2408:8340:2641:1d11:ea9e:b4ff:fe12:dd0b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aea4eed00fsm43390085ad.80.2026.03.10.06.53.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 06:53:04 -0700 (PDT)
-From: Ben Song <bensongsyz@gmail.com>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org,
-	Ben Song <bensongsyz@gmail.com>
-Subject: [PATCH] man/man3/strcmp.3: replace equal/less/greater words
-Date: Tue, 10 Mar 2026 21:52:48 +0800
-Message-ID: <6385edaf0e1f056ac12df9b42c71fad48364b5a2.1773150610.git.bensongsyz@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Dtp6UsNY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:To:Content-Type:MIME-Version:Reply-To:
+	Date:Message-Id; bh=G9KcYgAehPhGdZAkBFAeDDWerPnapkpQXK/yO5/DV14=;
+	b=Dtp6UsNYb1m9lXeA59Wfib5E4rzFAGk1ptyHyCMKWD+4nMtDDjx/208JFxOpji
+	IL0DCLmcr5Ln8emNfuW74WQsLHjBqculpcU2XS/xhjFx4M4jf5q92IWIoeL6Jtpf
+	dDPUIxS2Cq3UXHUyzQQAcfT1HejuWpbMwqbGtd/WHqrbQ=
+Received: from DESKTOP-KC80OSP (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wBHzOfwhrJpi2A0Ag--.60685S2;
+	Thu, 12 Mar 2026 17:27:13 +0800 (CST)
+From: "Layda" <laydaxiao@163.com>
+Subject: Re: water machines solutions/Phigreat
+To: linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+Reply-To: laydaxiao@163.com
+Date: Thu, 12 Mar 2026 17:27:10 +0800
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Content-Disposition: inline
+X-CM-TRANSID:_____wBHzOfwhrJpi2A0Ag--.60685S2
+Message-Id:<69B286F1.02DF50.00001@m16.mail.163.com>
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRdrcTUUUUU
+X-CM-SenderInfo: xod1vtp0ld0qqrwthudrp/xtbC3BHkX2myhvGKxQAA3V
 
-There is no meaning for one string is `less than` or `greater than`
-another string, but the value of a character in two strings can be
-compared.
-
-Signed-off-by: Ben Song <bensongsyz@gmail.com>
----
- man/man3/strcmp.3 | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/man/man3/strcmp.3 b/man/man3/strcmp.3
-index 2784d51c8..bc238aec1 100644
---- a/man/man3/strcmp.3
-+++ b/man/man3/strcmp.3
-@@ -23,11 +23,11 @@ .SH DESCRIPTION
- .BR strcmp ()
- The
- .BR strcmp ()
--function compares the two strings
-+function compares the characters in two strings
- .I s1
- and
--.IR s2 .
--The locale is not taken into account (for a locale-aware comparison, see
-+.I s2
-+one by one until characters differ or until the end of one of the two strings is reached. The locale is not taken into account (for a locale-aware comparison, see
- .BR strcoll (3)).
- The comparison is done using unsigned characters.
- .IP
-@@ -39,16 +39,16 @@ .SH DESCRIPTION
- .I s1
- and
- .I s2
--are equal;
-+are identical;
- .IP \[bu]
--a negative value if
-+a negative value if the value of first different character in
- .I s1
--is less than
-+is less than that in
- .IR s2 ;
- .IP \[bu]
--a positive value if
-+a positive value if the value of first different character in
- .I s1
--is greater than
-+is greater than that in
- .IR s2 .
- .RE
- .IP
--- 
-2.53.0
+SGVsbG8hIA0KUmVsaWFibGUgQ2hpbmEga2l0Y2hlbiB3YXRlciBlcXVpcG1lbnQgc3VwcGxpZXIg
+c2luY2UgMjAxMywgcHJvdmlkaW5nIEIyQiBPRU0mT0RNLiANCk91ciBDRS9XUkFTL1VML1JPSFMg
+Y2VydGlmaWVkIHByb2R1Y3RzIGFyZSBleHBvcnRlZCBnbG9iYWxseSwgaW5jbHVkaW5nIHdhdGVy
+IG1hY2hpbmVzLCBwdXJpZmllcnMgYW5kIGN1c3RvbWl6YWJsZSBtZWNoYW5pY2FsL2VsZWN0cmlj
+IG11bHRpLWZ1bmN0aW9uYWwgZmF1Y2V0cyAodHJlbmR5ICYgaG90LXNlbGxpbmcpLiANCknigJlt
+IExheWRhLCAwMDg2IDE1Mzk2Mjc1MDkzLiBCcm93c2Ugd3d3LnBoaWdyZWF0LmNvbS4gDQpMb29r
+aW5nIGZvcndhcmQgdG8geW91ciBjb250YWN0IGFuZCBmcmllbmRseSBwaG9uZSBjaGF0LiANClNp
+bmNlcmVseS4NCkxheWRhIA0K
 
