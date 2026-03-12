@@ -1,112 +1,156 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CCC3233E8
-	for <linux-man@vger.kernel.org>; Thu, 12 Mar 2026 22:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFF7397683
+	for <linux-man@vger.kernel.org>; Thu, 12 Mar 2026 23:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773354356; cv=none; b=riCOog5QejMWxQSGzzWrf7qoEr5ZfnSCBHQruKAz0rHGocb7oVYtkKvQVjItlScQ3A0KqQk2Swe7UNnt8emHQ3VIf2XiS1pEPAbXSOZbq432Nhabj/TuSqI8GxWfjpGupmIY30pjHEU75yJgZpx/r171gTYHDIbMINorwdZOv4U=
+	t=1773358736; cv=none; b=CXmziCVJI9ED9Lw8ZsNkmTMYTkpSvFNqUb7I+voEwWsKPOcdpwabBgSvsv/J5K6P75kaYYdkBYD59WemAupu4C7Sha8o8y0JJ1ln6jZQFjRoFhphmdEXXgKWQivCF0Oxeg/gmU5Q54ADKvaRhsApWxG+fYlXqtoYQ7q5v6vMmRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773354356; c=relaxed/simple;
-	bh=vT9ZXcTGLrAPdX5tYeeSOmtJK1GCldyTo6YcmpldJ3s=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=Y0JdZgRgA8/8T4mX5SK7ua+UZ2Po2DoSoZjllLYMYF7CCId4wtCWjXJ/s5H51e4y/6JMvyp+pWs92+uBiJzdkd+TY2d7UoId936yxYEZ7uiJrwnI3jT3YZ7daMLsjw2yRGfJfXQAn72/ydYa/RI2vGXUMUNw3K9/c0jIUN2mqRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unusedvar.com; spf=pass smtp.mailfrom=unusedvar.com; dkim=pass (2048-bit key) header.d=unusedvar.com header.i=@unusedvar.com header.b=wlg3JRb+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xTqlpwhm; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unusedvar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unusedvar.com
+	s=arc-20240116; t=1773358736; c=relaxed/simple;
+	bh=IPK0bTGic97ZbsE/BIReHp6uSowQtyaKx7IR5DTdOY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARLLJTVbQTHdFuJHt777Gt2lQgAWkk7YuKuboCIfmm5RzsKwA0XS0NJ1mpz8y9rLdb+E0w/hKqIznEAU/uvkKFM1Y/EbvIv70oH1tDhv7fZyNRjAegO+Cc91LcLNfIgLCWBWIzYbGsCcRJBFJ2PWNvOWs/FGDb8no4IFOdDvNW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnRrrmHR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=unusedvar.com header.i=@unusedvar.com header.b="wlg3JRb+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xTqlpwhm"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 116B07A016F;
-	Thu, 12 Mar 2026 18:25:53 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-04.internal (MEProxy); Thu, 12 Mar 2026 18:25:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unusedvar.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:message-id:mime-version
-	:reply-to:subject:subject:to:to; s=fm2; t=1773354353; x=
-	1773440753; bh=mHtshExxXxx65i8W3xfognzVjmNpYszqRpJ6TzDlCDg=; b=w
-	lg3JRb+Lw8H2bJUMGCtt8zBcW6KHBxwUNCB+rbOc76nYIW1+CVDl5UFAy0DQwQpS
-	CSbv2EoQ38xHlGgq/kaRlgxpolUMH7hqGuXSfTNbyDqCu6oa98PJE+OChZeiR992
-	+cbPdHQhhchjkBtBcb+9YbBXSuh7l7x7+dJVVTPGQsF3dV2q2cTd2we1lYxj+Vjb
-	No/yJvWc8wftKt2NVpZJQ7+1V5uMw/Y3YLB+82u/FkSrEgYU4zhLiZ3Lq00C/GKG
-	9RfpDR+l/tX9t6cVg21wABTPiIbo/rumF/eRptUK+lHS5K4rVw7nZ+bA2ovZDHK7
-	84zNQxUlOaTHONVTFmFiw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1773354353; x=1773440753; bh=mHtshExxXxx65i8W3xfognzVjmNp
-	YszqRpJ6TzDlCDg=; b=xTqlpwhmDPpPz6oekOvXkT1LuHNaTH1gQXXVmrBuoCJA
-	MOhqdIVXK+R5PgQ3LhKXuUhcd9oGjcD+SCx3pIkwns8T6mqxkUK1HJJ06Gho9SMt
-	Z1qVE173Oh3+dHNM8rq8uX6/ec6BEdURb9eFoIQasnB6wh0vvwGn8t0YzEdZiOnf
-	pszT0tW6ZhEwwVHuQx1w8xk9/ck24olearKk6FKHtKa/xlVL8W8OINcqUrkiE3Jd
-	hEHYGOCQm41SYLiQD/bLV0AxmWf3Iq9ASq/dW0Z8KcNd5cistWvYbhVEviwbSwr3
-	bAP64y314Pe8R9q99FyHVO3wihokmT+4TGTv3zkefA==
-X-ME-Sender: <xms:cT2zaVJNRiLMREdEq91JQfJkxnf4uYafOJpXz2Y1JCWCT0w0546Xhw>
-    <xme:cT2zab9rjQBYCnVPvW3K9VplUeczRwOu_sMwKd07gGiKeQgxguanskYXcGDSVJ6x6
-    l96QWGfmoF0h2l4v9ZDtlUzWzkaVpU98dBRRLqkIDKxTCX7AFekuvg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeejleekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefoggffhffvvefkufgtgfesthejredtre
-    dttdenucfhrhhomhepfdftrghnuceuvghnihhtrgdfuceorhgrnhesuhhnuhhsvgguvhgr
-    rhdrtghomheqnecuggftrfgrthhtvghrnhepheeifedvledvkeehfeejfedvheevhefggf
-    evhfduvdffvdeliefhgefgiefgieeunecuffhomhgrihhnpegsohhothhlihhnrdgtohhm
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgrnh
-    esuhhnuhhsvgguvhgrrhdrtghomhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhht
-    phhouhhtpdhrtghpthhtoheprghlgieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:cT2zaf2s5gTLJagE0ivYBxk8MH80Zl3DufxRaakW1vO6OcZCy6uQgQ>
-    <xmx:cT2zacA-uVyEVW6XScUQW9xftFobns43qxk8pciRVz8-LdG4oppzgA>
-    <xmx:cT2zaXe1Biwd8f-ei-mDF-GLUXhLvzQeN8BJ3kt6omycpuCaQYdBmg>
-    <xmx:cT2zaRgZMN-CUSOlXhfuLSXRh47rROg8Ixff65oOB2eUF14fIJgijw>
-    <xmx:cT2zaaBqeV4We5W2I_Mep6ztrIaD8g-Gww0tzx1L_3JX2jxdmLhTXIgl>
-Feedback-ID: i5ea94479:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A5D5D780075; Thu, 12 Mar 2026 18:25:53 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnRrrmHR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 470F9C19424;
+	Thu, 12 Mar 2026 23:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773358735;
+	bh=IPK0bTGic97ZbsE/BIReHp6uSowQtyaKx7IR5DTdOY0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mnRrrmHR0RyNKCJgUpJiJBhBiXDqBKd9N0aUlVYgid9CS62fiY86NDJ+RgxdN8Kql
+	 lLUKn/Rkj4HtRlLMHKqpE4jr5oDayylCj4eAZhDMxibeMC8QStVzm1yFF7F0XBF0Bg
+	 b6B/DZrKv15PJXbMmTtAI+MVuLZ1ot1XbMKLuqeJOvOethqL/lDyXNhh9Of3QsS0Z4
+	 tTqUmWyuntkCSmGCxb80LKE7mS7qJaZgriN49p+XvVBQJ9LTZIviVhvDm0IFJtjZtg
+	 VQhghHhvLDnt9nbZTaxbL6fwq0v7tCAxHHG0g2TNIVDZfUgu21sJFDhpS4Dhjg93pl
+	 jWxzUKjbRtvpg==
+Date: Fri, 13 Mar 2026 00:38:52 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Ran Benita <ran@unusedvar.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: man/man7/tcp.7: Document effect of TCP_DEFER_ACCEPT on
+ clientsocket
+Message-ID: <abNNg0RZSfQIPhAp@devuan>
+References: <18e37f7f-21e9-4e8d-bef3-2adde5980bc2@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 13 Mar 2026 00:25:53 +0200
-From: "Ran Benita" <ran@unusedvar.com>
-To: "Alejandro Colomar" <alx@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="73dmxzs6cgonkw5n"
+Content-Disposition: inline
+In-Reply-To: <18e37f7f-21e9-4e8d-bef3-2adde5980bc2@app.fastmail.com>
+
+
+--73dmxzs6cgonkw5n
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Ran Benita <ran@unusedvar.com>
 Cc: linux-man@vger.kernel.org
-Message-Id: <18e37f7f-21e9-4e8d-bef3-2adde5980bc2@app.fastmail.com>
-Subject: man/man7/tcp.7: Document effect of TCP_DEFER_ACCEPT on clientsocket
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Subject: Re: man/man7/tcp.7: Document effect of TCP_DEFER_ACCEPT on
+ clientsocket
+Message-ID: <abNNg0RZSfQIPhAp@devuan>
+References: <18e37f7f-21e9-4e8d-bef3-2adde5980bc2@app.fastmail.com>
+MIME-Version: 1.0
+In-Reply-To: <18e37f7f-21e9-4e8d-bef3-2adde5980bc2@app.fastmail.com>
 
-TCP_DEFER_ACCEPT has an interesting little-known effect on client
-sockets. I don't think it's very useful but should still be documented.
+Hi Ran,
 
-See here for reference:
-<https://elixir.bootlin.com/linux/v6.19.6/source/net/ipv4/tcp_input.c#L6781-L6796>
+On 2026-03-13T00:25:53+0200, Ran Benita wrote:
+> TCP_DEFER_ACCEPT has an interesting little-known effect on client
+> sockets. I don't think it's very useful but should still be documented.
+>=20
+> See here for reference:
+> <https://elixir.bootlin.com/linux/v6.19.6/source/net/ipv4/tcp_input.c#L67=
+81-L6796>
+>=20
+> Signed-off-by: Ran Benita <ran@unusedvar.com>
 
-Signed-off-by: Ran Benita <ran@unusedvar.com>
----
-man/man7/tcp.7 | 5 +++++
-1 file changed, 5 insertions(+)
+Thanks!  Please see some comments below.
 
-diff --git a/man/man7/tcp.7 b/man/man7/tcp.7
-index adfd6623e..85f6c631c 100644
---- a/man/man7/tcp.7
-+++ b/man/man7/tcp.7
-@@ -1091,6 +1091,11 @@ Allow a listener to be awakened only when data arrives on the socket.
-Takes an integer value (seconds), this can
-bound the maximum number of attempts TCP will make to
-complete the connection.
-+.IP
-+On a client socket, if non-zero, delays sending the final ACK of the three-way
-+handshake until the socket has data to send, in which case the ACK is
-+piggybacked on the first data segment, or a delayed-ACK timeout is reached.
-+.IP
-This option should not be used in code intended to be portable.
-.TP
-.BR TCP_INFO " (since Linux 2.4)"
--- 
-2.53.0
+
+Have a lovely night!
+Alex
+
+> ---
+> man/man7/tcp.7 | 5 +++++
+> 1 file changed, 5 insertions(+)
+>=20
+> diff --git a/man/man7/tcp.7 b/man/man7/tcp.7
+> index adfd6623e..85f6c631c 100644
+> --- a/man/man7/tcp.7
+> +++ b/man/man7/tcp.7
+> @@ -1091,6 +1091,11 @@ Allow a listener to be awakened only when data arr=
+ives on the socket.
+> Takes an integer value (seconds), this can
+> bound the maximum number of attempts TCP will make to
+> complete the connection.
+> +.IP
+> +On a client socket, if non-zero, delays sending the final ACK of the thr=
+ee-way
+
+s/non-zero/nonzero/
+
+$ grep -rho 'non[^ ]*zero' | sort | uniq -c
+     72 non-zero
+      4 non\-zero
+   2119 nonzero
+      3 nonzero	non-zero
+      2 nonzero/non-zero
+      2 nonzero\h'|\n[3cl1]u'non-zero
+
+
+> +handshake until the socket has data to send, in which case the ACK is
+> +piggybacked on the first data segment, or a delayed-ACK timeout is reach=
+ed.
+
+Please use semantic newlines.  See man-pages(7):
+
+$ MANWIDTH=3D72 man man-pages | awk '/Use semantic newlines/,/^$/'
+   Use semantic newlines
+     In the source of a manual page, new sentences should be started on
+     new lines, long sentences should be split  into  lines  at  clause
+     breaks  (commas,  semicolons, colons, and so on), and long clauses
+     should be split at phrase boundaries.  This convention,  sometimes
+     known as "semantic newlines", makes it easier to see the effect of
+     patches, which often operate at the level of individual sentences,
+     clauses, or phrases.
+
+> +.IP
+> This option should not be used in code intended to be portable.
+> .TP
+> .BR TCP_INFO " (since Linux 2.4)"
+> --=20
+> 2.53.0
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--73dmxzs6cgonkw5n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmzTowACgkQ64mZXMKQ
+wqk2Mg/+O5Lm8jg/hGB4ANSaaqxl6iCbJB2SxBIaUaabGNhW8S/lcs787vdvetpH
+MzUi+QWh9pa5PMakRJbnK4wUi6rIUzdFzl0MNu465ewbzoSYyC1h+i7YOuheCdHP
+LhmJ/UxNL8x0C+hFly2/IMkquaOrSYWgb4VcA7NvZHel2f2lmscRptc23ijiyR7V
+3e/woMd5fXcoohOf+uP16ncnM0lDy7r+K8TyMX6nTPTTufA28rzoH5PrIf98hQfr
+k6eBRO9T5UO9d5P3T8RMmVndhLyv7NcXKGPT+62RX/WZOKq9XNCH3J0tuc579pfk
+Os5c5cLa6+8Vl7hB9EvyzWwn+S7iLRxTPdcypHGRDM6dbiLJAEHbo36h7fpu7pDq
+S9Y6cgxigws3hAw9nZcw3K96xuIdp/LHM2bM9WrVto4DVDmpMiFt30nOdIwvfI/B
+HxQGmadiprM6V8jq0109NN31PWGPs5NxGx1geQr505UyJ8uYISZmQHEK5DX/WL9E
+qUBIpV2XkdaMCiMBedIN3ZKb1BkOx8oxVFPyH0Nj3sy3SphAJXBOSYy9BzJ9RYeg
+EmGzDFc+Is7w+O2ub1k5EJmon5rG5DuWPlHT/PjdqYAZAzZL6RquVcyi+m6cuvNc
+M/bj0Do5CrednGH6lRihAsSsjfnaQd0cFt5Xcawa6UyTaVCURps=
+=B4/a
+-----END PGP SIGNATURE-----
+
+--73dmxzs6cgonkw5n--
