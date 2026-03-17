@@ -1,107 +1,106 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1058E387347
-	for <linux-man@vger.kernel.org>; Tue, 17 Mar 2026 20:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773780700; cv=pass; b=HccAyTmaWrj33aQ/5WuGt2nePyTvuVfsBCQPG05n52Fvmb9sNjxEx9Io78HqpRhgvkiNM10hcDykyTDRoUPhYmEB+kpP77MJW7AGwjueSt/86tUcl0INmBVIkYyeTbZYyXuqbKyaUXBrUVtxh8m4RdMO6QcuTqeEbQVtcbFj9FM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773780700; c=relaxed/simple;
-	bh=GSKQVoyGNlhyrHjouVXV5RpOfIDLEYyT4CeGvtHscbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m20vtmyy2++FTnUpQvkuP6/NyHwbkxfZG54Po6bjBQGU1/WDZarpAK6i6YwYHg9LqR8rLS0/zezlJhT41xXTisTLv93u3XjbSIcoZ9Rtqe0QDg+rA2CxKz/jUUxK2NxGcaM5bhePN8D+jckZEj+nbCKwR+MNkMhSxekgMjerFbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dartmouth.edu; spf=pass smtp.mailfrom=dartmouth.edu; dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b=zkJD/Ws6; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA91288B8
+	for <linux-man@vger.kernel.org>; Tue, 17 Mar 2026 21:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773784017; cv=none; b=c/es8AbQN+CEaqHnaWU2Td/i52ZdQno+VJ+PxUvqx/0r5pUCK4Nl1yhcPIb+0ldFCZxvgP65pMy/1EhaeLvbHjz586KLWmt1+GOdAh59KLNpCcW+tnH1f5ALtuWq6PJOaiTuGtFobXzQ4HOpZvdg4Pf85pkaTVv6TOIUGCKqaKc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773784017; c=relaxed/simple;
+	bh=fBsPNfc3/DZGDgOHGB5W20aLx+NPwpkS5jqxl/pn0Dc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UC7fFT5pdXKJ6w2UH0KxTmiCm+lxeDO+EBd4gjFlJvODr7OfTQhvxIHBnhX9nkvqv9+Sc1vmD8kzbDlWNZh9lwjIuQcmPdxBJZbM/PmskZEMMLS3TelGSAGHRQhqJMwgQ0gULo4krIdnyw5JSYYKPkRKwvL3ZCnVFAWqXVfpeMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dartmouth.edu; spf=pass smtp.mailfrom=dartmouth.edu; dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b=saOaAl0w; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dartmouth.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dartmouth.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b="zkJD/Ws6"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so6117137f8f.1
-        for <linux-man@vger.kernel.org>; Tue, 17 Mar 2026 13:51:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773780697; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FS/vzT0AB/LDJ8Mwal32kLV/btbeC64vJKXh5FUOzN8tVMPM0qG8xkrGM6qYIjsmsY
-         A7ifGMbehEP9YbZ93KXYK8aJ/39I+VEGrRvcRaZPfXyL+SWZm2h3GSltTxdBqej0Z8ss
-         ou5GMTR7ERCp2KHpr8/CsGQPP1iOvDnIakfjNuvSfP0gVi0QxRFzPDYUXbcuMo/Zi/lT
-         wPl21hgVZByndW3/nSlW2rUlm4Fj2IuSnHEj93FNc6QRLO9UMhyKwWpQGmp6YdGjP7Mj
-         L5othwDVcgU+1Hfrq0xu2B56YmhPQLRYOOJGDHvjqmiLMcMoxRNNeIBaKQ7oIvYcb+Pl
-         K7KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GSKQVoyGNlhyrHjouVXV5RpOfIDLEYyT4CeGvtHscbA=;
-        fh=kTbk4pccRQ7ywKItoF6eFeVMUIye+84NI5zbIP4rQ9Q=;
-        b=fYetznwKq6ivITSWf3VjA/hUPUZqIKT7oCL1eOtR7bPEWmJV1ohFZkLd35hUuOO/5J
-         8RG50N42EuzQiwuwH3VXwRoZyc39XAdBaHU7b0ynRwqLvGduuptlahuxhZ8L2EtiKOnW
-         gDJZn9qLDqzrD6g9/5iisuybPPq/R1zk0Hyg6eTLoXeulz5+uDCDE6uVs/6y5AjaNVDr
-         GeP1mVsj/flWVh7xTn/8E54lSdGZ8/dAdhDDIfurmeUf5S7VOZzOybmYUyHZ/6r3jw89
-         Tg8BkN9x95u1twwN0gsVZrIpfpi8zjVQDARbyZ2bU141PZf97WtUVbBT1kbKMBSXl6qx
-         UgwA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b="saOaAl0w"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50917e02532so75168971cf.3
+        for <linux-man@vger.kernel.org>; Tue, 17 Mar 2026 14:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dartmouth.edu; s=google1; t=1773780697; x=1774385497; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GSKQVoyGNlhyrHjouVXV5RpOfIDLEYyT4CeGvtHscbA=;
-        b=zkJD/Ws62nF4naXycYEyrDR6rHdjvCjNPySLi0bBNHD3jvOhjdxqZ8kp3YJM2viSEl
-         4ygEBNZcQd+7JCWjXJP3Z04S4S3rMyJxoSO9iS01zbuo0FZWvPaBqcHuDb33sTtFQgfA
-         LY/OIMk+qrpA/6kGWDF06xobh1ReA6hBDCdJOTlcvAIA+R14eHSNv76JOtJDqcTJMS6Z
-         unUDFFOsH6lgY+yVUhTzlNxAk1QcA/2cdZUfrfmhncRyO44A5d6AA2xOonQXr/hF6i68
-         9SLQ6fzK0AXC06JwZhB1FPNSDlDBHp/7IWigccjEEj8nI9PTCnJF0v2PlFNalez2/b7V
-         yH7Q==
+        d=dartmouth.edu; s=google1; t=1773784015; x=1774388815; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sAPsfwrlC3Uy390NYZJ54ZakxCNON0J8IMQvp8zTBNc=;
+        b=saOaAl0wYUy86h4zI/KHgfgQ529y9E6qk1szDyKP50ewCzdnCslvfMmXmspEWm/0yF
+         tYCGFQWyiml/pXXALXrYu0797X91qjqbEsudxBD4FjyfF3dn9Lrhs/CzX1eRbvdn2weT
+         RARD+K0SogcvR9Lg3pKT4Ell4A79L1P9mMDPj8m4vchpbBaOXlVNdnTxQ087eLu5LM2u
+         TVZk9QnaPtZjyxTQPlC/8EfXU6ZFhpBWoaU8zOIhH893IVcS0toVoULIUCNi8AXa+T2o
+         wffG0gPlGj66RCLVJHLhbPzqy1egr3nngWfh/A5CmqIs+vUJ5X5FjGJsiAN6cVIO35cm
+         3j6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773780697; x=1774385497;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1773784015; x=1774388815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GSKQVoyGNlhyrHjouVXV5RpOfIDLEYyT4CeGvtHscbA=;
-        b=HXifw6iGRuMRoQQf8jE2r3cviltXo+ZcFbQQkKH+UsgEIF74V2SNWEw8UGAmpz5Rd4
-         c+DIubLxtIXVZ/iLza0Bu6vPOd0e4BtW53Cjv4o2JMLmEOrXB0PL+NdhLT7KMrL9AViH
-         5WA0TdiL2vT3brusyXA1cQH0GbgtN3WdWscm5wFeTtA5bcGqUoTQcEMnlIln553TJTNl
-         gcvAVs0tAPi/6i9ObBNtnL8zack2jTM284L3kwObmWayULoQG5lzl9xjPGuJmpXPuGtB
-         cZXKipZ1+awOd4Qg936VEVGJCuOoK+MSDLAj/ASfOYJ7Q3kZYY2jr1GnGBRlW/XWpPHl
-         PnaQ==
-X-Gm-Message-State: AOJu0YxwAj79z36d10LJ16xTcLgab18rXZf2RoF1B6T8pyqAqUDDlEGK
-	jEAxCiqSIc/OaYNq2riSYH+2ld2XhS/PdPtahyVSnqpai4TdwqfZ1807D3EvVikY3Ar4CVX3JNx
-	xYN/jLAwELA+3/7/mSK0BGCmKEbTxtAwH2KmfIS+mQrHNsPBycjm+HUs=
-X-Gm-Gg: ATEYQzwbzKljMhXl+0hbSb6meHD7ePQqqZFgoML2vNTW1jaIJeq/z2TxvKqlmrOCiXK
-	xc2dsJiqc1BzckH3brnkwQ5uvKLvKnALJhl86ML3PFTErIDC9LaGWWNADeCwWKnVAEL51tdrupk
-	2ANQ6cBnfse2AenHS8cWTEDcx4Xi4h5FZ4kPQkvmLzdicgJcja8MOTaMZVvnOf8kwSYRPyxX4cB
-	qnzAusl9fpludcln/DM0guxNpur3f8hfn2kNAz8YMdp5KOfIGcWVGF4Rt+o0rCcrFo0kW8mfO+k
-	EHOsNHj02j6shPgpLtzZ3iW5CN8/ykbncRRa+1e1G7Hqf0aSw/TX/5k22JcE+QsEvKN9w4f2DlQ
-	ZKare60R+4Zw18Wq5zOw12GXUnugSSqgQdqWSrG2ahtOtOdt6xib7J1SOF8W7gf/xz74MFLduaG
-	NNYyh/KhQpbSV+55gyDGEfmLOoqsNROCs2FeWtuUGqFwXgBQH9ZUwWA8m6P2zcwCBjAu/8N4idq
-	3edcemmurOFew==
-X-Received: by 2002:a05:6000:1a8d:b0:43b:4e13:2219 with SMTP id
- ffacd0b85a97d-43b527cbda6mr1149783f8f.48.1773780697315; Tue, 17 Mar 2026
- 13:51:37 -0700 (PDT)
+        bh=sAPsfwrlC3Uy390NYZJ54ZakxCNON0J8IMQvp8zTBNc=;
+        b=K98JIQZFiVIoA1lo9jRQRn7gK5oc8Ebl3EOq2LlQnPl3sHw0r9LoQ3alcaeGM7Ny68
+         jr6tiVSLfQgyGzpBnP4Mtu7rUWoeEV4wpAY0lPzOeDeT4zgO2DJWU0h0fjT/7RnYH6X1
+         cuVGV3VcSBnT5lR6sDMWJL1iRJj1CouSp59lIdCcUSVgtMdHhm0YVYLXp0N+NR3wX2Y1
+         UrcFjibN1FqINYETyMJSnTUyJPq36s//LZzmOU5fCZmpvx5M3agOdafowtvr+Ep9ESDp
+         +d14qg88icJzP0u8OH0n6zUQkRzFpg92KXKarUzV7Upj0WOJxhaDBdqwJcV/JbqLVU/e
+         uZDQ==
+X-Gm-Message-State: AOJu0Ywx8RDacwoeJzUIqxJQ76ewlEwCX+3vTrtxK7mn7DIc/R4dtU76
+	GsEHSPb5VOMYJye0NhvVplE8ochUxUsYk+LDeXXPlv+kO+vIgiDSYi7Wcd8Zx0xMBUU=
+X-Gm-Gg: ATEYQzwkvNbUQ54AqOuadXLQFXjzcWpWMoig7euWB7qHrlIYgmSmiFt0Hv03KdNsh7X
+	f8xsFvp53PR73pwCu/UZF1qEFEb5MnJ6m5eWPMKsSYwEngdkMYhUykkK0GJoJQqO+byZaPTTxZd
+	j813/f9E9HxD7k0oKmrq2b6X7HUx0uMoANXKkHrl5zJs1FtbHlUHTAWAzyhsDQ22zp/znrC3bkE
+	kbX8dtlGjIZaamK3E+LJ2Bb8wZdnWxZY25+/NYoww8GxnoUTOXW6xohuggnkwSPuCrtz/OBQzeX
+	Q3qmOXuwwFQosyMhRtX9rD0HMz20J8OouQW2xuw3kcdN0iQidHwhrKqH1Er63ixv3Wpvk7gPNwk
+	n1xgTyBYmu3XmVAypBhilnZqw4BlAm2oupr88La5wxQscEztSJauqPgWFj6VQPWx0XY+GknMtGS
+	ifWUbmoAGJ/G5MrfxxsvOZv9CD7cR42HDWCar25yoHBdQ3+yoDwPKGZd5G0xtk/APbsloCJIQF3
+	omRaXZ79Y/b0XUf7gfdw4TtjjmC5w2UhGk2Dei2g+bKzlKqzc56PzKO2/+Tt1cyNDs6uMWaxIbA
+	QE+4aF7Llw595JjCiLvtanzmRbzg3qYttwdSl5ywkcGxQvC/TF1o6lcpd237+LKaYVVijp2fP8N
+	OBqr0jxEtvFU1Kn6GwUx4Whzm8LwhTfKu3SgG4vBzo3bLotH64zAYPFu/h+TU0w5+jD++
+X-Received: by 2002:a05:622a:211:b0:509:238f:ad92 with SMTP id d75a77b69052e-50b147820c0mr13397641cf.24.1773784015428;
+        Tue, 17 Mar 2026 14:46:55 -0700 (PDT)
+Received: from localhost ([129.170.197.119])
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-50b1359871fsm7953611cf.19.2026.03.17.14.46.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 14:46:55 -0700 (PDT)
+From: Ben Kallus <benjamin.p.kallus.gr@dartmouth.edu>
+To: alx@kernel.org
+Cc: linux-man@vger.kernel.org,
+	Ben Kallus <benjamin.p.kallus.gr@dartmouth.edu>
+Subject: [PATCH] man/man2/mmap.2: Document that MAP_GROWSDOWN doesn't affect mmap return value.
+Date: Tue, 17 Mar 2026 17:46:52 -0400
+Message-ID: <20260317214652.2135374-1-benjamin.p.kallus.gr@dartmouth.edu>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223160219.1015364-1-benjamin.p.kallus.gr@dartmouth.edu>
- <aahJQb1CMG2kT59S@devuan> <CAB6pCSaoZPq8q9j2A9e==v1ErKUPErTrU8NJtUMdu7+DM6n=PA@mail.gmail.com>
-In-Reply-To: <CAB6pCSaoZPq8q9j2A9e==v1ErKUPErTrU8NJtUMdu7+DM6n=PA@mail.gmail.com>
-From: Ben Kallus <benjamin.p.kallus.gr@dartmouth.edu>
-Date: Tue, 17 Mar 2026 20:51:26 +0000
-X-Gm-Features: AaiRm52_5p-VZCncELf9fJaQaJvF2QjuRAbRDF9bK84kpGpIJb3Tr68j3f4jdv4
-Message-ID: <CAB6pCSYH44UiNQkEU8fGFBquV5zFh_513n7yZnOY4==S6HX9Kg@mail.gmail.com>
-Subject: Re: [PATCH] man/man2/mmap.2: Document that MAP_GROWSDOWN doesn't
- affect mmap return value.
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> And if it was correct but the kernel has changed behavior, it would be
-> interesting to document when that happened (if we know).
+The man page states that the MAP_GROWSDOWN flag causes the kernel to return an
+address one page lower than the mapping created. This is not true; the kernel
+returns the base address of the mapping created, just as it does when
+MAP_GROWSDOWN is not passed. This can be confirmed by inspecting
+/proc/self/maps after making a gd mapping, and comparing it to the returned
+value from mmap.
 
-I just tested this on Linux 2.6.26, and the MAP_GROWSDOWN flag worked
-the same way then as it does now. My guess is that the behavior
-described in the man page was never correct; it would have been a
-large breaking change fom the kernel to modify the behavior of one of
-the mmap flags.
+Fixes: 176b1a76 (2016-11-21; "mmap.2: Add (much) more detail on MAP_GROWSDOWN")
 
-I'll resubmit the patch with the updated commit message.
+Signed-off-by: Ben Kallus <benjamin.p.kallus.gr@dartmouth.edu>
+---
+ man/man2/mmap.2 | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/man/man2/mmap.2 b/man/man2/mmap.2
+index 09e7933d3..20b94c243 100644
+--- a/man/man2/mmap.2
++++ b/man/man2/mmap.2
+@@ -276,8 +276,6 @@ should check the returned address against the requested address.
+ This flag is used for stacks.
+ It indicates to the kernel virtual memory system that the mapping
+ should extend downward in memory.
+-The return address is one page lower than the memory area that is
+-actually created in the process's virtual address space.
+ Touching an address in the "guard" page below the mapping will cause
+ the mapping to grow by a page.
+ This growth can be repeated until the mapping grows to within a
+-- 
+2.53.0
+
