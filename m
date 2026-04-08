@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DB4396B8B
-	for <linux-man@vger.kernel.org>; Wed,  8 Apr 2026 09:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA31390220
+	for <linux-man@vger.kernel.org>; Wed,  8 Apr 2026 09:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775639908; cv=none; b=eD6C0SGax8rAEaRutN1Rg4bX/+Ur96Nwd/YYDhdmIfYxLXqw09diVY92c94JpWukGaXdU5mA36ou2fRz5jONf75p7DUE6+vE44FknyhEcn49yhRfuH8oenTvsTtWrF/TXNYId+e+hkHN5R7fIKqpocIr8Jewqnks8tkg3YE0Kx4=
+	t=1775639913; cv=none; b=pFV8qSQHca+9UGxju7tMjaAqTseoIgHwCV0Xj5edezRT6Wds4F/kTkzlwmgD2wbvlt8JJiANrQJIgZpWV53QHsRd5h8dQ6KeHhx6k9GEgxmiTXYWceRdldriNEKr1gSkneSoiw25qiw3WHinxl6trSImzVLgeKYyLJBtgwPRspE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775639908; c=relaxed/simple;
-	bh=fQZ+bcjSAMW5rCdEwkLKzqXYQaTvM7b3prkFlhzCnFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mB5w4fX1Ts2uqC9h+OjRq+nTIkQAON0cEuWs/bya+I5ncA1flEe2hEOmg0ec+iv1io4ZZ5fvKbS1B6zsiSdq8SjfePN1rUlP1Wo2H0Wi9kzsNmO1rFQDqDIEcOjUYmQN9cVUTG9V5aAQbX5uuk+rINCVxb20JUja3bm9jrpOX14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oI8IPQUl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775639913; c=relaxed/simple;
+	bh=ZFmmFGWyWNA4NzmpuEJSddLl5GcJesrvvOY9F5nrTDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvR6kEpwK2yW/Bqe1nihGf6uL/FoG6FBaJio05ALxiT9Ug96cvOBd2WzctYsm/bT88MckE0EjvbVLzy7CRcgphKm8gF5ZsqZl3acS65Y7mTVP6HlQOya2XGnw2H+7Rf8f6sQ96rXB7HCernVfGhnEApeXgKpdo8LAR/5x8SHG98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fuPkTYZt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oI8IPQUl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32FEC19421;
-	Wed,  8 Apr 2026 09:18:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fuPkTYZt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333B9C19421;
+	Wed,  8 Apr 2026 09:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775639908;
-	bh=fQZ+bcjSAMW5rCdEwkLKzqXYQaTvM7b3prkFlhzCnFk=;
-	h=Date:From:To:Cc:Subject:From;
-	b=oI8IPQUl0h/vZthz59SKgrmSvployuQrN+ZIbjjMI9CZ9+u+dE1oBiAa02E0NA7iK
-	 cq12yryq53CDOinCf/Py6U/LSHD91RTKrXRehAodjbJOkiHcitidQhia2NA+AETAjF
-	 HZgbitgjr2OQcoFjUjWvTQk5PCXPVvmimfQAK7bhxl61QT0Dkxc7hJ8drf/vDq1cDt
-	 fbVM6dKJEUqJm6aNzqWODs95Um2Fe7pVY60cOi35jC12WbFj40F41Nh8F+5j0qk/aW
-	 MotAXh3XaJ6oOaOpk5EgZuBbpi3ur/G+B82mackdXMoQoZ1EprSTiZXME68JUsx28P
-	 4cmd20t2Kok/g==
-Date: Wed, 8 Apr 2026 11:18:24 +0200
+	s=k20201202; t=1775639912;
+	bh=ZFmmFGWyWNA4NzmpuEJSddLl5GcJesrvvOY9F5nrTDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fuPkTYZt3yhL61ky86ytM/uV1d//9KVMDsbynM2q7BnIZSh3JeUPVtgBiIm62IAL/
+	 XUUJ6TOGfunNTPZT8h8zv+9nTD0HEyGP0bw/bx6Je8nK/LXjuo1FIyHtT0m8ZJ7uiV
+	 Z8rfLua8TCHNruxthfoyuBEPmq4iRZ6w09jAV43+IFjlHC38P59TMWnlw1eRj6uwly
+	 oZ+9Bogb7iBKe23f7l9zoxPIe9qtXBVPqpwWfFVaWwqBJu+5r305RCqPKtHANoDhFo
+	 TB7N4i+yKf1Wpc2pSKBGE9Oi11iGbwzucMl2zgQY7hsugFJOqDAWBQpGS4irt/O4Qo
+	 WG0nY8lEpVyCQ==
+Date: Wed, 8 Apr 2026 11:18:28 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, Guillem Jover <guillem@debian.org>, 
 	linux-aio@kvack.org
-Subject: [PATCH v1 0/6] Split io_setup(3) from io_setup.2.
-Message-ID: <cover.1775639353.git.alx@kernel.org>
+Subject: [PATCH v1 1/6] man/man2/io_setup.2: Reduce parameter name
+Message-ID: <6e23fd87b5f9db2ed09f4e90a33e1fcbc203910e.1775639353.git.alx@kernel.org>
 X-Mailer: git-send-email 2.53.0
+References: <cover.1775639353.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,63 +43,56 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <cover.1775639353.git.alx@kernel.org>
 
-Hi!
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ man/man2/io_setup.2 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-I plan to split documentation of io_* system calls from their libaio
-wrapper (which will be moved to io_*(3), as they're library functions).
-I'm CCing linux-aio@, just so they're aware, and Guillem, which seems to
-be the maintainer of the Debian package.
-
-If you (libaio) want to get ownership of the man3 manual pages I'm
-creating, feel free to steal them.  If you prefer that I keep them in
-this repo, that's fine too; I'm happy to keep them.
-
-I have made sure to not duplicate information, so for example
-io_setup(3)'s ERRORS refers to io_setup(2).  I don't care too much
-whether io_setup(3) should refer to io_setup(2) or vice versa, so for
-now I've made io_setup(3) defer to the system call (as that's the real
-source of truth).  If you have a preference, please let me know.
-
-I have left ctx_idp undocumented in the libaio wrapper, because other
-than having a different type (which is visible in the synopsis), I don't
-know anything about it.  I can see that the system call documentation
-doesn't apply, because by being a pointer to an incomplete structure,
-users can't bzero(3) it.  So clearly, the documentation that applies to
-the system call doesn't apply to the wrapper (one of the strong reasons
-to split the manual page).
-
-This sample patch set only touches io_setup(2/3), but I may/will do this
-with other io_*(2) APIs implemented by libaio.  I'm even considering it
-for some pages that document significant differences between system
-calls and glibc wrappers.
-
-Any comments?
-
-
-Have a lovely day!
-Alex
-
-Alejandro Colomar (6):
-  man/man2/io_setup.2: Reduce parameter name
-  man/man2/io_setup.2: Update reference (proc(5) => proc_sys_fs(5))
-  man/man2/io_setup.2: ERRORS: Split EINVAL
-  man/man2/io_setup.2: ERRORS: It is *ctx_idp that must be initialized
-  man/man2/io_setup.2: Use syscall(2) in the SYNOPSIS
-  man/man*/io_setup.[23]: Split io_setup(3) from io_setup.2
-
- man/man2/io_setup.2 | 84 ++++++++++++++++-----------------------------
- man/man3/io_setup.3 | 40 +++++++++++++++++++++
- 2 files changed, 70 insertions(+), 54 deletions(-)
- create mode 100644 man/man3/io_setup.3
-
-Range-diff against v0:
--:  -------- > 1:  6e23fd87 man/man2/io_setup.2: Reduce parameter name
--:  -------- > 2:  978c3109 man/man2/io_setup.2: Update reference (proc(5) => proc_sys_fs(5))
--:  -------- > 3:  28e8dc04 man/man2/io_setup.2: ERRORS: Split EINVAL
--:  -------- > 4:  31b6dec8 man/man2/io_setup.2: ERRORS: It is *ctx_idp that must be initialized
--:  -------- > 5:  7811fd45 man/man2/io_setup.2: Use syscall(2) in the SYNOPSIS
--:  -------- > 6:  c6fcae43 man/man*/io_setup.[23]: Split io_setup(3) from io_setup.2
+diff --git a/man/man2/io_setup.2 b/man/man2/io_setup.2
+index 3d52103d..43d9a631 100644
+--- a/man/man2/io_setup.2
++++ b/man/man2/io_setup.2
+@@ -17,7 +17,7 @@ .SH SYNOPSIS
+ .nf
+ .BR "#include <linux/aio_abi.h>" "          /* Defines needed types */"
+ .P
+-.BI "long io_setup(unsigned int " nr_events ", aio_context_t *" ctx_idp );
++.BI "long io_setup(unsigned int " n ", aio_context_t *" ctx_idp );
+ .fi
+ .P
+ .IR Note :
+@@ -37,7 +37,7 @@ .SH DESCRIPTION
+ .BR io_setup ()
+ system call
+ creates an asynchronous I/O context suitable for concurrently processing
+-.I nr_events
++.I n
+ operations.
+ The
+ .I ctx_idp
+@@ -56,7 +56,7 @@ .SH ERRORS
+ .TP
+ .B EAGAIN
+ The specified
+-.I nr_events
++.I n
+ exceeds the limit of available events,
+ as defined in
+ .I /proc/sys/fs/aio\-max\-nr
+@@ -71,9 +71,9 @@ .SH ERRORS
+ .I ctx_idp
+ is not initialized,
+ or the specified
+-.I nr_events
++.I n
+ exceeds internal limits.
+-.I nr_events
++.I n
+ should be greater than 0.
+ .TP
+ .B ENOMEM
 -- 
 2.53.0
 
