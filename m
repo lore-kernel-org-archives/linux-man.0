@@ -1,109 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C428E175A92
-	for <linux-man@vger.kernel.org>; Sun, 12 Apr 2026 14:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2465628851C
+	for <linux-man@vger.kernel.org>; Sun, 12 Apr 2026 14:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776003569; cv=none; b=cXwrlIfrufHIMLBVyf41m8r/zAm45lCPKrxIT26/LO17aphoV8k1y9xQsCwh1pKdVw1kJKNZgmpdzBevWs4od7WRI6AjqDfCK65w+LsWRCNw18pv8Ugg9ts9K7MYvJTj46T4AqfdLJ5X5akgVYK8QYqnR/9iUkUAlRoHN01lPzQ=
+	t=1776004869; cv=none; b=p+hM2hZvXQv5GOm8oSAtvS0K85cYYVHYaTNNX1iooU4jiH68tuELMgwGwnjCV7vVs7eYtO6+QY0ZSQllHLXDKA5ML3qJUsQI1vAADqBXWiHymcyY+p9kV2WQ6Loft7F2Dejl/xjcQ8R1yRe23d+b2tDmY6qslnOIMZheyUWFovI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776003569; c=relaxed/simple;
-	bh=MK1l+IHKDVn6TatEXKabvzgTskMq09QyHgzFuoJCScs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tSTsLzaNNMt8lWrkIJx3jR5BIMrCQq9nVvs4YbWp8tXj+iPRqBthboOL0FCMFHeg4ts6OEJF8mkF3YzUMf0kIM9jr4HY/TjE5eIqFRCOPWVsKArsQ7d+xMdZ0rn00VpYzbxSyUeUWS1D4gcvUvD1wIRwTNNA0BSWK372R8FphzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tctXZZ0m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776004869; c=relaxed/simple;
+	bh=6m6gY/AR1+kzjp4pJRiLVNFMOSCRWphdsFoZDW2i++M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cD03uyXEmu+FXZW/DUIAGg4biHGwaDMoiRoF6gaVSEiswVAUxiArdXiTZ0iP5YJUP4nCHRZhNwbc/Bbe3Bg8alCYliykErpmP/0YeVHAdVz0sBOlXNBZXb3dPP3q1feb5qGtlOGNHd6T0iEuAfmTKU1ctqTrBU3ZQxJh8c9Rq0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xY2r3EKO; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xpTxzIuY; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tctXZZ0m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F4AC19424;
-	Sun, 12 Apr 2026 14:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776003569;
-	bh=MK1l+IHKDVn6TatEXKabvzgTskMq09QyHgzFuoJCScs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tctXZZ0mcvruHPNNpDgRmAe0m8kM7AG3ia1SbpyQGPwMwLkT68rwydk/52CgFo05x
-	 bZjn2OZSNF0C4UkwkZ6HvdhNMNfBvuI+HxkHjlKz+uoVN3U7Ya0e/t6BuzntdviRtZ
-	 Qm7kwTepaUpKhfhGlVzo8fqLrXFl8wDsN1eMQ1/KTHY2X/ZOHy5Lb+zujhtFL5uGua
-	 ItIW5zVRNXw2n8nWWZ9di38GZYnlmOW0vyNsbAXg5rseRiJT9tF2oTVvgBTKjM/mNF
-	 D+EPgPZqs0ZB7vuXw0DDI0ulUo1aVQaYODWnlgSJGYexR/SFT8gS8oAZd1usI0R4dA
-	 BISKDwl8cyBGA==
-Date: Sun, 12 Apr 2026 16:19:24 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?5L2Q44CF5pyo6b6N6Lev?= <tubuannohagi456@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Possible typo/redundancy in mmap(2) SYNOPSIS
-Message-ID: <adupQhfJQ7kws17U@debian>
-References: <CAKcLgdirzdKqnaziRdYytN-zrVTjijtzOiirL5YJdWF8SSNf+Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xY2r3EKO";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xpTxzIuY"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fttWj01Nzz9thN;
+	Sun, 12 Apr 2026 16:41:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776004865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vAc5uTCOhbaMA/RdxoWoycNjk/qyYIThbyxxX6Oi2SU=;
+	b=xY2r3EKOyBYm62PpgI53p0AN+J0QVukbunKq07dPVmbfouL4uznC3NFREXx4i8k0jvNeGq
+	bsd9+HUXinjyChR3jcQqacALBz+/mIKvasLsnPm5a/NDsy8jpr+qrGvExwOgGf2XR3wrC4
+	psskeqpNNxW+aM65GibfETT3UNH2MhzDQJH6yi7yQO7SHKOynYEbACmBHYULlifD6+jsaL
+	lfrFCx3rV/wdM1xD1YKbe6l3yMPpCvbBi+G5CkAPBP8Vlnpvutu0lyF7RQi4wP0hIEPXc4
+	pLrokoCmQSdPn84HHZbf2P5Dou6pkIcEK+6Si2DRssv9vSHyhktNf9y6vRtUwA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=xpTxzIuY;
+	spf=pass (outgoing_mbo_mout: domain of zeno.endemann@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=zeno.endemann@mailbox.org
+From: Zeno Sebastian Endemann <zeno.endemann@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776004863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vAc5uTCOhbaMA/RdxoWoycNjk/qyYIThbyxxX6Oi2SU=;
+	b=xpTxzIuYA3fzp/j2sQof/J2fVYHNU3FjJevfmRAmMmhSYXaqhVYPv5jDTPC8xcip5c0g3b
+	Ivd0rEopG2CEOsvtW7/ZPzgfNbqxQZZa2r6b0LVFCiAhsvKZyMle1UC+AytarKyirTiyjH
+	Fy+bikZsipq1R8kaNl30s3Pt1fdzZMImwl6I2Zqw9fvFKlwck0NO7NOREdAcGOF8oSiRlt
+	9KSjvL0cIPnGL1Fo6T2y4i3+/ieSiKy5MKYlm8yxDoD5nXxfYIRMKiPz02/jAFhPLylrMG
+	L2Qi0Sut7Z2sRtqT3ZvfWg+Mq/jDlUnRpip5eKJdecdipTIRn8dbo7qsdIjqXQ==
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org,
+	Zeno Sebastian Endemann <zeno.endemann@mailbox.org>
+Subject: [PATCH] man/man2/truncate.2: ERRORS: Add ENOSPC
+Date: Sun, 12 Apr 2026 16:40:07 +0200
+Message-ID: <20260412144007.27323-1-zeno.endemann@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eofm6xcm2rast7xr"
-Content-Disposition: inline
-In-Reply-To: <CAKcLgdirzdKqnaziRdYytN-zrVTjijtzOiirL5YJdWF8SSNf+Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 39ab5ddd355634896e9
+X-MBO-RS-META: n5eckdc1idg78i879d3q9rwxa9emh6r8
+X-Rspamd-Queue-Id: 4fttWj01Nzz9thN
 
+This error can be observed for example on a vfat file system that
+does not support extending a file without allocating the space.
 
---eofm6xcm2rast7xr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?5L2Q44CF5pyo6b6N6Lev?= <tubuannohagi456@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Possible typo/redundancy in mmap(2) SYNOPSIS
-Message-ID: <adupQhfJQ7kws17U@debian>
-References: <CAKcLgdirzdKqnaziRdYytN-zrVTjijtzOiirL5YJdWF8SSNf+Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAKcLgdirzdKqnaziRdYytN-zrVTjijtzOiirL5YJdWF8SSNf+Q@mail.gmail.com>
+Signed-off-by: Zeno Sebastian Endemann <zeno.endemann@mailbox.org>
+---
+ man/man2/truncate.2 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Hi,
+diff --git a/man/man2/truncate.2 b/man/man2/truncate.2
+index 946d6aaf0..c576b8329 100644
+--- a/man/man2/truncate.2
++++ b/man/man2/truncate.2
+@@ -98,6 +98,11 @@ The argument
+ is larger than the maximum file size.
+ (XSI)
+ .TP
++.B ENOSPC
++There is not enough space left on the device for extending the
++file size to the given
++.I length .
++.TP
+ .B EINTR
+ While blocked waiting to complete,
+ the call was interrupted by a signal handler;
+-- 
+2.53.0
 
-On 2026-04-12T23:11:47+0900, =E4=BD=90=E3=80=85=E6=9C=A8=E9=BE=8D=E8=B7=AF =
-wrote:
-> 1. Where: mmap(2) SYNOPSIS section.
-> 2. Issue: There is a semicolon after length and it appears twice,
-> which looks like the function has an extra argument.
-
-This is correct.  That's a forward declaration of a function parameter.
-They're documented here:
-
-<https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html>
-
-
-Have a lovely day!
-Alex
-
-> 3.Actual display: void *mmap(size_t length;void addr[length],size_t lengt=
-h,...);
-> 4. Why it's confusing: From a syscall ABI perspective, rdi should be
-> addr, not length. This notation might confuse users about the actual
-> number of arguments.
-> man 2.13.1
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---eofm6xcm2rast7xr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmnbqeUACgkQ64mZXMKQ
-wqlUXxAAicx/RMCyAnDPGvCgrKi8sl/NIuM4Ar1m8Wf9Z6x0xBsE4/EE73aTSACU
-8xkL4GFpGO/CxLTmSd0jtBzItVzcYyz04NaOMXEygaUqSc8mbYzSf6EfforHAyTx
-x7/di/JhQGRBbj7JSkgNYAuNn5s1tIyZC5HV4jrnF1l2NXTWOzjWOjN/c02aaT/G
-Ah4GhJbFD4dK4COR/VGFi9RnQJuaYOEUrQ3vS7PmujTebIMeBlK4tMmazF1kCuDF
-C7IOTrmIBb10F26ZbxzkvFetPIx7tu3ez8na+UKWSzy9Y5SwNmjiokZKng2+QyaL
-KgGNAlbvOr9tzMzdRNEvQxZCc6h2UhvLIszLdMBYeMKWzjuBSzpcoS/P0z825bgv
-Crb+qOHrYXf9SluYf4eXdzRC0StpEbzDo9cbzqmGuFpl9iuY1PaRVGDlutyGOG8n
-Qiqaola1NtI1eRr7X1EkXVtMFHfj2bhO0ZXPWUOcLLm8Aq4+RLojywrJntCcfrNd
-Derr8GsGyT8PJnNPoZjEu+eCvaTv9yDdTNmOXbptSYUizZW0F57Fclzs33DAj/TH
-Wkv6lYAvgKJg/QXyQWJ7icZaczzFh3WIfSDC5sxPPtixP2nQI7+FNWTJjzme+0SI
-xrxruKeedyhEFOeQe3l/IJ/iy5G0i9E8B2qauAwxG8V/1pyHsDo=
-=idyM
------END PGP SIGNATURE-----
-
---eofm6xcm2rast7xr--
