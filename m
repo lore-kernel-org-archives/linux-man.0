@@ -1,69 +1,73 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631313F1658
-	for <linux-man@vger.kernel.org>; Wed, 22 Apr 2026 19:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59703F0769
+	for <linux-man@vger.kernel.org>; Wed, 22 Apr 2026 19:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776885827; cv=none; b=jyxYSc1PzTPG2yzxoGp0mI/+A+BgfGUKP/ZyZyRjah8WoGaLcmChZU4+howgCXu8klXYEpf/bkVMXbz8VU6vmJYx1lWFThH2w+AI+eILMP3qkZlgMHZKF/HSR/wt96AzxuSMpDwMynUe0qtADeKDHCg03tBYZG2Lxce7U3O3uXo=
+	t=1776885833; cv=none; b=VdZiHNm/0g2kJgF9EPPfkzX8AZz0j9WuOcBumixqp2ktXQ1eNuA3504SO1xWN2b9q84ycwlapR7R4u0zy1f4oQXL3K3EhAQII2SF95sZsx+lo+eaRCo8SwMOrI82uZD8LKzwDfJn1CAE6C9eIQ1/MijP6XrknBTyHaWz8VWFpM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776885827; c=relaxed/simple;
-	bh=S2AsqEj2/rzDKOue7eJbzz56E7Ok+QvmLoGnyjNDPRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AQSe+V4R4Hqk3+9/g+BsEIThWrpcks5bf9k9get52zK7qpqfBWSHxxkiVB+wniX/t3eLkm9WIPR0cCffHxFIqS2jAzPWmC954MI1Zb6IrL6lYvSuSR0H2nZMl8fbGs4sWw2L+Ls8SbtHLUFZb533k0R1G5R83jw4V0aUF06fNQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B0e865Sq; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1776885833; c=relaxed/simple;
+	bh=9Dacy84tKrvgyYeJsF/t+wTlw4omWiPML/sJZ5Eh/UU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kid7tXFDC1ZujaOqrkDL1eBDOTQmIqM4K+klkrx5lkI7ZuXc+C7CjaPdTVxGRgS2XMiu0FnKsv4VSNNK7/mrSJXRkDU4I1Ys0YN4E7EghOh6vi1spZBN6k/qFnXVHt6Rb1BAyH+MeukJ5mlTK/UcPlnUPNx4N05hxqMphwoXprg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sQdJdLT9; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B0e865Sq"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d70c30767so3998887f8f.0
-        for <linux-man@vger.kernel.org>; Wed, 22 Apr 2026 12:23:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sQdJdLT9"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so76302845e9.2
+        for <linux-man@vger.kernel.org>; Wed, 22 Apr 2026 12:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776885818; x=1777490618; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XEtKP83fDKRMM3D00lJE0VDiptX/GX6NBfFPTL64ywo=;
-        b=B0e865SqBJMC8CS39XOPdDSLm4LrJt2io9rnISpqwEGekRpr9fLqIHXNWhA6IUuJ3f
-         i/CsPsH31xMTOi28JQWYBTKfiPAmLhzmxFcqZJ3Jg6FeU1u+QmCRDTY1AvT2v7iDW8bN
-         BKPWe1gidZckrHzYAkmDvuowkNDEQgQJhHJUqAy6oT8TY8gsjKSIGKtTS6V+pZ3oLaXl
-         kVQAUl1VHaPzsFfTpHG/iWb88ezxwYzvJ6waSS9y8rLKGbP1Cw3nByFzFkDU7W3kDaW0
-         3tHe9+9ziuNGvGX1YYo078QKKdmrytWV1jZYhSmlrm8mTBoDZMAysxDphWqP6J/Kx9Qd
-         AcYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776885818; x=1777490618;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776885822; x=1777490622; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XEtKP83fDKRMM3D00lJE0VDiptX/GX6NBfFPTL64ywo=;
-        b=jHmtYQLfJtJ8KfZPXgF+BY8QVgiG8Nua91Z4eGSP/UQfaMqoz3iIlmzLvqTJo8jrJA
-         o3vOqw0FzMHmiUal5Jtr5lA2iFwhGG7tRtSa6wtC0ICRAddnhW4PnlysAcH6+dvgtLHE
-         DOw98CLO/5/DuZeh3mwcNu+5FlZdDJJqYHmNQWpAfoX4aEOBoSjCdeNUlr1hk0BSykqo
-         sRqubPsMbkIPZj2uI2tnK9j2hGYBVw1jf9UMBHgqjulRzaskdfji9s3XE1Pq7mIQPpOt
-         mhtrQ0Ky0/c6s3TY0K4di4saBExWpCTN13sEEPW+fEjJRSb5VMjoMP5nUXajmdsGifsj
-         Mzkw==
-X-Gm-Message-State: AOJu0YzXV5Pvw42RC+yfM3BnmBXdiSiN6Qwv87p8RqwYsjF8QXfb8jaI
-	9fhsUKWjyTdaB65H2uHdqwyuUdcbV+JNtpd0RemldnCzmMofP+sfcfpZ
-X-Gm-Gg: AeBDiesZekU3cOfaahpJii3Ozv5Hu16WiI9HI9B+Vo7uAD3y/KDFf9TmqWdC5GMTJLP
-	uTUMD4pNy4LkeiU7FL+wAMn6feaBzr4RGdUAh5FsUFOoj4At2QvMl0oQr/cu1IVDzGHOmnM1dRa
-	0M4SocvgSZUra2avxCK95qNWcubiC/mC5qaRK9UUwmth4YmNfdmCRnye5yl4013Z47w0PyKh5vL
-	lrjPvGa5t41o9JUbkV3tV4xwFU/q0bANQc3klv7DG56zJz65LZEZk/dMQofo7VJMQ+Zsfqy/q6t
-	KsOPgKZBQxG3617h1c1ON0gys4YXdlRRSssThUbjhOrx20jrc5dkIHwY7J0uYrVIq2AJ4bFVjFP
-	8LKnPGURac5Kt63jLDsyDto1J70LIhYuGXbeNIO5aHfxS7KektLjwzNWJGrnmcHgH/XEc62LfHv
-	8V5EvTSufq8AMQYqZpFDSjTBT8JUiqQqK1cUkBjaiRPBmodJV+XLHtdtDHpe8=
-X-Received: by 2002:a05:6000:2002:b0:43e:b0f8:e019 with SMTP id ffacd0b85a97d-43fe4034471mr37379785f8f.7.1776885817912;
-        Wed, 22 Apr 2026 12:23:37 -0700 (PDT)
+        bh=yyh559ZzHN7Xwj/5h9NScTOc9d4u1z1xG0xthjPrfyc=;
+        b=sQdJdLT9KOaRbMsjEzUN2XfiCSAG2qJZ1emFGyfMGZLdUNVHxApGsyXjAk25vsNGNX
+         Wg/2vkA5Lqt3NlJ1QzplNzI+BR/UsXaud8qUWD76k+ELXMFd5VQukTxrLXkXS/HuKl9o
+         r1qPPuu3hntBUxuXo7nm9QSsUp9ziRle/+mwzG4fpVdNT7WlEXk0CaSjx+j9TOlkSAD1
+         ygurJJVAHDQi1Odih4iYBJ+kRvLiXAHweVUEZG3Av0OQC7TrDl0we/nukD27/TNlrKKV
+         7Eh8dDKI/WjiUPhMfstEx7SFNs/o8qQ/S7dSobRT6QR3sFvMKHNua2ZFsTFoFLmpJl6U
+         lpEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776885822; x=1777490622;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yyh559ZzHN7Xwj/5h9NScTOc9d4u1z1xG0xthjPrfyc=;
+        b=sa4xm1t88Ebl5Pi9cd20+4YA7OdzBL/u9VZgzHqSdtJIxpL4APwpAEWYERob+jO5Ep
+         kv8kNunbX6xyOGYeMuIQ8lerAsxdN5gVzW9e4/FT6NPCRDVgp41CKfyzZtbQz5xEaD2U
+         LqcdEs0oYiRhQZ/fRZtrSyFAt2VJV2Yg8fp9CWo2VA41wVm40eUqNkauQnPNDhO95vUJ
+         jlP6ZWdX5j3HrNXV5qtDw6sS9lFbSXrqLNcl4460gvK+Vws1G9W7+5OmjZRaKerWSQk6
+         yCIN83/nM2hh9eveNwB7bpqf9FrESpHlD25YtkxA8W0KEVrl1cW9cqk7H8TG0BRAIVUD
+         B+FA==
+X-Gm-Message-State: AOJu0Yxvae82LQWTp//Sr7kRCchFpwubMd5s7dz8fDGMRAqs5rfYgMc3
+	5bs3P5Ec+CHt3BABpPra7TJxhTM3GEY4rXJoG5KfSHG4PgPGFfyeLfSTmun+RcRm
+X-Gm-Gg: AeBDievCNS6QRmttMDi+idUaG1x2lAwOg4TIKEN6K9idfwsftiFGwYOu/wrt+6iiHJp
+	o24HV2Gah0Lpaj0ipdtaQxnqPBcMWxiHvqJHjgiUPRlwa3w0//oOafgmLuQ+e6u+V7vWsv3/tVX
+	wZI64K4EuJVRcYXqcNVTZJAab7JrL2d0KYYpJZlX2JGzWXsrTcI2nRWsLvlVmP+VCl021lCHumt
+	R3C6n5UwlSG6W0OrkwuIgE3ZuRTQ458JIrlPbogr+W8yRZ+YEq9v6zrCkpLX1Hoxnd7SoDKxtQ7
+	nmB/+F8aE4F04n6zEa2ym10+0kM8i8kZYDr+OrivO7bFp2iEdmkvG0ctn+/0QuDG/EkdOQdh0hT
+	su9SZ7YJoQnGH1zd7oqFgvouv4wVavZa1TR/5p6P415xquKaxOTD/ITnvEQd9D5E7j0DXlqvGtU
+	5M2d4yRfHymGwaW54M4AHQovcoBvOMhs1w5RXXmIKFxsWpIoOAJ8nfF509GLM=
+X-Received: by 2002:a05:600c:c10a:b0:483:2c98:4368 with SMTP id 5b1f17b1804b1-488fb771613mr266261425e9.18.1776885821682;
+        Wed, 22 Apr 2026 12:23:41 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d6casm43078294f8f.32.2026.04.22.12.23.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f82bbsm790642085e9.3.2026.04.22.12.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 12:23:37 -0700 (PDT)
+        Wed, 22 Apr 2026 12:23:41 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>,
 	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 Cc: linux-man@vger.kernel.org,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH v4 0/2] Update Landlock docs to Landlock ABI v8
-Date: Wed, 22 Apr 2026 21:23:28 +0200
-Message-ID: <20260422192330.7623-1-gnoack3000@gmail.com>
+Subject: [PATCH v4 2/2] man/man2/landlock_add_rule.2: mention ABI version for LANDLOCK_RULE_NET_PORT
+Date: Wed, 22 Apr 2026 21:23:30 +0200
+Message-ID: <20260422192330.7623-3-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260422192330.7623-1-gnoack3000@gmail.com>
+References: <20260422192330.7623-1-gnoack3000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -73,60 +77,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello!
+Add the ABI version in the place where LANDLOCK_RULE_NET_PORT is
+described.  For LANDLOCK_RULE_PATH_BENEATH, the ABI version is
+implicit, it is supported since the start.
 
-Thanks for the review!  Here's the fourth round of the patch set, this
-time just adding the missing ABI version information.  Added another
-small patch in the same style for the adjacent Landlock man page where
-it applies.  (The third Landlock manpage, landlock_create_ruleset.2,
-doesn't need it because one flag is available since the start and the
-errata flag is available where needed and backported everywhere, as
-previously discussed.)
+Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+---
+ man/man2/landlock_add_rule.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Kept the cover letter title as is, to reduce confusion (but the part
-where Landlock ABI v8 gets described is already submitted).
-
-–Günther
-
-P.S.: I have a half-finished commit for the upcoming Linux 7.1 release
-as well; I can send this one soon, I assume it's OK to send these
-slightly before the release, given that the code is already on Linux
-master?
-
-
-Change Log
-==========
-
-v4:
-  - mention ABI versions for flags next to the tagged paragraph title
-    where they are described
-    - 1/2: do that in landlock_restrict_self.2 (based on v3's patch 4)
-    - 2/2: do that in landlock_add_rule.2 as well
-  - earlier patches 1,2,3 from v3 were already merged
-
-v3:
-  - split the size/attr clarifications from the "errata" patch into a
-    separate commit
-  - earlier patch from v2 about the "scoped" EINVAL error was already
-    merged
-  
-v2:
-  - landlock_create_ruleset.2: added a tiny patch to add a missing
-    mention of "scoped" in the errors list.
-  - landlock_create_ruleset.2: various reformulations for errata
-  - earlier patch from v1 about the default ABI version assumption was
-    already merged (thanks!)    
-
-Günther Noack (2):
-  man/man2/landlock_restrict_self.2: Document ABI requirement for
-    logging flags
-  man/man2/landlock_add_rule.2: mention ABI version for
-    LANDLOCK_RULE_NET_PORT
-
- man/man2/landlock_add_rule.2      | 2 +-
- man/man2/landlock_restrict_self.2 | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
+diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
+index 48d7d3b25c9e..fe01a98d99ea 100644
+--- a/man/man2/landlock_add_rule.2
++++ b/man/man2/landlock_add_rule.2
+@@ -80,7 +80,7 @@ flag,
+ which identifies the parent directory of the file hierarchy or
+ just a file.
+ .TP
+-.B LANDLOCK_RULE_NET_PORT
++.BR LANDLOCK_RULE_NET_PORT "  (since Landlock ABI version 4)"
+ For these rules,
+ the object is a TCP port,
+ and the related actions are defined with
 -- 
 2.53.0
 
