@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196CC40DFCE
-	for <linux-man@vger.kernel.org>; Sun,  3 May 2026 21:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81B33A7859
+	for <linux-man@vger.kernel.org>; Sun,  3 May 2026 21:14:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777842053; cv=none; b=V8+7qxim03/cMMlHe1TnFxCji/Q4eXnfgmX9YksPWx1GgQytmOxgJe7ByjzyI6sbiuFp1hltOlErUAntvXnzWCyyVMlRTo9LPDN1jDE9MTaXKer1/lmdzFYldSTxQx3e66IyCkV82E9YbcPuK+kzqFYPaS3NM5m1PW+gBN5CZ0c=
+	t=1777842895; cv=none; b=YDww/d2wTJzicuLYyBRbFJp7rVAp35uj7DwzXJkyA67e+ri+dFqqbFOoGX/cMwBnVNQK9uVwl57xX3wUZwuXLtGR86qB0c4ekbHlNz+i9a8qCcNISIn9CaGm+mYoZJfiZxP4aTuKgh3H/iUm5chi63tMage60SGVyDy8bl7Ek+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777842053; c=relaxed/simple;
-	bh=7/cayAwpEr7reN39HWfCwhoJlQfkMPhhbWyxDs8yVL4=;
+	s=arc-20240116; t=1777842895; c=relaxed/simple;
+	bh=CvLesn/ouFmK1YXD7nCXvjcxAMKxuw0YHe1iyo0s4i8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWvIHjQJKV26QPcTPWBPyZwQmyt1I4ZEdwJSvRoAtZow5RKmz9oqKeDh2NS/dTR2m3xM9UGTTZm76XhwB7JjlhNyj+Pd6ZuzP0EOwkypIqlW4yPuGQ+27vbU09+b3BJ7TdrwMYOm/9lT1em7lmpReJh7hLPuWrnPtZ5qyE3L8Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/3mzRK8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cudm/gLznGSWkqeI2FYSCXCgZ8NGmpDqDNigKnqgbAvY3+SoUJcWzSVlYiAS21rsv4dfcS1wj7Wxok4H7Hf5vKdU/uI2s4KEEu+c2J1j47sR1BuogNmaLqlGQWZnPiFdLnL4fXcreBlYN7PZ5FbUoxchoDXxHLEyaou7dImhH2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9miXcN/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/3mzRK8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C21C2BCB4;
-	Sun,  3 May 2026 21:00:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9miXcN/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E49C2BCC4;
+	Sun,  3 May 2026 21:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777842052;
-	bh=7/cayAwpEr7reN39HWfCwhoJlQfkMPhhbWyxDs8yVL4=;
+	s=k20201202; t=1777842895;
+	bh=CvLesn/ouFmK1YXD7nCXvjcxAMKxuw0YHe1iyo0s4i8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i/3mzRK8nJZwMGxGEnmTVb85vBZnGbwYLL7eJgD1OnMT4k30pDl8SGVa8qHzkjiTf
-	 OJq98H0K30owaLrgqnaSqYMZQplla9V0fG78pfyMBHRKqWqopyhFIh1LJzjFlMvkZL
-	 udygaITGyHwM0gLdY5jpOflbFl3wwtrYvI0EjxgLjmfkHsDLZrLXT4hZ7++xk1BCuW
-	 tuACUvkuoMJFHSiC4K99eZ8PfMx3/FXQPe4ZzFcyv25y9HzLxP4XXuZ7DX4v8+4nxm
-	 bPHO4iz/UliqdzeDsGLK/WPRVJl7H5jjusx5tmggper55vs+oQqtSe51naGp9UMEJI
-	 b4uNHzdLQRFAw==
-Date: Sun, 3 May 2026 23:00:49 +0200
+	b=p9miXcN/iTdtsQkcAmBhkFlf+GLNoUV6ieTFajOhWpeE9xFrBBNYZ16xzdY1kQdA5
+	 eORbYaJ8S3zDZGSx3WeZ3EJDgWFCob9gf8HU9AfWBrHnqHUInu9PyhMS9pmVR/UeyL
+	 spQg9ZoMxX49JiJjhiY22TRaBu0f+ZH29KuI0PdkgPnqqSXsyCeadOkQ4HcI/iTE8b
+	 lsBDvbd9NgSk0DLij4jxXX5LQkEOpOVSRZaSeSf+5inBbZpYDwQh6ezyPWbxyPWFX/
+	 C589jdu81Omqc9eTUBtzRqmVB065NyGeahULfXwdLbHVXSvTEsQsh+Ck41oJkf0i47
+	 L9YAB9JS0LQTA==
+Date: Sun, 3 May 2026 23:14:51 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: "Schneider, Robert" <robert.schneider03@sap.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] man/man2/perf_event_open.2: ffix
-Message-ID: <afe3MfB6E5aT0LB-@devuan>
-References: <VI0PR02MB10873E01B8EE1A99CDFD03F0F8F342@VI0PR02MB10873.eurprd02.prod.outlook.com>
+To: Tomasz Kramkowski <tomasz@kramkow.ski>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/ioctl_tty.2: Fix references to TCSETS(2const)
+Message-ID: <afe6kmdqSAY6HrR7@devuan>
+References: <20260501145701.66573-1-tomasz@kramkow.ski>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -40,32 +40,34 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3jwh4iqmk7lhkz2v"
+	protocol="application/pgp-signature"; boundary="ayqeqipzuz5vzgd7"
 Content-Disposition: inline
-In-Reply-To: <VI0PR02MB10873E01B8EE1A99CDFD03F0F8F342@VI0PR02MB10873.eurprd02.prod.outlook.com>
+In-Reply-To: <20260501145701.66573-1-tomasz@kramkow.ski>
 
 
---3jwh4iqmk7lhkz2v
+--ayqeqipzuz5vzgd7
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: "Schneider, Robert" <robert.schneider03@sap.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] man/man2/perf_event_open.2: ffix
-Message-ID: <afe3MfB6E5aT0LB-@devuan>
-References: <VI0PR02MB10873E01B8EE1A99CDFD03F0F8F342@VI0PR02MB10873.eurprd02.prod.outlook.com>
+To: Tomasz Kramkowski <tomasz@kramkow.ski>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/ioctl_tty.2: Fix references to TCSETS(2const)
+Message-ID: <afe6kmdqSAY6HrR7@devuan>
+References: <20260501145701.66573-1-tomasz@kramkow.ski>
 MIME-Version: 1.0
-In-Reply-To: <VI0PR02MB10873E01B8EE1A99CDFD03F0F8F342@VI0PR02MB10873.eurprd02.prod.outlook.com>
+In-Reply-To: <20260501145701.66573-1-tomasz@kramkow.ski>
 
-Hi Robert,
+Hi Tomasz,
 
-On 2026-04-29T17:35:30+0000, Schneider, Robert wrote:
-> Fixes .TP list for PERF_SAMPLE_BRANCH_CALL_STACK.
+On 2026-05-01T15:57:01+0100, Tomasz Kramkowski wrote:
+> Change the duplicate references to refer to all of the different
+> variants of the TC{GET,SET{S,S2,W}{,W,F}} constants.
 >=20
-> Signed-off-by: Robert Schneider <robert.schneider03@sap.com>
+> This looks to be a bug which was introduced during a restructuring.
 
-Would you mind adding a 'Fixes:' tag?
+Would you mind adding a Fixes:' tag for that bug?  It would help for
+reviewing.
 
 See <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTR=
 IBUTING.d/patches/trailer#n16>
@@ -76,49 +78,71 @@ IBUTING.d/git#n46>.
 Have a lovely night!
 Alex
 
+>=20
+> Signed-off-by: Tomasz Kramkowski <tomasz@kramkow.ski>
 > ---
->  man/man2/perf_event_open.2 | 1 +
->  1 file changed, 1 insertion(+)
+>  man/man2/ioctl_tty.2 | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/man/man2/perf_event_open.2 b/man/man2/perf_event_open.2
-> index df0a199e..ae588451 100644
-> --- a/man/man2/perf_event_open.2
-> +++ b/man/man2/perf_event_open.2
-> @@ -1547,6 +1547,7 @@ .SS Arguments
->  .BR PERF_SAMPLE_BRANCH_NO_TX " (since Linux 3.11)"
->  .\" commit 135c5612c460f89657c4698fe2ea753f6f667963
->  Branch not in transactional memory transaction.
-> +.TP
->  .BR PERF_SAMPLE_BRANCH_CALL_STACK " (since Linux 4.1)"
->  .\" commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70
->  Branch is part of a hardware-generated call stack.
->=20
-> Range-diff against v0:
-> -:  -------- > 1:  d597dc98 man/man2/perf_event_open.2: ffix
-> --
+> diff --git a/man/man2/ioctl_tty.2 b/man/man2/ioctl_tty.2
+> index 1d6e279c0..cb2776867 100644
+> --- a/man/man2/ioctl_tty.2
+> +++ b/man/man2/ioctl_tty.2
+> @@ -42,21 +42,21 @@ whenever possible.
+>  .TQ
+>  .BR TCSETSF (2const)
+>  .TP
+> -.BR TCGETS (2const)
+> +.BR TCGETS2 (2const)
+>  .TQ
+> -.BR TCSETS (2const)
+> +.BR TCSETS2 (2const)
+>  .TQ
+> -.BR TCSETSW (2const)
+> +.BR TCSETSW2 (2const)
+>  .TQ
+> -.BR TCSETSF (2const)
+> +.BR TCSETSF2 (2const)
+>  .TP
+> -.BR TCGETS (2const)
+> +.BR TCGETA (2const)
+>  .TQ
+> -.BR TCSETS (2const)
+> +.BR TCSETA (2const)
+>  .TQ
+> -.BR TCSETSW (2const)
+> +.BR TCSETAW (2const)
+>  .TQ
+> -.BR TCSETSF (2const)
+> +.BR TCSETAF (2const)
+>  .SS Locking the termios structure
+>  .TP
+>  .BR TIOCGLCKTRMIOS (2const)
+> --=20
 > 2.51.0
+>=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---3jwh4iqmk7lhkz2v
+--ayqeqipzuz5vzgd7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmn3t4EACgkQ64mZXMKQ
-wqkHdA//XGLULSt09OXKMI7UK7Tjp/MDEPNGpTkFW7KLSy4aptoo70zGmc6/Uqdv
-vkJ+02PKuisiAa95O5u+5itiAVVZXoLKYlJi0zz74EN5YT/2LR8b6rAhCWKrG073
-3G/kgaWILFNxu7OdRv+7v1zWTLTzRMLUX/nVdM1FQ7xCoG+xB+oVey+LdXbK+eHQ
-oHoEwvLc6VVk9f+LVhio14h/rKLnCkO4SvqYTI0XUkR9koREcozUEeFGrVnHSRfi
-Bo5Oj34Or+SA1TLcB4/CdMgC5+Qniddd7rnAsMjYbOFBMHv/gs3oBao3KBdRO3JT
-bN3UkTwhvn/RtNfTrbSh1tRDDN2usE7P4b0Fu2FAoTdFy7GPT8WZxxpZXnUhzauY
-0WvU3z6+8nKqm32B9ADzTUc3iBzslWOf+jCzS94rZ/w9nKZyY6Q/PYSexwyomUSs
-mWgVJ1QELXkijeEqRJZShvZ2UPy7o+cTzJfOl00RWJmCA3UiQAkealPajsEPOtUJ
-QgdqMeNd0sIfRAYl5zc3xfsSFmY4aV+k/5r85Vp0qJ/D0we6cnf5aBtCMc/FKx9l
-EVyJXmudtz+GlS5u9+qVy4EkQQ3RibPjofHvXEr+tQ2sSdZuVUqm5JaCm0lrEekw
-4oSWxrbTOvZrnepnTS62L44N/4brrQckfLWUW4EP7/1yd2XBaDM=
-=H5LY
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmn3ussACgkQ64mZXMKQ
+wqlOLA/7BsgZrgnIe1h8478X0leMFcNVKqRc+DhZr4tzjRkrsoaojxYmKrivBOHd
+o3T4Frtpes8nIuchE7kNR7WWLnnbOPyI/j2WKhjbqd1GuhuTb5Muec2q6ISb9pxe
+ec03lw4XYOKDhrctsN7KawyD9FRFi1kogqCthHPIwvja5tWlOYm2pf2GNfVnNspL
+azKkmDGdpte4yl5E3niwz6tfKLvsSqKQ/Bh1kEwMAq81LAQTOUzMk148hzZSbf7N
+NuRLsYVyvehR0MjxEGfs9LpWFNQj4XoVbeYv7hprDspKljvzfPvEswqulfpl6dYJ
+YfLLYi+YNQVDPSEgSTtXdA85KQQ8CTNUBTufULi0mia+mNMA7jLaJPGw9fEx1fBv
+vZ+ZrRnbUnOTlqk+WE9mVtuZQ5UJ/Ri344IlAxwvCs88BrarcECKoujb4Ry18rem
+bHBkzgYGg908+I+2QD5mAGYyNNfvJlmHVHw71BDDBS6a3nS9cWf5j/+AXj6CQZog
+PCagpYbb4TrujB73zEtBgf8fahkNePMOOWlCezOVMo3sDmoVtJrBacRBZ675XVxI
+nV0rB3O9K5G0d1sy7eGLpCODqufwnMxVCZKCyReRJ7Tv2tNb/2FBID9iV3IlQsQZ
+k9w/VwtSmIo8Z17hCql8o/zzI3Srda3vG9DmE2lqiDPOanZRoU4=
+=Eaxw
 -----END PGP SIGNATURE-----
 
---3jwh4iqmk7lhkz2v--
+--ayqeqipzuz5vzgd7--
