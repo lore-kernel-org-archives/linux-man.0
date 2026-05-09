@@ -1,128 +1,162 @@
-Received: from master.debian.org (master.debian.org [82.195.75.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA2033A9D6
-	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 19:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0C52DB79F
+	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 19:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778353710; cv=none; b=oPSOGU2WHAZ79K7UNEdDv7Z1q8TSbG6emgMV3qXcJ4AlaAbpQ7P4XV8Jb+e3WwET8zTs0VrTJTj9ke7SBm0fjvG/PL/sHb8+hy8dDLopabjDO8c4mnoW46XF1kVX6HFWAJXO0lwlBv418UxKG3wztRly7gEDtwexlZYJwQI1YZQ=
+	t=1778355746; cv=none; b=S42bsDK4aPkZNki3Pe3g1H1B7zyVE102JBoAWb1t109cY8uCB3iyeQfL6bawcg6W8T3kELe4nw/3jOBr0R0opumLjjJMNa6e0TKfOTpmBeZRuR9Hqd8bum+vp4GkUK9/KjrHOWdqtTCDb+PRL+jNRdcO4q3ulzSQDDg16xI2U1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778353710; c=relaxed/simple;
-	bh=yNxNE9VMtMlB5pKOzxjOsZQsLLmrxNj/gxkZCBd5lSc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BmdcoYwPFI+f4Y9/0m3HB5QI4S0XlHlUBuPYgjBoAWCmcHOZO78FmzLYH0kXSFqbm9d1Sv6R5XbKbv9RBjl/Ib2qb85D/Ib5kEKomB8VvCF/2ZEgeyS3Q8JUcQxZP8L1Dhh8/+z+RfHliLFdznLtnmssRNb3bEV8m0Jru44hYMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=oaQWk0kO; arc=none smtp.client-ip=82.195.75.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=master.debian.org
+	s=arc-20240116; t=1778355746; c=relaxed/simple;
+	bh=DpnxMf7/g3JLlh+bs1qNDL7n51Ay4THKa/9kBFr5ohI=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J/Bqw1tfArlD5wx9WKUew2szO94fynhWRfqWuxxSdOsi0HPz+jP99rhs5UQLfiwa8nQQ1oQQ96MLbZiCkKG4nO9Q2I/xelNrWWi8wiau4VHjSssjbzcOnwNb6SsxO2Aq3H8rhYidezMMGGNixuswZqB7y2hl025aZsLco9/RYt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rESGoWgP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="oaQWk0kO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.master; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID
-	:Content-Description; bh=SxsfU8X9F0JG4tpkNtQEmIo2vqo5UAuwYPwro01US00=; b=oaQW
-	k0kOejhdbVaMOM2w6zk4mXiKau4zVSUG40+2a9a2X1VMD+khyc8yr69NpvF4L0B43PK+y+Bs8vw5f
-	derEr6JLSP2IHJxttuVvrw71kG8Azpz4GSIa4BZ+L6OsNbnc79MuV0/169nPG7lGlSzsCcLPAjOye
-	Uxdk1iyJtc6s0+AogmT2HQtPGWb8FL73bfn6KpaxWcqFc8EEy26r46mT45Evp3mBpJPFIsrP5tprQ
-	IJt4Ud7COkyQyXldPJZU+mwwyefRp1Mh8SvPAOkuvDfi8SIkG59UuWQHQB3XjsagrJi+e0oKYbW64
-	3LY301dI0kmcVwuWhk74FadaLibmhA==;
-Received: from guillem by master.debian.org with local (Exim 4.96)
-	(envelope-from <guillem@master.debian.org>)
-	id 1wLmku-000Ryv-0A;
-	Sat, 09 May 2026 18:50:28 +0000
-From: Guillem Jover <guillem@debian.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Subject: [PATCH 1/3] */: Say OpenPGP instead of PGP
-Date: Sat,  9 May 2026 20:50:20 +0200
-Message-ID: <20260509185022.289672-2-guillem@debian.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260509185022.289672-1-guillem@debian.org>
-References: <20260509185022.289672-1-guillem@debian.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rESGoWgP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8845FC2BCB2;
+	Sat,  9 May 2026 19:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778355745;
+	bh=DpnxMf7/g3JLlh+bs1qNDL7n51Ay4THKa/9kBFr5ohI=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=rESGoWgPmonl/qF+a2fx1s5vpBLgp1um75QfhmyiZWST9YJrPzov6Qpe83FrqYG9T
+	 szXo02wt1qWM031Emlo77uN/dTxBdIipftsAyd8KaWk5WmhEoyd7J/fRAeb4jOSzMh
+	 +PAva6CSgIVnCKkKK83waxmH5wv1iuv7EaR2LuW79h9PQrXSs9IyD7IwdbRn6dtqRP
+	 I1SWO4sHPTLY/zscR2oDYRs0zA7Z+TJhdPEZrxa6jb5r9EAUMbgcfvyIGM1kckGwki
+	 jTBdiXkA6+X40lCshJgHu/yBgYQ/JW9O9L/saV6QdZ+h9O7fOYS2BREtYO/a1GsfUI
+	 zyowaznzgzyiw==
+Date: Sat, 9 May 2026 21:42:21 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Russ Allbery <rra@debian.org>, debian-policy@lists.debian.org, 
+	"Dr. Tobias Quathamer" <toddy@debian.org>, linux-man@vger.kernel.org, 
+	Helge Kreutzmann <debian@helgefjell.de>, "G. Branden Robinson" <branden@debian.org>
+Subject: Re: Stop compressing manual pages
+Message-ID: <af-Nwzwx-oEIlMve@devuan>
+References: <aUzUvdZEJpDHb3QX@meinfjell.helgefjelltest.de>
+ <aUzUvdZEJpDHb3QX@meinfjell.helgefjelltest.de>
+ <aU0WjfHED1esOwPy@devuan>
+ <fec615b5-af5b-46cd-ae09-d9343db6da77@debian.org>
+ <aU1D0aL00gy1V-NX@devuan>
+ <87ms364c05.fsf@hope.eyrie.org>
+ <aeX8nCySpQhTBw8j@riva.ucam.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tr4ko54wakl4cidf"
+Content-Disposition: inline
+In-Reply-To: <aeX8nCySpQhTBw8j@riva.ucam.org>
 
-From: Guillem Jover <guillem@hadrons.org>
 
-The IETF draft is called OpenPGP, where PGP is the original
-implementation from where the specification was based on. For file
-artifacts «.pgp» is the correct short term to use though, which can
-be considered the more implementation neutral name to use.
+--tr4ko54wakl4cidf
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Russ Allbery <rra@debian.org>, debian-policy@lists.debian.org, 
+	"Dr. Tobias Quathamer" <toddy@debian.org>, linux-man@vger.kernel.org, 
+	Helge Kreutzmann <debian@helgefjell.de>, "G. Branden Robinson" <branden@debian.org>
+Subject: Re: Stop compressing manual pages
+Message-ID: <af-Nwzwx-oEIlMve@devuan>
+References: <aUzUvdZEJpDHb3QX@meinfjell.helgefjelltest.de>
+ <aUzUvdZEJpDHb3QX@meinfjell.helgefjelltest.de>
+ <aU0WjfHED1esOwPy@devuan>
+ <fec615b5-af5b-46cd-ae09-d9343db6da77@debian.org>
+ <aU1D0aL00gy1V-NX@devuan>
+ <87ms364c05.fsf@hope.eyrie.org>
+ <aeX8nCySpQhTBw8j@riva.ucam.org>
+MIME-Version: 1.0
+In-Reply-To: <aeX8nCySpQhTBw8j@riva.ucam.org>
 
-Signed-off-by: Guillem Jover <guillem@hadrons.org>
----
- CONTRIBUTING.d/mail             | 8 ++++----
- CONTRIBUTING.d/patches/sendmail | 2 +-
- man/man7/suffixes.7             | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+Hi Colin,
 
-diff --git a/CONTRIBUTING.d/mail b/CONTRIBUTING.d/mail
-index f900c0a1b..84c8fbcfb 100644
---- a/CONTRIBUTING.d/mail
-+++ b/CONTRIBUTING.d/mail
-@@ -41,18 +41,18 @@ Description
-              it, go to
-              <https://subspace.kernel.org/vger.kernel.org.html>.
- 
--   Sign your emails with PGP
-+   Sign your emails with OpenPGP
-         We encourage that you sign all of your emails sent to the
-         mailing list, (especially) including the ones containing
--        patches, with your PGP key.  This helps establish trust between
-+        patches, with your OpenPGP key.  This helps establish trust between
-         you and other contributors of this project, and prevent others
-         impersonating you.  If you don't have a key, it's not mandatory
-         to sign your email, but you're encouraged to create and start
--        using a PGP key.  See also:
-+        using a OpenPGP key.  See also:
-         <https://www.gnupg.org/faq/gnupg-faq.html#use_pgpmime>
- 
-         If you use mutt(1), we recommend the following configuration for
--        PGP:
-+        OpenPGP:
- 
-             set crypt_autosign = yes
-             set crypt_protected_headers_write = yes
-diff --git a/CONTRIBUTING.d/patches/sendmail b/CONTRIBUTING.d/patches/sendmail
-index f0a91f993..9f2c8f554 100644
---- a/CONTRIBUTING.d/patches/sendmail
-+++ b/CONTRIBUTING.d/patches/sendmail
-@@ -32,7 +32,7 @@ Description
- 		  ├─> [PATCH v3 02] ...
- 		  └─> [PATCH v3 03] ...
- 
--    Sign the email containing patches with PGP
-+    Sign the email containing patches with OpenPGP
- 	See <CONTRIBUTING.d/mail> for more details on signing your mail
- 	to the list.  See also <CONTRIBUTING.d/git> for instructions for
- 	configuring git-send-email(1) to use neomutt(1) as a driver.
-diff --git a/man/man7/suffixes.7 b/man/man7/suffixes.7
-index 3e17afc77..4c8b3f27a 100644
---- a/man/man7/suffixes.7
-+++ b/man/man7/suffixes.7
-@@ -46,7 +46,7 @@ Suffix	File type
- \&.am	\f[B]automake\f[](1) input file
- \&.arc	\f[B]arc\f[](1) archive
- \&.arj	\f[B]arj\f[](1) archive
--\&.asc	PGP ASCII-armored data
-+\&.asc	OpenPGP ASCII-armored data
- \&.asm	(GNU) assembler source file
- \&.au	Audio sound file
- \&.aux	LaTeX auxiliary file
-@@ -177,7 +177,7 @@ T}
- \&.pfa	PostScript font definition files, ASCII format
- \&.pfb	PostScript font definition files, binary format
- \&.pgm	portable greymap format
--\&.pgp	PGP binary data
-+\&.pgp	OpenPGP binary data
- \&.ph	Perl header file
- \&.php	PHP program file
- \&.php3	PHP3 program file
--- 
-2.53.0
+On 2026-04-20T11:14:52+0100, Colin Watson wrote:
+> On Thu, Dec 25, 2025 at 11:06:34AM -0800, Russ Allbery wrote:
+> > Alejandro Colomar <alx@kernel.org> writes:
+> > > On Thu, Dec 25, 2025 at 02:47:33PM +0100, Dr. Tobias Quathamer wrote:
+> > >> thanks for your bug report and the provided statistics. I haven't th=
+ought
+> > >> about this up until now, because it violates Debian Policy. Quoting =
+=66rom
+> > >> Section 12.1
+> > >> (https://www.debian.org/doc/debian-policy/ch-docs.html#manual-pages):
+> > >>=20
+> > >> "Manual pages should be installed compressed using gzip -9."
+> >=20
+> > [...]
+> >=20
+> > > Yup, I'd like that policy to change.  I've added debian-policy@ to th=
+is
+> > > mail (and also linux-man@).
+> >=20
+> > Colin, do you have an opinion on this as the man-db maintainer? The
+> > software you maintain is probably the primary consumer by a significant
+> > margin of the installed manual pages.
+> >=20
+> > The rationale in Debian for compressing documentation in general is for
+> > embedded systems and other small installations, and it applies to just
+> > about anything that can be safely compressed (manual pages are only one
+> > example). But this rule also predates such facilities as the nodoc build
+> > profile, and is several decades old and thus predates the growth in
+> > storage size even in small embedded environments that has significantly
+> > outpaced the size of text-adjacent documents. I would definitely want to
+> > get feedback from embedded folks before changing this rule, but at least
+> > at first glance it sounds like a reasonable request worth considering.
+>=20
+> Sorry for being slow to reply to this.
+>=20
+> It's not something I feel as strongly about as Alejandro: in man-db=20
+> we've already paid most of the costs (in terms of software complexity)=20
+> of making compressed manual pages work well, and we'll have to keep that=
+=20
+> code around for the foreseeable future no matter what.  But it's true=20
+> that there are continuing annoyances with ad-hoc shell pipelines.
+>=20
+> Let's put it this way: as man-db maintainer, I have no objection to=20
+> recommending uncompressed manual pages.  Sort of +0 or +0.5.
 
+Thanks!
+
+>  I=20
+> definitely agree that embedded folks ought to be consulted, if they=20
+> aren't already simply excluding manual pages entirely.
+
+Does anyone know how to contact them?  Could you please add them to CC
+(some key people and/or a mailing list)?
+
+
+Have a lovely night!
+Alex
+
+>=20
+> --=20
+> Colin Watson (he/him)                              [cjwatson@debian.org]
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--tr4ko54wakl4cidf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmn/jhcACgkQ64mZXMKQ
+wqmfEQ//bLSCS2BYc6CoE50ChpuL66yc58KtOKkec0Ii50yLU/mQVWnJLmCPd3Of
+Y6MKH6vMOyhzrLyMgIYV8YdCz62969TQsfTK4jwigupsslkbrohHCjmmzurt51WR
++xq/AeBVtlfrpJZ8cec9vR4SIph8KvQXFdDawMdBCEf+6ljQ/DnjHPXarIwYf3he
+0MbYKjYwINPqAffLjomMbhrCEM90kmbbzcB8Co4+fbafMo8rbGaEMZnoGuY5KSgb
+iaNG03sjJ5phvjSlp9MvNB59gqudCn38cV48Y/7trn/uHSmR9ougN2u4G5d5yuOE
+6NbOItjl1kC6+GQpBl48iv7wp30305Zlw8m3N6ErrUlq1xc65UfwTlsSseT43oaV
+eY/7xrewaa+BwhZmNEa/Wprbr3FxFl9PqnLrkN8SdcSSnKXQdXWSGkzXH/5Scq6b
+mQCRfeW4YyXELTvuBp7nrxLi6+ehOIMIwYQfxK2KrqUKkDtI59gQeGwD/rreIazs
+mhjL9RXgo1pd69lTtPEM/0kY1fac+h6UF+QjLV23OQ008rslHqxYI7EnluplHO7C
+ABwy0bKnmxhAxtYIAgzDJ7yy08jNIVV8lVdmfbE8uFvYM+0MA+CJCXotozuk1LPI
+Tm2eJY7435tolXojmWLogYD2GowGQJnN9doKRlXZ29tFMfGm9MU=
+=gH6A
+-----END PGP SIGNATURE-----
+
+--tr4ko54wakl4cidf--
