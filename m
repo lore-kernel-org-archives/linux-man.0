@@ -1,69 +1,82 @@
 Received: from master.debian.org (master.debian.org [82.195.75.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D0A4A3E
-	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 19:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC88C4A3E
+	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 19:08:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778353704; cv=none; b=NDOsQObCsYyXqHAkF6BLfZxeLXxHBHyWofWFie/jIS8M0jE+cKLASNVnFKPsRvFOBnCXGsOqqU2BToC/CdWir53oOqLn9bhew9e/FqWuxUPr/rfNh0zH2u3KX699sgTyh3QwotN+4KKI7LE5DchisxIlgVn6VIlTKQuYPWyd3QQ=
+	t=1778353707; cv=none; b=NZN0lVcxJwf+3s2+klP//f26L8D9VwQbq0pV1UiIRKBvgjdxhFvCeU634ZC1UI+KhkztJ8nAFLWwPzsRaqAe/pf/rMumNVPyKvMau/C2CKDzg+II8NWckYtL5EtHTvwzXlJME8R7DL+HjuurkxVK9kg+3R+xFU/YdojHMU+mNHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778353704; c=relaxed/simple;
-	bh=uz+l1+Gvoj3fnMIbJyB14UlzCwCoKJhvz3+tsnFCZPI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WCxrWNt/7tKqgbW+izF2g3L0I/eCv+xKnQfizdNiHA4rC8gy+J7T1cWtTaticVMn095DUZua5J3KAui6361pDFLQvBVRdzPP/Gtk2x2ZHhmDUH6hEYU2p2vDyfVn0GsKsUNipwuFED9DNKhneP1BWyNnxDVl1a84KAifvHU04yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=m73SAa85; arc=none smtp.client-ip=82.195.75.110
+	s=arc-20240116; t=1778353707; c=relaxed/simple;
+	bh=e+nvRbstor6joXsuaPQQAaaQg4U+MzD5DyVFtHMYUOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ECSZjrMUKsh5au1jsyoH07jpIFcm3DtF7nJcfsYYt/WzDOBe3Ra0kvSwnqQ+oWSRU/O9RfU7HJtE6p9RgKKNWhNRbCfXkbh3pjjIRxrYJE6v+0McHYpW+p8tdnCi0DBfh6H3LyX67GMv/sRAMBjcNtbYx/opQkxC30H20R6QDdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=PPhDEJQG; arc=none smtp.client-ip=82.195.75.110
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=master.debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="m73SAa85"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="PPhDEJQG"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.master; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	In-Reply-To:References; bh=jowajpFVZ0xeH87bj/2T4o7Ff2RSPd1B+ie8rwQkTRk=; b=m7
-	3SAa85s+SlyYuIKsfvUMBnk5TU3GAnkqVIbEncLJuFuB0urfzDw1dbb8nHrgM2TK0IMBXuQfdeZY8
-	r3cmuOCV6s0IgZ7xhNYsHjPIo/e96eLn2YKT+ge+mQMyLPazY230uALlSHWG06iD15tcMvJqCO+MN
-	QCy6GzMVzUD0QOeds8le45UYdQOYX/OgoKjIUpDpr1WWxKjSdIrMgLyxp874uJaIILRLsyjFBhm7E
-	IqgBvTM7MfBbxdGUaf7j2wtCJO1iUIrX9CIrbUpGTt4fmz6GctJfdfQahJm8sHzHgq154UQOBhEWC
-	4Kz8XPmUmYpORj4ROdNokwLMWUzAt5EQ==;
+	s=smtpauto.master; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description;
+	bh=1eQZEd1stWyp4uJ2pmnQ22zG4prCj1yMLu6NW2oY5LQ=; b=PPhDEJQGWG2CQWKwONgwXjN2E6
+	uXpN92N+aRS3a4o4goHkzx2rFYc/IC/Itd9vVLtiRyBiddyMBk8Xxocqq7UKek1OlZyZTbA9XDhUa
+	QqN0AKeCdxJJm55sPmeBDjpZuSpgTmH/NEJDQmdp72fDz2dzNF+b5Y1zxLbp+2/+vZQKdjvQb2Kpr
+	ODTGMfoxcf0OpRJBIfJsL0mv0PDaoiQGVQlOOfvluD1wpK62t8udxB7r/KY7Sh8GqRN4ILUGlMGkl
+	JzCtpw92I/9HKNTi4DvUpMGi/wmQN8LQbZp7m1+b1SbMD3HyGlU4n0QNhpvk10T2w5UMOYn2vIw3O
+	LCeVguTg==;
 Received: from guillem by master.debian.org with local (Exim 4.96)
 	(envelope-from <guillem@master.debian.org>)
-	id 1wLmks-000Ryr-2b;
-	Sat, 09 May 2026 18:50:26 +0000
+	id 1wLmku-000Ryz-3A;
+	Sat, 09 May 2026 18:50:28 +0000
 From: Guillem Jover <guillem@debian.org>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH 0/3] dpkg/Debian related terminology improvements/fixes
-Date: Sat,  9 May 2026 20:50:19 +0200
-Message-ID: <20260509185022.289672-1-guillem@debian.org>
+Subject: [PATCH 2/3] man/man7/suffixes.7: Add xz suffixes
+Date: Sat,  9 May 2026 20:50:21 +0200
+Message-ID: <20260509185022.289672-3-guillem@debian.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260509185022.289672-1-guillem@debian.org>
+References: <20260509185022.289672-1-guillem@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Guillem Jover <guillem@hadrons.org>
 
-Hi!
+These are very common nowadays, for example by default Debian source
+packages use this compression method.
 
-This series includes some fixes/improvements to dpkg/Debian adjacent
-information and terminology.
+Signed-off-by: Guillem Jover <guillem@hadrons.org>
+---
+ man/man7/suffixes.7 | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-Guillem
-
-Guillem Jover (3):
-  */: Say OpenPGP instead of PGP
-  man/man7/suffixes.7: Add xz suffixes
-  man/man7/suffixes.7: Clarify Debian artifacts description
-
- CONTRIBUTING.d/mail             |  8 ++++----
- CONTRIBUTING.d/patches/sendmail |  2 +-
- man/man7/suffixes.7             | 10 ++++++----
- 3 files changed, 11 insertions(+), 9 deletions(-)
-
+diff --git a/man/man7/suffixes.7 b/man/man7/suffixes.7
+index 4c8b3f27a..8487bb5a1 100644
+--- a/man/man7/suffixes.7
++++ b/man/man7/suffixes.7
+@@ -216,6 +216,7 @@ T}
+ \&.tar.Z	\f[B]tar\f[](1) archive compressed with \f[B]compress\f[](1)
+ \&.tar.bz2	\f[B]tar\f[](1) archive compressed with \f[B]bzip2\f[](1)
+ \&.tar.gz	\f[B]tar\f[](1) archive compressed with \f[B]gzip\f[](1)
++\&.tar.xz	\f[B]tar\f[](1) archive compressed with \f[B]xz\f[](1)
+ \&.taz	\f[B]tar\f[](1) archive compressed with \f[B]compress\f[](1)
+ \&.tcl	tcl source code
+ \&.tex	TeX or LaTeX source
+@@ -246,6 +247,7 @@ T}
+ \&.xpm	X11 pixmap source
+ \&.xs	Perl xsub file produced by h2xs
+ \&.xsl	XSL stylesheet
++\&.xz	file compressed with \f[B]xz\f[](1)
+ \&.y	\f[B]yacc\f[](1) or \f[B]bison\f[](1) (parser generator) files
+ \&.z	T{
+ File compressed using
 -- 
 2.53.0
 
