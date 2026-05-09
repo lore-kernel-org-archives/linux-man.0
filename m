@@ -1,43 +1,44 @@
-Received: from mx1.buffet.re (mx1.buffet.re [51.83.41.69])
+Received: from master.debian.org (master.debian.org [82.195.75.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400BB2D6E64
-	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 17:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.41.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08074A3E
+	for <linux-man@vger.kernel.org>; Sat,  9 May 2026 19:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778348249; cv=none; b=XHMsdBrGmPsyO7YH/jj7PX04D2rVVEvgTbz9weYX9VW+8N8JxsdPLTji0CqYlcqJCXe9XKFuX5AnDbJXL17j9GkelR5LXJYjKoLNZdPkn1n7/DtD/PmQmXKKTSwVkO+SMR99ephcGi6wPo7wFWdO6PSWXuSGdP6dJA0lufQStNk=
+	t=1778353701; cv=none; b=dTl1f6JzK/08avPCouptciJasCAcrNauoNcLrtvVEqKrxcQTrtUTb1jU42PYTvXqoDFZ5BQX+KUhMy98U8jq/eMkx0iWb93A6iFGGKvnK8A+twXb22PJc6+Gt9Gtgm+Oc+eCV7i3U+ug1pa4TcyTP4v8+8EPVPHJpXGUM3EZfkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778348249; c=relaxed/simple;
-	bh=BeN35Oa5pDf/WyvTxCd1aqW2/c4Q2m7og7jCL5x/ltc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VkBN/H2XMPk+qvsyCSoKnVSC30/potQmlh27syXd6RW7cTxpe2MyxuyYJsGCBmFpQkuTD1mpAXWbSZglZfnOTyuYcRmDx+kyT2OxbDm7m9tmX5u5haSolRM7qKltc/giagTgW9EGi1Q8mDsgd/RL09eCcGOm6oKgAhDGQTJEs9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buffet.re; spf=pass smtp.mailfrom=buffet.re; dkim=pass (2048-bit key) header.d=buffet.re header.i=@buffet.re header.b=f0OBncLl; arc=none smtp.client-ip=51.83.41.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buffet.re
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buffet.re
+	s=arc-20240116; t=1778353701; c=relaxed/simple;
+	bh=UF8u7JxSqPxl6SLoGSBDXljA4qF2abQb9uh/KbdUCu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Wpy94H0IGMz4sVN8Slr7cS0mzDZTsabgx9G+c7YxtJ6ugnvhpazW3SSs+o4LdpBGjW0V24NiVHWeR2Mjk2ohykSqpWhz0dUXvV2ZCHt2Oy+8UDjrlnW5do1m9igIjDGFEaYsViZkh0O67MfvkEXox8Lv+vWcn3kCiRbvP4c15uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=NJuprv85; arc=none smtp.client-ip=82.195.75.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=master.debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=buffet.re header.i=@buffet.re header.b="f0OBncLl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=buffet.re; s=mx1;
-	t=1778348240; bh=BeN35Oa5pDf/WyvTxCd1aqW2/c4Q2m7og7jCL5x/ltc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f0OBncLl6J9ei7XIEkDIKUZtfTDBXoKSfmgT5WqOUWfbXYN16L0JhhIfw3W0XacNI
-	 CsGZGOIqheotumD0ptPDDhVWREsPmZBnL/17uzdNqLYKaJ3MPdRvK/aSfE+0Ye+d4o
-	 3R6KBeqVUrX1L1BazMxchwipsxJWl7tb64Q689+rxoMgvkKVAWr7i7u3xUFC2ZPVX2
-	 kacDD2GiwIuTW4TBN9H0fiW5QVXKwT2Cv8T5M5CCTmvPeIwez8TYUx/Mw5l0Oo12W/
-	 eVnCASuYqh6c0AuUFEN43Ubk/DrIjjRKEMtKDxrHhUdugt3f5x21l/p9T3ptKLQ4gu
-	 8alW1DwJag8Uw==
-Received: from localhost.localdomain (unknown [10.0.1.3])
-	by mx1.buffet.re (Postfix) with ESMTPSA id 10972125928;
-	Sat,  9 May 2026 19:37:20 +0200 (CEST)
-From: Matthieu Buffet <matthieu@buffet.re>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="NJuprv85"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.master; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description;
+	bh=WvPR1PZRrqPwklGDFos8NwcJfvOo2onavUZudRP0hyg=; b=NJuprv85YIhGHKDS+FBVVRLBkl
+	Nu8DolWGPdmmmww1YWDWjFf5G/qucy3+iIg4eyIIbgKMn7op0FMeoesFtT+D10Rfxev4Ph79q+Il4
+	w20iTYahkTyB6lj4oP3ozDc88eyEmJx08yXF0mW9VI2uvqJqHgvdM+PT6Q/h6Qp947DSJu5fy61fZ
+	nREhvr8ZiENwUGftXUXxHNwQllVYSnVdcCNdUFJMtVCHgRKAnQB1AdG4rL5OyJ7kRW7ivnl8ctDRC
+	T5VEOr0l5E4tP9ei8+H7FsXoheqBBdYoZElj9UFBRTK4aYsqRKbcXdJSYenUxElNigL689Unp1vCr
+	WrHoB9pA==;
+Received: from guillem by master.debian.org with local (Exim 4.96)
+	(envelope-from <guillem@master.debian.org>)
+	id 1wLmkv-000Rz6-2O;
+	Sat, 09 May 2026 18:50:29 +0000
+From: Guillem Jover <guillem@debian.org>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org,
-	Matthieu Buffet <matthieu@buffet.re>
-Subject: [PATCH 1/1] man/man7/pid_namespaces.7: Fix process/namespace hierarchy restrictions
-Date: Sat,  9 May 2026 19:37:11 +0200
-Message-Id: <20260509173711.1920769-2-matthieu@buffet.re>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260509173711.1920769-1-matthieu@buffet.re>
-References: <20260509173711.1920769-1-matthieu@buffet.re>
+Cc: linux-man@vger.kernel.org
+Subject: [PATCH 3/3] man/man7/suffixes.7: Clarify Debian artifacts description
+Date: Sat,  9 May 2026 20:50:22 +0200
+Message-ID: <20260509185022.289672-4-guillem@debian.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260509185022.289672-1-guillem@debian.org>
+References: <20260509185022.289672-1-guillem@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -46,52 +47,40 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-setns() actually allows forking new processes directly into grandchild
-PID namespaces, so the parent of a process can be in grandparent PID
-namespace. Indeed, the only restriction in setns() is that the target
-PID namespace needs to be a descendant (direct child or not) of the PID
-namespace of the caller.
+From: Guillem Jover <guillem@hadrons.org>
 
-Additionally, that restriction is not a consequence of the paragraph
-before: add a new paragraph break to remove the implication, and add the
-actual reasoning (fork() APIs needs to be able to return a valid PID in
-the namespace of their caller).
+The terminology for these artifacts was "recently" updated to make
+them consistent and more clear, where both dpkg and the Debian Policy
+now have matching terminology. Refer to the dpkg man pages for further
+information and format description.
 
-Signed-off-by: Matthieu Buffet <matthieu@buffet.re>
+Signed-off-by: Guillem Jover <guillem@hadrons.org>
 ---
- man/man7/pid_namespaces.7 | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ man/man7/suffixes.7 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man/man7/pid_namespaces.7 b/man/man7/pid_namespaces.7
-index f7e0aeded..39b9331ca 100644
---- a/man/man7/pid_namespaces.7
-+++ b/man/man7/pid_namespaces.7
-@@ -207,14 +207,20 @@ because doing so would change the caller's idea of its own PID
- (as reported by
- .BR getpid ()),
- which would break many applications and libraries.
--.P
- To put things another way:
- a process's PID namespace membership is determined when the process is created
- and cannot be changed thereafter.
--Among other things, this means that the parental relationship
--between processes mirrors the parental relationship between PID namespaces:
--the parent of a process is either in the same namespace
--or resides in the immediate parent PID namespace.
-+.P
-+Additionally, because
-+.BR fork(2)
-+and its variants need to return a meaningful new PID in the namespace of
-+their caller, the parental relationship between processes needs to loosely
-+mirror the parental relationship between PID namespaces. To that end,
-+.BR setns (2)
-+is restricted to only accept descendant PID namespaces (direct children or not).
-+Thus, a process can only be forked in a direct child PID namespace, or in a
-+grandchild PID namespace (in which case it will be assigned a PID in all
-+ancestor namespaces).
- .P
- A process may call
- .BR unshare (2)
+diff --git a/man/man7/suffixes.7 b/man/man7/suffixes.7
+index 8487bb5a1..8408aaadd 100644
+--- a/man/man7/suffixes.7
++++ b/man/man7/suffixes.7
+@@ -79,7 +79,7 @@ Suffix	File type
+ \&.csh	\f[B]csh\f[](1) shell script
+ \&.cxx	equivalent to \f[I].cc\f[]
+ \&.dat	data file
+-\&.deb	Debian software package
++\&.deb	Debian binary package (\f[B]deb\f[](5))
+ \&.def	Modula-2 source for definition modules
+ \&.def	other definition files
+ \&.desc	initial part of mail message unpacked with
+@@ -91,7 +91,7 @@ command output)
+ T}
+ \&.dir	dbm data base directory file
+ \&.doc	documentation file
+-\&.dsc	Debian Source Control (source package)
++\&.dsc	Debian source package control file (\f[B]dsc\f[](5))
+ \&.dtx	LaTeX package source file
+ \&.dvi	TeX's device independent output
+ \&.el	Emacs-Lisp source
 -- 
-2.47.3
+2.53.0
 
