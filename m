@@ -1,99 +1,122 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A7B3F412A
-	for <linux-man@vger.kernel.org>; Thu, 14 May 2026 11:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778756945; cv=pass; b=bS/rbxbnCJB99j+65m2+gpi8bHrUcVaeCenx0wet+w7spRQoaXs5+LMYTy8TKfEAXZkEdjwlz1UoOCz7r1Ee7eaIrpxWH1gh5pKa/JSTVqRkOpdZmV/ffR6k7g7EmjKtLUuVu05i4URMLPVoOtpP/MeegmlOPM/AokwXCBLUGMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778756945; c=relaxed/simple;
-	bh=Vv7WL8JL0OZ9vJ9e5fy/DLeqk7jiRPatk/NBGWcnF1k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oFzfiEjPpeLmph67vb9Xhn++SwLrIvtFvx7la3NCz/VjK3MUGTvSQf7SdvO2/yuHS05p+XOSvU6q4QWQ/KYsQCbcMrKu/qllg2BkcGtNZVXbS92u1GcibM40p1z6zaqn7iiCEXOvIGYC7n6XUZmupxdexGA1aA70V+qRlDde8Jc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org; spf=pass smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=Cz6eL/9k; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=ltmk2B5w; arc=pass smtp.client-ip=85.215.255.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=clisp.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A4A3BF69D
+	for <linux-man@vger.kernel.org>; Thu, 14 May 2026 11:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778758164; cv=none; b=cUIrxiIE+dVfVQ1SzgcLLTsBuYfiF6K+0QUyudm68xq7sIjE1S4s7Ax7dKpZVPErko6+uEN5GlC5AXjoShjZDMMc5LUOmIIQ1uMTN0PZNbA8ef3WKYpe69/563NM3dgOM+ukZjzySxU404YYb/g2zvGTrj4ZLveei3ZKlx6PgGQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778758164; c=relaxed/simple;
+	bh=JXyvWvEdSr9RTp+sc8Pq4yNkqBX+AUPV8lB0Or6ZsnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nhTIe/gTUJHtEn0GA2iqFr3x07hLuYh0/JY1qAmqFZG0GTC3/hZBAygJriWfwDvG5yo2xEG8Iv0pTsV6rAAYP3h5zJ9r3pccBLvrdjRvPdL/0L2LlIzeo/n3ghoiToVPFsHzvOvSGPCF+B1YHu5ZK2kuqHN2iTElsmW3BGjp9/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PP1o4WM7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="Cz6eL/9k";
-	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="ltmk2B5w"
-ARC-Seal: i=1; a=rsa-sha256; t=1778756216; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=SWCn9vK0k2n61+1jPRebZyASAM86RAQ1H++UBjcaJzKO2tGwuauNYSzn2NXDY82E6c
-    y/0bSlNQ7+LuYXbway+kY2PDHr0AoNHE0msBP5wakx8hP3JJbVJgoMlHD5z1kIXwdBEP
-    o1/HZ5Ftt26FNJHZ5jHpIQM1ZGGauzNLtQI0reSIERnwepEGG4wYb8SX3Cwbg+K3dEh0
-    rDQCynpwHdBx5NFN5A5SUz5F8Pi+XX/0f9Epn02YdyXx8QtWwv1C40oGJvnkWGELwIIR
-    Z/gUxf5EIhQ5S/A26uPn586H0saSZ+AJkbfDmmgEY4nrpNWOfsHM2Q7tr7OlgNjk2xqm
-    2S+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1778756216;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-ID:Date:Subject:To:From:Cc:Date:From:Subject:Sender;
-    bh=W4wyKGLfhGfuBfPQPZLgbCUynNACQrXnV8o8vD9Sloo=;
-    b=XYlAFOJ82PiJ00Xv1piTlDwelUpwk1Fz44nUYb7rC7MOaWD14FwsVdoS4YuC6J6Rq8
-    e9cjjb+XBCubkcizrLAtdli823gsGAdIVLeGF4uhnOOIBaggFLEdr9RRlBLArOYTfR2i
-    YdhjLXMFV1zzD6eULs85PEilCGJFhXRhX+xvg5FaKiYfuuGRCvguxmDnxXt0+o9LL2F9
-    g5D1yu2Yj+o+GYcdL0ggei1WKz2j1vePCgPzkLv4MZGgqanK1Oqs/GSUHbBsl7KET6lb
-    wRvVSOnLDDvzmqaR8BNivDvz5GVhs+p3DUMxHC3GGbNY3pMhvV7zT9Mye7HXCSxcWidK
-    gGtg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1778756216;
-    s=strato-dkim-0002; d=clisp.org;
-    h=Message-ID:Date:Subject:To:From:Cc:Date:From:Subject:Sender;
-    bh=W4wyKGLfhGfuBfPQPZLgbCUynNACQrXnV8o8vD9Sloo=;
-    b=Cz6eL/9kKCQShH7das1o/L8kYBnzLVo46t1eF9Oo1FsmKKdhrn8kija0nDg3G7Lxr8
-    r3L0EQnL1L4p6Oo4LIUxu25FfRl+9AWaRQKdAFjp0vsD0t2l8+jDe99vWz2YdHpsNLZb
-    eNibECRdcoHtm9dtWVoD3B1CvgRm+QbBvocDD7vhjqPVKTIagZPU4ox9qeoQWVpvcEc8
-    0Pe33+hebCUQCLgKLo5Ftha6hXVZsCUnoY6qbUH9Y1mnNQd2LM4HpK89k1IEkAHvmjw+
-    iYDYTrkf+KUzdMg4ChCou3X6+rkdnoYXR80E+vraXhkCtbQMzU46obmz9O6TWmcMWQ5f
-    Hj9g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1778756216;
-    s=strato-dkim-0003; d=clisp.org;
-    h=Message-ID:Date:Subject:To:From:Cc:Date:From:Subject:Sender;
-    bh=W4wyKGLfhGfuBfPQPZLgbCUynNACQrXnV8o8vD9Sloo=;
-    b=ltmk2B5wkPJZCi64MpTRUsg8FHJTMqoOchjuxfluBKpZoyOSdGRIaIaTXgo6/a7gxN
-    pvTNTGku6sDsk2J1WCAg==
-X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlLnY4jECd2hdUABIYZgv6aLDTL6Xv7xN28vQ8goKMrR/7NYCSr6k+btzwwWnLK1g="
-Received: from nimes.localnet
-    by smtp.strato.de (RZmta 55.0.1 AUTH)
-    with ESMTPSA id Necda424EAutyDC
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Thu, 14 May 2026 12:56:55 +0200 (CEST)
-From: Bruno Haible <bruno@clisp.org>
-To: linux-man@vger.kernel.org
-Subject: clumsy cast in dlopen.3
-Date: Thu, 14 May 2026 12:56:55 +0200
-Message-ID: <21436742.Yz81rIOvuz@nimes>
-Organization: GNU
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PP1o4WM7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B42C2BCB3;
+	Thu, 14 May 2026 11:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778758163;
+	bh=JXyvWvEdSr9RTp+sc8Pq4yNkqBX+AUPV8lB0Or6ZsnE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PP1o4WM7gdTxbNUfCyWhRxJwKt4aDdAk3bxkFPnCCqWCfHlvomCqB+VEjhJkcKYQv
+	 3SALXrt87WFO1Ge9EilSVz3nfhkukJi6v/ajVb1YVx/hjdYI8u0yfjjPHsSA6kl3iB
+	 90Ja9mgJPcZKDkVEx12cCuwBC+rHiGjh6kBikp05Cgf9i8jnKrSUxGkiBOMLGpGf06
+	 s4htW/Sz6Rkc+ZeWxwuq9SfgExfOrsAety6fFuRGefTPgQNPP5H2XmPJNlLey0lLY1
+	 b9evJRR0/yktGAP4Xd1hQFWZ5JKp3Mj8v7TNuCi9PKp4h91Z/GNSiv8YA2GUy7deUf
+	 OBYwsDnRc+eRg==
+Date: Thu, 14 May 2026 13:29:20 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Bruno Haible <bruno@clisp.org>
+Cc: linux-man@vger.kernel.org, Martin Uecker <uecker@tugraz.at>
+Subject: Re: clumsy cast in dlopen.3
+Message-ID: <agWw2-7U82vIKSWI@devuan>
+References: <21436742.Yz81rIOvuz@nimes>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-The dlopen.3 man page contains this text:
-
-                  *(void **) &cosine = dlsym(handle, "cos");
-
-              This (clumsy) cast conforms with the ISO C standard and will
-              avoid any compiler warnings.
-
-However, such a cast violates the strict aliasing rules of ISO C, no?
-
-The proper workaround is to use a union:
-
-  union { double (*cosine) (double); void *pointer; } u;
-
-  u.pointer = dlsym(handle, "cos");
-  ...
-  printf("%f\n", u.cosine(2.0));
-
-Bruno
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tn5vpzbgdcnnitpy"
+Content-Disposition: inline
+In-Reply-To: <21436742.Yz81rIOvuz@nimes>
 
 
+--tn5vpzbgdcnnitpy
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Bruno Haible <bruno@clisp.org>
+Cc: linux-man@vger.kernel.org, Martin Uecker <uecker@tugraz.at>
+Subject: Re: clumsy cast in dlopen.3
+Message-ID: <agWw2-7U82vIKSWI@devuan>
+References: <21436742.Yz81rIOvuz@nimes>
+MIME-Version: 1.0
+In-Reply-To: <21436742.Yz81rIOvuz@nimes>
 
+Hi Bruno,
+
+On 2026-05-14T12:56:55+0200, Bruno Haible wrote:
+> The dlopen.3 man page contains this text:
+>=20
+>                   *(void **) &cosine =3D dlsym(handle, "cos");
+>=20
+>               This (clumsy) cast conforms with the ISO C standard and will
+>               avoid any compiler warnings.
+>=20
+> However, such a cast violates the strict aliasing rules of ISO C, no?
+
+I think I agree.  Dereferencing the pointer &cosine with a type
+different than the type of the object is not allowed.  I've CCed Martin,
+who might be able to confirm.
+
+>=20
+> The proper workaround is to use a union:
+>=20
+>   union { double (*cosine) (double); void *pointer; } u;
+>=20
+>   u.pointer =3D dlsym(handle, "cos");
+>   ...
+>   printf("%f\n", u.cosine(2.0));
+
+This is seems much better, indeed.
+
+
+Have a lovely day!
+Alex
+
+>=20
+> Bruno
+>=20
+>=20
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--tn5vpzbgdcnnitpy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmoFsgkACgkQ64mZXMKQ
+wqkI4g//dgh59KPQypAztvMDhS+MIRPOnr8g+NkXn3Zcr136+cjb1gJXFUCjHBkH
+3W6G/vv3sbUK4MoqJNyG2jsRMQYKHUvlmDQarjSJAB3gTrS0j8a3MW6O2Qv4XcjG
+MyIkZbKMppQWuAcXy8q7sUHxO24qqqVD2RuEkSM+JltCMuGQLRxxGRqUVCOHOSdM
+3nJTW6plLGioSFzRD+kB4mGoqfPNZfxYcUbjYncZV3ksXUZ1GSZ9Js0Yl+PcTpmy
+gU2T+yjD0CQUdoDsA+W04aTFCm98Ui2TXOfbdI2HTKc9tQq1ka0jHXkhm7vHKTJK
+cWC6JDkJLNV7jEEO2aD51P6m8jmZ1tx0D7zL6AP2MV6yzZa1DmBYZDaImEZN/DXS
+oQTQfx4KPQYXdsBC8zUXpVeud2A2uOhQXu8yZCGZ7aEYqBe9W5XMG/Weak00+IYg
+QHv1MibkcgpalOQcWOi9WLrkuJ9V5L/mM5bIF3t/PH1NtqzCeuNDv4iaW+zz6TC9
+dW1RvPY02b1ai5jFlaV69xwq0tKWD/SLMdNfy28VYLwheLENShDa47eDDXoqry/R
+2SoOw3fO4MVs0FjA9uXheD/te/pUuTjb11gd1M+6SiDsSvL6ABb0OYW+DIEadxI5
+0nyWbkEAd3Nx20FF0A+OHrftHMgaE018F1EAU46wDZVuswNnGwc=
+=dV4j
+-----END PGP SIGNATURE-----
+
+--tn5vpzbgdcnnitpy--
