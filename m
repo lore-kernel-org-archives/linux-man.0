@@ -1,143 +1,174 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716543DA7CA
-	for <linux-man@vger.kernel.org>; Mon, 18 May 2026 05:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216BD29B766
+	for <linux-man@vger.kernel.org>; Mon, 18 May 2026 10:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779083465; cv=none; b=ARb00vtlC4KYk9bhYGENi3mX/ecfqRs6Fff7q2MX55Bam54/lkYqJLThnsJA3/ccRUvG9uURGXqQxOTEx7RM2voQ0u04tuxdixBHLUhukOi/uTyb8L9dkGTLZW+Sn6In/fGHm+HppqYuNeXWqN/RKnwdbh0tOs/apM+zpMNC3dE=
+	t=1779099655; cv=none; b=smz82yYLOf53/UlsP0bP3oBtEGwLZRAWdfGZI6oqd1IYxF6TuMFZHd5tukDAm6F1XVpEATus82Rgu15iNjY+3yoP7vPpvbxSGZE7E55Npx7KRp5HPtevs4+BFG771gMaBzkYPAJQnwaiJuuSxqJ+wd44LagqJfmBltquWRcCa+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779083465; c=relaxed/simple;
-	bh=8ezwosqfreL+dwXd+rndGKo9xks52ZgMJWdDr8Dzw8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mfIaRkvl6Q1gUp4ZSM9lgWmjMzeKjck+G1rRFB4/ApwrZCaQnnC0W8khp/bPJGkyb83huWzB8A3sUdD0ZG+7fsrWmEVDRadbmLfKpCt636nnqhE8LjK/43IsrKqHfs8yWasEdWODcxq7d6dsHL2XHTd+NUa5CSApmqzBASKbgOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=disroot.org; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 4B8D42756F;
-	Mon, 18 May 2026 07:50:56 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id wdnxBDz-5nro; Mon, 18 May 2026 07:50:55 +0200 (CEST)
-Date: Mon, 18 May 2026 06:50:47 +0100
-From: funsafemath <funsafemath@proton.me>
+	s=arc-20240116; t=1779099655; c=relaxed/simple;
+	bh=/GUjQ6hNvSVS8Wm48V+9QwPYl3R09jTSlBaHXhL5Qps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jDMQUCEjl3RaeacUCMYgEGyrijfJsh7UM6rZMBxv/nyoiplqamq1Fl6U07Ppf9+/HWwhCXx4R8tICFNxrVCRVd0X7Th65dceUF2Y2YO04Fnq0BMPXfMn6BlF0XWTz5sLkNTYtFN5kMiBb93WL5NnUejhlT4qNxKpaHnZptRXxAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m0Eo+vOQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kF2HF/Yl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m0Eo+vOQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kF2HF/Yl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m0Eo+vOQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kF2HF/Yl";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m0Eo+vOQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kF2HF/Yl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 99FF666D7B;
+	Mon, 18 May 2026 10:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779099651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wAjqq0HDhG1w68QZGKb1QYIBa0ednC+JV1sPpM3qvGM=;
+	b=m0Eo+vOQnobcje0dLywbZa8CAmMwBjQLYZI/d+y4CWVcFfhy+bhNJjlw1U4AQZFIeQ31n8
+	mlI8kRvwUfMnbNKnw2gNRVOkSHaIAs5Q6MFc+JG1pLkpoTzqEHqc+nfui/n35qg0KzFfpW
+	b9cf5ZNa6jZ2jlGOSsC4ro7elRdgWkw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779099651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wAjqq0HDhG1w68QZGKb1QYIBa0ednC+JV1sPpM3qvGM=;
+	b=kF2HF/YlCjbJ15o4VPsHnhbIVaLiJCmtMHFEeVHLqbsxtR1ZYWln6E2knAsIjl+Ocr/8ud
+	g/aaGbQ0AC366bAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=m0Eo+vOQ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="kF2HF/Yl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779099651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wAjqq0HDhG1w68QZGKb1QYIBa0ednC+JV1sPpM3qvGM=;
+	b=m0Eo+vOQnobcje0dLywbZa8CAmMwBjQLYZI/d+y4CWVcFfhy+bhNJjlw1U4AQZFIeQ31n8
+	mlI8kRvwUfMnbNKnw2gNRVOkSHaIAs5Q6MFc+JG1pLkpoTzqEHqc+nfui/n35qg0KzFfpW
+	b9cf5ZNa6jZ2jlGOSsC4ro7elRdgWkw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779099651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wAjqq0HDhG1w68QZGKb1QYIBa0ednC+JV1sPpM3qvGM=;
+	b=kF2HF/YlCjbJ15o4VPsHnhbIVaLiJCmtMHFEeVHLqbsxtR1ZYWln6E2knAsIjl+Ocr/8ud
+	g/aaGbQ0AC366bAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92C6F593A8;
+	Mon, 18 May 2026 10:20:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id haDOIwPoCmoSFwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 18 May 2026 10:20:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B5382A0A90; Mon, 18 May 2026 12:20:50 +0200 (CEST)
+Date: Mon, 18 May 2026 12:20:50 +0200
+From: Jan Kara <jack@suse.cz>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Subject: [PATCH] man/man2/seccomp_unotify.2: Document
- SECCOMP_IOCTL_NOTIF_SET_FLAGS and SECCOMP_USER_NOTIF_FD_SYNC_WAKE_UP
-Message-ID: <agqooRyZy65sjFtl@nix-mail>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2319;
- i=funsafemath@proton.me; h=from:subject;
- bh=j8lHGvALPQVAHTN6LQdcZG7ASTMpjs9S72ca6JInTsQ=;
- b=owGbwMvMwCV2QvA6L+scLT/G02pJDFlcy3vlqiZf4Nat++d8zz3J4qNg/4Hk7hnfeg85xB86F
- cq34LV3RykLgxgXg6yYIovEwju+Urrqn+0/p6rCzGFlAhnCwMUpABOpXcDIcL1l7paY5FuPAht6
- DDT7ekU80+9HbZ+/9pxHwNETDJWXNjL8Zp2zPlzfjH3SKp6HEldFA3LinHz/c/gY5D1K1V37siC
- GBwA=
-X-Developer-Key: i=funsafemath@proton.me; a=openpgp;
- fpr=B07EE98D22F23DFB077429C0DF66F4774CE714D5
+Cc: linux-man@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Petr Gajdos <pgajdos@suse.cz>, Jan Blunck <jblunck@novell.com>
+Subject: Re: [PATCH v1] man/man2/quotactl.2: tfix
+Message-ID: <kf4k33gsaax2v2iwzfprvogsyfqxbjdldpkdefwraaea2ytijx@tm7g2gul3h53>
+References: <9d328eab7a632ac87f48bcfe88c0e5c3cca18d2a.1778951437.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h6h7v5srgvqqfxbp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9d328eab7a632ac87f48bcfe88c0e5c3cca18d2a.1778951437.git.alx@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 99FF666D7B
+X-Spam-Level: 
 
+On Sat 16-05-26 19:12:08, Alejandro Colomar wrote:
+> It seems most likely that this was a typo, and that Q_XQUOTAON was
+> meant.
+> 
+> Fixes: 1eeddf25 (2010-06-16; "quotactl.2: Major updates")
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Petr Gajdos <pgajdos@suse.cz>
+> Cc: Jan Blunck <jblunck@novell.com>
+> Signed-off-by: Alejandro Colomar <alx@kernel.org>
 
---h6h7v5srgvqqfxbp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: [PATCH] man/man2/seccomp_unotify.2: Document
- SECCOMP_IOCTL_NOTIF_SET_FLAGS and SECCOMP_USER_NOTIF_FD_SYNC_WAKE_UP
-MIME-Version: 1.0
+Right. Thanks for the fix. Feel free to add:
 
-Document the SECCOMP_IOCTL_NOTIF_SET_FLAGS ioctl(2) operation and its only =
-flag,
-SECCOMP_USER_NOTIF_FD_SYNC_WAKE_UP, which advises the scheduler to move the
-supervisor to the CPU on which the target process is executing for faster
-context switches.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-<https://lore.kernel.org/r/20230308073201.3102738-5-avagin@google.com>
+								Honza
 
-Signed-off-by: funsafemath <funsafemath@proton.me>
----
- man/man2/seccomp_unotify.2 | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
-
-diff --git a/man/man2/seccomp_unotify.2 b/man/man2/seccomp_unotify.2
-index a5c1a4423..70b2996a9 100644
---- a/man/man2/seccomp_unotify.2
-+++ b/man/man2/seccomp_unotify.2
-@@ -27,6 +27,7 @@ .SH SYNOPSIS
- .BI "int ioctl(int " fd ", SECCOMP_IOCTL_NOTIF_ID_VALID, __u64 *" id );
- .BI "int ioctl(int " fd ", SECCOMP_IOCTL_NOTIF_ADDFD,"
- .BI "          struct seccomp_notif_addfd *" addfd );
-+.BI "int ioctl(int " fd ", SECCOMP_IOCTL_NOTIF_SET_FLAGS, unsigned long " =
-flags );
- .fi
- .SH DESCRIPTION
- This page describes the user-space notification mechanism provided by the
-@@ -881,6 +882,41 @@ .SS SECCOMP_IOCTL_NOTIF_ADDFD
- ioctl(notifyFd, SECCOMP_IOCTL_NOTIF_SEND, resp);
- .in
- .EE
-+.\"
-+.SS SECCOMP_IOCTL_NOTIF_SET_FLAGS
-+The
-+.B SECCOMP_IOCTL_NOTIF_SET_FLAGS
-+operation (available since Linux 6.6)
-+\." commit 48a1084a8b7423642b5f17ca6202f6f277c5392b
-+is used to modify the behavior of the seccomp user-space notification mech=
-anism.
-+.P
-+The third
-+.BR ioctl (2)
-+argument,
-+.IR flags ,
-+is a bit mask that includes zero or more of the following flags:
-+.RS
-+.TP
-+.BR SECCOMP_USER_NOTIF_FD_SYNC_WAKE_UP " (since Linux 6.6)"
-+\." commit 48a1084a8b7423642b5f17ca6202f6f277c5392b
-+Advise the scheduler to move the supervisor to the current CPU.
-+.IP
-+In workflows where the target and supervisor wait for each other
-+(do not execute in parallel),
-+this flag makes the context switches a few times faster.
-+.RE
-+.P
-+On success,
-+this operation returns 0;
-+on failure, \-1 is returned, and
-+.I errno
-+is set to indicate the error.
-+This operation can fail with the following errors:
-+.TP
-+.B EINVAL
-+An invalid value was specified in the
-+.I flags
-+argument.
- .SH NOTES
- One example use case for the user-space notification
- mechanism is to allow a container manager
---=20
-2.52.0
-
-
---h6h7v5srgvqqfxbp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQYodxNGi0n8z/zZSXIEdcNBZwqTgUCagqotAAKCRDIEdcNBZwq
-TpsCAQCFfmtEJpzXjFNiIUMDw6UVOsbERejdiIGyHI0ruUc5bQD/V0JXrycz5BFU
-wbU7CRqDdNICtC9totHO1O6MGT4+UQ4=
-=ih4v
------END PGP SIGNATURE-----
-
---h6h7v5srgvqqfxbp--
+> ---
+> 
+> Hi Jan,
+> 
+> I'm working on this page, and found what seems to be a typo.  I'd like
+> you to confirm, in case I'm missing something.
+> 
+> 
+> Have a lovely day!
+> Alex
+> 
+>  man/man2/quotactl.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man/man2/quotactl.2 b/man/man2/quotactl.2
+> index ef050714..bf361409 100644
+> --- a/man/man2/quotactl.2
+> +++ b/man/man2/quotactl.2
+> @@ -130,7 +130,7 @@ .SH DESCRIPTION
+>  .B Q_XQUOTAOFF
+>  Turn off quotas for an XFS filesystem.
+>  As with
+> -.BR Q_QUOTAON (2const),
+> +.BR Q_XQUOTAON (2const),
+>  XFS filesystems expect a pointer to an
+>  .I "unsigned int"
+>  that specifies whether quota accounting and/or limit enforcement need
+> 
+> Range-diff against v0:
+> -:  -------- > 1:  9d328eab man/man2/quotactl.2: tfix
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
