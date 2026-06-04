@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D252DC334
-	for <linux-man@vger.kernel.org>; Wed,  3 Jun 2026 23:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792D63DC86E
+	for <linux-man@vger.kernel.org>; Thu,  4 Jun 2026 11:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780530467; cv=none; b=B+Ud8zss3Dx20pp1dKCi0rkd+f5jtt9BmxhydNdp27P/LDuaZ1EYOcjgNt0TvmC9RyDEjswVPgh6bahcHKzYy9BiDjZuzfPYLih4Q5AhTaRCRbuK73iVxY4Muzf7UoF+EsDCRDInEf7jDGfYo76UWMkekLViEQIpVNSGub7N/dQ=
+	t=1780570987; cv=none; b=Pc02wBfv4x9apl6HiE182tK3TKwFwu9ghdoAprfqVa++lp5D0n0c9MEXntwPYK3FbFimqWboWIFE4S1x9NfxLYDraaYpuMZqDS+O3JG3HwtBmirieqdHsXlfYhrfpJijN9pS5EWwZ6DeuFq6Cr+JOm1JqAzVuwpB079F6BrvzrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780530467; c=relaxed/simple;
-	bh=52MImYFJ4tcBpR+0tO2L2JNKwCCJMK2ZzM3wrPX0sZs=;
+	s=arc-20240116; t=1780570987; c=relaxed/simple;
+	bh=zkpsJuAEQnrz3eRAnzhIaTEuIeFfLa0I3b10hPrUeak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rq79NJLPSK4jP7BP7Svd/iP7PSYcHKYCMmDdcVtSX/BhItrUYESbKmcn23OTVolVQDNRakXdX+paV1w/vI86NfBRTrkhXnRWkJ1MT2M5in2b1Qnsump++o5W3SpziQlDlBzC5sdRpBZiBINK6gresqzr/b+XJgq1LH1VjFr4024=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq4aQsmr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oNRgzwlBE1sGVzzt+iQ4NTF+MTGo0HUoVEm7+FUFL79SbBgxMrQ1/oYemIDNo/hy+A+is+Dglw+v9xmBl7apHxqDeITMCTHbRg0knuhzDulgtMG7nbiaiXGZzE+8QPjsMONz1ZQ0RJ8rU1SPoXMFTnMPFw7firMVz/SsyAFSTbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWkaXVE1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq4aQsmr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909B11F00893;
-	Wed,  3 Jun 2026 23:47:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWkaXVE1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C9B1F00898;
+	Thu,  4 Jun 2026 11:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780530466;
-	bh=Al31tQmHYfz89s73gvBkOqI4OUWFQr3OxgdCFp9OgVY=;
+	s=k20260515; t=1780570986;
+	bh=IyS+3Tl1pAkUejnyuHbA6jo+cruMpuGL4QsCZmwHBq4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Aq4aQsmr+K+w73eDfeM7wShWS/mWTFdXpk6OD1iL7CP8L2bqoB80O8YcrG2eYLxJJ
-	 N4G92lfyRPE/DM+oDYwHY+QUiC3dRKh88ESpMMdSwM8f0HZSBP50ddM936nkJqAafg
-	 fs7V+MJszBuXGYYF79PF7Jp9ICmryfBivgSRAdWVA6EHyENizRrbL99e1fctePOsNI
-	 7tlkIZ+SaDzP+QsGPuPK/2Dpetd200n9dBy14+OEDly/228k8OmSyeQlD6t2mNiejF
-	 xhfK7N2lzPvpwv6Z3Fb91nkXfGMWhSas9IuQh3CdiOfUc4B1DMMph9C8xpRs8tHNKg
-	 tZ7iKFf2SZR5w==
-Date: Thu, 4 Jun 2026 01:47:42 +0200
+	b=cWkaXVE16BgITXGEDN5O+S0q/EghFan7pGNTkv4QGCE9mIo+3ukI9IbBN40Ux2ed3
+	 4noR+TnO/qjaufOmUo17S18HX5ThxbGas6YIIU3YLeO5bgIDdQH8v+XIt2//vMg83g
+	 kkpNlMQkZwOwrYKiZHbelRfIEjhhyn0fqQfvdOVjNxlf7pnpjgJqmw+YAlik2FlrB3
+	 vff06u6ZoobejrNK5a4Iqx3ZXNUELEBRK63rm4vU4jTI2mXyFHXUskDQIKP0GGjb0+
+	 WWPG4CzPoykhprKLIk8ezQvozyORuaR7hNHldlZRemV+YV+ml5/6tZnX5bY0k+Xjoq
+	 toVLjI9Kkkhbw==
+Date: Thu, 4 Jun 2026 13:03:03 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: linux-man@vger.kernel.org, linux-mm@kvack.org, 
-	akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, david@kernel.org, 
-	kernel-team@meta.com, Kiryl Shutsemau <kas@kernel.org>
-Subject: Re: [PATCH v2 6/6] ioctl_userfaultfd.2: Reference UFFDIO_RWPROTECT
- and UFFDIO_SET_MODE
-Message-ID: <aiC9Be5oxT8u1Z6E@devuan>
-References: <20260526134149.2831720-1-kirill@shutemov.name>
- <20260526134149.2831720-7-kirill@shutemov.name>
+To: Siegfried Ehlert <SiegEhl@netscape.net>
+Cc: linux-man@vger.kernel.org
+Subject: Re: Error in manual page memcpy(3)
+Message-ID: <aiFagMMoVEGdlJop@devuan>
+References: <e53068f4-2541-4220-8571-47e3283bb01f.ref@netscape.net>
+ <e53068f4-2541-4220-8571-47e3283bb01f@netscape.net>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -44,90 +41,86 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uqu5y4nffyhbxest"
+	protocol="application/pgp-signature"; boundary="mnihsgftzaa2wwue"
 Content-Disposition: inline
-In-Reply-To: <20260526134149.2831720-7-kirill@shutemov.name>
+In-Reply-To: <e53068f4-2541-4220-8571-47e3283bb01f@netscape.net>
 
 
---uqu5y4nffyhbxest
+--mnihsgftzaa2wwue
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: linux-man@vger.kernel.org, linux-mm@kvack.org, 
-	akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, david@kernel.org, 
-	kernel-team@meta.com, Kiryl Shutsemau <kas@kernel.org>
-Subject: Re: [PATCH v2 6/6] ioctl_userfaultfd.2: Reference UFFDIO_RWPROTECT
- and UFFDIO_SET_MODE
-Message-ID: <aiC9Be5oxT8u1Z6E@devuan>
-References: <20260526134149.2831720-1-kirill@shutemov.name>
- <20260526134149.2831720-7-kirill@shutemov.name>
+To: Siegfried Ehlert <SiegEhl@netscape.net>
+Cc: linux-man@vger.kernel.org
+Subject: Re: Error in manual page memcpy(3)
+Message-ID: <aiFagMMoVEGdlJop@devuan>
+References: <e53068f4-2541-4220-8571-47e3283bb01f.ref@netscape.net>
+ <e53068f4-2541-4220-8571-47e3283bb01f@netscape.net>
 MIME-Version: 1.0
-In-Reply-To: <20260526134149.2831720-7-kirill@shutemov.name>
+In-Reply-To: <e53068f4-2541-4220-8571-47e3283bb01f@netscape.net>
 
-Hi Kiryl,
+Hi Siegfried,
 
-On 2026-05-26T14:41:49+0100, Kiryl Shutsemau wrote:
-> Add the two new ioctls introduced in Linux 7.2 to the list of
-> operations supported on a userfaultfd file descriptor.
+On 2026-06-04T12:14:08+0200, Siegfried Ehlert wrote:
+> An error has crept into the synopsis of the *memcpy(3)* manual page.
+> Immediately after the opening bracket of the function name, the third
+> argument is listed as "size_t n;". The same applies to the strncpy(3) and
+> stpncpy(3) manual pages; there, too, the third argument appears immediate=
+ly
+> after the opening bracket.
 >=20
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> *Example:
+> *
+>=20
+>=20
+>    SYNOPSIS
+>=20
+> *#include <string.h>* *void *memcpy(*size_t n; *void */dest/*[restrict
+> */n/*], const void */src/*[restrict */n/*],* *size_t */n/*);*
 
-Patch applied; thanks!  With this one, the full set is applied.
+That's correct.
+
+     void *memcpy(size_t n;
+                  void dest[restrict n], const void src[restrict n], size_t=
+ n);
+
+What you're seeing is a forward declaration of the third parameter.
+This is necessary so that it can be used in the array length expressions
+in the declarators of the first and second parameters, since the third
+parameter hasn't been declared yet.  This is an old GNU extension, and
+is documented at the bottom of this page of the GCC manual:
+<https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html>
 
 
-Cheers,
+Have a lovely day!
 Alex
 
-> ---
->  man/man2/ioctl_userfaultfd.2 | 4 ++++
->  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/man/man2/ioctl_userfaultfd.2 b/man/man2/ioctl_userfaultfd.2
-> index 37553cd7a88f..fb57fe222979 100644
-> --- a/man/man2/ioctl_userfaultfd.2
-> +++ b/man/man2/ioctl_userfaultfd.2
-> @@ -76,9 +76,13 @@ .SH DESCRIPTION
->  .TQ
->  .BR UFFDIO_WRITEPROTECT (2const)
->  .TQ
-> +.BR UFFDIO_RWPROTECT (2const)
-> +.TQ
->  .BR UFFDIO_CONTINUE (2const)
->  .TQ
->  .BR UFFDIO_POISON (2const)
-> +.TQ
-> +.BR UFFDIO_SET_MODE (2const)
->  .SH RETURN VALUE
->  On success,
->  0 is returned.
-> --=20
-> 2.54.0
->=20
+> Kind regards
+> Siegfried
 
 --=20
 <https://www.alejandro-colomar.es>
 
---uqu5y4nffyhbxest
+--mnihsgftzaa2wwue
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmogvR4ACgkQ64mZXMKQ
-wqltoA/9HRJXOZMX/HzwQlJs1dxt2rhggVSUfrPAJ65C9/n1lLb0klEtRnRVBxi3
-ksrQxS+638kREO5SXq3UvMUskPiG3X3oTwHcbcjKWP5sPsbG4FEPNroxumqRhRbV
-DbAS9X32GyXD3h8jGUDRbqpfBzekdkEZDXCU/rVCw8TdSeNbcRiPPT1HNgAMzbY4
-Bi9+cpxGStzs4ll183G1zPEhVgHvaRJnc+lPCv4/ZD5PHx7B1MgCOlcurtx+8Ejs
-KgONuyRR8YF/1o/U5FAiO3pOQ6cHE9VNkypgblxuNFA6MyrCp5FQPXiaRon9hKtm
-i4FYJtJzQ+ugWC/zUPp+pdwbkFzApEKWBxGlK59Wq2R3qDL74RRxNAwIVoE+Wsxz
-oP501St//vEGL+7OjniNjpcCBW80vIlelrZXvLSGuLc/ieJUNBAEEH9/DhqXeShe
-B8zM9vQ0bpkxjzhd/FntEkAufizfMTiH83BsovRwhwlQopuIyQgrxxnw8uB3AJIB
-OKtPXLdiuD2Jy9lSrcDPNrZmt+Mp10STVa5JFDKZpj1M7lrW8Wvol87KiFBiCDJb
-8K3QMenwJK/mWCJwhixzUNQrJSa9AaXJFM+/ae9syHhQ6sGyfw/kYcu29gkkN/gb
-sUeUaOpEs39QzN5syNq/qcC9tMKkleFQTlaof0t9+OUBQJnBCEk=
-=3X8V
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmohW2YACgkQ64mZXMKQ
+wqnM5g//fhrzZbBCWRzKDgImGntzJcgu7on1Ttmpf+JvA9xwuz9a0r+g4HqMFuCf
+S0Ad2z0DRRM+AJFn9gUDGet+kYvWW0sob/4Rt/VGd5y4sERTTd/G+G6ve9+QJzlY
+397qCHJqKDmU9zAnD+k3+uAWF/cZQKLC5yIYh4Ml7oFxavamVXEVO8qh8XeTfI3o
+UT51DOKv7JirKH61R7znaAQ3q0xEpzReEOkAf9pAHFRsQo97TwHpAd7XjN1nQKx5
+6lMNKCCSrQjHOOAR7ZoItXOvmloliW1VF0d2e3oI3S8Ab0571zBRsjH/b7AVk6HX
+FNvj8+UJ2tULfWDH9EgoEdAQ0gBpyoueM1tuHwbG9cGkxy6bFuuf75Dv+K/waK8N
+x6ZKbvKjg10HLHdVuxtmTSfSQegsK++Scl0RZF1/6LOpZaJZZRDHapdcmNpyo1v9
+H1H0+vKDHBjvXUK4nPJKwzGtqKiJbQUMHObCi5JxFU7/0TkQaCpBVHDx4sriKf2T
+qR/qBPHRh4PspW+zjbGn2InhwaUFKp8rlkdlBhUzOnzM+/4nPaYaSFr3r9Ws+typ
+XPVtEyfkkwQ86k2bYrp32yNmL0QHw06976POecDvBeTNG+JCtRXOXEMzhV+qb5W+
+UDr2Vuws6pxbZ3mz1HCMsVgxz0W/AfegLE8wsgeTBxRUf4ADMbo=
+=QcZb
 -----END PGP SIGNATURE-----
 
---uqu5y4nffyhbxest--
+--mnihsgftzaa2wwue--
