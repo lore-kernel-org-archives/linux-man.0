@@ -1,30 +1,30 @@
 Received: from a3.inai.de (a3.inai.de [144.76.212.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F29936B04E
-	for <linux-man@vger.kernel.org>; Fri, 19 Jun 2026 10:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B752F363F
+	for <linux-man@vger.kernel.org>; Fri, 19 Jun 2026 10:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781863676; cv=none; b=fm4uGAWsfo90tgtgNOs8bMvhNXSJ8xYz6SiVgJAW6SHgztqj1YL1/DFbRhovki882qNr4cyUy7U9/W3Y5Fn+AO3fMs3Nbrb9iZ4Utwm7lyzgCfrRVNQBPSixZMJLlhQa//0LtEyHxHJyDFFtCDLPFCGb1XXCn5IlZB8AFnZzsRY=
+	t=1781863917; cv=none; b=PF0UTeIrAtjHUw6b1x4mRTSKQQZx5Fq0Vzskn2cGx2bfOsQTO+8rpjVRWBJR8xYpd7bF1GqJ93t3UkVz7Gkw/B7bkH1G5/L6zT5df8VeLHr/rNjqdYut9FYrzoGE6aMRvXih2nTBSKv3AC9qBW5QZZV5lvjdcvsUY8rAXLUW4fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781863676; c=relaxed/simple;
-	bh=fL8+KLGQGiSfCXOK4LbYQ0UrP+sPeC/fNBkejn+dBZ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aydt1IRm9Mx8jbSmOF52mxaD/i45ba+TaDM8GnXaQheAldFu8pWX1tlu47xZ4PKUOCw360VP9UYVHg2CDUb3mMkvtd5d2U2zs7/A6GVuWfVaHPXcmngaQptAxZSi+DeQO29oLWlwZMSiJGlKVh510zYK0ZIPFWPkrO3PIn/W7R4=
+	s=arc-20240116; t=1781863917; c=relaxed/simple;
+	bh=XnjNqZxLvPcxJRxHiQceb+/jikzHsn+yF5PAmWZNUog=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XoKUjeGiw11jxrJX9W/rgSynZty7Z4EedUokXBeMjfQ3xxPaO8UE8Rge/zcKCdtE4k3K+gWTfrrsQtw+W7xxyAOuwphpgjB7zd+FgwqejJ7sYL2YwEPDarlAXNdTVnDnYsMNqTL3H60llTcJnKqjhZVqNrHtnMdgeXjAqkCJBu8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
 Received: by a3.inai.de (Postfix, from userid 65534)
-	id CD3DA1003F05BD; Fri, 19 Jun 2026 12:07:50 +0200 (CEST)
+	id 23F4F10040BEAE; Fri, 19 Jun 2026 12:06:17 +0200 (CEST)
 X-Spam-Level: 
 Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
-	by a3.inai.de (Postfix) with ESMTP id A94FC1003F05BD;
-	Fri, 19 Jun 2026 12:07:50 +0200 (CEST)
+	by a3.inai.de (Postfix) with ESMTP id EB97F1004094BB;
+	Fri, 19 Jun 2026 12:06:16 +0200 (CEST)
 From: Jan Engelhardt <jengelh@inai.de>
 To: alx@kernel.org
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH v2] console_codes.4: document more xterm codes
-Date: Fri, 19 Jun 2026 12:07:11 +0200
-Message-ID: <20260619100750.73857-1-jengelh@inai.de>
+Subject: [PATCH] console_codes.4: document more xterm codes
+Date: Fri, 19 Jun 2026 12:06:16 +0200
+Message-ID: <20260619100616.73786-1-jengelh@inai.de>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
@@ -36,14 +36,11 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jan Engelhardt <jengelh@inai.de>
 ---
-v2:
-* Removed a copy-paste leftover in the wording of OSC mode 17/19
-
  man/man4/console_codes.4 | 48 ++++++++++++++++++++++++++++++++++++----
  1 file changed, 44 insertions(+), 4 deletions(-)
 
 diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-index a742cf36f..d92522e27 100644
+index a742cf36f..2d5328059 100644
 --- a/man/man4/console_codes.4
 +++ b/man/man4/console_codes.4
 @@ -753,14 +753,54 @@ Set icon name and window title to
@@ -77,12 +74,12 @@ index a742cf36f..d92522e27 100644
 +ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]txt\f[].
 +ESC ] 17 ; \f[I]txt\f[] ST	T{
 +Set the background text color for reverse video (provided it is not substituted
-+with 6;3;1) to \f[I]txt\f[].
++with 6;3;1) to \f[I]txt\f[], which in effect becomes the background color.
 +T}
 +ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[].
 +ESC ] 19 ; \f[I]txt\f[] ST	T{
 +Set the foreground text color for reverse video (provided it is not substituted
-+with 6;3;1) to \f[I]txt\f[].
++with 6;3;1) to \f[I]txt\f[], which in effect becomes the foreground color.
 +T}
 +ESC ] 46 ; \f[I]name\f[] ST	T{
  Change log file to
