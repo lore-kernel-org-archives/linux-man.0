@@ -1,124 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from a3.inai.de (a3.inai.de [144.76.212.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F75E3A7186
-	for <linux-man@vger.kernel.org>; Tue, 16 Jun 2026 22:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F29936B04E
+	for <linux-man@vger.kernel.org>; Fri, 19 Jun 2026 10:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781647783; cv=none; b=NtumDoviJpHeSBtSikqMNEZnn8S4/e0oyF2maFApCvYemt61E1yBHit2paIK6MjKlNX0qTRKqTlTGBfIoZO2ziMXCK9Lrg2FEXhDo8A6L+NLlrdVTJkX0IFOKeEFNSHNdRgqDGLpmPQ8XlVF4mvDHMbySq+7u8cHSUpkKSdKFEo=
+	t=1781863676; cv=none; b=fm4uGAWsfo90tgtgNOs8bMvhNXSJ8xYz6SiVgJAW6SHgztqj1YL1/DFbRhovki882qNr4cyUy7U9/W3Y5Fn+AO3fMs3Nbrb9iZ4Utwm7lyzgCfrRVNQBPSixZMJLlhQa//0LtEyHxHJyDFFtCDLPFCGb1XXCn5IlZB8AFnZzsRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781647783; c=relaxed/simple;
-	bh=HD93vC5GUSjBPvwkbLAfkCcpqogXKTDVtXeHijoQENw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pwGsPJhUnIC9wGKHA04OiLvpE0bHDAzkCU3vRLZDTWUxrFvDrYA3rha/pV3/l5DM1g0xkWj/NTCohO41b//62PVibtv/sbWokWn6/6tO63KKwXwj9Mt5UeMAFAfGq5sTfD2IEjaT8iAajD8NVvswywAvZefg7ydoatoD+BRGHVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V97N9cjc; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V97N9cjc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D159B1F000E9;
-	Tue, 16 Jun 2026 22:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781647781;
-	bh=Ft2gXqosUq+mjpoBM632V0zqSraNHqN3W2FI0zraMas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V97N9cjcR9sQyA50CB3MEuHv1iWLC0k9vxTOnKuFcdDRVG9PEB795anDg1oJzAL+g
-	 UoV3DCOxr29fgrdS6YXjD7zO6jlShSAUySKsMKI5Alrw/C8VVRDenxOsUVKWqhVegb
-	 xDVZNv6Y/vN8gbRikccKV29LDGbIOCIL4u6FB85KRT2zC5qu//fkoiw0M1LOvtyt0l
-	 ufYP14majmM8nac+3AMhADR6tudiCG9BD5RgFINSjQrmylbC07n0wOInEnTSDY39rv
-	 VCcpYC8L0z+y4vB1nWVuw+PCEUjQ3DDL4vwdrl0XIKSx+v34sswOV4z58KXjTQP0bb
-	 I+I7DxDz2t18g==
-Date: Wed, 17 Jun 2026 00:09:37 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Joseph Myers <josmyers@redhat.com>
-Cc: libc-alpha@sourceware.org, gcc@gcc.gnu.org, linux-man@vger.kernel.org
-Subject: Re: _ISOCxx_SOURCE
-Message-ID: <ajHIbvWy9iCilUCX@devuan>
-References: <ai1DVieT3gTr4J5S@devuan>
- <c357346a-ecd1-761e-47c4-5c1357b32c59@redhat.com>
- <ajBpIbEH_7KkJrld@devuan>
- <b22b20d8-b4bb-ce86-7865-87ac4ed7df25@redhat.com>
- <ajG7DCFNQPXb11nr@devuan>
- <a514153e-7842-0cfa-92c9-a4137c58b153@redhat.com>
+	s=arc-20240116; t=1781863676; c=relaxed/simple;
+	bh=fL8+KLGQGiSfCXOK4LbYQ0UrP+sPeC/fNBkejn+dBZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aydt1IRm9Mx8jbSmOF52mxaD/i45ba+TaDM8GnXaQheAldFu8pWX1tlu47xZ4PKUOCw360VP9UYVHg2CDUb3mMkvtd5d2U2zs7/A6GVuWfVaHPXcmngaQptAxZSi+DeQO29oLWlwZMSiJGlKVh510zYK0ZIPFWPkrO3PIn/W7R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
+Received: by a3.inai.de (Postfix, from userid 65534)
+	id CD3DA1003F05BD; Fri, 19 Jun 2026 12:07:50 +0200 (CEST)
+X-Spam-Level: 
+Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
+	by a3.inai.de (Postfix) with ESMTP id A94FC1003F05BD;
+	Fri, 19 Jun 2026 12:07:50 +0200 (CEST)
+From: Jan Engelhardt <jengelh@inai.de>
+To: alx@kernel.org
+Cc: linux-man@vger.kernel.org
+Subject: [PATCH v2] console_codes.4: document more xterm codes
+Date: Fri, 19 Jun 2026 12:07:11 +0200
+Message-ID: <20260619100750.73857-1-jengelh@inai.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="op66v3eztbmgsmcn"
-Content-Disposition: inline
-In-Reply-To: <a514153e-7842-0cfa-92c9-a4137c58b153@redhat.com>
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Jan Engelhardt <jengelh@inai.de>
+---
+v2:
+* Removed a copy-paste leftover in the wording of OSC mode 17/19
 
---op66v3eztbmgsmcn
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Joseph Myers <josmyers@redhat.com>
-Cc: libc-alpha@sourceware.org, gcc@gcc.gnu.org, linux-man@vger.kernel.org
-Subject: Re: _ISOCxx_SOURCE
-Message-ID: <ajHIbvWy9iCilUCX@devuan>
-References: <ai1DVieT3gTr4J5S@devuan>
- <c357346a-ecd1-761e-47c4-5c1357b32c59@redhat.com>
- <ajBpIbEH_7KkJrld@devuan>
- <b22b20d8-b4bb-ce86-7865-87ac4ed7df25@redhat.com>
- <ajG7DCFNQPXb11nr@devuan>
- <a514153e-7842-0cfa-92c9-a4137c58b153@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <a514153e-7842-0cfa-92c9-a4137c58b153@redhat.com>
+ man/man4/console_codes.4 | 48 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 4 deletions(-)
 
-Hi Joseph,
+diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
+index a742cf36f..d92522e27 100644
+--- a/man/man4/console_codes.4
++++ b/man/man4/console_codes.4
+@@ -753,14 +753,54 @@ Set icon name and window title to
+ T}
+ ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
+ ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
+-ESC ] 4 ; \f[I]num\f[]; \f[I]txt\f[] ST	Set ANSI color \f[I]num\f[] to \f[I]txt\f[].
+-ESC ] 10 ; \f[I]txt\f[] ST	Set dynamic text color to \f[I]txt\f[].
+-ESC ] 4 6 ; \f[I]name\f[] ST	T{
++ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) to \f[I]txt\f[].
++ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[I]txt\f[].
++ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution to \f[I]txt\f[].
++ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to \f[I]txt\f[].
++ESC ] 5 ; 3 ; \f[I]txt\f[] ST	T{
++Set the color for reverse substitution to \f[I]txt\f[]. Because xterm still
++reverses fg-bg pairs, the effect is that only the background of a character
++cell is colorized this way.
++T}
++ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \f[I]txt\f[].
++ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=bold, 1=substitute by color.
++ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=underscore, 1=color.
++ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=blinking, 1=color.
++ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=reverse, 1=color.
++ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=italic, 1=color.
++ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
++ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
++ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
++ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I]txt\f[].
++ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I]txt\f[].
++ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]txt\f[].
++ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]txt\f[].
++ESC ] 17 ; \f[I]txt\f[] ST	T{
++Set the background text color for reverse video (provided it is not substituted
++with 6;3;1) to \f[I]txt\f[].
++T}
++ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[].
++ESC ] 19 ; \f[I]txt\f[] ST	T{
++Set the foreground text color for reverse video (provided it is not substituted
++with 6;3;1) to \f[I]txt\f[].
++T}
++ESC ] 46 ; \f[I]name\f[] ST	T{
+ Change log file to
+ .I name
+ (normally disabled by a compile-time option).
+ T}
+-ESC ] 5 0 ; \f[I]fn\f[] ST	Set font to \f[I]fn\f[].
++ESC ] 50 ; \f[I]fn\f[] ST	T{
++Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resource)
++T}
++ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
++ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
++ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
++Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
++T}
++ESC ] 110 ST	Reset color for mode 10. (The pattern repeats until 119.)
++ESC ] \f[I]mode\f[] ; ? ST	T{
++Query the respective property/color/etc. (modes 4,5,10-19,50)
++T}
+ .TE
+ .P
+ It recognizes the following with slightly modified meaning
+-- 
+2.54.0
 
-On 2026-06-16T21:52:57+0000, Joseph Myers wrote:
-> On Tue, 16 Jun 2026, Alejandro Colomar via Gcc wrote:
->=20
-> > If one uses a modern GCC with an old glibc (which doesn't know C23),
-> > then, using -std=3Dc23 will be problematic: the compiler will enable C23
-> > language mode, but the library will entirely and silently ignore
-> > _ISOC23_SOURCE, because it doesn't know about it, thus falling back to
-> > C89 mode (I guess), and thus will for example enable things like
-> > gets(3).
->=20
-> Since the relevant checks in features.h are based on __STDC_VERSION__ >=
-=20
-> something or __STDC_VERSION__ >=3D something,
-
-Ahh, yup, it has || for either _ISOCxx_SOURCE or __STDC_VERSION__.  That
-makes sense.
-
-> it will fall back to the most=20
-> recent C standard version known by that glibc version, which is probably=
-=20
-> what you want.
-
-Hmmm, it is.  Then it's all fine.  Thanks!
-
-
-Cheers,
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---op66v3eztbmgsmcn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmoxyaAACgkQ64mZXMKQ
-wqkHrg/9Ep2vkbS1z27rXKvEIncJS8qAiLhYb1XZZjud6N5MR/hCfb7+9B+AOQxN
-vzw7vSzPDvHYJjb9K69OB8X6/bn+3dn97MopJYFnMx8vvkpo44S24gkqk2F93a+r
-CgHs5+8zExFPvxWsXKxKVevLdcui6pLj/JrbY1T9uxE84Z6U2EerfpiXgjoj5dRd
-6EW4bIMBps4Rc+XnTJZYgq4qVNDZUOrFhiLj1GEFIe/fO8zG+XayWbbdvrUsCNiV
-bg4UQITNYud4LT7F3WldAm9cfktWhID4cllT2mUzBW8xTQVP3gkTTTlwVfCBoGS1
-cJH7Hf7T2QUxuNownqtvx7HjL5VZXrW2r7PkQo4eHRgp2KlszIx1FAtaEDSImi2W
-CtXYEoKi3ynlKQXGpn0yMqoIP2GOFlnZFjgPzI9cQMwCfvdt2eisoXeKRgkwgEXJ
-y7vMTkqgiCHm55Ase2BKBvFyve7XZJ38zQadWfLVze0PGDv6nKkwRWofRTgToHmM
-KNe+YF3Juz8fG6RqKZV98R9zlT6p5Z8pmPxuYndJVUa4Xt3UUaSDPnowA+NlqrRW
-DfratKzfkapffcqSTHB1tFK9LkQELjLRzt4ElTFc4M/ZfRf0c5YM1NFmH3s0c1K3
-PEeOoB1PL7bjTXJ8dKNJqNzTJLd5uaBJ4EEUQTw2ViFa3lWUAQg=
-=WQp5
------END PGP SIGNATURE-----
-
---op66v3eztbmgsmcn--
