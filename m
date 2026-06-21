@@ -1,107 +1,73 @@
-Received: from a3.inai.de (a3.inai.de [144.76.212.145])
+Received: from confino.investici.org (confino.investici.org [93.190.126.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B752F363F
-	for <linux-man@vger.kernel.org>; Fri, 19 Jun 2026 10:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6F3227EB9
+	for <linux-man@vger.kernel.org>; Sun, 21 Jun 2026 16:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.190.126.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781863917; cv=none; b=PF0UTeIrAtjHUw6b1x4mRTSKQQZx5Fq0Vzskn2cGx2bfOsQTO+8rpjVRWBJR8xYpd7bF1GqJ93t3UkVz7Gkw/B7bkH1G5/L6zT5df8VeLHr/rNjqdYut9FYrzoGE6aMRvXih2nTBSKv3AC9qBW5QZZV5lvjdcvsUY8rAXLUW4fo=
+	t=1782057626; cv=none; b=njozFCx6axMYYlAgTmHG3gJeLQhbRCpO994xqhI+uUwo9RMkiV5YpE20/R3+kc+QbDORijTSkxUP1qJeru+g94eT5AhkkkKUX1OiY4SMOz2u50WSEm/VG5fCG31dh5EtS1bE9SbuoKpvBaiY/PrKx4nFtAoNRk02m752vrPnOMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781863917; c=relaxed/simple;
-	bh=XnjNqZxLvPcxJRxHiQceb+/jikzHsn+yF5PAmWZNUog=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XoKUjeGiw11jxrJX9W/rgSynZty7Z4EedUokXBeMjfQ3xxPaO8UE8Rge/zcKCdtE4k3K+gWTfrrsQtw+W7xxyAOuwphpgjB7zd+FgwqejJ7sYL2YwEPDarlAXNdTVnDnYsMNqTL3H60llTcJnKqjhZVqNrHtnMdgeXjAqkCJBu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inai.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
-Received: by a3.inai.de (Postfix, from userid 65534)
-	id 23F4F10040BEAE; Fri, 19 Jun 2026 12:06:17 +0200 (CEST)
-X-Spam-Level: 
-Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
-	by a3.inai.de (Postfix) with ESMTP id EB97F1004094BB;
-	Fri, 19 Jun 2026 12:06:16 +0200 (CEST)
-From: Jan Engelhardt <jengelh@inai.de>
+	s=arc-20240116; t=1782057626; c=relaxed/simple;
+	bh=irlaoE6kHcRJp0tvY+Sq8ctOqYDD9qmxaKLOMuRU3Ms=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=PbqwjZpdxnzP9Ee8tpLDw9QAj2LimVPIrZSAGRHYkmSiEmCk914Ygvb0aTFnjemWyBejZiIswEW1GmQ64stVEg3bwRf6ldgzsxp05FYwBwlM74Xnt7FIiD+eL+gyCP3e9SsqhbX43SRTEMl4De8nme8TQrKnIvbvG93fTs+lOYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=autistici.org; spf=pass smtp.mailfrom=autistici.org; dkim=pass (1024-bit key) header.d=autistici.org header.i=@autistici.org header.b=gJJeknrc; arc=none smtp.client-ip=93.190.126.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=autistici.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=autistici.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=autistici.org header.i=@autistici.org header.b="gJJeknrc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=autistici.org;
+	s=stigmate; t=1782057621;
+	bh=irlaoE6kHcRJp0tvY+Sq8ctOqYDD9qmxaKLOMuRU3Ms=;
+	h=Subject:From:To:Cc:Date:From;
+	b=gJJeknrcHpElt+DyAmg8FVk9DKhiAseLapzlOqp+VMS0tWdqvFIMp0wupYkrs7I6y
+	 GzqzBQE108UOvMEGMdK5VsPvmvCLT6oYBrymESKU4Lvizrc09XJNm+pCWMcn+BJgXI
+	 n42G/m2IsEYsdxoXBqrH5HiNDqA5sbl9NI8WCWFA=
+Received: from mx1.investici.org (unknown [127.0.0.1])
+	by confino.investici.org (Postfix) with ESMTP id 4gjwys28Y4z10yL;
+	Sun, 21 Jun 2026 16:00:21 +0000 (UTC)
+Received: by mx1.investici.org (Postfix) id 4gjwys0TwTz10yH;
+	Sun, 21 Jun 2026 16:00:21 +0000 (UTC)
+Message-ID: <b096c7e29014c6aaf416ce672684aab569aac341.camel@autistici.org>
+Subject: Wrong protocol in IPV6_V6ONLY.2const
+From: Phosit <phosit@autistici.org>
 To: alx@kernel.org
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH] console_codes.4: document more xterm codes
-Date: Fri, 19 Jun 2026 12:06:16 +0200
-Message-ID: <20260619100616.73786-1-jengelh@inai.de>
-X-Mailer: git-send-email 2.54.0
+Date: Sun, 21 Jun 2026 18:00:20 +0200
+Autocrypt: addr=phosit@autistici.org; prefer-encrypt=mutual;
+ keydata=mDMEaOthNRYJKwYBBAHaRw8BAQdADtAPAU4SBypg1gqLckPgXhR43A6zCWL1i6fypvLt+
+ 2S0HVBob3NpdCA8cGhvc2l0QGF1dGlzdGljaS5vcmc+iJkEExYKAEEWIQQ0Vs/wmEsNSG0lMQzJQw
+ tgBnHCaAUCaOthNQIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCRDJQwtgBnH
+ CaD8WAQC4LE9rhGdpqheBaBO/hvLOtZDAI/yWZHueZbpvk1uX1AEAuUt9Yje9AO/rILAUGoR5YvlH
+ 8t1Ybo17DVRBb6ITGww=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-9/TcQuWhNj1ZLY2qEog/"
+User-Agent: Evolution 3.56.2-9 
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jan Engelhardt <jengelh@inai.de>
----
- man/man4/console_codes.4 | 48 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 44 insertions(+), 4 deletions(-)
 
-diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-index a742cf36f..2d5328059 100644
---- a/man/man4/console_codes.4
-+++ b/man/man4/console_codes.4
-@@ -753,14 +753,54 @@ Set icon name and window title to
- T}
- ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
- ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
--ESC ] 4 ; \f[I]num\f[]; \f[I]txt\f[] ST	Set ANSI color \f[I]num\f[] to \f[I]txt\f[].
--ESC ] 10 ; \f[I]txt\f[] ST	Set dynamic text color to \f[I]txt\f[].
--ESC ] 4 6 ; \f[I]name\f[] ST	T{
-+ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) to \f[I]txt\f[].
-+ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[I]txt\f[].
-+ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution to \f[I]txt\f[].
-+ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to \f[I]txt\f[].
-+ESC ] 5 ; 3 ; \f[I]txt\f[] ST	T{
-+Set the color for reverse substitution to \f[I]txt\f[]. Because xterm still
-+reverses fg-bg pairs, the effect is that only the background of a character
-+cell is colorized this way.
-+T}
-+ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \f[I]txt\f[].
-+ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=bold, 1=substitute by color.
-+ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=underscore, 1=color.
-+ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=blinking, 1=color.
-+ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=reverse, 1=color.
-+ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=italic, 1=color.
-+ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
-+ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
-+ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
-+ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I]txt\f[].
-+ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I]txt\f[].
-+ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]txt\f[].
-+ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]txt\f[].
-+ESC ] 17 ; \f[I]txt\f[] ST	T{
-+Set the background text color for reverse video (provided it is not substituted
-+with 6;3;1) to \f[I]txt\f[], which in effect becomes the background color.
-+T}
-+ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[].
-+ESC ] 19 ; \f[I]txt\f[] ST	T{
-+Set the foreground text color for reverse video (provided it is not substituted
-+with 6;3;1) to \f[I]txt\f[], which in effect becomes the foreground color.
-+T}
-+ESC ] 46 ; \f[I]name\f[] ST	T{
- Change log file to
- .I name
- (normally disabled by a compile-time option).
- T}
--ESC ] 5 0 ; \f[I]fn\f[] ST	Set font to \f[I]fn\f[].
-+ESC ] 50 ; \f[I]fn\f[] ST	T{
-+Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resource)
-+T}
-+ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
-+ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
-+ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
-+Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
-+T}
-+ESC ] 110 ST	Reset color for mode 10. (The pattern repeats until 119.)
-+ESC ] \f[I]mode\f[] ; ? ST	T{
-+Query the respective property/color/etc. (modes 4,5,10-19,50)
-+T}
- .TE
- .P
- It recognizes the following with slightly modified meaning
--- 
-2.54.0
+--=-9/TcQuWhNj1ZLY2qEog/
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+In the synopsis of "IPV6_V6ONLY.2const" the function signature uses
+`IPPROTO_IP`. When using that the function seems to have no effect. I
+think it should state `IPPROTO_IPV6`.
+
+--=-9/TcQuWhNj1ZLY2qEog/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIsEABYKADMWIQQ0Vs/wmEsNSG0lMQzJQwtgBnHCaAUCajgKlBUccGhvc2l0QGF1
+dGlzdGljaS5vcmcACgkQyUMLYAZxwmhaMQEA3Si/SyXhDo2ql66cebNC0Nlzkhyx
+aHT644XmifV5CLsBALK70yUr+gLUb2BENgZHfOk5g58wW5w1RQUKkF2iDD0P
+=UQN3
+-----END PGP SIGNATURE-----
+
+--=-9/TcQuWhNj1ZLY2qEog/--
