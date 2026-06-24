@@ -1,124 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797421AA1D5
-	for <linux-man@vger.kernel.org>; Sun, 21 Jun 2026 17:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB4227AC48
+	for <linux-man@vger.kernel.org>; Wed, 24 Jun 2026 10:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782062245; cv=none; b=lwYE9Z3wo/npekeJae6QMbFOh1wesi77LC1lBhqMHc9QXqrOYJpzEcf3PVWlQJEc5SayQyAxRz17V2oGRk93/uOPJlffNfwaiBumrHImu+q5/LVx6WAjlZ7jOeKhNhvAJyyLDB0uk8IeOZmbMOU0NoiZWZmdxz6Ln/fWDx6RHoU=
+	t=1782296697; cv=none; b=AnmgVbT5V4Y8f8Untk/zaXyecu+HMeP+zAo1m4eVkoIO1JvDGcT1IBZIyPNlBYKNBtXaMc82iGvH50FIPkUlaixT4DPf9FAismUisyx3rkI4mX5OsB9Eju12V3PD+tQzElnqdbGCTZ7BY2cj+a2z5gyYVfjUsDGYKLeaMBQm+qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782062245; c=relaxed/simple;
-	bh=qe1uzqGcMsB9zIe9+k/Ps0IDI5D5BQ8MwhgW7t7xPKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjR7JUhFRfoaOMkYRisGJ5b/o/3Dr5v5LG0/4r2UMRfyt5OrXDCxEcc9n5HXqdNEQf8wsOpj32bzSIN9nWp/g1WVIIZ/MWqhuvftSwLBjBc/3pKHNJ6oRuXx40iE7AjUTD6A6Ku2IUKQq+/k0wOTv1DqtWHxmUH8ob0mSUERqs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hoSJVQes; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782296697; c=relaxed/simple;
+	bh=Ox7XN01lbwAnRb9joGZ2eSysaupL7NvDBHiGTkG0kc4=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=I1HQIK54NPVziLdzSD+hO/W5Kud/7RkesTqFwY5qygbCZKKPV8kaDQNA5Qe0biCM8OYooyFYP/c4eT15vcqPpqvCC/SStryl/DJ4riEKf+OiKRKZ91Oicv6Omxzjqlyr5cbqeSx+4O2bxRlXC28KdTjGj0JN5N500OTrCw7i3YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OickeiPR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hoSJVQes"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B56C1F00A3A;
-	Sun, 21 Jun 2026 17:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782062243;
-	bh=S9FuQh7DKRZNCL9CsZnaQ2Ka9CtINBUFMNTTymVb0+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hoSJVQes/weLaduhNfmdT7iFGPZ31SOm8TGKBCjyaLfY349GsWC+cJ42z80mGylPD
-	 pm/Zn9rRZj9RcD2XUeOW3PGPUVap8emcwwN9PycVwUmMUWOvgoC8dFYkiJCbLz9r4N
-	 3ViB9L2CBW/QaUZDDb763VlCWtVSMGwoEp3dkZbvFf9d0SbILljMODscfkqYqOB3A1
-	 abPCuqHRyEmB+bLfHYiYd8aUJnJ+/I85nGQIloHuV7mh37ZfDI/ieenPQxT4FK1DHR
-	 WrQgvtbWdq29aypCN5pmPn2i4N6IpMowiiW+TNGugfmrceasuwXXAfwMnC7Q6g2ZPi
-	 MQaBdyVnJv1KA==
-Date: Sun, 21 Jun 2026 19:17:19 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Phosit <phosit@autistici.org>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Wrong protocol in IPV6_V6ONLY.2const
-Message-ID: <ajgcZCDV116tauEn@devuan>
-References: <b096c7e29014c6aaf416ce672684aab569aac341.camel@autistici.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OickeiPR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 67467C2BCC6
+	for <linux-man@vger.kernel.org>; Wed, 24 Jun 2026 10:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1782296697;
+	bh=Ox7XN01lbwAnRb9joGZ2eSysaupL7NvDBHiGTkG0kc4=;
+	h=From:To:Subject:Date:From;
+	b=OickeiPR/6TqPdjfw/b6V8SiT5lR8ZjJbLNrbIwspex6bO8ACcg++b/L+ClxNBjOA
+	 jGK+qRx98LIFL5L0oK32sTJc7N5D4eJ34M7afU9vJTIHyxbZv/sz20FZlvhXAC+xfS
+	 N1RFVUs1trGyLNI0B7sT4sS+s7kF020SysEuifE8ub0SRzcTFVWm3THLwfr2D1i0GS
+	 kecDCWcC3i4jwiWfCIVPxQmZTAFNzff9uB+mFbbGqjsB3mrT4gj5YxXjaEUt0rQzKO
+	 GbvUl5OP8fzO+bUKfL/X6JCgagoGhseD1zTonlKvthYPrYxY7oNN5TSkuqvja8xm/8
+	 kkaks0EeJrVXA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 4592BC53BC5; Wed, 24 Jun 2026 10:24:57 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-man@vger.kernel.org
+Subject: [Bug 221686] New: README.d/ is not mentioned in README
+Date: Wed, 24 Jun 2026 10:24:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: jason@jasonyundt.email
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221686-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="azjrzl7f5wvokpxt"
-Content-Disposition: inline
-In-Reply-To: <b096c7e29014c6aaf416ce672684aab569aac341.camel@autistici.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221686
 
---azjrzl7f5wvokpxt
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Phosit <phosit@autistici.org>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Wrong protocol in IPV6_V6ONLY.2const
-Message-ID: <ajgcZCDV116tauEn@devuan>
-References: <b096c7e29014c6aaf416ce672684aab569aac341.camel@autistici.org>
-MIME-Version: 1.0
-In-Reply-To: <b096c7e29014c6aaf416ce672684aab569aac341.camel@autistici.org>
+            Bug ID: 221686
+           Summary: README.d/ is not mentioned in README
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: enhancement
+          Priority: P3
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: jason@jasonyundt.email
+        Regression: No
 
-Hi!
-
-On 2026-06-21T18:00:20+0200, Phosit wrote:
-> In the synopsis of "IPV6_V6ONLY.2const" the function signature uses
-> `IPPROTO_IP`.  When using that the function seems to have no effect.  I
-> think it should state `IPPROTO_IPV6`.
-
-Thanks!  It seems a mistake introduced recently.  I've fixed it with
-this commit:
-
-	commit 3b2ac90b3518635966754ff83d703c5f6029ae74
-	Author: Alejandro Colomar <alx@kernel.org>
-	Date:   2026-06-21 19:15:20 +0200
-
-	    man/man2const/IPV6_V6ONLY.2const: $2 is IPPROTO_IPV6, not IPPROTO_IP
-	   =20
-	    Fixes: 07d5d5b62a8f (2025-12-02; "man/man2const/{IPPROTO_IPV6,IPV6_V6O=
-NLY}.2const: Split IPV6_V6ONLY from IPPROTO_IPV6(2const)")
-	    Reported-by: Phosit <phosit@autistici.org>
-	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
-
-	diff --git a/man/man2const/IPV6_V6ONLY.2const b/man/man2const/IPV6_V6ONLY.=
-2const
-	index bf8c9aeed560..4ade0db33371 100644
-	--- a/man/man2const/IPV6_V6ONLY.2const
-	+++ b/man/man2const/IPV6_V6ONLY.2const
-	@@ -15,7 +15,7 @@ .SH SYNOPSIS
-	 .BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
-	 .B #include <sys/socket.h>
-	 .P
-	-.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IPV6_V6ONLY,
-	+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_V6ONLY,
-	 .BI "               const\~int\~*" enable ,\~sizeof(int));
-	 .fi
-	 .SH DESCRIPTION
-
-
-Have a lovely day!
-Alex
+The README file for the Linux man-pages project has a section named =E2=80=
+=9CFiles=E2=80=9D
+that lists a bunch of different files and directories and describes them. T=
+he
+=E2=80=9CFiles=E2=80=9D section mentions the CONTRIBUTING file, the CONTRIB=
+UTING.d/ directory
+and the README file, but it does not mention the README.d/ directory. It wo=
+uld
+be better if the README mentioned the README.d/ directory.
 
 --=20
-<https://www.alejandro-colomar.es>
+You may reply to this email to add a comment.
 
---azjrzl7f5wvokpxt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmo4HJ8ACgkQ64mZXMKQ
-wqlZ4g/+IQ6ctkBTojjBS74ZSNsxqjiHCPEJwckU09bbyjrPwvAjV7MU1GhqH9AG
-ycY64CVGAmKa2s/wPBGKFdc/O//XwBlUtOXp8uwi06psswBUcxRfW/Gq4g4Wp/U+
-CuORfvyA3UFUFuimoCmvK/zG6Y3J3Vx46ecjyMC8QqFNj05FsJcMbYQLHPf3LASd
-essltIFik0s637Vyetq4+9yXTIWa6Sz5cwDa20BMmK+57lEAKpumNyAd4o59tSee
-hNQRgSZaeeF+4jHmYxfeHpZVrJRhKZi/uaJbc0XMMV2qUs1IpnWxyJjc4AfyRMin
-Da1b9FtEH634PNG0pC2CCoXv40ZSuTrplLtO34VfIgx5BR/rQv9U5Ht1tdY7LSct
-fWls2T3MEOkUxBRPiDadSmJSYxrSTlw/uaHfuX/IRlSHAv9Uz25OYL7ZoyRyyqsU
-YPkBtm6W7cz8c3hkDHZJYMtDNFxKE/Ng1AWVqOnAy5mregT8wpE+iwqOkTpRC+gv
-FRrtdoFzNyWO+/GdiI1LdonHtbQ4Z39K7zQiWAqhqun73i1Iw/fovwtBgJX5/PVE
-wRxIU+3X/loj+qSatRT7E0gIslYSpNhP6KD60DkBA9KrleusUswPAyt3t8SNi19o
-4yg5cFIDTSaNw9ydVRzODOO4E6/aLqoMtcgFfVnZoztjsHAK7dk=
-=dD6x
------END PGP SIGNATURE-----
-
---azjrzl7f5wvokpxt--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
