@@ -1,595 +1,193 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F25833122D
-	for <linux-man@vger.kernel.org>; Mon, 29 Jun 2026 13:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782741575; cv=none; b=QATpLPYZC/J5Js88NeAfzEbC5kk1WaPe6Gb+JE0ZK3xijqp7vbrvbGjbE6wbADBp/AkbFWXMcEExm3XbjLGI+CZ56vMkb+DTllMcmw1+9MsRHJ5kux9DGjQx998FKt1XHFiNR4pzVYDLE14bqxgJyroio8hDVo5F/Lv5WFHwXyg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782741575; c=relaxed/simple;
-	bh=hhfLp1kVLibgfUDvARwmOC1wVp5cm75M74+30oDrU9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vb+a3zpB6S4e5YcUZAnGtv8Q5uiBz5PRj2wY/o4BypdoJr5WLZ/TponulygPwXb4KebYDSQOdCa+kATOkh9LVHkLmQnx8KNSXAYnMYwi1RygddhovmdolVxsWZwrrTffJURP/S4aKIiezaI5l2auJ/eCbe8LzSw5dSBCz/O67iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=vcQ/YDQ3; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1090044CF59
+	for <linux-man@vger.kernel.org>; Mon, 29 Jun 2026 16:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782749759; cv=pass; b=m9phZioWBg9NpPZM3brqPE/qbT078/z5xV15G4eE72PvrsgPCQR8wdin22aA/s/nmJQKrTjYpv/wkSAq5LhYjG9kxEtpRRoF0rufUlFZB8uZQf8LnKIKUTVq/Bk9UureykSem/wzarpNeb+cFiZfPCmX77FmFoCkycu62IAuwdY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782749759; c=relaxed/simple;
+	bh=Xn9x7Zr4MMgx2k5+NuHmE9fRFnLpBDrJN0O0RJTSl4Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ozdiJzniBGk5mHVWyPEjzum+fdgoXYTI5wkgdpjlKQervQ1KLLsGrzrEWsEGth6TtDYTrbXTYnO5l1hMIk7haL1NL8E+4XMyCzPfTQskuy2xFaLuFwx5mT4XSALrC+dx53kgVA7EcWr075UqTTXQCoJU88+La52Abx+SqHc4ZK8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bxj4f77x; arc=pass smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="vcQ/YDQ3"
-Received: from mail.zytor.com ([IPv6:2601:646:8081:7da1:4462:691a:e05c:b745])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 65TDxPvi370711
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 29 Jun 2026 06:59:26 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 65TDxPvi370711
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026062701; t=1782741567;
-	bh=v5i9XrI/WAy5jCxNvl7B2a03VtlY5wm2Nc+pnEnsHlk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vcQ/YDQ3H6M3PDVRg8ZqSfvW64V30x5lDi80fQkbQzkKTsBRRIcIIfYW3qnNRVPXm
-	 i8pxi/NX61yeCTPzlLJY9BSUe0UvKCr+xBHaFF/kEaSfHTrF3DEd0sQCd6Zbw1lt8d
-	 Mef70g/t3KOYYoZGIS3RPvSNrKafd+qcV/+Cy1GiL2r40LHX2QgCgZ5Dfn1IOlL6W2
-	 hp1TexsN6qbW2DQJTYyb+7HyegJPFxcpyTv+45kyBSVFZTa7ItYVf05LJargcNeVhm
-	 /vrVsNuLxIQ67P9kGIW+Zxw2R+TmelcTVJvH0rW2LWv7CPk9e4gwkxRaXY/cV37Wj0
-	 JKGkZLlqNVlxw==
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "H . Peter Anvin" <hpa@zytor.com>, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: [PATCH v2 1/4] man/man3*: document the glibc 2.42+ baud_t termios interface
-Date: Mon, 29 Jun 2026 06:59:05 -0700
-Message-ID: <20260629135910.143781-2-hpa@zytor.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260629135910.143781-1-hpa@zytor.com>
-References: <20260629135910.143781-1-hpa@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bxj4f77x"
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-736eea06c3eso927112137.0
+        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2026 09:15:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782749757; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EklbWFugTikU7yAnDy9wkJbXandZo1OWW3dWYhDX4iY+RMNhK/voW2TNarHwqKH2eD
+         +CniyALCkYrYu9kXz1VZglUC5tjdul9A5O1SdZ101KFRz+lxwSViNernQSUOuqaD4sai
+         kXlXHUzNYIeHCrD4CPlA59QSquruRbNXCpqoB/Kia1YkQ/t4xcTNsG/zzDStNNmAYrZk
+         kFWSnPRyQlXzcV3qISUrer+h27nGq4dcMiQLkfGMRKdL7LN4EqYHeX4sUvf6kWNyNjQp
+         yD0/ADQa0xZfv/KJ+2GIqPviEKkZCrm8yeV7w3ybYsfG/9ZCje1M2ooIg/8nU7AFjFIc
+         i8Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SKZMgdAo3sT9iSQ8ehM+eL8rcZP6iekjYDErraFatM4=;
+        fh=yjAKVE+KPqegrS3FUQX7EcG89kFT6Hc9zhi6ORWMteg=;
+        b=b1WIBQBk3ETrM1+Qvyt4dmoP5DYqLxR/mY5AxM8jY/4mXACsnkGFW6eyVKMAikbpzk
+         VD/rrtiLty0BpdwO/slt4bJdrqqOZPo6GqzA5BmGiaQoKd8ozv6Xm0X3nlH8gu7KspvO
+         C8nPgElT4fHRCc3kpyGm3sY1X7HlGcUseX4AQiIbppmOeeQDvm7RK2xEj7EZFwicqdCY
+         ZjHLge7qy8+7gJSxAkixMa0p5IqLNt2xDWwMIjkXQxFvHYX31TSvy7Koi0vShyAaDJ9H
+         MogUX27zsSwoK1Ujr1OuEHKXH9C4wgj1pHZJguUyfR6C4TObQaH9N4yehNluQ6HPSVa7
+         4rFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782749757; x=1783354557; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKZMgdAo3sT9iSQ8ehM+eL8rcZP6iekjYDErraFatM4=;
+        b=Bxj4f77xdjCZLyKhAMOLQQKJaGokjJvfLI/WET/tXxVRaMzMe91xb5hLlZq1dTU6qq
+         bxL8i+Xz4wxvzryChh5bMthWRhv9otM4c1GOZwNWbe+y+hQpYKWQYuAxn1sOR/RDPR2a
+         nkDtQuGzH4z6qqhhgQZLfgxt7PDiUvklmTAeMsuBOjP0y3PsFii09AnlNjCEXyx+qL6R
+         AZdH6rScZO4WAWad+fOeojNp0RDuTMnot+KwwbqIBriB6fXFCIgFjSjw+Oq86h2y2ng5
+         8laN1LsZCicy+mjMMaCyLK60muulDfCFeb3eoUxeUqHdW/wGLrGV9mTRgjaci3/w/Ne1
+         CQTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782749757; x=1783354557;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SKZMgdAo3sT9iSQ8ehM+eL8rcZP6iekjYDErraFatM4=;
+        b=RUODPm9qLciRlO45YNbTgEfiVA789tFqdPm0vKO//cV4n5O6IrEt367lGiSU+7ayAg
+         oGc5VG2nm/4l/fgHmjkd4oadtvpXw83UN7sH8AHTE05o+A/xqRiXOb2VUYOVyEispDWH
+         otpx8Y4ZtrhtYuQYpxfrsinyAhssiRjhWnrPjebJLgweHBpp5y08wXCqTdTo8Hs7V71V
+         tsQrxuCtzTiHvKQ5D+M1rChfI3MrsTT0GXFSBMMCT+UARnbMu2SmWxn6VAuVOJcrItx6
+         oZKUH++C5RzDMHNvOxdPqtGVhHQZGTcQfS540r6DwKmO8ikE1aN8ZOJ2j/aa3M6cmlbR
+         WWFA==
+X-Forwarded-Encrypted: i=1; AHgh+RrKMloPIoUosUFTDkAb4HrhL6jdUq6tdZykJTLbF8PerCU0n8fAgeWNQE8su2epu10097Jr5prynVY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzhJH77Gy0ZqiqMwTpwrpmR4lcQrrrl+jf7EY3isap3JVV19wQ
+	G7ldJlfdjh8ClrTl7WrukYy6ycIcjKvYTu/NCj/F3o0bdoZ21gLTTRh1YZwTXkuFvn9ko9SMuHH
+	ZDpoWcS6fUxz0pYv+1ZoX9pmpanvl5h0=
+X-Gm-Gg: AfdE7cnVtT3WwmgbC7Nam637U7YpCnx+ooiq8RHUQPXmIPYCy2FFog+6LA55Wtx0OxE
+	JOjC8IvuicVQWQ92rX3DYlw3c0YZbr5l5cNHh88432wtz4qyycKIvMe4Qt7LyRjpTGhw7Uzg94L
+	AkoKzUGdNh6m1hGTcQLwzj4fTF2nqaeE5KBuJZqUwDhXTLmFbVHGIQMVc9BQEYsfGy8xKXlMk0R
+	M2Cq76zxp8wv0CxFz5rsIg60e6eSMAiWrYWliS2CuKk7hv6lthM98L0SJ6u4wEECtWzbbKyQMm2
+	G6aXcKGekcDuc1l0Cj6jwBi/cZXi
+X-Received: by 2002:a05:6102:5986:b0:631:28c1:154c with SMTP id
+ ada2fe7eead31-73a3790fa33mr255179137.9.1782749756899; Mon, 29 Jun 2026
+ 09:15:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260426111707.36541-1-dorjoychy111@gmail.com>
+ <20260426111707.36541-2-dorjoychy111@gmail.com> <ae4K_5f1g3zgSNkC@devuan>
+ <lhu5x5c4rpl.fsf@oldenburg.str.redhat.com> <ae9gDtEo6OxHTYBt@devuan>
+ <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com> <ae9lMz0SRR-sn1Uz@devuan>
+In-Reply-To: <ae9lMz0SRR-sn1Uz@devuan>
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Date: Mon, 29 Jun 2026 22:15:45 +0600
+X-Gm-Features: AVVi8CfadvGmT3BX31AdA7AFJzpR_e0SufxbjrjgIMB5fPZWbJmH86EO7KFYULk
+Message-ID: <CAFfO_h7V4gX6NbQvPtTF=XeH44j4O1oxWcArE+fzKM9FTmDKRg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] man/man3/errno.3: Document EFTYPE error code
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Florian Weimer <fweimer@redhat.com>, linux-man@vger.kernel.org, brauner@kernel.org, 
+	jlayton@kernel.org, libc-alpha@sourceware.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-glibc 2.42+ has a new set of interfaces to get and set arbitrary baud
-rates. Add them to the man pages.
+Hi,
 
-This removes from termios(3) some details about the baud rate
-constants: they are now an open set in glibc, simply defined to be
-equivalent to their numeric value (e.g. B300 == 300). Thus, stating
-that certain architectures only support certain values is no longer
-correct.
+The OPENAT2_REGULAR and EFTYPE changes are in the 7.2-rc1 now I
+believe. I am not sure if it's the right time to merge the man-page
+changes now. I also don't know the whole flow so I'm asking. Do both
+of these need to be added to glibc manually or do these get pulled in
+from the uapi headers of linux into glibc automatically?
 
-This also removes references from termios(3) about the interior of the
-ioctl interfaces: the statement about TCSETS2, for example, was always
-incorrect (TCSETS2 doesn't exist on all Linux architectures.) That
-kind of information belongs in ioctl_tty(2), anyway, especially since
-including <linux/termios.h> -> <asm/termbits.h> is not compatible with
-including <termios.h>.
+Regards,
+Dorjoy
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
----
- man/man3/termios.3        | 318 ++++++++++++++++++--------------------
- man/man3type/baud_t.3type |   1 +
- man/man3type/cc_t.3type   |  42 ++++-
- 3 files changed, 193 insertions(+), 168 deletions(-)
- create mode 100644 man/man3type/baud_t.3type
-
-diff --git a/man/man3/termios.3 b/man/man3/termios.3
-index 0942cca8084e..cd3f9ce4d7c0 100644
---- a/man/man3/termios.3
-+++ b/man/man3/termios.3
-@@ -7,7 +7,8 @@
- .TH termios 3 (date) "Linux man-pages (unreleased)"
- .SH NAME
- termios, tcgetattr, tcsetattr, tcsendbreak, tcdrain, tcflush, tcflow,
--cfmakeraw, cfgetospeed, cfgetispeed, cfsetispeed, cfsetospeed, cfsetspeed \-
-+cfmakeraw, cfgetispeed, cfgetospeed, cfsetispeed, cfsetospeed,
-+cfsetspeed, cfgetobaud, cfgetibaud, cfsetibaud, cfsetobaud, cfsetbaud \-
- get and set terminal attributes, line control, get and set baud rate
- .SH LIBRARY
- Standard C library
-@@ -34,6 +35,13 @@ Standard C library
- .BI "int cfsetispeed(struct termios *" termios_p ", speed_t " speed );
- .BI "int cfsetospeed(struct termios *" termios_p ", speed_t " speed );
- .BI "int cfsetspeed(struct termios *" termios_p ", speed_t " speed );
-+.P
-+.BI "baud_t cfgetibaud(const struct termios *" termios_p );
-+.BI "baud_t cfgetobaud(const struct termios *" termios_p );
-+.P
-+.BI "int cfsetibaud(struct termios *" termios_p ", baud_t " baud );
-+.BI "int cfsetobaud(struct termios *" termios_p ", baud_t " baud );
-+.BI "int cfsetbaud(struct termios *" termios_p ", baud_t " baud );
- .fi
- .P
- .RS -4
-@@ -49,6 +57,16 @@ Feature Test Macro Requirements for glibc (see
-     glibc 2.19 and earlier:
-         _BSD_SOURCE
- .fi
-+.P
-+.BR cfgetibaud (),
-+.BR cfgetobaud (),
-+.BR cfsetibaud (),
-+.BR cfsetobaud (),
-+.BR cfsetbaud ():
-+.nf
-+    Since glibc 2.42:
-+        _GNU_SOURCE
-+.fi
- .SH DESCRIPTION
- The termios functions describe a general terminal interface that is
- provided to control asynchronous communications ports.
-@@ -305,30 +323,33 @@ flag constants:
- .B _BSD_SOURCE
- or
- .BR _SVID_SOURCE ]
--.TP
--.B CBAUDEX
--(not in POSIX) Extra baud speed mask (1 bit), included in
--.BR CBAUD .
--[requires
--.B _BSD_SOURCE
--or
--.BR _SVID_SOURCE ]
- .IP
--(POSIX says that the baud speed is stored in the
--.I termios
--structure without specifying where precisely, and provides
--.BR cfgetispeed ()
-+This bitmask should only be used when invoking the kernel
-+.BR ioctl ()
-+interface directly.
-+.P
-+Instead, the
-+.BR cfgetospeed (),
-+.BR cfgetobaud (),
-+.BR cfsetospeed ()
- and
--.BR cfsetispeed ()
--for getting at it.
-+.BR cfsetobaud ()
-+functions should be used in application code.
-+.P
- Some systems use bits selected by
- .B CBAUD
- in
- .IR c_cflag ,
--other systems use separate fields, for example,
--.I sg_ispeed
--and
--.IR sg_ospeed .)
-+other systems use separate fields, Linux uses
-+.IR both .
-+.TP
-+.B CBAUDEX
-+(not in POSIX) Extra baud speed mask (1 bit), included in
-+.BR CBAUD .
-+[requires
-+.B _BSD_SOURCE
-+or
-+.BR _SVID_SOURCE ]
- .TP
- .B CSIZE
- Character size mask.
-@@ -379,13 +400,17 @@ bits.
- .B _BSD_SOURCE
- or
- .BR _SVID_SOURCE ]
--(Not implemented in glibc, supported on Linux via
--.BR TCGET *
-+This bitmask should only be used when invoking the kernel
-+.BR ioctl ()
-+interface directly (see
-+.BR ioctl_tty (2)).
-+Instead, the
-+.BR cfgetispeed (),
-+.BR cfgetibaud (),
-+.BR cfsetispeed ()
- and
--.BR TCSET *
--ioctls;
--see
--.BR ioctl_tty (2))
-+.BR cfsetibaud ()
-+functions should be used in application code.
- .TP
- .B CMSPAR
- (not in POSIX)
-@@ -1068,114 +1093,22 @@ until
- .BR tcsetattr ()
- is successfully called.
- .P
--Setting the speed to
--.B B0
-+Setting the output speed to zero
- instructs the modem to "hang up".
--The actual bit rate corresponding to
--.B B38400
--may be altered with
--.BR setserial (8).
- .P
--The input and output baud rates are stored in the
--.I termios
--structure.
--.P
--.BR cfgetospeed ()
--returns the output baud rate stored in the
--.I termios
--structure
--pointed to by
--.IR termios_p .
--.P
--.BR cfsetospeed ()
--sets the output baud rate stored in the
--.I termios
--structure
--pointed to by
--.I termios_p
--to
--.IR speed ,
--which must be one of these constants:
--.RS
--.TP
--.B B0
--.TQ
--.B B50
--.TQ
--.B B75
--.TQ
--.B B110
--.TQ
--.B B134
--.TQ
--.B B150
--.TQ
--.B B200
--.TQ
--.B B300
--.TQ
--.B B600
--.TQ
--.B B1200
--.TQ
--.B B1800
--.TQ
--.B B2400
--.TQ
--.B B4800
--.TQ
--.B B9600
--.TQ
--.B B19200
--.TQ
--.B B38400
--.TQ
--.B B57600
--.TQ
--.B B115200
--.TQ
--.B B230400
--.TQ
--.B B460800
--.TQ
--.B B500000
--.TQ
--.B B576000
--.TQ
--.B B921600
--.TQ
--.B B1000000
--.TQ
--.B B1152000
--.TQ
--.B B1500000
--.TQ
--.B B2000000
--.RE
--.P
--These constants are additionally supported on the SPARC architecture:
--.RS
--.TP
--.B B76800
--.TQ
--.B B153600
--.TQ
--.B B307200
--.TQ
--.B B614400
--.RE
--.P
--These constants are additionally supported on non-SPARC architectures:
--.RS
--.TP
--.B B2500000
--.TQ
--.B B3000000
--.TQ
--.B B3500000
--.TQ
--.B B4000000
--.RE
-+When using the
-+.I baud_t
-+.IR * baud()
-+functions, the baud rate is specified directly as a numeric value.
-+.P
-+When using the
-+.I speed_t
-+.IR * speed()
-+functions, the line rate needs to be specified as one of a set of an
-+enumerated macros defined in
-+.I <termios.h>
-+of the form
-+.BI B nnn.
- .P
- Due to differences between architectures,
- portable applications should check
-@@ -1183,67 +1116,94 @@ if a particular
- .BI B nnn
- constant is defined prior to using it.
- .P
-+The actual bit rate corresponding to
-+.B B38400
-+may be altered with
-+.BR setserial (8).
-+.P
-+The input and output baud rates are stored in the
-+.I termios
-+structure.
-+.P
-+.BR cfgetospeed ()
-+and
-+.BR cfgetobaud ()
-+return the output baud rate stored in the
-+.I termios
-+structure
-+pointed to by
-+.IR termios_p .
-+.P
-+.BR cfsetospeed ()
-+and
-+.BR cfsetobaud ()
-+set the output baud rate stored in the
-+.I termios
-+structure pointed to by
-+.IR termios_p .
-+.P
- The zero baud rate,
--.BR B0 ,
-+.B B0
-+for
-+.BR cfsetospeed (),
- is used to terminate the connection.
--If
--.B B0
--is specified,
-+.P
-+If a baud rate of zero is specified,
- the modem control lines shall no longer be asserted.
- Normally,
- this will disconnect the line.
--.B CBAUDEX
--is a mask
--for the speeds beyond those defined in POSIX.1
--(57600 and above).
--Thus,
--.BR B57600 " & " CBAUDEX
--is nonzero.
--.P
--Setting the baud rate to a value other than those defined by
--.BI B nnn
--constants is possible via the
--.B TCSETS2
--ioctl;
--see
--.BR ioctl_tty (2).
- .P
- .BR cfgetispeed ()
--returns the input baud rate stored in the
-+and
-+.BR cfgetobaud ()
-+return the input baud rate stored in the
- .I termios
- structure.
- .P
- .BR cfsetispeed ()
-+and
-+.BR cfsetibaud ()
- sets the input baud rate stored in the
- .I termios
--structure to
--.IR speed ,
--which must be specified as one of the
--.BI B nnn
--constants listed above for
--.BR cfsetospeed ().
-+structure.
-+.P
- If the input baud rate is set to the literal constant
- .B 0
- (not the symbolic constant
--.BR B0 ),
--the input baud rate will be
--equal to the output baud rate.
-+.B B0
-+even when using
-+.BR cfsetispeed ())
-+the input baud rate
-+will be equal to the output baud rate.
- .P
- .BR cfsetspeed ()
- is a 4.4BSD extension.
- It takes the same arguments as
- .BR cfsetispeed (),
- and sets both input and output speed.
-+.P
-+.BR cfsetbaud ()
-+is the equivalent function using the explicitly numeric
-+.I baud_t
-+interface.
- .SH RETURN VALUE
- .BR cfgetispeed ()
--returns the input baud rate stored in the
-+and
-+.BR cfgetobaud ()
-+return the input baud rate stored in the
- .I termios
--structure.
-+structure as a
-+.I speed_t
-+enumeration value or a numeric value, respectively.
- .P
- .BR cfgetospeed ()
--returns the output baud rate stored in the
-+and
-+.BR cfgetobaud ()
-+return the output baud rate stored in the
- .I termios
--structure.
-+structure as a
-+.I speed_t
-+enumeration value or a numeric value, respectively.
- .P
- All other functions return:
- .TP
-@@ -1289,7 +1249,12 @@ T{
- .BR cfgetospeed (),
- .BR cfsetispeed (),
- .BR cfsetospeed (),
--.BR cfsetspeed ()
-+.BR cfsetspeed (),
-+.BR cfgetibaud (),
-+.BR cfgetobaud (),
-+.BR cfsetibaud (),
-+.BR cfsetobaud (),
-+.BR cfsetbaud ()
- T}	Thread safety	MT-Safe
- .TE
- .\" FIXME: The markings are different from that in the glibc manual.
-@@ -1328,6 +1293,17 @@ POSIX.1-2008.
- .TQ
- .BR cfsetspeed ()
- BSD.
-+.TP
-+.BR cfgetibaud ()
-+.TQ
-+.BR cfgetobaud ()
-+.TQ
-+.BR cfsetibaud ()
-+.TQ
-+.BR cfsetobaud ()
-+.TQ
-+.BR cfsetbaud ()
-+GNU.
- .SH HISTORY
- .TP
- .BR tcgetattr ()
-@@ -1355,6 +1331,17 @@ POSIX.1-2001.
- .TQ
- .BR cfsetspeed ()
- BSD.
-+.TP
-+.BR cfgetibaud ()
-+.TQ
-+.BR cfgetobaud ()
-+.TQ
-+.BR cfsetibaud ()
-+.TQ
-+.BR cfsetobaud ()
-+.TQ
-+.BR cfsetbaud ()
-+glibc 2.42.
- .SH NOTES
- UNIX\ V7 and several later systems have a list of baud rates
- where after the values
-@@ -1414,6 +1401,7 @@ mask).
- .BR tty (1),
- .BR ioctl_console (2),
- .BR ioctl_tty (2),
-+.BR baud_t (3type),
- .BR cc_t (3type),
- .BR speed_t (3type),
- .BR tcflag_t (3type),
-diff --git a/man/man3type/baud_t.3type b/man/man3type/baud_t.3type
-new file mode 100644
-index 000000000000..26cfd017180e
---- /dev/null
-+++ b/man/man3type/baud_t.3type
-@@ -0,0 +1 @@
-+.so man3type/cc_t.3type
-diff --git a/man/man3type/cc_t.3type b/man/man3type/cc_t.3type
-index 31c2dbcf8dbe..fa16e4cc3915 100644
---- a/man/man3type/cc_t.3type
-+++ b/man/man3type/cc_t.3type
-@@ -5,7 +5,8 @@
- .\"
- .TH cc_t 3type (date) "Linux man-pages (unreleased)"
- .SH NAME
--cc_t, speed_t, tcflag_t \- terminal special characters, baud rates, modes
-+cc_t, baud_t, speed_t, tcflag_t \- terminal special characters, baud
-+rates, modes
- .SH LIBRARY
- Standard C library
- .RI ( libc )
-@@ -13,6 +14,7 @@ Standard C library
- .nf
- .B #include <termios.h>
- .P
-+.BR typedef " /* ... */ " baud_t;
- .BR typedef " /* ... */ " cc_t;
- .BR typedef " /* ... */ " speed_t;
- .BR typedef " /* ... */ " tcflag_t;
-@@ -21,14 +23,48 @@ Standard C library
- .I cc_t
- is used for terminal special characters,
- .I speed_t
--for baud rates, and
-+for baud rates using
-+.BI B nnn
-+enumerated constants defined in
-+.IR <termios.h> ,
-+.I baud_t
-+for baud rates explicitly defined as numbers, and
- .I tcflag_t
- for modes.
- .P
--All are unsigned integer types.
-+.IR cc_t ,
-+.IR speed_t ,
-+and
-+.I tcflag_t
-+are all unsigned integer types.
-+.P
-+.I baud_t
-+is a numeric type.
-+.P
-+It is currently the same as
-+.IR speed_t ,
-+but it is not guaranteed to remain so in the future.
- .SH STANDARDS
-+.TP
-+.I cc_t
-+.TQ
-+.I speed_t
-+.TQ
-+.I tcflag_t
- POSIX.1-2024.
-+.TP
-+.I baud_t
-+GNU.
- .SH HISTORY
-+.TP
-+.I cc_t
-+.TQ
-+.I speed_t
-+.TQ
-+.I tcflag_t
- POSIX.1-1988.
-+.TP
-+.I baud_t
-+glibc 2.42.
- .SH SEE ALSO
- .BR termios (3)
--- 
-2.54.0
-
+On Mon, Apr 27, 2026 at 7:33=E2=80=AFPM Alejandro Colomar <alx@kernel.org> =
+wrote:
+>
+> Hi Florian,
+>
+> On 2026-04-27T15:29:30+0200, Florian Weimer wrote:
+> > * Alejandro Colomar:
+> >
+> > > Hi Florian,
+> > >
+> > > On 2026-04-27T12:34:30+0200, Florian Weimer wrote:
+> > >> * Alejandro Colomar:
+> > >>
+> > >> > [CC +=3D libc-alpha]
+> > >> >
+> > >> > Hi Dorjoy,
+> > >> >
+> > >> > On 2026-04-26T17:14:25+0600, Dorjoy Chowdhury wrote:
+> > >> >> Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+> > >> >
+> > >> > Thanks!
+> > >> >
+> > >> >  Reviewed-by: Alejandro Colomar <alx@kernel.org>
+> > >> >
+> > >> > I will wait until glibc adds this error code to their <errno.h> be=
+fore
+> > >> > applying the patch.  This means either you should write and send a=
+ patch
+> > >> > to glibc (if so, please CC me), or you should ask them to add it
+> > >> > themselves (if you're not comfortable writing glibc code).
+> > >>
+> > >> I'm not sure where this is coming from.
+> > >
+> > > Here's a link to the thread:
+> > > <https://lore.kernel.org/linux-man/20260426111707.36541-1-dorjoychy11=
+1@gmail.com/T/>
+> > >
+> > >> POSIX says EFTYPE was rejected
+> > >> in favor of ENOTTY.
+> > >
+> > > Could you please share a link to that?
+> > >
+> > > Anyway, I guess ENOTTY would be inappropriate in this case.  Although
+> > > maybe a better error code could be devised; I don't know.  This is wh=
+y
+> > > I wanted glibc involved in this discussion before this arrives to a
+> > > Linux release.  Thanks for the quick feedback!
+> >
+> > It's in the Rationale for System Interfaces:
+> >
+> > =E2=80=9C
+> > [EFTYPE]
+> >     This error code was proposed in earlier proposals as "Inappropriate
+> >     operation for file type", meaning that the operation requested is
+> >     not appropriate for the file specified in the function call. This
+> >     code was proposed, although the same idea was covered by [ENOTTY],
+> >     because the connotations of the name would be misleading. It was
+> >     pointed out that the fcntl() function uses the error code [EINVAL]
+> >     for this notion, and hence all instances of [EFTYPE] were changed t=
+o
+> >     this code.
+> > =E2=80=9D
+> >
+> > I replied on linux-fsdevel, too.
+>
+> Thanks!
+>
+> >
+> > (It would be nice to submit patches introducing new error codes to
+> > linux-api with a subject mentioning the error code.)
+>
+> Thanks!  I'll remember this advice for when receiving patches that add
+> error codes.
+>
+> >
+> > Thanks,
+> > Florian
+>
+> Cheers,
+> Alex
+>
+> --
+> <https://www.alejandro-colomar.es>
