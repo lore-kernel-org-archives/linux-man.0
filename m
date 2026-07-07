@@ -1,233 +1,275 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.jasonyundt.email (box.jasonyundt.email [104.248.224.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A1738C2A7
-	for <linux-man@vger.kernel.org>; Mon,  6 Jul 2026 15:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE3E2F8EB1
+	for <linux-man@vger.kernel.org>; Tue,  7 Jul 2026 10:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.248.224.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783351680; cv=none; b=Y2BZ2AJGc21prh4FTkC+r8+WozJm4CpfXcKntKbpJufEp2wIPF6vU+L/UQJF9qeGOsL+0jyNdhEH5dE0CZKmViKvTZNGww2Z4qQwG2Q/4U+EFo6prH8yAxsy9Bf1lPCv30PXEqngLjv7Taf6mFsdTqVdVz1q3yK79O1lR/cp95g=
+	t=1783421694; cv=none; b=axBN1PNY5guYeDsMVF9KHsbvtuRIHiMOkOUgypfFpfD9b6tuAfDuwqWogeBNArWrjgS0g7KfJQHYU3qwR0UfeLO3KbWdu58pDcMlwx5DlgdfpYliE8eMJSxcA8xMk4AU4eILzrIbUBb55QDv2+LPM7/uqLy4DFEYuFKRWb0k7Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783351680; c=relaxed/simple;
-	bh=JXBDSndf+98zZOaCAD91Q5ro7aFCxqgkEc23tAjm7HI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NAw7Ys+qZfwTfUVtuR/S6UgzGi5oGFR2swcOHoHSHZ0rPdQKPxT6FfacWk9LBi3nAXG8vdg/NaSZ3XHzZP+PozAcJgmzv1D0hqRcD2F67dx7cVV/GXfb1IQzkmOtEI3mNlpwNQ28CsAPI78DoaYx70laf7jm7OI0xm3jp3kL5UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GIWLiUpC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783421694; c=relaxed/simple;
+	bh=kaCaoBMPQwTDlgItGNqpO0iCLffuF6Zr9tYaVHbtET0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=It93XLnr0foHUfo/MrYLgPTLrLqbcZnlCp7PDYFxMy0qx0FiR12N+zP2va6OFPj61qsMgpveAjmYNH6b6+J9FQ5f3jRT6m4DYt11iIZL4RfE4KXxrkQvxPMABziPgjGKG5qe4RfJ5wRzlxvUgn2Gv/I9N1v3932hnFsDDCx5Ut8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jasonyundt.email; spf=pass smtp.mailfrom=jasonyundt.email; dkim=pass (2048-bit key) header.d=jasonyundt.email header.i=@jasonyundt.email header.b=OLEStvjz; arc=none smtp.client-ip=104.248.224.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jasonyundt.email
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jasonyundt.email
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GIWLiUpC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519D81F000E9;
-	Mon,  6 Jul 2026 15:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783351679;
-	bh=/i7vBBi+VPgeXMiloHbJhN/Exs7N7rcr6fhJt52VAeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GIWLiUpCqRJu05Et3ng39a94yhKw+kw0knCKM7FVrmj7gYfBODg6cWYcVJqt+D/SP
-	 fY90IV6lujbNVo59aAXjhsrrAJfkChq/zPHBmtg1OjYmJMekRqbCunlWoCdnTi/VMF
-	 DXCLe6ucuUZ933LZwGKQEHj4HwGBr8OtplN6VhTKjR6iZ0PCIOhkM+bVPRbTv3CSpp
-	 EHWvN5+Hwr9Kcct9tAGwvg6dOrAYUAAuJjl92minC30CS8VAYw2B2boqCVBd46SNLJ
-	 n7G1e67qw/ZXeuaE6uWT+k15WITGpVj61Td3QN9fstlDq1PY1zkAAMI/1jqpVarVZJ
-	 NNncl3cUE+avw==
-Date: Mon, 6 Jul 2026 17:27:55 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Jason Yundt <jason@jasonyundt.email>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v1] man/man7/environ.7: Fix underspecification of
- "name=value" strings
-Message-ID: <akvEyqpWVMYkkJei@devuan>
-References: <d5b0d9b86029aaa7961edd2421e4a3ebdaedb1b9.1783339632.git.jason@jasonyundt.email>
+	dkim=pass (2048-bit key) header.d=jasonyundt.email header.i=@jasonyundt.email header.b="OLEStvjz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=jasonyundt.email;
+	s=mail; t=1783421690;
+	bh=kaCaoBMPQwTDlgItGNqpO0iCLffuF6Zr9tYaVHbtET0=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=OLEStvjzlKJTVFK+e9JgBZ0q7b/B4DBh3za1WUbfiw1I84dsvpKRuu86VdkhfhjH+
+	 WHLWWLLnRCKF1YOI2/mFyoPr85irKRZFHUr91FYm5x6dAQHstyYQ8SllVDalY+Cw8K
+	 fcXvRlN5tU5z0jL4cjne3PB9dGXyIZeVRI7KlaGi2bwdJjh5J6lFraP1QYgMW5qHCw
+	 g3klVGjPoydQMVAnciNR0wAYydomaxF7RYUh+2nc5on0TZRq9gX0uTDxZ6gOHQ0nzU
+	 hrBTNKCIMeyHcIDDKiv11WGo01lDXV/z8Rw+/A+L6GkXA3K3MBn8jjy8sdxkquqzn0
+	 h2fPuJT1DbE5A==
+Received: from authenticated-user (box.jasonyundt.email [104.248.224.157])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by box.jasonyundt.email (Postfix) with ESMTPSA id 7ECA97E36E;
+	Tue,  7 Jul 2026 06:54:50 -0400 (EDT)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ey77on4pgvjjaxop"
-Content-Disposition: inline
-In-Reply-To: <d5b0d9b86029aaa7961edd2421e4a3ebdaedb1b9.1783339632.git.jason@jasonyundt.email>
-
-
---ey77on4pgvjjaxop
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Jason Yundt <jason@jasonyundt.email>
-Cc: linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Jul 2026 06:54:49 -0400
+Message-Id: <DJSA85QXGWYK.1D40FPI15883J@jasonyundt.email>
+Cc: <linux-man@vger.kernel.org>
 Subject: Re: [PATCH v1] man/man7/environ.7: Fix underspecification of
  "name=value" strings
-Message-ID: <akvEyqpWVMYkkJei@devuan>
-References: <d5b0d9b86029aaa7961edd2421e4a3ebdaedb1b9.1783339632.git.jason@jasonyundt.email>
-MIME-Version: 1.0
-In-Reply-To: <d5b0d9b86029aaa7961edd2421e4a3ebdaedb1b9.1783339632.git.jason@jasonyundt.email>
+From: "Jason Yundt" <jason@jasonyundt.email>
+To: "Alejandro Colomar" <alx@kernel.org>, "Jason Yundt"
+ <jason@jasonyundt.email>
+References: <d5b0d9b86029aaa7961edd2421e4a3ebdaedb1b9.1783339632.git.jason@jasonyundt.email> <akvEyqpWVMYkkJei@devuan>
+In-Reply-To: <akvEyqpWVMYkkJei@devuan>
 
-Hi Jason,
-
-On 2026-07-06T10:26:20-0400, Jason Yundt wrote:
-> Before this change, environ(7) said this:
->=20
-> > By convention, the strings in environ have the form "name=3Dvalue".  The
-> > name is case-sensitive and may not contain the character "=3D".  The
-> > value can be anything that can be represented as a string.  The name
-> > and the value may not contain an embedded null byte ('\0'), since this
-> > is assumed to terminate the string.
->=20
-> That description has a few problems:
->=20
-> 1. It talks about =E2=80=98the character "=3D"=E2=80=99, but it doesn=E2=
+On Mon Jul 6, 2026 at 11:27 AM EDT, Alejandro Colomar wrote:
+> Hi Jason,
+>
+> On 2026-07-06T10:26:20-0400, Jason Yundt wrote:
+>> Before this change, environ(7) said this:
+>>=20
+>> > By convention, the strings in environ have the form "name=3Dvalue".  T=
+he
+>> > name is case-sensitive and may not contain the character "=3D".  The
+>> > value can be anything that can be represented as a string.  The name
+>> > and the value may not contain an embedded null byte ('\0'), since this
+>> > is assumed to terminate the string.
+>>=20
+>> That description has a few problems:
+>>=20
+>> 1. It talks about =E2=80=98the character "=3D"=E2=80=99, but it doesn=E2=
 =80=99t specify what
->    character encoding would be used to represent that character.  Two
->    different character encodings could represent that same =E2=80=9C=3D=
+>>    character encoding would be used to represent that character.  Two
+>>    different character encodings could represent that same =E2=80=9C=3D=
 =E2=80=9D character
->    using two different bytes (or even sequences of bytes).
+>>    using two different bytes (or even sequences of bytes).
+>
+> POSIX says that '=3D' is part of the portable character set.
 
-POSIX says that '=3D' is part of the portable character set.  Do we really
-need to care about the value of '=3D'?  Is this really possible?
+I don=E2=80=99t really think that '=3D' being a part of the POSIX Portable
+Character Set matters here.  For one thing, environ(7) doesn=E2=80=99t ment=
+ion
+the POSIX Portable Character Set at all.  Even if it did, the POSIX
+Portable Character Set does not specify that the character encoding of
+'=3D' is 0x3D so it wouldn=E2=80=99t really help us.
 
-> 2. It mentions that =E2=80=98The name is case-sensitive and may not conta=
-in the
->    character "=3D".=E2=80=99  It doesn=E2=80=99t clearly say what what is=
- allowed to be in
->    a name.  It only says that those two things are explicitly
->    disallowed.
+> Do we really need to care about the value of '=3D'?
 
-Anything else is allowed, obviously.
+There needs to be a specification somewhere that says what the character
+encoding would be.  You can=E2=80=99t represent any characters on a compute=
+r
+without choosing a character encoding.
 
-> This change fixes those two problems.  For the first problem, this
-> change makes it so that the description is all about bytes, not
-> characters.  Describing the format in terms of bytes allows us to
-> sidestep the question of character encoding entirely.  Additionally, it
-> is more accurate to describe strings in environ as being sequences of
-> bytes instead of sequences of characters.  Both the name and value of an
-> environment variable could be sequences of bytes that don=E2=80=99t conta=
-in any
-> characters at all.
->=20
-> For the second problem, this change clarifies that the name of an
-> environment variable can contain any byte except for 0x3D.  It also
-> clarifies that while it=E2=80=99s OK for environment variable values to be
-> empty, it=E2=80=99s not OK for environment variable names to be empty.
->=20
-> Additionally, this change replaces "=3D" with '=3D'.  In the C programming
-> language, "=3D" refers to two bytes: one for the equals character plus one
-> for the terminating null byte.  In the C programming language, '=3D'
-> refers to a single byte.  In this particular instance, we=E2=80=99re talk=
-ing
-> about a single byte, so it=E2=80=99s better to use '=3D'.  Using '=3D' al=
-so makes
-> environ(7) more internally consistent.  Before this change, environ(7)
-> used '\0' and "=3D".  This change makes it so that environ(7) uses '\0'
-> and '=3D'.
->=20
-> I was able to obtain obtain the information that I needed in order to
-> create this change by writing a test program.  You can find the test
-> program here [1].  Additionally, I got the information about the setenv(3)
-> and unsetenv(3) functions from their man pages (specifically, the parts
-> of their man pages that talk about EINVAL).
->=20
-> [1]: <https://codeberg.org/JasonYundt/environ-format-example-program>
+> Is this really possible?
 
-Please include the C program in the commit message so that it can be
-compiled and run easily, without having to understand Nix stuff.
+Definitely.  Anyone can create whatever character encoding that they
+want to.  There=E2=80=99s nothing that would force people to always encode =
+the
+=E2=80=9C=3D=E2=80=9D character as 0x3D in every character encoding that th=
+ey create.
+There are already character encodings in existence where =E2=80=9C=3D=E2=80=
+=9D is not
+encoded as a 0x3D byte.  For example, =E2=80=9C=3D=E2=80=9D is encoded as a=
+ 0x7E byte in
+EBCDIC [1].
 
->=20
-> Signed-off-by: Jason Yundt <jason@jasonyundt.email>
-> ---
->  man/man7/environ.7 | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
->=20
-> diff --git a/man/man7/environ.7 b/man/man7/environ.7
-> index 31a69017cf75..bf5726e32429 100644
-> --- a/man/man7/environ.7
-> +++ b/man/man7/environ.7
-> @@ -28,12 +28,23 @@ .SH DESCRIPTION
->  .I environ
->  have the form
->  .RI \[dq] name\f[B]=3D\f[]value \[dq].
-> -The name is case-sensitive and may not contain
-> -the character
-> -.RB \[dq] =3D \[dq].
-> -The value can be anything that can be represented as a string.
-> -The name and the value may not contain an embedded null byte (\[aq]\[rs]=
-0\[aq]),
-> -since this is assumed to terminate the string.
+>
+>> 2. It mentions that =E2=80=98The name is case-sensitive and may not cont=
+ain the
+>>    character "=3D".=E2=80=99  It doesn=E2=80=99t clearly say what what i=
+s allowed to be in
+>>    a name.  It only says that those two things are explicitly
+>>    disallowed.
+>
+> Anything else is allowed, obviously.
 
-I liked the old wording about the terminating null byte more.
+I don=E2=80=99t think that the current wording clearly specifies what is al=
+lowed
+to be in a name.  It=E2=80=99s definitely not obvious to me.
 
-> +The name is case-sensitive
-> +and may contain any byte
-> +other than null (\[aq]\[rs]0\[aq]) and 0x3D (the
-> +.BR ascii (7)
-> +.RB \[aq] =3D \[aq]
-> +character).
-> +The name must be at least one byte long,
-> +or else programs will not be able to manipulate it using the
-> +.BR setenv (3)
-> +or
-> +.BR unsetenv (3)
-> +functions.
-> +Immediately after the name, there should be a 0x3D byte.
+>
+>> This change fixes those two problems.  For the first problem, this
+>> change makes it so that the description is all about bytes, not
+>> characters.  Describing the format in terms of bytes allows us to
+>> sidestep the question of character encoding entirely.  Additionally, it
+>> is more accurate to describe strings in environ as being sequences of
+>> bytes instead of sequences of characters.  Both the name and value of an
+>> environment variable could be sequences of bytes that don=E2=80=99t cont=
+ain any
+>> characters at all.
+>>=20
+>> For the second problem, this change clarifies that the name of an
+>> environment variable can contain any byte except for 0x3D.  It also
+>> clarifies that while it=E2=80=99s OK for environment variable values to =
+be
+>> empty, it=E2=80=99s not OK for environment variable names to be empty.
+>>=20
+>> Additionally, this change replaces "=3D" with '=3D'.  In the C programmi=
+ng
+>> language, "=3D" refers to two bytes: one for the equals character plus o=
+ne
+>> for the terminating null byte.  In the C programming language, '=3D'
+>> refers to a single byte.  In this particular instance, we=E2=80=99re tal=
+king
+>> about a single byte, so it=E2=80=99s better to use '=3D'.  Using '=3D' a=
+lso makes
+>> environ(7) more internally consistent.  Before this change, environ(7)
+>> used '\0' and "=3D".  This change makes it so that environ(7) uses '\0'
+>> and '=3D'.
+>>=20
+>> I was able to obtain obtain the information that I needed in order to
+>> create this change by writing a test program.  You can find the test
+>> program here [1].  Additionally, I got the information about the setenv(=
+3)
+>> and unsetenv(3) functions from their man pages (specifically, the parts
+>> of their man pages that talk about EINVAL).
+>>=20
+>> [1]: <https://codeberg.org/JasonYundt/environ-format-example-program>
+>
+> Please include the C program in the commit message so that it can be
+> compiled and run easily, without having to understand Nix stuff.
 
-What should readers interpret of 'should'?  Is it a recommendation or an
-obligation?  This is unclear wording.
+OK.  I created a shorter version of the test code that=E2=80=99s available =
+at
+that link.  I have embedded the new shorter version in the commit
+message for the second version of this patch.
 
-> +Immediately after the 0x3D byte is the value.
+>
+>>=20
+>> Signed-off-by: Jason Yundt <jason@jasonyundt.email>
+>> ---
+>>  man/man7/environ.7 | 23 +++++++++++++++++------
+>>  1 file changed, 17 insertions(+), 6 deletions(-)
+>>=20
+>> diff --git a/man/man7/environ.7 b/man/man7/environ.7
+>> index 31a69017cf75..bf5726e32429 100644
+>> --- a/man/man7/environ.7
+>> +++ b/man/man7/environ.7
+>> @@ -28,12 +28,23 @@ .SH DESCRIPTION
+>>  .I environ
+>>  have the form
+>>  .RI \[dq] name\f[B]=3D\f[]value \[dq].
+>> -The name is case-sensitive and may not contain
+>> -the character
+>> -.RB \[dq] =3D \[dq].
+>> -The value can be anything that can be represented as a string.
+>> -The name and the value may not contain an embedded null byte (\[aq]\[rs=
+]0\[aq]),
+>> -since this is assumed to terminate the string.
+>
+> I liked the old wording about the terminating null byte more.
 
-This seems redundant with the sentence that shows the format
-"name=3Dvalue".
+OK.  In the second version of this patch, I brought back the old wording
+about the terminating null byte.
 
-> +The value may contain any byte except for null.
+>
+>> +The name is case-sensitive
+>> +and may contain any byte
+>> +other than null (\[aq]\[rs]0\[aq]) and 0x3D (the
+>> +.BR ascii (7)
+>> +.RB \[aq] =3D \[aq]
+>> +character).
+>> +The name must be at least one byte long,
+>> +or else programs will not be able to manipulate it using the
+>> +.BR setenv (3)
+>> +or
+>> +.BR unsetenv (3)
+>> +functions.
+>> +Immediately after the name, there should be a 0x3D byte.
+>
+> What should readers interpret of 'should'?  Is it a recommendation or an
+> obligation?  This is unclear wording.
 
-What is the null value?  You mean an empty string?  Or you mean embedded
-null bytes in the string?  Please clarify.
+OK.  In the second version of this patch, I replaced the word =E2=80=9Cshou=
+ld=E2=80=9D
+with the word =E2=80=9Cmust=E2=80=9D.
 
-> +The value may be zero bytes long.
+>
+>> +Immediately after the 0x3D byte is the value.
+>
+> This seems redundant with the sentence that shows the format
+> "name=3Dvalue".
 
-That's commonly known as an empty string.
+OK.  In the second version of this patch, I got rid of that sentence.
 
-I think saying that the value can be anything that can be represented as
-a string is fine (the old wording).
+>
+>> +The value may contain any byte except for null.
+>
+> What is the null value?  You mean an empty string?  Or you mean embedded
+> null bytes in the string?  Please clarify.
 
-> +Immediately after the value, there must be a terminating null byte.
+When I wrote =E2=80=9CThe value may contain any byte except for null.=E2=80=
+=9D, I meant
+=E2=80=9CThe value may contain any byte except for the null byte.=E2=80=9D =
+ That being
+said, I have removed that sentence from the second version of this
+patch.
 
-The fact that it's a string already implied this.
+>
+>> +The value may be zero bytes long.
+>
+> That's commonly known as an empty string.
+>
+> I think saying that the value can be anything that can be represented as
+> a string is fine (the old wording).
 
+OK.  In the second version of this patch, I got rid of the sentence =E2=80=
+=9CThe
+value may be zero bytes long.=E2=80=9D
 
-Have a lovely day!
-Alex
+>
+>> +Immediately after the value, there must be a terminating null byte.
+>
+> The fact that it's a string already implied this.
 
->  .P
->  Environment variables may be placed in the shell's environment by the
->  .I export
->=20
-> Range-diff against v0:
-> -:  ------------ > 1:  d5b0d9b86029 man/man7/environ.7: Fix underspecific=
-ation of "name=3Dvalue" strings
-> --=20
-> 2.54.0
->=20
->=20
+OK.  In the second version of this patch, I got rid of the sentence
+=E2=80=9CImmediately after the value, there must be a terminating null byte=
+.=E2=80=9D
 
---=20
-<https://www.alejandro-colomar.es>
+>
+>
+> Have a lovely day!
+> Alex
+>
+>>  .P
+>>  Environment variables may be placed in the shell's environment by the
+>>  .I export
+>>=20
+>> Range-diff against v0:
+>> -:  ------------ > 1:  d5b0d9b86029 man/man7/environ.7: Fix underspecifi=
+cation of "name=3Dvalue" strings
+>> --=20
+>> 2.54.0
+>>=20
+>>=20
 
---ey77on4pgvjjaxop
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpLyXUACgkQ64mZXMKQ
-wqkxIQ//Zl2XPssECX1utry8dTgzdoe3M3t4rs1YVI/i/cEuPTqtcAplgYrOyEhK
-ithRpgeqipZERRBZtUQflzhydVAvH/HRaswdy6K2Y+yHYFh9vRwAyIPGgvISpXPM
-pDHHCgZDASgYgtnijYze1ZmpnDe5SSEVsCgfTqCpkrbSRNIyEUYC448x2dxA39bK
-v8R9xSqiU3EhuBcsFsC2lF7BmfwxXEODJKJAV0DOCMiqQ8VU2EqUixkUdbBVpJNG
-Qpby7+8U6JiQzBFbU46lYteRMmz0MM3on1Mvq6flkytLV88ee9ukcz792DFKvmP6
-SGB8fE94fmER6PjoLODV0r9SwOq6+SXKQOMuHy0GcrJpbhi1q47WrJo09UMAwnqE
-K6J5/TuSmk89UWRCQkgOjGmu2mqhteTnvl/k/oc/D1Lgs4MdoeDMUuJNSovE7jek
-5irscmJdAjsj48GGAQ/GZuSc5cR9xi5SY0N9MFZHVqPBAAqs2JelaUShFGoM4L42
-3i83f7/WU2VReEdE0s1ADMX0mKpWpjOk+zuL8CYPKdZxc87jamVgv5k4VQgFsrPa
-OmGxf1BRuaeFCsaM1PffGZcQ/noXkUC1B+o5z90mOvpBc7H0BZ4wjWDTnaEBNnXX
-RdV9LbX6A/JAt0mBnuO/2VMYkA154C9wxD7o2M6rmBpMprVQNsM=
-=gQXq
------END PGP SIGNATURE-----
-
---ey77on4pgvjjaxop--
+[1]: <https://en.wikipedia.org/wiki/Ebcidic#Code_page_layout>
