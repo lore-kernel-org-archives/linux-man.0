@@ -1,31 +1,34 @@
 Received: from a3.inai.de (a3.inai.de [144.76.212.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9D1433BAB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D00438482
 	for <linux-man@vger.kernel.org>; Wed,  8 Jul 2026 12:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783512903; cv=none; b=Nn+sRX8xKg+W9px+hnGNqpwBLQx9zUAaqfXU+ZIo/R0GWgx3sGSHEkWPtjxiMTKQlkVcg+FZhRaDyJkL8IHs/kYJTfoJGSjhut9nsHn+4vw/Yb3ixrP2VdwGaM4lZPLg91ZAKA+NOfYjdTBjg9BnkazFhajBy+2Dnf+t0qyO16c=
+	t=1783512904; cv=none; b=lyfArmCufGJfP96yXGk6gQB7r2eW/4/eyJC+Lr/cBuWu7mptvnRIDGRyQ215IJ6/8dzVldtJdt8PBwuO/aY+Abdz7rO5Dtk392rMpIAt1D7VFvAS5Ka2UWoSREJlv/PoQiD9+pWX04JdRiowz0G8hNF63+aO6gNJxmBrLPgUdUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783512903; c=relaxed/simple;
-	bh=taWll8TLReWH/f2Jhw8lzr0ZI5gESLftZg7Ej0xrvjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AYlluP6+BnmHFyIrtRLzg170oRaBxNptZ7QWODp55LX4EJmGxgdrFeKQqxJYEFEpI+DEnY9Tq2RcwkOaz1N5s7w2Iz3X1egzJZCMt3eIbJ8Gsxarq7vIYrmsI2QaSoKgGirnnbyNT2fhAJsoF79ek3w70TStZi6emcDRrGxvqEc=
+	s=arc-20240116; t=1783512904; c=relaxed/simple;
+	bh=Wb3QBAHH1PeOYRMHjpDS3N5CY2vYq+lVM0jF+4vNqQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o33XEs1kdzydfbzizBi6up9a/+9hS4AIS/fmnoB/Q4yQgeeoqR4ri0j6maqcT5ei6x3XgThTjQmXCKD/b48yNqeCzbYY3wFXuy7sdqBkxDSPWwretAbxU8Y7yjPfh52etvZ3VrYosGNQMTcmXY8yqYamO82J8LE37S7SFW+ODJ4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
 Received: by a3.inai.de (Postfix, from userid 65534)
-	id DE10E1003CD494; Wed, 08 Jul 2026 14:14:58 +0200 (CEST)
+	id 1AF771003CDC5C; Wed, 08 Jul 2026 14:14:59 +0200 (CEST)
 X-Spam-Level: 
 Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
-	by a3.inai.de (Postfix) with ESMTP id C28701003CD0D3;
+	by a3.inai.de (Postfix) with ESMTP id EAE251003CD0D5;
 	Wed, 08 Jul 2026 14:14:58 +0200 (CEST)
 From: Jan Engelhardt <jengelh@inai.de>
 To: alx@kernel.org
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH 1/4] console_codes.4: rephrase description for xterm's ESC ] 4 command
-Date: Wed,  8 Jul 2026 14:14:55 +0200
-Message-ID: <20260708121458.46465-1-jengelh@inai.de>
+Subject: [PATCH 4/4] console_codes.4: document more xterm codes
+Date: Wed,  8 Jul 2026 14:14:58 +0200
+Message-ID: <20260708121458.46465-4-jengelh@inai.de>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260708121458.46465-1-jengelh@inai.de>
+References: <20260708121458.46465-1-jengelh@inai.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -34,27 +37,71 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The \e]4 code is capable of modifying xterm's entire 256-slot palette,
-not just the ANSI sub-portion thereof.
-
 Signed-off-by: Jan Engelhardt <jengelh@inai.de>
 ---
- man/man4/console_codes.4 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man/man4/console_codes.4 | 41 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-index e0e88537a..28ee4c2fc 100644
+index e309293ca..a34adc57f 100644
 --- a/man/man4/console_codes.4
 +++ b/man/man4/console_codes.4
-@@ -753,7 +753,7 @@ Set icon name and window title to
- T}
+@@ -754,7 +754,36 @@ T}
  ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
  ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
--ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set ANSI color \f[I]num\f[] to \f[I]txt\f[].
-+ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) to \f[I]txt\f[].
- ESC ] 10 ; \f[I]txt\f[] ST	Set dynamic text color to \f[I]txt\f[].
+ ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) to \f[I]txt\f[].
++ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[I]txt\f[].
++ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution to \f[I]txt\f[].
++ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to \f[I]txt\f[].
++ESC ] 5 ; 3 ; \f[I]txt\f[] ST	T{
++Set the color for reverse substitution to \f[I]txt\f[]. Because xterm still
++reverses fg-bg pairs, the effect is that only the background of a character
++cell is colorized this way.
++T}
++ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \f[I]txt\f[].
++ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=bold, 1=substitute by color.
++ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=underscore, 1=color.
++ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=blinking, 1=color.
++ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=reverse, 1=color.
++ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=italic, 1=color.
+ ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
++ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
++ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
++ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I]txt\f[].
++ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I]txt\f[].
++ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]txt\f[].
++ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]txt\f[].
++ESC ] 17 ; \f[I]txt\f[] ST	T{
++Set the background text color for reverse video (provided it is not substituted
++with 6;3;1) to \f[I]txt\f[].
++T}
++ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[].
++ESC ] 19 ; \f[I]txt\f[] ST	T{
++Set the foreground text color for reverse video (provided it is not substituted
++with 6;3;1) to \f[I]txt\f[].
++T}
  ESC ] 46 ; \f[I]name\f[] ST	T{
  Change log file to
+ .I name
+@@ -763,6 +792,18 @@ T}
+ ESC ] 50 ; \f[I]fn\f[] ST	T{
+ Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resource)
+ T}
++ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
++ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
++ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
++Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
++T}
++ESC ] 110 ST	T{
++Reset color for mode 10. (Codes 111-119 map to resetting modes 11-19,
++respectively.)
++T}
++ESC ] \f[I]mode\f[] ; ? ST	T{
++Query the respective property/color/etc. (modes 4,5,10-19,50)
++T}
+ .TE
+ .P
+ It recognizes the following with slightly modified meaning
 -- 
 2.54.0
 
