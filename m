@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0AF3F12DC
-	for <linux-man@vger.kernel.org>; Wed,  8 Jul 2026 15:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC401684BE
+	for <linux-man@vger.kernel.org>; Wed,  8 Jul 2026 15:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783524563; cv=none; b=ZxWpujntsKUxfkahqxTFdGRSMQfIkwt0oNNwFxhQ+xLmVbh6O2A3fMtIjqUtiRvc+/ScDYewqM6o20J5abby824+XtsYFR+H/UJtEt3FuDKTbOyIyLr5p1lm/GcYwWtonyy7MsM0TpZ3s6UJGfVtHrztB6wRceDNIRLpZUBVgBI=
+	t=1783524621; cv=none; b=EvYGWL2qJrBy++CtkBP4+T7sjw/gFIVQYSl/i4AlQaJ4zoauBldp7ME1YL4iHuf5y3cjro4vz+J3s1jJxTghildtmrus+LG8tdl+nyMbOp1yEe3ZlPgvpsV8JOeYSTVioqILKfbUSnmwjGNw3AYoJgL6VHhM5wk9e7EQmjJwWCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783524563; c=relaxed/simple;
-	bh=tMecra7FtkZI6nKv/PISaRgsmQGKO9AWl2JaRDy6YNQ=;
+	s=arc-20240116; t=1783524621; c=relaxed/simple;
+	bh=vHQ7qY1B+kUCryfCNUanEwOjBY8Q0QEG6lwWEv7lXyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVi0f3IXcNb8WcSconoHDTZ7MsGqNuVHegTD4YX2LkvgCOYdieLMaQkaeYTep4fa9YU5RbQ2BKbzMgfEBCWOu5SMCf3whhVMExP89yWiyoy8gdKs42N1hkGZJkhamAuleW+XDoikmGYSVO0SjUKOtUlL0914uflMCqb5i/8SBC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ExbgHdNy; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kop1bdLxJpfDbf0Ny0DLjGjcM46dumGZl5wS5+n56Bmlnt46/rETSHlOZBLUqgl4oDJxcx/Ru8LAjp2Ooc2XxJUbPQ9RK/91zPObq8A12Qll/z3TAsAL8AjLYVJVwQIYAPcgqQSGHolq/N/yUCnxMogqMUHO2NrUHEY0u++nPP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlnVwbAz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExbgHdNy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061EA1F000E9;
-	Wed,  8 Jul 2026 15:29:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlnVwbAz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99D731F000E9;
+	Wed,  8 Jul 2026 15:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783524560;
-	bh=ASWn1ovW6fZXVuSOQO/8TmB1BlSk9M2cJoltulazj0I=;
+	s=k20260515; t=1783524620;
+	bh=lu2+bR0yj3YRPyZu0h3uzMeZBCwA+MFJ6WkFhaZ6IE4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ExbgHdNyb7VOGw5M4mysRz3YxvmV0M7YUsupfi+46ymrOR0sQnRDJxkIpagn0h4Wf
-	 AJEjhYSE3p8euY1wrCVF7okBN1TPPb30G0TlXRjCngfX+JZEaMaX6WrfJ7ty6a4nky
-	 F982+gmvKrw/d+sNK6JIbC99vNTT4YmzbJ5Srrw3Worvo37AwKh4HyaFug+UfyJzAu
-	 eywayicbzShGP6PkxopTMv00iXHJAqzGQjE5FfsZwBBf3J3V3E/NV7X1BJcQx0Oa/E
-	 D0uMWTriub0s9qNjigXkb8CO+ZXZ3Rd7ezM+tup/VPaVeJx6y0NgQKqYJvE5YSnVNq
-	 tYIz0/OTxqIGQ==
-Date: Wed, 8 Jul 2026 17:29:17 +0200
+	b=OlnVwbAz2A2IOOj9S/TqLRX76XSoPIV5YBJIJXGNxk+19oym3VOStlqIJCKT1jmPu
+	 WqQbmo2P3N7kxYIzyL5vA1GbQfakO10MsnCQMta2WC1RzxCbSoBnSj3DDAfpnqlg7C
+	 tvMeaxeUDtRoInDgmMI7WbzzzPvfl4QJf6+svVyqpE02+Tb47hXfbXY8JnnnkFhURN
+	 thNf+zOEbQVN1s6HzZWzJ97EaCOSl12QI2ZHQR7mvTDEs2i+qNGu0GuANrD5iloU50
+	 7ufJ7jm5x/7+TGCqsZTBVUfGv2X/cDrw7AOTaPobVnAmz1IyzYqBm2EL2KIdKFhN7v
+	 cCqdoJl2n36TQ==
+Date: Wed, 8 Jul 2026 17:30:17 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Jan Engelhardt <jengelh@inai.de>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 3/4] console_codes.4: mention caveats for xterm's ESC ]
- 50 command
-Message-ID: <ak5sM16sSOxLmWZo@devuan>
+Subject: Re: [PATCH 4/4] console_codes.4: document more xterm codes
+Message-ID: <ak5s1Fdwmy0E0M3i@devuan>
 References: <20260708121458.46465-1-jengelh@inai.de>
- <20260708121458.46465-3-jengelh@inai.de>
+ <20260708121458.46465-4-jengelh@inai.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,57 +41,126 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jdqlkolpo7ym43dy"
+	protocol="application/pgp-signature"; boundary="4kz3ny6n4t4hk7n5"
 Content-Disposition: inline
-In-Reply-To: <20260708121458.46465-3-jengelh@inai.de>
+In-Reply-To: <20260708121458.46465-4-jengelh@inai.de>
 
 
---jdqlkolpo7ym43dy
+--4kz3ny6n4t4hk7n5
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: Jan Engelhardt <jengelh@inai.de>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 3/4] console_codes.4: mention caveats for xterm's ESC ]
- 50 command
-Message-ID: <ak5sM16sSOxLmWZo@devuan>
+Subject: Re: [PATCH 4/4] console_codes.4: document more xterm codes
+Message-ID: <ak5s1Fdwmy0E0M3i@devuan>
 References: <20260708121458.46465-1-jengelh@inai.de>
- <20260708121458.46465-3-jengelh@inai.de>
+ <20260708121458.46465-4-jengelh@inai.de>
 MIME-Version: 1.0
-In-Reply-To: <20260708121458.46465-3-jengelh@inai.de>
+In-Reply-To: <20260708121458.46465-4-jengelh@inai.de>
 
 Hi Jan,
 
-On 2026-07-08T14:14:57+0200, Jan Engelhardt wrote:
-> Fonts are only settable if xterm was launched with the right options
-> (or X11 resources) that would allow this operation.
->=20
+On 2026-07-08T14:14:58+0200, Jan Engelhardt wrote:
 > Signed-off-by: Jan Engelhardt <jengelh@inai.de>
 > ---
->  man/man4/console_codes.4 | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  man/man4/console_codes.4 | 41 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 >=20
 > diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-> index 2fa8368e1..e309293ca 100644
+> index e309293ca..a34adc57f 100644
 > --- a/man/man4/console_codes.4
 > +++ b/man/man4/console_codes.4
-> @@ -760,7 +760,9 @@ Change log file to
->  .I name
->  (normally disabled by a compile-time option).
->  T}
-> -ESC ] 50 ; \f[I]fn\f[] ST	Set font to \f[I]fn\f[].
-> +ESC ] 50 ; \f[I]fn\f[] ST	T{
-> +Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resou=
-rce)
+> @@ -754,7 +754,36 @@ T}
+>  ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
+>  ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
+>  ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) =
+to \f[I]txt\f[].
+> +ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[=
+I]txt\f[].
+> +ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution t=
+o \f[I]txt\f[].
+> +ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to=
+ \f[I]txt\f[].
+> +ESC ] 5 ; 3 ; \f[I]txt\f[] ST	T{
+> +Set the color for reverse substitution to \f[I]txt\f[]. Because xterm st=
+ill
 
-Please replace "cf." by English words.  Also, where is "allowFontOps"
-documented?
+Please use semantic newlines.  See man-pages(7):
+
+$ MANWIDTH=3D72 man man-pages | awk '/Use semantic newlines/,/^$/'
+   Use semantic newlines
+     In the source of a manual page, new sentences should be started on
+     new lines, long sentences should be split  into  lines  at  clause
+     breaks  (commas,  semicolons, colons, and so on), and long clauses
+     should be split at phrase boundaries.  This convention,  sometimes
+     known as "semantic newlines", makes it easier to see the effect of
+     patches, which often operate at the level of individual sentences,
+     clauses, or phrases.
 
 
 Cheers,
 Alex
 
+> +reverses fg-bg pairs, the effect is that only the background of a charac=
+ter
+> +cell is colorized this way.
+> +T}
+> +ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \=
+f[I]txt\f[].
+> +ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=3Dbold, 1=3Dsubst=
+itute by color.
+> +ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=3Dunderscor=
+e, 1=3Dcolor.
+> +ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=3Dblinking, 1=
+=3Dcolor.
+> +ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=3Dreverse, 1=
+=3Dcolor.
+> +ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=3Ditalic, 1=3Dc=
+olor.
+>  ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
+> +ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
+> +ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
+> +ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I=
+]txt\f[].
+> +ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I=
+]txt\f[].
+> +ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]tx=
+t\f[].
+> +ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]tx=
+t\f[].
+> +ESC ] 17 ; \f[I]txt\f[] ST	T{
+> +Set the background text color for reverse video (provided it is not subs=
+tituted
+> +with 6;3;1) to \f[I]txt\f[].
+> +T}
+> +ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[=
+].
+> +ESC ] 19 ; \f[I]txt\f[] ST	T{
+> +Set the foreground text color for reverse video (provided it is not subs=
+tituted
+> +with 6;3;1) to \f[I]txt\f[].
+> +T}
+>  ESC ] 46 ; \f[I]name\f[] ST	T{
+>  Change log file to
+>  .I name
+> @@ -763,6 +792,18 @@ T}
+>  ESC ] 50 ; \f[I]fn\f[] ST	T{
+>  Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resou=
+rce)
+>  T}
+> +ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
+> +ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
+> +ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
+> +Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
+> +T}
+> +ESC ] 110 ST	T{
+> +Reset color for mode 10. (Codes 111-119 map to resetting modes 11-19,
+> +respectively.)
+> +T}
+> +ESC ] \f[I]mode\f[] ; ? ST	T{
+> +Query the respective property/color/etc. (modes 4,5,10-19,50)
 > +T}
 >  .TE
 >  .P
@@ -105,24 +173,24 @@ Alex
 --=20
 <https://www.alejandro-colomar.es>
 
---jdqlkolpo7ym43dy
+--4kz3ny6n4t4hk7n5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpObM0ACgkQ64mZXMKQ
-wqktWw/9FX+4nvXNZ+fzmCKE118Pqy+2VjeJhQ1b7YNyBZy1AQY14anmcfDLu0Qc
-9aR+88HcuIC6XKgw5Hfq7IxZjIKJ9lUGbbR+W8SYv/W6/NFcVEb1MI8beYPuCRv0
-06DhRk3DzfCKUTGxMnf8KzsGNkoqV5qn050QraYJXmnGQ9KMlDgDG6lnBv3cG2ME
-QrbEO/DjdldttuZVa0rXwcBbWelBTbGTOW9baoJbr9Pbftd+itxGwOtsvQygPRyG
-ZVl1YyeVmEtmbYxbXikJHrSwHTFaOQ3m8yPafzb13YNa/8J5gorhCn1IGtBRKzUV
-qnH5kqgW/4FIay19l4A9G9iFiPuffthPfZunenNH4Rr6KV9zyl3mAyWXuAljhqp9
-kmATBM2hmOMjZ3OglSkmxjrK+zTOSC1mJymh8rZa30PIzYQ52UhtZGqpc3aUO74l
-aCmRfRrFiMUaNqXtsUC5hp+xORE+nsrfOOtf1+Q0Fnfy4qVfh9KiswflMqSY3pd8
-3rxUkfAA+G9erR0GR0HJRYJac2ZmrrPpsv6rE5brrwvoap3gGvXRDDquxnC5tXd/
-6+OIqJbDOa0xytM4w2bkfgWQ8rTmzx2eCPS/QWhnchRGAvTPZWBE5aeKBbXfU/cA
-z8t5yxIgQwqhvLTf++XjyvAo9IYEiOuXV3vNiWWqhV/dVX27tGE=
-=A7Ol
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpObQkACgkQ64mZXMKQ
+wqloAQ/9EjW49bkLG3g6zSn99XDaUfn7o30v1ytpRm7pugC1MDu5f4MTnbYU7r/S
+xCpThbiRet/qiax2nyYZSwZyFLw7TF0rapR6apDMpMi/PUarj1uZ+ulP0kFwHc6F
+9mcxWiE5PE4TSsA9jkDzlYTvpAc7953mDhRyZbbtkKdaOJ9xp7+5ArRrTRRFRt/O
+ACqVlipuJqd5VDJzrjLixDQQ94zFsOFniYoJgVpaIwBPl9kIrGS79ej5WE12nFk9
+Ui7rgqqeKLu19auJXp2sPoN+o0e8MxziDpt5NePurAFR+BwQgJNU6dfVbNQ8Iym3
+XLJrvW3hK7UzpL8MpQdQZJvtcSnBkfClI4LcjPQdX57C7W6CIl2Fitk174OtwEpj
+RGykv6dnXftdDGAVBg+5qSt4q9jtWCfoBROs+TOwCt4YXxVTzSB2wXCOALsrMg4s
+vqvQ1Oj6EOneo+1FKaKk7y3n8NJGKCPxH3rvrHZfP1MajrouHpGDiCCCVZunCk0v
+rXgJI0zpB9DdrbJiv+nHA85BqycJjIHme4xgnpFgn1IUIh0V/xvRgF13phIAKonx
+0nOyis++ciujdPUpSkMWKYrB0qMQImpYV9+39UuEO4bqk7CsJCexwU59ZEBDs3r5
+sTmvOIBGTkWg/VlQ74mNrZ9cQvOO6qWAu+cbq8FfEiasrKkxwAA=
+=TVPn
 -----END PGP SIGNATURE-----
 
---jdqlkolpo7ym43dy--
+--4kz3ny6n4t4hk7n5--
