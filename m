@@ -1,196 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from a3.inai.de (a3.inai.de [144.76.212.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC401684BE
-	for <linux-man@vger.kernel.org>; Wed,  8 Jul 2026 15:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FE629B764
+	for <linux-man@vger.kernel.org>; Wed,  8 Jul 2026 19:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783524621; cv=none; b=EvYGWL2qJrBy++CtkBP4+T7sjw/gFIVQYSl/i4AlQaJ4zoauBldp7ME1YL4iHuf5y3cjro4vz+J3s1jJxTghildtmrus+LG8tdl+nyMbOp1yEe3ZlPgvpsV8JOeYSTVioqILKfbUSnmwjGNw3AYoJgL6VHhM5wk9e7EQmjJwWCw=
+	t=1783537387; cv=none; b=pqOB9R6Zm3Djn4IvltXFTl4qT24rbTbSPGAfxqDIhF0Slt5wNPVcet6XzciWKITX4hHxZCn6u9szprQzm7DFNBjbvf0xUp2MlIp2jrmUY1kf1J15p2PQhN7UC98717qL3/zxjobBfTihMq5MT8fNGar1Uulux3rQKzbBBHiAges=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783524621; c=relaxed/simple;
-	bh=vHQ7qY1B+kUCryfCNUanEwOjBY8Q0QEG6lwWEv7lXyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kop1bdLxJpfDbf0Ny0DLjGjcM46dumGZl5wS5+n56Bmlnt46/rETSHlOZBLUqgl4oDJxcx/Ru8LAjp2Ooc2XxJUbPQ9RK/91zPObq8A12Qll/z3TAsAL8AjLYVJVwQIYAPcgqQSGHolq/N/yUCnxMogqMUHO2NrUHEY0u++nPP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlnVwbAz; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlnVwbAz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99D731F000E9;
-	Wed,  8 Jul 2026 15:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783524620;
-	bh=lu2+bR0yj3YRPyZu0h3uzMeZBCwA+MFJ6WkFhaZ6IE4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OlnVwbAz2A2IOOj9S/TqLRX76XSoPIV5YBJIJXGNxk+19oym3VOStlqIJCKT1jmPu
-	 WqQbmo2P3N7kxYIzyL5vA1GbQfakO10MsnCQMta2WC1RzxCbSoBnSj3DDAfpnqlg7C
-	 tvMeaxeUDtRoInDgmMI7WbzzzPvfl4QJf6+svVyqpE02+Tb47hXfbXY8JnnnkFhURN
-	 thNf+zOEbQVN1s6HzZWzJ97EaCOSl12QI2ZHQR7mvTDEs2i+qNGu0GuANrD5iloU50
-	 7ufJ7jm5x/7+TGCqsZTBVUfGv2X/cDrw7AOTaPobVnAmz1IyzYqBm2EL2KIdKFhN7v
-	 cCqdoJl2n36TQ==
-Date: Wed, 8 Jul 2026 17:30:17 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Jan Engelhardt <jengelh@inai.de>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 4/4] console_codes.4: document more xterm codes
-Message-ID: <ak5s1Fdwmy0E0M3i@devuan>
-References: <20260708121458.46465-1-jengelh@inai.de>
- <20260708121458.46465-4-jengelh@inai.de>
+	s=arc-20240116; t=1783537387; c=relaxed/simple;
+	bh=ODRmeJwoHTvpE0J1RgkxUPELDPfYQLgo/o478J+Sfgc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=sOtUKlaQyvbKs1s5cjEHIv1HNM3TJ0wEM3C9tiz5+OSSxg053V1pf24KiMiz10wVxncMlMfw5eSPiiOCiR2xCCeUogPcOAEGE6mO6FunEBxltv01BgqjJGkkVJtW4ZJ64DtxApN7KKMAcC1AybdN9Niu7blEd6VWE5lAj+C7SiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
+Received: by a3.inai.de (Postfix, from userid 25121)
+	id DDB0E1003C5991; Wed, 08 Jul 2026 21:03:01 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by a3.inai.de (Postfix) with ESMTP id DD7261100AF2E4;
+	Wed, 08 Jul 2026 21:03:01 +0200 (CEST)
+Date: Wed, 8 Jul 2026 21:03:01 +0200 (CEST)
+From: Jan Engelhardt <ej@inai.de>
+To: Alejandro Colomar <alx@kernel.org>
+cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH 3/4] console_codes.4: mention caveats for xterm's ESC ]
+ 50 command
+In-Reply-To: <ak5sM16sSOxLmWZo@devuan>
+Message-ID: <4qn8ns3s-44n1-r357-q351-r5p6pr15oq90@vanv.qr>
+References: <20260708121458.46465-1-jengelh@inai.de> <20260708121458.46465-3-jengelh@inai.de> <ak5sM16sSOxLmWZo@devuan>
+User-Agent: Alpine 2.26 (LSU 649 2022-06-02)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4kz3ny6n4t4hk7n5"
-Content-Disposition: inline
-In-Reply-To: <20260708121458.46465-4-jengelh@inai.de>
+Content-Type: text/plain; charset=US-ASCII
 
 
---4kz3ny6n4t4hk7n5
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Jan Engelhardt <jengelh@inai.de>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 4/4] console_codes.4: document more xterm codes
-Message-ID: <ak5s1Fdwmy0E0M3i@devuan>
-References: <20260708121458.46465-1-jengelh@inai.de>
- <20260708121458.46465-4-jengelh@inai.de>
-MIME-Version: 1.0
-In-Reply-To: <20260708121458.46465-4-jengelh@inai.de>
+On Wednesday 2026-07-08 17:29, Alejandro Colomar wrote:
+>>
+>> -ESC ] 50 ; \f[I]fn\f[] ST	Set font to \f[I]fn\f[].
+>> +ESC ] 50 ; \f[I]fn\f[] ST	T{
+>> +Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resource)
+>
+>Please replace "cf." by English words.
 
-Hi Jan,
+But I was just following precedent:
 
-On 2026-07-08T14:14:58+0200, Jan Engelhardt wrote:
-> Signed-off-by: Jan Engelhardt <jengelh@inai.de>
-> ---
->  man/man4/console_codes.4 | 41 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->=20
-> diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-> index e309293ca..a34adc57f 100644
-> --- a/man/man4/console_codes.4
-> +++ b/man/man4/console_codes.4
-> @@ -754,7 +754,36 @@ T}
->  ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
->  ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
->  ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) =
-to \f[I]txt\f[].
-> +ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[=
-I]txt\f[].
-> +ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution t=
-o \f[I]txt\f[].
-> +ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to=
- \f[I]txt\f[].
-> +ESC ] 5 ; 3 ; \f[I]txt\f[] ST	T{
-> +Set the color for reverse substitution to \f[I]txt\f[]. Because xterm st=
-ill
+man-pages$ git grep '\be\.g\.'|wc -l
+481
+$ git grep '\bi\.e\.'|wc -l
+516
+$ git grep '\bcf\.'|wc -l
+10
+$ git grep '\bN\.?B\.'|wc -l
+0
 
-Please use semantic newlines.  See man-pages(7):
+and the Linux kernel source for completeness:
 
-$ MANWIDTH=3D72 man man-pages | awk '/Use semantic newlines/,/^$/'
-   Use semantic newlines
-     In the source of a manual page, new sentences should be started on
-     new lines, long sentences should be split  into  lines  at  clause
-     breaks  (commas,  semicolons, colons, and so on), and long clauses
-     should be split at phrase boundaries.  This convention,  sometimes
-     known as "semantic newlines", makes it easier to see the effect of
-     patches, which often operate at the level of individual sentences,
-     clauses, or phrases.
+$ git grep '\be\.g\.'|wc -l
+9582
+$ git grep '\bi\.e\.'|wc -l
+7397
+$ git grep '\bN\.?B\.'|wc -l
+235
+$ git grep '\bcf\.'|wc -l
+165
 
 
-Cheers,
-Alex
+>Also, where is "allowFontOps" documented?
 
-> +reverses fg-bg pairs, the effect is that only the background of a charac=
-ter
-> +cell is colorized this way.
-> +T}
-> +ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \=
-f[I]txt\f[].
-> +ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=3Dbold, 1=3Dsubst=
-itute by color.
-> +ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=3Dunderscor=
-e, 1=3Dcolor.
-> +ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=3Dblinking, 1=
-=3Dcolor.
-> +ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=3Dreverse, 1=
-=3Dcolor.
-> +ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=3Ditalic, 1=3Dc=
-olor.
->  ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
-> +ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
-> +ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
-> +ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I=
-]txt\f[].
-> +ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I=
-]txt\f[].
-> +ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]tx=
-t\f[].
-> +ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]tx=
-t\f[].
-> +ESC ] 17 ; \f[I]txt\f[] ST	T{
-> +Set the background text color for reverse video (provided it is not subs=
-tituted
-> +with 6;3;1) to \f[I]txt\f[].
-> +T}
-> +ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[=
-].
-> +ESC ] 19 ; \f[I]txt\f[] ST	T{
-> +Set the foreground text color for reverse video (provided it is not subs=
-tituted
-> +with 6;3;1) to \f[I]txt\f[].
-> +T}
->  ESC ] 46 ; \f[I]name\f[] ST	T{
->  Change log file to
->  .I name
-> @@ -763,6 +792,18 @@ T}
->  ESC ] 50 ; \f[I]fn\f[] ST	T{
->  Set font to \f[I]fn\f[] (normally disabled; cf. the "allowFontOps" resou=
-rce)
->  T}
-> +ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
-> +ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
-> +ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
-> +Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
-> +T}
-> +ESC ] 110 ST	T{
-> +Reset color for mode 10. (Codes 111-119 map to resetting modes 11-19,
-> +respectively.)
-> +T}
-> +ESC ] \f[I]mode\f[] ; ? ST	T{
-> +Query the respective property/color/etc. (modes 4,5,10-19,50)
-> +T}
->  .TE
->  .P
->  It recognizes the following with slightly modified meaning
-> --=20
-> 2.54.0
->=20
->=20
+The console_codes.4 manpage section that is being edited talks
+extensively about *xterm*, so it felt obvious that, if a term was
+unclear, the reader need look no further than into the xterm manpage
+to resolve his quest.
 
---=20
-<https://www.alejandro-colomar.es>
+In fact, the xterm manpage even declares what constitutes "dynamic"
+colors (now that I happen to look for that term which tripped me up
+earlier).
 
---4kz3ny6n4t4hk7n5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpObQkACgkQ64mZXMKQ
-wqloAQ/9EjW49bkLG3g6zSn99XDaUfn7o30v1ytpRm7pugC1MDu5f4MTnbYU7r/S
-xCpThbiRet/qiax2nyYZSwZyFLw7TF0rapR6apDMpMi/PUarj1uZ+ulP0kFwHc6F
-9mcxWiE5PE4TSsA9jkDzlYTvpAc7953mDhRyZbbtkKdaOJ9xp7+5ArRrTRRFRt/O
-ACqVlipuJqd5VDJzrjLixDQQ94zFsOFniYoJgVpaIwBPl9kIrGS79ej5WE12nFk9
-Ui7rgqqeKLu19auJXp2sPoN+o0e8MxziDpt5NePurAFR+BwQgJNU6dfVbNQ8Iym3
-XLJrvW3hK7UzpL8MpQdQZJvtcSnBkfClI4LcjPQdX57C7W6CIl2Fitk174OtwEpj
-RGykv6dnXftdDGAVBg+5qSt4q9jtWCfoBROs+TOwCt4YXxVTzSB2wXCOALsrMg4s
-vqvQ1Oj6EOneo+1FKaKk7y3n8NJGKCPxH3rvrHZfP1MajrouHpGDiCCCVZunCk0v
-rXgJI0zpB9DdrbJiv+nHA85BqycJjIHme4xgnpFgn1IUIh0V/xvRgF13phIAKonx
-0nOyis++ciujdPUpSkMWKYrB0qMQImpYV9+39UuEO4bqk7CsJCexwU59ZEBDs3r5
-sTmvOIBGTkWg/VlQ74mNrZ9cQvOO6qWAu+cbq8FfEiasrKkxwAA=
-=TVPn
------END PGP SIGNATURE-----
-
---4kz3ny6n4t4hk7n5--
+Does that sound reasonable?
