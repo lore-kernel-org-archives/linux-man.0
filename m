@@ -1,63 +1,76 @@
-Received: from a3.inai.de (a3.inai.de [144.76.212.145])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80A23CD8C9
-	for <linux-man@vger.kernel.org>; Fri, 10 Jul 2026 22:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121FC34405B
+	for <linux-man@vger.kernel.org>; Fri, 10 Jul 2026 22:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783721448; cv=none; b=NdyCY5H3r62XkiCvE21huQFyr5q9qgzjTazBDAt8e8UWX4c/x6P1RtFpvdSPtANT5AJosL8SdI8mK0nat4OPOEL7loSf9tUbtV7qIl4L8H97fOjc2SQAW+p/orliu8+uvj2TSiXqE+IBYAd065KHKrKWW6sIxUvMCJ66BmfinCU=
+	t=1783721478; cv=none; b=CH0mjuxQFZx61lyFsd5jMWxOhmbMb0/fZYr0i8CzyaUjz0emGKF++V2iEH1ESEG56MB55t6QfHFk4RwUVovHt7iFNH+w+Cla4Grs67GxWjQvmKkFO++KKlUd54kBGI9A3yVXN/ZFo7s1M27yYcr/kwQ/KV2UgiF6Gg4tekJ3bGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783721448; c=relaxed/simple;
-	bh=qHdpToQQXal5sJ69akJRDTPUqddfT7bH/FNH55vce6o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R1oS0zdlb534SO14pozgGDR89qfyvOwx/IlbjUifQygi3raHwv1E8cHiPlKoF5DkLWGMccSzVT4H8vgU0+YRSg/m0c73k9Px65KJ8Ab11aHlbewNWtC09hjip7rtK/h4WNsw44B49UHMq8m+XeLRL2OzoPSJilNZoNpasc4u1WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
-Received: by a3.inai.de (Postfix, from userid 65534)
-	id 8FF581003C5488; Sat, 11 Jul 2026 00:10:35 +0200 (CEST)
-X-Spam-Level: 
-Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
-	by a3.inai.de (Postfix) with ESMTP id 747781003C5488;
-	Sat, 11 Jul 2026 00:10:35 +0200 (CEST)
-From: Jan Engelhardt <jengelh@inai.de>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org
-Subject: [PATCH 1/2] console_codes.4: mention caveats for xterm's ESC ] 50 command
-Date: Sat, 11 Jul 2026 00:10:34 +0200
-Message-ID: <20260710221035.26529-1-jengelh@inai.de>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1783721478; c=relaxed/simple;
+	bh=M9ifkqPwLzkgPAKraaLFzMMy3znELkqr67jc8/SpQU8=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=bY52+bH8yxc/iqsVr8KWEFa918KCpW9XAXOFEqByILvvyb8mPUsCooaGo39c2X6H7Vm071kS6eVDBJ7Fl28JywJ2HSyCwBE/kFnOGULJdZGgwoqcShZPJDKLmRI+sTHTtULLOispL2jPdfF0v226nF3d9Tlng+GFSNYNnB2b6jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SJ7Sl97z; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SJ7Sl97z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783721476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=ifnMZ7JsFJ8PTBhqV33+JvWTAx025ajC/oaVABEkWQc=;
+	b=SJ7Sl97zGxGzClTNYgHSGMthV06vqrTKUZBN55WyvpUgsr9U8K68MczN4mbn7LmE0TOBXo
+	IIhiNpRWfdCjyuPo53bO0zeeat4mPUSyF9sg5R/kqQETdgcbrCU5IAEkTiIUugzbi01iIS
+	hT16XYm5V8O8CzzJACaAvNB/mTdjk1U=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-379-SLx_JE2BPWqKkx99HVZXEw-1; Fri,
+ 10 Jul 2026 18:11:12 -0400
+X-MC-Unique: SLx_JE2BPWqKkx99HVZXEw-1
+X-Mimecast-MFC-AGG-ID: SLx_JE2BPWqKkx99HVZXEw_1783721471
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6BE3D1800603;
+	Fri, 10 Jul 2026 22:11:11 +0000 (UTC)
+Received: from greed.delorie.com (unknown [10.22.89.250])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07D90195608F;
+	Fri, 10 Jul 2026 22:11:10 +0000 (UTC)
+Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
+	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 66AMB90S778516;
+	Fri, 10 Jul 2026 18:11:09 -0400
+From: DJ Delorie <dj@redhat.com>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: alx@kernel.org, linux-man@vger.kernel.org
+Subject: Re: Why we're stuck with man(7) (was: man/man8/ldconfig.8: document
+ system-wide tunables)
+In-Reply-To: <20260710195854.ud4riftmhrfzu54d@illithid>
+ (g.branden.robinson@gmail.com)
+Date: Fri, 10 Jul 2026 18:11:09 -0400
+Message-ID: <xnpl0u8phe.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Fonts are only settable if xterm was launched with the right options
-(or X11 resources) that would allow this operation.
 
-Signed-off-by: Jan Engelhardt <jengelh@inai.de>
----
- man/man4/console_codes.4 | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+"G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
+> * Markdown can't do semantics.
 
-diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-index 2fa8368e1..534510a4b 100644
---- a/man/man4/console_codes.4
-+++ b/man/man4/console_codes.4
-@@ -760,7 +760,10 @@ Change log file to
- .I name
- (normally disabled by a compile-time option).
- T}
--ESC ] 50 ; \f[I]fn\f[] ST	Set font to \f[I]fn\f[].
-+ESC ] 50 ; \f[I]fn\f[] ST	T{
-+Set font to \f[I]fn\f[] (the escape code is normally disabled;
-+consult the xterm manpage for the "allowFontOps" setting)
-+T}
- .TE
- .P
- It recognizes the following with slightly modified meaning
--- 
-2.54.0
+And roff has .IR ;-)
+
+These days, most of the docs I write are in texinfo or HTML (raw html,
+not markup).  I think I've experienced most of the formats on your list.
+I think I've written converters between many things on your list.
+
+Is there a canonical reference to the flavor of roff that we write to,
+for modern systems' man page formatters?
 
