@@ -1,69 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0837B425CFA
-	for <linux-man@vger.kernel.org>; Fri, 10 Jul 2026 22:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260F7423A67
+	for <linux-man@vger.kernel.org>; Fri, 10 Jul 2026 22:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783721988; cv=none; b=CGct8ydFJCHrg7uDMI/BTsOTuc9XGTzAiGmXYBIAxqwVQ3PoUcr4GtVG1J54hmMwsrn1ChY9E6sif6J4c5Pt1W0QOu1k7LGhF5qMwy2HurMeqNRu6yA6KJJh7lJNjqA4EgZzGsCus2pkzGG6xcy7n/vunbbQRObkGB8P/bgSjk4=
+	t=1783722498; cv=none; b=rgXzq6SVYtA2enwSnzpmusJ43rYBG9HMnKSUsBeQeEGgKYh7kkwpFN9a+9YPEkHNXqGSIjHxQ6naKqA5owW19tiHXtXWeW2jGYevGHIDgHSZd7nwTBIKYmsV5iIkKZSV+iEzyxXGXzx64wdv8MFrV4YgImQ/zQyk3UOX7UStOcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783721988; c=relaxed/simple;
-	bh=9Auk/bv4HXIXLsUSnRU4jX5bfQM4RF73KlsR7gsIFxA=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
-	 Content-Type; b=S+U2ehwmU5J0NFTs2ppYImiuJjlxFYEqDt9gGE+UaY6RmdhwXYlIL+wnBY1VV2rAHoV3YmoINbqyVLNkeomlrvvn4Pz3S33xasXUFzI0iesT0NXPQep4naxEMKYoC6fEy1sN1Xl43AYrfXYW6PLIypsKjTGgj3Nkn39BwMFQ100=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hzyh3+z1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783722498; c=relaxed/simple;
+	bh=+d0om3DyjcJPnDpQmpOAweaUJhxiO5yVBnxbRMTxFxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ken04coqPMn2w5/c4eTAatyONtBLYuptJQiwqpcCCjzfKFB23nv3mGogd25wJ6xXPcjT1XP7qty6LKpOgfZnCqTJAf3XfxZ3JmYjMGca208sezhYb6KRVLlAgjFGJNL/2zr0ac/RKAjYG8MBM9WL9hqCeEpq7Yo9ZJCfx35ttY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RatKr3aj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hzyh3+z1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783721985;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=9Auk/bv4HXIXLsUSnRU4jX5bfQM4RF73KlsR7gsIFxA=;
-	b=hzyh3+z1J8cWW2sfRNV0ZjaVJkJOsAkMV1hBAeQI4kk+M05vWXDhIeUyuErAShPq4CU/1O
-	gGHN40tq5EGdZzh+e3TMzjJQ5CXWUXEFKEqH/Xn8jUjWUu4rVoWwSgjhzvqQT4/T/ja3Pj
-	E3nMfSpAMaJ2+45FF9uGZA4LnVdIoNw=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-85-9LCrk20SPE-aZahx5DrPbg-1; Fri,
- 10 Jul 2026 18:19:42 -0400
-X-MC-Unique: 9LCrk20SPE-aZahx5DrPbg-1
-X-Mimecast-MFC-AGG-ID: 9LCrk20SPE-aZahx5DrPbg_1783721981
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4CEA31955F7A;
-	Fri, 10 Jul 2026 22:19:41 +0000 (UTC)
-Received: from greed.delorie.com (unknown [10.22.89.250])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F0E54180059A;
-	Fri, 10 Jul 2026 22:19:40 +0000 (UTC)
-Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
-	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 66AMJdEa778862;
-	Fri, 10 Jul 2026 18:19:39 -0400
-From: DJ Delorie <dj@redhat.com>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: alx@kernel.org, linux-man@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RatKr3aj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC0501F000E9;
+	Fri, 10 Jul 2026 22:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783722496;
+	bh=PgygUeX3qW2lzoXHWoNV+o9JN6DyPXRRwzF38Yh4h9M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RatKr3ajBLaalpSRZ/eNXiPgFxIh2mAARiEgcLIruD17qRMeOLS1ZfOl6vaIUSnDo
+	 0HAW7aOyGmOvFNZREJSPevUrO49MV+nPXGRDAB42XAthm/NSQSgv6NcTlhFEmuPDQ4
+	 EN4/6Gd2pojWsv9q5M4TBukQrNunojtXDsg238dw7EkfZ5t3Jc0wLvwb/AzLjqu4Zy
+	 AX1Nl+uLsCDACqi8gQte3yOKNAG5x9m2UM4VmbTLTMXGughmAIrtWhKg9IwgzB0AXM
+	 ug09xXTgdiozd9WuD0/gwa6iUk2VsA6CbfAcyN1kSOZKlvGrgtwyqra8VVNofB78L4
+	 fkfyDFoFHcMFw==
+Date: Sat, 11 Jul 2026 00:28:13 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man@vger.kernel.org
 Subject: Re: Why we're stuck with man(7) (was: man/man8/ldconfig.8: document
  system-wide tunables)
-In-Reply-To: <20260710195854.ud4riftmhrfzu54d@illithid>
- (g.branden.robinson@gmail.com)
-Date: Fri, 10 Jul 2026 18:19:39 -0400
-Message-ID: <xno6ge8p38.fsf@greed.delorie.com>
+Message-ID: <alFxzklChZJDNic8@devuan>
+References: <20260710195854.ud4riftmhrfzu54d@illithid>
+ <xnpl0u8phe.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uusvqwj25ixnatjg"
+Content-Disposition: inline
+In-Reply-To: <xnpl0u8phe.fsf@greed.delorie.com>
 
 
+--uusvqwj25ixnatjg
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man@vger.kernel.org
+Subject: Re: Why we're stuck with man(7) (was: man/man8/ldconfig.8: document
+ system-wide tunables)
+Message-ID: <alFxzklChZJDNic8@devuan>
+References: <20260710195854.ud4riftmhrfzu54d@illithid>
+ <xnpl0u8phe.fsf@greed.delorie.com>
+MIME-Version: 1.0
+In-Reply-To: <xnpl0u8phe.fsf@greed.delorie.com>
+
+Hi DJ,
+
+On 2026-07-10T18:11:09-0400, DJ Delorie wrote:
+>=20
+> "G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
+> > * Markdown can't do semantics.
+>=20
+> And roff has .IR ;-)
+>=20
+> These days, most of the docs I write are in texinfo or HTML (raw html,
+> not markup).  I think I've experienced most of the formats on your list.
+> I think I've written converters between many things on your list.
+>=20
 > Is there a canonical reference to the flavor of roff that we write to,
 > for modern systems' man page formatters?
 
-Nevermind, found it...
+groff_man(7) and groff_man_style(7) are what you're looking for,
+I believe.
 
+
+Cheers,
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--uusvqwj25ixnatjg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpRcfYACgkQ64mZXMKQ
+wqm8KQ//UPziMvsqGbp9gPlerXw/uFq6V4JPCkJxzu6A0g16/QNQVKPPT5obOOkn
+LoT9sDuVb72dX1T7J1Xc3xo0zbBQF4zeid7A34pF+kU8UNa28jr0Qd+9SG+ee2/0
+mHEhe3KqLGz/hMjo6mJQ1qwfBfDYMtp0ZBLyPsfJuhTPN9M75X09PrPcLxHyNsN3
+PDjjli0A3Fv84MjQMv/TbtpPsVgvEa9rWPPI8kgm4PAh/kpOOoq5Yviz0voJ24BO
+xFXAV9g9ef0/nPC0qApfWMlGb0g3q/auacIAy534Wtz1H8K+Im+OV8oO9zNIXJ4V
+iaCnuq2+3erPAASicOsGihm101OQ77HK12bIWp5N0HSKjqJt6z9WWFVksvwUBd3o
+qx3SW/XFeqpxC6S/1muq+DvPZOcVNTalR4B5EVYht6xMKMFdOZxFcuEeMEsMr+4I
+FLBtB9HeTm2oU5EOAFgPD9k03FMa+4slGbGdDBZfT8BYMhiwdt3uKHXbH++Y/fGI
+rcLto7Va4uezowg4GTKsvjyAgTOfXID1WrGh18BfbiggKW/PffFhT18YC4UCR0Ho
+WC3YKJeX/dtp/IxquDLygixWPkGtpGVqNrJ+m55KsR4imnzUDHn5H+vne9o7ZDMi
++Tt8fSyQlogsAfD7PfDXIDpp9MhB1GblhF+71Vjruv1Hr33yUz4=
+=dPNK
+-----END PGP SIGNATURE-----
+
+--uusvqwj25ixnatjg--
