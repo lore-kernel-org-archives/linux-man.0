@@ -1,70 +1,37 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F15A282F25
-	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 16:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C715412C1D
+	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 17:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784134496; cv=none; b=EwpA/a4EkXc/su1YYWq5HV/hguuhF0wu76UoD6MWDYqu1jFznQq2MMH6gS6fUE7nHho2tZ4IurtAb9tTgDEmljrl+XlGmizzmr8fRNUcLNdxVyjdkLSzbharYfTF9tqyWkZwIrVJgno7pxkPOKOMZHzV7eAutIMC/TTIs/6zfio=
+	t=1784135364; cv=none; b=M4xZMU9gf6CSH9KaurERs+xm4xXfeI6p2A3mqmmmZXR8YLCA8IV9HBTcwgfUwgcY/I4rWMj8yRjPtPYr83FD/xQ/seB6x6s584Blqht0Abikxr63dH3ZLnKARqA5zuwy26++0f7ZclQ8JN/eLKqIdnyIJxu0xaPKdWdlR0UY2x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784134496; c=relaxed/simple;
-	bh=roioPImzclInOLlzFMR7VE01qUVS/LuSy/DhenZ8kN0=;
+	s=arc-20240116; t=1784135364; c=relaxed/simple;
+	bh=ysf8aSO7GrS8UulSTJsIwIZ1G3QhtphnLlyO5Rx2MTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DjQmn7heAgh0Nbg1Lq+R+8y8UhOGhNotttYE38E6h4NEgx1rGRCVTefTrCvOUfGAiHGgDyNUeHCO7t0dgGXjobvP1WFkNAfcTezJ1OrUCI7HxJOw1u6HB9e8QUzvav4lJa+e3xF1CDL1u9fTx2rJp0z9/XPRwX/towP7+xsVS5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAKmG9QD; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TF/jIafw7gNQ+iXrQNXzUrkcD3JLWYHPYRaeqWV7bM+cB9XK6y92Kjph8GxfvBBDe7TIf9+Bg4MZS1/+9rXZKkOldAE6cRYxyDVDoHlK7FxwgJv6D4mC9i1QKXeoEJxdr4ZO/vRJ9Hmkp6wFIGPPcaVp7LWkYI4MXPFFBlnqZUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KDjaEyEj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAKmG9QD"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-81ed2a06b9eso7687007b3.3
-        for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 09:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784134493; x=1784739293; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RwPXoj2ezslFAL31pt0JQ4m2eZDS78gaJeJN9FbioRw=;
-        b=lAKmG9QD70qYYaK4jXT7tA6aQjOYKgt0P4zeKqVVASpsZWVOkUriA8TfSohpWS8mSn
-         ee8Fr2wAemeeOQUDLmqv0/mz/1DGl7SGWxmWyqTeK9G6YH8YLQtfxC8ScH5+fA5k+wJq
-         aEiL4itGZb4B0c+L5qfM7E61blt3O6l7NQK+jkqXtey9/t1iIFNvRtQSVoL5uG49mrnG
-         vHOX9Nw4LOHYIqQjAvTPEsfTQVPDZnlx1c/JsiaBFQo0vKqwKmL1Rf37IUXdBn40WNXn
-         I2up7lsRRlcTDzd6Q+XqGN3LvdX+MQKaZqR0nxPaq3IgAIQo4emPFtEszc+37nvLS5lz
-         Mrng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784134493; x=1784739293;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RwPXoj2ezslFAL31pt0JQ4m2eZDS78gaJeJN9FbioRw=;
-        b=MYqDD20L6XG9vY0T4BfoT93ectFU8wOmcLWKuqbQRMDiLECyqWAdjYPwp3FbLOSLd3
-         IaKKPbEN47GRMl8KH5r6XzkKXlprKqV9RsOgRaHuDS26xsDiWd4JWc8CEsDxlHrwGbKD
-         mWoTteICNye/d2GxEM5pP9jTm6X+E2n9fNvhB1ZejXzoErAHFXojJHA3qzctgQuK7dS0
-         8DUDpfF/8pImtNY5N2tjJpaMsgPX/JUiAv0TeH0NFQWwNYsr+gsTEsJ/6gUcS8bGriNw
-         jEssUIGl0J+XT2CeqYUMCh7kvckd2nNXXZQ5XqoyIiMqM178MIZt+M30RCvGW2j4IkJB
-         dvXg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3Mivnh7P4Gzywshqf86hS44Q12opzgxMpf1DZZw9aWOK0tAvvklJDNDMu3PDDpDxuADXAgritPiM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK9zAv8W2x0LaZr5UasT10tcVVa4x8yp/PoMHPhvtmmWBFgaw+
-	wZ5jBvBfSbw+xDJt4Nz5F7g0APmrDjxoq2Wqw2lQqqmnhFJW3WJLsd73zccRWw==
-X-Gm-Gg: AfdE7cmyyVsloXtkk2XUlvTD3pv5NfrxtstFdgoXOK9q7Wb+Z3BtNBh3GRd5Y4HNMPG
-	hDIU0waS+3h8A+/n/hDFfDu9LKC/g2u/XLcpalRok/e9IjWOiwjMkDcEfeEfdzzo/7EPWQ3xPUL
-	n/O1s6vOCLD9pxNgz73e+/45sFphAwiWyDWo2naTWUi8/g0Xz1xbpUslzqbc+6bsZKPHBEAltge
-	PHLL3QlChqwP5TrqVK6JWj2fuRsFliSOGrW267j8sdrfBMaO3ZHEBfuA7Q8ottNH62a2xvGMCGI
-	KAfy7EECzX80O2DoB1I8EByEH9b0VQuZ8rurJkq16/vGYQBDKODM27mzp0u59YnthUrfNlJp4my
-	7kGM9c00iFzIDecjmPpr7WFVnRRXKQa5GpCQjcNMQJDME+Bq5WUkcMbxLcRoTqXu8Ytd2Yza7U7
-	xa41EGjYYt4n9i
-X-Received: by 2002:a05:690c:c50c:b0:81d:a1e5:a498 with SMTP id 00721157ae682-81e902bd056mr123988857b3.62.1784134493223;
-        Wed, 15 Jul 2026 09:54:53 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::41])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c22ed8esm172382147b3.44.2026.07.15.09.54.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 09:54:52 -0700 (PDT)
-Date: Wed, 15 Jul 2026 11:54:50 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KDjaEyEj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF351F000E9;
+	Wed, 15 Jul 2026 17:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784135359;
+	bh=vSXTXBnN0nP73bte4eiBD07Vh3M+QpF+DHcC725JG/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KDjaEyEjjfvOPaWRwcPhNHWdUuyiZqBsFPAGaEyuQAP7qks2cdoHoXWlx79UevjyU
+	 MexP3czj8jH9bD1clt9lh1glbSiI1W+6wCqAWt/kONsi5Qi6bU5WjPOAldrEOPGNNj
+	 kvrP64lYPhujGMxlA2qyueyJ2ENz9UHGmBQu2Xwlwv1VaJ4TZ3ERxGZKqivN7LxkeR
+	 cgdgiVEv/eSif5g4VMlm7E/V/lPR5YpAWl8ygDDqCKIp7EjKYShjM/sC5dNO2xTMQN
+	 3FpPnCl1XF8NxxAQybUZPVPNp03IfHxQfuXH3e0gV6NFi4lYbBQgyefws4TaeaP2cJ
+	 UhRQ/mfnFtaAQ==
+Date: Wed, 15 Jul 2026 19:09:16 +0200
+From: Alejandro Colomar <alx@kernel.org>
 To: DJ Delorie <dj@redhat.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org
 Subject: Re: man/man8/ldconfig.8: document system-wide tunables
-Message-ID: <20260715165450.iakjkw6qwgcnpzq7@illithid>
+Message-ID: <ale2ytaF-sTAyH3W@devuan>
 References: <aldxiBVva99diG5t@devuan>
  <xnwluw725l.fsf@greed.delorie.com>
 Precedence: bulk
@@ -73,153 +40,272 @@ List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7jwmp76hrsdm7we7"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5dhktobr522jqq5z"
 Content-Disposition: inline
 In-Reply-To: <xnwluw725l.fsf@greed.delorie.com>
 
 
---7jwmp76hrsdm7we7
+--5dhktobr522jqq5z
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org
 Subject: Re: man/man8/ldconfig.8: document system-wide tunables
+Message-ID: <ale2ytaF-sTAyH3W@devuan>
+References: <aldxiBVva99diG5t@devuan>
+ <xnwluw725l.fsf@greed.delorie.com>
 MIME-Version: 1.0
+In-Reply-To: <xnwluw725l.fsf@greed.delorie.com>
 
 Hi DJ,
 
-At 2026-07-15T10:33:58-0400, DJ Delorie wrote:
+On 2026-07-15T10:33:58-0400, DJ Delorie wrote:
 > Alejandro Colomar <alx@kernel.org> writes:
 > >> Add the .in macros around .EX there?
 > >
-> > But we'd need to know where to add them.  There are cases of EX/EE
-> > that don't need to be surrounded by '.in'
+> > But we'd need to know where to add them.  There are cases of EX/EE that
+> > don't need to be surrounded by '.in'
 >=20
 > Ok, now you have a new rule that's even easier to not know about :-P
 
-The man(7) package doesn't impose a rigid stylesheet on its output.
-Many decisions about presentation and layout have to be made at the
-project level.  Historically, there have been, for example, many
-differences of opinion over whether items like file names, environment
-variable names, function names, data types, parameters to functions, and
-names of other man pages should be set in roman, bold, or italic.
+It's not that they don't need to be surrounded, but rather that they
+must be not surrounded, actually.
 
-One solution to this problem is to come up with an element name for
-every distinguishable syntactical item of interest.  That's how
-DocBook-XML ended up with something like 400 tags.  Granted, its scope
-was intended to be an entire camera-ready technical book, like one in
-the O'Reilly Nutshell series.  *roff macro packages for man pages have a
-narrower scope.  Thus, the "semantic" mdoc(7) package has a mere ~100
-macro names, including gems like the following.
+An example is the SNOPSIS of timeval(3type):
 
-groff_mdoc(7):
-     .Ot  Usage unknown.  The mdoc sources describe it as =E2=80=9Cold func=
-tion
-          type (fortran)=E2=80=9D.
+	$ man -w timeval | xargs mansect SYNOPSIS;
+	.lf 1 /usr/local/man/man3type/timeval.3type
+	.TH timeval 3type 2026-02-08 "Linux man-pages 6.18-154-g618fb5732fc4"
+	.SH SYNOPSIS
+	.EX
+	.B #include <sys/time.h>
+	.P
+	.B struct timeval {
+	.BR "    time_t       tv_sec;" "   /* Seconds */"
+	.BR "    suseconds_t  tv_usec;" "  /* Microseconds */"
+	.B };
+	.EE
 
-     .Fr  is an obsolete means of specifying a function return value.
+We certainly don't want to indent that, but we want it to be monospaced,
+so that the fields are aligned (in PDF, PS, and HTML).
 
-                Usage: .Fr return=E2=80=90value ...
+	$ man -w timeval | MANWIDTH=3D64 xargs mansectf SYNOPSIS | cat;
+	timeval(3type)                                   timeval(3type)
 
-          =E2=80=98Fr=E2=80=99 allows a break right before the return value=
- (usually a
-          single digit) which is bad typographical behaviour.  Instead,
-          set the return value with the rest of the code, using =E2=80=98\~=
-=E2=80=99 to
-          tie the return value to the previous word.
+	SYNOPSIS
+	     #include <sys/time.h>
 
-          Its default width is 12n.
+	     struct timeval {
+		 time_t       tv_sec;   /* Seconds */
+		 suseconds_t  tv_usec;  /* Microseconds */
+	     };
 
-     .Me  Usage unknown.  The mdoc sources describe it as a macro for
-          =E2=80=9Cmenu entries=E2=80=9D.
+	Linux man=E2=80=90pages 6.18=E2=80=9015... 2026=E2=80=9002=E2=80=9008     =
+       timeval(3type)
 
-          Its default width is 6n.
+EX/EE should not try to indent stuff, since indentation is not always
+appropriate (even if we try to minimize differences/inconsistencies).
 
-The only alternative I know of to not exhaustively cataloging every type
-of "thing" one might use to compose a man page is to write down rules
-governing the usage of a smaller lexicon, which itself is necessarily
-semantically "loose", and thus frequently derided as "presentational".
+> > Also, the manual pages should be readable in the form they exist in the
+> > repository
+>=20
+> Not a problem here, a different indentation doesn't affect readability.
 
-There is, potentially, a _third_ option, which I mentioned in my earlier
-email.  As I said, literally no one expressed interest.
+More than readable; I think it's a feature that the page is exactly the
+same as what users will read in their computers.  That allows
+contributors to look at what they've written, and know if it makes sense
+or not.  If they had to build it to see slight differences, I expect
+many would complain.
 
-https://lore.kernel.org/linux-man/xno6ge8p38.fsf@greed.delorie.com/T/#m9fda=
-91ba28ca257c67d4595f81d38b32c5c9c937
+> > (and match as much as possible how it will render when
+> > installed).
+>=20
+> Er, close?  ;-)
+>=20
+> Is ".in +4n" the default for .EX, unless the user changed it?  I wonder
+> how often that case comes up.  I wonder because I would need to review
+> an example of the problem to figure out how to search for it ;-)
 
-> Is ".in +4n" the default for .EX, unless the user changed it?
+When inserted in the middle of running text, we indent the examples.
+The main reason is that because terminals use monospaced fonts
+everywhere, it's difficult to differentiate examples from the rest of
+the page.  The 4-n indentation makes them stand out.
+In PDF or HTML, because running text uses proportional fonts, the
+examples stand out on their own by being monospaced.
 
-No, meddling with indentation is not part of `EX`'s job at all.
-
-groff_man(7):
-     .EX
-     .EE    Begin and end example.  After EX, filling is disabled (and,
-            on typesetters, a monospaced font family is selected).
-            Calling EE enables filling (and restores the previous
-            family).
-
-            Ninth Edition Unix introduced the EX and EE extensions.
-            Documenter=E2=80=99s Workbench (DWB), Heirloom Doctools, and Pl=
-an 9
-            troffs, and mandoc (since 1.12.2) support them.  Solaris
-            troff does not.
-
-> I wonder how often that case comes up.  I wonder because I would need
-> to review an example of the problem to figure out how to search for it
-> ;-)
-
-It wouldn't be hard to snapshot a text dump of all the man-pages
-project's documents, as with "nroff -t -mandoc", do a "sed -i '/^\.in/d'
-man/man*" over the tree, snapshot another dump, and study the diff.
-
-It's the sort of thing I'd try out were I on a mission to eradicate `in`
-request usage from the man-pages project's documents, but I have no such
-mission.
+However, when not inserted in the middle of running text, that
+indentation is not useful, and is even ugly.  Thus, we don't indent in
+those cases.  Most often, this happens in SYNOPSIS and EXAMPLES.
 
 > Now I wonder if the problem case is predictable enough to have the
 > preprocessor *know* when .EX needs the .in +4n, and when it doesn't...
 
-What preprocessor?
+I expect I would be able to write a script that differentiates them.
+However, as I said, I believe it's better to have the source match
+excatly what is installed (ignoring details in the title heading (TH)).
 
+> > That makes it easy to see if a change works, by running man(1) on the
+> > source code.
+>=20
+> Yup, I have my own lman script that acts like man(1) but takes a
+> filename instead of a man page reference,
+
+man(1) also accepts a path.
+
+	$ MANWIDTH=3D64 man man/man5/proc_driver.5 | cat
+	proc_driver(5)        File Formats Manual        proc_driver(5)
+
+	NAME
+	     /proc/driver/ - empty dir
+
+	DESCRIPTION
+	     /proc/driver/
+		    Empty subdirectory.
+
+	SEE ALSO
+	     proc(5)
+
+	Linux man=E2=80=90pages (unreleased) (date)              proc_driver(5)
+
+> finds it in the tree, and
+> formats it with underscores, italics, bold, *and* color!
+>=20
+> Perhaps such a helper could be included in the git repo, just for
+> authors?
+
+I'd be interested in at least having a look at it!  It might have
+something useful.
+
+BTW, what's the etymology of 'lman', out of curiosity?
+
+> >> and two .EX's that do not have a closing .EE.
+> >> Turns out Gemini is good at perl.
+> >
+> > Please don't use LLMs for contributing to this project.
+>=20
+> None of the patches I've sent include anything AI-generated, nor would I
+> attempt such a thing without disclosure, because I understand and agree
+> with the legal and quality issues of AI-generated output.
+
+Thanks!
+
+> However, I
+> won't not use AI to help me understand the problems I'm trying to solve,
+> or optimize any diagnosing I need to do.  My time is too precious to be
+> stupid on purpose.
+
+(I'll paste this below to reply.)
+
+>=20
+> What I did was tell Gemini what I was looking for, and it wrote a perl
+> script faster than I could open my editor.  Cut, paste, run, throw it
+> away.  That was just for the statistics, of course.
+
+As long as it's for statistics, I won't complain (I mentally might,
+because the ethical concerns remain, but not publicly, because it's not
+my business), as statistics are not a contribution (at least in this
+case).  I might actually doubt the statistics, though, so a disclaimer
+of use would be appropriate even for statistics, but as long as it isn't
+something that influences in a decision (for example, in merging or
+rejecting a patch), it's _relatively_ okay.
+
+>  If we added a
+> preprocessor script to the build itself, then (1) I wouldn't use AI, and
+> (2) it would be sed instead of perl anyway, to avoid another dependency.
+>=20
 > Ok, now I looked for it, and we *already* use a perl script to
 > preprocess the files, in scripts/mk/build/pdf/book/prepare.pl.  (this
-> just means perl is not a new dependency, so we *could* use perl
-> instead of sed)
+> just means perl is not a new dependency, so we *could* use perl instead
+> of sed)
 
-That script is used just to generate a PDF of one or two man page
-corpora.  Deri James and Brian Inglis participate in groff development.
-(Deri is the author of gropdf(1).)  The script is there to get older
-versions of groff "over the hump" while we implemented PDF and
-hyperlinking support directly within groff itself.  (That work was
-substantially delivered in the groff 1.23 release in July 2023; note the
-script's date of December 2022.)  I see that it also has some features
-to stylistically massage Research Tenth Edition Unix man pages.
+I would like to avoid another perl script.  That one exists because its
+author wrote it in perl, and I don't understand perl enough to translate
+it to something I'd understand and be able to maintain.
 
-"prepare.pl" is not a general-purpose preprocessor that can or should be
-run over a given document in the Linux man-pages.  As I understand it,
-one of Alex's objectives, as was Michael's before, is to keep the files
-in the man/man* directories directly renderable with "man -l".
+If anyone understands perl enough to translate that into a shell script,
+I'd appreciate it very much.  :)
 
-Regards,
-Branden
+I don't mind having perl as a dependency, but I worry about being able
+to maintain all the code in the repository, and that existing perl
+script is the one little thing I'm unable to maintain.  (Every time a
+problem shows up, I need to contact the author.)
 
---7jwmp76hrsdm7we7
+> > The file "CONTRIBUTING.d/ai" contains our guidelines for their use,
+> > which essentially says it's not allowed.
+>=20
+> glibc is the same way, I'm used to that.
+
+Nice to hear that glibc doesn't allow AI!
+
+> However, glibc decided that it has no place dictating how the user uses
+> AI *outside* of creating the patch itself.  Yes, that includes linters,
+> analyzers, and perl scripts that generate statistics so I can understand
+> what I'm working on.
+
+I'll go with a real case here, although I won't be specific in details,
+because I don't remember all of them, and also because it has happened
+several times in several projects, so this is generic enough.  In some
+other project, a co-maintainer saw a bug report from an AI tool, and
+immediately wrote a fix for it.  The bug report was bogus, and prompted
+the programmer to write a patch that indeed made the code worse.  I'm
+very worried about this kind of problems when using AI for linting code.
+
+Linters directly or indirectly influence the patch, even if they don't
+generate the patch verbatim.
+
+Because the world has survived without AI for so many years, I think
+it's safer to err on the side of not using it enough, compared to using
+it too much.
+
+[pasted again:]
+> However, I
+> won't not use AI to help me understand the problems I'm trying to solve,
+> or optimize any diagnosing I need to do.  My time is too precious to be
+> stupid on purpose.
+
+I'm worried that I must insist on the policy in this regard.  If the LLM
+makes you misunderstand something, and causes a false sense of
+understanding, your contribution might end up having lower quality than
+it would.
+
+I offer my help explaining any doubts you may have, if that helps you
+reduce any time consumption.
+
+> I refuse to follow any policy that tells me what my morals should be in
+> the privacy of my own home.
+
+I don't care about your morals in the privacy of your home.
+But I care about the difference between the quality of a patch, and the
+quality perceived by the author, and my expectations of the contributor.
+
+
+Cheers,
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--5dhktobr522jqq5z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmpXu1IACgkQ0Z6cfXEm
-bc6Qog//bzYq2Jh1HM340K/p/WuBRVO2jSLk/yqNEg0hmNjYlJa2+tbmiGXfX5Zy
-IjCXCgNTNd2kzszvPkXXh/vTqcbAKBatJFblgzwK2WEZcOmOhIoWSVmue3FeE+an
-HbXMT53HsKOt0RDeKTadd6qZvS6aUQXp4+vOylMXp/t0oXdR/8RNDguMF586FE8z
-DvBg+YIyuEJeDux/paZEAcqP/jDAWKcB1f62GHdu7tLF7A0l8f/L1jB0tPjfKlMa
-N3QIAVkyaVnCs4BzVkmX/4hRJ+aAwfQk9bWEx/GQgWkfaAl+FIoDdzrOlK8Kb8WA
-mcmNgm+MB6/YsZH++MBliflG14I9JBr97UQHE9YG/X7gIu41L+sOvs5L+/x5paLl
-xPR1wh2siAFXqmA/YbxLWJiHwRzpq7CQDEQ8GtMujJOh07gHarTY0E/CR5JB8FiC
-f0LdxR9zLfBORYAJQ7Kre5uocWnjDVB+HopeZud8FUl2EbwD7Tq6BqvQhk4146Dk
-hDsA0UJtkcpPYOR5KwMRHWs0Il++Ur4AQCJSolANU4Q/L99jg+ZaXQ64WTdtsuGX
-Uw8Zv8Ubh/Gg6K5xmzK3SOmoAB4lj3TKnBgjDD60BAFvPboyIxjhk3uEDaUWwl82
-E/3J9mTLZPTWLQ1UkNfIXA+HWOezCEx63G1QqHSFyNKIQVX48z8=
-=chfU
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpXvrYACgkQ64mZXMKQ
+wqm0Ng//ahIdcY2fh46eOVUvx7AqIZyiAAaXrclic87GyTKcUJcXnNgGyW0mf08a
+qPZYX8nkKz1MDH3j27jab2POJQxw9DdZDgUrP7qrYPm7A3hUBRwykwK246+i0H8I
+jZ6E1n+f7TpIgsQqgV97kdbh83RiROtxo7gplTd4qvFU8avUt1Gg2uGG4ThztMfD
+AVWJNvNJxNz+0pdvoTDVOZj9UYTe4sf5x4/8gkfSsbVntphu2lWPOi6w73tCsKCr
+rTkeiD40I5O9/Tnxb10CEWyt2aKSWJP5MJotvv18A3UBqgoLVVI4JT6hrbp3d616
+M6EVLiXT3cF2OYiq6nWe6PFi6oN5bvf6JJyfb/wKu1y/ML/1xacaA3JnOhypnItn
+xJs+iFSYwiuoU9iXV/RLg1uYWRUseLgTPSAgXdc018MyaXtE/djLAcpcQFbIVCeO
+2Gzd31YMYq3AZqViVSveQbIZmump6dxLwV9pAeQTXGNpwUIznjht8G251uwKFHcs
+4XCT+HpwBDQQF4Aa+BQQ/Urf6Q4h8NvaGvdVxHBi+yd4jKSVZHwqGKz+CzWghzxs
+H4j/JdvKBNkQYKHw/wH4C1A4qG0AWHcdSOuKj38azrzA839El2xI4p6LqfVFuTT1
+nQoum9CZm4iiz0OKv0y4uziCeWOkeNZVRAg0/I8cnIiKCBLW1Ls=
+=qmMN
 -----END PGP SIGNATURE-----
 
---7jwmp76hrsdm7we7--
+--5dhktobr522jqq5z--
