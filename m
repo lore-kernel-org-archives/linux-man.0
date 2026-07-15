@@ -1,257 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D03F4112
-	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 12:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6BC238C36
+	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 14:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119660; cv=none; b=hfQrDf1HT1RfhsisciRMjkX3Y8R1V4x/71CktuyUxdIM4FDjOcldC0pgF2yRFkaV7kq0+uAdJRZgcs4KdYKPwc9nGH3CnBk1P2wAzqyS6SKZ7OZyeYi81ZOyVvJC77CuzThLYQI4zIIVxRfF6TRdmGCXG4SWeAEk1THpebnKYqs=
+	t=1784126047; cv=none; b=q5M85kWXzUxBAtVH4ts87VtAZuzPuKK5ecT+T/oKcbzVPNpCy7jrgcfoT4C3KoD9pj1koW/1DVW4jnXKeDqTvj2+VUFcvKryZ4SGqUNUVn8JBJXig81JQduMEkw6SmOpmdBsUF+cpyyU1fLVDsT8eTqq5AJCGgEhRPAnPxPCjFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119660; c=relaxed/simple;
-	bh=WMZE+Ag8ElbCfPy5X2vXSNjTE7ILtEnTtJ77k+BDsGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CGSyre5gPES62G/5EVuK64bTB+VEoUYFASrbklUk9xTTJcZnoIg6LAqS2maysJv48VvROcWGZwh54zfM6mi/0ImP2r3uBtnG8zkKX0YVH4lvvk92BqPZiTNNAG6C6ZrqVEKJ/pqsvJ0cuwdSxkh6SbZQO8hbdD6hx+597bmh3bU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmfkHeHH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784126047; c=relaxed/simple;
+	bh=OqrJF3Ou2/AcmiyC2G+irONmRTomagpbGL/fDHHQMF8=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=qZCbILX3EmUQbuRCvoEqaQZ9eeI325+OWKvB62Mqkcizea1YWWBXywzAWPxtYSlO8laav4bDNVoqU2G820SNcXNLIFMlCLOacL+wia/qIHD1DiOCx6D4c06+Sc9hCFwJdKTULWx6sx6rit2MIMuVFYBPhAh6PgcUcYwXem+KwYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FfoSnCZ8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmfkHeHH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A0A1F000E9;
-	Wed, 15 Jul 2026 12:47:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784119649;
-	bh=7+MT9DZCiuU1u59yM64JNv+wxK6WJvOIOd7C3iiITzk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SmfkHeHHRjMy4PFSgcgYpGfc9NZhMOCta1H8nyzDYIjJQfp9Y/iqCiSOyIIxSzew+
-	 ZluHoyVRAQ2ut3Gia1MXeKTdczlBJ47j8g7rAUcLdbIxyEaM7Mqhw1j/WTHc5i2MqO
-	 3K4IxMSVlNRggOSY1e7R87JrzcAh4mA1/uKCAnhjU8bvrSUl5fA97/AZLgH3gKGrlN
-	 sqeuCDEyebom4NbFx5leGNXJmAzjamwx7m0H2AJcg5IQh93IZ3Nx4rawNJf3sBFXaJ
-	 JYWOfxMsedLFjsJBORXwc0mdQ7xAV13GbVi39QNTJYY+39GqMYbumqPGvFFcbskNyJ
-	 UGR2IDX30jCsw==
-Date: Wed, 15 Jul 2026 14:47:25 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FfoSnCZ8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784126044;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=KbBMuAHy5WU6Z9DKDVumQHkPCd+dED7nUwFtBtGLRCo=;
+	b=FfoSnCZ87d01cF81Sc3CSXEG0dUrlHYFw1QtTABGVM6RLtJ9GH1U/015XpM35Z5dZmrdGT
+	i/kqaGXnhKriOmWQsHVHYGFVDy8pJiu0xMvlh1OE84BC/S5wjo1wZb2jPzxvbkOkcSLFB0
+	yui7Pc4z+YWz2WKntEI24tw9dWrZXeE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-EMWVS_pvOp2n3Az2FYk5Og-1; Wed,
+ 15 Jul 2026 10:34:01 -0400
+X-MC-Unique: EMWVS_pvOp2n3Az2FYk5Og-1
+X-Mimecast-MFC-AGG-ID: EMWVS_pvOp2n3Az2FYk5Og_1784126040
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 04ED21956062;
+	Wed, 15 Jul 2026 14:34:00 +0000 (UTC)
+Received: from greed.delorie.com (unknown [10.22.89.250])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B703E180029F;
+	Wed, 15 Jul 2026 14:33:59 +0000 (UTC)
+Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
+	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 66FEXw8t1163388;
+	Wed, 15 Jul 2026 10:33:58 -0400
+From: DJ Delorie <dj@redhat.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org
 Subject: Re: man/man8/ldconfig.8: document system-wide tunables
-Message-ID: <aldxiBVva99diG5t@devuan>
-References: <20260714065637.gzccx2gluxfa2cen@illithid>
- <xnzezt6kwo.fsf@greed.delorie.com>
+In-Reply-To: <aldxiBVva99diG5t@devuan> (message from Alejandro Colomar on
+ Wed, 15 Jul 2026 14:47:25 +0200)
+Date: Wed, 15 Jul 2026 10:33:58 -0400
+Message-ID: <xnwluw725l.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="giguvegqnvqapqs6"
-Content-Disposition: inline
-In-Reply-To: <xnzezt6kwo.fsf@greed.delorie.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+Alejandro Colomar <alx@kernel.org> writes:
+>> Add the .in macros around .EX there?
+>
+> But we'd need to know where to add them.  There are cases of EX/EE that
+> don't need to be surrounded by '.in'
 
---giguvegqnvqapqs6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man@vger.kernel.org
-Subject: Re: man/man8/ldconfig.8: document system-wide tunables
-Message-ID: <aldxiBVva99diG5t@devuan>
-References: <20260714065637.gzccx2gluxfa2cen@illithid>
- <xnzezt6kwo.fsf@greed.delorie.com>
-MIME-Version: 1.0
-In-Reply-To: <xnzezt6kwo.fsf@greed.delorie.com>
+Ok, now you have a new rule that's even easier to not know about :-P
 
-Hi DJ,
+> Also, the manual pages should be readable in the form they exist in the
+> repository
 
-On 2026-07-14T22:34:15-0400, DJ Delorie wrote:
-> "G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
-> > That link remains a good pr=C3=A9cis of the problem.  One could show up=
- my
-> > man(7) composition abilities and earn my gratitude by solving that
-> > constraint problem using only macros from the package.  :)
->=20
-> We already process all the raw files to fill in the date and version.
+Not a problem here, a different indentation doesn't affect readability.
 
-The TH line is already special, so filling the date and version is
-relatively easy.  It's in the file "share/mk/build/man/nonso.mk":
+> (and match as much as possible how it will render when
+> installed).
 
-$(_NONSO): $(_MANDIR)/%: $(MANDIR)/% $(MK) | $$(@D)/
-	$(info	$(INFO_)SED		$@)
-	<$< \
-	$(SED) "/^\.TH /s/(date)/$$($(MANPAGEDATECMD))/" \
-	| $(SED) '/^\.TH /s/(unreleased)/$(DISTVERSION)/' \
-	| $(SED) '/^\.Dd /s/$$Mdocdate$$'"/$$($(MANPAGEDATECMD))/" \
-	| $(SED) '/^\.Os /s/(unreleased)/$(DISTVERSION)/' \
-	>$@
+Er, close?  ;-)
 
-> Add the .in macros around .EX there?
+Is ".in +4n" the default for .EX, unless the user changed it?  I wonder
+how often that case comes up.  I wonder because I would need to review
+an example of the problem to figure out how to search for it ;-)
 
-But we'd need to know where to add them.  There are cases of EX/EE that
-don't need to be surrounded by '.in' (otfen, those that take an entire
-section, but also those in SYNOPSIS).  Maybe we could have a full list
-of exceptions and write a stripy for that, but...
+Now I wonder if the problem case is predictable enough to have the
+preprocessor *know* when .EX needs the .in +4n, and when it doesn't...
 
-Also, the manual pages should be readable in the form they exist in the
-repository (and match as much as possible how it will render when
-installed).  That makes it easy to see if a change works, by running
-man(1) on the source code.  If we had to build the pages before being
-able to read them, it would add some friction to contributors reading
-what they write.
+> That makes it easy to see if a change works, by running man(1) on the
+> source code.
 
-> There are 1528 .EX's in the tree, but a short perl script should be able
-> to fix them all up.  Note: there are 336 .EX's that do not have the .in,
+Yup, I have my own lman script that acts like man(1) but takes a
+filename instead of a man page reference, finds it in the tree, and
+formats it with underscores, italics, bold, *and* color!
 
-I guess those are all (or most) in EXAMPLES and SYNOPSIS.
+Perhaps such a helper could be included in the git repo, just for
+authors?
 
-> and two .EX's that do not have a closing .EE.
+>> and two .EX's that do not have a closing .EE.
+>> Turns out Gemini is good at perl.
+>
+> Please don't use LLMs for contributing to this project.
 
-Hmmm, indeed:
+None of the patches I've sent include anything AI-generated, nor would I
+attempt such a thing without disclosure, because I understand and agree
+with the legal and quality issues of AI-generated output.  However, I
+won't not use AI to help me understand the problems I'm trying to solve,
+or optimize any diagnosing I need to do.  My time is too precious to be
+stupid on purpose.
 
-	$ diff -u \
-		<(find man/ -type f \
-			| sort \
-			| xargs grep '^\.EX$' \
-			| sed 's/\.EX/.EE/') \
-		<(find man/ -type f \
-			| sort \
-			| xargs grep '^\.EE$');
-	--- /dev/fd/63	2026-07-15 13:39:48.230169833 +0200
-	+++ /dev/fd/62	2026-07-15 13:39:48.230169833 +0200
-	@@ -140,7 +140,6 @@
-	 man/man2/io_submit.2:.EE
-	 man/man2/io_submit.2:.EE
-	 man/man2/ioctl_eventpoll.2:.EE
-	-man/man2/ioctl_eventpoll.2:.EE
-	 man/man2/ioctl_fsmap.2:.EE
-	 man/man2/ioctl_kd.2:.EE
-	 man/man2/ioctl_kd.2:.EE
-	@@ -1460,7 +1459,6 @@
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	-man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
+What I did was tell Gemini what I was looking for, and it wrote a perl
+script faster than I could open my editor.  Cut, paste, run, throw it
+away.  That was just for the statistics, of course.  If we added a
+preprocessor script to the build itself, then (1) I wouldn't use AI, and
+(2) it would be sed instead of perl anyway, to avoid another dependency.
 
-Hmmm, this sounds like a good linter that I should add to the build
-system.  I can make it general for all macros that must always come in
-pairs.
+Ok, now I looked for it, and we *already* use a perl script to
+preprocess the files, in scripts/mk/build/pdf/book/prepare.pl.  (this
+just means perl is not a new dependency, so we *could* use perl instead
+of sed)
 
-BTW, Branden, I expect this would have been diagnosed by either groff(1)
-or mandoc(1).  Why isn't it?
+> The file "CONTRIBUTING.d/ai" contains our guidelines for their use,
+> which essentially says it's not allowed.
 
-I've pushed a fix for EX/EE pairs.
+glibc is the same way, I'm used to that.
 
-	commit 4d872e2747885ee2ae6139b9bc78cc3123392b72
-	Author: Alejandro Colomar <alx@kernel.org>
-	Date:   2026-07-15 13:42:14 +0200
+However, glibc decided that it has no place dictating how the user uses
+AI *outside* of creating the patch itself.  Yes, that includes linters,
+analyzers, and perl scripts that generate statistics so I can understand
+what I'm working on.
 
-	    man/: srcfix
-	   =20
-	    Add missing closing EE for EX.
-	   =20
-	    Reported-by: DJ Delorie <dj@redhat.com>
-	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
+I refuse to follow any policy that tells me what my morals should be in
+the privacy of my own home.
 
-I've checked that no other pairs of man(7) macros are not balanced.
-
-	$ find man -type f | xargs src/bin/lintman-pairs=20
-	--- /dev/fd/63	2026-07-15 14:42:44.957949101 +0200
-	+++ /dev/fd/62	2026-07-15 14:42:44.957949101 +0200
-	@@ -668,7 +668,6 @@
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	 man/man7/string_copying.7:.EE
-	-man/man7/string_copying.7:.EE
-	 man/man7/user_namespaces.7:.EE
-	 man/man7/user_namespaces.7:.EE
-	 man/man7/user_namespaces.7:.EE
-	@@ -1313,7 +1312,6 @@
-	 man/man2/epoll_wait.2:.EE
-	 man/man2/epoll_wait.2:.EE
-	 man/man2/ioctl_eventpoll.2:.EE
-	-man/man2/ioctl_eventpoll.2:.EE
-	 man/man2/landlock_restrict_self.2:.EE
-	 man/man2/sendmmsg.2:.EE
-	 man/man2/sendmmsg.2:.EE
-
-Where the script is:
-
-	$ cat src/bin/lintman-pairs=20
-	#!/bin/bash
-	#
-	# Copyright, the authors of the Linux man-pages project
-	# SPDX-License-Identifier: GPL-3.0-or-later
-
-	set -Eefuo pipefail;
-
-
-	err()
-	{
-		>&2 printf '%s\n' "$(basename "$0"): error: $*";
-		exit 2;
-	}
-
-
-	if test $# -lt 1; then
-		err "Missing files.";
-	fi;
-	files=3D"$@";
-
-
-	check_pair()
-	{
-		diff -u \
-			<(grep "^\.$1\>" /dev/null $files | sed "/\.$1\>/s/:.*/:.$2/") \
-			<(grep "^\.$2\>" /dev/null $files | sed "/\.$2\>/s/:.*/:.$2/");
-	}
-
-
-	check_pair 'EX' 'EE';
-	check_pair 'MT' 'ME';
-	check_pair 'RS' 'RE';
-	check_pair 'SY' 'YS';
-	check_pair 'UR' 'UE';
-
-
-> Turns out Gemini is good at perl.
-
-Please don't use LLMs for contributing to this project.  The file
-"CONTRIBUTING.d/ai" contains our guidelines for their use, which
-essentially says it's not allowed.
-
-> Anyway, doing this as a postprocessor would let us purge the hacks and
-> make .EX/.EE properly semantic again, while retaining our desired
-> appearance.  It's also one more bit of folklore new authors won't need
-> to learn ;-)
-
-
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---giguvegqnvqapqs6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpXgVcACgkQ64mZXMKQ
-wqkCGRAApuDrz9nJfxHd4uxURhxphDewEYxFcToxJUF9c+nE8XD9snZsAeGy9LnR
-fx//ZjKAAiOUkN+FmxsUMSAwog1FknknO7X4p5Cu9VdlZAIG/JJXMacMhANCgZPn
-iJHxnOHXuOdDRiLsAE/LicZn6B97vXCQezCeoZcsTg7Mkj+wBMjGfLGu8Fy/JEcM
-aZna1LmPjDq0fORFm6w4sXiXU+4dxG/2EkxVgTvEcUMnumJn5NIcX1j83eRLO1t7
-ez1cmEQSokub0brMI7n5Nb+0acT76ao4LnHqw1chsNsJjOisPyASm/MJfX3HVuFz
-AI9FoJgy9ilCgi2Igjf1sF8rrrftmjOXSJCEQwnqtPcIs62f89eUsj3b4MNyElsF
-MRd5WPtArBMWF/o6mjvKQytlGV8D24w1f9yt+D2lkUk440fvHonv1pa803lmHseY
-Q8p6FFQgq4p1kUQ1OGBWphOs/LLKJmLW9kkBWn2ILNj+1cUUELctvOjHooEYGmL4
-KnzqevhDDRcFY1OjQ4tWmISU8JwlbOoBd3J70ZHL3wUekmRXsN3/FGylyHiDntJb
-Ny1LfsOBKxVly+5waAY4b1v7rWeMVNMBhrMY2j3obOGLvJf/Kw7f6h7WJI8LZ6ru
-Dn46ahocAcy6uJ6cFg+Rvk0ZjfnXx/30xo1Q5jmk7fODM3CnWys=
-=DU2s
------END PGP SIGNATURE-----
-
---giguvegqnvqapqs6--
