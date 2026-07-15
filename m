@@ -1,56 +1,56 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D564248C3
-	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 18:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C80643F0B6
+	for <linux-man@vger.kernel.org>; Wed, 15 Jul 2026 18:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784139606; cv=none; b=HxdobxjQnDtLbdqyC0jIyDiBaCYPJNnp+6Y3dPooSDc/Ez/xdw/9cGCu0JuziXY3omSljeZXPjRnMvAPJALYnW8wPiIG3aAVzt5oRuRFscTbYIpVNHKyp834kWvnPjJJEjkuspUawCVSiMTrTlfP3rAGNjLcMPNeM7RybViUinU=
+	t=1784141754; cv=none; b=NeqrvJuxLqZJWaEFUjNwmtvmHiBhgVnt+IBAyfaW/Rdik0QvYGw6gQt9xNcuHrFm8j4fWg7WjAtlmfwxAV/33ftufbHyrtQlV7QZbCRslxeURg9cKlN25pieqI8v9KJ3IV1f3q4N5n8vukiZvH61ncNySDZf89KPjtUbK8cFwAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784139606; c=relaxed/simple;
-	bh=dRvXpYVYhXzQEzXNY3QuVfUFURSNdGZCIhn9DxiQFGE=;
+	s=arc-20240116; t=1784141754; c=relaxed/simple;
+	bh=9u2JD6s06GJ3jAbRrj0+KhZBb5OekddWXoD4evg49sc=;
 	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
-	 Content-Type; b=i67WAEpHzMEGuoRwmCYoOmot5186zn9nBeYWPmvT8iEaRXOZka3IIhfTSxrFPF//MO7dqFW3oWT7MC2MgkNvtiKoKYQKnKapliulYQaocQSQwf4BVlUEyzMDIqEcsrUOL9TpShKfypdfS6/DdOWBWn2J2LcGeWKiXiFr6rGuyMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dikM9XvA; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type; b=GLFY5YdEQtMpFiIDE5AGyL3EcMQuwf1u6RMym2jG+rDta3l/iWsJzrvrlxZhZbtWGlD9DnR4tvi/uQuaHn9NwXnEHYKhLFMNdD83IqG25pXl8qnotsoWkOb3PpRfMGsZlRFF1niTYNKdgHbKR9wOgSRwS+tv54c5/VIVzgvw4DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XZKUshpC; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dikM9XvA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XZKUshpC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784139600;
+	s=mimecast20190719; t=1784141748;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=Qsp71Int2yHTjMC59rHDhe25JFNmH4PI2gh9k9W+xcw=;
-	b=dikM9XvAP6xGhQa69hXevHJXeyJgjLj/DZC441M7Fs2REspQPu/Enc8lDfbEgFUwYEhcqe
-	WXCwwCOpRIunsaO2enYbZfagHlp/q8muoJhxe4cW2m4iKzakcNn+NiwbQX3lnhF+6RmJ6M
-	Hg8G9OrHL/Y7LBZHZd+zguHyrX6xd9E=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	 in-reply-to:in-reply-to; bh=TfFmIi+OrehdTgnzBGmQ4zvsB8JCK04JACtHL2kZfGQ=;
+	b=XZKUshpCZ03bxYGuOod6YouIasvdf2aKLPXb2EX5hqwEsINmiFeNimVcneTygR48FWkNbO
+	rD8VID2P01FucdGLmk9bg+nHA9pueNGA806vwb9WTY7KUi/Vyak/fN0xLeqNaGNco+Jf1q
+	qrJDR60Ad6QeH2sl1axBfuN/ItdpZHg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-61-KiM-IXj2PbmxMYzX0ZUzHA-1; Wed,
- 15 Jul 2026 14:19:52 -0400
-X-MC-Unique: KiM-IXj2PbmxMYzX0ZUzHA-1
-X-Mimecast-MFC-AGG-ID: KiM-IXj2PbmxMYzX0ZUzHA_1784139591
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-269-nLdG391qOUui66bs7P4Vrw-1; Wed,
+ 15 Jul 2026 14:55:45 -0400
+X-MC-Unique: nLdG391qOUui66bs7P4Vrw-1
+X-Mimecast-MFC-AGG-ID: nLdG391qOUui66bs7P4Vrw_1784141744
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 474FD180064E;
-	Wed, 15 Jul 2026 18:19:51 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 281EF1956063;
+	Wed, 15 Jul 2026 18:55:44 +0000 (UTC)
 Received: from greed.delorie.com (unknown [10.22.89.250])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 04BBA1954107;
-	Wed, 15 Jul 2026 18:19:50 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A6C9D1800370;
+	Wed, 15 Jul 2026 18:55:43 +0000 (UTC)
 Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
-	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 66FIJnMi1173049;
-	Wed, 15 Jul 2026 14:19:49 -0400
+	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 66FItfFc1174308;
+	Wed, 15 Jul 2026 14:55:42 -0400
 From: DJ Delorie <dj@redhat.com>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: alx@kernel.org, linux-man@vger.kernel.org
+To: Alejandro Colomar <alx@kernel.org>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org
 Subject: Re: man/man8/ldconfig.8: document system-wide tunables
-In-Reply-To: <20260715165450.iakjkw6qwgcnpzq7@illithid>
- (g.branden.robinson@gmail.com)
-Date: Wed, 15 Jul 2026 14:19:49 -0400
-Message-ID: <xnqzl46rp6.fsf@greed.delorie.com>
+In-Reply-To: <ale2ytaF-sTAyH3W@devuan> (message from Alejandro Colomar on
+ Wed, 15 Jul 2026 19:09:16 +0200)
+Date: Wed, 15 Jul 2026 14:55:41 -0400
+Message-ID: <xno6g86q1e.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -58,81 +58,206 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-
-"G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
-> The man(7) package doesn't impose a rigid stylesheet on its output.
-
-Perhaps, but the fact that I now know about the rule, and the exception,
-means that it's not entirely flexible either ;-)
-
-> The only alternative I know of to not exhaustively cataloging every type
-> of "thing" one might use to compose a man page is to write down rules
-> governing the usage of a smaller lexicon, which itself is necessarily
-> semantically "loose", and thus frequently derided as "presentational".
-
-In this case, it does sound like the man pages need a different thing
-for "example code" (.EX) and "preformatted text" (html's <PRE>).  Or we
-need some magic for known types of .SH like SYNOPSIS which are almost
-always rendered differently than other sections.
-
-> There is, potentially, a _third_ option, which I mentioned in my earlier
-> email.  As I said, literally no one expressed interest.
+Alejandro Colomar <alx@kernel.org> writes:
+>> Perhaps such a helper could be included in the git repo, just for
+>> authors?
 >
-> https://lore.kernel.org/linux-man/xno6ge8p38.fsf@greed.delorie.com/T/#m9fda91ba28ca257c67d4595f81d38b32c5c9c937
+> I'd be interested in at least having a look at it!  It might have
+> something useful.
 
-glibc uses texinfo, which is TeX but terminals don't have **** off ;-)
+I'll append it here for posterity.  It's not much.
 
-I think of texinfo as a "TeX compiler".  I don't write programs in
-assembly either (well, usually ;).
+> BTW, what's the etymology of 'lman', out of curiosity?
 
-I've always advocated for "whatever system means the docs are stored and
-edited with the code, that I can turn into whatever I need."  Roff,
-html, texinfo, markup, whatever.  I know how to write converters.  DJGPP
-had a rule about "every .c must have a .txh" where the .txh was a
-texinfo snippet, and these had meta-info in them so the tools knew where
-to put them in the manual.  gEDA's pcb had a "comments in code become
-manual" system that used a short perl script to merge everything.  Etc.
+"local man page" vs installed man page.
 
-Yes, I know why the man pages are separate.  I've advocated for the
-glibc project to maintain its man pages along with the sources that
-affect them, but it's easier to just have glibc developers be man page
-contributors too.  I wrote the tunables docs a long time ago, but had to
-hold back the patch until I knew which release would have the code
-changes, so they would stay in sync.
+>> What I did was tell Gemini what I was looking for, and it wrote a perl
+>> script faster than I could open my editor.  Cut, paste, run, throw it
+>> away.  That was just for the statistics, of course.
 
-> It's the sort of thing I'd try out were I on a mission to eradicate `in`
-> request usage from the man-pages project's documents, but I have no such
-> mission.
+> I might actually doubt the statistics, though, so a disclaimer of use
+> would be appropriate even for statistics,
 
-Nor do I, but I wondered if there was a programmatic way to automate
-this so that the authors don't need to worry about it.  My general rule
-is "the third time you repeat something, automate it."  I still don't
-have a robot lawn mower, though ;-)
+I did too, and modified the script to show me the uncommon lines so I
+could verify it was doing what it was supposed to be doing.
 
->> Now I wonder if the problem case is predictable enough to have the
->> preprocessor *know* when .EX needs the .in +4n, and when it doesn't...
+> I would like to avoid another perl script.
+
+Heh ;-)
+
+> That one exists because its author wrote it in perl, and I don't
+> understand perl enough to translate it to something I'd understand and
+> be able to maintain.
+
+I do, and perl looks like the right choice for that one.  Perhaps in the
+future, if it needed maintaining, I could go through and add copious
+comments.  For now I'm inclined to just leave it ;-)
+
+> If anyone understands perl enough to translate that into a shell script,
+> I'd appreciate it very much.  :)
+
+Perl is just a shell script, for AWK, right?  And AWK is just a shell
+script for SED?  <ducks>
+
+>> glibc is the same way, I'm used to that.
 >
-> What preprocessor?
+> Nice to hear that glibc doesn't allow AI!
 
-Whatever "sed" scripts we run in the Makefiles, that's all.  Currently
-they just fill in the .TH data.
+Well, for legal and technical reasons, not for moral reasons.  The FSF's
+stand is similar at the moment - the legal landscape is still too risky
+to allow direct contributions derived from AI output.  There is no moral
+problem with AI itself, just the way that companies have implemented it
+so far.  If you had an AI based on FLOSS sources, run on local hardware,
+trained on known copyright-safe inputs, there would be no moral issue
+with it.  Home assistant's Piper/Kaldi/HassIL modules are examples of
+"moral AI".
 
-> As I understand it, one of Alex's objectives, as was Michael's before,
-> is to keep the files in the man/man* directories directly renderable
-> with "man -l".
+> In some other project, a co-maintainer saw a bug report from an AI
+> tool,
 
-I agree with that!
+I hate those, especially when the submitter hasn't bothered to check the
+AI's work.  However, AI *has* found some serious bugs (and sometimes
+with correct patches) for us.  It needs to mature, but I think it is
+already showing it's worth.
 
-I just think we could relax the "and must be formatted exactly as a
-release" a bit, in exchange for making it easier to contribute by
-removing one or two rules the contributors need to know.
+> Linters directly or indirectly influence the patch, even if they don't
+> generate the patch verbatim.
 
-But that assumes that it's (1) purely cosmetic, and (2) automatable.  I
-note that "man" formats according to the window's width, so even the
-official tools don't honor the "and formatted exactly as" rule.
+Yes, but there's no technical solution for stupid.  A contributor who is
+inexperienced enough to misuse AI is no different than a contributor who
+is inexperienced enough to misuse emacs.  It's our job to help them
+become better contributors.
 
-(wait, when did "man -l" happen?  Have I been missing that all along?
-Is my script really that old?)
+> Because the world has survived without AI for so many years, I think
+> it's safer to err on the side of not using it enough, compared to using
+> it too much.
+
+The same could be said of any technology, all the way back to the
+invention of farming ("hunting and gathering is good enough for
+everyone!")
+
+I think the key today is to find out what it *is* good for, and what it
+isn't, and try to help the community find AI's place in things.  In my
+case, I find it very useful as an "idea generator".  I give it the
+basics of a problem and see which rabbit holes it goes down that I
+haven't considered yet.  It's also a much better search engine than the
+search engines (I used it to find out about the groff_man man page).
+However, I treat it like "a recent college grad with a degree in
+Everything."  Knowledge but not wisdom, needs oversight.
+
+In our specific case, I wouldn't want AI to write mission-critical
+software, but it's a waste of my time to write yet another single-use
+20-line perl script to look for patterns in man pages.  Plus, I didn't
+ask the AI to give me the statistics, I asked it for the perl script.
+It's short enough I can look at it and say "yup, that's what I would
+have written", and then *I* run it to get the statistics.
+
+(as an amusing aside, our company encourages us to use AI to automate
+boring repetitive tasks.  So I had it do my quarterly self-review.  I
+think it did a better job than I would have at making me look good...)
+
+>> However, I won't not use AI to help me understand the problems I'm
+>> trying to solve, or optimize any diagnosing I need to do.  My time is
+>> too precious to be stupid on purpose.
+>
+> If the LLM makes you misunderstand something, and causes a false
+> sense of understanding, your contribution might end up having lower
+> quality than it would.
+
+This is not an LLM problem.  EVERYTHING we use to help us solve problems
+could lead to misunderstanding.  I *know* AI can be wrong, and I double
+check it all the time.  Please give me some credit for my many decades
+of not trusting technology ;-)
+
+> But I care about the difference between the quality of a patch, and the
+> quality perceived by the author, and my expectations of the contributor.
+
+Then judge the patch, help the author/contributor improve, and not worry
+about the hidden details.  You don't make the author use a specific
+editor, or a particular brand of keyboard.  AI is just another tool.
+Yes, we should not accept *unmoderated* AI contributions, but how a
+human chooses to use the tools available to them is up to them, not us.
+
+--------------------------------------------------
+#!/usr/bin/perl
+# -*- perl -*-
+
+$MANPATH=$ENV{"MANPATH"};
+$MANPATH=".:/usr/local/man";
+
+if ($#ARGVV == 1) {
+    $pattern = "^$ARGV[1]\\.$ARGV[0]" . "\\D*";
+} else {
+    $pattern = "^$ARGV[0]" . "\\.(\\d\\D*|[a-zA-Z]\$)";
+}
+
+# print "pattern is $pattern\n";
+
+if ( -f $ARGV[0] ) {
+    $page = $ARGV[0];
+} else {
+    # Find it, including one level of subdirectory.
+  DIR:
+    for $dir (split(':', $MANPATH)) {
+	opendir(D, $dir);
+	for $f (sort readdir(D)) {
+	    next if $f =~ /^\./;
+	    #print "try $dir/$f\n";
+	    if ($f =~ m@$pattern@io) {
+		$page = "$dir/$f";
+		last DIR;
+	    }
+	    if ( -d "$dir/$f") {
+		opendir(SD, "$dir/$f");
+		for $sf (sort readdir(SD)) {
+		    next if $sf =~ /^\./;
+		    #print "try $dir/$f/$sf\n";
+		    if ($sf =~ m@$pattern@io) {
+			$page = "$dir/$f/$sf";
+			last DIR;
+		    }
+		}
+		closedir(SD);
+	    }
+	}
+	closedir(D);
+    }
+}
+
+unless ($page) {
+    print "Not found!\n";
+    exit 0;
+}
+# print "Found $page\n";
+# exit 0;
+
+# Get the terminal's width
+$stty = `stty size 2>/dev/null`; 
+($height, $width) = ($stty =~ m@(\d+)\s+(\d+)@);
+$width = $width unless $width > 10;
+$width -= 2;
+
+# I prefer no hyphenation when I'm reviewing my changes
+$hypenate = "";
+#$hyphenate = "-rHY=0";
+
+open(N, "groff -mandoc -Tutf8 -rLL=${width}n $hyphenate -rCR=1 -P-i $page |");
+#open(M, "| less -R");
+#select M;
+while (<N>) {
+    # Colorize certain formatting
+    s/\033\[1m/\033\[1;32m/g;		# bold -> green
+    s/\033\[3m/\033\[3;34m/g;		# italics -> blue
+    s/^\033\[1;32m/\033\[1;31m/g;	# section headers are red
+
+    s/\033\[21m/\033\[21;39m/g;		# ending style ends color too
+    s/\033\[22m/\033\[22;39m/g;
+    s/\033\[23m/\033\[23;39m/g;
+    print;
+}
+close(N);
+#close(M);
+
 
