@@ -1,167 +1,124 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155CA42FCBC
-	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 14:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7932981ACD
+	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 15:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784213506; cv=none; b=VgP7G+eOTdoStvYlFYsSwadmaSZdszLrfLOiJT9gozOkEAbKhzZpRp1WZq0FpdPmlvUnL+muX/Xt8InUZJ/MM+4HAPgUY7R+u5J5X2ZkBLGojiXuspbRZbxHWsm7JnsmpEs/eyxUa1pqx7OhDpIyvvVNnKeylX+s3iUNRraw2t0=
+	t=1784214116; cv=none; b=uccKhy2OGafxMiEOYxPoZcc0dY58G+/HUYy0GG+5e8MGLrIZkvV1Z71bMb/N4m2Redm/b1INSLtUnn72DiungjxokccoNpF377WT9kBHW4mw+uiVEOWp3ZugcXlqOmEG0Uzj82DOdiWUhLP1uD2fTUaBEikS+YaeQd7M6FaVE2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784213506; c=relaxed/simple;
-	bh=nl7WRqGj5+9zm4sicIWJdiYe15qGOVrntQuintTXRxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Hmq8bauIGW6q/HOT/0l0iLQry6B5eS81bF/s93Q3OpOM9YnAe03xZyxHdhs0JbmDZYIaOPp3vcl2AsZqZdeEqya4JxdWwDhfjejSui51QGAHoe2UJJn+Or1rdIsEV4PwMr5MifX0Cr/WI/0p3HuVwS5K6ONYK+MSqZdChvRSYa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=compilercrim.es; spf=pass smtp.mailfrom=compilercrim.es; dkim=pass (2048-bit key) header.d=compilercrim.es header.i=@compilercrim.es header.b=8qlA+Alc; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=compilercrim.es
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compilercrim.es
+	s=arc-20240116; t=1784214116; c=relaxed/simple;
+	bh=UyYhk2FXNPBkr/xZaO0SI3vzUC0FjkdaPXFKxC+Q6EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fJwlyCEO1OazvcDKWzBkHwYUJUW/XOHsjGu9KrdLJF3a6BPty21+53EaN3qdxKE8R9knQDfvyxnJqL3HKY6fhcBastu2VqKTiA2zaO4gUQvhKhLZoxsD+28/SgX9d9N8RT+dh4uJvPVj+gbA6qpJd0MgXsUut/hBhULxPSklznQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTTEzziv; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=compilercrim.es header.i=@compilercrim.es header.b="8qlA+Alc"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=compilercrim.es;
-	s=key1; t=1784213500;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iu3j6MnAbFQaGKwnsyE6N2IlSC5bJabns7q3QOVEEDY=;
-	b=8qlA+AlcHN1LLsBKYo+JTSDeWqxDqhABG/z/UjgaOqqAaSaPkMGyS8YFJN7gj1nEHDFbJw
-	n5OyxN2HVz1C5hQK4s0WrI2qrHh4+bsuJVyGgk0Cv3Mo/d5jxUxt3SijiEjhzkC04nf2rH
-	i81Z4QYqpzIQLX048bp6TOwCxPTlVT/q8yG4HPuvuw5kHP6s0ZkM9w/eQfL2di+3TE6Ivw
-	blCC0K3as6fWvS030y4N4H/l7TjNcEaYvukTLPpm0WPcW0Cn1I7Xp8/lQF3JorvxE7uAzs
-	lMuJ8gcioVOA0BmJCB1QzcngAz6oeCErYJfFbNTJ4KA4teVHxnTrhe0w7wwNHA==
-From: =?UTF-8?q?Maja=20K=C4=85dzio=C5=82ka?= <maya@compilercrim.es>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTTEzziv"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6611669cd16so3537852d50.0
+        for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 08:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784214114; x=1784818914; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=86tYMspT+pIRI44XuQ6TpJULQCml51JXKW3utqQ2qug=;
+        b=mTTEzzivcUto79U3e101GY3lRNpYxU4FaSdIjEGlHj1PJffsqg4ZAk7VAqpjIIQQeb
+         Ps7bF1s925vfesMm/hKuN5DTQXEjbozLCoPkbbph2lPlq8nItbW76fsTrEtbqeteoO1a
+         FWpunGert8ofLQEkhnU6w+diTGkGM1/WEILmVq7dgcicSQLUZV7DPB6DNqFPGj8vb6yO
+         nM+A3Dy9or22HA+niU+26/erxtgNhxO7ALeQ55hGQYTxZVbHsbrwdFULp+k/sg/8d76i
+         xLRtVZl8elbdsOJlO1oVxvUGAfTFavVDqVpZxoEURfHuMklkXcyXkIXG3VpmH/2Yp/j4
+         Ka3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784214114; x=1784818914;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=86tYMspT+pIRI44XuQ6TpJULQCml51JXKW3utqQ2qug=;
+        b=B4iIfx6G54L4jp6i62ECEyHNIlV0ofR1585yCLVVzWNULSysQnWZnAX/79LHIxX6LN
+         PkAlXR/bQW06B0FymvDNaPDv9mqFA1aDSHAxF9lt58snGDHkq1WA2t23Bnrc6R8QbS+/
+         UR0VKQeeSRGVnpGC3xGDjPpwIUig9X/yw0uixRjozvf8wRFyp2mOxpIS3GRlNkGfTXU0
+         fbMgOHIiP63h9/3YXQ/QO/uFXWtYzxTI3DO00CBbYBAaly9noCXwQJQXmH2FKPpqmbDv
+         Li3AfE+gIw9DKdOUydtaGOMUf7ATN2Abhuq1NUkF8QsDudaVakxGWTkG16PqAVcmhGnp
+         GRnQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1qiX+iGRe8+w+FmbvNqF6ggMg4n7PrTxJIHo8B8CPZIfjPyyNtFoqCXF7MT1Rn/DO9xfJQuF0a/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxg5ZhujdmimGTUEGJb4U9kLW1pUha9PD+yXomvsx0eFfUhAVPE
+	8moZtsp2DO0JoAbRVCYaSAY7c52wRNrCyU7rj7xzkojlztkIdsKBxTyF2KcoQA==
+X-Gm-Gg: AfdE7cmQ6BK5expo2vvROtD8dKuqN6KZ3rR2h9ySb1bVh+jct2aTrNoTv7oL7O1ZqrE
+	4XDINJ4OcIuhiBkfnpNI9ZRzmeC92J3BcN771ByPhUsNWhOhtppYh/VoWFBfQ3d8OoWYEkk+/q6
+	2x6Vqz402oyWZVyAoNPRz/8OqReAO+ndyMt3rNqbAGqorhTXgjZp7ncg+DBDLBAgeVH3slv/a08
+	si8pRVIzLmiAIDKBedL9+5ICec8fKRaV/7c0fiCmt93zA7Urn8Dl5zJHE13xU6r4mcu3Arf2Wff
+	bZKb0FO8t+PjSXPedzxRpJBS/qw+5Q+Tgaq6R10vqZAuFnVPPalAuCZnMwbkSWmUVhM0T504Qfy
+	nTe2B1S6GPkLTNpASxbWkF21F2RQjvzz3v1OFjyJY/5QxlnSA7ShEGazgmH8NQGNbC4A=
+X-Received: by 2002:a53:a089:0:b0:667:c9d0:e95c with SMTP id 956f58d0204a3-667d7c56652mr11799226d50.84.1784214114147;
+        Thu, 16 Jul 2026 08:01:54 -0700 (PDT)
+Received: from illithid ([2600:1702:7cd0:e980::41])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6681fde51c9sm3576224d50.11.2026.07.16.08.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 08:01:52 -0700 (PDT)
+Date: Thu, 16 Jul 2026 10:01:49 -0500
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: =?UTF-8?q?Maja=20K=C4=85dzio=C5=82ka?= <maya@compilercrim.es>,
-	linux-man@vger.kernel.org,
-	Kalesh Singh <kaleshsingh@google.com>
-Subject: [PATCH] man/man5/proc_pid_fdinfo.5: document the ino field
-Date: Thu, 16 Jul 2026 16:51:07 +0200
-Message-ID: <7eeaa92f7a7cc14024a6474d4cc117e875185f6d.1784211190.git.maya@compilercrim.es>
+Cc: DJ Delorie <dj@redhat.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] man/man5/ld.so.conf.5: document include syntax
+Message-ID: <20260716150149.7pw3jeux3nztfxfc@illithid>
+References: <cover.1784084289.git.dj@redhat.com>
+ <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@redhat.com>
+ <aljDaT3eIOC8KxD6@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dpbdnmcjec24gmq4"
+Content-Disposition: inline
+In-Reply-To: <aljDaT3eIOC8KxD6@devuan>
 
-Also expands the tabs into spaces where relevant, in order to ensure
-proper alignment between the fields when rendered by man.
 
-Signed-off-by: Maja Kądziołka <maya@compilercrim.es>
-Cc: Kalesh Singh <kaleshsingh@google.com>
----
- man/man5/proc_pid_fdinfo.5 | 46 ++++++++++++++++++++++++--------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+--dpbdnmcjec24gmq4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/4] man/man5/ld.so.conf.5: document include syntax
+MIME-Version: 1.0
 
-diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index 93c6cf269f31..f93b69c6c59d 100644
---- a/man/man5/proc_pid_fdinfo.5
-+++ b/man/man5/proc_pid_fdinfo.5
-@@ -24,6 +24,7 @@ For regular files and directories, we see something like:
- pos:    1000
- flags:  01002002
- mnt_id: 21
-+ino:    63107
- .EE
- .in
- .P
-@@ -51,9 +52,14 @@ rather than the current setting of the close-on-exec flag.
- .I mnt_id
- This field, present since Linux 3.15,
- .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
--is the ID of the mount containing this file.
-+is the decimal ID of the mount containing this file.
- See the description of
- .IR /proc/ pid /mountinfo .
-+.TP
-+.I ino
-+This field, present since Linux 5.14,
-+.\" commit 3845f256a8b527127bfbd4ced21e93d9e89aa6d7
-+is the decimal inode number of the file.
- .P
- For eventfd file descriptors (see
- .BR eventfd (2)),
-@@ -63,9 +69,10 @@ the following fields:
- .P
- .in +4n
- .EX
--pos:	0
--flags:	02
--mnt_id:	10
-+pos:    0
-+flags:  02
-+mnt_id: 10
-+ino:    63107
- eventfd\-count:               40
- .EE
- .in
-@@ -81,9 +88,10 @@ the following fields:
- .P
- .in +4n
- .EX
--pos:	0
--flags:	02
--mnt_id:	10
-+pos:    0
-+flags:  02
-+mnt_id: 10
-+ino:    63107
- tfd:        9 events:       19 data: 74253d2500000009
- tfd:        7 events:       19 data: 74253d2500000007
- .EE
-@@ -114,10 +122,11 @@ the following fields:
- .P
- .in +4n
- .EX
--pos:	0
--flags:	02
--mnt_id:	10
--sigmask:	0000000000000006
-+pos:    0
-+flags:  02
-+mnt_id: 10
-+ino:    63107
-+sigmask:        0000000000000006
- .EE
- .in
- .P
-@@ -138,9 +147,10 @@ the following fields:
- .P
- .in +4n
- .EX
--pos:	0
--flags:	00
--mnt_id:	11
-+pos:    0
-+flags:  00
-+mnt_id: 11
-+ino:    63107
- inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:2af87e00220ffd73
- inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
- .EE
-@@ -176,9 +186,10 @@ the following fields:
- .P
- .in +4n
- .EX
--pos:	0
--flags:	02
--mnt_id:	11
-+pos:    0
-+flags:  02
-+mnt_id: 11
-+ino:    63107
- fanotify flags:0 event\-flags:88002
- fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
- .EE
-@@ -232,6 +243,7 @@ the following fields:
- pos:    0
- flags:  02004002
- mnt_id: 13
-+ino:    63107
- clockid: 0
- ticks: 0
- settime flags: 03
--- 
-2.54.0
+Hi Alex,
 
+At 2026-07-16T13:51:01+0200, Alejandro Colomar wrote:
+> > +is parsed by
+> > +.B \%ldconfig
+>=20
+> 	.B \%ldconfig (8)
+
+	.BR \%ldconfig (8)
+
+;-)
+
+Regards,
+Branden
+
+--dpbdnmcjec24gmq4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmpY8lQACgkQ0Z6cfXEm
+bc6Urg//TWHdOCeB7gtcUg0pSoyISvQ/jF8I6isjBTgYNrRziKCUh9tsZUGcBv1c
+Nwg2NbgH8tN2tT+XaN8bUn7DcK3Z10cYZgviyZmOVRf5/NbLofgAGvlxApZWlGzZ
+QvBUJ3KSO7Soj7jJKdCVCkcDNGL4g8OMCfMp+dH1KnN763VCO9ExAtZQ2fotcDlj
+bOVwFEccGJb8CbtrKi4U6nJLQCulK9Zt9QkWYrmW7CtDXRdFYGzoQrfIVrPiDOi9
+Bd22oj5uMVFN9t1VX2yfw+OMyW2sbpye6hT0OwthAo16642JviH6xx7ePmEaxmMM
+32jPtohzGgkB5gtTj/1UMCYVVYio6TZd+SvDyhfCoE4trapEW/eS5ksTfYjDoGKp
+arloSQnuQB9VpKQ7n8954rLlSTdYxxTKXzxcKUzsDItwBShZ0T0ab7Z+KjQKQpm7
+vBis27eVT3Kv4ukeUlDEYWKcH/m62fcH0k8cDq7aRSXrhg9JOkW6Vvx/wNb+PsCM
+JzNMM3dBWU/J7u2WGGFsnVHE06z6Kbzng+2IiruQPFu3rWb44gSCrPW09yQTPXkN
+PS27f6946DdXzDn60AE+Q2m0EbVBBA3rYiBycA01FACvPRWCHDXNm0mYNqn4gh7y
+s8cB3uCDunWfdn1hlDFVos4N5bhMFlm3YdCiTV+u5GcEsiaMui4=
+=0K0k
+-----END PGP SIGNATURE-----
+
+--dpbdnmcjec24gmq4--
