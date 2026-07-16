@@ -1,169 +1,108 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F2538D3F7
-	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 19:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784231021; cv=pass; b=uMdk0uHzlp9brOTq2IY2aZxgRlTXfqSsQk9HxkLcZfaUTerjIMngtVFlJteLZH1jtydp+atvOsa8tHblJwj/qzROrJACg1I8PR6lvoLROq3/IIwbjUOMY/4pzvBzeNn43iVIciWvSbtJZ9mKcQYP2KkPEAYcFeMXp+nZj4vpiwE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784231021; c=relaxed/simple;
-	bh=CuyDo6trYLTCnN82FwILgPnKoYcqaO44Tnxjj0cqObo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jN4eitoqN61H0YVoDFCf3CZjNsykWq40/SL5FGsLdAX9L/lRZ3HL2qO66zl3senhJdo7YAgCiWWnOedmFM0QmXMxBOEeIDwNcq2TIHdHZRHqfCqvv0ibPBRf1jeU6O69hQuyG3LKNis9V6SFoJgsAwHuFwsqihqTAddNzVZ/Yyw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dartmouth.edu; spf=pass smtp.mailfrom=dartmouth.edu; dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b=a3kxf330; arc=pass smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dartmouth.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dartmouth.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15990168BD
+	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 19:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784231608; cv=none; b=N8G9SBMS9oZgWWXS+7kNHLYCNPRyoIBovpIuO3o/3FRwGwcykp1MQzr6CCEElnMd7+DxiwyIMn08R8gwU+mW3GFZ6HLW4TCwe/F/X9+DQDxe7dfG+/eXoiBE1J1H1H26E6hHlDDZFGxIAB/uk+dphYyu7Lg9AqOug6zvh4kMm0A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784231608; c=relaxed/simple;
+	bh=WwpzLY4wAmBJYHzOotLA7eRfgAYLUZ44ev5600FqYHQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WeWmRwFcPH+OFeQ9azW+lKHjqHHo4tc7HXczcJEZkvYABpeaiyBgVHBEpg56vjqoW03ZUWIzt2Y6dqlCTVeYHTBvo3Im596xF5xSq9DkfOy0QO1HbM46NOf8r06CLthDEfRL1V2+yE8NSsaNghM4oDgR9m7GBHztgUbKxHocguU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qSCD+Z8y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dartmouth.edu header.i=@dartmouth.edu header.b="a3kxf330"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb24c0807so5318887e87.0
-        for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 12:43:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784231018; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZKf9KrxTTcMMbzwmHEzy3OEb2eR1TFi/j18vn+RHzsTz8eZDvERaNTLjpzxZQo5Ev+
-         Vc6aA18kK9bKNjgEyQO8x0eMR4MZb10mSFCzlFB4+xvHXQ5G5Bh5dLvg9thcaf5JZFM5
-         meOGZrJ0lRnUS1hnIhzA/kqBmedLU/uSHVwg7243a77vcdIjTNh40jISd6DEqHrOn3Gm
-         01e1Ixfmv4EQYN+hQ9ZqBMGcN7qhmpE+F8uCwY0WaEBFKoY1jjhP5opmTE1HTpZS7YMf
-         8yiClZmRZktdfMF926JW/ZRSEDrsCpVYkFKBWqu6jUGsgD7LCvsmMgr4SPsHTHCFXKx6
-         f5yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=93UXCAhVAPsEtmyKFRsIG+axOKwc8BJ7oQ8SSqBBPxU=;
-        fh=kTbk4pccRQ7ywKItoF6eFeVMUIye+84NI5zbIP4rQ9Q=;
-        b=Ov/SdjY4VDKXHO6j7LcqGpqeNcskPLMIgXuEO1rmQhKqUY9XgGh1WjQYcaUhmEmQD+
-         BYpMfz27H2uDMNQOMld4IXsF6CcwY1wF6HblGGMTtFlkzYgdQz8vZfQN3yf3s/uPgEGx
-         nL2UQRyc6e9fJsk3EdWqKmi39hcRjQ4IbWY7aG+9uoznqriSo1HGicM2bw/Idn2hpscf
-         vpS8W2uCPlIWjKh+RmA3gfhwRpLHqsG8LZ11NFLRrrdqJrO3ks370yzg9RVw8tmKFKcQ
-         fv/yIL2+SBhV/gaBQVXQxAMGERox9YysyhOhUMgE94HfARARkBiQPletr6bGp+gS7oiR
-         +LQA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dartmouth.edu; s=google1; t=1784231018; x=1784835818; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=93UXCAhVAPsEtmyKFRsIG+axOKwc8BJ7oQ8SSqBBPxU=;
-        b=a3kxf330GmfsUjLTkAyghWQtBqsJAEbYgJI3Qvr1RDsCECp9ziRKHLMSgfTGwhn8eR
-         5rprbENU95BYSQSKPJGXTAJn9RNvQBSi60rfJ/97bBlBwgO2pxdw+bvqvRlccBJzJWfY
-         EC1qrsjZAcVTsvEG1OiV8PcPlM0L41+Lr+VC3R39+BhsMFmCwmaAW3snrKcgB7913YSD
-         hGndXHzrJMVXizmxsABI0wU1CttwSkRvvna+tJrwmOWSMA7h38Iw54RxJQfn1D1jg2n4
-         2gKARsGCcKF4OiTgpZGHbGiUiHfSKAUR7BGQSiSYRV8t1SjPZ2v06hBZPM7sp0KJ39n0
-         bx1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784231018; x=1784835818;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=93UXCAhVAPsEtmyKFRsIG+axOKwc8BJ7oQ8SSqBBPxU=;
-        b=SIkqpYxoFiG/sfqaLSWf2wBfB7G7Q0QnnVGVVOlpAYOmnE+Qh+64F3mYdpxl70lFm0
-         VqTEVQr3HuYg6TUVB+f9NBFujomliJyWS3m/v1ou0b57I+lPZfHOO086gMhSb/xgG6zz
-         mowSC0Yc+0dWyYGpK4qMDK0pkZmt81KCDEwWIYFc6cyf6SoOpTytwG9QNXcYzJX5LJsC
-         ub+TL2/yZjcWRjfSnsX1tNQ+rL5ZZ97IzFf8KIklGN7iK5OO+7xZ0UTBZKb9lh9G/T5y
-         QFLxzOxRBqnZv8Y2kYSXsiXAEcwXetIf0StpBM4SJDBqOOB2WK0M+m4dbSNoKtvcZbUr
-         755Q==
-X-Gm-Message-State: AOJu0YwkPkpPVk6bP3De4Dd3rPw27yLxmygKixrgLyxulcwbJC4gQXYw
-	Su82LaFPeiEnzfHWuqBdF56naJLAOgOWSkYU1gnGx8DFMib7FHXzA3Y1supmXPyLdDCZjcEFTPp
-	yKziYX/Y7cxAAzQDhh4eCv5rn3rHOOUYk1ENIxe9MwA==
-X-Gm-Gg: AfdE7cmmSMPMZj3aFKTuWN/iQ/q1lit1IO8ZsDfNDnjqCZNgw5No9BDPcr9l8GUK9SO
-	Hpyv8PJkS0rDYl0eJ6IGlzH02hiWlHFif7lI0++hiqmgyf8NEC5i1Z1LJLXbw9sZLDwa5kHeX8Z
-	GF+QTgr+ZXvAZew9itrUPhs5e+PJpaR5M30c82m7IkqkqOWmoPhVOyTjPwvUOSWAG0lVC2+8Pvb
-	pY6e7UynZCvrUHkAZ1QNeh+IAGvGVy0L/eMWqAk5jvu4ApPwYa+er95KNQa64DxLK+f4pA/rbih
-	NIX4bgtriIGcJpXSIVidWs+LgwZ+bxVabKLI82XaC02y4IY5BzKMKttN9AcrtNTmnPfAiASUeZx
-	NvMCqFxvJ6MEqgTEE798C/db1TPNq3z+Tc/E=
-X-Received: by 2002:a05:6512:2343:b0:5ae:c239:f052 with SMTP id
- 2adb3069b0e04-5b159b910c1mr2806964e87.62.1784231017833; Thu, 16 Jul 2026
- 12:43:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qSCD+Z8y"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96BF7C2BCC7
+	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 19:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784231607;
+	bh=WwpzLY4wAmBJYHzOotLA7eRfgAYLUZ44ev5600FqYHQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=qSCD+Z8y3DGg39dCJ7BEOww+zXUny4YN/sqKMm+6sV3OA/r+UAvKc5mHiDu7jtTMg
+	 bGxasGmmRD1AkNhtljH1wwIU256E3+RdxGzfQVRO9UZMpO/L5LJrAlbxUSzRv/IG86
+	 uiJ3XwFaQ6C2KU1FRW5W+HbV1G1o2ZDQBe8+XWNuvgNODV9oD32fKMtYoJpXIUHsSZ
+	 3x29ZqzSTSnsQlznAxurRZ08uDLLwXXaLCIZ+IPsOlIG0xC0XSLHmpGtEbE/bpDLZi
+	 gp7uPkbJ2TqGm96t9oRMhgRsJyoLr0EoIgjOmyuOI46rsPrzSqtYHyzew+bgHWO4Gi
+	 Yq8V+f6ZY93hg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 75814C4160E; Thu, 16 Jul 2026 19:53:27 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-man@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE3MTVdIOKAnG1ha2UgLVIgYnVpbGQtcGRmLXBhZ2Vz?=
+ =?UTF-8?B?LXRyb2Zm4oCdIGZhaWxzIHdpdGgg4oCcd2FybmluZzogdGFibGUgcm93IGRv?=
+ =?UTF-8?B?ZXMgbm90IGZpdOKAnQ==?=
+Date: Thu, 16 Jul 2026 19:53:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: g.branden.robinson@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-221715-11311-Jx2EwZYPzp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221715-11311@https.bugzilla.kernel.org/>
+References: <bug-221715-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKH6PiXDGL658h1t_bstW0Z+MjjJfcNmcde-DA3QNOYKc0TTGg@mail.gmail.com>
- <aljtsrJVLTN6qlxP@devuan> <CAKH6PiXx=WycAiPGti3LAAfpmDQExkcWsatXjOXpD=GdiMc0ng@mail.gmail.com>
-In-Reply-To: <CAKH6PiXx=WycAiPGti3LAAfpmDQExkcWsatXjOXpD=GdiMc0ng@mail.gmail.com>
-From: Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
-Date: Thu, 16 Jul 2026 15:43:21 -0400
-X-Gm-Features: AUfX_mxW6dVoomFsvUD_QYmzrt2VT6z8quUdRLUA7zTKSaO_vDqBxI8R_9z3P8o
-Message-ID: <CAKH6PiVuxFAc1f12SFXwaaDshHGGYOXTjWa=ySNA8H1SBJ2Gkw@mail.gmail.com>
-Subject: Re: syntax of options in man1
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-> I think there should be a separation between an introduction to the
-> entire system (maybe this could be intro(0)), and an introduction to the
-> first section of the manual (intro(1)).
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221715
 
-I agree. In the early days, at least, there was such a section, called
-"getting started". I like the idea of calling it intro(0). The very name
-suggests that there are more intro(.) pages. Elegant!
+G. Branden Robinson (g.branden.robinson@gmail.com) changed:
 
-Doug
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |g.branden.robinson@gmail.co
+                   |                            |m
 
+--- Comment #2 from G. Branden Robinson (g.branden.robinson@gmail.com) ---
+Hi Alex,
 
-On Thu, Jul 16, 2026 at 1:19=E2=80=AFPM Douglas McIlroy
-<douglas.mcilroy@dartmouth.edu> wrote:
->
-> > I think there should be a separation between an introduction to the
-> > entire system (maybe this could be intro(0)), and an introduction to th=
-e
-> > first section of the manual (intro(1)).
->
-> I agree. In the early days, at least, there was such a section, called
-> "getting started". I like the idea of calling it intro(0). The very name
-> suggests that there are more intro(.) pages. Elegant!
->
-> Doug
->
->
->
-> Doug
->
-> On Thu, Jul 16, 2026 at 10:45=E2=80=AFAM Alejandro Colomar <alx@kernel.or=
-g> wrote:
->>
->> [Added linux-man@]
->>
->> Hi Doug,
->>
->> On 2026-07-16T09:46:25-0400, Douglas McIlroy wrote:
->> > Here's a typical option heading (from tail(1))
->> >   *    -n, --lines=3D[+]NUM*
->> >
->> > It is tempting to assume (incorrectly) that the short alternative is -=
-n=3D4.
->> > As far as I can tell, the convention that "=3D" is part of only the lo=
-ng
->> > alternative is described nowhere.
->>
->> Agree.  I've had that concern for a long time.
->>
->> > I think the description belongs in intro(1).
->>
->> Agree.
->>
->> > Incidentally, the actual content of intro(1) is absurdly bloated and m=
-uch
->> > of it is way off topic.
->>
->> Agree.
->>
->> I think there should be a separation between an introduction to the
->> entire system (maybe this could be intro(0)), and an introduction to the
->> first section of the manual (intro(1)).
->>
->> What do you think?
->>
->>
->> Have a lovely day!
->> Alex
->>
->> > Doug
->>
->> --
->> <https://www.alejandro-colomar.es>
+This seemed to do the trick for me.
+
+diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
+index 2fa8368e1..5c0508d4e 100644
+--- a/man/man4/console_codes.4
++++ b/man/man4/console_codes.4
+@@ -413,6 +413,8 @@ .SS Linux console controls
+ set background, same as 40..47 (bright not supported)
+ T}
+ .TE
++.br
++.ne 4v
+ .P
+ Commands 38 and 48 require further arguments:
+ .P
+@@ -762,6 +764,8 @@ .SS Comparisons with other terminals
+ T}
+ ESC ] 50 ; \f[I]fn\f[] ST      Set font to \f[I]fn\f[].
+ .TE
++.br
++.ne 4v
+ .P
+ It recognizes the following with slightly modified meaning
+ (saving more state, behaving closer to VT100/VT220):
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
