@@ -1,41 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7138A41A779
-	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 11:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DE1217F33
+	for <linux-man@vger.kernel.org>; Thu, 16 Jul 2026 11:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784201648; cv=none; b=Whm0tXl0zmnx+E6V0dO+5Uen+Zit1b40UxeZscVv9CDvZXnNZ2BDrIRHkckhLU3Ew3DryLJ2+voGhtVqOtfd8nbuUDCFH1YWhUejXw33sS5qlLIV1PhLFEoXH7WNpNEuLgWWN/90SZXU5qkx/rNZozzKJTOwTtNdb06Yp3cLXe8=
+	t=1784202665; cv=none; b=nxjokfCOp93n7DVXr6s7AJydi5oeykP/DyB3NDZEDqNXuZulkwXG3bzb9tEQVr4UnBeiy2VrXQ+c94VySFBzuTCG87wLYm+dJuWtoK4csBd2vnGUDSm9mzXfPYIp8OrjYzxKZa4l5ShZy6bsmk82O0DzO0P6pEtGiVvUG8O28Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784201648; c=relaxed/simple;
-	bh=ct0XbsO0aaMw4YfhCNxGSyNoF0uJBq1fhrqhTwvEFDw=;
+	s=arc-20240116; t=1784202665; c=relaxed/simple;
+	bh=g3bL7xAJhmry45qnBfjUfk8FYimwD4ycC7ibKDZjE6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JW1qsFBwQDJzhsoQoKQbX+alWI9okiXzBLWOjnsHme3LjuothVgNWD8OQmZ8BWJYLREe1A6Jna6EB/KEIpQ8QvBgBSKzZhKRArXmtzq3CiSTw/2VSkeohFiXCTyDd1sgNVO2nacC/LkRF8ehmt5JGND1RTEylzJNgZFo1vfemts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XC8iI7wG; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lhp5dbKLsww6ymFP+3lMAYLj91amEcEqaMpGlzkA7XfZzeBI0TKULAWfCcn02LvRf99Z2GJiym9cQ03sVn0loabh3jZQSZ+3Fpw5aaj4rKU04Rv6byjlbxd2nKqdTIrmJVc+A90hZz4kq4rlRwRyRYqnTtCPtRxiZAAdZIRxNuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNeDGmkQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XC8iI7wG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5DB1F000E9;
-	Thu, 16 Jul 2026 11:34:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNeDGmkQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A85B1F000E9;
+	Thu, 16 Jul 2026 11:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784201647;
-	bh=huBWkrMxMFiUGWLu7+f8FOAVBag2qQ8N0AWIm0GOdX0=;
+	s=k20260515; t=1784202664;
+	bh=/2uIcBbkkfGNRjTrwiNa/jXMj4i7Gfl3SBDCpWNPHNA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XC8iI7wGdjJ5JGo/v29v26fCspBI8t+GRAwq3T8ganM4tnKcA4hQcj6n2nEBvJA5b
-	 ZzyhpxKe99syAleRv5Gw4eilECbSsWXtOnvs6rcHqqHAFt8QYHy7LTMGRXQ40/aSCn
-	 7H7k0YTiqy1c/YDDj377FUO973O/TDr0vNIVq5jlp6TwqeHeYEw0wS6G8krz/orK+g
-	 2kwaFTa/wqZ4Msl70o6Ca5F9EmDgqszvNrIjUIvDx+qCHTepvVuP1zAem3KTx3XcL5
-	 Mdosj/KrcWdMruwFErfJqeg0aPJj2wl5AR3k50xgElmIYu1VSIdSUwC9O2ICFO4qAc
-	 UBitAEfbZteMQ==
-Date: Thu, 16 Jul 2026 13:34:02 +0200
+	b=HNeDGmkQ/xWVslmN5ISfnA4aFFTKvJQL2kUPQ/AfIMbhA/CZ5f6qOuq0VAeG8qTpu
+	 WLij2d+DcX7ZQkp+gTrXt4cd3ahHPMG4zxmBSuLdh6vybImHWIiHD9hrqLrtfrghJf
+	 XDVfqwCCA+soj+3jgaiDlYCu1aKKB0wrxwTz930w7HvNkT5PcOgAFiCIosF3GtFAWg
+	 DZW+nJ77vTNowTR79lxqkXMkRnIDE7G21JobRXibHcax+y+yuoX1yDIypdUFBbFEgG
+	 6XToTZQ8MVd6uw/g21GV57wxrKj1nlNzrZ4LqP+n4ix8y98nBthwbtKP5T9uycIkEB
+	 t78VLV2DTTXJQ==
+Date: Thu, 16 Jul 2026 13:51:01 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Runxi Yu <me@runxiyu.org>
-Cc: linux-man@vger.kernel.org, Runxi Yu <runxiyu@umich.edu>, 
-	Andrew Lutomirski <luto@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Peter Anvin <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] man/man2/link.2: Document new AT_EMPTY_PATH behavior
-Message-ID: <ali_j2Z8ASVyNThE@devuan>
-References: <20260716090602.16571-2-me@runxiyu.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] man/man5/ld.so.conf.5: document include syntax
+Message-ID: <aljDaT3eIOC8KxD6@devuan>
+References: <cover.1784084289.git.dj@redhat.com>
+ <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -43,152 +41,176 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3ophl2w4hpno572y"
+	protocol="application/pgp-signature"; boundary="mk2snahd5gf4zcdd"
 Content-Disposition: inline
-In-Reply-To: <20260716090602.16571-2-me@runxiyu.org>
+In-Reply-To: <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@redhat.com>
 
 
---3ophl2w4hpno572y
+--mk2snahd5gf4zcdd
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Runxi Yu <me@runxiyu.org>
-Cc: linux-man@vger.kernel.org, Runxi Yu <runxiyu@umich.edu>, 
-	Andrew Lutomirski <luto@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Peter Anvin <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] man/man2/link.2: Document new AT_EMPTY_PATH behavior
-Message-ID: <ali_j2Z8ASVyNThE@devuan>
-References: <20260716090602.16571-2-me@runxiyu.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] man/man5/ld.so.conf.5: document include syntax
+Message-ID: <aljDaT3eIOC8KxD6@devuan>
+References: <cover.1784084289.git.dj@redhat.com>
+ <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20260716090602.16571-2-me@runxiyu.org>
+In-Reply-To: <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@redhat.com>
 
-[CC +=3D the people involved in the linux.git patch]
+Hi DJ,
 
-Hi Runxi,
+> In-Reply-To: <ad382eef274a64bfa0724a31f09846948a84142b.1784084289.git.dj@=
+redhat.com>
 
-On 2026-07-16T09:05:36+0000, Runxi Yu wrote:
-> From: Runxi Yu <runxiyu@umich.edu>
->=20
-> Signed-off-by: Runxi Yu <runxiyu@umich.edu>
+I suggest using the following git-config(1) configuration for
+git-format-patch(1), so that patches are in reply to the cover letter,
+instead of in reply to the preceding patch.
+
+	[format]
+		thread =3D true
+
+Alternatively, --thread=3Dshallow in the command line will have the same
+effects.
+
+
+On 2026-07-14T22:58:09-0400, DJ Delorie wrote:
 > ---
-> I'm not on the list, so please place my address in the SMTP envelope
-> recipient.
-
-Ack.
-
->  man/man2/link.2 | 32 +++++++++++++++++++++++++++-----
->  1 file changed, 27 insertions(+), 5 deletions(-)
+>  man/man5/ld.so.conf.5 | 28 ++++++++++++++++++++++++++++
+>  man/man8/ldconfig.8   |  2 --
+>  2 files changed, 28 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/man/man2/link.2 b/man/man2/link.2
-> index effed3f74..a888da919 100644
-> --- a/man/man2/link.2
-> +++ b/man/man2/link.2
-> @@ -115,9 +115,30 @@ created with
->  and without
->  .B O_EXCL
->  are an exception).
-> -The caller must have the
-> +.\" commit 42bd2af5950456d46fdaa91c3a8fb02e680f19f5
-> +Since Linux 6.10,
-> +no privilege is required to use this flag if the credentials under which
-> +.I olddirfd
-> +was opened match the caller's current credentials
+> diff --git a/man/man5/ld.so.conf.5 b/man/man5/ld.so.conf.5
+> index 481cf9152..25f9adf90 100644
+> --- a/man/man5/ld.so.conf.5
+> +++ b/man/man5/ld.so.conf.5
+> @@ -9,6 +9,34 @@ .SH DESCRIPTION
+>  This file contains a list of directories,
+>  one per line,
+>  in which to search for libraries.
+> +.P
+> +The file
+> +(and any other files included by it)
 
-The commit message says this is not enough.  The credentials must not
-have changed since olddirfd was opened.  Restoring credentials wouldn't
-work.
+Since the contents are specified as being processed as if being included
+in the main configuration file, this is already implied.  I'd remove the
+parenthetical.
 
-Here's what the commit message says:
+> +is parsed by
+> +.B \%ldconfig
 
-    Note that the credential equality check is done by using pointer
-    equality, which means that it's not enough that you have effectively the
-    same user - they have to be literally identical, since our credentials
-    are using copy-on-write semantics.
+	.B \%ldconfig (8)
 
-> +(as is normally the case when the caller opened
-> +.I olddirfd
-> +itself and has not since altered its credentials).
+> +and the results stored in
+> +.IR /etc/ld.so.cache .
+> +.P
+> +The syntax allows lines to start with the word
 
-This is not the normal case where it happens, but actually the only case
-that is allowed.
+s/word/keyword/
 
-> +Otherwise
-> +(for example, when
-> +.I olddirfd
-> +was received from another process,
-> +or the caller's credentials have changed since
-> +.I olddirfd
-> +was opened),
-> +the caller must have the
->  .B CAP_DAC_READ_SEARCH
-> -capability in order to use this flag.
-> +capability in the user namespace of the credentials under which
+> +.I include
+> +followed by a path wildcard,
 
-I feel this reads a bit weird.  Would it be better to remove
-'of the credentials' in the line above?  Or should it stay?
+	followed by a
+	.BR glob (7)
+	pattern,
 
-> +.I olddirfd
-> +was opened.
-> +Before Linux 6.10,
-> +the
-> +.B CAP_DAC_READ_SEARCH
-> +capability was required in all cases.
+> +and will include any files matching that wildcard.
 
-I think we can move this to HISTORY.
+I'd remove this line entirely.  It's redundant with the text below.
 
->  This flag is Linux-specific;
->  define
->  .B _GNU_SOURCE
-> @@ -281,9 +302,10 @@ An invalid flag value was specified in
->  .B AT_EMPTY_PATH
->  was specified in
->  .IR flags ,
-> -but the caller did not have the
-> -.B CAP_DAC_READ_SEARCH
-> -capability.
-> +but the caller lacked the privilege required to create the link;
-> +see the description of
-> +.B AT_EMPTY_PATH
-> +above.
+> +The wildcard is a path specification in the
+> +.BR \%glob (7)
+> +format.
 
-Let's remove the last three lines.  This is of course implied when
-talking about AT_EMPTY_PATH.
+Also remove this sentence.  By saying 'a glob(7) pattern' above, this is
+already specified.
+
+> +Files matching that wildcard will be processed
+
+s/wildcard/pattern/
+
+> +as if their contents were included in the main config file.
+
+I have concerns about talking about the *main* file.  I'd say they are
+processed as if their contents were included at the point of the include
+directive.  (I suspect nested includes are allowed, right?)
+
+> +.P
+> +Example config file:
+> +.IP
+> +.in +4n
+> +.EX
+> +/lib
+> +/usr/lib
+> +/usr/local/lib
+> +include /etc/ld.so.conf.d/*.conf
+> +.EE
+> +.in
+
+This should be moved to EXAMPLES, right after FILES.
+
+	.SH EXAMPLES
+	Example config file:
+	.P
+	.in +4n
+	.EX
+	/lib
+	/usr/lib
+	/usr/local/lib
+	include /etc/ld.so.conf.d/*.conf
+	.EE
+	.in
 
 
 Have a lovely day!
 Alex
 
+>  .SH FILES
+>  .I /etc/ld.so.conf
+>  .SH SEE ALSO
+> diff --git a/man/man8/ldconfig.8 b/man/man8/ldconfig.8
+> index 9ac146b44..cb7d62ccc 100644
+> --- a/man/man8/ldconfig.8
+> +++ b/man/man8/ldconfig.8
+> @@ -178,8 +178,6 @@ .SH OPTIONS
+>  is also specified,
+>  the cache is still rebuilt.
+>  .SH FILES
+> -.\" FIXME Since glibc-2.3.4, "include" directives are supported in ld.so=
+=2Econf
+> -.\"
+>  .\" FIXME Since glibc-2.4, "hwcap" directives are supported in ld.so.conf
+>  .PD 0
 >  .TP
->  .B ENOENT
->  An attempt was made to link to the
 > --=20
-> 2.55.0
+> 2.47.3
 >=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---3ophl2w4hpno572y
+--mk2snahd5gf4zcdd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpYwaQACgkQ64mZXMKQ
-wqmGEg/+PFW1kDtAgReWSTfEturIG0WmqihGNrwYrDEy2EqM7Bt4PClP/g6lWtTU
-jK/6wNzwklfAYGvpgBOG8ZrUBrYLbLT15gIsJ0EfLGg0o3tz1P5RFp6i5FYMdTf6
-vyy3bK3bLMPc2hXq5H8ft7gKCFvuRy0r4z8WTx33/EKg89cJ/tEnYoajV/RFzbFN
-nikpPFm1F48tts83nh7BtRmACX3Qe4QWJ119ZVXr5HcPR96dATlVJLmJHq5Nl7Et
-/O8da2ZlhWOaf/SdbR3WwDLKjEY8KFQ10wi3Y3mkjZOwGGDz/IfaMGKBKQRiMw27
-1aPV510Ryo971Azn/V3VJMXt6eLBjxC8c1QQ04pKujU0kjUIdtAh1ESBchFvpgZy
-Hz1aLAKQXeZMKRF4p5Eg0jmxE6GrVdFEghOSqJEh1uvGQH0hrajMTz6y++yEDZxA
-9Th2+zszXYA6w/QclOMIJQuceFau+AXQ7r68ZxPxgEiBqvLsN35AqAcb9d24GxHV
-6pSqwJt9HuAb0K6VIrB4NQOpiiSJqwMVjw+ut1FZq+mlaY15hsK0QM+4Rpn8yHNP
-7lpt5SCzwPrZX/sDzSfGPUBxiBXlbnQpIyv4ZaMkcp1E6pHrc0i1R5nKi4OWm9cS
-ruwvRkALFassUmpgSZ1UyMqlTViogyraFAEI2G4Gy+K3V0yn5WU=
-=RhGp
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpYxZ8ACgkQ64mZXMKQ
+wql8sA/+NrQ2kM2BV/FhOa/NrD/0vw5WHpRQ96GUz3s4MEtUB6q3g/f5SVX1t4Om
+2eBJifBQxdiiyxjM+8T9BBmx78OjNe/9vJEg6n1dw3WhOffKXfR4PE4djDGGVK6q
+oIgforNOOQa3KQIWgtjTUChXuFrvpBfWhzfEZHL+MR0obe80zxrXRGoF5ZB/wYpQ
+IkWxeMP9SLuzLYdpnebCNvWFVQFirfEUNB/JWGNRkJIaMiesoJknipaZIH+NmBPR
+J0gFqzBFAgVymtHwOmwu5ahcEhq5ESwwSk9lJ237l+zZjt2ezk/jtfp2bBZEbAV3
+VrPBDlaThyL9mNgRWUI/Klb/n3kF1Gh0a98WgztyGqduKcMwGn2uhfOs3GrjwQoa
+3s3HTEK12qqXMj4oukky1zLiVcX+WEPzfFuhnPq/ctTOrbp4zKPZiSK5aaFxpN7N
+UDoRd9Tox4lddNc+eJL58ImaAVU8hlFqSz5pd6B6g+t9wh+k081tLb58ifzvao64
+Amow5yODLuIBAR3kpLIwwgM2+0yyODMisDYhqqlsUJI2/q9oPuAP2gYF0uKYuN13
+WXTdz41eUMKqEUKwbqdF0Gc9obsfytazaD4bjzh/co7anu50n8cYFH8Oyd3JiUCu
+UKkh7KtxzWo7nqbE56FvFmxwuhVmMHKsjQYu6rVX4HZG24H8q/s=
+=F1Tk
 -----END PGP SIGNATURE-----
 
---3ophl2w4hpno572y--
+--mk2snahd5gf4zcdd--
