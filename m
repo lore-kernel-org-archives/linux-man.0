@@ -1,151 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B699843F0BA
-	for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 17:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C4E43F084
+	for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 18:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784396821; cv=none; b=AnUi9W5oc+4us/gtbsG+hQGSG7fVJFTxLMwZ7/xCXleGIYqrmBk/T0td8uMjLFIU0mReqWqpgEt/e/jmubuXJIdHo7h8NqLg7rz5TL97d6GaURaaKBKZcDg6iagR4iierSKWfl6aQGovGrqfuFV6G54YWBaXguhJ90HhvAXr7WU=
+	t=1784398563; cv=none; b=DWRNUCgwhicZ59/w438jEBdDwRVRl51qDxkySg7S3GF9bj0ttOfADX0FYAxrgg630hh+3A1JXWqEqmsSxAeM37mRASwe1bf2EEDuKTX41s3CM16q3n02WGwI+C2fZ5YgyIN0LQoVQc1fCdFUfM2evQzmCxM51pf/w5evKxBq2O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784396821; c=relaxed/simple;
-	bh=+giGM+jYl1r5u7AGci6V41pfqGNbneC1uj8NX8TrZlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awMmxU3kGSP5X7Z3Ud0IzrAK6egVajAsFu/ADjsGNQ7UQcB+ZJzit8HEgd2kCaGgl769Avl7ZvKSf7XD1IfUco1zk1I6g7DM6iD329jKYBJD1Z1WI4p2UY06s7RvYWVfeB15z4AEL11S+2//LdoZvy76gPZcvBGv1cmHD7cpkQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/tgx7VB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784398563; c=relaxed/simple;
+	bh=TtOdh4o6TLato3R8UHNIW57DqofA/iWuLgWxn6j4f2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P8zTBBRuXTlJC3y1bgZesSvfbHk+5xCTu5ETM424AdiY8KaswQZs3oKBEquIIhYBucZys8QDZyQDbc6V8xHy5Q30cWe9/njMVebEwfwZmz+JxjvybZM8INiY1GC19TtJI0XpKT7K7S8iapd7jCgeAumDgMy0zyIcgEX+dfNV724=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GpbAhnFp; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/tgx7VB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703C91F000E9;
-	Sat, 18 Jul 2026 17:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784396820;
-	bh=9xaiKWrKsnIsNSXEXL2CA8YcD2YEJuepqo/T55rQttk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=l/tgx7VBuuUDCDh/TUKbSCwg9Y/GeXUuY8/Slafyssf4WRDcXh3lUmnLSmQvQrh9e
-	 VWZIL5ziGybQRz94YHtV8Wk1yZRNbMR9O/3jQhCP3xZhGWhbXasSvs4/wUYvta6eZs
-	 QZaU+y7ukGuHWbj8xwEmNEYYZEStEPcTuz8q3mm/yyQZ9EBigzQjVQIBEwAhxaPf60
-	 kGECsn34eci1rWnACPFUamH0qqjV18O4nE4Oy8ZcTdyDIZbcTgm4U4dvGjWZTHVAHR
-	 s3sNqLprRr3p4dozbIZTsQrP7i/NxrsibqHLQEWChx3D7YQHnpDZzGjj3DpoQWk13J
-	 63W7YWT7S6tXQ==
-Date: Sat, 18 Jul 2026 19:46:57 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?P=C3=A1draig?= Brady <P@draigbrady.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GpbAhnFp"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-698a9f11776so9182349a12.1
+        for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 11:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784398561; x=1785003361; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s5ebDlgYsUrc9JVwAPiTiQZ5K9n3DGcQTOx+TyMNMU8=;
+        b=GpbAhnFpzu8BZabIlN/wmoun7H/BEyZIKxp7zmO5BdQwpgojSURVi0K4flNgEIQnjW
+         6jDvnIu//llZUnClA9TucbJNk2FaunXVTfyBQf3aMfSCQuSPD9dYSa5EZ4vZcucj4JuA
+         7IljhdQKMZbfauBKgQ4eGEYW3ly4sZJBXtgllYZeVclRFU/31lVQLWOprbqXX7/IO11K
+         j4dxFyU7W03hQ6B0RL9v3xRKDKcYJMdc38kM5cE9eVdhrq6QCWHQLug37XXfkLsoDmy6
+         AdSj4kcE9Krv3MpwvCzKYqejmSxk5D0teXV968y45pm+N2CVwmSsstReuVUa7O9VopZh
+         Z0xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784398561; x=1785003361;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s5ebDlgYsUrc9JVwAPiTiQZ5K9n3DGcQTOx+TyMNMU8=;
+        b=sZPgBEoxz+6HMSw4+nIqvur1IFGEqMCN1KteTmGUFH83oLJUJ9qyXLwsaXIlAjgsMt
+         QKp0/42zlKZbqGoa3i1wa15Z2k/u7XwJGP5DBvPSBv4UYhmJRvReVosolNSv+tkdp68c
+         W8WC1HxpUaI0hUbas3gPLIOnF/lBlK92Yji1GGpv0nqLCuKZtT/idLDDMCRCxVJ3o/MY
+         k66tRU4KLOD43uvZ3Xb2h8Opj7O7KaXHR90EcK4mnJU1ByE4EaNKY9BFwZclyQQkHt6m
+         Vpogq1oMXpwheFqwsAQJJWX/9fct7mI9SHex4wyaTF8IFmtHGq1jSlDtoBUQb/yiIWqp
+         Nmog==
+X-Forwarded-Encrypted: i=1; AHgh+RrKZQ/c1CEHziUCFmfrPsOmriQacivsSPBnRaLNk4TPI+AOR9Lz6sjKpu9d7SZWLDxsPSBnWWydcxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzE/oW8+NpUcl+UelkopgoNRNUycF6vyqY4Tr21xUlS4lGhbqUk
+	+I4gkP9UNZGOuFl1BBRggne4DFIoCYa/i6DlLoqMOHpLqAIJJ6cJtRvBzSBeOUku
+X-Gm-Gg: AfdE7ckLB2Y+Q6DounUWYIslor+Yon41zSsWNtjaR6lvWISMBTugeRxjYm5dhDu2nOb
+	vRv2dIiBUWfk2ZQBvl+bP0thXYh0cbJC3tsNKAvuVfry5Ysjy44J/digarOoziNvzreUhOK6CfJ
+	L2qKz/DFv1T8kQnuil044tNg5NEDW4YLwJaIjrVTCh96dZk2Ke60dxC9NL/n/62YcKYld821/dK
+	OBfiTvgf26jYj+yT0yUGvQLloH6edv+yVcqheQXmjVG2qbspGIGTKGjRkZV15HL4LgfGsDhvH/Q
+	2qXfKpFMhfQlQlltNUaxV04y3Jp6N+dEuPjXfedCaDGNOr56MmBRepdIn7muRXn4A37cCabnwvu
+	3m0+32vUWNH9FE6r4C5+LIycV6ZCBG9svFaWhFPF2z9Vxo3mrditbqRbjb7/EZ9ugdfwqS8Wekg
+	PXHZYRNFKOyT77nMsqM3fmek0mEHNZx7HhXJQP
+X-Received: by 2002:a05:6402:454a:b0:69c:2fc1:d4d9 with SMTP id 4fb4d7f45d1cf-69e65310169mr2384664a12.31.1784398560429;
+        Sat, 18 Jul 2026 11:16:00 -0700 (PDT)
+Received: from aabbin (95-24-216-238.broadband.corbina.ru. [95.24.216.238])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffbbf40sm2417451a12.15.2026.07.18.11.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 11:15:59 -0700 (PDT)
+Date: Sat, 18 Jul 2026 21:15:53 +0300
+From: Ivan Sokolov <sugrob9000aero@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
 Cc: coreutils@gnu.org, linux-man@vger.kernel.org
-Subject: Re: Hand-written manual pages for GNU coreutils
-Message-ID: <alu6W-eLOScmLJ3p@devuan>
+Subject: Re: ls/dir/vdir(1)
+Message-ID: <20260718211553.3cf94325@aabbin>
+In-Reply-To: <alueABs-ZbwayZdu@devuan>
 References: <aluIbrKBtAxweITC@devuan>
- <9d03b838-eec1-499b-a55f-047cc7e2ef92@draigBrady.com>
+	<alueABs-ZbwayZdu@devuan>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j2pn4ijxvelsxlzg"
-Content-Disposition: inline
-In-Reply-To: <9d03b838-eec1-499b-a55f-047cc7e2ef92@draigBrady.com>
-
-
---j2pn4ijxvelsxlzg
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?P=C3=A1draig?= Brady <P@draigbrady.com>
-Cc: coreutils@gnu.org, linux-man@vger.kernel.org
-Subject: Re: Hand-written manual pages for GNU coreutils
-Message-ID: <alu6W-eLOScmLJ3p@devuan>
-References: <aluIbrKBtAxweITC@devuan>
- <9d03b838-eec1-499b-a55f-047cc7e2ef92@draigBrady.com>
-MIME-Version: 1.0
-In-Reply-To: <9d03b838-eec1-499b-a55f-047cc7e2ef92@draigBrady.com>
 
-Hi P=C3=A1draig,
+Hi Alejandro,
 
-On 2026-07-18T18:02:43+0100, P=C3=A1draig Brady wrote:
-> On 18/07/2026 16:13, Alejandro Colomar wrote:
-> > Hi!
-> >=20
-> > I've started working on improving the quality of the manual pages for
-> > coreutils, as I promised some time ago I'd do.  The work is --for the
-> > moment-- in the 'coreutils' branch of the Linux man-pages repo.  Once
-> > I finish, they won't be auto-generated from --help anymore.
-> >=20
-> > <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=3Dc=
-oreutils>
-> >=20
-> > We'll talk about incorporation to the coreutils.git repo later.
->=20
-> For reference, it was previously discussed at:https://lists.gnu.org/archi=
-ve/html/coreutils/2025-09/msg00151.html
-> For clarifications on any details, please see the full documentation
-> for any command at the link at the bottom of the coreutils man page.
->=20
-> E.g. `man vdir` references https://www.gnu.org/software/coreutils/vdir
+On Sat, 18 Jul 2026 17:42:24 +0200
+Alejandro Colomar <alx@kernel.org> wrote:
 
-The link doesn't work for me at the moment, but I've found the
-differences between ls/dir/vdir here:
-<https://unix.stackexchange.com/a/344222/341413>.
+> Experimentally, ls(1) and dir(1) seem to be exactly the same.  I'd
+> like to document dir(1) with a short page saying that it's equivalent
+> to ls(1).  Is this correct, or is there any subtle difference?
 
->=20
-> Also note that since v9.10 each coreutils man page has deep links
-> from each option in the man page to the corresponding description
-> in the full documentation.  That is something that could be maintained
-> in any forked man pages.
+=46rom https://www.gnu.org/prep/standards/standards.html#User-Interfaces :
 
-Yup, I noticed that a moment ago.  I'll keep those links.  :)
+  For example, we provide a dir program much like ls except that its
+  default output format is always multi-column format.
 
-I've done the initial import with this:
+That's where I learnt about `dir`, but similar is said in `info dir`.
+You can confirm this by comparing the output of `dir|cat` vs `ls|cat`.
 
-            $ dpkg -l coreutils \
-                    | tail -n1;
-            ii  coreutils      9.10-1devuan1 amd64        GNU core utilities
-            $ apt-file show coreutils \
-                    | grep man1/ \
-                    | cut -f2 -d' ' \
-                    | xargs -I{} find {} -type f
-                    | xargs cp -t man1/;
-            $ apt-file show coreutils \
-                    | grep man8/ \
-                    | cut -f2 -d' ' \
-                    | xargs -I{} find {} -type f
-                    | xargs cp -t man8/;
-            $ find man -type f \
-                    | grep '\.gz$' \
-                    | xargs gunzip;
-
-It's 9.10, so I guess it has everything.  If there's any page that is
-not available in Devuan, or there's any change in git that you haven't
-released yet and want to include, just let me know.
-
-
-Have a lovely day!
-Alex
-
-> cheers,
-> Padraig
-
---=20
-<https://www.alejandro-colomar.es>
-
---j2pn4ijxvelsxlzg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpbvAoACgkQ64mZXMKQ
-wqnbBxAAmQ5ecDcg24Y5AnYTsd1wVqV0GkJnyPwNVTjKB7LRwQa9I43OuVJq+n1b
-wdzN3jlDa3fOWiV1J8JAhuSyXvOLHp6WjT919g0bqDi+GjNdbkTerE+crecWh2zi
-6D3/Usns1lrDt4V9KLj5E819kKH+0QBo4+ztQOdY0JIxPhyapzPgCBWd/A6LRdC9
-2KfehPcucKLA62EVuXNEpF7vsx3XZUhw7c/AHGNivjs2/kUnoTccAMZoxFHnweRa
-eoJR5z1JAzRWzKNGlYsIm1OiMUjph9tc9RKWfyKMsHtj1/eNjZMKRwG8vNN4ooF/
-hL2gePd9KWYdNxY7y07upQcns2xFsNP8DDSRI/NRadhqKtKSuauoeTi2iqkZ8fJ5
-lvg25hj4om3+LTNVjw6ycTKAbgPLpLThKbaQUZWUc/CxJzyTJiP9zcL/HutXHoqB
-jWnss64LnXBVGRixakzYOplGsHIAdZnjGQwQ0P9IjBs5K4U1TQrkL8HSOcCtuzD6
-d+VBp52sr07Glf2BHkDAwx+Kr6ttA16xM1wg7A+sywa35aBMd+nXZnnZTmPNkTv/
-MmrNk8FJFNa5EOe4W91hKIY6lUwBTZGclQFM+NpeQQazuWubQOxI4+PcmFzKmEed
-47UP42JintSMQSIwUFz5pqVXSVz+XW1YmeZChnQforEbvol4Xg0=
-=AtPn
------END PGP SIGNATURE-----
-
---j2pn4ijxvelsxlzg--
+I think to know these kinds of differences you'd need to refer to GNU
+texinfo pages (short of just reading the source). After all, the GNU
+project treats them as the primary documentation.
