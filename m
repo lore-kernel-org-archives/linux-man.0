@@ -1,98 +1,106 @@
-Received: from a3.inai.de (a3.inai.de [144.76.212.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74915271468
-	for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 15:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.212.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B3222FDE6
+	for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 17:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784389578; cv=none; b=r4ip9iDKIfyYVXZLM0/EefwO/WacvD7kWDwUQ+J8U7M6LzbWwXb759+XRzJqPMbUOc5wbBqwRFScN8rTXv30JxKYIyvRcvtNmUoumkpcxJRmXZIuKoiJ8UjhwPfeH8ojcwSOyMyDe6n8sHPql0+Wx99cr8BxPLzBUhmw+NY0VlM=
+	t=1784394168; cv=none; b=JA3pr+JIk0sItIYYiFG+r4IkQgJOaQ4uwxivyg2Cd2BVct8WmQauNvhWQCtA9ZJoGMdkmTD70Hd1lRYyGXOhZnJuWDb/YUx0l/YlDqQHUaFv0uCc/+6baxeUftqeL3a1Fv91eeFrDnCLlpXMuoF7oKO7vKPkwZzRt66xns0RcIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784389578; c=relaxed/simple;
-	bh=7NsrnCyoL289Ag407ZTrKYeyEDTzk/DnUnlFhC0HbfQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sphp3gdcy2V9ycI8fvpy/QB2xWujUpf0uVNB/0XpxQP16+CK/506hB5z/HGeRmgFGZ65xgyYQhMBEZrbq8b9a4jEH2/52F4CMkii/gOHHYBMjprkCFmP3Nzr8HaeR6xWhqK1kIDGZeuqAYtOn0oLsw7UH5si0T2LK5gtuiHXa9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de; spf=pass smtp.mailfrom=inai.de; arc=none smtp.client-ip=144.76.212.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=inai.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inai.de
-Received: by a3.inai.de (Postfix, from userid 65534)
-	id 40EA8100388188; Sat, 18 Jul 2026 17:36:32 +0200 (CEST)
-X-Spam-Level: 
-Received: from a4.inai.de (a4.inai.de [IPv6:2a01:4f8:202:600a::a4])
-	by a3.inai.de (Postfix) with ESMTP id E44F91003A235F;
-	Sat, 18 Jul 2026 17:36:31 +0200 (CEST)
-From: Jan Engelhardt <jengelh@inai.de>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org
-Subject: [PATCH] console_codes.4: document more xterm codes
-Date: Sat, 18 Jul 2026 17:36:31 +0200
-Message-ID: <20260718153631.55879-1-jengelh@inai.de>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1784394168; c=relaxed/simple;
+	bh=csEf9kLIJKHrqwxJVrYmyuj0Q3rpDWeFinB1m+Fwv7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j/VK3WKJMpUFrZh+u29YtwF3idFSeGrgjvakz+DbPZlnOuYjhrMxaXkIAGZnkpR02ck7gtQi/8v+femMvTqhnqCirGzEJ8SSA5RwFcrzqtjhhv7NBXdchrUL+dmTa1BpAyNwcJcCkSQUdL53nQGDW8WiMJ0yw9ssbAlUxZ/eR3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=draigBrady.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJW4F+aX; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=draigBrady.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJW4F+aX"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47df6a5202bso6055615f8f.0
+        for <linux-man@vger.kernel.org>; Sat, 18 Jul 2026 10:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784394165; x=1784998965; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nxf4yhkznDUvhQuf9Af9U7405TKmSRz13eDHHrERcwk=;
+        b=eJW4F+aXRPZ54AGj5YPcqVrGdRsljmqk4uGtZcfYdIWn9v9+pPA4vssmNcS3ffjRkX
+         yCI20OnGZ5Gqr48gm+FBoG+cFKcGRq8sKx0F3JWaEEJB3jwMHJ3p3tZcsQYiiEmF0qdC
+         D5deooGhOAStJ3XH5214y+YViMWtRnxelFDwA2RCHbo3YJRwbFnrnWbbeEC6ghVRv9em
+         wkmA+DpiDAOkGANz1jWxcTpxpXZpzwbVCmkELR6WTco4M4vYQSGgBE0u6hVDrYBgvyd/
+         RMbqxNSOCMffGJsioNKaJsN3KpUTpGxwZJ2O0opVjsbKslqBkc/I/vUWO4HlxXqMeWsf
+         gAVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784394165; x=1784998965;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nxf4yhkznDUvhQuf9Af9U7405TKmSRz13eDHHrERcwk=;
+        b=QGZrbni2NXVVhVGaItQk3BEJXKHK+2c9NkYrLq0xFZzzTn5syX3xi3zG9ChoeeretO
+         gyXzLrnbV6HdAabfJQDrSaHa7n5/8S5TiMIpeCsCKkDrexhOjP2aV2QEer0eGmvGSv5O
+         pJ/RY+iocF3uWwDAANSgwxXyZHfNLRyYGoF91mmDUQXEpl4xsGiXLuOrez6QLDgdrkaJ
+         WdvvSwHMI2SGhOIb82NsI7cTvhQH9PYuMMcXxcBlWwefrlfnii0D0mazWPRFEDww8cN3
+         ost5vxfGHZbZ3/5B7mLQjDcA+hZGj3Wi0098G7ebpsZT8kBtytjZS40K6WOnhJjFLPsz
+         n5Zw==
+X-Gm-Message-State: AOJu0Yw6jmDT++Y0iSwOaYQLzvXdqSx37L7xDh90ljlEvR7HF9K9a0Np
+	k4tQao0o2gRMP+w6VH+yb4+lhwXLMp0ovvbbMXqe04ydqQ2vI0q2NxQwNiixEQ==
+X-Gm-Gg: AfdE7clWKwAXI4acuN6Mbdj8b6kMn40S+8VJcSTurUXEUP02OMiOAbCgyW/Oq2Jkcbz
+	qezS0hjhndzUa14yUuRH2oCRBvcQIk6FIq310ndykLDXcKC+oZl6fq206txC0mIpouslfvIQo52
+	vCSZiBFSny2W6DKN9C0YEa2XFZFCYbReEsbL9j93F4vtEGrXhZkLfKP24bTDMXR6zDLdx3ptO4a
+	WJocX63lt0QQsPKI3bpod+cyMEs+QqrEbFW1NUwk08u5tiTaF7mP3GlQVzxz8u6SJQr9xJ9p2rd
+	3IB0+FyAUOy9C1WT7X7bzWrAgdT9JDIHeDcCjVgAGPNZo/EXlr9GU3OrQx1PpYXqp0mbyoWhEsF
+	6Ie7iyFMdSnYgCTzaR+KUqEvlOfM3vyP9mEy87rwww47IBHAKw9RdfdV0CJxCsigQDZJJI7BtNO
+	ypSbTp5epOSs+TkZVwBIwckK/jAp78ijnMRp38Rr+komgo0xmcuSemsA==
+X-Received: by 2002:a05:6000:4310:b0:46f:7d90:8114 with SMTP id ffacd0b85a97d-47f62305bedmr9289637f8f.14.1784394164496;
+        Sat, 18 Jul 2026 10:02:44 -0700 (PDT)
+Received: from [192.168.1.31] (86-44-210-62-dynamic.agg2.lod.rsl-rtd.eircom.net. [86.44.210.62])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47f63e51986sm15612463f8f.11.2026.07.18.10.02.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Jul 2026 10:02:43 -0700 (PDT)
+Sender: =?UTF-8?Q?P=C3=A1draig_Brady?= <pixelbeat@gmail.com>
+Message-ID: <9d03b838-eec1-499b-a55f-047cc7e2ef92@draigBrady.com>
+Date: Sat, 18 Jul 2026 18:02:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: Hand-written manual pages for GNU coreutils
+To: Alejandro Colomar <alx@kernel.org>, coreutils@gnu.org
+Cc: linux-man@vger.kernel.org
+References: <aluIbrKBtAxweITC@devuan>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A1draig_Brady?= <P@draigBrady.com>
+In-Reply-To: <aluIbrKBtAxweITC@devuan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jan Engelhardt <jengelh@inai.de>
----
- man/man4/console_codes.4 | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+On 18/07/2026 16:13, Alejandro Colomar wrote:
+> Hi!
+> 
+> I've started working on improving the quality of the manual pages for
+> coreutils, as I promised some time ago I'd do.  The work is --for the
+> moment-- in the 'coreutils' branch of the Linux man-pages repo.  Once
+> I finish, they won't be auto-generated from --help anymore.
+> 
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=coreutils>
+> 
+> We'll talk about incorporation to the coreutils.git repo later.
 
-diff --git a/man/man4/console_codes.4 b/man/man4/console_codes.4
-index 10d2e3b5f..9507a760e 100644
---- a/man/man4/console_codes.4
-+++ b/man/man4/console_codes.4
-@@ -754,7 +754,30 @@ T}
- ESC ] 1 ; \f[I]txt\f[] ST	Set icon name to \f[I]txt\f[].
- ESC ] 2 ; \f[I]txt\f[] ST	Set window title to \f[I]txt\f[].
- ESC ] 4 ; \f[I]num\f[] ; \f[I]txt\f[] ST	Set color \f[I]num\f[] (0-255) to \f[I]txt\f[].
-+ESC ] 5 ; 0 ; \f[I]txt\f[] ST	Set the color for bold substitution to \f[I]txt\f[].
-+ESC ] 5 ; 1 ; \f[I]txt\f[] ST	Set the color for underline substitution to \f[I]txt\f[].
-+ESC ] 5 ; 2 ; \f[I]txt\f[] ST	Set the color for blinking substitution to \f[I]txt\f[].
-+ESC ] 5 ; 3 ; \f[I]txt\f[] ST	Set the color for reverse substitution to \f[I]txt\f[].
-+ESC ] 5 ; 4 ; \f[I]txt\f[] ST	Set the color for italic substitution to \f[I]txt\f[].
-+ESC ] 6 ; 0 ; \f[I]val\f[] ST	Toggle bold rendition: 0=bold, 1=substitute by color.
-+ESC ] 6 ; 1 ; \f[I]val\f[] ST	Toggle underscore rendition: 0=underscore, 1=color.
-+ESC ] 6 ; 2 ; \f[I]val\f[] ST	Toggle blinking rendition: 0=blinking, 1=color.
-+ESC ] 6 ; 3 ; \f[I]val\f[] ST	Toggle reverse rendition: 0=reverse, 1=color.
-+ESC ] 6 ; 4 ; \f[I]val\f[] ST	Toggle italic rendition: 0=italic, 1=color.
- ESC ] 10 ; \f[I]txt\f[] ST	Set the foreground text color to \f[I]txt\f[].
-+ESC ] 11 ; \f[I]txt\f[] ST	Set the background color to \f[I]txt\f[].
-+ESC ] 12 ; \f[I]txt\f[] ST	Set the text cursor color to \f[I]txt\f[].
-+ESC ] 13 ; \f[I]txt\f[] ST	Set the mouse cursor foreground color to \f[I]txt\f[].
-+ESC ] 14 ; \f[I]txt\f[] ST	Set the mouse cursor background color to \f[I]txt\f[].
-+ESC ] 15 ; \f[I]txt\f[] ST	Set the Tektronix foreground color to \f[I]txt\f[].
-+ESC ] 16 ; \f[I]txt\f[] ST	Set the Tektronix background color to \f[I]txt\f[].
-+ESC ] 17 ; \f[I]txt\f[] ST	T{
-+Set the background text color for highlighted (selected) text to \f[I]txt\f[].
-+T}
-+ESC ] 18 ; \f[I]txt\f[] ST	Set the Tektronix cursor color to \f[I]txt\f[].
-+ESC ] 19 ; \f[I]txt\f[] ST	T{
-+Set the foreground text color for highlighted (selected) text to \f[I]txt\f[].
-+T}
- ESC ] 46 ; \f[I]name\f[] ST	T{
- Change log file to
- .I name
-@@ -766,6 +789,18 @@ Set font to \f[I]fn\f[]
- see "allowFontOps" in
- .BR xterm (1)).
- T}
-+ESC ] 104 ; \f[I]num\f[] ST	Reset color for mode 4;\f[I]num\f[]
-+ESC ] 105 ; \f[I]num\f[] ST	Reset color for mode 5;\f[I]num\f[]
-+ESC ] 106 ; \f[I]num\f[] ; \f[I]val\f[] ST	T{
-+Exactly equal to 6;\f[I]num\f[];\f[I]val\f[]. (no "reset" logic)
-+T}
-+ESC ] 110 ST	T{
-+Reset color for mode 10. (Codes 111-119 map to resetting modes 11-19,
-+respectively.)
-+T}
-+ESC ] \f[I]mode\f[] ; ? ST	T{
-+Query the respective property/color/etc. (modes 4,5,10-19,50)
-+T}
- .TE
- .P
- It recognizes the following with slightly modified meaning
--- 
-2.55.0
+For reference, it was previously discussed at:https://lists.gnu.org/archive/html/coreutils/2025-09/msg00151.html
+For clarifications on any details, please see the full documentation
+for any command at the link at the bottom of the coreutils man page.
 
+E.g. `man vdir` references https://www.gnu.org/software/coreutils/vdir
+
+Also note that since v9.10 each coreutils man page has deep links
+from each option in the man page to the corresponding description
+in the full documentation.  That is something that could be maintained
+in any forked man pages.
+
+cheers,
+Padraig
