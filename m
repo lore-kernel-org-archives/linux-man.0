@@ -1,47 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6F033A9F8
-	for <linux-man@vger.kernel.org>; Tue, 28 Jul 2026 15:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2493B0583
+	for <linux-man@vger.kernel.org>; Wed, 29 Jul 2026 15:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254334; cv=none; b=GGmtNPe6AeT4kr3SLzlWp1HGI/7V94tssM2qO3v5nCsb3Iba883c0lXw8HftEF/8F3XlHlpbMC9p6yztUy/N+sfeXbsh8CS6BaXdbSKSccB8XTlktdfxFbzzi9EPpip9fSMLL3pZRT7FqB9fqpvF6cN9PXX1C5HbC4kDB9Kf5+k=
+	t=1785338125; cv=none; b=ovKiwSLGJlrjfseUe4PhdAEtBeSzt9CiCC2RG5tQAZUzUcB72tyhaHIGMVIYrdcLfl1cyFGZZTf7l8WFVG/fOcKXdL4shWtFgydb4ehnFPwZt2ou01Gl+bDaVL1AGjQVf3b4zPEv/8XaqGHmAX8wbU5Z+HW+X49lJ7fvTCbp21Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254334; c=relaxed/simple;
-	bh=XhpdAiHRJZrk8PUR6Ofs0Ixd0jQIblwE/iXWVWw3o9Q=;
+	s=arc-20240116; t=1785338125; c=relaxed/simple;
+	bh=X2I2YF7kDwX0jDWOCAtKOMBgXzPsbbeN8d2na83AvIQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgUJIf9y0nfBA7bNIdblMl6vh8A0CLvOSfFWB8KbKgWktfFHM1FrjwFFl/H5lSey5rpOI61upAqxpD9yOEUCg0QbNVHNCflfysHUsyiK4nPBTkjVPKm8qq1WV5wcvls0sUI3Dl6kNFFb1cLZPcPhRXzo7BJsoH4RPVPqgT+fGIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iBaoVgmA; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNI7liw3lFN2rTBtZN+f61MwEKhCCcdf4OIm1h7C5HS4tvQKeA3FTAug08frxVbZA2N3SAinPVm/jaTcm7ZWYpqTATSgDRyfgkLO6DiroXwFtoqTsIOLqCD93l9V9cl+NbcjO2zaCrtjwRKm/dxR/ibhwHhiyoDYm1X8L0A8k9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hi24auRi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iBaoVgmA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BE81F000E9;
-	Tue, 28 Jul 2026 15:58:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hi24auRi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D74411F000E9;
+	Wed, 29 Jul 2026 15:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785254332;
-	bh=IalJwCaKsBrrkOdqT5d+CLm182pxQ2hjia+ZNis/lTg=;
+	s=k20260515; t=1785338124;
+	bh=dkfqAE2DZ7UFVi/iWaf6+XQigXEdHANNDmLMCzJ3f5s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iBaoVgmAXFbUh3yvkdrmSWSOf5WWIhom81ck9R+NvWgBsheIzoHyTMKqyWfMcaExQ
-	 y+p21HCqZFtHPD1nnGy9YOZvJ9JOKVhl/oUte0Z0+HeDMC+sJFA/Na4UDpNawRvsub
-	 XnnmgZXjV2mMT6bApYwaXl5Ayi/15PJyU74tZNYwof8WwHSRv2sIEWBdYGOOwo2vqF
-	 4bQ7KYbmFPOqAk/UZfPfZStrU5l9DIsoZLyZQ61nW6+2J2Tdoevmv76ZjAn5NFaxPI
-	 kCQ7L759FZ8vUChGRLSZ8xMZ7vjvSzSY6E3cab8k2d2Fg4+mIsEyMoD784YWDWtUKK
-	 0gfdgBWsynmDw==
-Date: Tue, 28 Jul 2026 17:58:48 +0200
+	b=Hi24auRir5P5oMaSoM+oGxRy+bu7okUZt7gwbrswVtA04UnhwXojHpJ5/V6Lhma6U
+	 gwmfJW+QCTVFgFzqYNnL6X7SP1zlNdcqypRnGvrsLTEi8n12mf99CxXf1x57Dp7K1O
+	 Yy0FTBHV4mWkWBw35fJ6ShBQYtI18GqPxwmRBp9aAR44bZ0liiyq/rlzGnyZtXzMkc
+	 2fhUelo6TBwqSQj3QVtka56tUEoOT8L6vy9hisAWkCcKxnwue59y/0uSu2T1NypqE2
+	 9yG3sqI3Arh/N9+35gPklNQOmjhedJez8XcvHxMpfnMuGI9kubpsZMjB89gjpbrFXn
+	 RbOOoIgKuWh3w==
+Date: Wed, 29 Jul 2026 17:15:19 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Mark Harris <mark.hsj@gmail.com>
-Cc: sergeh@kernel.org, linux-man@vger.kernel.org, 
-	"Serge E. Hallyn" <serge@hallyn.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
-Subject: Re: alx-0096r1 - string (and nonstring) copying
-Message-ID: <amjRQGFh1PvsjJSC@devuan>
+To: linux-man@vger.kernel.org
+Cc: "Serge E. Hallyn" <serge@hallyn.com>, Mark Harris <mark.hsj@gmail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: [PATCH v3 0/4] str*.3, mem*.3: NAME: Explain the names
+Message-ID: <amoYh7wx6-viteDz@devuan>
 References: <e1446fbce9d76cea797cf058f74ab0a63b744205.1782995502.git.alx@kernel.org>
- <cover.1783523064.git.alx@kernel.org>
- <b17a1548f3ab96216e6165bdd3194a80363e99f6.1783523064.git.alx@kernel.org>
- <amO0Wtmi4tpaGUKr@AUS2MQ6190Y76.amd.com>
- <amUw8ArFwmnsIKl1@devuan>
- <amaTpQxd52iYjlor@devuan>
- <CAMdZqKGFF-1fqsT0xSZDrBSGC-zztxayX3xAhFHXP-cKjEthpg@mail.gmail.com>
- <ami6Pbs0oT9gLi4W@devuan>
+ <cover.1785023118.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -49,81 +42,72 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ntwazjxefqnjumvx"
+	protocol="application/pgp-signature"; boundary="ozndbo5axuqt6ixe"
 Content-Disposition: inline
-In-Reply-To: <ami6Pbs0oT9gLi4W@devuan>
+In-Reply-To: <cover.1785023118.git.alx@kernel.org>
 
 
---ntwazjxefqnjumvx
+--ozndbo5axuqt6ixe
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Mark Harris <mark.hsj@gmail.com>
-Cc: sergeh@kernel.org, linux-man@vger.kernel.org, 
-	"Serge E. Hallyn" <serge@hallyn.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
-Subject: Re: alx-0096r1 - string (and nonstring) copying
-Message-ID: <amjRQGFh1PvsjJSC@devuan>
+To: linux-man@vger.kernel.org
+Cc: "Serge E. Hallyn" <serge@hallyn.com>, Mark Harris <mark.hsj@gmail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: [PATCH v3 0/4] str*.3, mem*.3: NAME: Explain the names
+Message-ID: <amoYh7wx6-viteDz@devuan>
 References: <e1446fbce9d76cea797cf058f74ab0a63b744205.1782995502.git.alx@kernel.org>
- <cover.1783523064.git.alx@kernel.org>
- <b17a1548f3ab96216e6165bdd3194a80363e99f6.1783523064.git.alx@kernel.org>
- <amO0Wtmi4tpaGUKr@AUS2MQ6190Y76.amd.com>
- <amUw8ArFwmnsIKl1@devuan>
- <amaTpQxd52iYjlor@devuan>
- <CAMdZqKGFF-1fqsT0xSZDrBSGC-zztxayX3xAhFHXP-cKjEthpg@mail.gmail.com>
- <ami6Pbs0oT9gLi4W@devuan>
+ <cover.1785023118.git.alx@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ami6Pbs0oT9gLi4W@devuan>
+In-Reply-To: <cover.1785023118.git.alx@kernel.org>
 
-Hi Mark,
+Hi,
 
-On 2026-07-28T17:04:20+0200, Alejandro Colomar wrote:
-[...]
-> > That is, memtostr(str, mem, n), introducing a whole
-> > new area of potential confusion that was not present in any existing
-> > mem*() or str*() functions.  If reducing potential confusion is that
-> > important I would have expected maybe strfrommem(str, mem, n) or
-> > similar.
+> Date: 2026-07-26 01:49:50+0200
+> From: Alejandro Colomar <alx@kernel.org>
+>
+> Here's v3 of this patch set.  Changes:
 >=20
-> Hmmmm, interesting suggestion!  That makes it resemble the strfromd(3)
-> family, with which it actually has some (minor) relation.  (It might be
-> a bit
+> -  Move change that accidentally was in patch 2/4 into patch 1/4.
+> -  Also add strndup expansion in strdup/strndup(3)
+> -  Clarify what 'fry' means in strfry(3).
+> -  Add Acked-by Serge.
 >=20
-> strfrommemcat() would be a weird name, because the cat is next to mem
-> instead of str.  Should it be strcatfrommem()?
+> Alejandro Colomar (4):
+>   man/man3/str*.3: NAME: Explain the names
+>   man/man3/strpbrk.3: BUGS: Clarify the NAME
+>   man/man3/mem*.3: NAME: Explain the names
+>   man/man3/[b]string.3: Rewrite and merge
 
-On the other hand, there's precedent in strtol(3) having the arguments
-reversed compared to the name.  Programmers are used to having the
-destination in the first parameter.
-
-Anyway, I'll mention these alternative names in the proposal.
+I've applied this patch set.
 
 
 Cheers,
 Alex
 
+
 --=20
 <https://www.alejandro-colomar.es>
 
---ntwazjxefqnjumvx
+--ozndbo5axuqt6ixe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpo0bIACgkQ64mZXMKQ
-wqn/fBAAuOem0pa0DweagcDBsTKWL96sCfRPYpDVjXM95vmUegp11rSf0HSqvbYp
-Bg58igqwAV9WydHL6V+xqL0vGi/lUZ4QfG8Yfj+sFIOhWlB1TPsFk2vz2HAF4Mbe
-fSxPJrsOm8q01i6N6KBCrv/iXd+W+HpSNfMAipq5TO/lOtbKyF5HA1h7xcR6Zy5t
-xv2zVjEzoaayIQ4Gqz5kwNRk4Gq8eiQL5cFAO2z2zorz1B1HSvKEfTRquS19U666
-NEApSrDuYyKdn7RnbUFkwdmie4B0Yxji7DE5lP6Cq4v7Qv1vs+l6hE6bxLPMz1nL
-ZP0UyX84/Xt2k/ULUpAaEeQnPXqUN9co1udTlsxnxkq0ZHvfk1fqNqW443yeDaNS
-vkCluFJxJbdkxwLEr1PfuJF5iSt1c3Qwb+HVZbIYj9BAMTUzlOxDuHBvdoBYwbFu
-/urCKItbR3p2nhAG+f24bsSFYABAlf6IPLnOgB4cpK+KTmhVB2cqmSNOZrrZoZJa
-FLewvpe09URD4QTAp7WgIA3+9KMzsr3Mv16E0C8lz6+kVrMeFxdCGS7Wy3AXUR0m
-HrljZ9zgE8oD8E0yNmB0nlbZqbGbIP7JFgo0xSwdewVuHt2dZicg6yNmNb+OEgnj
-zzreo8O4FjNotClCOXKt+BLwmVMJhfslvPk5QFerNRl9CPizzsU=
-=t+zP
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpqGQEACgkQ64mZXMKQ
+wqlC2w/9GKGBa6vBfaadNJ4JOAjKWeAFImy+Wuxp1/W9QmtOpYOzARB5a56Oge4g
+Wb9dqpFiQLQIOstcVifstkLu3JPYRQnRaKP+6jZmBPFal/3y36gZulcO/7g+9m4Z
+Yl6CbF73sgJSjklLnZ57zdayiCKebq2oqHfMqKfEq5aItQS1xs/D2sYPTl5k68s/
+aYEOrznukMFuVXUVdN/A1/s2+CzbspJONODhdDdSbd14qik0I0K6wX64illpIxh8
+tU8DIeTT4NnrWKtcuprju0aZGJfrPQAqCuixwawxqNpqBRJ/lAFE1aZxcMt4JBp4
+W5fj2yNJSkvflYYUGX/T5MVQhl+yX8nPN/S1UvUrCbyEFNdlBTEbL/3NE9X65AjK
+Fxw6SDNV9E0m916FSbKLlJEjdfOElVTwfbNrFbhr8qssOwLgOY7Q/Dfubu/YTkVj
+IaczQ9h6cOzDZYO5DgRKx/M6PWy4UKn3mH5msrWZLmyKnLD1kgcOX8lEYzdl/EXZ
+3zk/zSkCaLdyWrnfTmD4R3T80vpMQIEmKmpm/kLrH1Aie9rm7Rkx+hxKSQaps9tk
+5x7rKjQAgtLc/583B/znPqzcD7gxTgUhBhZvyn/6j5XcZYyRJL1heO8J2cMOS0pK
+pfVJEdzuCzSMvrCUDO8OBQcr9gUYPzLpbpxSpKY2je+YSbSKVFo=
+=AAy+
 -----END PGP SIGNATURE-----
 
---ntwazjxefqnjumvx--
+--ozndbo5axuqt6ixe--
