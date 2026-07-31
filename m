@@ -1,116 +1,118 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383C337F00A
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 21:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4044932E6BC
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 21:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785533022; cv=none; b=eZAnebfVci4osg6jvS8JirRCtJ7FBthWNdrtdxIsXgggyXd4QjUI7duVXDACfjCyHbikmgoPTuCrBD5r5XguFcN4moFxYctqarc4dUZsMxH1ndbMWF/DE7GCbcEaCm8LguzSEmwaTHZa3OircZwJ02cVh2BjIxjTfDAtrqHV97E=
+	t=1785533318; cv=none; b=PbFZ0GnqFhrxIcHJzw56nCEKptRVNnlss//q9pfkwIH2aO0h/ESB2N65jNmhuNbnI4yAbETSIMvdTJZTqo9lz8AEDkeMvjBmdVAB5oaK6xbIMlrwSQk0QqAWHF2qE537uKz50XGOKqu5ttPnTAnIxkz/0ADlzspyLtH03zx+1OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785533022; c=relaxed/simple;
-	bh=EnN9nOlWKnyfTH7nsVVdvhjuC9LSYaTqKJ5csqu4lFs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=QDMczV9bwdI+Vw635fBem9p3kkqLxcJVmz5A6m7rFlh3wmVXZp/FoRJWGdJFUjqYtuu1XPgeQ53AKq59mE6F1fTIEliXZUk1zWJsvMXznuTRxmu+7mp7lDqyXGYz/DjBpSuZR+UR7Pdj3/jOPb53Cv4q56j6ik+17F4Yu56peQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d0xigkK/; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SfS2PxIh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785533318; c=relaxed/simple;
+	bh=wx0+8J5v5zekzUh5SWo29P3s+5jEXes/LswxXs6cAGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YefIxmjS1cyByROcqblgHI7v2aivNbibJ0BSLnOeUPpF5qd0V4MH+CEXNFR+FRar2hHscIT8qR0swS/sMgpQPPzCt6u5lw7rSLamGOYoCAB/Lh86lvqG/p7HOP8J/2MYU6fZhQNCuM79b1bucxWw2g5dFB60+1klK01H+I5Kf6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3YMNP+C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d0xigkK/";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SfS2PxIh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785533020;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wNTbiWgsXqT0UfKMy298oiM5fKwOftWUpwVVsUvxIuc=;
-	b=d0xigkK/wlyeeOAGgWDnQoQWdRkHOMLDdoP9hj/ZoB6ZwkrFqi859yDTl7T5w7adFc/t5t
-	W93K0IGdPXmMuAEkxyFxzQU53Uvm9CB5s9esRCPVTqPTXrBGp7ZBU7CgHXA2rtkAmTuaff
-	30lxmrnzqn3elQegbQxUlH7XWbLPmzE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-0IN_53X7MPSVrp31itmyPA-1; Fri, 31 Jul 2026 17:23:38 -0400
-X-MC-Unique: 0IN_53X7MPSVrp31itmyPA-1
-X-Mimecast-MFC-AGG-ID: 0IN_53X7MPSVrp31itmyPA_1785533017
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c15d4224f9dso111749166b.3
-        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 14:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785533017; x=1786137817; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wNTbiWgsXqT0UfKMy298oiM5fKwOftWUpwVVsUvxIuc=;
-        b=SfS2PxIhV12okZzC6pFc+tlCDZMxS9ZkQNekH6CyYIF1wX2i7mW0Dpwdr7Hr6srv28
-         +RWK5LMxGR3clh/rLECc2wg3k1tm4+d/tluoH3OpJpfmwHU02x/56nwMTZSBdocQId6U
-         9MQEwU70xJUOvmHU/ZjD2Lo09dHOm0fB2j+l7qVV8jD3zLTjsm/TG7wSyV4YEZajEH4y
-         JysqDSM+Hczyh+Dggk7JiaxwdE7A0550YB6hMtMRCKKxEE+/zHN17endcoOq7/lO/HWw
-         e+clFdMrE3BW/2Zrf/l7jfsas6FkHCI+EHC50N8G/h1ZTunT0a8A2NODWOnczOeOVfvr
-         0Mtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785533017; x=1786137817;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wNTbiWgsXqT0UfKMy298oiM5fKwOftWUpwVVsUvxIuc=;
-        b=liMa6b2xPAIVcRv77ciDkcYsei/o1tkYq4J6NqMm4Mi+IV7FH6RxVCXQxqO85w3Jss
-         GG51EAtExwEepalmftFIsy2zvjZMHMOXmy+8NLlW2w1zCgIsdwX3EAeORntF7Lv41eeq
-         I8WuqoMeZ43lNONu3yFyjEBCCkF05thL1R+AoOTYYR5ZBtfxuMXG5DpeV0hogkMt0tml
-         nyz3lDBKPJYn7B/ZoqkicqZEAZ/VYXS83K/yBfbvF234rSdlc4zJlHMiONeRO/aLjPko
-         yxPNT8c2LqYY3U36dIZcNwtkDyE9Kwgcz/tW84PVzBcsfMiHGl7nS3D8Fgay7MtH5erW
-         GJ1A==
-X-Gm-Message-State: AOJu0YwJo/crcb8wmMHNZJwHn5lH61PDSPi1moqmMdv+UDOsJSODRwnN
-	QfPdTVpVgWLyYOnAWrOOUl543zfFDmyZoi7tqQf4GKmcFAJuhihVtSXhOSGMCJZZIGbquNMR71v
-	kFiFT4nojezQlkZkgNJNCyef531uE/Hwo2arL+m1NuVj/MlI2TpqkwMzPzp6v9A==
-X-Gm-Gg: AR+sD116K80aKxoJsAQU1ewXRF8hev4G1QtUYTgeKZyGg5Hvjx1DFoSWTcHQH8/DZzq
-	BMGm6Iz9laX8g0PUDy/TsomAMLW1p0iWvIAuTMovqYIkxbpgAYPfF8EuN3bGLQHCRBJNuI+nM4F
-	4KzVXk84RO2yIM8pFBpUdCf1vxge17FYcy93QAopjvJ5kse3Ogh6aHf8txnQTkJAaiRTEprD2A+
-	AKpT0BpICb1TC6sgIZP0OSkFg4x+VNXl6l7/jvLZDNvhiWuB/w7RVlt/jZDJvrfgIixTMrHKkBL
-	EX3O95OYZxRQqtDW7e5cEGbctAqJVj1uR9qqh3XRGXzecol1GpiuTCTObhB7xKWZt7a/j5bvjt3
-	Dp2OrPS5U16Fp7myNz2Lk0MrOG170s0Q=
-X-Received: by 2002:a17:907:c05:b0:c16:6669:a4fd with SMTP id a640c23a62f3a-c1fe8103ebcmr62635166b.16.1785533017303;
-        Fri, 31 Jul 2026 14:23:37 -0700 (PDT)
-X-Received: by 2002:a17:907:c05:b0:c16:6669:a4fd with SMTP id a640c23a62f3a-c1fe8103ebcmr62633866b.16.1785533016867;
-        Fri, 31 Jul 2026 14:23:36 -0700 (PDT)
-Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd3c5ae4csm253810766b.1.2026.07.31.14.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 14:23:36 -0700 (PDT)
-Received: from jsm28 (helo=localhost)
-	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
-	(envelope-from <josmyers@redhat.com>)
-	id 1wpuhb-00000003Hb0-0vJX;
-	Fri, 31 Jul 2026 21:23:35 +0000
-Date: Fri, 31 Jul 2026 21:23:35 +0000 (UTC)
-From: Joseph Myers <josmyers@redhat.com>
-To: Alejandro Colomar <alx@kernel.org>
-cc: linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
-    Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
-    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
-    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
-    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
-    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
-    libc-alpha@sourceware.org
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document
- these as provided by <memory.h>
-In-Reply-To: <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
-Message-ID: <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
-References: <cover.1785532392.git.alx@kernel.org> <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3YMNP+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EC61F00AC4;
+	Fri, 31 Jul 2026 21:28:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785533316;
+	bh=u1U3aFZAIS+3bUK1xujKbzO0Gg7K2O+X2CmL+vYl/pI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R3YMNP+C8hniIExZwA/43+Qir0fgHtCNI/ADWnsltxwjqapKSIbNy+RGblpKSGC4O
+	 uhiu4LuG6I58AKr63ziOdU38UY+7g1WCwAg7SQ/JxCXdc8VkIpDuGpMYpOSCNMOYmj
+	 WLz1SMV6svPa5yX6y1y6A/mduXhYP2HPMk1IzRsjKzwaQa+CsRtM5lHZWJ7y7jdrsV
+	 PHzL93B8vUh+n8mD+VFFJMtGASXcD2eK+SOsi8/97+oi5a3HVP1CN9hvPYBP1VcarC
+	 6TJ0+l2At8hYsnqMsnLIzjNS4B2QgOpJ3ww/jm2VEM6n0tS7YvmjMp3Er/eWvGamfV
+	 lbuhpcbUO5oRA==
+Date: Fri, 31 Jul 2026 23:28:31 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Joseph Myers <josmyers@redhat.com>
+Cc: linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
+ Document these as provided by <memory.h>
+Message-ID: <am0TUn55P7uNtTTh@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jkhbxhrkrgt2fgp3"
+Content-Disposition: inline
+In-Reply-To: <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
 
-I think it's irresponsible to use the man-pages project to promote 
-personal idiosyncratic ideas like this in preference to what's been the 
-standard location of functions since 1989.
 
-I'd rather we add a mandatory deprecation warning to memory.h in glibc.
+--jkhbxhrkrgt2fgp3
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Joseph Myers <josmyers@redhat.com>
+Cc: linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
+ Document these as provided by <memory.h>
+Message-ID: <am0TUn55P7uNtTTh@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
 
--- 
-Joseph S. Myers
-josmyers@redhat.com
+Hi Joseph,
 
+> Date: 2026-07-31 21:23:35+0000
+> From: Joseph Myers <josmyers@redhat.com>
+>
+> I think it's irresponsible to use the man-pages project to promote=20
+> personal idiosyncratic ideas like this in preference to what's been the=
+=20
+> standard location of functions since 1989.
+>=20
+> I'd rather we add a mandatory deprecation warning to memory.h in glibc.
+
+I hope you don't; it'd be a gratuitous breaking change.
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--jkhbxhrkrgt2fgp3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptE34ACgkQ64mZXMKQ
+wqmsfA//QOJJv0fBlThgoDFDu2UMCmRYk2oj6K/xTEBQFFnkpUOAOKdqxs+QLIGP
+HnVoCy6hpo8KozawdtyobQQIk7g76qeQZgZDMj3Wuvg8H3L/7TY684fAvE4wfttp
+ZyEaF1F4yVd2sKkDFQGM+9zUDhbsFcv0t6S8wMOaqLXmV0kZF/Q3pMFVbTN8JuUi
+PsMm3rcBdC/U0IdZlDsUVE6GwAZxWT5GRugK/7Q7/I36jISlBfYkRUHMZPda2lhe
+lxoTtJ10vpw2LlNa+m80RXHDVQVfnYGaxfvqWQMzPsv/+hY2VzPOzI1nLNeMaCXg
+JwC2bbBvmJCVS8TsXlf/D649PVTvDcQUkRljZyOhzv/DGQ+OHbOuoTRXoZ+2PJqH
+errfe/HPYmspHspPgbQEp9c8jw2bMIVnNf0C2WRGsrggeiui4bUmDiPhkHdi9DTZ
+vY27rAr/L07ez34kGh9oibzqCqCRzAuyi+wmFsXQlZ+mwa7pmayVJzKtlKJ09SLi
+rG9np9K7cMnmDi14mePCr5i903LN1zCilOmzx2Us6JrEWPvyIMlgkZzQY/xbl/1j
+Ulb+9DxTc5N/oNm8LT5si2kqC3Wwzj5caPg86LV09P08juoMTlNhBu6Ras+ARFkM
+Chm+w6vMQLg0AiMqrGYpOg7FmDzZ3/pdt9OkugWYrC5TIC1ijm4=
+=T1o1
+-----END PGP SIGNATURE-----
+
+--jkhbxhrkrgt2fgp3--
