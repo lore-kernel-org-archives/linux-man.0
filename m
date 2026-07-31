@@ -1,215 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6CE470129
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 18:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC82A48986D
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 21:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785522682; cv=none; b=BQ2Isal+ebcpo+Zw/bCTmOJHz7uOwdqghaNiUlJDaZAWz7rgetbZdRSEchtTjaKM2RxRwtm1gcHx8TIlTWIyPytZxLgRM2Pt9gG27a836U0fbSUUz1QanaMP0ib5vEgeDZ4eshglSfrmY9MOAFYc1aKyU5An667F/dQadytyCoA=
+	t=1785532739; cv=none; b=LjaOsOnBGF9md2CH7jEuPkrbjn68fjJwxIMoi3YLS96G61E/AqB0o3HssWI+ZXDw8WpBcD32OO7RqT8XOzBru3XLzwOFnXf+RxKc2LX3cdSXTJ/dQ5vDgGMFL4EH8Iyt5dni6E8XbExaQ/6yffdUtJgmih1dN9OqFPwsqjNQfHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785522682; c=relaxed/simple;
-	bh=AQfsOh7SsBNC+UlmPw1UBKAji7KZ9qMfyqE6nvJn33o=;
-	h=Message-ID:In-Reply-To:References:From:Date:Subject:Content-type:
-	 To:Cc; b=oWzaRFTuBFKA5bavezPOGjF5/oAGSKr5Ue05Wti27JMl6UAUmh2/gVoBFSUHF0jiN+KLHa9nE9Ko4gK95MCZa3ZymVP2UGLLOhe9WowJdOVEX/CsY2966ATZeUIFvmMZiwdQ5sG1wsfCTOGILtHMp8j6Y7PYb3+D0bYHj7Z9o8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JeHwkRWO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785532739; c=relaxed/simple;
+	bh=bEbSjKo8sC98yVtKZP5ayC6ETelocE+4ezel/Et6SlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rFjWCTvNSk3AKLJ2/3pF1Vzlp0xzjUKjoLyx8ZQredJHOCC19P+VX/tVl6voMTFaqD5Qg/K9aWVsfZ5mxTaSSA3fABEM9ZT6ln62J2JPmUTiDN/PSCR2aBl+kmQtzZdsbHbficaZoSF8YWyFeLz6CZi2gNNpzYwDeRhjgmo2TSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5J7NWxO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JeHwkRWO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785522680;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
-	 references:references; bh=UxoDfX26tvlvKaruMty+oMd349kUCaP0xFOJTgT+mA8=;
-	b=JeHwkRWO1k2ln9lRcTuzqTfUCLO8cU6NWHwgV8WssJ2CSwVNAwKsVKUSZ7AowmrvnCVe1D
-	JayVfTWhutcT6ia2KmI1xkpZm3kjMPhqjmHFTiG194mVwotgpjlIhhfDW3lump3LT1opgN
-	qGEWPdEcO9/diC57vx96EgGG2qxvzF8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-362-DJpHhnaUN9-8SzytgAg09A-1; Fri,
- 31 Jul 2026 14:31:16 -0400
-X-MC-Unique: DJpHhnaUN9-8SzytgAg09A-1
-X-Mimecast-MFC-AGG-ID: DJpHhnaUN9-8SzytgAg09A_1785522675
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9A81C19560A2;
-	Fri, 31 Jul 2026 18:31:15 +0000 (UTC)
-Received: from greed.delorie.com (unknown [10.22.89.59])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5343E414;
-	Fri, 31 Jul 2026 18:31:15 +0000 (UTC)
-Received: from greed.delorie.com (localhost [127.0.0.1])
-	by greed.delorie.com (8.16.1/8.16.1) with ESMTPS id 66VIVBvn3140582
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 14:31:11 -0400
-Received: (from dj@localhost)
-	by greed.delorie.com (8.16.1/8.16.1/Submit) id 66VIVBj23140581;
-	Fri, 31 Jul 2026 14:31:11 -0400
-Message-ID: <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
-In-Reply-To: <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
-References: <cover.1785522144.git.dj@redhat.com>
-	<ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
-From: DJ Delorie <dj@redhat.com>
-Date: Fri, 31 Jul 2026 14:22:24 -0400
-Subject: [PATCH v3 2/4] man/man5/tunables.conf: Document system-wide tunables
- config
-Content-type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5J7NWxO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C420B1F00AC4;
+	Fri, 31 Jul 2026 21:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785532738;
+	bh=J1keRdHFFyCk0YYjVKOjhjaS+80IHD+CX6k/9QKK/oo=;
+	h=Date:From:To:Cc:Subject;
+	b=M5J7NWxOFAsGN0SG+LDiveGf9h/LuZpBhLOYe0HzubTUotC8N5yj21iZ4gN/+6bZX
+	 idzskdyVB0j0LsRgAq9KDYdv22w+Uim03fgxakqSPX7A3XfL5ujViEH1VrP6xnMejx
+	 KK5H7aApUzJgFGtasjYSfM9Y+OGIaPfQbrCLp2kvnLa9+P0dAb+tcrPwESTpR2JOvj
+	 WDD7wsCMyoPd8x0iNzWgL/3gi2P2BKrRUIHrIETUxMOgfZS11URocqysYdpwZiwFBx
+	 qkFAJWrW9HYJt9TYPASRMuufw9U9KwSZ+y16lzmtjwKjCaKaYtOp7zJmBn3f72zHdP
+	 65IUmPC+idfvA==
+Date: Fri, 31 Jul 2026 23:18:54 +0200
+From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
-Cc: alx@kernel.org
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Cc: Keith Bostic <keith@bostic.com>, Joseph Myers <josmyers@redhat.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH 0/2] alx-0097r1 - <memory.h>, the legitimate header for
+ memcpy(3) et al.
+Message-ID: <cover.1785532392.git.alx@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="34ajgfzvfkd2yzlm"
+Content-Disposition: inline
 
----
- man/man5/tunables.conf.5 | 134 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
- create mode 100644 man/man5/tunables.conf.5
 
-diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
-new file mode 100644
-index 000000000..f96355bed
---- /dev/null
-+++ b/man/man5/tunables.conf.5
-@@ -0,0 +1,134 @@
-+.TH tunables.conf 5 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+tunables.conf \- tunables configuration file
-+.SH SYNOPSIS
-+.nf
-+.B /etc/tunables.conf
-+.fi
-+.SH DESCRIPTION
-+Tunables are a feature in the GNU C Library
-+that allows application authors and distribution maintainers
-+to alter the runtime library behavior to match their workload.
-+For a list of supported tunables,
-+please consult the glibc manual
-+that corresponds to your installed version of glibc,
-+or run the following command:
-+.P
-+.in +4n
-+.EX
-+.B ld.so --list-tunables
-+.EE
-+.P
-+Each line in the file
-+.I /etc/tunables.conf
-+specifies a tunable,
-+which is specified with a string of the form
-+.IB name = value \f[R].\f[]
-+.P
-+The syntax allows lines to start with the keyword
-+.I include
-+followed by a path wildcard.
-+The wildcard is a path specification in the
-+.BR \%glob (7)
-+format.
-+Matching files will be processed
-+as if their contents were included
-+at that point in the config file.
-+.P
-+The file is parsed by
-+.BR \%ldconfig (8)
-+and the results stored in
-+.IR /etc/ld.so.cache .
-+The resulting data is read when a new process is created by
-+.IR ld.so .
-+.P
-+Each line may include zero or more keywords or symbols at the beginning,
-+which affect how each tunable affects each processes.
-+The keywords must be separated by whitespace,
-+but the symbols need not be.
-+.TP
-+.B overridable
-+.TQ
-+.B +
-+Allow the tunable to be overridden by the
-+.B GLIBC_TUNABLES
-+environment variable when the process runs
-+(this is the default).
-+.TP
-+.B nonoverridable
-+.TQ
-+.B \-
-+Do not allow the tunable to be overridden by the environment variable.
-+.TP
-+.B onlysecure
-+.TQ
-+.B @
-+The tunable applies only to
-+.B AT_SECURE
-+processes,
-+such as one started from a set-user-ID program,
-+or one with elevated capabilities.
-+.TP
-+.B nonsecure
-+.TQ
-+.B $
-+The tunable applies only to
-+.RB non- AT_SECURE
-+processes (this is the default).
-+.TP
-+.B anysecure
-+.TQ
-+.B *
-+The tunable applies to both
-+.B AT_SECURE
-+and
-+.RB non- AT_SECURE
-+processes.
-+.P
-+The file may also contain
-+.IR filters ,
-+which limit the tunables following it,
-+up to the end of the file
-+(or end of the included file,
-+or start of a new included file)
-+or a line with only
-+.B []
-+on it.
-+The syntax is:
-+.P
-+.in +4n
-+.EX
-+.RI [ filter : pattern ]
-+.EE
-+.in
-+.TP
-+.B proc
-+The
-+.B proc
-+filter limits the following tunables to processes
-+whose name matches the pattern.
-+The pattern may be an absolute path
-+or just the base name.
-+.SH FILES
-+.TP
-+.I /etc/tunables.conf
-+.TP
-+.I /etc/ld.so.cache
-+cached copy of tunables
-+.SH EXAMPLES
-+Example configuration file:
-+.P
-+.in +4n
-+.EX
-+glibc.malloc.arenas_max=5
-+onlysecure glibc.malloc.arenas_max=1
-+\-glibc.pthread.rseq=1
-+[proc:/bin/bad.program]
-+\-glibc.pthread.rseq=0
-+[proc:some.program]
-+\-glibc.malloc.mmap_threshold=65536
-+.EE
-+.in
-+.SH SEE ALSO
-+.BR ld.so (8),
-+.BR ldconfig (8)
--- 
-2.47.3
+--34ajgfzvfkd2yzlm
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Keith Bostic <keith@bostic.com>, Joseph Myers <josmyers@redhat.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH 0/2] alx-0097r1 - <memory.h>, the legitimate header for
+ memcpy(3) et al.
+Message-ID: <cover.1785532392.git.alx@kernel.org>
+MIME-Version: 1.0
 
+Hi!
+
+Here's a patch set for documenting mem*(3) and strn*(3) functions as
+provided in <memory.h>.  This should put a stop to the misunderstanding
+and misuse of these functions as handling strings; they handle bytes and
+nonstrings (and in some cases, strings can be used as nonstrings or as
+byte arrays, but very carefully).
+
+This header is quite portable: {Free,Net,Open}BSD, glibc, and musl, at
+least and since forever.
+
+The C Committee is discussing standardization of <memory.h>, so let's
+give it a bump.
+
+
+Have a lovely night!
+Alex
+
+
+Alejandro Colomar (2):
+  man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document these as
+    provided by <memory.h>
+  man/man*/{string.3,memory.h.3head}: Move functions to a new page
+    memory.h(3head)
+
+ man/man3/memccpy.3      |  5 ++-
+ man/man3/memchr.3       |  5 ++-
+ man/man3/memcmp.3       |  5 ++-
+ man/man3/memcpy.3       |  5 ++-
+ man/man3/memfrob.3      |  2 +-
+ man/man3/memmem.3       |  2 +-
+ man/man3/memmove.3      |  5 ++-
+ man/man3/mempcpy.3      |  2 +-
+ man/man3/memrchr.3      |  2 +-
+ man/man3/memset.3       |  5 ++-
+ man/man3/stpncpy.3      |  8 +++-
+ man/man3/strcasecmp.3   |  6 +++
+ man/man3/strcmp.3       |  6 +++
+ man/man3/strdup.3       |  5 +++
+ man/man3/strdupa.3      |  4 ++
+ man/man3/string.3       | 95 +++--------------------------------------
+ man/man3/strncat.3      |  5 ++-
+ man/man3/strnlen.3      |  5 ++-
+ man/man3head/memory.h.3 | 57 +++++++++++++++++++++++++
+ 19 files changed, 126 insertions(+), 103 deletions(-)
+ create mode 100644 man/man3head/memory.h.3
+
+Range-diff:
+-:  ------------ > 1:  784288e70418 man/man3/{mem,strn}*(): SYNOPSIS, STAND=
+ARDS: Document these as provided by <memory.h>
+-:  ------------ > 2:  668ab8c64821 man/man*/{string.3,memory.h.3head}: Mov=
+e functions to a new page memory.h(3head)
+
+base-commit: 8152eb52d9a92f02c14e843545acec7ee1946479
+--=20
+2.53.0
+
+
+--34ajgfzvfkd2yzlm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptET0ACgkQ64mZXMKQ
+wqm10g//XKxdoEzAu87TmtSAGS5sddII3rp4UkXIVCdZPbFyROw86w7vtFtCZXAT
+1Y5m/vG9yWB0IbstLzL4FuJVx688hv473jphe69qaOEIp7KxvMnkmm786VUGRtEG
+HQH0QtxYyNnLVDdbqwCoOg5lKJ6n6E2BkExVevK5r/rapV7wfkhv7v2OB+wFuEkD
+00cz5pf3QsD/rJh4XgpbHr0QYjo+96LvVK9/OxN3oWgRpU/UM8zQD5+g9GaF5Sr3
+3qdMLwWhTPDBRsP1tc3LRQQdM7sL9ynWDCXekxsa7WJNwKojjCBmdeNfh1I5gdIc
+Z74xEBUrQJIB2B6k8fV7u66xPdW75wbtvirUSxLgkiCD9P0f11uZI5Mj7yVb9ZjI
+H5fL/iRVBa+S/Zgz6Y6IwakfI6WfDqZK3cVFPy/j2mAxxNRN5/3xPyggmK/Y+POJ
+XSUkWLI8oZaoJTT1wF3kjfSfZIkLvaA40XAVYvzyywCvC9HSTB0ng5kOdkWGuk+O
+bfC0Bmsyen7gH9JSHxxCfToP8LU1tcW8K3coPosLWBb9NFP74I+cWdVC7lGlcLc+
++GWlf4RUEiIsvlJNoHduFgfl+IrnbF4+H6oIpx5pbAXfNdSETeaCfjbYCzOs5EL8
+1FUvh1RKZUtcRUIIIRfKNrAC0+LxD+pfo/2vCSkddEWYlH26Acs=
+=7Uzu
+-----END PGP SIGNATURE-----
+
+--34ajgfzvfkd2yzlm--
