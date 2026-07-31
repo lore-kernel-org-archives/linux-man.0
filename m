@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DC4334C3D
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 21:54:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7252C37E302
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 21:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785534878; cv=none; b=Kphc7Vj0DRAd6dynt78uOOuQOxzEPaQMOaPkCTWulKlkV8wAYlJ4suEtrHZMNC7+Mmb22ijrP7pTyExymAAA7iwi8lkB3WVjZxsnu3yuoAM33f5zP5m6Y5Jfzs2Rar5s1rquucflk6ZeolNZqYxE2ynExbR/MxvgMDokCqxqzC8=
+	t=1785535196; cv=none; b=otxdZ6Qvob3303M5R9dnAZazZG5U3nI2/hiGvpwmeKoqk+qWFEACf7MiRIR+/ebjNEkOpxTuu95j4q2zhO24e9DzcvMMmfeQqJPxiFci1TAkOzVEMVMMz5mwDnzbrZTYC5dwSnQWlFt/xO4C28paZGFBAxA+hnqrvgx3svZeAQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785534878; c=relaxed/simple;
-	bh=NS6hWSjaMcAISp527efxmHFio/1DZL05AeuCxsGpQlQ=;
+	s=arc-20240116; t=1785535196; c=relaxed/simple;
+	bh=elEQD5gUO4h5XFMMdYdws62bO85Suyr3RnBhe+EHQCE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HV159RyVWC4tKBMugEg3QLlQEPY7jZpRS/IPScAm4m68webbizSfyJJXycamqqk4N1G4CJM309N/B3N4hPT+KbIytgINglwrJdEdZmc2LTcxY1kwHdMyt+5YzJowQ3gQJmBMm6pGJawpFAAB8hI7hmTexl27eJrRf/YnYpJyLrc=
+	 MIME-Version:Content-Type; b=RqoM8zHw4fhgbRCPxaxxz6dDQnglogigdj7GcP418Mb5JnRalMulC0metQ/wIEPLslwyv+sb3F/oOqSONzUXGsFQ0diLdFM/1sYy+db2dSh/OQ525f9XtZLPgs3LZZ01EA8mrr3V0dA0buWnL+RaOwZneJxLfP2mOBB123/A0v4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,28 +19,28 @@ Received: from mop.sam.mop (c.1.a.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 5B1BD341994;
-	Fri, 31 Jul 2026 21:54:33 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 5B0573410D1;
+	Fri, 31 Jul 2026 21:59:51 +0000 (UTC)
 From: Sam James <sam@gentoo.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Joseph Myers <josmyers@redhat.com>,  linux-man@vger.kernel.org,  Keith
- Bostic <keith@bostic.com>,  Mark Harris <mark.hsj@gmail.com>,  Nevin Liber
- <nevin@cplusplusguy.com>,  JeanHeyd Meneide <phdofthehouse@gmail.com>,
-  Christopher Bazley <chris.bazley.wg14@gmail.com>,  "Serge E. Hallyn"
- <serge@hallyn.com>,  Iker Pedrosa <ipedrosa@redhat.com>,  "Evgeny Grin
- (Karlson2k)" <k2k@drgrin.dev>,  Kees Cook <keescook@chromium.org>,
-  bug-gnulib@gnu.org,  libc-alpha@sourceware.org
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
- Document these as provided by <memory.h>
-In-Reply-To: <am0TUn55P7uNtTTh@devuan>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Joseph Myers <josmyers@redhat.com>,  Alejandro Colomar <alx@kernel.org>,
+  linux-man@vger.kernel.org,  Keith Bostic <keith@bostic.com>,  Mark Harris
+ <mark.hsj@gmail.com>,  Nevin Liber <nevin@cplusplusguy.com>,  JeanHeyd
+ Meneide <phdofthehouse@gmail.com>,  Christopher Bazley
+ <chris.bazley.wg14@gmail.com>,  "Serge E. Hallyn" <serge@hallyn.com>,
+  Iker Pedrosa <ipedrosa@redhat.com>,  "Evgeny Grin (Karlson2k)"
+ <k2k@drgrin.dev>,  Kees Cook <keescook@chromium.org>,  bug-gnulib@gnu.org,
+  libc-alpha@sourceware.org
+Subject: Re: on the irresponsibility of pursuing C language reform
+In-Reply-To: <20260731215122.4p4aepsbgeoibx74@illithid>
 Organization: Gentoo
 References: <cover.1785532392.git.alx@kernel.org>
 	<784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
 	<e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
-	<am0TUn55P7uNtTTh@devuan>
+	<20260731215122.4p4aepsbgeoibx74@illithid>
 User-Agent: mu4e 1.14.2; emacs 31.0.91
-Date: Fri, 31 Jul 2026 22:54:27 +0100
-Message-ID: <87ik5uesfg.fsf@gentoo.org>
+Date: Fri, 31 Jul 2026 22:59:47 +0100
+Message-ID: <87a4r6es6k.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -52,36 +52,50 @@ Content-Type: multipart/signed; boundary="=-=-=";
 
 --=-=-=
 Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
-Alejandro Colomar <alx@kernel.org> writes:
+"G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
 
 > Hi Joseph,
 >
->> Date: 2026-07-31 21:23:35+0000
->> From: Joseph Myers <josmyers@redhat.com>
->>
->> I think it's irresponsible to use the man-pages project to promote=20
->> personal idiosyncratic ideas like this in preference to what's been the=
-=20
->> standard location of functions since 1989.
->>=20
->> I'd rather we add a mandatory deprecation warning to memory.h in glibc.
+> At 2026-07-31T21:23:35+0000, Joseph Myers wrote:
+>> I think it's irresponsible to use the man-pages project to promote
+>> personal idiosyncratic ideas like this in preference to what's been
+>> the standard location of functions since 1989.
 >
-> I hope you don't; it'd be a gratuitous breaking change.
+> I'm sure I don't need to bring to your attention what a mine field
+> string/`char` sequence/memory buffer handling has been in C since the
+> language's inception.
+>
+> More to the point: what's a better forum for pursuing this attempt at
+> reform that will both (a) reach a significant population of stakeholders
+> who can variously red-team it and/or endorse it; and (b) has sufficient
+> visibility that it can't easily be ignored by people who oppose reform
+> in this area for whatever reason?
 >
 
-Yet this change has the same effect, just people will see it themselves
-rather than the compiler telling them, and go around sending patches to
-change it.
+I think the man page already tries to discourage use in its CAVEATS
+section.
 
-The man pages should reflect what the standard currently says, not what
-you'd like it to say. We had the same problem with e.g. stripping "C89"
-everywhere. People want it to reflect what the standard says.
+> I hope you do not wish to imply that a closed session of some committee,
+> or unofficial backroom politicking would be preferable, nor that WG14
+> should close its doors to members of its user community who have not
+> been vetted for a disinclination to boat-rocking.
+
+I am confused as to where that implication could have possibly come
+from. Joseph is opposing the change in the form of a patch that is
+likely to be applied (*) to man-pages.git which has the effect of
+advocacy.
+
+I don't think it has anything to do with WG14 membership or anything of
+the like? What am I missing?
+
+(*) Alex has a history of making opinonated changes like this to
+man-pages, such as removing references to older standards, and using a
+somewhat novel (to many) syntax for prototypes.
 
 >
-> Have a lovely night!
-> Alex
+> Regards,
+> Branden
 
 sam
 
@@ -90,12 +104,12 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmptGZMbFIAAAAAABAAO
+iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmptGtMbFIAAAAAABAAO
 bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
 Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
-QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkCBO
-AP907KktjZAggcAjqdS02bwVJu4BTR5CfaKJFrX1YdlMvwEAqpoMUYuitHL7XqHf
-OllON6W7tElUaknSKfZpE2rNBwI=
-=S7WW
+QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkD07
+AQCPu2KyweNvB+HqJGhVEki1SMXxWftWMjS82beHrlGqZwD9GR5gzPmdJZO18vOC
+Y8Y8SrTLXB0NCEAYmnUvNpDWago=
+=pTV1
 -----END PGP SIGNATURE-----
 --=-=-=--
