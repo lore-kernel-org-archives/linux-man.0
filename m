@@ -1,147 +1,214 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F5525F7B9
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E3344781A
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785540506; cv=none; b=a9smalgZiUQfr1uBRDkMLJMGMpwd7qvUWbOtEMYIu/29updGtgoKlsZAl+TJcpEhR4WaJ6yYLaB7crEKhMzaOW3Y2OP6FGK8RRhQuWaqMwK3Z//USsNDCOPddxv+WJatwSOL+zqAT0AWUOke9dOitja4n8gdcu3qE5mocnJkqKA=
+	t=1785540779; cv=none; b=dKX+cysP3LswCuy2TBSqIZF9kZqZbPtclr9fLhKrRYfCq3mg/92kZ+fbUt7/GiwaRR0Il1s7/m1Tq9HIwdbjqACEduRraFMNAKPTRcaBxGIK4k4+QAzpARVX2fVUAUhu/gCn73LeXG1HxLXvOlcRGlfCbNWuhVWZxMYhSKps9Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785540506; c=relaxed/simple;
-	bh=C3kG4ZOyEbVI3J3BAIME1r0bvq6pVbLm31MKrNACJQ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=abOZMJLBGYg7LVA0hAEEtWAn1T0HZ3CEz5IBETo+bsqtw4h8A5p2Smcxh0DY2WaY9ZDH6xZwyeDM9enEBGHvcy2kKo/Gfyy8QJAZTH6RMMDtd7yVb6KPqYJGSf6+y8vq3Og9RNOAPupN5gtPkpZYMmJ2vneA73XnajnqpWFQZ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f8Lt44G1; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fbvuqZux; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785540779; c=relaxed/simple;
+	bh=FNcZYfVXePnZktXW7p9nseCIT3UqUcb1albZt+B9iaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LK0xGiYs/v7goQKVCuc7XVuYgGubpg87cY+xth+nhmTXvAwF/N0TBMKwO0aAZXFAxAumxiWJ6hHmyf2At8Hwmm9m0qQu4g5jaaFkLmRU4v4S8HBrgAz/RLYvhYz+hk2uTPnDI1N1rgWSS1Tki8//7lEngjAZIk5aOvztzC+SeEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIwdnjcU; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f8Lt44G1";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fbvuqZux"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785540504;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/v18rK2fdcERtiTg7cOb+m4J6dWMxnZM1hjgRKLD+f4=;
-	b=f8Lt44G1VMKOIKA5/et+YywAAC93ggEPin2SPvpOrYjkzDtZNl1zmfUIGOjxjroX9LYI8O
-	mnvE+vNSbKLQvXj7MXB5BFOLx1II5/0aGTLsQT3QgNDGhEnbNi1Wgtz4vYL+NotP18wt1j
-	hFzqUEOmYwmIyczF6tHju89WKbNUPsA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-21-eEl1xzlxOx-w8AZpFBYsrQ-1; Fri, 31 Jul 2026 19:28:22 -0400
-X-MC-Unique: eEl1xzlxOx-w8AZpFBYsrQ-1
-X-Mimecast-MFC-AGG-ID: eEl1xzlxOx-w8AZpFBYsrQ_1785540502
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47f835ac1aeso1258195f8f.3
-        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 16:28:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIwdnjcU"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-80cebd41372so22987827b3.3
+        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 16:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785540501; x=1786145301; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/v18rK2fdcERtiTg7cOb+m4J6dWMxnZM1hjgRKLD+f4=;
-        b=fbvuqZuxCoP0mrEk3UK1wZvGop58700+ngVOXz9+OIqGY8B24EcAN5i3swYnTHeyBc
-         ZFJ71qWr9VUTfOJWkq6Nkculsav4xWWm7OPd44EI7S4ngidmgkkHVxDy/gUDpWydR5+H
-         jhPaeX2xqA7M+CU0pfsYwgLCs/hF7xSPJnArpfJwqhejyYnhfqFwJXoaI63QiwQ2kJ8b
-         Up9bERgL4xf9F57nYSWqBuH/EadZbTmKzOTyQR5xWyqCgkDnnyHR5FxhDLmaRUHC82zR
-         U0Yp9bnbnQGGFiNOGMNUpjcoS1zrPd3owD6KGtGGo7hcnwZwXVcEOVv9va+bb7a/cnok
-         sh9Q==
+        d=gmail.com; s=20251104; t=1785540777; x=1786145577; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FTRasT0sz0fONAG+GZ4/CJ+mZFiL2DN6FJ8V50EUgEY=;
+        b=DIwdnjcUanZAaZdrx7eBDPN04PqHzEEKwCPnvx6YnFxIJC5wCMbXMG/js4C6Fhq75p
+         hCUW+WY/VLZYGjynCAmLjm1hw/cLk+Yt05OZduh7i689AFtqscxCDJDxOl+JBYubBloC
+         8wjipzm4a+QtO3YrP1zjCMR/LuW8cVawMAFDjs6ce4DucolV9zhgRuDZ5j7ZfO0wegjH
+         tAsBoOxFld99BUiIgBPqINdA1ERu28fbsg9WnKp4AzPogkOAZTewAJOKCOQLCEy0klAv
+         2pLXzHwnug7sdt3arIm/FYow2AH8p0k8Z8Ci2+spoYOn72fVetijeGaqW/psJqao36Gh
+         N4IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785540501; x=1786145301;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/v18rK2fdcERtiTg7cOb+m4J6dWMxnZM1hjgRKLD+f4=;
-        b=i1XbA7+z3XcWTvKQnkGo4fKitPR/xlhdlkfrTO7dNZIyAT4qQpTptOTLEhZid1wL8B
-         xG3s/OVDqdBR1TEafdpnqxjGxmk9Yt0qXeqV6AHeFU22jl8OpHX0FhkaHUUBg6WASEcb
-         pyhrMleuPNi26XVQnDTZXSIqkjUGJv0VgH/EWK6b4Vmj71ASZmd4M8tOY8iL/vkn8TxV
-         6RiUcsBNIJfZyYAPKp1CyOX8gvhssW3BR1qOnAHPWRA9zhDfPRkqIZ9BReNC+KKpxsNb
-         3kBCiX8woWGz+0442/oP8PBOBIleFyC6/oT1L+06vqlX9Nr5jk8Y2bwfC2laTdUWV7J4
-         NY1Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpoKCXBHZe7HNqtfO7Yu3uU2LzKNNlTXLlpGMpkkAEuUOKacx4EoatA86zQAjP7AMieUca2N5tr768=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmfoTOkTYTv+3j6SYrIg2RzyurZlpEp3T1nVJE9Uz0BFafKNYW
-	mCaNHSmV9VZtYB5SR/kB9SJoV5BnVH5H4yRk5Tn9Gf+dXVVrwo/AZSwqt6tOa55bvdpDKhU3aCa
-	0toP0bbMEm+DETZZU1ed/SqaEpFdV2ZH2TirlgnNnQlX/57ehXy+Qfa34QGWJoA==
-X-Gm-Gg: AR+sD10XebVWFJvBZzS5B+MglnrTP0eKWkY1/29piciN8pBZ3tCYceTDO71LmeLE78E
-	IHVkGrj9vuuoJUSLUE8mf3MXtWTSllngmLX6ftkEFy4ACRWxaHgsLnf+zSgKrVk6y2fx5t3qm/S
-	QQUzhavwEEkPvZ5VKTbnVcDKq3py9So1vJIjf3yIxfR28iCrK331p+YJICpENQx4TqBUB4kLMCr
-	RFDFmrUlU4qtaQK07lvW0GJtzxsMe1ehuAXeTjQoQzItaQLPCn6jz3h8rQl+wVn/FJzyMx4p9YY
-	S86GsypZuOqGg80F/VtceJca161iFu4gQtTLDXkWKtFrdvoiPA8gGar6VR22P/aMFVNwvC8uBEt
-	djpqS2FHxZSypGi6QwFcHKpVPiaz2xLM=
-X-Received: by 2002:a05:600c:48a2:b0:496:bba5:33a7 with SMTP id 5b1f17b1804b1-4980c6824e7mr898225e9.27.1785540501555;
-        Fri, 31 Jul 2026 16:28:21 -0700 (PDT)
-X-Received: by 2002:a05:600c:48a2:b0:496:bba5:33a7 with SMTP id 5b1f17b1804b1-4980c6824e7mr897955e9.27.1785540501246;
-        Fri, 31 Jul 2026 16:28:21 -0700 (PDT)
-Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49808191ccbsm2887755e9.3.2026.07.31.16.28.20
+        d=1e100.net; s=20251104; t=1785540777; x=1786145577;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FTRasT0sz0fONAG+GZ4/CJ+mZFiL2DN6FJ8V50EUgEY=;
+        b=D8x5ev6YLLEkAXJbsLe/G/Rtl6kYGWizk6xUab1xLcyQG+fxzqQ4Apx7sflCU1p6uB
+         F1g03XThNLqKvYrN/QXM7KzPm2hAOBbgLb83b/R+mscKV3pKiC0QFeJqeOEZDjB+wSGE
+         9PuOeWN8lZXQuKVfDT9517OjatVdXuv3vjfw3X3Ivs2Z3OOdPsPk6L1H1WzriOqjWNkV
+         DNX/fVrzpzlYAls4y2LphZR0hmk425kEzfaIIvCURybzd5B6EQT/yj/JNn3Tb7SoGirC
+         NumbxbXI8ygMuaIdk/9AvgQIWb0N3EMqsjZhjGq4734efGcOJ/cYxDAPubMwLvLlTLLk
+         6pgg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrw3L67iEKaFUYPiXK8LPZlm3QFZ6P54UxKo964p+clyui6+pcT3n7Ts60/XnNozzPhxm6QNw3tRz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKpdO9UmsMBmntSTa5j9ZWGd+sl+uYw7Q+Gli/RhT5gwsHldJc
+	rtaTxFjAFffDuo2cA/2XtuBII2MsIy+AOKGjlEsxuAK4390qXTV3HPDh
+X-Gm-Gg: AR+sD10AWQJihhd4Wp9i+etc9U5pva/XxY2dKtYERHAPadYjIDQ+jwRNKgO5vPYJbRC
+	MoWbcJDbNKJWlQH/AylyxfHH/Plky3ef1Ki8NNO6zFV5SM7zoaqbfAyZj54zDV7K6zuM6/Z0o5c
+	6I/mD4gpf6l77KxPA7MMGxIcBSNMGyCr6WTbZeVU7+pqBRTAmN5KgSkuXjm4xxGcWcuX7emhImT
+	0OvfPlcjjpiJUS9j7ZvOD/+6viv59Gu0SET5Qv1pHyxEAjLRLXfALCVEp+ZehFKIPWMzC5EjQ4S
+	tlb3YHIeWJQFTi+lBfeATHr8o4lImHNKSFTnPoRg83an2QFcbc6VU4DTelOxKbu1sjkeDxJYeus
+	XZU2QTkMNMOmUdslTo5233mucG9YfLZsfdFcBFCXq3Ws3scFkXJrhVZZ375yG1y2i1Xmb44o80s
+	LOhRFPQUFKDclFYCHNtbFAFcI0d50gnI/cLYtJD4HNVQvGuTNSxQ==
+X-Received: by 2002:a05:690c:2502:b0:81e:6cd1:5313 with SMTP id 00721157ae682-81fd4bcd64emr24904227b3.20.1785540776847;
+        Fri, 31 Jul 2026 16:32:56 -0700 (PDT)
+Received: from illithid ([2600:1702:7cd0:e980::41])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fda626e53sm998457b3.11.2026.07.31.16.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 16:28:20 -0700 (PDT)
-Received: from jsm28 (helo=localhost)
-	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
-	(envelope-from <josmyers@redhat.com>)
-	id 1wpweJ-00000003J7c-2tgM;
-	Fri, 31 Jul 2026 23:28:19 +0000
-Date: Fri, 31 Jul 2026 23:28:19 +0000 (UTC)
-From: Joseph Myers <josmyers@redhat.com>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
-    Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>, 
-    Nevin Liber <nevin@cplusplusguy.com>, 
-    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
-    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
-    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
-    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
-    libc-alpha@sourceware.org
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document
- these as provided by <memory.h>
-In-Reply-To: <20260731230847.prx4gay3ejvqdy6q@illithid>
-Message-ID: <8b8fc216-8c6e-fcc2-c72a-2c26555d95e7@redhat.com>
-References: <cover.1785532392.git.alx@kernel.org> <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org> <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com> <20260731215122.4p4aepsbgeoibx74@illithid> <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com>
- <am0fnb4BMRrTajqx@devuan> <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com> <20260731230847.prx4gay3ejvqdy6q@illithid>
+        Fri, 31 Jul 2026 16:32:56 -0700 (PDT)
+Date: Fri, 31 Jul 2026 18:32:53 -0500
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To: Joseph Myers <josmyers@redhat.com>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
+	Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>,
+	Nevin Liber <nevin@cplusplusguy.com>,
+	JeanHeyd Meneide <phdofthehouse@gmail.com>,
+	Christopher Bazley <chris.bazley.wg14@gmail.com>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Iker Pedrosa <ipedrosa@redhat.com>,
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>,
+	Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org,
+	libc-alpha@sourceware.org
+Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
+ Document these as provided by <memory.h>)
+Message-ID: <20260731233253.7uwgq7m7vndqf2o2@illithid>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+ <20260731215122.4p4aepsbgeoibx74@illithid>
+ <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com>
+ <am0fnb4BMRrTajqx@devuan>
+ <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com>
+ <am0lAEb1wuCJPDk7@devuan>
+ <9223d084-7de4-914f-9b53-8862510542d8@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rea33jecakkmfr4z"
+Content-Disposition: inline
+In-Reply-To: <9223d084-7de4-914f-9b53-8862510542d8@redhat.com>
 
-On Fri, 31 Jul 2026, G. Branden Robinson wrote:
 
-> Occasionally, matters get relitigated because they had been wrongly
-> decided.  I appreciate the trend since 2000 or so of Stroustrup (with
+--rea33jecakkmfr4z
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
+ Document these as provided by <memory.h>)
+MIME-Version: 1.0
 
-That's a plausible description of Alejandro's attempt to relitigate 
-realloc with size 0, in order to reduce UB.  (Although in that case I 
-think there have simply been too many changes, and so the semantics are 
-irremediably confused regardless of any subsequent standard changes, and 
-the best solution would involve a new function with a different name.)
+At 2026-07-31T23:11:56+0000, Joseph Myers wrote:
+> On Sat, 1 Aug 2026, Alejandro Colomar wrote:
+> > > In other words, they were in that header for 6 years, and it's
+> > > been implicitly obsolescent by virtue of the standard choice for
+> > > the 37 years since then.
+> > Yes.  And I'm trying to revert the implicit obsolescence.
+> > Obsolescence isn't a one-way process.  Sometimes, evidence shows up,
+> > and the obsolete feature must come back for $reasons.
+>=20
+> When it's been obsolescent for 37 years, bringing back a header with
+> the same name is just going to confuse people with 37 years of past
+> information saying it's obsolescent (normally if one source says "use
+> X" and another says "X is obsolescent", you can reliably assume that
+> "X is obsolescent" is the more recent information, even without 37
+> years of history involved).
 
-I don't think it's a reasonable description for what are essentially 
-stylistic matters, for anything as widely used as the header in which 
-memcpy is declared or the NULL macro.  That's in "would have spelt creat 
-with an e" territory - things that could have been better with hindsight 
-but where the cost outweighs any possible benefit at this stage in the 
-language's life.  "Avoiding UB" or "real user confusion" (in the case of 
-strn*) are much better arguments than "slightly unaesthetic classification 
-of functions into headers".
+Okay, well, <memory.h>'s out due to the above, and <mem.h> collides with
+old, non-standard Borland and Watcom compilers (which live on still in
+environments like FreeDOS[1]).
 
-And I consider it an abuse of position to change man-pages to declare to 
-users in general of C libraries on GNU/Linux that your standards proposal, 
-at a very early stage (not even an N-document), is the One True Way of 
-using the functions.  It would be more neutral to say in the man pages 
-that "as of July 2026, one member of WG14 has proposed moving these 
-functions to <memory.h> [reference]; this proposal has not yet been 
-considered by WG14".  (I doubt the utility to users of describing proposed 
-changes in man-pages at such an early stage, especially since the 
-information would be long obsolete by the time those revisions of the 
-pages make it into distributions, but it would at least more accurately 
-reflect reality, and be vaguely neutral as long as you do it for 
-*everyone's* open proposals, *including those you personally disagree 
-with*, rather than privileging your own.)
+So how about <stdmem.h> or <stdmemory.h> for the standard mem*
+functions?
 
--- 
-Joseph S. Myers
-josmyers@redhat.com
+> Any reasonable change there would involve a new header, say
+> <strnpad.h> for strncpy and strncat, rather than resurrecting a very
+> old one.
 
+I agree with that.  As my previous email noted, I think C programmers
+apply the mem* functions differently than they do str{n,}*.  I think
+it's a good idea to erect a cordon sanitaire around the ever-troublesome
+latter functions.
+
+> > The solution of moving both mem*() and strn*() to <memory.h> and
+> > leaving just str*() in <string.h> is a consistent one, because
+> > <string.h> then remains strictly for string APIs, and <memory.h> is
+> > for the rest of byte handling.
+>=20
+> It's inconsistent with how people have understood C ever since it was=20
+> standardized.
+
+This claim is a bit hand-wavy.  C has spent its entire lifetime being
+notoriously poorly understood.  But especially in early days, the
+compiler would spit out something anyway.  Hackers confused the
+production of a linked object file with understanding the language.
+
+C has single-handedly elevated "undefined behavior" into a field of
+academic study.
+
+> > It wouldn't be reasonable to move strn*() to <memory.h>, and then
+> > leave mem*() in <string.h>, of course.
+> >=20
+> > Similarly, it wouldn't be reasonable to [move] strncpy/cat() to
+> > <memory.h> and leave the rest of strn*() and all of mem*() in
+> > <string.h>.
+>=20
+> On the contrary, it's only the functions for null-padded fixed-width
+> buffers that are niche functions causing confusion, compared to all
+> the rest of the functions in <string.h> for which it's a very
+> well-established and well-understood location.  Some others like
+> memccpy are *obscure*, but not confusing in the same way.
+
+I agree with you here, but the base+bounds nature of the mem* functions
+versus the null-terminated nature of the str[^n]* functions, warrants
+separation.
+
+37 years ago the C Committee seemed to feel it needed to economize on
+standard header file names, so many unrelated interfaces got piled
+together into .h files that consequently lacked coherence (in the
+Yourdon/Constantine sense).
+
+WG14 has been moving away from that notion for decades now.  A recent
+example is <stdbit.h>.  Why not continue in that laudable direction?
+
+I think
+
+stdmem.h
+string.h
+stdstrn.h
+
+would sharply separate concerns and promote clearer reasoning among
+application developers.
+
+Regards,
+Branden
+
+[1] https://www.freedos.org/books/cprogramming/part8/
+
+--rea33jecakkmfr4z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmptMJ0ACgkQ0Z6cfXEm
+bc7ZCA/8DGmLo0gOr5GcFe6iRRqXRFwKBb6ZHN1vvIfmJ7DW/ZArV0zog2Fk2Kd/
+rfMwbFLNdBptXDUX6O0TkKMvCmGwrUwL1riGqSVsREf/s0r3IYWsy88z7/Mo78KR
+oHNhaTNfodUKA18D49ZS0pv98GwPfg0XK5RMOFyfhyyUwrwCFWGl1AGrX3sgYCm5
+v92g1Ms0VZeIajq42qOlxSyAep2Fmo1cPBddgzdR9diU731piBHop7I5/8j+E+xM
+siM8mPLvKBCeP8+d38g5N2rOKIut/KMg+Mxhpux0irM+Z8Yhtgdegyrai3VOCTlI
+P1bPJ+8UGn2anyxoxkm6u24S9yt7XvtzYnDh3J1XfpxP17YYMQKb+TzWReMEt4oD
+Y0mZ50YfjUGvC/PVqSK8GzcGv9vwmS5jgYNPRUrRU6PMWm5dg/FrgRM+k6eKB48k
+DaL0QHFfK2+m4ipjqjpCFDpswQKWfAWhOA1kLfhXmYWYs1uBbFDNvhsF9pWdGocl
+sYXLDu7ntFR4ecqcO3P6WqwY4lMgTclViTUCBIXX3r+bGm1fPIKRVmYupwpvCJc8
+dJQV989+haxAYptR/VATcxqo/Q0c0F6iilAAC5T4EfahB7tYxrcZtxDap0/VOjsx
+3lfYa+mr2CA/W1enhoyDEIThG1K02iZ8+qye37vdu8tP1YaJa58=
+=6k72
+-----END PGP SIGNATURE-----
+
+--rea33jecakkmfr4z--
