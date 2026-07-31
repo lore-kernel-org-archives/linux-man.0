@@ -1,195 +1,154 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95E73B8BA5
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2157C381E86
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539333; cv=none; b=QyWP6LBaa00EF3ngSvUCgUkN54yve+oa7OdC5KA4kdYsWTcENcksx4dYXOuLk5LLNDBU2PyrxRxCGVuIUwUCXQBJyzMho7mavQCWzi6wLHE36VB/HpEAEN9IO8Aht8T7El//4ZYuIqzf9ZMuMr92qgKhQtVVPhUqIg02QRVIPmM=
+	t=1785539539; cv=none; b=P0m/cYdkku7TGC4DW7BUw3vtGos1aMF3Slsadhtzho0USha8Q8mZ9VlwGiPqYvoog4NMXE8vuppiNnKBXJ4dGDRyKW2zSPqonVFrYjfr1adeDdOJ1PRRhyXyVOJL1P9mV9CK3U5lp65EUFkJN4ERS6q8W5FUONOCbp6h0oazep4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539333; c=relaxed/simple;
-	bh=Efd4ExzyA+gSBUtB5aC3WLNgg5yFZHlPqCIXG4dCzRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f2tRWoMEOc2gM5nEYwvZy5mxJcp4Q2Ylyf69F/yCACn10/3Qd1/mxyl+TP00GOCrxjwXFMqJVpkJRJt19pH83/sCmLip2l8wn/K4rYJYLjQxgSTMC4wh6jpjTKQf2yb2MalCPzY3KlxvfUoD8Sz7mgjiJvKV2/J2v9z6OKLeZPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlwUnROg; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785539539; c=relaxed/simple;
+	bh=qQwDlVZ0y+Ns2+FluZ0ZaIcELHvxFEVQJ7zat04/17Q=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=If97bpyr4KbfLF4zZEgMdy6WnZQeuAN5biEzxAxN8xVSvxKlUzMN9wYK3vwUyUU5qtYi37/21RAXfAoirSc/8AIeOOECwbWlvsoOY+RdxlhMkyoRjWd/mlNaJ6160txOviARhPsu8yPejXDGVaGU6YzbvzxeLTesr6y048KhBhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QNPUjWFV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FQYynIeS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlwUnROg"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-81e69a2db34so22659337b3.0
-        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 16:08:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QNPUjWFV";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FQYynIeS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785539531;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
+	b=QNPUjWFVMDaCUpavzuEvY+NlOgzT8669kwV+r1FJJb5R58nfDhNh+JE+rIhMa8tAZxld0C
+	1egzdWvorYuL4TIUF2/SxQmVc8ZTrL8bsJDr2+3SyllVNfEEpzCXoXBENaniMGxYRMAVjg
+	LG5rfPS3l6WD41oGzL6WAa+ch/Q8OlE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-539-S7P0hcELOkm1ULsY2-DHYg-1; Fri, 31 Jul 2026 19:12:04 -0400
+X-MC-Unique: S7P0hcELOkm1ULsY2-DHYg-1
+X-Mimecast-MFC-AGG-ID: S7P0hcELOkm1ULsY2-DHYg_1785539519
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-47f835ac1aeso1253478f8f.3
+        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 16:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785539330; x=1786144130; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dJ1IIcHTj/qOIKml7dlaH4XAtSdJBnD35N+IePiFWuc=;
-        b=IlwUnROg8Wdzt0RbIPalWHpW0smG/5kgXCEbht0C0aRGbtaOU37Vb5XoaX2sTXqkzm
-         HLP0ue6SUiPzFuqHfvKk+5TA2sQI0RRqWwq4mUh95zJSKqSip+LeVWrRu4iyDnh7/SWK
-         KBtew4RuXLUMA/EyTL67erv0TLYh5je+bzLKc7zpLaAePtbyGD5I+vioyQfdHEXumBO1
-         qw3iCaP6WthFpXW9hkoqVmyIC1oKMD2K/vhKdU5WJSuAWlYFs4dUbeTxxSzC0Dpxn/4v
-         tAglKzvSPduw1kxd/IpRaU1e8bvSyjFsMw/QaFmNBmKcRoSls9fgZLAV/SDcMkumuq8Y
-         arPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785539330; x=1786144130;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=redhat.com; s=google; t=1785539518; x=1786144318; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dJ1IIcHTj/qOIKml7dlaH4XAtSdJBnD35N+IePiFWuc=;
-        b=LCtVtjtulu8OvuRmMpbcB/Aw//p8viz6OL3tl0JTSYHkUHVyRs5huj6kSIA7Wl8rDN
-         hazk2KixFcBOgrw47yXFhRnGhLSc1ZrNl3DSZuahvZcMX7FXqul0zbPJPkXD65s1YmHe
-         7BQlGRhsX91sGodZre45U9m7JdAado3lK5ttmMsfxskYvyvSRvHrotiIL0CxI6aQzTuT
-         XTjQWt+jrZ1kAy/naESlSXNFx9gFHCM72nb5VOHsDAkxY3rfERJS4cpFRl6Zs7Qg0P8Z
-         6l0Fmd7fl2tFD+SKfZkVhZPSIZxM78eKSS+ZcfFuKkcXOeNO42+hX8Q81AXWVw/wU7Dm
-         fJMw==
-X-Forwarded-Encrypted: i=1; AHgh+RrzFODd9x6WwFOEb7RXSTkG2G8WKKg/8caWKajv3cetiTrV63p71RlJAWf6y3jU361llHq7amkdDOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXqZVMqqXwOJfvApuaNYdkL/XBttVoxQlkr1sgD4P8l6B2Eo76
-	SNxyT7J7YfyjO6/Ztp7grSnoo3K4XGT6h4J5nDOtNt8xI2/B9ZX35WSo
-X-Gm-Gg: AR+sD13atWa+I7qAYTuXck5SzYWYehmRaKjWClhR90z9HCyrVnHme5sqc/vZWnbQlDI
-	OFYOvz+MWi3rPeQ2ipUHI6XfPHwq1T263fVvIvEbyeXQ4EmmjjQsSBZ4cDg2RyuS8kkBj8m+DYa
-	Ln6GU7JDqDskXbldwYRBvHRuqGnOy9GvoRSh19zHdgnpI+wh5GSigPsjlnFNQ+/AuDBvzYhi2J7
-	O/hLFkT/w0hqy4gBVksotoyC2+OmJt2oj22o0jA6UpdG48v5URre0jIhymAUbvYqh0MSHzXegps
-	mzrTfxH406+omgv+q/+hjSKnoScUOXrvFzFY3ScPvXpldoHt0x++UkH7NzPeheC5hsZ4APUEPvm
-	KQRoEZN1fGl80vkqNoRTMI/Rj4IoWwM/T6tVSaElnUSPinA8KA7AuoiiTDWAgElwyaRaK/L2WmG
-	HGf0yPVmmjEiAPouSIUfqUNOwqkkuZGBSf8YTKQVtnJlh8aDbniw==
-X-Received: by 2002:a05:690c:670e:b0:81c:c77b:3546 with SMTP id 00721157ae682-81fd4b5a1fcmr24745957b3.21.1785539330542;
-        Fri, 31 Jul 2026 16:08:50 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::41])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81fcd10c991sm16207557b3.36.2026.07.31.16.08.48
+        bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
+        b=FQYynIeStE0tuGoT17eKb2xcNBLZxdkfeYuzFaUulSVigSfcgHcaRXY0UYuEgLb8rl
+         GMBPy77fg8mN5odFF/rz91qXXbjZYMlbe60Gkj5+IEa3JdNcQJxOilfwQCok9QqE4vij
+         Me06bbkxVDRTPcVUyaCwtEVkffSWZiu9uetQ/2OWtbkrYgkKhPEkLotbWn+XPgJWA5hJ
+         ceX4B7jEL2YF5EojsvOuFo/kzTh34pcDGppDlYFa4aSWsUKaePMHWJO0aDzENe2Le4aS
+         XVutG0kq8Un+Tm3IuMUSrNul+dz/pUSb8zwX+C5lmu7bJN25QHCsPmwzh8B6o+5pNmY6
+         qeZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785539518; x=1786144318;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
+        b=rEV6AwUOCcPSo/dGmrsbbsed52xVt0EZJ2enTtHDW5T/65uAG6FN6Kaf9cs6g/7BEj
+         XczGcXovQXrUwzT+UT4m34VVWs/8PhwsLM0PHCq+96WPBJt1Pq7TE/S5SuqtK2k4DPc9
+         35iJphuPjxJQXdVVmFfZ9MaXN1aRCrOg+GnbIwxskCRv24DMo6OgrMd0SvW3ThsLszXs
+         6YZ5uEBWSkBaWIeafDnpqbtd2J+LHmisOS4Pl3JdhFlPVC2IOty/KKmBgdQ8kJxycdSX
+         9dEPvukJfjBS6OoxOTD3dlws3JdveA8nbTA/p42n8/RvrcJpgwYE3w+TQtHLW2jxvuDI
+         prMQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoDpubtov8utLMKYNzB2Mf7qm1yiADCbwjRvc4uSIwfTA7UHVeB9tXNZelDVXNLZXYqZgK2xKomgto=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQHxqu8OL8iJqmVyDTuCjff8W2TocdYj4ZIAqYxuyAGwAUlg2Z
+	07eZhHH/0xXb1DjqPfc59DOFbDccppgd+UBhJ5/quSWQEpbdxLe50V5kWsG65wYiomM2/Wo0FK3
+	6ulfJMGEYrWiJuW1kI3M4cghEtxH/j2iZt7SerUBYE/W7xo2w/D1mnmt/JWYSiw==
+X-Gm-Gg: AR+sD13FZ0JnnzV2hGbjm97OnZmCiO5zounmapbzjvwqW/ihykdxLM6Orz3bmwmxnmJ
+	wM4vkdu8oZmqkQVfpQnwyoXV29t5z+pNwQYwhr0Niw/H7M4yD7Wo7smOqG1P5viZ/lM1yoZFKMD
+	jHJsW7J2CtqrYAai6MA/Mk+CFW0kpPL2WFNn22O34xcF0nCokJtCKPiiZmNmqO4HtyuiWDlr1u/
+	11iFotub0G8ZdovSmiel8AOWAoCV05GKMdJJThFBN2kyYfqMlVdKqxlDaYK3xbFPuzoVV9RIs3c
+	fBgk2ZtiYC/Mm+r0G28xWIZRG/L/SyGuvSazUOYuLC/iA+TNEPc/McjKZAFQDSvWkjaBWxD1nK5
+	1+hGPptNILRjbCzXaE60+Oy6GuxwHAEo=
+X-Received: by 2002:a05:600c:4454:b0:493:bd2a:93bb with SMTP id 5b1f17b1804b1-4980c64b6cdmr1091255e9.3.1785539518694;
+        Fri, 31 Jul 2026 16:11:58 -0700 (PDT)
+X-Received: by 2002:a05:600c:4454:b0:493:bd2a:93bb with SMTP id 5b1f17b1804b1-4980c64b6cdmr1090945e9.3.1785539518353;
+        Fri, 31 Jul 2026 16:11:58 -0700 (PDT)
+Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49808195136sm1033885e9.3.2026.07.31.16.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 16:08:49 -0700 (PDT)
-Date: Fri, 31 Jul 2026 18:08:47 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Joseph Myers <josmyers@redhat.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>,
-	Nevin Liber <nevin@cplusplusguy.com>,
-	JeanHeyd Meneide <phdofthehouse@gmail.com>,
-	Christopher Bazley <chris.bazley.wg14@gmail.com>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Iker Pedrosa <ipedrosa@redhat.com>,
-	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>,
-	Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org,
-	libc-alpha@sourceware.org
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
- Document these as provided by <memory.h>
-Message-ID: <20260731230847.prx4gay3ejvqdy6q@illithid>
-References: <cover.1785532392.git.alx@kernel.org>
- <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
- <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
- <20260731215122.4p4aepsbgeoibx74@illithid>
- <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com>
- <am0fnb4BMRrTajqx@devuan>
- <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com>
+        Fri, 31 Jul 2026 16:11:57 -0700 (PDT)
+Received: from jsm28 (helo=localhost)
+	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
+	(envelope-from <josmyers@redhat.com>)
+	id 1wpwOS-00000003Izp-2ts8;
+	Fri, 31 Jul 2026 23:11:56 +0000
+Date: Fri, 31 Jul 2026 23:11:56 +0000 (UTC)
+From: Joseph Myers <josmyers@redhat.com>
+To: Alejandro Colomar <alx@kernel.org>
+cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+    linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+    Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
+    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
+    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+    libc-alpha@sourceware.org
+Subject: Re: on the irresponsibility of pursuing C language reform (was:
+ [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document these as
+ provided by <memory.h>)
+In-Reply-To: <am0lAEb1wuCJPDk7@devuan>
+Message-ID: <9223d084-7de4-914f-9b53-8862510542d8@redhat.com>
+References: <cover.1785532392.git.alx@kernel.org> <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org> <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com> <20260731215122.4p4aepsbgeoibx74@illithid> <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com>
+ <am0fnb4BMRrTajqx@devuan> <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com> <am0lAEb1wuCJPDk7@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="owvoh3xzakurq64c"
-Content-Disposition: inline
-In-Reply-To: <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
 
+On Sat, 1 Aug 2026, Alejandro Colomar wrote:
 
---owvoh3xzakurq64c
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
- Document these as provided by <memory.h>
-MIME-Version: 1.0
+> > In other words, they were in that header for 6 years, and it's been 
+> > implicitly obsolescent by virtue of the standard choice for the 37 years 
+> > since then.
+> 
+> Yes.  And I'm trying to revert the implicit obsolescence.  Obsolescence
+> isn't a one-way process.  Sometimes, evidence shows up, and the obsolete
+> feature must come back for $reasons.
 
-Hi Joseph,
+When it's been obsolescent for 37 years, bringing back a header with the 
+same name is just going to confuse people with 37 years of past 
+information saying it's obsolescent (normally if one source says "use X" 
+and another says "X is obsolescent", you can reliably assume that "X is 
+obsolescent" is the more recent information, even without 37 years of 
+history involved).  Any reasonable change there would involve a new 
+header, say <strnpad.h> for strncpy and strncat, rather than resurrecting 
+a very old one.
 
-At 2026-07-31T22:42:00+0000, Joseph Myers wrote:
-> Standards involve accepting agreed compromises that might not have
-> been your first choice, rather than endlessly relitigating past
-> disputes without new evidence or changed circumstances.  In this case,
-> the choice of where to put the functions in C89 was an agreed
-> compromise that implicitly obsoleted the previous location, and should
-> have put an end to any arguments that <string.h> was a bad location
-> for those functions in the absence of clear new evidence.  We have
-> plenty of clear evidence for confusion about strn*; we don't about
-> mem*.
+> The solution of moving both mem*() and strn*() to <memory.h> and leaving
+> just str*() in <string.h> is a consistent one, because <string.h> then
+> remains strictly for string APIs, and <memory.h> is for the rest of byte
+> handling.
 
-What are some good ways to gather evidence that:
+It's inconsistent with how people have understood C ever since it was 
+standardized.  Changing the header memcpy is in is just as ridiculous at 
+this point as the proposal there once was to obsolesce NULL.
 
-* ...C programmers since 1989 have gotten better at recognizing when
-  they're dealing with "memory buffers" versus "strings"?
-* ...that the header file's name has aided or frustrated that
-  recognition process?
-* ...that consequences of whatever confusion persists are more severe
-  than the C Committee measured in 1989?
+> It wouldn't be reasonable to move strn*() to <memory.h>, and then leave
+> mem*() in <string.h>, of course.
+> 
+> Similarly, it wouldn't be reasonable to more strncpy/cat() to <memory.h>
+> and leave the rest of strn*() and all of mem*() in <string.h>.
 
-You can tell by my phrasing which way I _suspect_ the evidence points,
-but I'll openly admit I don't have quantiative data.
+On the contrary, it's only the functions for null-padded fixed-width 
+buffers that are niche functions causing confusion, compared to all the 
+rest of the functions in <string.h> for which it's a very well-established 
+and well-understood location.  Some others like memccpy are *obscure*, but 
+not confusing in the same way.
 
-But I think bringing such information to bear makes a stronger case than
-a simple appeal to 37 years of precedent.
+-- 
+Joseph S. Myers
+josmyers@redhat.com
 
-Occasionally, matters get relitigated because they had been wrongly
-decided.  I appreciate the trend since 2000 or so of Stroustrup (with
-respect to C++) and the Austin Group (with respect to POSIX) becoming
-more open about where the bodies are buried, and how certain
-standardization decisions have been reversed (through deprecation,
-withdrawal, and similar) because a powerful vendor took its leave and
-was no longer around to filibuster constructive development until its
-demands were met.
-
-I seem to recall Stroustrup calling out Sun Microsystems by name in the
-4th edition of his main C++ book.  (Something to do with the exception
-propagation mechanism, I think.)
-
-I suggest to WG14 that a good way to reduce relitigation is to
-candidly disclose in informative sections of the standard corresponding
-to applicable topics, where the committee as constituted at the time of
-issue has reached exhaustion with a matter.  (Though I wonder if ISO
-would insist that such language be ripped out.)
-
-I followed the C23 standarization process closely, and it looks as if
-the National Bodies (NB) very nearly fought WG14 to exhaustion regarding
-trigraphs.  I was greatly relieved that you guys won that one.
-
-Back to the topic at hand, in data processing we tend to strongly
-distinguish three forms of storage management:
-
-1.  base and bounds (mem*)
-2.  delimited (if with null bytes, str[^n]*)
-3.  fixed-field (strn*, but not very consistently)
-
-=46rom one perspective, 1 and 3 are really the same, but from another
-they're not, because, as some thousands of CVEs have shown, programmers
-thinking of case 3 tend to assume that the field will be populated with
-elements that are "well-behaved" in some way, whereas in case 1 they
-tend even more strongly to be conscious that the storage could be
-populated with arbitrary or even malicious garbage.
-
-Do your impressions match mine in this area?
-
-Regards,
-Branden
-
---owvoh3xzakurq64c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmptKvgACgkQ0Z6cfXEm
-bc5Dag/+Od6oW0Jvhu2kr10hy7oQYdfUpsyXWUBNKiRH+umAoaZDyr8zMMlEk5aK
-Le74Du6WV2IBz4R6EZeuIfCAXMge2/JoSoJq6kFQ7pz5EVC0UqZV+nq0ovCEQQXE
-Asjz1qYblVtExtb2tYvFp17NSHl1D26FwRedfLeNb+V57fMXRQWyZbJQcxDM+1ZK
-Ikv+ChNIjAYAiUILDI4w8vlgXUbrF8oMcviy2HjxFxyuGVlWnqbfQRMV1XVtDFJn
-s7hxzuz8q0qtu9pVo6ZDd0i8ycDYAOZ8StQbC5xUwbZ7ndNFKA0OY2duH3FnCTYZ
-1/v/2o0Yn1F8ekRf2ehRVWSoNlhSD/Oo6yUb9DiRBMd7TAzXmrlwzNkQzjLa5rzA
-BQ3el6k8AO3rBKxkQMbcJ9NzC7fUyy6hibrxBdfw8dvJvNAz1vAfuRtCMtW4r5xE
-5z1AYWJw2PjMrDq4DjLPj4RFB3nH6uhSH4CXRbx7urOIHpiwySFwLK4M3bpCJ+pc
-4FZVz71zi9jLElx7a2krHAZjhH457qqVtF7ezPYC4QxEcK10tlkLrdlrihvfBiDq
-MHXlnsDMBUxKNr9VfHrtwNEtyDHEHZrpCv15IbO9p8Q227Qtmpr+B6o9uUGdilK9
-v0yANMvyj6GKcm7vhiTWxKmP9UnMDrDZ7X8CeGdZBvVi2xeRcTU=
-=05+0
------END PGP SIGNATURE-----
-
---owvoh3xzakurq64c--
