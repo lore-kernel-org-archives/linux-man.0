@@ -1,154 +1,230 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2157C381E86
-	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A720737A821
+	for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 23:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539539; cv=none; b=P0m/cYdkku7TGC4DW7BUw3vtGos1aMF3Slsadhtzho0USha8Q8mZ9VlwGiPqYvoog4NMXE8vuppiNnKBXJ4dGDRyKW2zSPqonVFrYjfr1adeDdOJ1PRRhyXyVOJL1P9mV9CK3U5lp65EUFkJN4ERS6q8W5FUONOCbp6h0oazep4=
+	t=1785539988; cv=none; b=NMGVnmWSDOcXg9osNOlufTNGPvBOg9vyBufFyWKVIKpe5dQPP8qpSy6aCzJOVc2Z2qyYY+tsljF4NwLadh1PFvAjgHUdB9TZ9FAFGNr402MxiyTDga0QqLI/C8f09fP8JlxJQwA9k1MkLus50eo/il88Guz41+sBBAlYV9MoESw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539539; c=relaxed/simple;
-	bh=qQwDlVZ0y+Ns2+FluZ0ZaIcELHvxFEVQJ7zat04/17Q=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=If97bpyr4KbfLF4zZEgMdy6WnZQeuAN5biEzxAxN8xVSvxKlUzMN9wYK3vwUyUU5qtYi37/21RAXfAoirSc/8AIeOOECwbWlvsoOY+RdxlhMkyoRjWd/mlNaJ6160txOviARhPsu8yPejXDGVaGU6YzbvzxeLTesr6y048KhBhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QNPUjWFV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FQYynIeS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785539988; c=relaxed/simple;
+	bh=xycfe4QtutLHe5ap3C6bEHFfSEeS87qqNRDE1Y00GhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7byOPzgxQhZBQGupn59tbu7rF6Eg5fTQsCN3irYqJTTa8b5141FMmg4Vw6nA633k7mhL9dPEI/HFdCC2lYs2Vl3+3vaoqqXJaZp0quzbr9ud0KDym1BaN1OlPBRNwCQxJGdF3pL9P24I0+sm0RzK2lNoek6Zjb/gXdRuttG+Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I9VKX+mr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QNPUjWFV";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FQYynIeS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785539531;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
-	b=QNPUjWFVMDaCUpavzuEvY+NlOgzT8669kwV+r1FJJb5R58nfDhNh+JE+rIhMa8tAZxld0C
-	1egzdWvorYuL4TIUF2/SxQmVc8ZTrL8bsJDr2+3SyllVNfEEpzCXoXBENaniMGxYRMAVjg
-	LG5rfPS3l6WD41oGzL6WAa+ch/Q8OlE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-539-S7P0hcELOkm1ULsY2-DHYg-1; Fri, 31 Jul 2026 19:12:04 -0400
-X-MC-Unique: S7P0hcELOkm1ULsY2-DHYg-1
-X-Mimecast-MFC-AGG-ID: S7P0hcELOkm1ULsY2-DHYg_1785539519
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-47f835ac1aeso1253478f8f.3
-        for <linux-man@vger.kernel.org>; Fri, 31 Jul 2026 16:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785539518; x=1786144318; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
-        b=FQYynIeStE0tuGoT17eKb2xcNBLZxdkfeYuzFaUulSVigSfcgHcaRXY0UYuEgLb8rl
-         GMBPy77fg8mN5odFF/rz91qXXbjZYMlbe60Gkj5+IEa3JdNcQJxOilfwQCok9QqE4vij
-         Me06bbkxVDRTPcVUyaCwtEVkffSWZiu9uetQ/2OWtbkrYgkKhPEkLotbWn+XPgJWA5hJ
-         ceX4B7jEL2YF5EojsvOuFo/kzTh34pcDGppDlYFa4aSWsUKaePMHWJO0aDzENe2Le4aS
-         XVutG0kq8Un+Tm3IuMUSrNul+dz/pUSb8zwX+C5lmu7bJN25QHCsPmwzh8B6o+5pNmY6
-         qeZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785539518; x=1786144318;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sBxJEEW+ATa94ywPO6iUl1knTCBN0xMQtHPDURM4K08=;
-        b=rEV6AwUOCcPSo/dGmrsbbsed52xVt0EZJ2enTtHDW5T/65uAG6FN6Kaf9cs6g/7BEj
-         XczGcXovQXrUwzT+UT4m34VVWs/8PhwsLM0PHCq+96WPBJt1Pq7TE/S5SuqtK2k4DPc9
-         35iJphuPjxJQXdVVmFfZ9MaXN1aRCrOg+GnbIwxskCRv24DMo6OgrMd0SvW3ThsLszXs
-         6YZ5uEBWSkBaWIeafDnpqbtd2J+LHmisOS4Pl3JdhFlPVC2IOty/KKmBgdQ8kJxycdSX
-         9dEPvukJfjBS6OoxOTD3dlws3JdveA8nbTA/p42n8/RvrcJpgwYE3w+TQtHLW2jxvuDI
-         prMQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoDpubtov8utLMKYNzB2Mf7qm1yiADCbwjRvc4uSIwfTA7UHVeB9tXNZelDVXNLZXYqZgK2xKomgto=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQHxqu8OL8iJqmVyDTuCjff8W2TocdYj4ZIAqYxuyAGwAUlg2Z
-	07eZhHH/0xXb1DjqPfc59DOFbDccppgd+UBhJ5/quSWQEpbdxLe50V5kWsG65wYiomM2/Wo0FK3
-	6ulfJMGEYrWiJuW1kI3M4cghEtxH/j2iZt7SerUBYE/W7xo2w/D1mnmt/JWYSiw==
-X-Gm-Gg: AR+sD13FZ0JnnzV2hGbjm97OnZmCiO5zounmapbzjvwqW/ihykdxLM6Orz3bmwmxnmJ
-	wM4vkdu8oZmqkQVfpQnwyoXV29t5z+pNwQYwhr0Niw/H7M4yD7Wo7smOqG1P5viZ/lM1yoZFKMD
-	jHJsW7J2CtqrYAai6MA/Mk+CFW0kpPL2WFNn22O34xcF0nCokJtCKPiiZmNmqO4HtyuiWDlr1u/
-	11iFotub0G8ZdovSmiel8AOWAoCV05GKMdJJThFBN2kyYfqMlVdKqxlDaYK3xbFPuzoVV9RIs3c
-	fBgk2ZtiYC/Mm+r0G28xWIZRG/L/SyGuvSazUOYuLC/iA+TNEPc/McjKZAFQDSvWkjaBWxD1nK5
-	1+hGPptNILRjbCzXaE60+Oy6GuxwHAEo=
-X-Received: by 2002:a05:600c:4454:b0:493:bd2a:93bb with SMTP id 5b1f17b1804b1-4980c64b6cdmr1091255e9.3.1785539518694;
-        Fri, 31 Jul 2026 16:11:58 -0700 (PDT)
-X-Received: by 2002:a05:600c:4454:b0:493:bd2a:93bb with SMTP id 5b1f17b1804b1-4980c64b6cdmr1090945e9.3.1785539518353;
-        Fri, 31 Jul 2026 16:11:58 -0700 (PDT)
-Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49808195136sm1033885e9.3.2026.07.31.16.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 16:11:57 -0700 (PDT)
-Received: from jsm28 (helo=localhost)
-	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
-	(envelope-from <josmyers@redhat.com>)
-	id 1wpwOS-00000003Izp-2ts8;
-	Fri, 31 Jul 2026 23:11:56 +0000
-Date: Fri, 31 Jul 2026 23:11:56 +0000 (UTC)
-From: Joseph Myers <josmyers@redhat.com>
-To: Alejandro Colomar <alx@kernel.org>
-cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-    linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
-    Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
-    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
-    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
-    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
-    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
-    libc-alpha@sourceware.org
-Subject: Re: on the irresponsibility of pursuing C language reform (was:
- [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document these as
- provided by <memory.h>)
-In-Reply-To: <am0lAEb1wuCJPDk7@devuan>
-Message-ID: <9223d084-7de4-914f-9b53-8862510542d8@redhat.com>
-References: <cover.1785532392.git.alx@kernel.org> <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org> <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com> <20260731215122.4p4aepsbgeoibx74@illithid> <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com>
- <am0fnb4BMRrTajqx@devuan> <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com> <am0lAEb1wuCJPDk7@devuan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9VKX+mr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 734AF1F00ACA;
+	Fri, 31 Jul 2026 23:19:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785539987;
+	bh=ZxesOwBQkS+XtWwLJ7hShGYrkEVO/ub72xwrjJP2U5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=I9VKX+mrj6eGVPGLbthV8AZPoCX5905WBH8XAc/qanm+RvJ3E+TfaWqTPyhW7d4/H
+	 rcPJchrxZh4NsM6Rd2h6awgeInuk5efhlCgjSDFf6wXXM4tKqvlmAxfo/J9X/lJ+zK
+	 8MAgQgLdEVmAcHfa0yC5qTz+rCOA1SQelyzymubaF+0PXnHcdUp+HzInJhSVaJL/s4
+	 mcHugbIHrYgSzTq239nxNpmMmW60fa03Mvm4I9QNvPd7Es2Na+/5wCXSXeeTB+FGGV
+	 86wVUQSxKYmnkd8ZtQ0ujqJ1Nw3Px8PujrZCkTmQtz2xFPgSE5l6qa08WeM1VhkEFs
+	 OXDfrus243s3Q==
+Date: Sat, 1 Aug 2026 01:19:42 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Sam James <sam@gentoo.org>, Joseph Myers <josmyers@redhat.com>, 
+	linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <am0rpivjb9fBdwqe@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+ <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
+ <20260731222417.4fo36is3iawyc7d4@illithid>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sqevub5kqbys44zc"
+Content-Disposition: inline
+In-Reply-To: <20260731222417.4fo36is3iawyc7d4@illithid>
 
-On Sat, 1 Aug 2026, Alejandro Colomar wrote:
 
-> > In other words, they were in that header for 6 years, and it's been 
-> > implicitly obsolescent by virtue of the standard choice for the 37 years 
-> > since then.
-> 
-> Yes.  And I'm trying to revert the implicit obsolescence.  Obsolescence
-> isn't a one-way process.  Sometimes, evidence shows up, and the obsolete
-> feature must come back for $reasons.
+--sqevub5kqbys44zc
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Sam James <sam@gentoo.org>, Joseph Myers <josmyers@redhat.com>, 
+	linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <am0rpivjb9fBdwqe@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+ <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
+ <20260731222417.4fo36is3iawyc7d4@illithid>
+MIME-Version: 1.0
+In-Reply-To: <20260731222417.4fo36is3iawyc7d4@illithid>
 
-When it's been obsolescent for 37 years, bringing back a header with the 
-same name is just going to confuse people with 37 years of past 
-information saying it's obsolescent (normally if one source says "use X" 
-and another says "X is obsolescent", you can reliably assume that "X is 
-obsolescent" is the more recent information, even without 37 years of 
-history involved).  Any reasonable change there would involve a new 
-header, say <strnpad.h> for strncpy and strncat, rather than resurrecting 
-a very old one.
+Hi Branden,
 
-> The solution of moving both mem*() and strn*() to <memory.h> and leaving
-> just str*() in <string.h> is a consistent one, because <string.h> then
-> remains strictly for string APIs, and <memory.h> is for the rest of byte
-> handling.
+> Date: 2026-07-31 17:24:17-0500
+> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+>
+> Hi Sam,
+>=20
+> At 2026-07-31T22:59:47+0100, Sam James wrote:
+> > "G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
+> > > At 2026-07-31T21:23:35+0000, Joseph Myers wrote:
+> > >> I think it's irresponsible to use the man-pages project to promote
+> > >> personal idiosyncratic ideas like this in preference to what's been
+> > >> the standard location of functions since 1989.
+> > >
+> > > I'm sure I don't need to bring to your attention what a mine field
+> > > string/`char` sequence/memory buffer handling has been in C since the
+> > > language's inception.
+> > >
+> > > More to the point: what's a better forum for pursuing this attempt at
+> > > reform that will both (a) reach a significant population of stakehold=
+ers
+> > > who can variously red-team it and/or endorse it; and (b) has sufficie=
+nt
+> > > visibility that it can't easily be ignored by people who oppose reform
+> > > in this area for whatever reason?
+> >=20
+> > I think the man page already tries to discourage use in its CAVEATS
+> > section.
+>=20
+> Yes, but that's not a language reform, which is what Alex is pursuing
+> with "alx-0097r1".  In at least one earlier iteration he's expressed his
+> intention to submit an N document to WG14.
 
-It's inconsistent with how people have understood C ever since it was 
-standardized.  Changing the header memcpy is in is just as ridiculous at 
-this point as the proposal there once was to obsolesce NULL.
+Indeed.
 
-> It wouldn't be reasonable to move strn*() to <memory.h>, and then leave
-> mem*() in <string.h>, of course.
-> 
-> Similarly, it wouldn't be reasonable to more strncpy/cat() to <memory.h>
-> and leave the rest of strn*() and all of mem*() in <string.h>.
+> > > I hope you do not wish to imply that a closed session of some
+> > > committee, or unofficial backroom politicking would be preferable,
+> > > nor that WG14 should close its doors to members of its user
+> > > community who have not been vetted for a disinclination to
+> > > boat-rocking.
+> >=20
+> > I am confused as to where that implication could have possibly come
+> > from.
+>=20
+> From familiarity with Alex's stated objective and rationale, which we
+> can acquire from the recent list traffic Joseph characterized as
+> irresponsible.
+>=20
+> AC> The C Committee is discussing standardization of <memory.h>, so
+> AC> let's give it a bump.
+>=20
+> AC> I'll send you a copy of a paper I'm writing for the C Committee.
+>=20
+> AC> It is at the bottom of this email.  I will publish it as an N
+> AC> document in August.
+>=20
+> https://lore.kernel.org/linux-man/784288e704183a4297aeaa3d13af8edab18bc1e=
+a.1785532392.git.alx@kernel.org/
+> https://lore.kernel.org/linux-man/amaTpQxd52iYjlor@devuan/
 
-On the contrary, it's only the functions for null-padded fixed-width 
-buffers that are niche functions causing confusion, compared to all the 
-rest of the functions in <string.h> for which it's a very well-established 
-and well-understood location.  Some others like memccpy are *obscure*, but 
-not confusing in the same way.
+Thanks for posting the links.  I've seen Doug was CCd on the second, so
+I've bounced him the patch set and alx-0097r1, in case he's interested.
 
--- 
-Joseph S. Myers
-josmyers@redhat.com
+>=20
+> > Joseph is opposing the change in the form of a patch that is
+> > likely to be applied (*) to man-pages.git which has the effect of
+> > advocacy.
+>=20
+> Yes, and he said so categorically.  More constructive advice might have
+> taken the form of recommending a sequencing for staged changes.  Here's
+> a crude sketch.
+>=20
+> 1.  Expand "CAVEATS" sections in relevant Linux man-pages documents.
+> 2.  Pursue N-document work with WG14.
+> 3.  When WG14 has disposed of that N-document (and any descendants
+>     thereof), update Linux man-pages documents as appropriate.
+>=20
+> Joseph's almost certainly better placed than I to add a "step 1.5"
+> such that Alex might pursue some course that would better prepare the
+> ground for his step 2.  I haven't attempted revision of the C language
+> standard myself, so I can't offer specific advice regarding how best to
+> pursue such an objective.  I possess only notions of elemental
+> principles regarding how democratic, consultative bodies of technical
+> experts _should_ serve the public.
+>=20
+> That _is_ what we're here for, right?
 
+Yes.  Some more details:
+
+I've obviously circulated this earlier within WG14, and CCd Keith and
+Mark in case they could clarify historic details, or were otherwise
+curious about/interested in the proposal.
+
+Joseph stated opposition there (within WG14), and Keith Bostic suggested
+that I could change the manual pages to document <memory.h>, and use
+that to influence the public, in order to get to step 2.  (The exact
+wording may differ.)  Indeed, I thought it was a great idea, as
+<memory.h> is just as portable to POSIX-ish systems as <string.h>
+(except for gnulib and Illumos gate, gnulib is CCd, so hopefully they
+ address this portability issue).
+
+> > I don't think it has anything to do with WG14 membership or anything
+> > of the like? What am I missing?
+>=20
+> See above regarding Alex's publicly circulated drafts and expressed
+> plans.
+>=20
+> > (*) Alex has a history of making opinonated changes like this to
+> >     man-pages, such as removing references to older standards, and
+> >     using a somewhat novel (to many) syntax for prototypes.
+>=20
+> I concur with that assessment.  However, a person having a history of
+> making opinionated changes is not sound grounds for evaluation of a
+> technical proposal, especially if it's topically unrelated.
+>=20
+> Preoccupying oneself with irrelevancies distracts from the conscientious
+> execution of standards committee participation.
+
+Thanks for the support!  :)
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--sqevub5kqbys44zc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptLYUACgkQ64mZXMKQ
+wqmO2A//WK7Dek+23/tAJJ1IzCNcd7gjhJcG1zNBX84onqbBHDWCUA2EQJgrJxWO
+9NW8Xeea6TGhDL66day4q0WDXB9luYwmz9V1pdsbwUqMGI5cBDMiWswYcn+qqD2S
+Bi/qy3lkpvdm+gKyG45x7SMC1XOY6LhdrNiDqCNXj4YYA9mwi5qJbzXZyyxvjDs9
+6y1AToSxlbe8XMPBjlNeEf6MVEkXW/QMTORmItC8thiZlpos07HqPjgNeB+/mgE7
+0LthwAA28oMNDb9pLJKqEMmwIyJJST/SOxXOlqKMlcYoJgPc+2+cTZY0jCbRnPMd
+QZeK/M6nTQwxf5CVXyJ9CSfJS4Mi2El/NwrFIZB1QEY0CIUqBHmFqGeBNbPxW07J
+E2MSnQswCQXjsjPeJ8A72YqL6A2Xr4867HqBS12Y9On3jhT8ZjpouAgcDKzqOrWe
+I5NKq0XqOxqfeQpVvde86q7BRSdk3Oc6AL4vnklMs9xonAIBmzb1YBEGnaPXroRJ
+lkqFVFKm9+mJ+qqmZ5ry9Ujvl1SM9b3KZ8jyobBjZ/2cKzKmdWNbCGQandUdoSi2
+noIBNQ45aeIfrDGWJAoAqkvs9VzarbrnXb9ShVoDceJFmpAe28HwdYy5GdzTtD4N
+FaT7Educpafy700J4DNFYlJLQNboo8SZyp4fuuYfMcabA7olKAQ=
+=/yJJ
+-----END PGP SIGNATURE-----
+
+--sqevub5kqbys44zc--
