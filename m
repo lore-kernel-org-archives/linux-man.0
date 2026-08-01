@@ -1,186 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D6121ABD7
-	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 23:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785625824; cv=none; b=GRq1Nq7KocyDNGkzSlJvXC7da3iz0z+TK3QffOXML3PoshJJXGVVa7uIFVn3yTs39ZVy+Y8wQj5ZUnyTYMlMghxGUYOcvUxboDK1XMPcLif7c0FQEK78Itm3u4xJ0UlHB/1v5I4/IjU159PuiTuc50tTKEhEGeM6ZIKsDd9pgMI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785625824; c=relaxed/simple;
-	bh=ebDK5NRR0QZKrjWeiXMGDGmvO89Vd0++XGzoEo5Xqpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kznEyvy6CZZxZJlTXDNxHbZQ7lSu7OeEiV2xeoUeVcxOkqXxAthl3/LV6sEbata9cFHyxHpZ8kl8QxccEgJoYGa2xgGQAm6CejJa6wNN3lNN8oPnxCpk+meYbCcxzM23I2re2r3J0fXVEKBRxfyZKLzGaz+v7z9Qk3JwxTCQ/kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m6Taolnr; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759692EBBB7
+	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 23:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785626393; cv=pass; b=dAhOS+9NAAOu2kZfYBGix34wnzmrVNb3DzP8gL+lvPQPi0OlZ/1FrJMFakqzViJrS7nypCs3xOnvmKLVZBAtU7dhnzGbA4E3F15Ey9+yYNxzXi9voj3CvAULCCDqgr8HZ+VOS40vtz1lmgWWMGPs+tRQAbJbV1KX1/T4jsDIZNg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785626393; c=relaxed/simple;
+	bh=1VfEdWhCkWCuAHmvTcgU9GOz8biHBzEHdf1VASJpmtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jdYON/LKeaAK6NGtSrGsq7M88fYAAETNGueQ9rwYf36067BtQZdBpXWsXb8IYyZjkHzvOPp26tK/QANDJ+B8dS0aQ0PlsYxsw+DhqTY4XFGgquL5Mhc6Jgrav+tRi/V1CfzM+XiYLZZO4fGX2SIyuDDpwN3+tMttkXU9L9twdFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org; spf=pass smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=EFeeuPnQ; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=V8/6e3oD; arc=pass smtp.client-ip=81.169.146.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=clisp.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=clisp.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m6Taolnr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 032241F00AC4;
-	Sat,  1 Aug 2026 23:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785625823;
-	bh=/0D1ac3W8eUTLkDKP5PiharPp0jlMgWPv3ZafRJuiJM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m6TaolnrSQg3Nvu2a9N3wbbQ3yM9sxH6zP96yyWlsvVOlqD8xO7l4+Gv4a+pknjej
-	 HJjlKBw25E7GsUiggJC1gk4zhB3vTXJc3HNBQoSQzz5lrTWVJ9MyVW1dqSI0IXopo1
-	 tjdEzBjKLSjKOpG2Na9o87oxTK8lHiA9UNCBA1v1wjfVT1y9M1wHY4Z19R+8G5w0KS
-	 L+1zg9niuNDpLAqp2DNBbaY5EVgJvv8G9oQQfNoKMw0Pu3ozQt3xu3+0nbKJAByzmd
-	 ws/2fxLluX0+D1I49W3vGwn1j5IZ1tXy+ft/QwdQgKm6iXF2iFJCNQ7W903dKMoNSC
-	 9WcwnyluitJ7A==
-Date: Sun, 2 Aug 2026 01:10:17 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Bruno Haible <bruno@clisp.org>
-Cc: linux-man@vger.kernel.org, Sam James <sam@gentoo.org>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Joseph Myers <josmyers@redhat.com>, 
-	Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>, 
-	Nevin Liber <nevin@cplusplusguy.com>, Collin Funk <collin.funk1@gmail.com>, 
-	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	Serge Hallyn <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, Evgeny Grin <k2k@drgrin.dev>, 
-	Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, libc-alpha@sourceware.org
-Subject: Re: [PATCH v2] man/man3/mem*(): SYNOPSIS: Document non-standard
- mem*() functions as provided by <memory.h>
-Message-ID: <am56ZBzNM5J07AUa@devuan>
-References: <cover.1785532392.git.alx@kernel.org>
- <3556566.BddDVKsqQX@cagnes>
+	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="EFeeuPnQ";
+	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="V8/6e3oD"
+ARC-Seal: i=1; a=rsa-sha256; t=1785624947; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=NAo/o8qS2vTfVuBWRpafwZCTXQtnDAxH/wrWVkYIotAn4QEG+J6j8KgkOLF0NIphqg
+    qT/YsICkQAaW/95FXi/muom4fMAr5F1jF5jZbXqgsfpPrNipOzfpgLsk+OS3VwY4Em0w
+    nunsagTgHFlcWcKClmGeAbZKbC2t86L2pCNa6KcCtSs/jj+RlUifVEmRi/MH5s3+YHLd
+    1oWI8CeuwS0/QPEc/FtoYUqI3a0Mcj9zq21gILQvFwNsVlVqrRRCW2RIbJe1aAsg6kY0
+    EaLl6DJM0luB2WEK5FV1RXU6a6aakXkeMnplhKLjAyKTXkCPGrH9OdXT3HDA5vc443uX
+    mjRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1785624947;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=5gYsB1PjJ7H7PuFJQUvn/QTdyGMZA6ECDbN3ychUHoc=;
+    b=o5ibufNmyQzNtfSvuQvziadpdalrLAHXZofTTgziYyTKHhfZV+7CXtNFC+ZH17lhU/
+    cX2kLHtxJk/k2YqElYJJ/FqX4x9bY5CMDQRcfGoxYwG1wwuS/kmlKoMDoA14CM0OgDE7
+    9t9YGZuSfMb04CafM6N/evLa6cwGk3ksvf64Qd49rt9N+ufPHUXkj0GEl/8kXZPww+j1
+    NZWrbU+C204KkY0uDlrnXZPDSFL8H7sT4YiuAQ6I9StT2DEOyrFg9P4hrD4qOWOdEzFS
+    51qe8V9T05Qc2rsnokHgODz2qQjEoayuF3gVc4499d9KkvTidObIy0MbbYo5Aknr+mBc
+    3Wpw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1785624947;
+    s=strato-dkim-0002; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=5gYsB1PjJ7H7PuFJQUvn/QTdyGMZA6ECDbN3ychUHoc=;
+    b=EFeeuPnQ4cKDLTTVJ3snM/IttPc7Qf1hCmr/+LzdNXGc8Mf2eTvx/Gy6FkauO2Om48
+    Kb02Zn9bwpphR0JPru6GNhGzgj19xeYTDXMsF5Yo+EDDaY68uvyAz3FUuw6tsG3CIQT7
+    qikY1VeF1ZhDR+gT5KJ1p4wWk5jwLzp0khnKIWTHSbthZF1UJZzYyf+hlJjtpttl3fek
+    2FdQz++jDRghYHnvXUr6WLhHW/JPLFN/EtOdXVLhjOcvJshx4lpFHYJz8MF7jgzA0eqf
+    lb6RI80nWlJsSjUMfIabEgANKri45pgSfWqc+qTcXXdW8CPVPdppzKaPiRvDckn2Kf5J
+    PVwA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1785624947;
+    s=strato-dkim-0003; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=5gYsB1PjJ7H7PuFJQUvn/QTdyGMZA6ECDbN3ychUHoc=;
+    b=V8/6e3oDvIOkzkQEMGKBm+gRoSQFC8mreMnB5WWbamPZqTLLq47irHJ/XLkZLqqaVN
+    KXO3Pam7LhYV21BymbBw==
+X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlLnY4jECd2hdUABIYZgv6aLDTL6Xu4hNwOa7LgT5qxJwPHjvVHn41xUN2XO6ElUUX"
+Received: from cagnes.localnet
+    by smtp.strato.de (RZmta 55.5.6 AUTH)
+    with ESMTPSA id N4429c271MtlkMl
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 2 Aug 2026 00:55:47 +0200 (CEST)
+From: Bruno Haible <bruno@clisp.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, Sam James <sam@gentoo.org>,
+ "G. Branden Robinson" <g.branden.robinson@gmail.com>,
+ Joseph Myers <josmyers@redhat.com>, Keith Bostic <keith@bostic.com>,
+ Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>,
+ Collin Funk <collin.funk1@gmail.com>,
+ JeanHeyd Meneide <phdofthehouse@gmail.com>,
+ Christopher Bazley <chris.bazley.wg14@gmail.com>,
+ Serge Hallyn <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>,
+ Evgeny Grin <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>,
+ bug-gnulib@gnu.org, libc-alpha@sourceware.org
+Subject:
+ Re: [PATCH v2] man/man3/mem*(): SYNOPSIS: Document non-standard mem*()
+ functions as provided by <memory.h>
+Date: Sun, 02 Aug 2026 00:55:46 +0200
+Message-ID: <15288158.RDIVbhacDa@cagnes>
+In-Reply-To: <am50AM0bdufHa9W3@devuan>
+References:
+ <cover.1785532392.git.alx@kernel.org> <3556566.BddDVKsqQX@cagnes>
  <am50AM0bdufHa9W3@devuan>
- <15288158.RDIVbhacDa@cagnes>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o3bks3oxj25plxii"
-Content-Disposition: inline
-In-Reply-To: <15288158.RDIVbhacDa@cagnes>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+
+Hi Alejandro,
+
+> > Your previous proposal "alx-0097r1 - <memory.h>, the legitimate header for
+> > memcpy(3) et al." evaluates like this, IMO:
+> >   * Benefit: Small.
+> >   * Cost of adoption: Huge
+> >     (there are more than 700000 references to memcpy() alone in Debian sources
+> >     [1]).
+> 
+> There's literally no change.  The proposal includes this:
+> 
+>     7.28  String handling <string.h>
+> 	@@ New subsection after title
+> 	+7.28.<0+1>  General
+> 	+1
+> 	+	The header <string.h>
+> 	+	includes the headers <memory.h> and <nonstring.h>.
+> 
+> Which means that <string.h> is still a valid provider of memcpy(3), and
+> thus absolutely no existing code breaks.
+
+Still, for the next 10 years, C programmers would debate whether they should
+#include <string.h> or #include <memory.h>. Different C programmers in the
+same team will have different personal opinions. Thus, programmer team leads
+will have to establish coding styles/guidelines which say which header to
+include in this case.
+
+This is one of the challenges of language design: Each time the language
+offers several nearly equivalent ways of doing the same thing, different
+coding styles and the need for team guidelines are the consequence.
+C++ is particularly affected by this; Go hardly. Pushing C to become
+like C++, in this respect, would not be a good move.
+
+The cost of adoption for this proposal is thus still big.
+
+> > And, of course, for man page changes, consider the authoritative source.
+> > For example, memfrob() exists only in glibc [2], therefore its authoritative
+> > documentation is in the glibc manual [3], and it says "It is declared in
+> > string.h." The man pages MUST say the same thing.
+> 
+> Yes, in v3 (which I'll send soon), they'll say the same thing.  That is,
+> all the functions --standard or not-- will have text clarifying that the
+> functions are also provided in <string.h>.  This covers what glibc says.
+> What goes in the SYNOPSIS is something I'll diverge from glibc, but
+> that's fair game.
+
+I don't agree with you that it's "fair game". The SYNOPSIS is the first
+eye-catcher, often the only part that a programmer reads. It would be a
+disgrace if the man page, in the SYNOPSIS, mentions a different header than
+the authoritative source.
+
+Bruno
 
 
---o3bks3oxj25plxii
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Bruno Haible <bruno@clisp.org>
-Cc: linux-man@vger.kernel.org, Sam James <sam@gentoo.org>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Joseph Myers <josmyers@redhat.com>, 
-	Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>, 
-	Nevin Liber <nevin@cplusplusguy.com>, Collin Funk <collin.funk1@gmail.com>, 
-	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	Serge Hallyn <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, Evgeny Grin <k2k@drgrin.dev>, 
-	Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, libc-alpha@sourceware.org
-Subject: Re: [PATCH v2] man/man3/mem*(): SYNOPSIS: Document non-standard
- mem*() functions as provided by <memory.h>
-Message-ID: <am56ZBzNM5J07AUa@devuan>
-References: <cover.1785532392.git.alx@kernel.org>
- <3556566.BddDVKsqQX@cagnes>
- <am50AM0bdufHa9W3@devuan>
- <15288158.RDIVbhacDa@cagnes>
-MIME-Version: 1.0
-In-Reply-To: <15288158.RDIVbhacDa@cagnes>
 
-Hi Bruno,
-
-> Date: 2026-08-02 00:55:46+0200
-> From: Bruno Haible <bruno@clisp.org>
->
-[...]
-> > Which means that <string.h> is still a valid provider of memcpy(3), and
-> > thus absolutely no existing code breaks.
->=20
-> Still, for the next 10 years, C programmers would debate whether they sho=
-uld
-> #include <string.h> or #include <memory.h>. Different C programmers in the
-> same team will have different personal opinions. Thus, programmer team le=
-ads
-> will have to establish coding styles/guidelines which say which header to
-> include in this case.
-
-I find that an acceptable result.  #include's aren't that important.
-When reading code, the section of #include's is unimportant as long as
-it works.
-
-I don't expect existing code to change, so this is a matter of what will
-happen in new files, or when a file is changed to newly use such a
-function.
-
-Among the stylistic discussions that can happen, this is the least of
-our concerns.  Also, if this triggers a discussion of _why_ this
-changed, we might have achieved something.
-
-> This is one of the challenges of language design: Each time the language
-> offers several nearly equivalent ways of doing the same thing, different
-> coding styles and the need for team guidelines are the consequence.
-> C++ is particularly affected by this; Go hardly. Pushing C to become
-> like C++, in this respect, would not be a good move.
-
-We have precedent in <stdint.h> and <inttypes.h>.  The world hasn't
-fallen over our heads so far.  :)
-
-Actually, <stdint.h> is just the tip of the ideberg.  size_t is provided
-by 27 headers, if I counted well.  And there's plenty of such examples.
-Another curious one is that there's something that's specified by ISO C
-to be defined in <time.h>, and by POSIX to be defined by <sys/time.h>.
-I don't remember what it was, but it was funny when I found out.
-
-I've been involved for a few years in iwyu(1), contributing code for
-dealing with the standard includes from libc, and while we had our share
-of discussion of which headers are preferred for each symbol (we're some
-pedants, of course), I've never heard that such discussions reached the
-general public.  The general public just wants a tool that says which
-are the right headers, and go with it.
-
-> The cost of adoption for this proposal is thus still big.
->=20
-> > > And, of course, for man page changes, consider the authoritative sour=
-ce.
-> > > For example, memfrob() exists only in glibc [2], therefore its author=
-itative
-> > > documentation is in the glibc manual [3], and it says "It is declared=
- in
-> > > string.h." The man pages MUST say the same thing.
-> >=20
-> > Yes, in v3 (which I'll send soon), they'll say the same thing.  That is,
-> > all the functions --standard or not-- will have text clarifying that the
-> > functions are also provided in <string.h>.  This covers what glibc says.
-> > What goes in the SYNOPSIS is something I'll diverge from glibc, but
-> > that's fair game.
->=20
-> I don't agree with you that it's "fair game". The SYNOPSIS is the first
-> eye-catcher, often the only part that a programmer reads. It would be a
-> disgrace if the man page, in the SYNOPSIS, mentions a different header th=
-an
-> the authoritative source.
-
-Some would question the fact that the glibc manual is the authoritative
-source for glibc documentation.  :)
-
-> Bruno
-
-
-Cheers,
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---o3bks3oxj25plxii
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpufNQACgkQ64mZXMKQ
-wqnO6Q/+JcNAwkwO1RUrLetJApHKj8yMx77iqYI/j+I82j4Leze3rH5NVXKBT9Ay
-TzwKn2MetoxEfpj5sniCdhzJvUFx9LqfauRwxHsSZxdv26gpov5In7icc/Zh1TLf
-Julfkgj1cOG187knEbzcnrXjza8tn8W0g6llrhW8lJrQk/U9zwlnZ7UnMiKu9Uul
-bYsvUr+DckY7R833WOL7nfj0r4+ExgluiTLel4b3aC9+PYFr6+fs6/Ech6Mqh0Gv
-OKdl8nou947dMnipA/wPmT+xjLe3lEy7iLKENl7Xnr1sfcSJ3+UtDkatoj9AEjyr
-YAFswshWWnNSIzjFD0CD2kX1glmPN2yGqnCjR1tWMaWKvjrXDhLa3SLaj5Qm8w6q
-AFUXdOCkCz84svPUlfwLDAN9yrsoUjiVMD1IJBL8Xfo9NZHik1018lq0QaoK6DvM
-FjsHwbiss0qs6raPW6PemnyV3h7ayBnhYeFuTzrGwDSSrrkK+ixvSw417CpzX5LA
-l/JqOmwCu+zWWyWVkmxbOaEvuuOxq9vD0Ta7tuypw8LIuX7rQkA5AgsLxfBvE+6E
-6mfThecvmLyHqhfK8hDkwe5HTBDbdSHLUCVvoxHgof7O2kSN6cn91OpzSv/jXAPT
-zP3dLCIIctuIMBhYTXsnkqe3+u2tgi8ufjuLpYR04hoMrfB6bE0=
-=6LVP
------END PGP SIGNATURE-----
-
---o3bks3oxj25plxii--
