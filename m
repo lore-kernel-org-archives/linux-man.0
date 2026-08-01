@@ -1,42 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E007B345ED1
-	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 01:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA582E1F06
+	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 12:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785547001; cv=none; b=pA3vhu1NxQdeF/ydta/v6VEj6VtzRjZ2ouffVZyLDnfnDjW3JzEqDTC21yW6fe9+c7lzTxcsW1usd/2efqVSAiS3TClzD/MmtWYsHTey0H43/w/cShrGCawwLQfTGYoFaYbx433CX5IwXbfDyjGIgPDtCuGxlstCgDyy0IFwUO4=
+	t=1785585700; cv=none; b=UyjYcGOVUbp5gSYCzp7PO0fIdlzTHZ7XOaKCiI3n4xBwLgkxRXayS2KtE+17BZv4d9eWTh/Mbiit7e4pggbdC7/vEDltNlOxeYCwnfJpJ1AsWUYVgavaOjeAwD9Qqrhybcr0b55ECshrrBBXZJgvcMFjZF4W8cqr8FBPo6xJyx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785547001; c=relaxed/simple;
-	bh=pckWky3fE0roPXuBTVxjvd1pIemiNvtM8awrE4nhiys=;
+	s=arc-20240116; t=1785585700; c=relaxed/simple;
+	bh=iqWOfgXSOVjmhic73mFafr+SOixSCMHxlkzRvN8iRPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DeZH9WepnvZH6UvS6dyYS4rECpXPtG1nylJoPUjggNp1GPGAUKCH3jYkim1Ga8AhtOUSZwojtW3pVbUW/RNA1zNJ6KW/3ujD1Ae0il+UtHQDMKq2bGLVkn56wD9fBHNiX8FvDdr9H5w1u234SEOrrFlr1tuu0BiFgoBqhbq1Nws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTJ/XGcE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Br4G/4XTQ6HKLi7GBOHTwpzAieFM4w3Ej4vuxnw7MmNp4RsWyTflwbTJaTDkjQohP8zO2R6M97g1z2Ng0TXgyAnecwpb0xN4rHke/PuYG6jhvA3N6Y+Mzjwg5EF/xOwZlQTAZ1RUGdk7yjCE7rZZYRagDeHuYNVbORVv+PeSivM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OU+y9PR5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTJ/XGcE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07401F00AC4;
-	Sat,  1 Aug 2026 01:16:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OU+y9PR5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF161F00AC4;
+	Sat,  1 Aug 2026 12:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785547000;
-	bh=qMJofAV6DHVmNo8g9Yr5zd4F+bMuvEnb9rVZEcc5/T4=;
+	s=k20260515; t=1785585698;
+	bh=A400UfDCs85UdvQBq7Fc6ZOBiYnZqCfIamlfrPpoJ+8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZTJ/XGcEq5WAXGTTgZ9BDbul06ERuqXhenukBi2WtMIbB93/50wEdgtdG4uVuaZUH
-	 2CALdMVX1PLVoIOoyZGWSOAuWvv4nLUit1e/X/a+UFmURHdUq6JbHgvcEtWJpG0aBv
-	 lrsug7QHDlXCO7cCT43UHKK+HCB0bEf6CJADxW6pajvybuN0PnfqKrCOkM2hJWzUzF
-	 /eo1/NJUhCbEExH9Ph1UKnc47/wVI1D01wnYlGMiiaa672gDP3r7+vjsUpYtd4JPRZ
-	 x8/PLwIKZtwXeYpGwZ7/qG8b/cUc0UMIr9C7+/pgWMGH51Jc15ZjvcgcrbcAL2HhwE
-	 v4WHZruwBbX9w==
-Date: Sat, 1 Aug 2026 03:16:37 +0200
+	b=OU+y9PR5v73OfkD2X7lefLHBAHV86hrXGtHqTsDcweXa9nrdgtj/rYeG7C/Y8I8uh
+	 zh0yFHjeeuRuH8nOxSl/VMOYYpb00lmpg042+mHtBHwtOADw+ItDhSDYAGck/PwPoP
+	 mY8KQd9LFnF9I9Bd/O/bcgrmsIuIsQ+h5SomLCfntcLAzcU5z6oUBmL8ChyHudko5H
+	 MZyWaju4l1PckpUdc9VSM/TCE+zBEk3Ui5heGrTRUCPSXVmRo3yd3oKBJMGHQnDFrf
+	 74WHRHUKK2DYTyej0IqdpYycCqF02g3CvCaudCuoBB6HXL5NMTRINnmJky/IaFshOe
+	 Vx1JtU5vrp5nA==
+Date: Sat, 1 Aug 2026 14:01:33 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] man/man8/ldconfig.8: Add tunables options
-Message-ID: <am1I1p9pIUe_19gt@devuan>
-References: <cover.1785522144.git.dj@redhat.com>
- <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
- <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
- <bcaddcd0fb8f60276973ae28f091c158332e20c6.1785522144.git.dj@redhat.com>
- <d85795998b72ab686a683f13d08f24d98d8c1a51.1785522144.git.dj@redhat.com>
+To: Sam James <sam@gentoo.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Joseph Myers <josmyers@redhat.com>, linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <am3XeGZyi1Pvr77-@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+ <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -44,145 +50,166 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="txrisakxjiqrtt2f"
+	protocol="application/pgp-signature"; boundary="c3bde7guneclziki"
 Content-Disposition: inline
-In-Reply-To: <d85795998b72ab686a683f13d08f24d98d8c1a51.1785522144.git.dj@redhat.com>
+In-Reply-To: <87a4r6es6k.fsf@gentoo.org>
 
 
---txrisakxjiqrtt2f
+--c3bde7guneclziki
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] man/man8/ldconfig.8: Add tunables options
-Message-ID: <am1I1p9pIUe_19gt@devuan>
-References: <cover.1785522144.git.dj@redhat.com>
- <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
- <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
- <bcaddcd0fb8f60276973ae28f091c158332e20c6.1785522144.git.dj@redhat.com>
- <d85795998b72ab686a683f13d08f24d98d8c1a51.1785522144.git.dj@redhat.com>
+To: Sam James <sam@gentoo.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Joseph Myers <josmyers@redhat.com>, linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <am3XeGZyi1Pvr77-@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
+ <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+ <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+ <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
 MIME-Version: 1.0
-In-Reply-To: <d85795998b72ab686a683f13d08f24d98d8c1a51.1785522144.git.dj@redhat.com>
+In-Reply-To: <87a4r6es6k.fsf@gentoo.org>
 
-Hi DJ,
+Hi Sam,
 
-> Date: 2026-07-31 14:22:24-0400
-> From: DJ Delorie <dj@redhat.com>
+> Date: 2026-07-31 22:59:47+0100
+> From: Sam James <sam@gentoo.org>
 >
-> ---
+> (*) Alex has a history of making opinonated changes like this to
+> man-pages, such as removing references to older standards, and using a
+> somewhat novel (to many) syntax for prototypes.
 
-Thanks!  I've applied the patch, with a minor amendment:
+I think this comment deserves a well thought response.
 
-	diff --git i/man/man8/ldconfig.8 w/man/man8/ldconfig.8
-	index e575fdec65a2..c2347049b800 100644
-	--- i/man/man8/ldconfig.8
-	+++ w/man/man8/ldconfig.8
-	@@ -92,8 +92,9 @@ .SH DESCRIPTION
-	 .I /etc/tunables.conf
-	 exists,
-	 it contains tunables to be applied to all processes.
-	-These tunables are stored
-	-in the cache and applied to every process at its startup.
-	+These tunables
-	+are stored in the cache
-	+and applied to every process at its startup.
-	 .SH OPTIONS
-	 .TP
-	 .BI \-\-format=3D fmt
+"Opinionated" is your subjective knee-jerk way of saying it.  I don't
+agree with it.
+
+I'd say I have a history of making changes based on thorough revision of
+history and technical merits, even when that research is contrary to
+decades (or half-centuries) of common practice, and possibly to
+current or withdrawn standards.
+
+In this case, and I don't mean this specific patch set, but the years-
+long revision of string documentation that I've been carrying out, we
+have a conflict between the design and correct use of string and memory
+functions, and their common use today.
+
+The functions that are most subject to this conflict are strncpy(3),
+strncat(3), and memccpy(3).  But the rest of strn*() are also somewhat
+affected, and the rest of mem*() minorly affected.
+
+They were originally designed for a specific use case for which they
+were great.  This knowledge has been lost in time, and I've been working
+to recover that knowledge.
+
+Precisely because of standards and other documentation that isn't
+written with the level of care that I have, we have decades of misuses
+of strncpy(3) and strncat(3).
+
+Moreover, it's in other places that you should be complaining about.
+GCC has a bogus set of diagnostics about strncpy(3) and strncat(3),
+which we could very well call opinionated, and I haven't seen anyone
+reporting them as bogus before I did.  Those diagnostics have not been
+considered opinionated, just because they follow mainstream (bogus)
+usage of these functions, but they are indeed forcing an opinion of how
+these functions should be used over other uses that may be more uncommon
+but which are actually the original and correct uses of these functions.
+<https://inbox.sourceware.org/gcc/30a77019-ded0-fe3b-d0db-6c77842674db@gmai=
+l.com/>
+<https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D123024>
+<https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D122963>
+
+It's curious that you called the GCC diagnostic "heuristics" instead of
+"opinionated".  There's nothing about heuristics there.  It's just an
+enforcement of an (incorrect) opinion about how these functions should
+be used.
+
+And since C23, we're seeing that the same story is repeating with
+memccpy(3), which was once a niche function that was great for
+implementing fgets(3), and now is misused by everyone and their dog for
+copying strings with truncation.
+
+I have spent probably more time than anyone in the last 5 years
+researching about string handling, and have proven the correctness of my
+research in the shadow-utils project, where most of my work has been in
+revising string and memory handling code.  I've fixed uncountable subtle
+bugs in such code, and have made the resulting code actually readable.
+And the number of accidental regressions is minimal (IIRC, one or two
+regressions related to string and memory handling, in all that time, and
+not too dangerous).
+
+Thus, I think it is my responsibility, as maintainer of the
+documentation project most read by C programmers, to let our audience
+learn what I've learnt in these years, and allow them to write safe
+string- and memory-handling code.
+
+It is thanks to this years-long research that I've been able to gather
+important knowledge from people like Mark Harris, Doug McIlroy, Branden,
+and many others, who hold knowledge that few other programmers possess,
+and spread it to the world.
+
+I'd consider it a negligence to do the easy thing and follow what
+standards say, or what most programmers do, because that's what has led
+us to the well-known mistakes that C programmers make.
+
+FWIW, regarding the possible conflict of interest that was mentioned
+yesterday, I'll say that I don't get paid for my contributions to ISO C
+as a member of WG14.  There's no benefit to me other than public
+recognition.  I'll also disclose the exact quantity that I've been paid
+for maintaining the Linux man-pages project:
+
+	110 kUSD in 2025 (from 5 sponsors)
+	75 kUSD in 2026 (from 3 sponsors)
+
+I'm convinced that that doesn't have any effects in my decisions here,
+as I've had a consistent record of decisions well before I had any
+economic benefits from maintaining this project.  None of those sponsors
+have expressed any interest in favour of these decisions (nor against).
+
+I'll rumiate a bit more on these patches, and probably make minor
+changes to them, but the essence of documenting <memory.h> for all of
+mem*() and strn*() in SYNOPSIS is most likely to be eventually merged.
+I'll be careful to document what the standards say in a way that isn't
+confusing to users, and also in general will try to document it in a way
+that is positive for our audience --even if some of that audience may
+have knee-jerk reactions, like you are having at the moment--.  I have
+also received very positive feedback for other changes for which some
+people have noisily had knee-jerk reactions.  I believe it is my duty
+as maintainer of this project to do this change.
 
 
-Cheers,
+Have a lovely day!
 Alex
-
->  man/man8/ldconfig.8 | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
->=20
-> diff --git a/man/man8/ldconfig.8 b/man/man8/ldconfig.8
-> index cb7d62ccc..e575fdec6 100644
-> --- a/man/man8/ldconfig.8
-> +++ b/man/man8/ldconfig.8
-> @@ -17,6 +17,8 @@ .SH SYNOPSIS
->  .IR conf ]
->  .RB [ \-r\~\c
->  .IR root ]
-> +.RB [ \-t\~\c
-> +.IR tunconf ]
->  .IR directory \~.\|.\|.
->  .YS
->  .SY /sbin/ldconfig
-> @@ -85,6 +87,13 @@ .SH DESCRIPTION
->  .P
->  Failure to follow this pattern may result in compatibility issues
->  after an upgrade.
-> +.P
-> +If the file
-> +.I /etc/tunables.conf
-> +exists,
-> +it contains tunables to be applied to all processes.
-> +These tunables are stored
-> +in the cache and applied to every process at its startup.
->  .SH OPTIONS
->  .TP
->  .BI \-\-format=3D fmt
-> @@ -157,6 +166,12 @@ .SH OPTIONS
->  .I root
->  as the root directory.
->  .TP
-> +.BI \-t\~ tunconf
-> +Use
-> +.I tunconf
-> +instead of
-> +.IR /etc/tunables.conf .
-> +.TP
->  .B \-\-verbose
->  .TQ
->  .B \-v
-> @@ -188,11 +203,17 @@ .SH FILES
->  See
->  .BR ld.so.conf (5).
->  .TP
-> +.I /etc/tunables.conf
-> +See
-> +.BR tunables.conf (5).
-> +.TP
->  .I /etc/ld.so.cache
->  contains an ordered list of libraries found in the directories
->  specified in
->  .IR /etc/ld.so.conf ,
-> -as well as those found in the trusted directories.
-> +as well as those found in the trusted directories,
-> +and any tunables listed in
-> +.IR /etc/tunables.conf .
->  .PD
->  .SH SEE ALSO
->  .BR ldd (1),
-> --=20
-> 2.47.3
->=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---txrisakxjiqrtt2f
+--c3bde7guneclziki
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptSPUACgkQ64mZXMKQ
-wqnBkQ/+NU2f6gcPZkJZRF/2wg4TM4Ie+yDwXWifsWW8g9z9VlrjnRu6VpPSb3d1
-JDT1OYYnjO+41gQNxef6Zz3jvbpR1sboL8pWUQGmwOvE5esEjyAQ7bllcD+rG1g8
-ZR0LAURaL+yxCe93J2uKtw6n5GWAUGyy5R0h7Gs95y1bGmI4RiU6azsnPAM33m8V
-7e+qsRuwA53D26WsYAUFUrVmToDOU7DYjUQ8R+BbjEqAkrDsBP5b+xWXNJt9PBGD
-Lmff8XW5MWIWyFWF7gUttBhOVbPij1ELP8RK8Py5bVVWmg5FE0pmEmas8bttKdSY
-k9T/anlXIoJK3q2nVebv4X0S3a2JOuwNzuP5tXSwXHlbCVs7BgCc5+91ACxOCk+S
-sKMC2YXyLSnFv78K4A4PbQvf7lOheICrhxbYMOsmHMoytNcqavIg/T+Fc9beZtYQ
-L8MDpkYbOUKs9tNlH+y2or4eeu/owv685MenXrC/KkmcZZy7Rak6MJUPTa8JnSVz
-uDpvtgCYj53nO49C+usxd8kQTTCGFIQcGLf5e4FXwwnJ6mbU0DQHPjqvjeS9pR0j
-w+KBC1YitjjxWPiaRm6DfOckRbnyaHaNXb5R3BbY+LgrdoVVjP5YPlyIJpl7SURv
-pA7piVctujse6PQtJ9VTZFQmHcHiV5hA0XxbmbJZEH2cZWua64Y=
-=UtFM
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpt4BcACgkQ64mZXMKQ
+wqm9cQ//fe6IbTYSL3noVUzUotmmrhr5ZP2ZOChmcz1DuQgMh2zdSZha3R/Eds5u
+Dx1SVNxo95qyMKklb9QQWYDoa/VJji0MVUC+HSs+HD0ovPAwq/Cg9WIX8D5OgTz1
+bV+fu5b1bzzOZzQ96Utn7Nd3qWkvfg2hu8EjUqkjO3Xh67+FOwpC3yqtLhUAnDPK
+ycN8Cohz/tyRIQBTURzYGa6OWolmeHUtBoWZH+RVLIXQ/aNbZ3tiX49LdX6vAeyZ
+/TtJ9GDUNp7RvcaY3KzaQTSOK36cLTcO593Yb2vRLfGcnhSIqDGhiVWI2oTsSdrw
+VMQTYjJlItIOmPXx7T2Q4/WeGvNMGcwNbyRc5dVv0t3KL1eOqUkUx/GWrqhFp7EA
+bZIkhP9zOKw54EbdHvfKjOvASMxffxa+m6DIeOhKMYIPQxF9u7Cgfwn9u68suKwJ
+SrCP6uLeERSqTs4oyn0zGjrNZU7Kl7+hR+gY+VDTBlcFcgqqe2JHvj1yp1sK7mkk
+xNC+hYYntb3pFKJQkdsQL2OcApXQJjdeG6xEfxYXXnF45TzW0Xo8GPkBWojarROd
+lLKfPxlI9kf0IfGRLeVw/op9g7HUCao4N0mDifATd4umiCwy/1SDY6YK4cZnWvln
+z+Ig01hvQO+ofOGryhhSZy++TkLcPsBd/FkIdgUlipUM4efqjb4=
+=tTWf
 -----END PGP SIGNATURE-----
 
---txrisakxjiqrtt2f--
+--c3bde7guneclziki--
