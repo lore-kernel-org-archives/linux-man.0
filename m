@@ -1,141 +1,221 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8722367D3
-	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 14:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785594379; cv=pass; b=LQtliPBR0hwXnvmWgMfK8otnls6XyJo+p6zahLn0UM3AsdZmYaAga6Z04VVchhhRwUh6UBVthkGvM66y4DCrDCsF0rjlwLXWZkEgRkxFVMOQmRmDlNrLamEOGtK8FlR381RF4AbHcYnLWL7j/8ug6Ya19Dm+SdSJfoGuZSnQqRQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785594379; c=relaxed/simple;
-	bh=xih4mVcuMyT4tbsddZPHErs1UmnwpcDNZIi/lhWfsVg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I1oNrw0VOMP+SgUP8Al40WWh74235/abmlldGsCrBhUIpeqNBJNo/tNlR0y/v7VeetEwnn8gxJQxQLt/4RHKo+g0/5flZv5VbRxr/e4yAzgEDBUfX5EfNVWfNAm5yss1XXYm6vlKR1R4mX+dhuBsw569ecl3PQDws8BIH1gAi50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XxNtVUzf; arc=pass smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XxNtVUzf"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so1455364a91.2
-        for <linux-man@vger.kernel.org>; Sat, 01 Aug 2026 07:26:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785594378; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ruwltv6LMBz1RVI6k2Sc1jTzNHvAoEKvyrMqVwtKJprfWUcFIuWpmdxX8kec6bMP7x
-         gVmv4SeFX06TtjDuyi+3IP68rDJO43QzfkQXSE1IzeBZsliebALDT1vSqG8UcTtchQf0
-         9aGWuLOnEfdk2HiI7n3LmQFtHriXImkRtGPHOhP2vhE+bq6fG2drI+s3p92wmg+g318d
-         QbM8RYBZaUfsTR4j40G7MpvO0sbn7SiTxmqEOyb6/fXPAuHBbHeyFcjibG0lJxBWm/wx
-         Wg6JXCNm6KKJbTu2maAmOrZ8e/PudJ6SRkUGpxgR8Sq3+D3+l7+xhGWqsgomMUKcsuqp
-         4vAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zHwEBn8zl3bm2REpIWVt0TsvCx9Ymy8jmKGnW7lJWSE=;
-        fh=j6NM4xRQP+YKUJ+RuWcMH4UxEnclLpJ7WG4Zdc3HdiI=;
-        b=Sku4nHATLwjj78un4kj8eYh+/6osOW9mmzGKhbEtNBHNM8pPQlByx86qUU7wTdaBNF
-         0Y7i4cAWk7qivzT+kW5+uGFM7J+wFzBuGuMp3CiiahBMdUhGILzYk5EHiA1kAeutO92d
-         8zqYHspUCiWmGPsK051Rn7/GPX2ea6t5Rgzmdz/1ogO3WBdekXtoBjRDLWXmzoUAZyR4
-         hUhHGo7dHbSaGUawbG3mO+DEpjTw3GcwHB7Uvt6mnQq5aMrdG0p+81xAuNIg4r/KpOId
-         lZ2g6+X4DEev4CcdHD3Hb6NufsWft3gEkcuGtzhwSekncVy7cxyhgOIKCMVSFxEe6Slg
-         t+Qw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785594378; x=1786199178; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zHwEBn8zl3bm2REpIWVt0TsvCx9Ymy8jmKGnW7lJWSE=;
-        b=XxNtVUzfNujRPmciUjLyzp9EqkPV+9KtCxNN1uxCBpuwp0HrSk1EhfrUbA6nxz+4lg
-         1xld0HBdVbFv4aZO8pRuSmmYjPl1TQyDfH+tmPIaYuPh+y8RV5O1cm+jzn9OsZ6xpJpx
-         Livdk90UWrBnFqHPXbIGNpsfT4wTj4o1Rq0gQ7mv1PyjxhswnaLEw4aQjWogzzxk5ipr
-         kUhMxwZ1wAQhCBNzzywtB1FFkMlbF/gqWCLj+Ol/Vp81Z7zD+iop9xcPZNy1HRbj88YX
-         LqJ5IN9vS1GLz4i9ZbnaS8yrItjADP2bB8a6sQJLojYTmjxbwrzXK8hd+m8H3cqEAtKS
-         ma5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785594378; x=1786199178;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zHwEBn8zl3bm2REpIWVt0TsvCx9Ymy8jmKGnW7lJWSE=;
-        b=SqD0e5qq0gf/7gxBBQDp0NuN+OKByeqMHDjlmRFLh6u2EotLesqZDmtGrhdhUprjPK
-         5TXcrR1aKfKy6OTScYVDzaNWvCCST1URWiz+dMZllDFZjaTcueQ4cr8awh/g6J2BKQs8
-         hHEaWRaINemHjtP8Rg8tuJRTol5THS2c9vqpdoAsV2d5Wh1Ief4HTPni946oswSGWL2v
-         9+0J9zC7iEWSVtQyvwYmPWw+OHns8mA4XrKU3KiGSC33KM56NfwM8UYzjfE+paJu8tVx
-         GfpKOtTYfQqUbVjymp1u0qk1u2JVL1nxtvzajshuO1d5dPEhXqxaCgo+zF7x0V/X85rJ
-         7W9Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoBoy0VRL1qA3e8cRbRgjw5lx1R2hRxavPx5rtDdqhMdRF/D1xyVixEhr1WfqEOlSh1/Dv6CAxSNQM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMM/bzeDlw4nO2pEo+B4feq41uH+DeVAKVDNytjrO/umXD0wZt
-	yJYZbZA9Sq4D/qf9bs0px1SwuJy9r57oLZygXv1HUOrh/QfzlvafqYbvOJuLjPXhr9jzbKpNY8O
-	73YALR3aVfgJykO6/lMTkxpldM/kuJFI=
-X-Gm-Gg: AR+sD13fxZinuTqqE/zDXfahHH5DBecEmQca+75YTIzvLIoFVZxpGI5ddYYAlcbNFT+
-	meAjjKa1CVKz3aUF7uefmMq7ov1T8T47vE+cL9hbuCJ6KvwJ+mAn2uMERQ+fmtpO/cWg8hkcwdO
-	kfrUyyZNgoMiYiKHWIbDuFc7OB/MwTY292CfEQvW+KpWWuzGkO8GAIyAOnPrw9X/sz6kczzF+eC
-	YmgoffpoBLGhB1GWB+mo/NO2v7iIB7sSuS+1S/KEwut+tiYlCmvzg6Ozh/57dNO9X1p5X1x4f9j
-	SM279Sc/IEy8pVZ1prdSVJnf8F2xT77vX/FlVGhQj81mwRvq+c6r3DaE9ZXY18ny54lu3fhOQnY
-	DcysHjNNV4p50y4nVRjyfDZKpDyVZLA==
-X-Received: by 2002:a17:90b:380e:b0:383:f52b:d616 with SMTP id
- 98e67ed59e1d1-38fbc4249famr3228504a91.10.1785594377595; Sat, 01 Aug 2026
- 07:26:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF9038736F
+	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 14:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785595139; cv=none; b=aJ0udw6UpXwFdH3Iar1B+ORq3AIadYGMq0sg1gkMnIejRaxkxOM//CReK/Bo/ZQymzd+OkQRb56r1Uo2GpdiI+1kwDKdTUkEjbQCu4pf86Onq0fLqOGjNhK6dI0GDK9Dp3i7UmrsRo50/RHaWw4v4g2rc1uEtVtgbI/juJ63UCc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785595139; c=relaxed/simple;
+	bh=KB7xzdwgB0S+vL8DWLZrn6YPisMRfYLjqrl34cL0BSA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CZlc4eolsSB+huIGaJPVWoQ8JFvh52QIEl94Zupi3szbVaKYM/Puupf01qzQgdcfPNt4tmXHANC1ujiZiee3fwcgilVCalSzLLkP/IXhbzmGsnBnN0Nd9cJGw32LXGhIWdwgiYo0Xa/KhyVK+LEpRhOWg6nnJFgH+kfiDJ6tsW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from mop.sam.mop (c.1.a.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:19dc:dc5a::a1c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 97717341EED;
+	Sat, 01 Aug 2026 14:38:48 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,  Joseph Myers
+ <josmyers@redhat.com>,  linux-man@vger.kernel.org,  Keith Bostic
+ <keith@bostic.com>,  Mark Harris <mark.hsj@gmail.com>,  Nevin Liber
+ <nevin@cplusplusguy.com>,  JeanHeyd Meneide <phdofthehouse@gmail.com>,
+  Christopher Bazley <chris.bazley.wg14@gmail.com>,  "Serge E. Hallyn"
+ <serge@hallyn.com>,  Iker Pedrosa <ipedrosa@redhat.com>,  "Evgeny Grin
+ (Karlson2k)" <k2k@drgrin.dev>,  Kees Cook <keescook@chromium.org>,
+  bug-gnulib@gnu.org,  libc-alpha@sourceware.org,  Douglas McIlroy
+ <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on the irresponsibility of pursuing C language reform
+In-Reply-To: <am3XeGZyi1Pvr77-@devuan>
+Organization: Gentoo
+References: <cover.1785532392.git.alx@kernel.org>
+	<784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
+	<e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
+	<20260731215122.4p4aepsbgeoibx74@illithid> <87a4r6es6k.fsf@gentoo.org>
+	<am3XeGZyi1Pvr77-@devuan>
+User-Agent: mu4e 1.14.2; emacs 31.0.91
+Date: Sat, 01 Aug 2026 15:38:42 +0100
+Message-ID: <87y0epdhxp.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1785532392.git.alx@kernel.org> <784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
- <e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com> <20260731215122.4p4aepsbgeoibx74@illithid>
- <89c9b877-54a8-6a7c-016d-51e4be210ad6@redhat.com> <am0fnb4BMRrTajqx@devuan>
- <0407bda3-c03a-93cb-9400-5fb8256a30f2@redhat.com> <am0lAEb1wuCJPDk7@devuan>
- <9223d084-7de4-914f-9b53-8862510542d8@redhat.com> <20260731233253.7uwgq7m7vndqf2o2@illithid>
-In-Reply-To: <20260731233253.7uwgq7m7vndqf2o2@illithid>
-From: Christopher Bazley <chris.bazley.wg14@gmail.com>
-Date: Sat, 1 Aug 2026 15:26:05 +0100
-X-Gm-Features: AUfX_my066HKPfuwi7mF7N8nEdkz0opv0gNW_8N-KGuxQD1G5_PWyj4sV6wl47A
-Message-ID: <CAEHU8x9cXuViHVSQY7iR+LtdSwHy9_og3FsbCWGGDUkN6e+gMw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS: Document
- these as provided by <memory.h>)
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Joseph Myers <josmyers@redhat.com>, Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
-	Keith Bostic <keith@bostic.com>, Mark Harris <mark.hsj@gmail.com>, 
-	Nevin Liber <nevin@cplusplusguy.com>, JeanHeyd Meneide <phdofthehouse@gmail.com>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
-	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
-	libc-alpha@sourceware.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-Hi,
+--=-=-=
+Content-Type: text/plain
 
-On Sat, Aug 1, 2026 at 12:32=E2=80=AFAM G. Branden Robinson
-<g.branden.robinson@gmail.com> wrote:
-> WG14 has been moving away from that notion for decades now.  A recent
-> example is <stdbit.h>.  Why not continue in that laudable direction?
+Alejandro Colomar <alx@kernel.org> writes:
+
+> Hi Sam,
 >
-> I think
+>> Date: 2026-07-31 22:59:47+0100
+>> From: Sam James <sam@gentoo.org>
+>>
+>> (*) Alex has a history of making opinonated changes like this to
+>> man-pages, such as removing references to older standards, and using a
+>> somewhat novel (to many) syntax for prototypes.
 >
-> stdmem.h
-> string.h
-> stdstrn.h
+> I think this comment deserves a well thought response.
 >
-> would sharply separate concerns and promote clearer reasoning among
-> application developers.
+> "Opinionated" is your subjective knee-jerk way of saying it.  I don't
+> agree with it.
 
-I have been reluctant to stick my oar into this argument, but the
-proposal above is the best I have seen so far.  The trouble with
-Alex's assertion that the strn... functions are not string functions
-and therefore must be memory functions is that it strikes me as a
-false dichotomy.  I understand why he makes that claim, and I
-understand the damage the confusion has caused, but I do not find it
-entirely plausible given that strncat appends to a string and strncpy
-can consume one.  I also understand the deep attraction of righting
-past wrongs, but it seems to me that, in this instance, the past was
-not so satisfactory either.
+I don't consider it kneejerk. It's an opinion I've formed over the
+years. You're of course free to disagre with it.
 
-I am skeptical that many users will include header files that did not
-exist before C2Y, but it may be worth trying. I do not think the
-proposal to restore <memory.h> would be much better: it does not exist
-on many platforms. If we are going to introduce a new separation, let
-us make it a good one.
+>
+> I'd say I have a history of making changes based on thorough revision of
+> history and technical merits, even when that research is contrary to
+> decades (or half-centuries) of common practice, and possibly to
+> current or withdrawn standards.
 
-Christopher
+The primary issue I have is that I don't often see you change your mind
+or acknowledge that being the man-pages maintainer is a privileged
+position, or separate your desires from the maintainership role.
+
+When I'm acting in a maintainer role, I often take changes I don't
+particularly agree with if they're technically sound and there's broad
+consensus for them. I think many do.
+
+>
+> In this case, and I don't mean this specific patch set, but the years-
+> long revision of string documentation that I've been carrying out, we
+> have a conflict between the design and correct use of string and memory
+> functions, and their common use today.
+>
+
+Yes, I don't dispute that the terminology is poor.
+
+> The functions that are most subject to this conflict are strncpy(3),
+> strncat(3), and memccpy(3).  But the rest of strn*() are also somewhat
+> affected, and the rest of mem*() minorly affected.
+>
+> They were originally designed for a specific use case for which they
+> were great.  This knowledge has been lost in time, and I've been working
+> to recover that knowledge.
+>
+> Precisely because of standards and other documentation that isn't
+> written with the level of care that I have, we have decades of misuses
+> of strncpy(3) and strncat(3).
+>
+> Moreover, it's in other places that you should be complaining about.
+
+I do complain about those, and we finally got some consensus on the GCC
+side on not warning about a bunch of them by default, even.
+
+> GCC has a bogus set of diagnostics about strncpy(3) and strncat(3),
+> which we could very well call opinionated, and I haven't seen anyone
+> reporting them as bogus before I did.  Those diagnostics have not been
+> considered opinionated, just because they follow mainstream (bogus)
+> usage of these functions, but they are indeed forcing an opinion of how
+> these functions should be used over other uses that may be more uncommon
+> but which are actually the original and correct uses of these functions.
+> <https://inbox.sourceware.org/gcc/30a77019-ded0-fe3b-d0db-6c77842674db@gmail.com/>
+> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=123024>
+> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=122963>
+>
+> It's curious that you called the GCC diagnostic "heuristics" instead of
+> "opinionated".  There's nothing about heuristics there.  It's just an
+> enforcement of an (incorrect) opinion about how these functions should
+> be used.
+
+The warnings are both opinionated and heuristics-based. I'm not sure how
+you could read the comment you linked to as somehow an endorsement of
+the status quo, I've been quite vocal about changing it elsewhere too?
+
+>
+> And since C23, we're seeing that the same story is repeating with
+> memccpy(3), which was once a niche function that was great for
+> implementing fgets(3), and now is misused by everyone and their dog for
+> copying strings with truncation.
+>
+> I have spent probably more time than anyone in the last 5 years
+> researching about string handling, and have proven the correctness of my
+> research in the shadow-utils project, where most of my work has been in
+> revising string and memory handling code.  I've fixed uncountable subtle
+> bugs in such code, and have made the resulting code actually readable.
+> And the number of accidental regressions is minimal (IIRC, one or two
+> regressions related to string and memory handling, in all that time, and
+> not too dangerous).
+>
+> Thus, I think it is my responsibility, as maintainer of the
+> documentation project most read by C programmers, to let our audience
+> learn what I've learnt in these years, and allow them to write safe
+> string- and memory-handling code.
+>
+> It is thanks to this years-long research that I've been able to gather
+> important knowledge from people like Mark Harris, Doug McIlroy, Branden,
+> and many others, who hold knowledge that few other programmers possess,
+> and spread it to the world.
+>
+> I'd consider it a negligence to do the easy thing and follow what
+> standards say, or what most programmers do, because that's what has led
+> us to the well-known mistakes that C programmers make.
+>
+> FWIW, regarding the possible conflict of interest that was mentioned
+> yesterday, I'll say that I don't get paid for my contributions to ISO C
+> as a member of WG14.  There's no benefit to me other than public
+> recognition.  I'll also disclose the exact quantity that I've been paid
+> for maintaining the Linux man-pages project:
+
+You can have a conflict of interest in responsibliity without money
+being involved. In fact, I have never believed you were influenced by
+money, just that you let your personal opinions unduly influence your
+decisions in modifying man-pages, even when consensus seems against it.
+
+>
+> 	110 kUSD in 2025 (from 5 sponsors)
+> 	75 kUSD in 2026 (from 3 sponsors)
+>
+> I'm convinced that that doesn't have any effects in my decisions here,
+> as I've had a consistent record of decisions well before I had any
+> economic benefits from maintaining this project.  None of those sponsors
+> have expressed any interest in favour of these decisions (nor against).
+>
+> I'll rumiate a bit more on these patches, and probably make minor
+> changes to them, but the essence of documenting <memory.h> for all of
+> mem*() and strn*() in SYNOPSIS is most likely to be eventually merged.
+> I'll be careful to document what the standards say in a way that isn't
+> confusing to users, and also in general will try to document it in a way
+> that is positive for our audience --even if some of that audience may
+> have knee-jerk reactions, like you are having at the moment--.  I have
+> also received very positive feedback for other changes for which some
+> people have noisily had knee-jerk reactions.  I believe it is my duty
+> as maintainer of this project to do this change.
+>
+
+Please stop saying I'm having a kneejerk reaction. I haven't even yet
+commented on the substance of the changes, I've just commented on how I
+don't believe in making changes through man-pages like this.
+
+>
+> Have a lovely day!
+> Alex
+
+sam
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmpuBPMbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
+Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
+QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkJ1g
+AQDoPyrOOOmbpekd58/tzjbzhRfw2VSGb5JxL6rNG5GDNAD/b6ilzcAB3IO9nW4V
+TR+KqgDoz9g6VvIoPbsNWkg3uw4=
+=Ohyr
+-----END PGP SIGNATURE-----
+--=-=-=--
