@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF9038736F
-	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 14:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2DA212F89
+	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 14:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785595139; cv=none; b=aJ0udw6UpXwFdH3Iar1B+ORq3AIadYGMq0sg1gkMnIejRaxkxOM//CReK/Bo/ZQymzd+OkQRb56r1Uo2GpdiI+1kwDKdTUkEjbQCu4pf86Onq0fLqOGjNhK6dI0GDK9Dp3i7UmrsRo50/RHaWw4v4g2rc1uEtVtgbI/juJ63UCc=
+	t=1785595390; cv=none; b=KJ83UllzonzcbjawAU5FBcWs3TDWD0JbpQtSorz069T8cNxt/aXYXUYivD5gMR+5aRNXOjN6cbCYvlFJBIpuqhdQKpOGhZjD7M8UF1VruAXJdzytmVvV91FLHPaHI+XvNxhCHyw/uQX4xnlUrCIc3412kwTLFxzX9rPo9kb0PwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785595139; c=relaxed/simple;
-	bh=KB7xzdwgB0S+vL8DWLZrn6YPisMRfYLjqrl34cL0BSA=;
+	s=arc-20240116; t=1785595390; c=relaxed/simple;
+	bh=OJlYEunTU/zrf1Erq0A9ewuh9apgL3IiMDfznoawTzI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CZlc4eolsSB+huIGaJPVWoQ8JFvh52QIEl94Zupi3szbVaKYM/Puupf01qzQgdcfPNt4tmXHANC1ujiZiee3fwcgilVCalSzLLkP/IXhbzmGsnBnN0Nd9cJGw32LXGhIWdwgiYo0Xa/KhyVK+LEpRhOWg6nnJFgH+kfiDJ6tsW0=
+	 MIME-Version:Content-Type; b=KO3wTC6leRmDHPJedkj/3sUeNlkmuSF09gvYgR+sjnw3bCmPyWlH26cpRgE69ngwob7n+xt0skLJaAkbQHIpgVPJBgik03jbkvMjeFfTY8hexsGzUe3T+pg+MdSs2u/ph7zVKG08gyXaqSXdBLgQuQ0VZQcjwGADc44lZRHRMlQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,30 +19,29 @@ Received: from mop.sam.mop (c.1.a.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 97717341EED;
-	Sat, 01 Aug 2026 14:38:48 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 778A9340F8F;
+	Sat, 01 Aug 2026 14:43:06 +0000 (UTC)
 From: Sam James <sam@gentoo.org>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,  Joseph Myers
- <josmyers@redhat.com>,  linux-man@vger.kernel.org,  Keith Bostic
- <keith@bostic.com>,  Mark Harris <mark.hsj@gmail.com>,  Nevin Liber
+Cc: Joseph Myers <josmyers@redhat.com>,  linux-man@vger.kernel.org,  Keith
+ Bostic <keith@bostic.com>,  Mark Harris <mark.hsj@gmail.com>,  Nevin Liber
  <nevin@cplusplusguy.com>,  JeanHeyd Meneide <phdofthehouse@gmail.com>,
   Christopher Bazley <chris.bazley.wg14@gmail.com>,  "Serge E. Hallyn"
  <serge@hallyn.com>,  Iker Pedrosa <ipedrosa@redhat.com>,  "Evgeny Grin
  (Karlson2k)" <k2k@drgrin.dev>,  Kees Cook <keescook@chromium.org>,
-  bug-gnulib@gnu.org,  libc-alpha@sourceware.org,  Douglas McIlroy
- <douglas.mcilroy@dartmouth.edu>
-Subject: Re: on the irresponsibility of pursuing C language reform
-In-Reply-To: <am3XeGZyi1Pvr77-@devuan>
+  bug-gnulib@gnu.org,  libc-alpha@sourceware.org
+Subject: Re: [PATCH 1/2] man/man3/{mem,strn}*(): SYNOPSIS, STANDARDS:
+ Document these as provided by <memory.h>
+In-Reply-To: <am0dFT38yXK_ch_o@devuan>
 Organization: Gentoo
 References: <cover.1785532392.git.alx@kernel.org>
 	<784288e704183a4297aeaa3d13af8edab18bc1ea.1785532392.git.alx@kernel.org>
 	<e1031c2c-37eb-3cee-8bf0-f3285803d4e3@redhat.com>
-	<20260731215122.4p4aepsbgeoibx74@illithid> <87a4r6es6k.fsf@gentoo.org>
-	<am3XeGZyi1Pvr77-@devuan>
+	<am0TUn55P7uNtTTh@devuan> <87ik5uesfg.fsf@gentoo.org>
+	<am0dFT38yXK_ch_o@devuan>
 User-Agent: mu4e 1.14.2; emacs 31.0.91
-Date: Sat, 01 Aug 2026 15:38:42 +0100
-Message-ID: <87y0epdhxp.fsf@gentoo.org>
+Date: Sat, 01 Aug 2026 15:43:03 +0100
+Message-ID: <87pl01dhqg.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,169 +52,115 @@ Content-Type: multipart/signed; boundary="=-=-=";
 	micalg=pgp-sha512; protocol="application/pgp-signature"
 
 --=-=-=
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 Alejandro Colomar <alx@kernel.org> writes:
 
 > Hi Sam,
 >
->> Date: 2026-07-31 22:59:47+0100
+>> Date: 2026-07-31 22:54:27+0100
 >> From: Sam James <sam@gentoo.org>
 >>
->> (*) Alex has a history of making opinonated changes like this to
->> man-pages, such as removing references to older standards, and using a
->> somewhat novel (to many) syntax for prototypes.
+>> Alejandro Colomar <alx@kernel.org> writes:
+>>=20
+>> > Hi Joseph,
+>> >
+>> >> Date: 2026-07-31 21:23:35+0000
+>> >> From: Joseph Myers <josmyers@redhat.com>
+>> >>
+>> >> I think it's irresponsible to use the man-pages project to promote=20
+>> >> personal idiosyncratic ideas like this in preference to what's been t=
+he=20
+>> >> standard location of functions since 1989.
+>> >>=20
+>> >> I'd rather we add a mandatory deprecation warning to memory.h in glib=
+c.
+>> >
+>> > I hope you don't; it'd be a gratuitous breaking change.
+>> >
+>>=20
+>> Yet this change has the same effect, just people will see it themselves
+>> rather than the compiler telling them, and go around sending patches to
+>> change it.
 >
-> I think this comment deserves a well thought response.
+> IME, people don't go changing includes unless they need something it's
+> not available in the already-included header files.
 >
-> "Opinionated" is your subjective knee-jerk way of saying it.  I don't
-> agree with it.
-
-I don't consider it kneejerk. It's an opinion I've formed over the
-years. You're of course free to disagre with it.
-
->
-> I'd say I have a history of making changes based on thorough revision of
-> history and technical merits, even when that research is contrary to
-> decades (or half-centuries) of common practice, and possibly to
-> current or withdrawn standards.
-
-The primary issue I have is that I don't often see you change your mind
-or acknowledge that being the man-pages maintainer is a privileged
-position, or separate your desires from the maintainership role.
-
-When I'm acting in a maintainer role, I often take changes I don't
-particularly agree with if they're technically sound and there's broad
-consensus for them. I think many do.
-
->
-> In this case, and I don't mean this specific patch set, but the years-
-> long revision of string documentation that I've been carrying out, we
-> have a conflict between the design and correct use of string and memory
-> functions, and their common use today.
+> Analysis of includes is quite complex, and there are tools for that
+> --iwyu(1)--.  As long as those tools don't start complaining --and they
+> won't-- [1], I find it quite unlikely that people will start changing
+> includes in existing code.
 >
 
-Yes, I don't dispute that the terminology is poor.
+OK, that's useful behaviour. I wasn't aware it accepted a list of
+headers that would provide it.
 
-> The functions that are most subject to this conflict are strncpy(3),
-> strncat(3), and memccpy(3).  But the rest of strn*() are also somewhat
-> affected, and the rest of mem*() minorly affected.
+> This is rather something that will affect new code (new source files).
 >
-> They were originally designed for a specific use case for which they
-> were great.  This knowledge has been lost in time, and I've been working
-> to recover that knowledge.
+> [1]	iwyu(1) works in a way that it allows a number of headers to
+> 	provide a symbol.  If no header provides the symbol, then it
+> 	will recommend the best header for it; but if a header that
+> 	provides the symbol is already there, it won't complain.
 >
-> Precisely because of standards and other documentation that isn't
-> written with the level of care that I have, we have decades of misuses
-> of strncpy(3) and strncat(3).
+>> The man pages should reflect what the standard currently says, not what
+>> you'd like it to say.
 >
-> Moreover, it's in other places that you should be complaining about.
+> Not exactly; the standard is a good guideline, but sometimes it's off.
+> We have vendor extensions, which are well documented, and when the
+> standard is bogus, the extensions take over the page.
 
-I do complain about those, and we finally got some consensus on the GCC
-side on not warning about a bunch of them by default, even.
-
-> GCC has a bogus set of diagnostics about strncpy(3) and strncat(3),
-> which we could very well call opinionated, and I haven't seen anyone
-> reporting them as bogus before I did.  Those diagnostics have not been
-> considered opinionated, just because they follow mainstream (bogus)
-> usage of these functions, but they are indeed forcing an opinion of how
-> these functions should be used over other uses that may be more uncommon
-> but which are actually the original and correct uses of these functions.
-> <https://inbox.sourceware.org/gcc/30a77019-ded0-fe3b-d0db-6c77842674db@gmail.com/>
-> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=123024>
-> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=122963>
->
-> It's curious that you called the GCC diagnostic "heuristics" instead of
-> "opinionated".  There's nothing about heuristics there.  It's just an
-> enforcement of an (incorrect) opinion about how these functions should
-> be used.
-
-The warnings are both opinionated and heuristics-based. I'm not sure how
-you could read the comment you linked to as somehow an endorsement of
-the status quo, I've been quite vocal about changing it elsewhere too?
+I think we have different views on the purpose of man-pages and users'
+expectations of them.
 
 >
-> And since C23, we're seeing that the same story is repeating with
-> memccpy(3), which was once a niche function that was great for
-> implementing fgets(3), and now is misused by everyone and their dog for
-> copying strings with truncation.
+> FWIW, the information from the standard is still there.
 >
-> I have spent probably more time than anyone in the last 5 years
-> researching about string handling, and have proven the correctness of my
-> research in the shadow-utils project, where most of my work has been in
-> revising string and memory handling code.  I've fixed uncountable subtle
-> bugs in such code, and have made the resulting code actually readable.
-> And the number of accidental regressions is minimal (IIRC, one or two
-> regressions related to string and memory handling, in all that time, and
-> not too dangerous).
+> 	$ MANWIDTH=3D64 mansectf STANDARDS man3/memcpy.3 | cat
+> 	memcpy(3)           Library Functions Manual          memcpy(3)
 >
-> Thus, I think it is my responsibility, as maintainer of the
-> documentation project most read by C programmers, to let our audience
-> learn what I've learnt in these years, and allow them to write safe
-> string- and memory-handling code.
+> 	STANDARDS
+> 	     C11, POSIX.1=E2=80=902008.
 >
-> It is thanks to this years-long research that I've been able to gather
-> important knowledge from people like Mark Harris, Doug McIlroy, Branden,
-> and many others, who hold knowledge that few other programmers possess,
-> and spread it to the world.
+> 	     ISO C and POSIX declare this function in <string.h>.
 >
-> I'd consider it a negligence to do the easy thing and follow what
-> standards say, or what most programmers do, because that's what has led
-> us to the well-known mistakes that C programmers make.
+> 	Linux man=E2=80=90pages (unreleased) (date)                   memcpy(3)
 >
-> FWIW, regarding the possible conflict of interest that was mentioned
-> yesterday, I'll say that I don't get paid for my contributions to ISO C
-> as a member of WG14.  There's no benefit to me other than public
-> recognition.  I'll also disclose the exact quantity that I've been paid
-> for maintaining the Linux man-pages project:
+> I've just removed it from the front of the page (SYNOPSIS), but it's
+> still there, because of course, we must document the standard alongside
+> the extension.
+>
+>> We had the same problem with e.g. stripping "C89"
+>> everywhere.
+>
+> Sorry for that one; it was a useful change, though.  Now we have better
+> manual pages than we had back then, regarding standards.  I hope you
+> realize about that.  It triggered discussion, and a careful review of
+> the text, which resulted in a good change after all.
 
-You can have a conflict of interest in responsibliity without money
-being involved. In fact, I have never believed you were influenced by
-money, just that you let your personal opinions unduly influence your
-decisions in modifying man-pages, even when consensus seems against it.
+Yes, we got there in the end, but it was very disruptive, and caused a
+lot of pain. I am not sure the right lessons have been learned from it.
 
 >
-> 	110 kUSD in 2025 (from 5 sponsors)
-> 	75 kUSD in 2026 (from 3 sponsors)
+>> People want it to reflect what the standard says.
 >
-> I'm convinced that that doesn't have any effects in my decisions here,
-> as I've had a consistent record of decisions well before I had any
-> economic benefits from maintaining this project.  None of those sponsors
-> have expressed any interest in favour of these decisions (nor against).
+> And it still does.
 >
-> I'll rumiate a bit more on these patches, and probably make minor
-> changes to them, but the essence of documenting <memory.h> for all of
-> mem*() and strn*() in SYNOPSIS is most likely to be eventually merged.
-> I'll be careful to document what the standards say in a way that isn't
-> confusing to users, and also in general will try to document it in a way
-> that is positive for our audience --even if some of that audience may
-> have knee-jerk reactions, like you are having at the moment--.  I have
-> also received very positive feedback for other changes for which some
-> people have noisily had knee-jerk reactions.  I believe it is my duty
-> as maintainer of this project to do this change.
 >
-
-Please stop saying I'm having a kneejerk reaction. I haven't even yet
-commented on the substance of the changes, I've just commented on how I
-don't believe in making changes through man-pages like this.
-
->
-> Have a lovely day!
+> Have a lovely night!
 > Alex
-
-sam
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmpuBPMbFIAAAAAABAAO
+iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmpuBfcbFIAAAAAABAAO
 bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
 Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
-QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkJ1g
-AQDoPyrOOOmbpekd58/tzjbzhRfw2VSGb5JxL6rNG5GDNAD/b6ilzcAB3IO9nW4V
-TR+KqgDoz9g6VvIoPbsNWkg3uw4=
-=Ohyr
+QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkHOB
+AP9KwAIyv2vYEGxBoN+FMx2NW3faGH9/efNQ+rhbiqiU0wD+Mjrr8Y9FVzx/Njk2
+KAfEIkUGDhDAjH216OExoR1Z0gQ=
+=J7bc
 -----END PGP SIGNATURE-----
 --=-=-=--
