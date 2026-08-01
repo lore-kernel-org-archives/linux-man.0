@@ -1,39 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25347273D77
-	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 01:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8651B305670
+	for <linux-man@vger.kernel.org>; Sat,  1 Aug 2026 01:13:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785546080; cv=none; b=LegVuCbNJWPrewBtia4HdlJdz7abF4nlaBwvWDQxiVlzFWC0fitix/WRGWDdQvG/0QfQ27wS8qFtIfAclmvyE25R9njrfKHiDy4MdWRiAYEeKUixICb4HKXCZAIuL+ffDw8M5oKdXTnp94ooMMxDs4slRUKqvAhSkQtjPspFyNQ=
+	t=1785546785; cv=none; b=U/WWkudbPyb+hZQBS5kQba4kdMC9jLq41gdb6dU2QD5t9CSP6FWFk+mr+tXDTfUdhdckfP4mWig2VX/uWjatcSeWXQZrbduq8+7gY8cmx/EriQiO+DNpchVhEjEVz+P0tqwInrAgJtslcAMlbmP0Ix7vrm8Vvbe1W8/b2WP0jM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785546080; c=relaxed/simple;
-	bh=VfUT0xQ3/G2nlayILyER2HNyLOMpgFraq6alypVb7ug=;
+	s=arc-20240116; t=1785546785; c=relaxed/simple;
+	bh=JeFBdd9+PQmHgp/CBoBk/DAvkIuk5P8uBZ0txw9PFhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SjUw68Cq4L4pAD9Ds1mL4JZhDtHYadFBh0sctF7XSi/4Iy3g1+8XSZ/2ZaZT358QLNs3fLlgikIjZF5v30MdBFQt7Ql5lR6bDqIuzanS0WrEoaV86D77LdW/KA1jXGE6vtEQKKeyCTnIau8Zx8xX15Ct4mqZ0DkcizcRyqAKDc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0AjiGEJ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=g+liCBywwEiWFC01wOv2EvSIQ2BzQDKkGLrDI6WJgveTpXhxzEVYV1hitpK3r3ebcqmuNojIjn3RmxZFos/rPyHyG+13EMnVmM/PIY/HHRfiGUlNA/SrrOvc09Bg1qUSXOUt27I+62gFmUl7hRoJBV73iWALuQL/IIVB3Zf2faw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jN5Prv6z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0AjiGEJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8F31F00AC4;
-	Sat,  1 Aug 2026 01:01:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jN5Prv6z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E441F00AC4;
+	Sat,  1 Aug 2026 01:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785546078;
-	bh=BtihhqFwfjtS4UW+J3Ds46j2hKJqdm6o1F4N03PPd9U=;
+	s=k20260515; t=1785546784;
+	bh=VuzywU7D2gQ25YQwdSDJQJ7O1+62NuWV5bRog3J1lHI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z0AjiGEJUUKBEw1snWP8i57akwdWast8DuDVhSUOFAcohsMYVxAxXoNwPAeTUda2a
-	 U2Lo+Az+CyBEfOTu4Ov5yf2bc6szW47DfFpF+BXFkc8reqkbJQ+3p6xpUL1Ogde80S
-	 IvaN9wpxtPcS75UNDFjgI7aOzU3A6mRKhlhjzZ7FkZ9oLJw/7FVYm7JN5a22rO39lM
-	 7KNXvyx0ZonG3Ew04iDThDyYw7L70kprjYcFsHpXZRn7FHKjeGAnG8cUMrLB3o7WIz
-	 bLvX+9JGmeG/i1GFApcUgvhZxfyBF6vdc1wfChfMokgi96xQBjOY137RmFasPHVuIi
-	 nnaHwJWFIg4lg==
-Date: Sat, 1 Aug 2026 03:01:16 +0200
+	b=jN5Prv6zXafp+W1REV7OFpXKbdZM4p4N27UuyLfkTCI0Bo6iQC2PmhczKKHED+Rnp
+	 YcHDYULNEyevTzcOUUsEJQhfnOXFyX2sx0imsRLhtyTcyjOFc6lflDS4eKjiuwcKKY
+	 A/SzCpy56nPDz2HaNNrFSFlaHPUeDIBl9SVYrwtNBzyXiLKqHZ6Peak36HJ7oMye9r
+	 WptPHuOuIrgyq60aBD1OnqiN5T98vBYYe3rEIoED5TeJXOw4rIP9htjFP3gSQsAQrn
+	 yZIHqRGER10dt0/xWabQTwk5OfvpeQTlzEPJM/X3OhgtRB5UPzua/9pKcuhggC0iZV
+	 wvUaoOD4Lo5jw==
+Date: Sat, 1 Aug 2026 03:13:01 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: DJ Delorie <dj@redhat.com>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] man/man5/ld.so.conf.5: document include syntax
-Message-ID: <am1FSNl_WjnaHI0-@devuan>
+Subject: Re: [PATCH v3 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <am1GD8EYQqLBrXCT@devuan>
 References: <cover.1785522144.git.dj@redhat.com>
  <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
+ <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -41,24 +43,26 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tpofmuxqrnvo57bd"
+	protocol="application/pgp-signature"; boundary="tbrfyjjyelc36x7z"
 Content-Disposition: inline
-In-Reply-To: <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
+In-Reply-To: <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
 
 
---tpofmuxqrnvo57bd
+--tbrfyjjyelc36x7z
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: DJ Delorie <dj@redhat.com>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] man/man5/ld.so.conf.5: document include syntax
-Message-ID: <am1FSNl_WjnaHI0-@devuan>
+Subject: Re: [PATCH v3 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <am1GD8EYQqLBrXCT@devuan>
 References: <cover.1785522144.git.dj@redhat.com>
  <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
+ <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ae9c2cc67047902f68f64d05ca454da0e6d008b3.1785522144.git.dj@redhat.com>
+In-Reply-To: <4e0cadac19fdaa29081a226cbd6f98a0b5b6a02b.1785522144.git.dj@redhat.com>
 
 Hi DJ,
 
@@ -66,94 +70,213 @@ Hi DJ,
 > From: DJ Delorie <dj@redhat.com>
 >
 > ---
-
-Thanks!  I've applied the patch.
-
-
-Have a lovely night!
-Alex
-
->  man/man5/ld.so.conf.5 | 24 ++++++++++++++++++++++++
->  man/man8/ldconfig.8   |  2 --
->  2 files changed, 24 insertions(+), 2 deletions(-)
+>  man/man5/tunables.conf.5 | 134 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 134 insertions(+)
+>  create mode 100644 man/man5/tunables.conf.5
 >=20
-> diff --git a/man/man5/ld.so.conf.5 b/man/man5/ld.so.conf.5
-> index 481cf9152..d9fae3c1f 100644
-> --- a/man/man5/ld.so.conf.5
-> +++ b/man/man5/ld.so.conf.5
-> @@ -9,8 +9,32 @@ .SH DESCRIPTION
->  This file contains a list of directories,
->  one per line,
->  in which to search for libraries.
+> diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
+> new file mode 100644
+> index 000000000..f96355bed
+> --- /dev/null
+> +++ b/man/man5/tunables.conf.5
+> @@ -0,0 +1,134 @@
+> +.TH tunables.conf 5 (date) "Linux man-pages (unreleased)"
+> +.SH NAME
+> +tunables.conf \- tunables configuration file
+> +.SH SYNOPSIS
+> +.nf
+> +.B /etc/tunables.conf
+> +.fi
+> +.SH DESCRIPTION
+> +Tunables are a feature in the GNU C Library
+> +that allows application authors and distribution maintainers
+> +to alter the runtime library behavior to match their workload.
+> +For a list of supported tunables,
+> +please consult the glibc manual
+> +that corresponds to your installed version of glibc,
+> +or run the following command:
+> +.P
+> +.in +4n
+> +.EX
+> +.B ld.so --list-tunables
+
+'-' should be escaped: '\-'
+
+Also, these examples don't need bold.  We use bold to differentiate from
+program output, when we have examples that show both a command and its
+output.  In this case, being just a simple command, it's fine in roman.
+
+	ld.so \-\-list\-tunables
+
+> +.EE
+> +.P
+> +Each line in the file
+> +.I /etc/tunables.conf
+> +specifies a tunable,
+> +which is specified with a string of the form
+> +.IB name =3D value \f[R].\f[]
+> +.P
+> +The syntax allows lines to start with the keyword
+> +.I include
+> +followed by a path wildcard.
+> +The wildcard is a path specification in the
+> +.BR \%glob (7)
+> +format.
+
+For consistency with patch 1/4, this should use the same wording:
+
+	The syntax allows lines to start with the keyword
+	.B include
+	followed by a
+	.BR glob (7)
+	pattern.
+
+It's also much simpler.
+
+> +Matching files will be processed
+> +as if their contents were included
+> +at that point in the config file.
+
+Same here, for consistency with patch 1/4:
+
+	Files matching that pattern will be processed
+	as if their contents were included at that point.
+
 > +.P
 > +The file is parsed by
 > +.BR \%ldconfig (8)
 > +and the results stored in
 > +.IR /etc/ld.so.cache .
+
+In patch 1/4 (ld.so.conf(5)), this paragraph is specified above the
+specification of 'include'.  We should be consistent.  Do you prefer it
+above in both, or below in both?
+
+(I haven't pushed patch 1 yet, so if you want to modify it, I can amend
+ it.)
+
+> +The resulting data is read when a new process is created by
+> +.IR ld.so .
 > +.P
-> +The syntax allows lines to start with the keyword
-> +.B include
-> +followed by a
-> +.BR glob (7)
-> +pattern.
-> +Files matching that pattern will be processed
-> +as if their contents were included at that point.
->  .SH FILES
->  .I /etc/ld.so.conf
-> +.SH EXAMPLES
-> +Example config file:
+> +Each line may include zero or more keywords or symbols at the beginning,
+> +which affect how each tunable affects each processes.
+> +The keywords must be separated by whitespace,
+> +but the symbols need not be.
+> +.TP
+> +.B overridable
+> +.TQ
+> +.B +
+> +Allow the tunable to be overridden by the
+> +.B GLIBC_TUNABLES
+> +environment variable when the process runs
+> +(this is the default).
+> +.TP
+> +.B nonoverridable
+> +.TQ
+> +.B \-
+> +Do not allow the tunable to be overridden by the environment variable.
+> +.TP
+> +.B onlysecure
+> +.TQ
+> +.B @
+> +The tunable applies only to
+> +.B AT_SECURE
+> +processes,
+> +such as one started from a set-user-ID program,
+> +or one with elevated capabilities.
+> +.TP
+> +.B nonsecure
+> +.TQ
+> +.B $
+> +The tunable applies only to
+> +.RB non- AT_SECURE
+> +processes (this is the default).
+> +.TP
+> +.B anysecure
+> +.TQ
+> +.B *
+> +The tunable applies to both
+> +.B AT_SECURE
+> +and
+> +.RB non- AT_SECURE
+> +processes.
+> +.P
+> +The file may also contain
+> +.IR filters ,
+> +which limit the tunables following it,
+> +up to the end of the file
+> +(or end of the included file,
+> +or start of a new included file)
+> +or a line with only
+> +.B []
+> +on it.
+> +The syntax is:
 > +.P
 > +.in +4n
 > +.EX
-> +/lib
-> +/usr/lib
-> +/usr/local/lib
-> +include /etc/ld.so.conf.d/*.conf
+> +.RI [ filter : pattern ]
 > +.EE
 > +.in
->  .SH SEE ALSO
->  .BR ld.so (8),
->  .BR ldconfig (8)
-> diff --git a/man/man8/ldconfig.8 b/man/man8/ldconfig.8
-> index 9ac146b44..cb7d62ccc 100644
-> --- a/man/man8/ldconfig.8
-> +++ b/man/man8/ldconfig.8
-> @@ -178,8 +178,6 @@ .SH OPTIONS
->  is also specified,
->  the cache is still rebuilt.
->  .SH FILES
-> -.\" FIXME Since glibc-2.3.4, "include" directives are supported in ld.so=
-=2Econf
-> -.\"
->  .\" FIXME Since glibc-2.4, "hwcap" directives are supported in ld.so.conf
->  .PD 0
->  .TP
-> --=20
-> 2.47.3
->=20
->=20
+> +.TP
+> +.B proc
+> +The
+> +.B proc
+> +filter limits the following tunables to processes
+> +whose name matches the pattern.
+> +The pattern may be an absolute path
+> +or just the base name.
+> +.SH FILES
+> +.TP
+> +.I /etc/tunables.conf
+> +.TP
+> +.I /etc/ld.so.cache
+> +cached copy of tunables
+> +.SH EXAMPLES
+> +Example configuration file:
+> +.P
+> +.in +4n
+> +.EX
+> +glibc.malloc.arenas_max=3D5
+> +onlysecure glibc.malloc.arenas_max=3D1
+> +\-glibc.pthread.rseq=3D1
+> +[proc:/bin/bad.program]
+> +\-glibc.pthread.rseq=3D0
+> +[proc:some.program]
+> +\-glibc.malloc.mmap_threshold=3D65536
+> +.EE
+> +.in
+> +.SH SEE ALSO
+> +.BR ld.so (8),
+> +.BR ldconfig (8)
+
+Except for those consistency issues, it looks quite good to me.  Send
+a revision and let me know what to do with patch 1/4, please.
+
+
+Cheers,
+Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---tpofmuxqrnvo57bd
+--tbrfyjjyelc36x7z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptRVsACgkQ64mZXMKQ
-wqlrQw/+Mzbi6LpPXVdHqO5Kkj834JJ+sYoAoUUFDMmXGC7Wcw3UuTZflVTrRpFG
-GWAo4pOAgo/TVbZvn7KAB9Jk0fFsWY7RQEv/eDCgFabstRSRQAl9twjrbAG4ro4q
-3W0fDLB3puzFhdMXpJQaNSM6mgcNeG9bZjBRkbsmq5ZsiPrvR6HZcNE6yKqFB1IV
-bICR6En2eLhchRHAACAEIMFoWc/tHEfNR30TsDjOYOw6fTOo+yBHLwJp2ooHccVl
-iZ+1rLoAsPmcTInob8gXO1GFnhqLekLjaWY1r6PLsoqAUvQuBJr5M33r0b4hQ5sD
-s5+8OZS2r+Lug2dZVx2tcf58/ecZvXj2EJOXKE+4FILO6K56rqNyVicaym1FTsHy
-ifoEN+IRx+5aY+mXazrwd/70MrBk4hsEY+Pw1d2Ba5KtlelvCXVdn4ktR/UvPK1H
-VNUfJREzPa1ciY8CZ2wClT28iZ1hv951YJAGhxjH2JpuT8I0OFcdohSDfTHnYw02
-JuwnY2Bfb3HxPiHsf6DqYB4lJMduKMXujN4N7UeEp4gPjiw0JuiZLW4dJAdlItVl
-F7gjkmz/woy9xZ5g0s6jhRhNp5TDUhmMyhQA+Ddy1iqZaUQ6Abq+a3T99qptLi0I
-cCkg8Mbhs0BZSZCksGCJOGB4xbIOF+kxesLawIE45V507svwEX4=
-=XmPA
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmptSBcACgkQ64mZXMKQ
+wqln3RAAhcmZNhGT8L+jJycywWcNe3buagoNor5j0jRlY8ck5J+rRWchvQmxypCW
+5sIN5Yd7gy2BVxdGS6QZphfsPkqi6FZU21gojJkazJNjdWk3uXgdn6iuzS9MxSgR
+u7/p5PIhw7+Jf4BPcm3OOlSbZPaXr0OysbJF3AFNWWgj9+kqpKTxNX3uig8JywpQ
+Jek3fHiQClr8XvawI0zOHA8qsdWKU7EGja58GrDwXaZxM8ZqX3Ibyn9CJpiRHb8N
+aTZsX1absunwBjeRlXkJf59BRsjoSLiTiNuEzLViEGZ99dPy5WEciuSO6+19QaIo
+8qyEqkwUWsInbD3d4logziWtQc15DhllZjY53WDTaUOu0UGVnedOSdKHurNT8UFX
+oBJZkjGMGfn88hn7fvMyUuMEZRpTG9FTPM98lzn3784QX/WK1Oa+oKSIvIivsfNJ
+HLx/UV8F+kRxYmGiBtSgxgwx/vVSLeKBB//2L4jz4LrbiiHKveGqxrwnUX6eC8XD
+Wg6pWmJrMrVjtOZvt5xmVNFSDIPlwoJPLa0/+3G7e/yQOms8aSJgU2mEtviRnKXa
+CHZzSLo4/gWi8zfeE2Tjl8ID1vgmB1u84QGFWsxZE7dj2L40qtBBZpH1thfQNDjl
+ZQgq8SqQx/8aXoXOpdkcaeoo9dMP+7s2qoNuwTLjU24yOjpvLOA=
+=3hGM
 -----END PGP SIGNATURE-----
 
---tpofmuxqrnvo57bd--
+--tbrfyjjyelc36x7z--
