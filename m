@@ -1,129 +1,157 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F8312837
-	for <linux-man@vger.kernel.org>; Sun,  2 Aug 2026 23:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD532F619D
+	for <linux-man@vger.kernel.org>; Sun,  2 Aug 2026 23:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785713245; cv=none; b=c+A9vWbZPabDdxJO2GIA9ste0KHufEqW0tud4CtKGi7Wi7r9Hw/L8s+czSTJlyoC9Zs/IT2RVMeEnQ55k29TlxCwVRe1O3KFKglp6wovOtFPja+J/fXsyRH7l5QgbziiTGaMw3RBOkrA9CXGLtW8K5hurXjBwcg4VNFdxYk6p7I=
+	t=1785713412; cv=none; b=hBmL3uaQtYJm9yQ5eiUS2dJdmCWpAf0b5qko8WcVAILiVlvIM8BtU/5IXT78Ql5FPMfHNuYohrDzgvL3KBQAu7Mo5ePCgRAWpgBM/3XLo6bM3wY7j8g2gAUzExocOocu2IZmPEV/peRJDhfht4e3tnpFBuxkRBYEL/dLceZrC8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785713245; c=relaxed/simple;
-	bh=tUjmgXmcRrR2kD/gLn50a1A9CKGsqAGcNtvQJNH20/s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DLirk6OF1oJsT/+Erk5bo/kr/zAOtc0RtPpxC9xP82L7wuQ6arfaxBlgahKzRQyUismsBAVIfOI4mMe3hTRNrVakApYmnBM7Mq0gMe3qHMD1AxfFKGQ/l0MK/MOk0FUVRQMy6O9jHrzVGxEjRQgr88NkOwRpaeKx9UfEnfcPrEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwpCYXK4; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785713412; c=relaxed/simple;
+	bh=SKbWmET3GHnIXnvNT1wo3ACdsGAcSPXB99Tqegl0nVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SYE9k3+ddMF0F/wWA7zNGTRYkJaRXZwt8iPJYPCczmV4wHiQ9Ds2kQa/9hWJAWkv1WgYqitE17e1cXFEWhxfmUzheNFelFWnKL6vwR0yZRoaMVUTHfujxybqmtyLIqC2Ie3lJkqGRJRFLDO6/fMD710yjsGqdC/pdPCTGlqdEhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oXTROUoR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwpCYXK4"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca00f126b7eso1515164a12.2
-        for <linux-man@vger.kernel.org>; Sun, 02 Aug 2026 16:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785713244; x=1786318044; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :message-id:date:references:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=zB/Z3ZwI6BmeiZzmyDa36EeLDpJ++b9s3sWTHgCccnA=;
-        b=UwpCYXK4WNipul98TD66f5MjMWpkLyhnFEZ4z48HlAbXrCpNtZkBQ0LpPc20x3MbPN
-         KdN+BEPwuveDADtPswNM7c2z5Q4V/vXV9oFLdVqgvJuOAHWQ2YrzP6tKggq/njSG/o48
-         CB1+afaQeNye1oCE+LyDHDSXRTncAqzh5kYSPHU/lr8pYtO198IaocKueVE/4Fz4wllz
-         OdhnKjsLumWO3UA6Cdg96/Awub9mVVlUA/dDvjhi/awLy2gIjDDlxN6Hcr4OUjQ2YXUQ
-         m06RgSFoyC8L20m7O3CZ0Gdb3+Z2cDXqUBKK/5embhWpN5CPHMSF95i84I6vlTowSyoZ
-         j+dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785713244; x=1786318044;
-        h=content-transfer-encoding:content-type:mime-version:user-agent
-         :message-id:date:references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zB/Z3ZwI6BmeiZzmyDa36EeLDpJ++b9s3sWTHgCccnA=;
-        b=LyGbRdTVMKyB21d2ed5Lz13AO+Hwopj99YW8hgwJZRz3jXfNLE4JwhWkPnEju1vs5r
-         xgNSFVSFGmt4cocSXs535pKyzz4VgwJwKSSYCnwrCAAZcjEF+ERLB4ZF3UUGrRMCIXYP
-         JslrbLSNJjGzr4Ufsp9uNcYCZAQtGcRQE/QnBLuUBABLX8EpuuSrdBiO2bQn/4QcTGrL
-         z40CFZuZgf2TXqUINAol8/4CTt3F22NCBhVV+wp61tgVDJcecjmc4JD74alvfgn5pWaT
-         /CFJVPhdOofJqhP1NyRpAuct0uWwflXoLA2Xs5wSpTKtR0QV0HJtRMC6ApUJn0DtwmcN
-         o60Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rq7Df7destJ0Ym4o/uPnol0xaorCKH7+sdF9hUnZuAroA41bLW6bXKjFQPh36mQO/b+CdaDguw1pvk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN/hpSR1syy46YfqibfWnlZwvzU4JXgWTG4Mxck6EZ+w7vxndD
-	kblodQl5oW7IiSjFdZtpTLHfZ7Y6Mo1DXfNDlH1a5H0BOnA6In1yTwml
-X-Gm-Gg: AR+sD12TouUvgzW3LEICHJPrgdUa5hql4OQO1D1CHw1ncLNlBVyQM1Wlomp/OhUes6v
-	u05+D4kg0w6MjGpMV0UqCnloXiAftoCbz7sVElpKz5uJ+LXuwa3tqAPeuFu4WJZ4rgiembSzRQV
-	4nETN9nddFNe39cI2BL2I0/75ZOT2lPdItUViQ+wnJ8CgbC9GW5SYAYr1GyOP7DU73rnKzd9cPW
-	B4oL8+MI2WDS0B5oonoWUCPlyA+T2iqqN2vsRGFiz3WYh/jPX75e5TFQzVvzTgJB9prrHw9jvfR
-	qO2EtfDZrH9LrQzzJsyFTEl4ypoYexmtpjoKTc2YlC5nrvKbvBtJa0Hda9sfjfrak/v9/CW5Obu
-	cKduCxW4bEAL6oCRu7db2QJ6T2XILVhJLArZD/qKeNWr7QkPSRqZZ9tHuZG/MYZZDtPHxxtPq/R
-	o1JPAZ0CUzxCJRqaY+CJcZx4hTHvxRHyly7X7GKxbuX4t0rBT9rN0=
-X-Received: by 2002:a05:6a20:e292:b0:3c3:2e2b:29ee with SMTP id adf61e73a8af0-3c92a89be42mr7619575637.55.1785713243544;
-        Sun, 02 Aug 2026 16:27:23 -0700 (PDT)
-Received: from fedora ([2601:646:8081:3770::4bd])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab4cb50dsm40471717c88.10.2026.08.02.16.27.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 16:27:23 -0700 (PDT)
-From: Collin Funk <collin.funk1@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oXTROUoR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2361F000E9;
+	Sun,  2 Aug 2026 23:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785713410;
+	bh=lJf8RyAyI7Y7my+ipQrZSzBbKFE6cVDnHg8N4JjWqSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oXTROUoRRqrus8DQdFsvQrLmuf37oTVxp5GDLM1oVcqVRWIbXtcQgI2eHWdRU0Crf
+	 ocr4G5PDzdvkICc/DTDYe2ofXVP30N/UMDcJU5jis+QOKPpK68glYDftIqzzhx85wr
+	 3PZ6noce1vHFAMmRTdYl68AhqnvImAgOPU0sMpr9Y900AuKt1szwbGIuuw9Osdfuln
+	 dg8f2AVf6ayw8i9KzipK/80YxEYSwrrvlSLEV0OPoULLGVwOlMSeLXcM/Q9Znc58+n
+	 Fxyfzmk2GN+/rzzEGk0JhQF5BgpKyvPNLzzIabOgC3FXY9GlDSVAv4L6vQKQgNY7Bq
+	 0BozpD7fz8YMw==
+Date: Mon, 3 Aug 2026 01:30:06 +0200
+From: Alejandro Colomar <alx@kernel.org>
 To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>,  Alejandro Colomar
- <alx@kernel.org>,
-  "Maciej W. Rozycki" <macro@orcam.me.uk>,  Paul Eggert
- <eggert@cs.ucla.edu>,  linux-man@vger.kernel.org,  bug-gnulib@gnu.org,
-  libc-alpha@sourceware.org
+Cc: Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Collin Funk <collin.funk1@gmail.com>, 
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
 Subject: Re: the Linux man-pages as an educational tool
-In-Reply-To: <20260802231058.o7gud4bd7co2nbhv@illithid>
-References: <am56ZBzNM5J07AUa@devuan>
-	<f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
-	<am6CnOddgaM10pry@devuan> <20260802000833.zpu27l7ibvrbouna@illithid>
-	<am6PkypxYg-Fq4Iz@devuan> <87cxw1s58a.fsf@gmail.com>
-	<am6X32HkGdm2xTd7@devuan>
-	<alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
-	<am-2d02e1qq78Asv@devuan> <87ik5sunm7.fsf@aarsen.me>
-	<20260802231058.o7gud4bd7co2nbhv@illithid>
-Date: Sun, 02 Aug 2026 16:27:21 -0700
-Message-ID: <875x1sp0h2.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Message-ID: <am_SYQV74iczZNax@devuan>
+References: <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
+ <am6CnOddgaM10pry@devuan>
+ <20260802000833.zpu27l7ibvrbouna@illithid>
+ <am6PkypxYg-Fq4Iz@devuan>
+ <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hlrwzbr6k5hkll7q"
+Content-Disposition: inline
+In-Reply-To: <20260802231058.o7gud4bd7co2nbhv@illithid>
+
+
+--hlrwzbr6k5hkll7q
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Collin Funk <collin.funk1@gmail.com>, 
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+Message-ID: <am_SYQV74iczZNax@devuan>
+References: <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
+ <am6CnOddgaM10pry@devuan>
+ <20260802000833.zpu27l7ibvrbouna@illithid>
+ <am6PkypxYg-Fq4Iz@devuan>
+ <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+MIME-Version: 1.0
+In-Reply-To: <20260802231058.o7gud4bd7co2nbhv@illithid>
 
-"G. Branden Robinson" <g.branden.robinson@gmail.com> writes:
+Hi Branden,
 
+> Date: 2026-08-02 18:10:58-0500
+> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+>
 > At 2026-08-03T01:08:32+0200, Arsen Arsenovi=C4=87 wrote:
->> Alejandro Colomar <alx@kernel.org> writes:
->> > Most programmers can live in the safe bubble of <string.h>: those
->> > functions always require a string as input, and always provide a
->> > string as output.  Plain and simple.  It's difficult to write bugs
->> > when using those.
->> >
->> > That's the rationale.
->>=20
->> I do not follow.
->>=20
->> C has no namespaces, let alone qualified imports.
->
+> > Alejandro Colomar <alx@kernel.org> writes:
+> > > Most programmers can live in the safe bubble of <string.h>: those
+> > > functions always require a string as input, and always provide a
+> > > string as output.  Plain and simple.  It's difficult to write bugs
+> > > when using those.
+> > >
+> > > That's the rationale.
+> >=20
+> > I do not follow.
+> >=20
+> > C has no namespaces, let alone qualified imports.
+>=20
 > That's true.
->
->> The name of a header providing some function is thus inconsequential.
->
+>=20
+> > The name of a header providing some function is thus inconsequential.
+>=20
 > Then why not have one official big header file for the whole standard?
->
+>=20
 > #include <stdlibc.h>
->
+
+Heh, curious thing: Plan9 did exactly this (actually, two headers).  :)
+
+	#include <u.h>
+	#include <libc.h>
+
+Not that I support that idea, of course.
+
+>=20
 > When you answer that to your own satisfaction, I suspect you'll have
 > little trouble following Alex's argument.
->
+
+Indeed.  Thanks!  You've replied in less words than I would have, and
+were more clear than I would have been.
+
 > ...which doesn't mean you'll agree with it.
+>=20
+> Regards,
+> Branden
 
-Plan 9 did this but with "#include <libc.h>" and it seems to have worked
-fine.
 
-I can't help but wonder of what happens in WG 14 rejects this
-controversial, as obvious by this thread, change. Will the man-pages
-changes be reverted? Or will we slowly watch them document personal
-preferences instead of existing standards? After seeing weekly threads
-about the prototype changes, I don't think it is an unreasonable
-concern.
+Have a lovely night!
+Alex
 
-Collin
+--=20
+<https://www.alejandro-colomar.es>
+
+--hlrwzbr6k5hkll7q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpv0vgACgkQ64mZXMKQ
+wqm8rA/+IkdHG5OSmZF5sSk3kqIW0KdhuNHper+rd63nBxPHROkVFwYi3FQpMYtV
+Kj94NdVghEDKZpP4GL5FkBaStPJSPqWnHAq1ZFA2CMsneRv2+uC88MBRvgZK8qAQ
+zftIau/E3IHywheayU2ZX+HjmG7FdnAnyXM5tUim5dpj/JRxxs4vKNh0RfuBuMfY
+wfuEdsVNh2Z+izwxeu/doykPOfyHHrE/iL79cJ9pfdp83FmoHo+wZ8wPmvqFL3LF
+XIjPpyzYGrra4juPNR0Qg47VruWuq/LHdAY/f54cbpNxpax05P4RsU6wXMkZpN4e
+GLxlT/mwhi7vOx6fZO4uyUSURMa720sCySTvuOYAJ+IFne2HmUkNiMMXzrHO9Enb
+XEC7WnbkzvuXzAitHoX7KcpsqgFln5xYbWCyApMHp/YOkhW/gaO/0E+i21SpAFWM
+A747CtsxCJvzwdwIqZD50EBqp5r77UBA4mD37u6uy7yRPI8fD1thKXti9qTN1tjc
+DtMoAHegICT9gvBY2ErTUTbpeMml6ubkhlE+yOJVfEHrpHH3CC8bqWW+EZ5Nsl3w
+k949WE3GBtjTf/p+L0rZp6KEgJ1PCFLkfclcXpCydaJ7hfcndCuokuFuXxoCIuiT
+vXRluPLmc9veA0Rm3dVCWcOFoTJAPQBrsK1WUygfqZLboRtMoVA=
+=oCnT
+-----END PGP SIGNATURE-----
+
+--hlrwzbr6k5hkll7q--
