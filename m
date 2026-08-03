@@ -1,209 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0838E2C1595
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 19:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9972433BA2
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 19:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785784908; cv=none; b=Yx2MNcA41yQmx+dEBkQ1/ez8lHlhQ/w/UZRG4grDFxvt+IpRIP81VhESmOZ2qg7aX3wO3adNxfpbfoWGBsUjnWD79Z4dka/YVbiVA023GQUKXwp1CpQhF0bfvzxh4oQOu3mCOdjRd1HwHLuCa3sSFDtYrUHOjaYzgqOFFjxHdDs=
+	t=1785785496; cv=none; b=QTiuRTGgCBLI7dF75OPQAHKg1wwoTR2gIf02/1dhXyr+HXDOH/jhhifAXn62lbmeuGf7bIBPEYgE4qc/+pY+r2Eny64g4pVKHWvRdI3KNp7no/0Mb+sRWJw43QZnS8gU0qT3D5e4BiVK5lzHF5gaWGMVA+EGCqt1fpHH6asP2io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785784908; c=relaxed/simple;
-	bh=J33VH5wLU8Ovl8DX1lZ44E5ILbhh3gPxgPu7C3tbL9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E0sF6I7zvhJL73h2ZDi0olvkHqHdErPfqYbh4GC1fQP0tEIKxEvyeO8Lq0IVS2dcWD3RyhNU/jA2d4eu12GIMvxx4YjYxuWBRBtyI2fzqRWCOp3mfZ8+u1dQnxuD5liPattGwYCBQXlpO/Mp1GdPvfPL+HdG+CMnDIgOlW19u3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dPQ2kBT7; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1785785496; c=relaxed/simple;
+	bh=gk9PyFHj6NGXvx1ofN2MOH6gD0NqlIgw51/loRO+IE0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=RzO3ifhUD00Kt2/yHHDt3pdHifouHm+HwahI+WJKFT8is8hA+1X7zCro0KptUsGsMSmwGpTTlvXTKUhchqDy7qgEn9p8Jv+goaKfRuUwUfXclFjFgEzy6yZh1wEzrbn9cikkZdJuwYIncJUbjRlN+P8jrbfCXwAk6amTYz077zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hNBTdOGu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OfhxvZt5; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dPQ2kBT7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hNBTdOGu";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OfhxvZt5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785784905;
+	s=mimecast20190719; t=1785785493;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=+OYtF8XTnrRgF7I2K2LI5RxHcL9zWw4LpadNKVXD/0o=;
-	b=dPQ2kBT7oszOkyN9rrCvhU8DHx9Pb+6w+LRCPltnm4MKnaoE9Y4GsoqfHNlauMj6eVMJud
-	0mnbH4Khc6iWNYcQcpWFzltDn1rEcNNEWqagyMWYJuqZX6zYZlrCyQ8lLFNeZskEnZRbSs
-	jbXN6niTmCwt3lmqnDhzTLPmXY8JYEg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-103-35LocJMcNpawct38xVFmVQ-1; Mon,
- 03 Aug 2026 15:21:39 -0400
-X-MC-Unique: 35LocJMcNpawct38xVFmVQ-1
-X-Mimecast-MFC-AGG-ID: 35LocJMcNpawct38xVFmVQ_1785784898
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 53E9B180034A;
-	Mon,  3 Aug 2026 19:21:38 +0000 (UTC)
-Received: from greed.delorie.com (unknown [10.22.88.221])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 08EC7195608E;
-	Mon,  3 Aug 2026 19:21:37 +0000 (UTC)
-Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
-	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 673JLV2p3318293;
-	Mon, 3 Aug 2026 15:21:31 -0400
-From: DJ Delorie <dj@redhat.com>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8TcgkH3QZtIpTxqGMK1djxKUEAzr4DTk7xVT/C1YFGM=;
+	b=hNBTdOGu3WRHR7aR6xP/QQLZMBBgMq8WWnu9ZMbfnFFLoOkF2z9epXTDl/H6GxDIrg+GGf
+	G9kfe+WIIopaI1TU7Z3oVUrzNVp/XeUGDkLyuvypyPPq+qb35dBCGcXBmPqKOd7ol2yeJJ
+	cyMp3fiVJcBqdU5rvaCWb+pPa0IRfXw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-jKoJYDiRNcKhwSX_RqMZIg-1; Mon, 03 Aug 2026 15:31:22 -0400
+X-MC-Unique: jKoJYDiRNcKhwSX_RqMZIg-1
+X-Mimecast-MFC-AGG-ID: jKoJYDiRNcKhwSX_RqMZIg_1785785481
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-490a767b782so16656495e9.2
+        for <linux-man@vger.kernel.org>; Mon, 03 Aug 2026 12:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1785785481; x=1786390281; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8TcgkH3QZtIpTxqGMK1djxKUEAzr4DTk7xVT/C1YFGM=;
+        b=OfhxvZt5dX0AUQsc1oLwDiKk+1h/JO6utSbq0unxV8D8kj0xBg6J/uYX+KBrX9h2Pe
+         PfEVy2GSQpMMoS/ZWkMrtzxZzjnVJpgEIeQJlmWR48h/Dnbi6RRc3D2Lnf1QqfwhpvGD
+         zmd/yToX1ZNqgY6TizPTIw3vgJy4PHq6ee/3gByklZEH/RpS5O8qvXs0idVOVRtuPgXP
+         r4Kr1eL6x8g+IZLlCdRs2C1if8LqHzRg20sL1jTUti15FAC0RVOuBnWXRJxyso2moJEJ
+         6jth/kuObNT1KaLWmK0SMh0dA1BvA9NZefOACwABZmIas+VGuyu0USstgUzqDgUyO00r
+         IxxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785785481; x=1786390281;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8TcgkH3QZtIpTxqGMK1djxKUEAzr4DTk7xVT/C1YFGM=;
+        b=mRRxovh9PZ3tJXuS3aiR3Q3YIyp6GK1Ukiy73SkKQawAg71cvyvSAiFk3o1cozD0Yu
+         HZiJ9KfCMtwPlC0v9QhZLZbGHShqCgybJNhjtfqESFlyoAHZbbScx4gnok72melpkSLE
+         fj+OHtYpWf3cw4Gdldq8yTyYnSmMzOHFYZ0KM0wYK9Uz9NBBaGRab6h2fMd1CzZ6wCWg
+         xeJ5BTMKIKqirx4snzpv3/v/7qItRle9LS9zxCK7HTtqPlJPf9xM3xJIfBfcrW4SjryG
+         mJwvS7sdDwIoU/ktmzZWAyZCxHVRZSSYrTD7ev+4A9Dg90ffh8tvupvSXWUs885lb9Hs
+         K/cw==
+X-Forwarded-Encrypted: i=1; AHgh+RoRmiONugyG8cMl0nj4GAoRFnOimw+E4UKb84rkGOjCAcLZAca6J7C6+13tNyaZGeq3Bfmehsq99Dk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgSW+LYV9aZsalw58yTcc45Y4Zd80j61WNZB7i+WVOxr4yxX82
+	0/f/rOCzZxexXJUImCuDV0/8EYgU624TmQ+E8WpSFXp/s4djJOS4o5eeK7aKQUZPeR7yaKjAFaG
+	p8K14jcHv5wYo++eOiMKhhHvKAu6CtPBGFxIWndZs4giIdou9tfILFEvZ5p4z7w==
+X-Gm-Gg: AR+sD10zOH92IIThxETb+e8TsxkGy2IEFk+wrcBjo5GmO1mU3qX2NwjFP1XPnp2lAXk
+	jT7tbDd2EhkLhlCA6RzF8IXR9BTLfy4MdfrFQHjVqv6zHZSAi8N6Qm3zlGXVjlbJlufq//lJ56n
+	tPu7kl2KpbB/YMCyKjzLn4hND32ASU0VMQDgd9V+Z6w0Z1KsJ09zneyAfQc3GEvc/YcwhQc9BI7
+	e/gVAnD47rmHo4HBTY01UFH59J2Rt2niQ7zA3SGjeUv6QnN01W8DAdbO+X91Nwi//PL8n3T44xm
+	WMWl5eLElAVStm/5geXD9htUBCkq2vPtPWhpGKbpEpt049rnE5VGyt8Thb7sWOCQ+nwEvOd14Is
+	uI66UErduD2FdN2ky26xlWk26eVgEfSU=
+X-Received: by 2002:a05:600c:8b13:b0:498:8e6:d464 with SMTP id 5b1f17b1804b1-4980c65cd2fmr273846725e9.14.1785785480925;
+        Mon, 03 Aug 2026 12:31:20 -0700 (PDT)
+X-Received: by 2002:a05:600c:8b13:b0:498:8e6:d464 with SMTP id 5b1f17b1804b1-4980c65cd2fmr273846285e9.14.1785785480572;
+        Mon, 03 Aug 2026 12:31:20 -0700 (PDT)
+Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4994a0fc94esm19496165e9.12.2026.08.03.12.31.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 12:31:20 -0700 (PDT)
+Received: from jsm28 (helo=localhost)
+	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
+	(envelope-from <josmyers@redhat.com>)
+	id 1wqyNb-000000011z2-1AkP;
+	Mon, 03 Aug 2026 19:31:19 +0000
+Date: Mon, 3 Aug 2026 19:31:19 +0000 (UTC)
+From: Joseph Myers <josmyers@redhat.com>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Subject: [PATCH v4 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Date: Mon, 03 Aug 2026 15:21:31 -0400
-Message-ID: <xn5x1r57t0.fsf@greed.delorie.com>
+cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+    Collin Funk <collin.funk1@gmail.com>, 
+    "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+    Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+    bug-gnulib@gnu.org, libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+In-Reply-To: <am-2d02e1qq78Asv@devuan>
+Message-ID: <e286f321-28bd-4085-7fb8-20d103cb21a2@redhat.com>
+References: <am50AM0bdufHa9W3@devuan> <15288158.RDIVbhacDa@cagnes> <am56ZBzNM5J07AUa@devuan> <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu> <am6CnOddgaM10pry@devuan> <20260802000833.zpu27l7ibvrbouna@illithid> <am6PkypxYg-Fq4Iz@devuan> <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan> <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk> <am-2d02e1qq78Asv@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=US-ASCII
 
+On Sun, 2 Aug 2026, Alejandro Colomar wrote:
 
-Signed-off-by: DJ Delorie <dj@redhat.com>
+> If <string.h> was described as providing functions that exclusively
+> handle strings, then programmers that only need to handle strings would
+> naturally self-limit to functions from this header file.
 
----
- man/man5/tunables.conf.5 | 132 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 132 insertions(+)
- create mode 100644 man/man5/tunables.conf.5
+A one-line change to the description of <string.h> in the C standard, from 
+"String handling" to "String and memory utilities" or similar, to make 
+clear it's *not* (and never has been) exclusively handling strings, might 
+well make sense.  That's all the change that I think makes sense in this 
+area.
 
-diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
-new file mode 100644
-index 000000000..44b32d40c
---- /dev/null
-+++ b/man/man5/tunables.conf.5
-@@ -0,0 +1,132 @@
-+.TH tunables.conf 5 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+tunables.conf \- tunables configuration file
-+.SH SYNOPSIS
-+.nf
-+.B /etc/tunables.conf
-+.fi
-+.SH DESCRIPTION
-+Tunables are a feature in the GNU C Library
-+that allows application authors and distribution maintainers
-+to alter the runtime library behavior to match their workload.
-+For a list of supported tunables,
-+please consult the glibc manual
-+that corresponds to your installed version of glibc,
-+or run the following command:
-+.P
-+.in +4n
-+.EX
-+ld.so \-\-list\-tunables
-+.EE
-+.P
-+The file is parsed by
-+.BR \%ldconfig (8)
-+and the results stored in
-+.IR /etc/ld.so.cache .
-+The resulting data is read when a new process is created by
-+.IR ld.so .
-+.P
-+Each line in the file
-+.I /etc/tunables.conf
-+specifies a tunable,
-+which is specified with a string of the form
-+.IB name = value \f[R].\f[]
-+.P
-+The syntax allows lines to start with the keyword
-+.I include
-+followed by a
-+.BR \%glob (7)
-+pattern.
-+Files matching that pattern will be processed
-+as if their contents were included at that point.
-+.P
-+Each line may include zero or more keywords or symbols at the beginning,
-+which affect how each tunable affects each processes.
-+The keywords must be separated by whitespace,
-+but the symbols need not be.
-+.TP
-+.B overridable
-+.TQ
-+.B +
-+Allow the tunable to be overridden by the
-+.B GLIBC_TUNABLES
-+environment variable when the process runs
-+(this is the default).
-+.TP
-+.B nonoverridable
-+.TQ
-+.B \-
-+Do not allow the tunable to be overridden by the environment variable.
-+.TP
-+.B onlysecure
-+.TQ
-+.B @
-+The tunable applies only to
-+.B AT_SECURE
-+processes,
-+such as one started from a set-user-ID program,
-+or one with elevated capabilities.
-+.TP
-+.B nonsecure
-+.TQ
-+.B $
-+The tunable applies only to
-+.RB non- AT_SECURE
-+processes (this is the default).
-+.TP
-+.B anysecure
-+.TQ
-+.B *
-+The tunable applies to both
-+.B AT_SECURE
-+and
-+.RB non- AT_SECURE
-+processes.
-+.P
-+The file may also contain
-+.IR filters ,
-+which limit the tunables following it,
-+up to the end of the file
-+(or end of the included file,
-+or start of a new included file)
-+or a line with only
-+.B []
-+on it.
-+The syntax is:
-+.P
-+.in +4n
-+.EX
-+.RI [ filter : pattern ]
-+.EE
-+.in
-+.TP
-+.B proc
-+The
-+.B proc
-+filter limits the following tunables to processes
-+whose name matches the pattern.
-+The pattern may be an absolute path
-+or just the base name.
-+.SH FILES
-+.TP
-+.I /etc/tunables.conf
-+.TP
-+.I /etc/ld.so.cache
-+cached copy of tunables
-+.SH EXAMPLES
-+Example configuration file:
-+.P
-+.in +4n
-+.EX
-+glibc.malloc.arenas_max=5
-+onlysecure glibc.malloc.arenas_max=1
-+\-glibc.pthread.rseq=1
-+[proc:/bin/bad.program]
-+\-glibc.pthread.rseq=0
-+[proc:some.program]
-+\-glibc.malloc.mmap_threshold=65536
-+.EE
-+.in
-+.SH SEE ALSO
-+.BR ld.so (8),
-+.BR ldconfig (8)
 -- 
-2.47.3
+Joseph S. Myers
+josmyers@redhat.com
 
