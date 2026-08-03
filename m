@@ -1,149 +1,131 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525D126D4C3
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56D92874E3
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785765943; cv=none; b=H2tjPlStoSinDasppEetiZVpzY6h4mCfzJVHsuhm/9bF19zeP1PaCxcItExmxCjDDQdySxl7xS1JTXKOqCaJRk0yWZFb7uPKM3KyjKMjUzP/W2nrE0tmjlBTu14BjtAM2nGJZ+s3m1Ww1eozVAtI1IxoKhzFww+7QmYNS8DMgGk=
+	t=1785766237; cv=none; b=kfZMWj4DrVla24SZ/gPr5iRxOQbgNbdxrGCns0Zw9Fc78ucq6TzDlv2YVVzw1saXHeLgumffvJ9fFwGnNaVkjg1SXUaWRbGzshClNDtMh/iKlqCUFPz3AZs++Cyzs9P3m2utQKC2lW1p+vt5DnmP9qmljc+ApKvHtH2WDieY3Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785765943; c=relaxed/simple;
-	bh=jEpwntmhkpUjUAAXzjMCIW+dQV/y+kMMpN2s+gHT/5I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QYPoavXas0LnCB2uWmhUkZ5muYRQkDwMOM6jgfwFK/Y5jV6LrfL1PB/QXLwhq191rb+hLl4RxVdkmtEn0g7P460Lu8d52dPF/aCUCUIxnIHk1k+F3TXxMeZvz945/SbOqAgPyU7WtJyU0BMSerujRz+QdlGSGanmSQA30McvvJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from mop.sam.mop (c.1.a.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:19dc:dc5a::a1c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 47780340D06;
-	Mon, 03 Aug 2026 14:05:40 +0000 (UTC)
-From: Sam James <sam@gentoo.org>
+	s=arc-20240116; t=1785766237; c=relaxed/simple;
+	bh=MjdlYiV1yO4jqviQ7eX7iiNsQ/CNuWRApZfPyDJu1Pc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=gcMOW9C/5pazEKQQ6FNT0E+80jse53aqxdLbMcZwKXGbxumxOpDwW6s1M8JUOiozac9WLYOh0TVm1NFh4A6H2RHVyBjXyNpt/QPCc+iAOgpBTTmJdtZjx2NaDO653EE8cMUIpHbRA9eaTEiW9jLk5sEe9NxDWomFGsA7z7i9WTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DFKpkOaz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nz4eTFH0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DFKpkOaz";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nz4eTFH0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785766234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
+	b=DFKpkOaz8mF7t6S5rfELYnMhw80acFnFzNE5dA+G+K8/THOI97YFMB2l3kV6ClpVafqN5w
+	UVVn5qUBuryBq3SsUv2oHzGWU3L1jn/+4mcrQX9c1DSX3pvRO6fbJJAnMV1CVkHM0FeyMq
+	rl4jAx02+jlW/p8yHE4UKK5Xnqo/elA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-145-ya_XVtxUNbCtox6hxcijEg-1; Mon, 03 Aug 2026 10:10:33 -0400
+X-MC-Unique: ya_XVtxUNbCtox6hxcijEg-1
+X-Mimecast-MFC-AGG-ID: ya_XVtxUNbCtox6hxcijEg_1785766232
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47f6d70223dso2664752f8f.1
+        for <linux-man@vger.kernel.org>; Mon, 03 Aug 2026 07:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1785766232; x=1786371032; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
+        b=Nz4eTFH0CN63Z3VwFnRqR2YKWNTOPSNBXvShzPBSxYRqy3T6lSEQ0w+vaSzalYB0sl
+         2h5mzvaE86G2g+uELuWRX5kaBidC03S773D58gyf56vigNZkh4zo1ahrBXKh1gfkRxyq
+         5OXQ4PtNmzm05QHebtl9lxrkWRRLra2cgsBIy49LLoHPWZtOuPMYBDKKg3b0sKfHDZlu
+         I4AHh8EEYIpL3Bp8TrJtnaAachXz6QISisXm1SqdKiMwvNLk6ikqtdT6wiRvcGh/P6F4
+         9Mu5LHoyO3YD6Y8cazI5K5c3MDrg8lzXnG9UcTthTDjQuJaNexgo3z1JC5y/UUgqktSL
+         wWkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785766232; x=1786371032;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
+        b=F3h3RU5r8Xa38bo8b5qtOmLYJccm00haeUnhgaf0EcATZVbIOltnbBbi68obkB0L9M
+         68qVZD9s7YxmpnB4IctnTQ0LyD0Auxcs1F3EwHvN/5kn3rVKwA5y2pmRVl7MyoHCbt1f
+         yHK3nYBuHtYGZPuFeYzRs5sK9jcGf7zAkZbIK5RUk6Jp5tz2cCjje/uAS/uH3q6lNGst
+         CcBlbwSvnp8BCfplec3qBnLjWOaG+Smi/LKoZ9SKobeDhVnbEf6YAWm+Rn1ITaYCg6f2
+         vBqJfEjhLgks85HZPM5QaRjc74gxkUW2gIK9TajHJvtUZT/dYWnFbrhLT+yDnoXdXJOo
+         2wCw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1yERt5JDNoXXqKj0JraGv4i+KWLcTLUWhxhGSjZfr4jlfZFyHZsd9iQKi1sojK1zPIY0alBlDvN4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLpzmxrj/4iNKjooUe3ETusIAy1PwcEtJRzIGk1JTXChroyqKN
+	IvfJf0PwqWdeiYU54LFZ3jpIlqNODYZvayc52WiryaHItXEidHZ+78BJBoHvzxCPaLx2EM59bDa
+	i54B5vkIkoNXeaNXFmqlVZ8WHUP+pN/EGSVQCKpS34GTTlGD/rlGxLETDO4VBYg==
+X-Gm-Gg: AR+sD118XWLqqeqGaEkeMkMeaZhsIi6OkI9MpLfHbEhi6re/e6ESwPKUvpJkhLFJgTl
+	S70QnCLNYQK2v7uLQcTU+K7/BbYTl3WioFCutE/I9ccI8ywvB/I2PiUYORPGmtJyO+OnI6mYjw1
+	VOtC7id+Z6P4TMvbHVpsHPedetunBnYBB+6y/Vo14J1OC6oauGJ7XV8kdD8JIihKOV6fndQBzKl
+	9puCGdwaQvo3j3nuBA7iT5hgX1Il5S1Me7pNi0lFZgQJtx+KHSNq0mMKU4FArllc2ej2ULfgMHl
+	yJjk3a/NScWE8Ob8N19hixYztq+YYhKm+gjWDdB5W5qzezJdiwfOG/DdyOQ+Dlhs13JahKGfG3X
+	6PC72qaZ9PO8BlhSkx9c+NXR+DcIY9a8=
+X-Received: by 2002:a05:600c:3b99:b0:498:519:e660 with SMTP id 5b1f17b1804b1-4980c66d8b0mr239579735e9.4.1785766232095;
+        Mon, 03 Aug 2026 07:10:32 -0700 (PDT)
+X-Received: by 2002:a05:600c:3b99:b0:498:519:e660 with SMTP id 5b1f17b1804b1-4980c66d8b0mr239579115e9.4.1785766231789;
+        Mon, 03 Aug 2026 07:10:31 -0700 (PDT)
+Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4068fb7sm34530437f8f.0.2026.08.03.07.10.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 07:10:31 -0700 (PDT)
+Received: from jsm28 (helo=localhost)
+	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
+	(envelope-from <josmyers@redhat.com>)
+	id 1wqtN8-00000000sOv-10yA;
+	Mon, 03 Aug 2026 14:10:30 +0000
+Date: Mon, 3 Aug 2026 14:10:30 +0000 (UTC)
+From: Joseph Myers <josmyers@redhat.com>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,  Collin Funk
- <collin.funk1@gmail.com>,  Arsen =?utf-8?Q?Arsenovi=C4=87?=
- <arsen@aarsen.me>,  "Maciej W.
- Rozycki" <macro@orcam.me.uk>,  Paul Eggert <eggert@cs.ucla.edu>,
-  linux-man@vger.kernel.org,  bug-gnulib@gnu.org,
-  libc-alpha@sourceware.org
-Subject: Re: the Linux man-pages as an educational tool
-In-Reply-To: <anCAeQ5YNwXwSTWA@devuan>
-Organization: Gentoo
-References: <am6X32HkGdm2xTd7@devuan>
-	<alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
-	<am-2d02e1qq78Asv@devuan> <87ik5sunm7.fsf@aarsen.me>
-	<20260802231058.o7gud4bd7co2nbhv@illithid> <875x1sp0h2.fsf@gmail.com>
-	<am_TTjDLlAI68zkp@devuan> <am_VUE1SzxqRkTAo@devuan>
-	<am_V3bvOiH9TaJQW@devuan> <20260803020908.efqt5ilkcjq4z3yz@illithid>
-	<anCAeQ5YNwXwSTWA@devuan>
-User-Agent: mu4e 1.14.2; emacs 31.0.91
-Date: Mon, 03 Aug 2026 15:05:36 +0100
-Message-ID: <878q6n9u4v.fsf@gentoo.org>
+cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+    Keith Bostic <keith@bostic.com>, Sam James <sam@gentoo.org>, 
+    linux-man@vger.kernel.org, Mark Harris <mark.hsj@gmail.com>, 
+    Nevin Liber <nevin@cplusplusguy.com>, 
+    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
+    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
+    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+    libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: proposed revision to memory.h(3head) (was: on the irresponsibility
+ of pursuing C language reform)
+In-Reply-To: <am6HTtAMkEEkWjfl@devuan>
+Message-ID: <cb916665-73fc-bca9-0e34-ea66552fe945@redhat.com>
+References: <87a4r6es6k.fsf@gentoo.org> <am3XeGZyi1Pvr77-@devuan> <87y0epdhxp.fsf@gentoo.org> <am4GT1OkqNZD9FF9@devuan> <87zez5bz49.fsf@gentoo.org> <am4jxBOh_VRvhCQw@devuan> <CAETFuj2OwoyK9J85r2f0RoXbHbXKA4gQJ=JZ-7=QoqGcMwk0+Q@mail.gmail.com> <am51v4KmUmdzM-OT@devuan>
+ <am5_uA4MSujYCS9X@devuan> <20260801235332.vc443gozbqkqdqm5@illithid> <am6HTtAMkEEkWjfl@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=US-ASCII
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2 Aug 2026, Alejandro Colomar wrote:
 
-Alejandro Colomar <alx@kernel.org> writes:
+> I don't know of any copy of SVID Issue 1.
 
-> Hi Branden,
->
->> Date: 2026-08-02 21:09:08-0500
->> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
->>
->> At 2026-08-03T01:42:57+0200, Alejandro Colomar wrote:
->> > > > > Date: 2026-08-02 16:27:21-0700
->> > > > > From: Collin Funk <collin.funk1@gmail.com>
->> > > > > I can't help but wonder of what happens in WG 14 rejects this
->> > > > > controversial, as obvious by this thread, change. Will the
->> > > > > man-pages changes be reverted?
->> > >=20
->> > > > > Or will we slowly watch them document personal
->> > > > > preferences instead of existing standards?
->> > >=20
->> > > BTW, as I showed in another subthread, strncpy(3) did contain
->> > > opinionated comments well before I was involved.  If you're really
->> > > going to accuse me of that, better make sure you get the history
->> > > right.
->> >=20
->> > Oh, and while at it, please also read my review of glibc's own
->> > opinionated and bogus documentation about string truncation.
->>=20
->> I don't think this rhetorical tactic is a sound one.  You are implying
->> that because Collin (and perhaps others) are not on record as having
->> already consistently opposed editorializing in the glibc manual, or in
->> the Linux man-pages prior to your stewardship, that they are hypocrites.
->>=20
->> First, that's not necessarily true.  Who's read every word of either
->> work?  Who had already done so 5, 10, or 20 years ago?
->
-> He doesn't need to have read every word of the glibc manual, but this
-> precise text he could have read it, because it was mentioned by Paul in
-> this thread (different subthread) prior (19:28 UTC) to his message, and
-> reviewed by me also prior (20:31 UTC) to his message (23:27 UTC).
+I have a printed copy.  It has <memory.h> on pages 208 and 209, with 
+FUTURE DIRECTIONS saying "The declarations in <memory.h> will be moved to 
+<string.h>.".  (Likewise in XPG1.)
 
-I often reply as I go rather than reading all other emails around that
-time. I don't think you should assume he read those emails and
-deliberately neglected their contents.
+> I'd be curious to see whether XPG Issue 3 still kept <memory.h> (but
+> I suspect it won't, since it derives from POSIX.1-1988).
 
->
-> 	Date: Sun, 2 Aug 2026 14:28:33 -0500
-> 	From: Paul Eggert <eggert@cs.ucla.edu>
-> 	Message-ID: <8715af47-867c-417a-8ef5-7b4b7ceb2c31@cs.ucla.edu>
->
-> 	Date: Sun, 2 Aug 2026 22:31:59 +0200
-> 	From: Alejandro Colomar <alx@kernel.org>
-> 	Message-ID: <am-eAGL6OWqP9Yah@devuan>
->
-> 	Date: Sun, 02 Aug 2026 16:27:21 -0700
-> 	From: Collin Funk <collin.funk1@gmail.com>
-> 	Message-ID: <875x1sp0h2.fsf@gmail.com>
->
-> Also relevant is the fact that he accused me of "slowly" documenting
-> "personal preferences".  His wording implies that it wasn't there
-> before.  Maybe I misunderstood, though.  I'd be happy to rectify if I
-> was wrong.
+Page 642 of volume 2 lists it as WITHDRAWN, "The declarations in 
+<memory.h> have been moved to <string.h>.".
 
-I think he meant in general?
+So there you have explicit statements showing an intentional, planned 
+move.
 
->
-> While he didn't need to know whether it was there before, it would be
-> good to make some effort to learn whether that was the case, before
-> making such a serious accusation.
+-- 
+Joseph S. Myers
+josmyers@redhat.com
 
-I took it to be that you (as you've said yourself) have a different
-style from Michael and this does involve a more opinionated (you may not
-call it that) approach. He's commenting on that being unfavourable to
-him. I didn't think that was contentious, more that you see it as your
-duty wrt education.
-
->
-> ...
-
-> sam
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmpwoDEbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
-Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
-QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkPAx
-AP0cuunv7zpgyGlXPXinG+wYZ50RYb4sKnpsa9LodnPt2gEAkBYQhzyQM5mGCR3f
-G3j5Hz/g+l9RB7dsz8F/KtlX+QY=
-=Q9Ev
------END PGP SIGNATURE-----
---=-=-=--
