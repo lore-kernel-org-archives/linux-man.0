@@ -1,49 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA88C33C183
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 16:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9215F388385
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 16:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785773877; cv=none; b=XjvumErRbfrtW1E0JzXiSvnZJ+X49YnJpAC6khBatfQvuCoI1j0N2OV+Ac1h4thESGIQS+LX2BwqA2gduxyft2Li/vvlugAeD4ZB1Vp14C00WrP2HR53dwYcoMXwWR2D/pXaArjFJkie31BfcyJxbJw/iDtJph6rF3APzUWPTAE=
+	t=1785775393; cv=none; b=aXbtsVMbY70BRfNyn+BTOfc2JHeTsnKpWuXJ7W8IXHoMUh5BwXpP7CekAImVnwQXljsKuQtDdCyQi81BJwAEmk9ex/KAtOPO1i2p29CBiJb5CptsHHMwfCb18q13ZSecjUZG3v3pvgB7xYDwuv8ky6Enx8o7qQnEibHvSAHuse8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785773877; c=relaxed/simple;
-	bh=O2xZfQr31OgRR4Kw2t4bsEiCBrtjQWMDfT1tZUvPM3c=;
+	s=arc-20240116; t=1785775393; c=relaxed/simple;
+	bh=FD7OkaGwnyM4/7Tbt+HOaj6Qi3vakouIMFRopqtpi94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jSgnyGg0UG9Yao6gH4GQXZO1R81AcGQxCOFrIY9Buz1iTV601SscRjXlS+WAdNueZRXHL+L0G7lnRtQ6Hh8DrOEGPd4BGQtx0ptpNPhL3vXVl3PA8s+nZIttto8tRqBMJXGuQysEri2f46Y2kFiIppSJsju8vx/P69LfBDQqppI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPgIoiOo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qgc/TgRfCcckrgRBFjhxnjoT/WwTt7Ifr6gNFrgZ8D5tC/GRXeE+KwlLl2f0MmNQ9di4d86Ld2v9dv4RYwOeU/hGI5T7BwuD41j3Pn9IQ399Tp+MSdtYc8R3uJRbo9au0s4pCfnhjElwyUVb7lgbHF02V4RtbOFAqRvXCckfZ3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzo9L4Kv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPgIoiOo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B74A1F00A3F;
-	Mon,  3 Aug 2026 16:17:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzo9L4Kv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D081F000E9;
+	Mon,  3 Aug 2026 16:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785773868;
-	bh=UCEaqq97UI0U9vxWxyChYsNC1EtePGLw9G+KTrWkoaQ=;
+	s=k20260515; t=1785775392;
+	bh=m2bJMu+y/yxFPljr6ZoDM2kMwfHpeATge1vPyQkp5mQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BPgIoiOo5dKn3xA+7f56Ozxy89UWdeqwDDOvHwByIcbfgO31gUCLL07BEEqa8od2W
-	 vNw1jZ8rE4+ZPmr1QJaX7BOTL0RJRIQBK32ElnY/S/SclNhErEBFjV1dCq2SFLTF/W
-	 ofQt0g+LAJMNfJDHC4f+Cj8E7qesTlzofiFbN01ZmDGwE/UmmgQhr9oYbizdFeq1er
-	 seifG9EWrfQxt4Kso6X9vgTpjfVsPl2d/glBUaW1PHOE18RT4L2PR4vdnn7pK2Fre8
-	 P4a4knIdueld/apUJZ6E0qmVpZjv37NBag19S9fVg7NXdQuIjsDDn4FHoOzYkGTrSw
-	 4sMaaI1wJ5sJA==
-Date: Mon, 3 Aug 2026 18:17:44 +0200
+	b=dzo9L4KvVlxElbQOFDBzMgiY8VAGU0c4+RQZ2LvHYgaK7Ixdh4FPa3VMuCIecQbD5
+	 uRp2VDvroMe0gEb4PjVz1SuuAx/41QIsvEIeFyBotqxHwnwk54ZvMuIBnIlGcLGqrl
+	 B1u6uPqmkXLxQvp4EH5gyeKxdNAufCmBX83ea908eAVeWa9b0WpLrVp94C5mEs0zBp
+	 BBdo1uQoRl/uhRVJGzE8FdmjoAWdHIG7f0IS2mCWYeozCaL+zEMiLZdKIHgcKFN9A/
+	 G19u4BDhIjJtkKaKSy9Iozvy2W9rE3OkHgsF5atBEk9fCqnHJUSttxK/4OvOe2doiq
+	 cABPD6s1gXhbw==
+Date: Mon, 3 Aug 2026 18:43:08 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Jeffrey Walton <noloader@gmail.com>
-Cc: libc-alpha@sourceware.org, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Collin Funk <collin.funk1@gmail.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org
+To: Sam James <sam@gentoo.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Collin Funk <collin.funk1@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
 Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anC-iciC6ZgIkTdT@devuan>
-References: <am56ZBzNM5J07AUa@devuan>
- <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
- <am6CnOddgaM10pry@devuan>
- <20260802000833.zpu27l7ibvrbouna@illithid>
- <am6PkypxYg-Fq4Iz@devuan>
- <87cxw1s58a.fsf@gmail.com>
- <am6X32HkGdm2xTd7@devuan>
- <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
- <am-2d02e1qq78Asv@devuan>
- <CAH8yC8mqbYSdnSPSUReFn5uq9beORx9r8qKUz--AD1KZ+oRQKA@mail.gmail.com>
+Message-ID: <anDC3OsuGKFqwNME@devuan>
+References: <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <am_VUE1SzxqRkTAo@devuan>
+ <am_V3bvOiH9TaJQW@devuan>
+ <20260803020908.efqt5ilkcjq4z3yz@illithid>
+ <anCAeQ5YNwXwSTWA@devuan>
+ <878q6n9u4v.fsf@gentoo.org>
+ <anCmfRDpkhSErjkS@devuan>
+ <87tspb89j4.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -51,99 +52,116 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4p6hejoek3tde5mu"
+	protocol="application/pgp-signature"; boundary="jo5imb5cchkwfa6a"
 Content-Disposition: inline
-In-Reply-To: <CAH8yC8mqbYSdnSPSUReFn5uq9beORx9r8qKUz--AD1KZ+oRQKA@mail.gmail.com>
+In-Reply-To: <87tspb89j4.fsf@gentoo.org>
 
 
---4p6hejoek3tde5mu
+--jo5imb5cchkwfa6a
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Jeffrey Walton <noloader@gmail.com>
-Cc: libc-alpha@sourceware.org, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Collin Funk <collin.funk1@gmail.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org
+To: Sam James <sam@gentoo.org>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Collin Funk <collin.funk1@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
 Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anC-iciC6ZgIkTdT@devuan>
-References: <am56ZBzNM5J07AUa@devuan>
- <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
- <am6CnOddgaM10pry@devuan>
- <20260802000833.zpu27l7ibvrbouna@illithid>
- <am6PkypxYg-Fq4Iz@devuan>
- <87cxw1s58a.fsf@gmail.com>
- <am6X32HkGdm2xTd7@devuan>
- <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
- <am-2d02e1qq78Asv@devuan>
- <CAH8yC8mqbYSdnSPSUReFn5uq9beORx9r8qKUz--AD1KZ+oRQKA@mail.gmail.com>
+Message-ID: <anDC3OsuGKFqwNME@devuan>
+References: <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <am_VUE1SzxqRkTAo@devuan>
+ <am_V3bvOiH9TaJQW@devuan>
+ <20260803020908.efqt5ilkcjq4z3yz@illithid>
+ <anCAeQ5YNwXwSTWA@devuan>
+ <878q6n9u4v.fsf@gentoo.org>
+ <anCmfRDpkhSErjkS@devuan>
+ <87tspb89j4.fsf@gentoo.org>
 MIME-Version: 1.0
-In-Reply-To: <CAH8yC8mqbYSdnSPSUReFn5uq9beORx9r8qKUz--AD1KZ+oRQKA@mail.gmail.com>
+In-Reply-To: <87tspb89j4.fsf@gentoo.org>
 
-Hi Jeff,
+Hi Sam,
 
-> Date: 2026-08-03 12:07:41-0400
-> From: Jeffrey Walton <noloader@gmail.com>
->
-> On Sun, Aug 2, 2026 at 5:35=E2=80=AFPM Alejandro Colomar <alx@kernel.org>=
- wrote:
+First of all, thanks for toning down.
+
+> >> I often reply as I go rather than reading all other emails around that
+> >> time. I don't think you should assume he read those emails and
+> >> deliberately neglected their contents.
 > >
-> > [...]
-> >
-> > Most programmers can live in the safe bubble of <string.h>: those
-> > functions always require a string as input, and always provide a string
-> > as output.  Plain and simple.  It's difficult to write bugs when using
-> > those.
+> > Me too.  But eventually I respond to those other emails, and rectify
+> > when that new information conflicts with something I said with
+> > incomplete information.  So far, Collin didn't rectify.
 >=20
-> I don't think it is simple to write safe (secure?) code using the
-> interfaces currently provided by libc.* Proof by counterexample:
-> CVE-2026-5358,
-> <https://sourceware.org/bugzilla/show_bug.cgi?id=3D34067>.  If the libc
-> maintainers can't write secure code using the existing interfaces,
-> then there's little hope for the rest of us.
+> Well, give him a chance.
 
-Agreed; I didn't mean that limiting oneself to the currently provided
-libc string APIs is safe.  I meant that limiting oneself to APIs that
-strictly handle strings (including some APIs that are not currently
-provided by glibc, such as streq(3) and strscpy(9)) is safe (compared
-to using the non-string APIs.
+Of course.  I don't have any resentment at all of anyone in this
+thread.  I might have written more or less heated responses at some
+points, mistakes are just mistakes, and don't bind anyone.  Love is
+always welcome!  :-)
 
-> [*] libc could provide safer interfaces, but it declined to provide
-> them.  Confer, the lack of support for Annex K and the safer string
-> functions.  (I'm aware of the politics and the past decisions by folks
-> like Ulrich Drepper).
+Moreover, I don't think he needs to rectify.  We can just forget about
+this entirely.  Really, there's no problem here.  We got too opinionated
+and that caused a flame war.  We're all working towards the same goal;
+let's not fight each other.
 
-I don't think Annex K is safe at all.  But certainly, some additions
-would be beneficial.
+I've already committed these changes (yesterday night), with some
+changes from what we've discussed.  I'll apply some more changes after
+the historic details that Joseph has clarified a moment ago.  I'll also
+apply some other changes from another set of details someone sent (IIRC,
+=66rom Branden) today.
+
+The manual pages are not written in stone, and I'll continue to revise
+this documentation.  Everyone is welcome to send patches to improve the
+exact wording.
+
+Please trust me on this specific change and let a year or two pass
+before asking me to revert it.  But I'm open to fully reverting if it
+becomes evident that I've been wrong.
+
+[...]
+> > I only see my style slightly different than Michael's, but not
+> > necessarily in the sense of involving a more opinionated approach.  See
+> > the other messages where I've shown how Michael had done the exact same
+> > thing with strlcpy(3) a long time ago.
+> >
+> > On reconsideration, and after researching what Michael really did,
+> > I think I was wrong saying we have a different style at all.  I believe
+> > we've had the same style.  We just had different topics of expertise.
+> >
+> > Michael has had his own share of opinionated comments in manual pages.
+>=20
+> Yes, seeing the quotes you posted in another reply, I didn't realise
+> he'd written those!
+
+:-)
 
 
-Have a lovely day!
+Cheers,
 Alex
-
->=20
-> Jeff
 
 --=20
 <https://www.alejandro-colomar.es>
 
---4p6hejoek3tde5mu
+--jo5imb5cchkwfa6a
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpwvygACgkQ64mZXMKQ
-wqnucw/+NT1WYUqukfi2OIvjgdDIEBc3rRY7KEn/0oEEZkg7rrM9Wu+Dy9e2pbav
-Oe/76L+s8Ro1+ibD50MrQl3D3FFo/SPWx/uNIFolECVyPuiuaqpZZg1mh7S1QXrn
-CPKCIseeo5ijUOfzZx5OnQ4sQK3x73aUQoXztakChQyEaW71O3oiX2p4AkEtvurQ
-6UpsL8wQv8GprXnjk5FVQBOiaC2dqypwtSuKU+e4A7mEiAlwHadeYtBUF5/V9g5X
-5N4V9LYzzUjhv1TR+usNCs9I+VjG3GTVzW4SJKqopDQOmfITANt8tVxdqOrm1zkj
-jKtsBkSXG/hfDGIfEOsWTOkKoX7A+pEQvPcYxaje4G6ldS6jaPUQyEwTiKG7q35s
-OIbj5chzKC4bTyNZSHGmFFg9nyZcq3bu3ponIABskIk5bcL9nFScAwWkM4nIUuaA
-Yf+B29Ud5RwC6e0fOTgGcwbw7N8EGLIHmZNBuaTXbynMUbfVBIKDgJ/sZFqZiGfw
-Smha8sCbgpgpuUSLkBsYI+eHq0HZleuU9buGvuIcAHwGZI2ufEp9m/LcbnsngY+C
-uYbqc+qdWyHmMMIYhq6Hx7AqPZ0KIwg6lR7oGPq5t3XxhGuJpuJ73twnwOoBoByS
-pisBQ+V+KR5ZBBrf93vIiFaOb0i4izohSF/S2xMOJR5WcHNxM1k=
-=NkrA
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpwxRYACgkQ64mZXMKQ
+wqkpjw//QvW0gc1234ck6UDNec2FlbF0veNCLN8PBPIb2aofDkMJCLZRVqRR6bnK
+5jUu9pdJbsjoT3mbyV15BxH+1ZXzOYSdYrZ9d7Q55HfYgUwu8SdvabVv9meVmzY1
+Ylyh7pcgxIIrK6D9M6bkWh5MpOi5jb/528b/bOGGLIDRWyhPTEGa1M1Dr1RT8nZY
+taFLj1vhKnDNofbjU14aCuakkxSceJQLCDc8juXTa+fU31CZNfp+/rii4Z9NaO/o
+s5cvpGApOOj3vipojN7agGwnc8iRZ9KvL+e9ViOrg39afzbRRLVSSH0q/g4MvXB4
+EVYRX6TamPwYNxCYCRwoRLHWxjZmAIf6Eylx6z09rLmcGkS3ofV9P1kzN+2HeDiy
+/bvBiBZ32GXe1/3ExNzhQh5vhzDlyY38oAplNQoDeOQrFh1cx3F8sQDwixtvccWG
+pQfQjTQnNJOwcRWtX7tSTC2wGRqMRnXBVN9bgdk2lG9DvBW6QOuXe17Gy5RSEyJT
+kw+C9wGKP/IJEfDhY2QF5s5JB/gF/7mW9n62Wj+diDAACvdEwx3aGm1p40BcTTEE
+2FkcjoxpPiuh+FlwsXkFnWz6CGUa52+Kd7PrAszKXs7HNyL5lNoyurKKQ7ZUkEH5
+nk4UtsQJYMRfHYqDH5JomPLGAJ1sNJ5oGGOkJnQAtZRoq1N37Go=
+=7ZXn
 -----END PGP SIGNATURE-----
 
---4p6hejoek3tde5mu--
+--jo5imb5cchkwfa6a--
