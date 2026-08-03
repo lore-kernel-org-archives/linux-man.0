@@ -1,131 +1,273 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56D92874E3
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43B42ED84A
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785766237; cv=none; b=kfZMWj4DrVla24SZ/gPr5iRxOQbgNbdxrGCns0Zw9Fc78ucq6TzDlv2YVVzw1saXHeLgumffvJ9fFwGnNaVkjg1SXUaWRbGzshClNDtMh/iKlqCUFPz3AZs++Cyzs9P3m2utQKC2lW1p+vt5DnmP9qmljc+ApKvHtH2WDieY3Mc=
+	t=1785766961; cv=none; b=eCLFLjuKHy2GKfHN9spbv5Q3b/i5Cl2B1i6UxuY27EJtehHzAe5WWO/AqnH/d3lMAO9RlC23Y4YEJnFM4sTL2cY0HfGyApoEaZKA20IKSz/iO8x9me+0jjOGQkFjQ+3WW/OigxnmSAIrX8HPipAmJ7XgGt6I6yIn+B2W8+ZzJBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785766237; c=relaxed/simple;
-	bh=MjdlYiV1yO4jqviQ7eX7iiNsQ/CNuWRApZfPyDJu1Pc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gcMOW9C/5pazEKQQ6FNT0E+80jse53aqxdLbMcZwKXGbxumxOpDwW6s1M8JUOiozac9WLYOh0TVm1NFh4A6H2RHVyBjXyNpt/QPCc+iAOgpBTTmJdtZjx2NaDO653EE8cMUIpHbRA9eaTEiW9jLk5sEe9NxDWomFGsA7z7i9WTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DFKpkOaz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nz4eTFH0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785766961; c=relaxed/simple;
+	bh=nrQTTAOqVVyagK1F6mSFmJMB98UgFkwELHjiFrysjK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i6I31ufkxgjlf76n6Yc5zbXe/KUXh+r3rCHm92I/dn63hV/K1geDKbctqTRLCHtVD98iHp4VU9Nl46+h/jBkD774iK9Wk8mDWm+s3cleWTWubtVSSJCJMLx8zNpU0jOXu3nMB/3hff334efx4TsTwpqFHeRqGRpY99PIqSVXiBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RQ7g9YF0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DFKpkOaz";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nz4eTFH0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785766234;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
-	b=DFKpkOaz8mF7t6S5rfELYnMhw80acFnFzNE5dA+G+K8/THOI97YFMB2l3kV6ClpVafqN5w
-	UVVn5qUBuryBq3SsUv2oHzGWU3L1jn/+4mcrQX9c1DSX3pvRO6fbJJAnMV1CVkHM0FeyMq
-	rl4jAx02+jlW/p8yHE4UKK5Xnqo/elA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-145-ya_XVtxUNbCtox6hxcijEg-1; Mon, 03 Aug 2026 10:10:33 -0400
-X-MC-Unique: ya_XVtxUNbCtox6hxcijEg-1
-X-Mimecast-MFC-AGG-ID: ya_XVtxUNbCtox6hxcijEg_1785766232
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47f6d70223dso2664752f8f.1
-        for <linux-man@vger.kernel.org>; Mon, 03 Aug 2026 07:10:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785766232; x=1786371032; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
-        b=Nz4eTFH0CN63Z3VwFnRqR2YKWNTOPSNBXvShzPBSxYRqy3T6lSEQ0w+vaSzalYB0sl
-         2h5mzvaE86G2g+uELuWRX5kaBidC03S773D58gyf56vigNZkh4zo1ahrBXKh1gfkRxyq
-         5OXQ4PtNmzm05QHebtl9lxrkWRRLra2cgsBIy49LLoHPWZtOuPMYBDKKg3b0sKfHDZlu
-         I4AHh8EEYIpL3Bp8TrJtnaAachXz6QISisXm1SqdKiMwvNLk6ikqtdT6wiRvcGh/P6F4
-         9Mu5LHoyO3YD6Y8cazI5K5c3MDrg8lzXnG9UcTthTDjQuJaNexgo3z1JC5y/UUgqktSL
-         wWkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785766232; x=1786371032;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GB63tT9LSv3tVcdfkgdLNUTftTQHPMyegaYlXI/0tfQ=;
-        b=F3h3RU5r8Xa38bo8b5qtOmLYJccm00haeUnhgaf0EcATZVbIOltnbBbi68obkB0L9M
-         68qVZD9s7YxmpnB4IctnTQ0LyD0Auxcs1F3EwHvN/5kn3rVKwA5y2pmRVl7MyoHCbt1f
-         yHK3nYBuHtYGZPuFeYzRs5sK9jcGf7zAkZbIK5RUk6Jp5tz2cCjje/uAS/uH3q6lNGst
-         CcBlbwSvnp8BCfplec3qBnLjWOaG+Smi/LKoZ9SKobeDhVnbEf6YAWm+Rn1ITaYCg6f2
-         vBqJfEjhLgks85HZPM5QaRjc74gxkUW2gIK9TajHJvtUZT/dYWnFbrhLT+yDnoXdXJOo
-         2wCw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp1yERt5JDNoXXqKj0JraGv4i+KWLcTLUWhxhGSjZfr4jlfZFyHZsd9iQKi1sojK1zPIY0alBlDvN4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLpzmxrj/4iNKjooUe3ETusIAy1PwcEtJRzIGk1JTXChroyqKN
-	IvfJf0PwqWdeiYU54LFZ3jpIlqNODYZvayc52WiryaHItXEidHZ+78BJBoHvzxCPaLx2EM59bDa
-	i54B5vkIkoNXeaNXFmqlVZ8WHUP+pN/EGSVQCKpS34GTTlGD/rlGxLETDO4VBYg==
-X-Gm-Gg: AR+sD118XWLqqeqGaEkeMkMeaZhsIi6OkI9MpLfHbEhi6re/e6ESwPKUvpJkhLFJgTl
-	S70QnCLNYQK2v7uLQcTU+K7/BbYTl3WioFCutE/I9ccI8ywvB/I2PiUYORPGmtJyO+OnI6mYjw1
-	VOtC7id+Z6P4TMvbHVpsHPedetunBnYBB+6y/Vo14J1OC6oauGJ7XV8kdD8JIihKOV6fndQBzKl
-	9puCGdwaQvo3j3nuBA7iT5hgX1Il5S1Me7pNi0lFZgQJtx+KHSNq0mMKU4FArllc2ej2ULfgMHl
-	yJjk3a/NScWE8Ob8N19hixYztq+YYhKm+gjWDdB5W5qzezJdiwfOG/DdyOQ+Dlhs13JahKGfG3X
-	6PC72qaZ9PO8BlhSkx9c+NXR+DcIY9a8=
-X-Received: by 2002:a05:600c:3b99:b0:498:519:e660 with SMTP id 5b1f17b1804b1-4980c66d8b0mr239579735e9.4.1785766232095;
-        Mon, 03 Aug 2026 07:10:32 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b99:b0:498:519:e660 with SMTP id 5b1f17b1804b1-4980c66d8b0mr239579115e9.4.1785766231789;
-        Mon, 03 Aug 2026 07:10:31 -0700 (PDT)
-Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4068fb7sm34530437f8f.0.2026.08.03.07.10.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 07:10:31 -0700 (PDT)
-Received: from jsm28 (helo=localhost)
-	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
-	(envelope-from <josmyers@redhat.com>)
-	id 1wqtN8-00000000sOv-10yA;
-	Mon, 03 Aug 2026 14:10:30 +0000
-Date: Mon, 3 Aug 2026 14:10:30 +0000 (UTC)
-From: Joseph Myers <josmyers@redhat.com>
-To: Alejandro Colomar <alx@kernel.org>
-cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-    Keith Bostic <keith@bostic.com>, Sam James <sam@gentoo.org>, 
-    linux-man@vger.kernel.org, Mark Harris <mark.hsj@gmail.com>, 
-    Nevin Liber <nevin@cplusplusguy.com>, 
-    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
-    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
-    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
-    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
-    libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
-Subject: Re: proposed revision to memory.h(3head) (was: on the irresponsibility
- of pursuing C language reform)
-In-Reply-To: <am6HTtAMkEEkWjfl@devuan>
-Message-ID: <cb916665-73fc-bca9-0e34-ea66552fe945@redhat.com>
-References: <87a4r6es6k.fsf@gentoo.org> <am3XeGZyi1Pvr77-@devuan> <87y0epdhxp.fsf@gentoo.org> <am4GT1OkqNZD9FF9@devuan> <87zez5bz49.fsf@gentoo.org> <am4jxBOh_VRvhCQw@devuan> <CAETFuj2OwoyK9J85r2f0RoXbHbXKA4gQJ=JZ-7=QoqGcMwk0+Q@mail.gmail.com> <am51v4KmUmdzM-OT@devuan>
- <am5_uA4MSujYCS9X@devuan> <20260801235332.vc443gozbqkqdqm5@illithid> <am6HTtAMkEEkWjfl@devuan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RQ7g9YF0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B1EC1F000E9;
+	Mon,  3 Aug 2026 14:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785766959;
+	bh=kXGfXN9gkyJo40ZvZduZP4HeHaZNJ+cqWXybh39Rz7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RQ7g9YF0IG0I3Y3uI46XmBSYgaN+C5hfbWMb7otll5WgqRbBj0kcGlk6wOkvBP4qx
+	 XN/2bRdVCwIqMn/OC87HRetfWcHPHQ7emrNglC+d0RrMV7xkv/Df6SD7fLorKdKCSX
+	 nRMjLpESsx8L9tiVobbE6gdqngAArjD4rNWsvp6qC7Q1Yb+NC1tot+3ENm8xK9dswQ
+	 ImUazJc0sDbOIcHRuqwpqFPVzsHCzPbxDEIr1Ju2n/vu2+q7U/8n2zRWgMl/tQy6sR
+	 k1hcvhLCYnqCqJxQ1m9I3U8JsNbWuiBEv5zIqpChbRea59MHO8+NsSAeKNYrM/AUFG
+	 +Tr0aP3i+yC1g==
+Date: Mon, 3 Aug 2026 16:22:34 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Joseph Myers <josmyers@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Sam James <sam@gentoo.org>, linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <anCdgqR5omQWuVwU@devuan>
+References: <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
+ <am3XeGZyi1Pvr77-@devuan>
+ <87y0epdhxp.fsf@gentoo.org>
+ <am4GT1OkqNZD9FF9@devuan>
+ <87zez5bz49.fsf@gentoo.org>
+ <am4jxBOh_VRvhCQw@devuan>
+ <20260801213421.7e3wvyjwmlwxzd55@illithid>
+ <am5oWn8dYoP0r2dw@devuan>
+ <82eff373-3460-3cff-4ed5-0a04b4fe4fad@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="snpoonxk3fr4u3c4"
+Content-Disposition: inline
+In-Reply-To: <82eff373-3460-3cff-4ed5-0a04b4fe4fad@redhat.com>
 
-On Sun, 2 Aug 2026, Alejandro Colomar wrote:
 
-> I don't know of any copy of SVID Issue 1.
+--snpoonxk3fr4u3c4
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Joseph Myers <josmyers@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Sam James <sam@gentoo.org>, linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+	Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+	JeanHeyd Meneide <phdofthehouse@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+	"Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on the irresponsibility of pursuing C language reform
+Message-ID: <anCdgqR5omQWuVwU@devuan>
+References: <20260731215122.4p4aepsbgeoibx74@illithid>
+ <87a4r6es6k.fsf@gentoo.org>
+ <am3XeGZyi1Pvr77-@devuan>
+ <87y0epdhxp.fsf@gentoo.org>
+ <am4GT1OkqNZD9FF9@devuan>
+ <87zez5bz49.fsf@gentoo.org>
+ <am4jxBOh_VRvhCQw@devuan>
+ <20260801213421.7e3wvyjwmlwxzd55@illithid>
+ <am5oWn8dYoP0r2dw@devuan>
+ <82eff373-3460-3cff-4ed5-0a04b4fe4fad@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <82eff373-3460-3cff-4ed5-0a04b4fe4fad@redhat.com>
 
-I have a printed copy.  It has <memory.h> on pages 208 and 209, with 
-FUTURE DIRECTIONS saying "The declarations in <memory.h> will be moved to 
-<string.h>.".  (Likewise in XPG1.)
+Hi Joseph,
 
-> I'd be curious to see whether XPG Issue 3 still kept <memory.h> (but
-> I suspect it won't, since it derives from POSIX.1-1988).
+> Date: 2026-08-03 13:42:31+0000
+> From: Joseph Myers <josmyers@redhat.com>
+>
+> On Sun, 2 Aug 2026, Alejandro Colomar wrote:
+>=20
+> > Joseph was concerned that this documentation would conflict with many
+> > documents saying that <memory.h> is deprecated.  Luckily, I've never
+> > seen such a document, so we can assume they don't exist (unless people
+> > show evidence).  I'll dismiss his negative vote, since his technical
+> > reasons are incorrect.  Also, <memory.h> is undoubtedly more portable=
+=20
+> > than a new <stdmem.h>.
+>=20
+> The glibc manual nowhere mentions <memory.h>.  That's pretty clear=20
+> evidence the header is a relic of the days when glibc just took any=20
+> interface some 1980s Unix had rather than trying to have a cleaner API of=
+=20
+> more current relevance.
 
-Page 642 of volume 2 lists it as WITHDRAWN, "The declarations in 
-<memory.h> have been moved to <string.h>.".
+I don't refute that.  But relics are sometimes useful and reusable.
 
-So there you have explicit statements showing an intentional, planned 
-move.
+> My main concern, in any case, is that man-pages should describe the world=
+=20
+> as it is, not as you'd like it to be; they should follow, not lead, on an=
+y=20
+> proposed changes;
 
--- 
-Joseph S. Myers
-josmyers@redhat.com
+This has never been true.  I believe Michael did a great job maintaining
+them, and that included promoting some APIs over others, even when that
+goes against the standards.  See below.
 
+> they should promote portable coding practices and using=20
+> existing standard interfaces in the absence of broad consensus (not just=
+=20
+> your opinion; not just an opinion based on dismissing all the views=20
+> against) of a clear technical deficiency in those interfaces; that anyone=
+=20
+> advocating for an interface change should avoid using man-pages as part o=
+f=20
+> that advocacy,
+
+I'm not using the manual pages as part of advocating for an interface
+change.  I'm advocating for an interface change as a consequence of the
+research work I've done to improve the manual pages.
+
+> only eventually updating it after the debate has concluded=20
+> once there is consensus on what the conclusion of the debate was but=20
+> ensuring the man-pages don't take any one side of the debate before then.
+
+Would you mind expressing your feedback about the fact that str[n]cpy(3)
+documented the non-standard strlcpy(3), and suggested that it'd be used
+instead?  This is way before POSIX.1-2024 standardized it.  In fact,
+POSIX.1-2008 had explicitly rejected these functions.
+
+	commit bb96fc35a3b664ef3959eaefb095608846f89df7
+	Author: Michael Kerrisk <mtk.manpages@gmail.com>
+	Date:   2012-07-19 11:29:15 +0200
+
+	    strcpy.3: NOTES: Add a discussion of strlcpy()
+	   =20
+	    Inspired by https://lwn.net/Articles/506530/
+	   =20
+	    Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+
+which introduced this text:
+
+	$ MANWIDTH=3D64 diffman-git bb96fc35a3b664ef3959eaefb095608846f89df7
+	--- bb96fc35a3b664ef3959eaefb095608846f89df7^:man3/strcpy.3
+	+++ bb96fc35a3b664ef3959eaefb095608846f89df7:man3/strcpy.3
+	@@ -54,6 +54,14 @@ NOTES
+	      to test!)  that the size of dest is greater than the
+	      length of src, then strcpy() can be used.
+	=20
+	+     One valid (and intended) use of strncpy() is to copy a C
+	+     string to a fixed=E2=80=90length buffer while ensuring both that
+	+     the buffer is not overflowed and that unused bytes in the
+	+     target buffer are zeroed out (perhaps to prevent informa=E2=80=90
+	+     tion leaks if the buffer is to written to media or trans=E2=80=90
+	+     mitted to another process via an interprocess communica=E2=80=90
+	+     tion technique).
+	+
+	      If there is no terminating null byte in the first n bytes
+	      of src, strncpy() produces an unterminated string in dest.
+	      Programmers often prevent this mistake by forcing termina=E2=80=90
+	@@ -67,6 +75,27 @@ NOTES
+	      formation contained in src is lost in the copying to
+	      dest.)
+	=20
+	+     Some systems (the BSDs, Solaris, and others) provide the
+	+     following function:
+	+
+	+         size_t strlcpy(char *dest, const char *src, size_t
+	+     size);
+	+
+	+     This function is similar to strncpy(), but it copies at
+	+     most size-1 bytes to dest, always adds a terminating null
+	+     byte, and does not pad the target with (further) null
+	+     bytes.  This function fixes some of the problems of str=E2=80=90
+	+     cpy() and strncpy(), but the caller must still handle the
+	+     possibility of data loss if size is too small.  The return
+	+     value of the function is the length of src, which allows
+	+     truncation to be easily detected: if the return value is
+	+     greater than or equal to size, truncation occurred.  If
+	+     loss of data matters, the caller must either check the ar=E2=80=90
+	+     guments before the call, or test the function return
+	+     value.  strlcpy() is not present in glibc and is not stan=E2=80=90
+	+     dardized by POSIX, but is available on Linux via the
+	+     libbsd library.
+	+
+	 BUGS
+	      If the destination string of a strcpy() is not large
+	      enough, then anything might happen.  Overflowing fixed=E2=80=90
+	@@ -82,4 +111,4 @@ SEE ALSO
+	      bcopy(3), memccpy(3), memcpy(3), memmove(3), stpcpy(3),
+	      stpncpy(3), strdup(3), string(3), wcscpy(3), wcsncpy(3)
+	=20
+	-GNU                        2012=E2=80=9007=E2=80=9018                 STR=
+CPY(3)
+	+GNU                        2012=E2=80=9007=E2=80=9019                 STR=
+CPY(3)
+
+That commit was itself based on the LWN article it metions in the commit
+message, and it contained a number of comments
+<https://lwn.net/Articles/507319/#Comments> that cautioned that
+strlcpy/cat(3) might not be the best interface, and I'd say there wasn't
+consensus either back then.  There will never be consensus on this
+topic, I believe.
+
+Yet, some things have to be done.  Mistakes may be made when doing this,
+and they should be eventually addressed.  But manual pages should not be
+a copy of the standards.
+
+If we go back further in time, man-pages-1.0 --the very first release,
+in 1993-- already documented that gets(3) should never be used.  This
+was certainly to the contrary of the existing standards, and indeed was
+leading the removal that came later.  That page was written by
+Thomas Koenig.  I don't think Thomas was wrong doing that.
+
+Past times often feel better, but that's nostalgia, and often not based
+on facts.
+
+> I suggest we need to figure out how to generate man pages from the glibc=
+=20
+> manual so that people who prefer documentation in that format can have=20
+> documentation of glibc interfaces that's maintained by a proper consensua=
+l=20
+> process rather than following one person's opinion.
+
+The Linux manual pages are not strictly the glibc manual.  They also
+document musl, for example.  Also, I believe it's good that it's
+independent of glibc and GNU.  That puts a degree of criticism that is
+necessary for avoiding endogamy.  Let's say it's a separation of powers.
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--snpoonxk3fr4u3c4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpwpCQACgkQ64mZXMKQ
+wqnF4A/+PzbyDQoPWCA0ulewRSeoSTA41CvR2xpJ8x3dARdStkcu5/64TybdxQ0b
+Uc+l4hXjiGyrH3v08ZlSYhb3g8ja6Y1UlfCEN2o7/v9HEQXGbBaCpTReCGwPQ14O
+R25V5VfeyhFtMvzYI2Ig18mdCv7B1+dBOfRoXMXYqrPhsGYi7MWfB9d5Ac4wv72P
+j2SEbqAgWdKow9Ni+ppbx3JXrfBYteAdAgH2jUwtBU9PDbm8IuJJPJe8b1Sa1VxP
+vttCzjYGr8poY2YoZCWcBGBP9oHrFEB42fRhN7od8gCDE2GJV2gkHxWf9xtFRxBm
+mBbZ8UcgtEV/JjUw969fxGiVWQ22bJoyMtGgGdmXvr3jmGEr3ueXmCp4xZDoFKsK
+fFkBpvDATh/VsstE7Ishkpddm8COK6gRCp/Wz3kukMgvVKZMCa7662xGtoeRDMX7
+aTEIJkMwfS4r1dYxQDZnyv4HOo1WPNQt/g5ua0RS2l0tlPYPvc6FF0ojxZxK7vEu
+OMuR9cWC8fQChco2h/RBVF0DEQfgBCqX1+Eb22DT+geFbH/ltF8np57df0A4f89/
+/6FVZm/8nLoe/FImvd9/oZtWtdpdlU2zcJp7znktjyaSYpPbF45kh209xSsIATZf
+8DUFOIf0gEvlYayaPho6/cldib3FDIVEnI84B6CA36Cs5YonWOw=
+=ypni
+-----END PGP SIGNATURE-----
+
+--snpoonxk3fr4u3c4--
