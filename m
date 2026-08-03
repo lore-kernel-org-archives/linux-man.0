@@ -1,112 +1,120 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCD842BC46
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 21:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2612836E
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 23:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785791407; cv=none; b=Q9K6G99bJ07nveoCq1kPb0FuDLWtqZC42b6VfZU5vbNKKJMgj+MpH5vN+0AZZekgysfrVYcwW8+VoIIYKsJ5ADd7LGTiBPcZs9l07P9NL2XAUv0rHUtBnjTLys4FCX/Cg6s2SKHZloxAHDd7fNxzHYhuavHDdvcNZOJBzTb1wWg=
+	t=1785799166; cv=none; b=OAs2G9sKV1hvRpFgs6maDp9d+qgtTfpylJQacJE7Rp57E39WkwU94viiJ9HJVQoa5R0E/SYYlE0JkDwM9rMZ1ygeOmfclo66I5GjuYiU1447iq2mmcI0pCT5kODD4tKMgex+HNZaasA6XG29x+xMko4osUBKBQsfMW3ue4tqR0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785791407; c=relaxed/simple;
-	bh=mQ7LxTwzp9sgw5OOA19cmUYyLB8UiXHEMveyl3oIQAc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cpDhTz1qWticRlAWnCJQ0kZlcUyb6qh8quRzKJ9iGB03dui/fvs3DmhRkKTbUxztB7y8RSt+u9tI83iDJSKyXCZ3mxW/FNTldaT6LF3RPUWAl4QaJfFVNs5/g9zUIUjeZNdC8essdGCSxmCyVvnV0R34tGhlwYaC5jJAeq+Fo5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me; spf=pass smtp.mailfrom=aarsen.me; dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b=CgLQa4K+; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aarsen.me
+	s=arc-20240116; t=1785799166; c=relaxed/simple;
+	bh=NNloX0YgPxt9kH0jSBWR+Iaqr7lkE6U/3PQGqwEbYYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BGElaHyNRv69HUmPvk4g1Aw5ILdsE+NO5i55t8id/tPn3s9/yxow2Z8Vtk8Mn/UW47hYZ2jCcp6nHpYU/5EeTL+VUMaYQe9GCM+hHL91FdIcPIH8fGp2LGypoU6b4pKm+BTdy/xcfoekpGnjs4QUL8gRPAt/DvHS4PrTq7bsTj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UiZfT2Rt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b="CgLQa4K+"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hDTp23nQTzMlG1;
-	Mon, 03 Aug 2026 23:09:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aarsen.me; s=MBO0001;
-	t=1785791386;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mQ7LxTwzp9sgw5OOA19cmUYyLB8UiXHEMveyl3oIQAc=;
-	b=CgLQa4K+X0s4CctiLs9wUWX4CZf7hg+lMeBIj3MgYa6h5YMk58PRaoAkIWCrhWajII60hG
-	v0Tg9/mWMjuVKJRDTrSVPb5fkzCL6mFkpmFaQaovpwJqD1qZbbgP3mku9OPgdG3Psq6hAg
-	LGkJapQ4yBkLzyWIWp8N1cSj/imcJ/AphqSKXpeZ/oZGkLU+u71DfO55DN/k9s+VSBkqp0
-	JTR7ZHfJNkXXtfoJBLZ0+i1bSt3D3y1A99M0NG1CR1Y5PxeXtAQX0ve9sZbzLZgbwQvrVv
-	fxKHdMQnUC5tV0zieSHIs63cTcpcArQrIDe6VNTJNDsDTfmL/q4pT/2cxI3FCw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of arsen@aarsen.me designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=arsen@aarsen.me
-From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@aarsen.me>
-To: enh <enh@google.com>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,  Alejandro Colomar
- <alx@kernel.org>,  Collin Funk <collin.funk1@gmail.com>,  "Maciej W.
- Rozycki" <macro@orcam.me.uk>,  Paul Eggert <eggert@cs.ucla.edu>,
-  linux-man@vger.kernel.org,  bug-gnulib@gnu.org,
-  libc-alpha@sourceware.org,  groff@gnu.org
-Subject: Re: on project management
-In-Reply-To: <CAJgzZorzA1f+KNAj0m56nXxoKywY_pCj2pX3Rg-CgP1P8TnZuA@mail.gmail.com>
-References: <20260802000833.zpu27l7ibvrbouna@illithid>
-	<am6PkypxYg-Fq4Iz@devuan> <87cxw1s58a.fsf@gmail.com>
-	<am6X32HkGdm2xTd7@devuan>
-	<alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
-	<am-2d02e1qq78Asv@devuan> <87ik5sunm7.fsf@aarsen.me>
-	<20260802231058.o7gud4bd7co2nbhv@illithid> <875x1sp0h2.fsf@gmail.com>
-	<am_TTjDLlAI68zkp@devuan> <20260803160902.5edjmpxaqr5uudbu@illithid>
-	<CAJgzZorzA1f+KNAj0m56nXxoKywY_pCj2pX3Rg-CgP1P8TnZuA@mail.gmail.com>
-Date: Mon, 03 Aug 2026 23:09:40 +0200
-Message-ID: <86a4r2oqqz.fsf@aarsen.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UiZfT2Rt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430071F000E9;
+	Mon,  3 Aug 2026 23:19:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785799164;
+	bh=u7oxmZmVJ4qH9mZiUBvDiDw6uY7zEEAYS1x5NjjQQXE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UiZfT2Rt7YDL8VpB6fSrDcNjmR8AeonWA1hQ2zSQYngX1mxOuA7yjZbGqkzQ8O3R0
+	 edEmUm7tjFfWJAZQc6JL7KDWYkYPDxbth3gs4fbrVQ2VYw2Ol/skU7lDPt7INWQN2Q
+	 BE2MEDtGW3gKwi3uRYwGGKsaUDrDeN3ku2xypSc3XBn5RxZ3iCE18DEyC8Blvoebmg
+	 gaD8NTw1UMAOhebkUq3Jk4kbQPLC7zIIttL4SWPnarhWvsUUo3p7FIfD32BstMoKZ+
+	 2JECgSTp7LHXYvNNAWpqfDlaEyvQ11GlyjFOjensG8HbktoKEQGyUKuz2XOoSdw5+7
+	 jlnO1hxIlQarQ==
+Date: Tue, 4 Aug 2026 01:19:22 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <anEg1YHvSakrHb89@devuan>
+References: <am1GD8EYQqLBrXCT@devuan>
+ <xn33wv57kw.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-X-Rspamd-Queue-Id: 4hDTp23nQTzMlG1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="awripvgwo24w5ebv"
+Content-Disposition: inline
+In-Reply-To: <xn33wv57kw.fsf@greed.delorie.com>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
+
+--awripvgwo24w5ebv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <anEg1YHvSakrHb89@devuan>
+References: <am1GD8EYQqLBrXCT@devuan>
+ <xn33wv57kw.fsf@greed.delorie.com>
+MIME-Version: 1.0
+In-Reply-To: <xn33wv57kw.fsf@greed.delorie.com>
 
-enh <enh@google.com> writes:
+Hi DJ,
 
-> the crazy part is that it was an _empty_ file until i made it just
-> #include <string.h>:
-> https://android-review.googlesource.com/c/platform/bionic/+/52171
+> Date: 2026-08-03 15:26:23-0400
+> From: DJ Delorie <dj@redhat.com>
 >
-> i can't explain that (it was originally checked in as an empty file,
-> so the history is no help).
->
-> i _can_ explain why i made it match glibc rather than just deleting it
-> though: i didn't want to break existing code that was [harmlessly]
-> including an empty file, and i wanted to increase the amount of the
-> code from other libcs that would "just work". (and note that ios/macos
-> have a <memory.h> that's just a #include <string.h> too.)
+[...]
+> > (I haven't pushed patch 1 yet, so if you want to modify it, I can amend
+> >  it.)
+>=20
+> Well, you did push it ;-)
 
-I think this partially confirms my suspicion earlier, that the only
-reason anyone ever included <memory.h> is because on some system stuff
-they wanted was not in <string.h> (but was only in the latter on some).
-So the former tends to be included only when the latter is also, to
-cover both cases.
+Yup, I thought we could always go back and edit the page if necessary.
+That also makes it easier for you to rebase the patches, not needing to
+keep many patches around, which can be messy for projects to which you
+don't contribute too often.  :)
 
-I'd confirm definitely by getting the list of files from Debian
-codesearch that include one and the other and comparing it, but I wasn't
-able to figure out how to do that.
-=2D-=20
-Arsen Arsenovi=C4=87
+> I added a signed-off-by to the new 2/4 but I've never had to do that due
+> to Red Hat's blanket copyright assignments everywhere.  Assuming those
+> are in place for man-pages, I was under the impression that a
+> signed-off-by would be contra-indicated.
 
---=-=-=
+I have no idea what RH does.  I guess you mean the GNU stuff?  We're not
+GNU in the man-pages, so I guess it doesn't apply.  I certainly don't
+know of any copyright assignments from RH, and there's nobody else here,
+so I guess they don't exist.  :)
+
+If you point me to any documents, I can look at them.
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--awripvgwo24w5ebv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQECBAEWCgCqFiEE/uKz0RP8AKMWLWBhUsKUMB6ixJMFAmpxA5QbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
-Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRGRUUyQjNEMTEzRkMwMEEzMTYyRDYw
-NjE1MkMyOTQzMDFFQTJDNDkzEBxhcnNlbkBhYXJzZW4ubWUACgkQUsKUMB6ixJON
-YgD7BWB/Fwwb8cXyHLnK6ez2+BvM5SLUjmqpjuSlsrVLeyMA/iHgvCDBJs2+3nGb
-L5WlNVMbgsnfCO6DR/Xqkozbej0A
-=UJhF
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpxIfQACgkQ64mZXMKQ
+wqnlYg/9GqMN0P7i6pf0SZQKJXhcDIowj2w80KZ2LNLJI9nx/vPRcPJHJBvH7TU5
+KadQ9umgDDjL5DIJ2Pk4wE+3GZWk8XrftHfNAdV1xzL8E/+9rCUzNttcAvs46VTf
+zGqmxRz5rPBGnh1DMBTbwklU7ntYV1fJntidQp+2p98ozUqZJH4UJSouZXr5DLGI
+9VRszGFxmV6lGqRty4rvGKiZb8TebS1coO+6klTeV3dK/23BDoTDi/ZWXh3vrt0n
+/M1WxPCa/YAMU2+jJSHsStufrzgSx2yyQWroEnkTvtoIx4dELEyuH0DWwpjjG69V
+l/As68GhCE6OdLg1qrft2Yb9ptYP0VRPkdvm0Tr0Yr6u215s0K7L0F0MPgj2uMA5
+tNqJRgg+5c4hzqikzfdV2FHSUuPDoLuM/p8NuA22XmQLjZbA6et7+itel8kBteP5
+P3qJ2OJ1wZtxrmKAznv9HNzdwW9dZoi7UEvpUqJhN0KlvSddN9BFZ5T3lQEi3YqW
+mrjhTKWOYMxsqovSEsFY5MHwsrEkPRc685cHwKT1MH2Fjqv9z1dSn4GSEGnDT59q
+H3+3o+8kXfwB/5Om8pHJdZ0vVo1SKyVBtKmM4DPhbJN0RoAbnCFFFTOkzMZG45pa
+TEim7pX/h8sDj5tYeUp7yBX6QY2Y+NnqnZXiUu7IeHTsJGJCMvA=
+=Bcw0
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--awripvgwo24w5ebv--
