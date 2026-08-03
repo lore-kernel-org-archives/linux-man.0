@@ -1,50 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026ED2F83B5
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 19:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079BD2F3C10
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 19:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785786425; cv=none; b=ZMHa6pQKv2Wtz9/SUJw3pk3aPJfDet8j60OZMgzhpixRhHd5+I/I1Ffy1FwCyVEKag65hTKvJ8dOMXgk7bH7XSAqLO2S9VoDkuyKptndMdRvsJZFN89clsuFsh0BmiW7kZZoKSsUkxvW9H+9keL+aFUdcEOy8q/PoPtqvk3BDfw=
+	t=1785786625; cv=none; b=MJdcLGfueWl5HofY1kTwPVmQGxkEjXhrt9aIbMuCTdYLX32dcCbqTdFKS0CUI+W9DzeE4gmCCES6CaTF3OtSnsw8C3Yg7F821Q4dUyRLdbnPehoe6lHV0RnGlfw2J8XPwCKfQXQnC8u1jfiZdVrxBcsfvOkQYm96IT4BbM6rElI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785786425; c=relaxed/simple;
-	bh=b+76ez+/tgdvSxR74qGRuxeo8IYWMwMKafvjv4+FutQ=;
+	s=arc-20240116; t=1785786625; c=relaxed/simple;
+	bh=Rh0b2ol26/WysOdQKCGRtdPXtIrNJfrBhVwupGqRhig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKcgEsncYygdfjJxbDnFTOZFwFld1e6ESw8fRJ8iTGcd/zuESSdnqJnHSIXOrsNBfLfvHuHkeGxWfNKfxp14ULxn25EPMpsftVV1PDwL+RS7j+lRoi1z97t7JTy8jxz5CvtUeWw8Co5G8eravGKLw49a1mgdtX1vWTjx6M5TbvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRH6/i2c; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VVemsymSJJuBd+21LLgVUCwPJk0Rlrtm0+tdEf7F45pyiizRtZVST94tgx4bFdwdoQgMGN00gWBabetx9rXOPrUPZ8oa5abfKzCtlZl2NuZEW7SDjMmtb29yTaeAYbLqXHT9DK/R/PKCxRUvcgcgiH7zV6mobWgKoPGC0eTf/Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/WJjCJ1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRH6/i2c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29AA61F000E9;
-	Mon,  3 Aug 2026 19:47:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/WJjCJ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09B91F000E9;
+	Mon,  3 Aug 2026 19:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785786423;
-	bh=XtKEKIt3TkTBWWtJabtgT656SNnfUO6PldGMW8bXnio=;
+	s=k20260515; t=1785786623;
+	bh=wcj17sbS/iBSInXkxBFabeSumoTvIkKFylgwmwNAA1A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IRH6/i2cekL7U/u83CRz/KowkfKWRq51x4fYDaUjpmI4pEdwg5pBp2X9m6N6zKxvx
-	 RYdQFbZiPUBKhy6GWwnTWD3HvcytGh3bAY1HyUbPlEvmwSB2MGIrdV5Vx2t9BjKvaz
-	 zlQ3XCahSRUQuFPLhrvIk/jpu6q2V7GhRPyrQKPGhSTEUzQjBNPl2UIfB9yvwpo0W0
-	 IbHLhJGtq8WOCHHRO2vybcvDrELfd1beU5qU04xN9l2LA1hhiDuIOMVLpBOrXQkE7i
-	 LAyW6bX79E0HuH35zl7Bu7ZlVXvKKLGpFQltcPrJySDxoX/SA4OB9M9DSK9yKD+mdo
-	 mM9rTxl09sWpQ==
-Date: Mon, 3 Aug 2026 21:47:00 +0200
+	b=f/WJjCJ1pfRSnKYAqLKh1CEgTNdkTRpPysX2MbhT1832wJkXPQPqysrIPJA4AGh1E
+	 QtaVlnm86FYbWPd5pkNJTuoKSg+9sdIVaKibuA7IZ7ujUsv90WZDE51w+rTLLz7VQk
+	 dSejbBgs72lflE0MYuYLZplUc8Fnq3dvmVtIzHyEHQxPZOqfWyZfoO4Aa8WvTBO4UY
+	 sN6kJcU52GbZFJjz39ajYDiHzzoJJgtq6tiXeq+VtFJcTFCaEUdtiou6yDHWoOPclX
+	 sXa49NUJGcLwBc/u+hdTJd5qHyndG+Mj4hVC3FiaXrampg2qrsjzNyKYnvZsDXZ7RU
+	 gSG05qWmfshVQ==
+Date: Mon, 3 Aug 2026 21:50:19 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Joseph Myers <josmyers@redhat.com>
-Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Collin Funk <collin.funk1@gmail.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
-	libc-alpha@sourceware.org
+Cc: Bruno Haible <bruno@clisp.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Collin Funk <collin.funk1@gmail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org
 Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anDuf9i_NyYjvPie@devuan>
-References: <am56ZBzNM5J07AUa@devuan>
- <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
- <am6CnOddgaM10pry@devuan>
- <20260802000833.zpu27l7ibvrbouna@illithid>
- <am6PkypxYg-Fq4Iz@devuan>
+Message-ID: <anDwkFks_n8_nxvT@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
  <87cxw1s58a.fsf@gmail.com>
  <am6X32HkGdm2xTd7@devuan>
- <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
- <am-2d02e1qq78Asv@devuan>
- <e286f321-28bd-4085-7fb8-20d103cb21a2@redhat.com>
+ <4636165.RUnXabflUD@cagnes>
+ <anCO9tDqJH2PLD0w@devuan>
+ <16f3f33a-85a5-5165-7d99-a3f85d857e50@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -52,97 +47,82 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rinfocppc5bsqgpr"
+	protocol="application/pgp-signature"; boundary="wh3mlblnuxojmoft"
 Content-Disposition: inline
-In-Reply-To: <e286f321-28bd-4085-7fb8-20d103cb21a2@redhat.com>
+In-Reply-To: <16f3f33a-85a5-5165-7d99-a3f85d857e50@redhat.com>
 
 
---rinfocppc5bsqgpr
+--wh3mlblnuxojmoft
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: Joseph Myers <josmyers@redhat.com>
-Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Collin Funk <collin.funk1@gmail.com>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
-	libc-alpha@sourceware.org
+Cc: Bruno Haible <bruno@clisp.org>, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org, Collin Funk <collin.funk1@gmail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org
 Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anDuf9i_NyYjvPie@devuan>
-References: <am56ZBzNM5J07AUa@devuan>
- <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu>
- <am6CnOddgaM10pry@devuan>
- <20260802000833.zpu27l7ibvrbouna@illithid>
- <am6PkypxYg-Fq4Iz@devuan>
+Message-ID: <anDwkFks_n8_nxvT@devuan>
+References: <cover.1785532392.git.alx@kernel.org>
  <87cxw1s58a.fsf@gmail.com>
  <am6X32HkGdm2xTd7@devuan>
- <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
- <am-2d02e1qq78Asv@devuan>
- <e286f321-28bd-4085-7fb8-20d103cb21a2@redhat.com>
+ <4636165.RUnXabflUD@cagnes>
+ <anCO9tDqJH2PLD0w@devuan>
+ <16f3f33a-85a5-5165-7d99-a3f85d857e50@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e286f321-28bd-4085-7fb8-20d103cb21a2@redhat.com>
+In-Reply-To: <16f3f33a-85a5-5165-7d99-a3f85d857e50@redhat.com>
 
 Hi Joseph,
 
-> Date: 2026-08-03 19:31:19+0000
+> Date: 2026-08-03 19:45:06+0000
 > From: Joseph Myers <josmyers@redhat.com>
 >
-> On Sun, 2 Aug 2026, Alejandro Colomar wrote:
+> On Mon, 3 Aug 2026, Alejandro Colomar wrote:
 >=20
-> > If <string.h> was described as providing functions that exclusively
-> > handle strings, then programmers that only need to handle strings would
-> > naturally self-limit to functions from this header file.
+> > > That's basically how it went with 'gets': The community realized it i=
+s a bad
+> > > function, then the implementors started to withdraw it.
+> >=20
+> > Here's an interesting story about gets(3), which I learnt recently:
+> > The C Committee didn't remove it from ISO C.  It was the Austin Group
+> > that triggered some unusual process within ISO for overriding the
+> > C Committee, and removed it in a secret meeting.
 >=20
-> A one-line change to the description of <string.h> in the C standard, fro=
-m=20
-> "String handling" to "String and memory utilities" or similar, to make=20
-> clear it's *not* (and never has been) exclusively handling strings, might=
+> That sounds like a myth.  You can easily read the October 2009 minutes=20
+> (N1475), item 4.27 "On The Removal of gets() (N1420) (Stoughton)".  You=
 =20
-> well make sense.  That's all the change that I think makes sense in this=
+> can also see C99 issue 0332 that resulted in the obsolescence in C99 TC3=
 =20
-> area.
+> that was followed by the removal in C11.
 
-Please propose it.  I'd likely vote for it; it can be a positive change.
-
-It certainly wouldn't be a one-line change, given that you'd also have
-to change things like '7.28.1  String function conventions', and quite
-a few others, but yeah, I get and support your idea.
-
-I believe adding <memory.h> can be even better than that, but at least
-your proposal is in the good direction.
-
-As I said in my last message to Sam, if the currnt man-pages change
-proves to be problematic contrary to my expectations, I will revisit
-this and revert the documentation change.
-
-We can also improve the wording in the meantime if the current man-pages
-text is sub-optimal.
+It could very well be a myth.  For the outsiders, it was the WG14
+convenor who told us this story some days ago.
 
 
-Have a lovely day!
+Cheers,
 Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---rinfocppc5bsqgpr
+--wh3mlblnuxojmoft
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpw8DMACgkQ64mZXMKQ
-wqm+/A//WjocKPsYb8WIWT6vu6l/z/xoeYq34/cTwJxp3tLq1QDwbA1ipsi1wDe/
-+7sA3Rb7bxsf7B+wP0I0fjERrUl+6krrWM2Va1OgR4jX6gO3KUhW9qmZCiwI7boR
-MLUy+AgetOlRa6VJs9tCrZ2M+JPyQifjcYSZYh+tZ/e9aHVe0xCxUGiVTxPzCBSC
-608hOAyoL/Jp800qxmmK/6gRuS8T/u6A4yp6qcOUPrChM/ka63FshwyvhJtjGMYt
-cqxg90jSRjcoaQpy6NAddmqDrF8572/AO4UxVG72uCCgO6kOAv4dcFPLC51qaIjD
-+TGm+rYI5+JHeuWvtj7HqFScNSMLyqrZMzb8r1+qcL5hMP5n6vbEXSyACEHJ4wTr
-oMDwpsjws9XZuF2laGMvFqx7HT/IsEd4kqyXj5pgovEcilEGGiehkdhMlDX9AaDb
-blDyo/Hu9ajp1CUtP0V0QNdPwLH26IllXZo4bNbzSuxbHJV0rRstIWHL1BixMZK4
-Ts+ahsnXc+33YtcWMwYZQAI63arF32PXMQfHrkmQHsazeUJGGigLc2QJ8/0gGFnL
-Eq71n9Y6rKqlZfWxw8Qzt1C2h4CykZ1aemtIeJOYSxNHPBlJfdJuBkVm11Tammkq
-VTWk8Jkf3kyw4JFUOfciPWD0rv5M+5KidcidCtYFgTZdQ5xnnYI=
-=M8Be
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpw8PsACgkQ64mZXMKQ
+wqn/TxAApaXtdvHEwTQCJuZj+pA7nScTJYK+Ebi0LBDruXJvrdiDDNU7H7gtd1Iz
+kdTHiUTaTTIIM1fBuWjc20k9qOqFm/n/roLXmeGmatdWBHpwlJv5Wi68zZJCmN/w
+v6uNj4QsGNi3B0esjia/JZRMJV9PxBZKxWe6nfQM/dD0pApHpN89y4tc6dBUzo1u
+4jqijYFLnK59OaDTPYkj9LooikRRo98D5eb4PQg3G7jMZ/PYYdW1pHhLrqxL16MC
+GkM9PVlNfNYkeVmPGIoIWx2C7swj/bWxY/4HzcV4UbxIPiONBfpdR/+ccHL2ieuO
+BcI0cw48gkT6ZEXh1jX5m5P70y4yZKuLbzzVOAqGPUEyR28YSg6g0Hk4RXvIQdR0
+68L+XNkjKN5nYFTpfjZMcqIX2qgY/1Rkt6h+WZOJZmzT5GIeqnOK2u687CVZ8Xyq
+JoTo3D9Y1bmGljgF0V8GKMCTM+9c89Y57t10jcmfYLcOMEj/obfmqKBsicBxQ/1g
+ThprYDpjh9byBZXTzVY4/9a9yqcH0hzWRsJflzUg1mOJ4khUf7qflWa/W6HQg6JB
+xNEA01MbT93svIBvdeclRLZaPnSlpA2YaPiph3wGQXsNwGPPx3pOCAfnHAOQo3t0
+ykqwuTZcPfKBvJSQuIDGk96r9WA+JzTlIhO8plt2RqHQCDds5gI=
+=Xiuq
 -----END PGP SIGNATURE-----
 
---rinfocppc5bsqgpr--
+--wh3mlblnuxojmoft--
