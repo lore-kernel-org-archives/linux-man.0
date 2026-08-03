@@ -1,176 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D69368D59
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C76F42122B
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 14:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785768032; cv=none; b=pPLuDIamyH1thJeR8Z1jeHDTtBO5hCJDD9is810+m5VPSrIW5HqwyfJl1y2RDqlcMltfs366U9GGD/WYQkap5ROahif7DErUyCZ/bJdJbR6mFI+eL/EG5KMki5wxbSc+LbIRsC4fhy6VClavLh3BXlEwqjMl2brQ6zjLD/aNRJk=
+	t=1785768302; cv=none; b=UoeiAwJwH8OkGXOSC9MBp5WIwSZBpCYj5tvaT0Upvu8Q+nhQbhQCQHQUSusT6b7nwi7ct7FethCzwi77WFFiH5Qf6uDu4J6+J+NHlumo2Y9E8fj/eIWLGXwz8U2D24FQIYy4+lVEpuzT2oF/LwaJH8Q2T2IsYeh+GjWpQET8efE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785768032; c=relaxed/simple;
-	bh=Vo5UebBO2Y2N5rV+wze6dRhQuUKDzPqLNdZUjoeLOvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utobRtaOMoArHe7RssRjC7OvBGuwzMZdOHms+QAIS9x+YTHm/pFfrnw6I78PAvNBuBe4yiCY+sCPArKxjQW709qnMenmVVHosdAVkMDWtzd0NfrhXd2tNBTgWU7aQx1W0PqTIEtQ0s0shgR3Cw8xkZBParSe4NVEqd5ZVCHTIu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofsHeMVq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785768302; c=relaxed/simple;
+	bh=eClRcyE+7u/0QVc2ttthjT7fEKFcSGF8DiH02Hy/ISk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SH2bwVe/WWghI93Q2nJWUGDbPBwYs0YxIVyL3xyGFtV4nhRi/Wz6VUj3yjbRvku43Uq3KaJMOXPym1ls9klcEeYkwBLVBND4bPFuePMOSZEE+ANxLPGhDwCi/qo9RmociqiwQN+yelT9sO9eLXEuZ5sD5QfXhwDLrD3O5iClSns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DFHUoOK+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=l6GXDJva; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofsHeMVq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8EFE1F000E9;
-	Mon,  3 Aug 2026 14:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785768030;
-	bh=he1pCpVij99Mr4uLai+Sd1cixKelONGeXp7TI3xjQbA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ofsHeMVqhFm7szhEWixfupKdrsRb4o/FwZZjN9vZIhcCFtFicla4fPl7MX+3NH3LP
-	 sFmjobnFCeetYp9/+DZlY+dZvjXDRAyRcstU+zO9PsJzwjkS9wqd9QtXtyEAxEqRSU
-	 milu+ML5Da+wY9YybcBF866hTE3atwirvzBMZFV6rhtcqHBdBHyqIzPKOtfSyyh7vZ
-	 jTohXMbR2TV/kKpM4ZcRvewpjqWYxw1bOZUNCxFLAP/kQzjFQ1wQlH3UjNzoO7eVeG
-	 Niku6Q1jEpS4LMNsyPtW9OHgEAV4riOISoJjxfJYCptiDE+0zL6JG6/faFIzndiYeA
-	 qQImnYuLU6T3A==
-Date: Mon, 3 Aug 2026 16:40:26 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Sam James <sam@gentoo.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Collin Funk <collin.funk1@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
-	bug-gnulib@gnu.org, libc-alpha@sourceware.org
-Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anCmfRDpkhSErjkS@devuan>
-References: <am-2d02e1qq78Asv@devuan>
- <87ik5sunm7.fsf@aarsen.me>
- <20260802231058.o7gud4bd7co2nbhv@illithid>
- <875x1sp0h2.fsf@gmail.com>
- <am_TTjDLlAI68zkp@devuan>
- <am_VUE1SzxqRkTAo@devuan>
- <am_V3bvOiH9TaJQW@devuan>
- <20260803020908.efqt5ilkcjq4z3yz@illithid>
- <anCAeQ5YNwXwSTWA@devuan>
- <878q6n9u4v.fsf@gentoo.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DFHUoOK+";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="l6GXDJva"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785768300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ECGVArWvD5pW2inbyzryOT5at7ZQZrn2cCV3MfcqEG8=;
+	b=DFHUoOK+yF1E6lbHC/uYz1+wyjVhs6rgoYj3M9McryYaZLh++dazC/mwU4cQMLMUgdr/E/
+	T07UK0Y0mXoylbMmkhCfqkSEOJnKsFsrIIMxbDUjBs+RKZUg3lWropibpUn0DAz2f/7QNE
+	37wpV73BbCzcfvakvkrEHMiLzyZ1HqY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-UPM5HzSNMO21eoRJfWkYCA-1; Mon, 03 Aug 2026 10:44:58 -0400
+X-MC-Unique: UPM5HzSNMO21eoRJfWkYCA-1
+X-Mimecast-MFC-AGG-ID: UPM5HzSNMO21eoRJfWkYCA_1785768297
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6a0de3383c0so1519969a12.2
+        for <linux-man@vger.kernel.org>; Mon, 03 Aug 2026 07:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1785768297; x=1786373097; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ECGVArWvD5pW2inbyzryOT5at7ZQZrn2cCV3MfcqEG8=;
+        b=l6GXDJvaIftM3oEa7HOAIk1tg2/A7BdvC0SLA2AL3xJMwbsuGjjG2No5pPTlxuS1BY
+         g+w1YIn/s0nQDvd6itHhdinEwumQPsyq2zpAJVCZTD8UZ/g0GRb2zo0hluDE692B0vRe
+         dLhzhiz5fOn4f6R3k9fSpmbT2oxTpZFSHBHGx6vXlMW7UljcBnrav7JSLdZPyf8qLMsp
+         Pvgkalp4TZiaSgIiwBzUC0dDYaZI7mI5obDo8Fy8OgcgmrlMEYez92/buKV1KVgHCySX
+         Hpfz0xsOB0srx84bBAYBPfrwuubI2Ms/Wm/zEUXjdyWurCJ+nA6kY+AwBbW2q+FFgNOo
+         mugQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785768297; x=1786373097;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ECGVArWvD5pW2inbyzryOT5at7ZQZrn2cCV3MfcqEG8=;
+        b=C7CfCmznYOkhy6nvifhK49eCE+txgZEHFa2uCdy0uUnqjwMwKO3EpDuJXbbPmW7lVs
+         j+7/NrmweyyYgoAMCnVRllephfMB/tmWKkSoDludHrOUYniaNqmL//lQT+0pxH8tm6Gv
+         H7QD5kvO1HjuMGIT/foEarQtp8NhRSOB2XelQJdYHZvGlfsg4HTOPkIgKzCb6leWsC2V
+         FW85eedNA+/gtaxt19i2a6yY+o7/TyP/10emIpZDLDhpFYK08cRc3c57hyGSfqvE0ZnH
+         8FBQWsHcnwylcR1XykgZsJHFAEJjn/GR4uZMpOEq73XFW3bZiy1DlxflT6HlIvzBbpbn
+         ozPw==
+X-Forwarded-Encrypted: i=1; AHgh+RoLSPWQU+/hoxWnnJ4ldmMGPknggO7b92mnfJCqlxppdrxpF3Hkzm9i6RntZO/iMRMIW5wRqAfCzHs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQxHlqJspSgxiGZHFfbgyds6IEJB/1t+AvoK4BKhKdK4TcCdME
+	5rOrVuUjFuhL4qZnsHpSnjKCXaDsrkp6ILZfO+IsDu9pA3MYiY7urPhDtDoTKAx8NrQIjBSoUMO
+	2TI0osi3YJ7/zxvly+BoEtVtc+YwpjJ0S9GtlMNfcvZIZvkilxkGLNjnqpRPD6Q==
+X-Gm-Gg: AR+sD11DuRB+Lq7n/z0RybsNSipumBxJRNnj39lmosNAf6xO0dq3NcYLYBtmsbWN/A0
+	HWNgKwKipE+6Qb/rqphuCGAQ+t+gfwXRXJw/5r6S+LXqNaCs/4gLg9/0yZSAAR0N0Uf3Xz/mj3H
+	AVtmtuTANFvjNwvah1undxnwNqtieE5XNHl5eUHH0aCvS/jWxxkiMNbZTdQSWkklufSMQYO6swS
+	90ptXmHfIxAZp18Exf2REAPqvRy47aFwoRtU8Gn+63Pxg3r/rw49bggiZVQ0FZWye3DvmYg1Oyf
+	9sCmvy4DUPxrAJH1mvimei+yGlffDFzs2MGDAuAQcuveH+XVIqBWsd5z5mUq2xrs8jkZKrHY375
+	IwWGW0aZBEB3XmICXi971KCGROXz0XYU=
+X-Received: by 2002:a05:6402:a5ca:10b0:6a0:edbb:9af1 with SMTP id 4fb4d7f45d1cf-6a0edbb9c8amr3043140a12.3.1785768297239;
+        Mon, 03 Aug 2026 07:44:57 -0700 (PDT)
+X-Received: by 2002:a05:6402:a5ca:10b0:6a0:edbb:9af1 with SMTP id 4fb4d7f45d1cf-6a0edbb9c8amr3043123a12.3.1785768296893;
+        Mon, 03 Aug 2026 07:44:56 -0700 (PDT)
+Received: from digraph.polyomino.org.uk (digraph.polyomino.org.uk. [2001:8b0:bf73:93f7::51bb:e332])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a09c661641sm5672362a12.29.2026.08.03.07.44.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 07:44:56 -0700 (PDT)
+Received: from jsm28 (helo=localhost)
+	by digraph.polyomino.org.uk with local-esmtp (Exim 4.98.2)
+	(envelope-from <josmyers@redhat.com>)
+	id 1wqtuR-00000000th3-1SqU;
+	Mon, 03 Aug 2026 14:44:55 +0000
+Date: Mon, 3 Aug 2026 14:44:55 +0000 (UTC)
+From: Joseph Myers <josmyers@redhat.com>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+cc: Alejandro Colomar <alx@kernel.org>, Sam James <sam@gentoo.org>, 
+    linux-man@vger.kernel.org, Keith Bostic <keith@bostic.com>, 
+    Mark Harris <mark.hsj@gmail.com>, Nevin Liber <nevin@cplusplusguy.com>, 
+    JeanHeyd Meneide <phdofthehouse@gmail.com>, 
+    Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+    "Serge E. Hallyn" <serge@hallyn.com>, Iker Pedrosa <ipedrosa@redhat.com>, 
+    "Evgeny Grin (Karlson2k)" <k2k@drgrin.dev>, 
+    Kees Cook <keescook@chromium.org>, bug-gnulib@gnu.org, 
+    libc-alpha@sourceware.org, Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Subject: Re: on glibc forking/reclaiming its man pages (was: on the
+ irresponsibility of pursuing C language reform)
+In-Reply-To: <20260803143817.kvq3m5wcx6vvspul@illithid>
+Message-ID: <9878d16e-82d5-2280-24d0-dbef614254d4@redhat.com>
+References: <20260731215122.4p4aepsbgeoibx74@illithid> <87a4r6es6k.fsf@gentoo.org> <am3XeGZyi1Pvr77-@devuan> <87y0epdhxp.fsf@gentoo.org> <am4GT1OkqNZD9FF9@devuan> <87zez5bz49.fsf@gentoo.org> <am4jxBOh_VRvhCQw@devuan> <20260801213421.7e3wvyjwmlwxzd55@illithid>
+ <am5oWn8dYoP0r2dw@devuan> <82eff373-3460-3cff-4ed5-0a04b4fe4fad@redhat.com> <20260803143817.kvq3m5wcx6vvspul@illithid>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="i5zq7hqjxhtv4k3l"
-Content-Disposition: inline
-In-Reply-To: <878q6n9u4v.fsf@gentoo.org>
+Content-Type: text/plain; charset=US-ASCII
 
+On Mon, 3 Aug 2026, G. Branden Robinson wrote:
 
---i5zq7hqjxhtv4k3l
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Sam James <sam@gentoo.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	Collin Funk <collin.funk1@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
-	bug-gnulib@gnu.org, libc-alpha@sourceware.org
-Subject: Re: the Linux man-pages as an educational tool
-Message-ID: <anCmfRDpkhSErjkS@devuan>
-References: <am-2d02e1qq78Asv@devuan>
- <87ik5sunm7.fsf@aarsen.me>
- <20260802231058.o7gud4bd7co2nbhv@illithid>
- <875x1sp0h2.fsf@gmail.com>
- <am_TTjDLlAI68zkp@devuan>
- <am_VUE1SzxqRkTAo@devuan>
- <am_V3bvOiH9TaJQW@devuan>
- <20260803020908.efqt5ilkcjq4z3yz@illithid>
- <anCAeQ5YNwXwSTWA@devuan>
- <878q6n9u4v.fsf@gentoo.org>
-MIME-Version: 1.0
-In-Reply-To: <878q6n9u4v.fsf@gentoo.org>
+> On the bright side, I wager that a domain-specific translator to get
+> from a specific Texinfo manual--likely one that imposed special rules on
+> its maintainers to enable extraction of data necessary for man page
+> production--could be written.  The job will demand someone with solid
+> domain expertise in both formats.  Better, such people actually exist.
 
-Hi Sam,
+We do in fact have such translation for GCC and binutils; parts of the 
+Texinfo manuals are marked up for extraction with a script texi2pod.pl 
+with the results then going through pod2man (as shipped with perl).  
+(Being intended for converting instructions for invoking a command-line 
+program, rather than documentation for library functions, no doubt 
+significant changes would be needed to be useful for glibc; also, the 
+glibc manual documents lots of things outside of the individual function 
+descriptions, and that information wouldn't end up in such generated man 
+pages because it's not suitably structured to put in them.)
 
-> Date: 2026-08-03 15:05:36+0100
-> From: Sam James <sam@gentoo.org>
->
-> Alejandro Colomar <alx@kernel.org> writes:
->=20
-[...]
-> > He doesn't need to have read every word of the glibc manual, but this
-> > precise text he could have read it, because it was mentioned by Paul in
-> > this thread (different subthread) prior (19:28 UTC) to his message, and
-> > reviewed by me also prior (20:31 UTC) to his message (23:27 UTC).
->=20
-> I often reply as I go rather than reading all other emails around that
-> time. I don't think you should assume he read those emails and
-> deliberately neglected their contents.
+-- 
+Joseph S. Myers
+josmyers@redhat.com
 
-Me too.  But eventually I respond to those other emails, and rectify
-when that new information conflicts with something I said with
-incomplete information.  So far, Collin didn't rectify.
-
-> >
-> > 	Date: Sun, 2 Aug 2026 14:28:33 -0500
-> > 	From: Paul Eggert <eggert@cs.ucla.edu>
-> > 	Message-ID: <8715af47-867c-417a-8ef5-7b4b7ceb2c31@cs.ucla.edu>
-> >
-> > 	Date: Sun, 2 Aug 2026 22:31:59 +0200
-> > 	From: Alejandro Colomar <alx@kernel.org>
-> > 	Message-ID: <am-eAGL6OWqP9Yah@devuan>
-> >
-> > 	Date: Sun, 02 Aug 2026 16:27:21 -0700
-> > 	From: Collin Funk <collin.funk1@gmail.com>
-> > 	Message-ID: <875x1sp0h2.fsf@gmail.com>
-> >
-> > Also relevant is the fact that he accused me of "slowly" documenting
-> > "personal preferences".  His wording implies that it wasn't there
-> > before.  Maybe I misunderstood, though.  I'd be happy to rectify if I
-> > was wrong.
->=20
-> I think he meant in general?
-
-I don't interpret that.  I guess he can defend himself and clarify.
-
-> > While he didn't need to know whether it was there before, it would be
-> > good to make some effort to learn whether that was the case, before
-> > making such a serious accusation.
->=20
-> I took it to be that you (as you've said yourself) have a different
-> style from Michael and this does involve a more opinionated (you may not
-> call it that) approach.  He's commenting on that being unfavourable to
-> him.  I didn't think that was contentious, more that you see it as your
-> duty wrt education.
-
-I only see my style slightly different than Michael's, but not
-necessarily in the sense of involving a more opinionated approach.  See
-the other messages where I've shown how Michael had done the exact same
-thing with strlcpy(3) a long time ago.
-
-On reconsideration, and after researching what Michael really did,
-I think I was wrong saying we have a different style at all.  I believe
-we've had the same style.  We just had different topics of expertise.
-
-Michael has had his own share of opinionated comments in manual pages.
-
-
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---i5zq7hqjxhtv4k3l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpwqFoACgkQ64mZXMKQ
-wqnQEg/8DoI+BT67ZYfbNyPpz241JrxzZm+Xu5oobqJU9sfH3cfAYm8WwUE1oGrN
-H1Lx7VtjbTtFBr+uCMDwdLyJjjMpAfYytGBTNig0zKtPQFKJfS7y/bTX7RqqDCJC
-G0jSLanBd0zIH39TfxVDrg8G2tUIXgSQVE6Q4V3DfYkSN5Q2LsdvFXufOSpTpLqP
-rXcVL+2NjuXy7TYO/8uqLdDlrwaYtF1BNw7y4XJeD+NPcbrKX/rV4QmVsSlnz6Dt
-MTtr9NtV8yhMzHmm8qEA0G42GTUM3GJ+CeobZwPwQFR6Awy46bzMS3jXE3dO84su
-67cu17sugWearI0oGqRubgQxyDrjExzq1SUx5QcWvN7m13JPAYh0r0KDSHSlAqTi
-4EDpiJmoAciq+SFTJ8m7ix+TwV1JbuvU+FHFTqv6yf8DKZY0O+eQ4oGyNB0Y7WuS
-FrqFs0+/4OEm/r+d2KDRmwmOMEy4QF/zlfuEVTYeMH3Ewz05T6fweuDnSjOzUmYa
-pqG4MhhYRdZRfxWApbQX9Ek3V49e4toZ74CYQmSaQLoB/4UJ4gqbMB9XTZg1YwJp
-zG/s+HFyi2g9VEWCgiedRz+TSmqgXCJNJ0tOrsmQWBuLYsBGvuCtAvCxYgvlQ2vd
-npndbt+yhKP0Sp0m1rSriFkinuTVX1vg/PWKTi5K3P2ijHhUktY=
-=ClqX
------END PGP SIGNATURE-----
-
---i5zq7hqjxhtv4k3l--
