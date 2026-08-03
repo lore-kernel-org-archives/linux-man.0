@@ -1,47 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF7627707
-	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 00:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589D12931D4
+	for <linux-man@vger.kernel.org>; Mon,  3 Aug 2026 01:12:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785718037; cv=none; b=u4Ml/H6vK4hQg9eJ+JwhaosZK1bimUXmb4HvqzG80JK2xjcFuIePCZbnkUof2C7AZfFBZPAMPsHCtl3lVDjp1szWorBA3GvE6PhwVLw2/SIgrM5xjbThI7HDDFcoK7LFDpg6fQej/MQRp5hwH71Tpo7KsfJOj0KYW+Gaask9VQU=
+	t=1785719566; cv=none; b=qfgKG7IzW9O5uWggiMO91ohoL+jZsnIrlQfdK8kRdnzkghocGfcqTEDedPSn8fk1cwmu8bzri1rxQTEWzUWdaDEKBbXyhq57P8jo1mrAAzLCpish/2mRGnmHOqAsaQs3J1tdtgFsOJI5FnoFh+HIfo8ROEUXoIk99NGLt0m0rNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785718037; c=relaxed/simple;
-	bh=+sjR/vxEbdrkGPnHOt5gz2FnPBgHGTgcfhvFzru3VX4=;
+	s=arc-20240116; t=1785719566; c=relaxed/simple;
+	bh=Gu504Hf5kGjQPejBeHmlO5ZHMAgGjkNZ1QUjbh/aT8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NKZF1abnrbdLfepD+MrRrXCikzKYJ4sG+iqgRZj1u4A98SikZEWEWkO/XohlEbebVqYMjgfIOR80wFZemZZ/fwX3oE4/DlO+RuPbDzHVauKJmk/XX9MF6NtZDvKZ0Db0UNyMrXmTaxTIK3fupPe+A9SDb1S3Xr6F7SweH4m7K2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f42KWdkI; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/uRaCjKObtMXD1C9ClklGbFk3Z6WE0Rf/T900x49KrTA1d+l2feIi66oQi0dhwMB/ZzytawG0KSSgZL8+4rjKyCgTr3xMyJf3q/pBMukcMZCAOsd6GDteFY0mKUUT37xmJYocY01Ak+1gxS5TEnx79oF5d1o3pYTbiQ49Y3NFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ywhoh9HY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f42KWdkI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF3F1F000E9;
-	Mon,  3 Aug 2026 00:47:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ywhoh9HY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBF01F000E9;
+	Mon,  3 Aug 2026 01:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785718035;
-	bh=ufDE8vOKWgI7x4Cc+57aDfMrv/CRClvUFN/6GI2MrzE=;
+	s=k20260515; t=1785719565;
+	bh=V2BoAr3wOLwlNy+csue/iOBWnc9yPMxyCzwXfZBcTPc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f42KWdkIYpLtMPHSXhThcKu4paGcxppL2gN3S26UZ9PGh/wJzNq4av6R+gAzIHtDU
-	 GvsnbisQFBZsPesF1CqK6yAR/IPl6U2JAUy2RhqgOaQjjNCPstqWtQcptLltmI2Wxo
-	 XDrBwlkpKZHV4JufVNv7XTjPQfFPmSGmwQkKbDjkeoe7Ut/uwL92jDQtLV2SUZ3CNH
-	 dZuGs70/7lja9k1itKpvWIKbbYpw3ESnz7S6FDqj7Pz35c+ka9NgtqKLtPGw3lo7Kf
-	 Nx5arK5cgX6QykqBmSKm4Fx9TBgTWR5DsNQzi2KxcABvWRS1BeoedaOT5vgEoLRMoy
-	 /LblwMWRSRg/w==
-Date: Mon, 3 Aug 2026 02:47:12 +0200
+	b=Ywhoh9HYow8KyR3ZPzFMnJVqF2YSmBpqJRsp2ZmXT5iMH9u5Xczozgpj2uXYVVoTH
+	 1NDW1csmRKNCm/ei+iK6lCTdoYNMORq7RLdIZtJdmp3ujgAe7YC7R63T0EkXwVS/9k
+	 KLhkBkNOfplusjaN6O20j+CA5+BHxBS6Ina9rD9jaY9EGXGTuOKDB+aHMhVMkAgWz1
+	 cu6N40RrdwFrJvBCIIGOPnFbpHaduht6e3KJCK6dAA0ZnXL+KphgGWtnVFy4w+r62t
+	 EuDb5Mt8yBYmkZV6CFUxqqRi+6KNWZ97rTAcwDtEzmySb1SkNDXj+GtCRr0QpPPZzl
+	 +mf1ndF+zE2Bg==
+Date: Mon, 3 Aug 2026 03:12:41 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Keith Bostic <keith@bostic.com>, linux-man@vger.kernel.org
-Subject: Re: proposed revision to memory.h(3head)
-Message-ID: <am_jYJL6uAapMGXN@devuan>
-References: <am3XeGZyi1Pvr77-@devuan>
- <87y0epdhxp.fsf@gentoo.org>
- <am4GT1OkqNZD9FF9@devuan>
- <87zez5bz49.fsf@gentoo.org>
- <am4jxBOh_VRvhCQw@devuan>
- <CAETFuj2OwoyK9J85r2f0RoXbHbXKA4gQJ=JZ-7=QoqGcMwk0+Q@mail.gmail.com>
- <am51v4KmUmdzM-OT@devuan>
- <am5_uA4MSujYCS9X@devuan>
- <20260801235332.vc443gozbqkqdqm5@illithid>
- <am6HTtAMkEEkWjfl@devuan>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+Message-ID: <am_qAgMNH18oZgqY@devuan>
+References: <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <am_VUE1SzxqRkTAo@devuan>
+ <am_V3bvOiH9TaJQW@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -49,213 +52,91 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uxz2sa7qo366benp"
+	protocol="application/pgp-signature"; boundary="dfbk7oo67a3nt5fu"
 Content-Disposition: inline
-In-Reply-To: <am6HTtAMkEEkWjfl@devuan>
+In-Reply-To: <am_V3bvOiH9TaJQW@devuan>
 
 
---uxz2sa7qo366benp
+--dfbk7oo67a3nt5fu
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Keith Bostic <keith@bostic.com>, linux-man@vger.kernel.org
-Subject: Re: proposed revision to memory.h(3head)
-Message-ID: <am_jYJL6uAapMGXN@devuan>
-References: <am3XeGZyi1Pvr77-@devuan>
- <87y0epdhxp.fsf@gentoo.org>
- <am4GT1OkqNZD9FF9@devuan>
- <87zez5bz49.fsf@gentoo.org>
- <am4jxBOh_VRvhCQw@devuan>
- <CAETFuj2OwoyK9J85r2f0RoXbHbXKA4gQJ=JZ-7=QoqGcMwk0+Q@mail.gmail.com>
- <am51v4KmUmdzM-OT@devuan>
- <am5_uA4MSujYCS9X@devuan>
- <20260801235332.vc443gozbqkqdqm5@illithid>
- <am6HTtAMkEEkWjfl@devuan>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, bug-gnulib@gnu.org, 
+	libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+Message-ID: <am_qAgMNH18oZgqY@devuan>
+References: <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <am_VUE1SzxqRkTAo@devuan>
+ <am_V3bvOiH9TaJQW@devuan>
 MIME-Version: 1.0
-In-Reply-To: <am6HTtAMkEEkWjfl@devuan>
+In-Reply-To: <am_V3bvOiH9TaJQW@devuan>
 
-[CC trimmed]
-
-Hi Branden,
-
-> Date: 2026-08-02 02:27:44+0200
+> Date: 2026-08-03 01:43:01+0200
 > From: Alejandro Colomar <alx@kernel.org>
 >
-> > Date: 2026-08-01 18:53:32-0500
-> > From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+> > Date: 2026-08-03 01:41:39+0200
+> > From: Alejandro Colomar <alx@kernel.org>
 > >
-
-[...]
-
-> > If you like the foregoing, consider it:
+> > > Date: 2026-08-03 01:37:30+0200
+> > > From: Alejandro Colomar <alx@kernel.org>
+> > >
+> > > Hi Collin,
+> > >=20
+> > > > Date: 2026-08-02 16:27:21-0700
+> > > > From: Collin Funk <collin.funk1@gmail.com>
+> > > >
+> > > [...]
+> > > >=20
+> > > > I can't help but wonder of what happens in WG 14 rejects this
+> > > > controversial, as obvious by this thread, change. Will the man-pages
+> > > > changes be reverted?
 > >=20
-> > Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+> > > > Or will we slowly watch them document personal
+> > > > preferences instead of existing standards?
+> >=20
+> > BTW, as I showed in another subthread, strncpy(3) did contain
+> > opinionated comments well before I was involved.  If you're really
+> > going to accuse me of that, better make sure you get the history right.
 >=20
-> I'll probably modify it and note it as
->=20
-> 	Suggested-by: ...
+> Oh, and while at it, please also read my review of glibc's own
+> opinionated and bogus documentation about string truncation.
 
-The final memory.h(3head) manual page is here.  It contains a mix of
-your text and Keith's text.
+<https://www.biblegateway.com/passage/?search=3DMatthew%207:3-5&version=3DN=
+IV>
 
-	memory.h(3head)                                 memory.h(3head)
-
-	NAME
-	     memory.h - memory operations
-
-	LIBRARY
-	     Standard C library (libc, -lc)
-
-	SYNOPSIS
-	     #include <memory.h>
-
-	DESCRIPTION
-	   Write
-	     bzero(3)
-	     memset(3)
-
-	   Copy
-	     memmove(3)
-	     memcpy(3)
-	     mempcpy(3)
-	     memccpy(3)
-	     strncpy(3)
-
-	   Catenate
-	     strncat(3)
-
-	   Duplicate
-	     strndup(3)
-	     strndupa(3)
-
-	   Compare
-	     memcmp(3)
-	     strncmp(3)
-	     strncasecmp(3)
-
-	   Search
-	     memchr(3)
-	     memrchr(3)
-	     memmem(3)
-
-	STANDARDS
-	     BSD.
-
-	     These functions are also provided in <string.h>, as speci=E2=80=90
-	     fied  by ISO C.  This is a historic mistake maintained for
-	     compatibility reasons.  Don=E2=80=99t let  that  fool  you;  these
-	     functions don=E2=80=99t necessarily operate on strings.
-
-	HISTORY
-	     SVr1, 4.3BSD.
-
-	     System  V  (1983)  introduced an initial set of mem* func=E2=80=90
-	     tions in a <memory.h> header file.  4.3BSD (1986)  adopted
-	     them.
-
-	     C89 didn=E2=80=99t standardize this header file (without providing
-	     any  motivation  or mentions in the documented rationale),
-	     and instead crammed all these functions in <string.h>, re=E2=80=90
-	     sulting in confusing programmers about the real purpose of
-	     these functions.
-
-	     Most C libraries, including the  BSDs,  glibc,  and  musl,
-	     provide <memory.h>.
-
-	     Illumos  and  gnulib don=E2=80=99t provide it, though, and instead
-	     use <string.h>.
-
-	SEE ALSO
-	     string(3), string_copying(7)
-
-	Linux man=E2=80=90pages 6.18=E2=80=9018... 2026=E2=80=9008=E2=80=9003     =
-      memory.h(3head)
-
-You can already get it through git, so if you want to make any specific
-changes, please send a patch.
-
-The specific pages (e.g., memcpy(3)) have also been updated.  I believe
-the pages now reflect carefully both what the standard says, and the
-more reasonable include, while also clearly pointing to this page where
-the full story is detailed, for those who wonder, so that they don't
-have to wonder and ask.
-
-A sample here:
-
-	SYNOPSIS
-	     #include <memory.h>  // See STANDARDS
-
-	     void *memcpy(size_t n;
-			  void dest[restrict n], const void src[restrict n],
-			  size_t n);
-
-	STANDARDS
-	     C11, POSIX.1=E2=80=902008.
-
-	     ISO C and POSIX declare this function in  <string.h>;  see
-	     memory.h(3head).
-
-The commit message attributes the text to both of you.
-
-	commit 44d6d3bbace4c5a459efb181bcd264b93a655698
-	Author: Alejandro Colomar <alx@kernel.org>
-	Date:   2026-08-02 01:20:46 +0200
-
-	    man/man3head/memory.h.3: STANDARDS, HISTORY: Document some history abo=
-ut <string.h> and <memory.h>
-	   =20
-	    This text is an adaptation of text suggested by Keith and Branden.
-	   =20
-	    Suggested-by: Keith Bostic <keith@bostic.com>
-	    Suggested-by: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-	    Cc: Sam James <sam@gentoo.org>
-	    Cc: Joseph Myers <josmyers@redhat.com>
-	    Cc: Mark Harris <mark.hsj@gmail.com>
-	    Cc: Nevin Liber <nevin@cplusplusguy.com>
-	    Cc: Collin Funk <collin.funk1@gmail.com>
-	    Cc: JeanHeyd Meneide <phdofthehouse@gmail.com>
-	    Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
-	    Cc: Bruno Haible <bruno@clisp.org>
-	    Cc: Paul Eggert <eggert@cs.ucla.edu>
-	    Cc: Serge Hallyn <serge@hallyn.com>
-	    Cc: Iker Pedrosa <ipedrosa@redhat.com>
-	    Cc: Evgeny Grin <k2k@drgrin.dev>
-	    Cc: Kees Cook <keescook@chromium.org>
-	    Cc: Steve Summit <scs@eskimo.com>
-	    Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>
-	    Cc: Arsen Arsenovi=C4=87 <arsen@aarsen.me>
-	    Cc: bug-gnulib@gnu.org
-	    Cc: libc-alpha@sourceware.org
-	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
-
-
-
-Have a lovely night!
-Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---uxz2sa7qo366benp
+--dfbk7oo67a3nt5fu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpv5QoACgkQ64mZXMKQ
-wqmZQg/9GsUr/C6E36IBium5jLQ5ePEdkhp2fQULtx7I6Eh/OL1CN8Qz6KmdD9Ok
-yjAzdLBrQmIC+72I6ct5QxyLJU0TUZLqeyHfS1yV3r00ybHe82ZNRSXeXUwnaiKP
-5+AKgEGpiwKRlJ82GTX2jxKS2Sk4NqBI8tTOT+KynkNKql6SjOkPgIAYr+YPyAkc
-JJ8GO9IskMcI4gt41Pb6uk9nSDt9MTr7s9sH703jglDRmVdRHQAS97XTg9KzEPVL
-udI2E0sx8NnLVMfup6JJXEaA7Hj59oNWTO/zq9tf/E+rUcrXSigylxg8pam7swEf
-uL7fD7pm6cw1t38xXEBDeLHFebVgq9l/FuUTxpwCzDFs1iSkFwME/QHFNfe0kfgY
-zUcVwGLHnwpngBF/n+LleVXEIKVdvH1bzbVMDtbEVuXu4JUiuecrwFM+tcNjq5Lo
-oTuVd+UCSH1Lh1HzSKuJUvzzyoY3qAR5H5OYvbB1c9lnc9owZjtIzd3fyUPIXswO
-g37bDMSBvepCuOcnOuRK7+eMFsMsC1obB3LOb+70CKFVDZTXrK+7z2mfiMgPw7dD
-nJv0qITcmfdWzfVi5L6f5WGYSWaX2SIy1x35Aw1LVY1UEW0TlSW+vlPSf2wLGStE
-rzJgHv003zhTaWuhfhfaAV4Aq5kVRhv2TNJCfnx9weki3TtrLCA=
-=Gyzs
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpv6wMACgkQ64mZXMKQ
+wqmjFA//SZa9IUYCauTTg3kLV6j2WjGXBFWvKZjWTiGg6120dmyZBBafN9bNyaDM
+0i/SIwUIrIav8N/jl6l1NVgI0UMW33zZWek5B3tOZI9yezvKHNuxrEGhJb/HexHW
+b1K1tZ08WhgwRARSLXNSXbO43A2EC3gbMFOWcr1XMAnEllMF8QQLkbFdLB6dXlTo
+j475ow+DzjgWRqdtAAK83zoArqb20eFdQCyaAuJMXVQQBRT/Nle/5CWO/IG39HYA
+vjyHH50Ap3dfnBcY5LljDRrYqWDHVPeOq5A0e2TPOdTJAYCa9QrRwDmPzmAur2Wp
+/4L4R7hzU5NQL+t8RLsrivppokeJuxpIvaxEEf6ILN+8xsvkQkuLAhejV1jHh2Bv
+kPjK6xVQ2KlV53JyX0+MDZlgIZhHvcr7aTmXy6slLvZ/nRvEXzWCgmfnnwUvHQl9
++YgDJ1gJ6ZaOaHfiMXRKndsOHgaAN1ub1H/3dLkEwMrmbLwcBuHaDLajRHIj2pE7
+YNV1L7/hJipzHTy5N2qDRhts7jZQdNS/TbadlpD9T3+waSsyErA21TQbVj5rQFq4
+FHGkqm/1M3yJnNw46aa7pjmGflshAHPUSqGUbo0SvDDppK2NOTqcFpS00kKmMy/T
+9kp0D3XMMLRGAc/kIzkun+SW1NdWk6AyTV/m0OBEqtizCTufzdA=
+=NjQR
 -----END PGP SIGNATURE-----
 
---uxz2sa7qo366benp--
+--dfbk7oo67a3nt5fu--
