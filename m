@@ -1,195 +1,205 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6533EFD26
-	for <linux-man@vger.kernel.org>; Tue,  4 Aug 2026 03:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785813940; cv=pass; b=iS4DzhSWr7sktsaHMQb/GEpsDEfvX2o79Y9IzZeRDfWlM5svw5qEcu3DrH4+mJl8XThH4uQ8eBLnfH4zHZE0H0LbcZ5RfKI8cIKopyOEC4+z4Bn2mV8SxOZCVtOaXEFZ50Gh3ODY1T1w0TmoC40XVqFmfDnFE3NkBxOAB8p+Cag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785813940; c=relaxed/simple;
-	bh=PfwOMTcOJc4IVzpaAzfTP15LUM/RBVGCgV1Vps+VD+I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jfSSutj3Dy3OvZ+2Z8YQXX1PiZ2S/kVC63mUa32z2A3qO/9F5WTu1JumTPeZwZ2ya3wSxLaDVQ8Co2R4CwWSywmLEhjrW4TZ6ePWath6M7rJfZSpvgwmPkaKQaBsUqhf2R4qpEMhu2adhEGkCS50Ytr6G7SLK/lEM49K02IA+FQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oQA4jfaP; arc=pass smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BD2356777
+	for <linux-man@vger.kernel.org>; Tue,  4 Aug 2026 12:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785845569; cv=none; b=r+fBwcJmjnkB1MjCSZ3wn3vnZPwT0aXwVZXRM/4n9X8EZguOI+gQMRx0iAD7F6PnCKOcLT+95bBBAM7l0WOsTC5tQ0ZBaUYr0kwdv+Gj1wVpnDfSfOlZG08RSb9ag1AddWVVYuN8vhyrZgY7IM/mxcxrruUWmKe82EEKBQPltKc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785845569; c=relaxed/simple;
+	bh=pDEXhwXsrMKByIUnjmwebTxA61P29A9qPjClZmFkuws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ikGw91gvJlcqWhvEFKdJcaN8k0X/7a1Ut7HCUkNW6AolAWA0yszrHpyDPjZDFC8UwbxOSKDEGeKb2cTDnu9npwHnVJ4/XjB87bL9TXrAoE5uQ4S6E488UavziWO1exKC5csZx+Wz+3xj7Fpb2Ghzf2qMAP/brRCh6eWQBgd3x8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+IjzON3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oQA4jfaP"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39c7fd21b63so34190671fa.0
-        for <linux-man@vger.kernel.org>; Mon, 03 Aug 2026 20:25:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785813935; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TfydxQzXJ7NNbTl39Uu8M19vrZNwNtUPWgAy/2pMGTdJDVRemFc7q1lOB5EiwFCuhy
-         tmKjVjsyyA49evo1XMbQqP3BAwypKKOBvGAg1vcEzI8IC+JoI54t+oZ542lSG/EiNcHQ
-         1zDAGwqu+Iit1l2z0pGBEM/1uhE4M5IkSflmcekVhHqDEEUe9rKeKmkj+NIOoflPvr4m
-         k3cLjU1puqLEhbB/HAj0kgwrh/jF8b8z+9OwFabIkVy8fuBZ9O3sJU+Xi8s3Lh0Ugc5W
-         a13CENIM3y8mX9ETkePa9vS3E5QspwDxKY+OXZgHAqVKffGSslw8RQslXuYLUKW629Wx
-         FLUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q3tEucddpaSMnG9GZ6GxzrMhazGyB+e3BtC9NpbeHPw=;
-        fh=qVCcwS9lI7id+1hEcjt0+hi7yHULTqjaTCtVc9sqK0M=;
-        b=XyoC+qA/vybwiAmbCLgS2nzGLO9SdSH5DYSGAMq0Qe4ymw/mrHukQfCM6BU4NmQWJW
-         L3tgV5lBuAzo0dwzoG0wcu+AxQ6t6BqErbVE/gGWgNsb3JT9sjB0z6yBthpEJrgcWmFg
-         TGoRiH+gkR5X0d6wbDBQ7Z14a/x1BvMD/F/L+3yvdLs8WgfXp4f88uGRk6Q374FDhJB6
-         liPguDcuKCN1r9VWPwCrbCUznM33TPOowKk+aWg1/KCdpC53tHumXGCpcDCOYFDGL8+e
-         2SjilSx2jE2jTx2tQ4BN9tvrouSF1FU/I09Lacy4oPp2gVMV/8U3FsZAHVmf2zVEyzKD
-         rbcw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785813935; x=1786418735; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Q3tEucddpaSMnG9GZ6GxzrMhazGyB+e3BtC9NpbeHPw=;
-        b=oQA4jfaPRMDgdIlpB5jSWkudH5dreOpAxHY7c2paS35n7CZLReHsSC0NCbAfDK3MOQ
-         qvqauAecsED7CqYcgS9+9LI4x1senufE/t8PoIaYs1eioGVfmdXkY4KDKW/FIP08U0Hi
-         3t2ca071r/6nNGCy/NruJXYa76lTiG5+xeVLpU8Di0CHbWPBIH32uVy+Wu7ZIBwfkYRm
-         x+0xyVil7mwF1JI6SYSLdo6uhS+Fz33FR/2ArpcGdWq2heDb6dRSUteSTdbCc/yf/Xc/
-         p8BAnRPw8JhzggFG8VeKhAsEVYfETROMx5LdubqzH1j6i4OAbHqgYdOmdshc2fC4spIy
-         7dmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785813935; x=1786418735;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Q3tEucddpaSMnG9GZ6GxzrMhazGyB+e3BtC9NpbeHPw=;
-        b=pSPALJbAqSo0oj+sVFS4db5K3SrwonfeqieSnlTUSJ6lwqXQmrpyTsLnxaDH3BOSIT
-         o7NzvJhLExT5OQuwT+JQ216nV+Lyfk15eYuhi2U8QcaRt9lz8Vo6+F/m1MppCxqUK6L6
-         hKKS4kvuLmy41cefgkUkI4H1hY6TenaA2hYOWDJm4FCHU6yYMpi+qOq8G5luP1FX8cz0
-         Ns3Fq09hUA8lULDf60qiqI4vshmyJRBg+XzIhOUEwMfZZNNvnt/M6iM/KK4x6SgW/wb9
-         dL8lUvFNn9N5yhPWwt0hKH0eniUZWpytrYgnKoajK+WywOVU/QHrJVxR1LJ9jEH76Kgk
-         u5OA==
-X-Forwarded-Encrypted: i=1; AHgh+RoT+HXC8MiQb3U/cGvHkM/awwz0o7lnWpxIl+bQzosyGZMN4Ns8WzpY08cAb4w9YpSx0yQsO1piMLg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH5h2lRbnyX5mpyV07vKJ3m8narwN2SD1w9kimb2j0o2A4gdpD
-	VO9kNrOzD+56DDjQkcn5kx/bvYWsl2n6KvYiGpFZfttJgHpBMjTyuO3Yg+EpT+l7fC7lkuPrj/x
-	Do1lKBwuWtfHXLBiTuUK15PFrcA8gGTs=
-X-Gm-Gg: AR+sD12gT4VePcsaS99bCCrC/Kvox+dvajA/npYt+O6NQ3gJ5zmzxEqIphU30b11SA1
-	pc6PmkGA2PFYm17uauSclIHML203JJGvLb0RE/bRDamMuDXYkTYrZg7bezkJL6WAsbtiuV93d4g
-	tu8ZoUGPruC7Cax6EL+f2IurIgpGinkXFkGazRHD+7dPtKmwoeBhbgSYfQ53/uH+ATWO9CEq5tN
-	AsLxqu8YO50QRpn8+kAKaCDlIaDfMtEd9SN1uLzol9mK9coB/ea+TFnSxgM7pz6V17iYl9Sh7cM
-	ttcYSzQvkTWYATK2PI2nn5NUpM9+iMC92sVrIe9gPGnHfAFfeyxNg9TOpDZzSRlGVf+ML6lgrA=
-	=
-X-Received: by 2002:a05:651c:150a:b0:39f:a2be:bc3f with SMTP id
- 38308e7fff4ca-39fa2bec180mr12593811fa.16.1785813934406; Mon, 03 Aug 2026
- 20:25:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+IjzON3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62E3F1F000E9;
+	Tue,  4 Aug 2026 12:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785845567;
+	bh=IOhlA0rmRWJeLFQ7AnT13VlGVOUNxSluCyVytURlZNI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=e+IjzON3Sg4eyqGKnaWxiEPZCikjT+9JmZ/+AvVMvcRoDPizg7kpPtG9N1gdzUYwu
+	 OUsyPQrmhyw6yBQUURRWJnl3BiMG3nSVp0Qx4FjXPXxn+kp1EFRkr6i+lpVRDY2WcH
+	 WELSSvIS/YtO29XgCrBLsUJg1SQGmK7DaELC8fBWrnIhLHRZSqfFEaG0YkvPYo4MzR
+	 950v6Q8olOyelbSvmyjGU1lMFPfYgr4N9q8/L0dxmiSSOzX5KHr7HNGWoyXCSvO7yL
+	 c+GFtXmuqqFPJY8hY0FB1i4LOnrPBOtgi7PxRhIsEOdfhBUfUnI+3yUao9NxkyOSdk
+	 T6sX+ICdDI8dA==
+Date: Tue, 4 Aug 2026 14:12:42 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: Sam James <sam@gentoo.org>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+Message-ID: <anHVx-xWLmL7SPyM@devuan>
+References: <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <87h5lb9u8d.fsf@gentoo.org>
+ <8733wusj68.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <am4jxBOh_VRvhCQw@devuan> <CAETFuj2OwoyK9J85r2f0RoXbHbXKA4gQJ=JZ-7=QoqGcMwk0+Q@mail.gmail.com>
- <am51v4KmUmdzM-OT@devuan> <am5_uA4MSujYCS9X@devuan> <20260801235332.vc443gozbqkqdqm5@illithid>
- <am6HTtAMkEEkWjfl@devuan> <am_jYJL6uAapMGXN@devuan> <CAMdZqKGRJuR_Jyt7TapMQFQ-6wz=OF5DROFhXkZLQNAn2vyimQ@mail.gmail.com>
- <anDgpLT-FlRrJKC2@devuan> <CAMdZqKH1=20mAxRR0-F+Pf4EXv57Nchr1TSwe_5CsEaEKp00rQ@mail.gmail.com>
- <anEjBKn5ZzeUF8g2@devuan>
-In-Reply-To: <anEjBKn5ZzeUF8g2@devuan>
-From: Mark Harris <mark.hsj@gmail.com>
-Date: Mon, 3 Aug 2026 20:25:21 -0700
-X-Gm-Features: AUfX_mzAD-ZF65MZJbcEDLnvxf9uSS8ffdpK4WkDZ4roDfvYng3gk3Q6ZOtyhgs
-Message-ID: <CAMdZqKEACoFA6pc5t1N5CX6AKkV3XDEMoeY490ABGONG2uxU3Q@mail.gmail.com>
-Subject: Re: proposed revision to memory.h(3head)
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, Keith Bostic <keith@bostic.com>, 
-	linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5sektlshxedjgsgn"
+Content-Disposition: inline
+In-Reply-To: <8733wusj68.fsf@gmail.com>
+
+
+--5sektlshxedjgsgn
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: Sam James <sam@gentoo.org>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
+Subject: Re: the Linux man-pages as an educational tool
+Message-ID: <anHVx-xWLmL7SPyM@devuan>
+References: <87cxw1s58a.fsf@gmail.com>
+ <am6X32HkGdm2xTd7@devuan>
+ <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
+ <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <87h5lb9u8d.fsf@gentoo.org>
+ <8733wusj68.fsf@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <8733wusj68.fsf@gmail.com>
 
-Alejandro Colomar wrote:
+Hi Collin,
+
+> Date: 2026-08-03 19:39:43-0700
+> From: Collin Funk <collin.funk1@gmail.com>
 >
-> Hi Mark,
->
-> > Date: 2026-08-03 13:14:35-0700
-> > From: Mark Harris <mark.hsj@gmail.com>
+> Sam James <sam@gentoo.org> writes:
+>=20
+> > Alejandro Colomar <alx@kernel.org> writes:
 > >
-> > Alejandro Colomar wrote:
-> > >         SYNOPSIS
-> > >              #include <memory.h>  // See STANDARDS
+> >> Hi Collin,
+> >>
+> >>> Date: 2026-08-02 16:27:21-0700
+> >>> From: Collin Funk <collin.funk1@gmail.com>
+> >>>
+> >> [...]
+> >>>=20
+> >>> I can't help but wonder of what happens in WG 14 rejects this
+> >>> controversial, as obvious by this thread, change. Will the man-pages
+> >>> changes be reverted? Or will we slowly watch them document personal
+> >>> preferences instead of existing standards?
+> >>
+> >> This patch set is quite independent of the standard.  It documents a
+> >> header file that has been provided since forever in glibc and most oth=
+er
+> >> POSIX-ish systems, so changes to the standard are unlikely to have any
+> >> effects.  I've clarified this extensively.  If you want to discourage =
+me
+> >> from applying the change, you should rather bring up technical reasons.
+> >>
+> >> This passive-aggressive message is not something that will have the
+> >> desired effects you could possibly reach with technical arguments.
 > >
-> > intro(3) implies that the SYNOPSIS section intends to reflect the
-> > function's API; i.e., the interface that it has agreed to provide to
-> > applications.  Do you disagree?
-> >
-> > If strndup(3)'s SYNOPSIS stated "int" instead of "size_t" for the
-> > second argument, it may work fine in many cases but that is not the
-> > API that it has agreed to provide so it is inaccurate.  Similarly if
-> > it states "memory.h" instead of "string.h", even if it happens to work
-> > on some systems, that is not the API it has agreed to provide so it is
-> > inaccurate.  If memory.h ceases to provide a usable declaration for
-> > strndup(), that is the problem of the person that relied on the
-> > inaccurate information because there was never any agreement to
-> > provide a usable declaration of strndup() in memory.h; they should
-> > have used a reliable source to determine the API that is actually
-> > supported.  I am having trouble figuring out where you disagree with
-> > this seemingly-straightforward logic.
->
-> There are already pages where we can't even consider a unified
-> interface.  Let's consider the case of ttyslot(3), once part of SUSv1,
-> then obsoleted in SUSv2, and then removed in POSIX.1-2001, but still
-> provided by the usual systems.
->
-> The SYNOPSIS says:
->
->         SYNOPSIS
->              #include <unistd.h>       /* See NOTES */
->
->              int ttyslot(void);
->
->          Feature Test Macro Requirements for glibc (see feature_test_macr=
-os(7)):
->                 ...
->
-> But then, of course, the actual #include is a real mess.
->
-> Funnily, there's no NOTES section, because I moved their contents to
-> more specific sections some years ago (we were never happy about the
-> NOTES section being so generic, and so I eventually put some order
-> there, but of course, some parts weren't perfectly moved).
->
-> Okay, let's ignore the fact that there's no NOTES, and assume the
-> comment meant to say 'See HISTORY'.  Here's what HISTORY has to say
-> about the #include's for this function:
->
->              The glibc2 implementation of this function reads the  file
->              _PATH_TTYS,  defined in <ttyent.h> as "/etc/ttys".  It re=E2=
-=80=90
->              turns 0 on error.  Since Linux systems do not usually have
->              "/etc/ttys", it will always return 0.
->
->              On BSD=E2=80=90like systems and Linux, the  declaration  of =
- ttys=E2=80=90
->              lot()  is  provided  by <unistd.h>.  On System V=E2=80=90lik=
-e sys=E2=80=90
->              tems, the declaration is provided  by  <stdlib.h>.   Since
->              glibc  2.24, <stdlib.h> also provides the declaration with
->              the following feature test macro definitions:
->
->                  (_XOPEN_SOURCE >=3D 500 ||
->                          (_XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED))
->                      && ! (_POSIX_C_SOURCE >=3D 200112L || _XOPEN_SOURCE =
->=3D 600)
->
-> SYNOPSIS is kind of a TL;DR.  In some cases, what it says is all there
-> is.  In other cases, there's a lot of details.  When there are details,
-> tradition is that the SYNOPSIS at least hints that the user should
-> continue reading somewhere.
+> > I didn't read it as passive-aggressive, but I will say that I think
+> > you've gone a bit hard in the responses to Collin in this subthread, and
+> > I think the fact you sent several followup emails to yourself indicates
+> > perhaps things got heated in the moment.
+>=20
+> The last sentence was probably a bit rude, sorry about that.
 
-I wasn't asking about your comment "// See STANDARDS".  I understand
-that you had more to share that was too long for the SYNOPSIS section,
-so you added the comment.  I was asking about why you wrote an
-inaccurate include directive in the SYNOPSIS section that does not
-reflect the supported API of any implementation.  Even after reading
-the STANDARDS section, the implication is that the supported API is
-memory.h, but POSIX says it should be string.h.  However, even if you
-had your own libc implementation, it would be inaccurate to claim that
-the supported API is memory.h for any more than your own libc; you
-obviously cannot unilaterally change the supported API for
-implementations supported by other groups.
+No problem; thanks!
+
+> However, I
+> think a reasonable third party can understand my frustration.
+
+I hope you can understand mine too.
+
+[...]
 
 
- - Mark
+> I am happy enough to fix the SYNOPSIS of my
+> man pages locally like this:
+>=20
+>     $ git grep -lF '<memory.h>' \
+>         | xargs -n 1 sed -i 's|<memory.h>.*|<string.h>|g'
+>=20
+> Hopefully distributions consider doing the same.
+
+I've thought a bit more about it, and had an idea that might be
+a reasonable compromise.
+
+Here's a sample:
+
+	 SYNOPSIS
+	-     #include <memory.h>  // See STANDARDS
+	+     #include <string.h>  // or <memory.h>; see memory.h(3head)
+	=20
+	      void *memccpy(size_t n;
+			    void dest[restrict n], const void src[restrict n],
+	@@ -34,8 +34,6 @@ ATTRIBUTES
+	 STANDARDS
+	      POSIX.1=E2=80=902008.
+	=20
+	-     ISO C and POSIX declare this function in <string.h>; see memory.h(3h=
+ead).
+	-
+
+Here's the commit message, which explains why I believe this is
+a reasonable compromise:
+
+    man/man3/: Put first <string.h> in SYNOPSIS, then comment about <memory=
+=2Eh>
+   =20
+    This is a compromise between the fact that <string.h> is the standard
+    header and (only slightly) most portable header file for these
+    functions, while hinting at the fact that it might be more appropriate
+    to use <memory.h> where possible.
+   =20
+    Remove the STANDARDS and NOTES about this, since now the SYNOPSIS
+    contains all the necessary information.  The extra info is in
+    memory.h(3head), which is linked to in the SYNOPSIS.
+
+What do you think?
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--5sektlshxedjgsgn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmpx1zoACgkQ64mZXMKQ
+wqmeeA/9FuzXkgsexYVWoAKBOqTTrrDKEE6qhsvESqRkTOZv24jynbQJllB3xA5v
+/2m+pZ/INktkch4Tfo3SVFWE1wyK2NjMyQ+zh7l+E8Q+m7WvpuDmOQ6Ws9sPTPrM
+XsWI2HFfOQ+lFIg/WERDzTZY4TJ0lW+ymnol66Kcd49JSAFm5D/ZMvmR96Y3Uqys
+0asQH42X6A4oluG2RwgG8zP4TrPnQV5gSnzI+QPz03iffL+VHzZ4se4VHuf9UVI8
+Z6XKV+qnpAsNHL3Y9ALZPZ5t77mO+m4UzCM6c2YIO3/nf186oTo8fiPr7Mw9w556
+JAgIlfVC1/ntOQ6ZE81WH18y6ydp+20GyDcSSmrsjits9ViSOz8fedLN9B8mvRnU
+iXVcz1yXEsE8KK7MsaSqxo1rsE0AR+vhaYoAEAw3iWIAdD9yvPJn7GtXS03ZtHQE
+aSmxkrcUx9HJ/7DAoPGzMcwl0HITfdtIdQSf4isYhKsF1LaQ0f/zK0ob9yfsJIAc
+ovLh7FR39lRUds9Coq1X3gVHZrB21vvtunzfMuuJqmFLl7MlmUT71X3f0cBa7vnb
+LZm15tjPRx4tMANPx6LSRseg7k+ahiQWAVBE1FcOhH4SsaFkzhIFziJnrW2bvaWl
+ghKAGvcfqH/iENwjcg+XUrGBt0OA3P1sGYF5EaMJILhLRb6oLdQ=
+=83fK
+-----END PGP SIGNATURE-----
+
+--5sektlshxedjgsgn--
