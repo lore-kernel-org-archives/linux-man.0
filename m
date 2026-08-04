@@ -1,162 +1,151 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C964BCAD6
-	for <linux-man@vger.kernel.org>; Tue,  4 Aug 2026 20:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D7C3033DA
+	for <linux-man@vger.kernel.org>; Tue,  4 Aug 2026 20:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785873873; cv=none; b=Sx04tw8hR9S8sPgfpnU/HyKMSrkSdydt21GhQ2A3o1OLT3ycumkl/p1HmM/oaer/FPBxrsH8Oa4UOzrPVfnnPCVrfG8mKJNIfwx3mJe3VoqlQPnISuBDl9EYHLhp3gbgSyNPpMAeeWUACTefjncETbfqVYLmDC6m0HfE7O81bjM=
+	t=1785874558; cv=none; b=m+EtProAp7qWDpzY/YAniQn1SMBN4+wQSZoHgbzguHmnEi0wUB6OYrIDDCpp0y5VUR6kKkcQOwSwp0id2MO3XtQrIvGt+A4TN9gMixgHjH99ixKryTa2m3V8Wm72Yi/Of0vOgFuKKpU5CvzlZUSOkxHThTpu38vz9DUSDMtAOmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785873873; c=relaxed/simple;
-	bh=LIHCMBPEGbvouVmjJV3zNUsCXi9aLCaiCASrFA51Lmk=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
-	 Content-Type; b=dPhkeZA9yYD+QujVTY6XoGDk0AeYWUSWJZZ8r4l9LTbBykXLtl4Y1/NC/syjokZmDS0aA2/yQxt+FxvKHS2ykRB+TGo79Jy2TNJ61+mPfqcEz4/28BlL2Xmur0Ma9KOmCNP1lbc93uXXudO7eafYSSlwLu0JS//Fwg7f9thnX6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M/LXBGn9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785874558; c=relaxed/simple;
+	bh=AW6s8ViPkdJ27Pw+UqBlWlZHhX8nKQ4CJgC34R8DUq8=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3Bp5HWL4Z/y/9eKXEey5VWO9PfoNViK5dNo8bMNVRPe8wmgK62yjGur6WFudV03d2zlwJyLZlinwnyjHxoXsikw5wuWux+EXnn9vHvMmOZQFJ+klKf0/nj7jLSEGKNF1Gr9yWzDqs82h99TVxkwE/bnKNAvpIW9/Xs4AiIjUiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeywNrO8; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M/LXBGn9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785873870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=VPAt/YTWRut/Z0loszMYSaT0vo5DwdzKVweotBHL+qM=;
-	b=M/LXBGn9OMNZZdJY4onzscQoVDUPjVqw1GCQt5IKhtTDxpyBdzzkE6mS2DMVUkqLl8Vzo7
-	uOliOpUhWJTv41CY9Ob4SwQJEoWc0J/5n0BNvKMp7QKSoD261VFX4YuSuYEMcXLFvqJ+i7
-	qaS/CXUq3EQsMAwk8IOzb4/JEgRgclU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-138-La0nU7Q-PbiPj403F5fW4g-1; Tue,
- 04 Aug 2026 16:04:27 -0400
-X-MC-Unique: La0nU7Q-PbiPj403F5fW4g-1
-X-Mimecast-MFC-AGG-ID: La0nU7Q-PbiPj403F5fW4g_1785873866
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 286541955BDD;
-	Tue,  4 Aug 2026 20:04:26 +0000 (UTC)
-Received: from greed.delorie.com (unknown [10.22.88.254])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF0B0180044F;
-	Tue,  4 Aug 2026 20:04:25 +0000 (UTC)
-Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
-	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 674K4OEK391498;
-	Tue, 4 Aug 2026 16:04:24 -0400
-From: DJ Delorie <dj@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeywNrO8"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-495437bb891so2673255e9.1
+        for <linux-man@vger.kernel.org>; Tue, 04 Aug 2026 13:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785874555; x=1786479355; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:date:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AW6s8ViPkdJ27Pw+UqBlWlZHhX8nKQ4CJgC34R8DUq8=;
+        b=QeywNrO8wKNyDE+XXlHOc3HAMgx6NmOn7To4zA5YZa9FrhmuPwvxS6XsdLo7/36ZjF
+         dVBjBnG0nTV2SOpp0bdWHMW7POMvImZIC80zppUS4g3cAPHaKwnLv8aV2GOZDijJaleB
+         PRUwNWMcr5WKb3fn8zEZ6XBhqJ2cucvitvviWGOdZKqXlfq4sBJu/BMaG7e36NCgEbRT
+         mfIvNkmR8O71H0Pu1YXla6JQ3xk7GU1KMopYh9rdV6QwmnHPQ4Pt+5mLPjU7BaGwPJnR
+         1Yr2USs9K+yjOiCYN7Jo/oYcg7LanHD4KI5zQRh2aE4hZJgfojMwa6vifh0ITgX7j4l6
+         uiyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785874555; x=1786479355;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:date:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AW6s8ViPkdJ27Pw+UqBlWlZHhX8nKQ4CJgC34R8DUq8=;
+        b=YGJKObW/Schm+bpbg9gli4FndLnAt/gzzj8Kbh7hfdQxryAZ5DGdhxYikJ0JqRgYSU
+         NDEM/8xd8b/fAph+AOgLGub7rumq4F2YcSPpH1noDgdsqoLaT3pGQ/angyVE6NXFWGSJ
+         6TdmbfUTAb8YhmIhU80gUG63efUVftBlR4g4peYvW09+cR8Q+SBhYBaQgfqJngHyvHg2
+         fwN4/t5IHN0s8XipdJCVXp/3xg0ac8KXiOzFfcQHeWCH9qMpJSzKTAN3dLeAXaZeRXE/
+         mZ6jcLk445B+XJYcqBG3zRxBPz/Kx1AIQs/BO4BLKFl8dtJBCDqoNTMA0brFjTClEh9g
+         sBEA==
+X-Forwarded-Encrypted: i=1; AHgh+RrQfcdiT4MciUeCVrrQ2uKkJtN9nJ+JgikIXbtJUb9kf6bC/s3freUS1BFayLkqBA+V3B4qhyyTJAQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOyrVRbyw/Zjuqv19PczyphG887mjkKrmwtfcYUYoyLE94+RBH
+	9YAy5hNcLoh0HNIiovmOUgzWG98oF6nX6lfcn6pXAsLkAox+svncC2/aKnHOh+y4
+X-Gm-Gg: AR+sD12+8pjdl3oGmhV6Ig4FnorOC15ga4P9p+gY4IpIgmPSuKfa84si9F5IWa8X+/Y
+	6IYyHbT2+eY5uzCX9/4LBHjAQ3sKX3NQJs5OiWmLTI758AW8K5dP34cUMuC0Pe67b6K9ZqFbSKI
+	tf5WqOpnzLrDeRmJQFRW48mCrhGI0to9Mq3WsAmGzZGjGpWGBKECsQKPBL93G/45G+Rlx73fypH
+	lNXMUn5NQxnGdkOw/lzfdeCu/efQaGP6D+rSvCQLm6pUF1xds/mIbNgqcv48NIKAELzdTiv3EaA
+	dhfbgyR40LWToqLnADQNDJjp2UerRhRtWOQFSiBPQfpQi72HRgvHVlm+FgdjNbRv+46lVG1gBeZ
+	NEOmgLlAgwES06Fs4tTNRk/5alq+3PbqdVPFfHycZHVnOtKSpV4xcOjBPHhETAhXGDb5P5R3fwu
+	wLPwqsmHfwRAgMdeaVGel2ZzaErDGuqIznwenSxBdNRBZz0e60A2QAtO6JP87RQsW+cbQ=
+X-Received: by 2002:a05:600c:68c2:b0:495:648c:a1 with SMTP id 5b1f17b1804b1-49949fe6980mr107992735e9.3.1785874554858;
+        Tue, 04 Aug 2026 13:15:54 -0700 (PDT)
+Received: from localhost ([2a02:586:d80b:3fce:998f:a77:2a:cf12])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47febfda0cbsm2735878f8f.6.2026.08.04.13.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 13:15:54 -0700 (PDT)
+From: "=?utf-8?B?zpHOs86xzrjOv866zrvOrs+CIM6nzrHPhM62zrfOvM6xzr3Or866zrE=?==?utf-8?B?z4I=?=" <aga.chatzimanikas@gmail.com>
+X-Google-Original-From: =?utf-8?B?zpHOs86xzrjOv866zrvOrs+CIM6nzrHPhM62zrfOvM6xzr3Or866zrE=?=
+	=?utf-8?B?z4I=?= <a.hatzim@gmail.com>
+Date: Tue, 4 Aug 2026 23:14:23 +0300
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: Re: The goal of the Linux man-pages project
-In-Reply-To: <anIaZ8X_73ZjmYtR@devuan> (message from Alejandro Colomar on
- Tue, 4 Aug 2026 19:16:17 +0200)
-Date: Tue, 04 Aug 2026 16:04:24 -0400
-Message-ID: <xnwlu54ppz.fsf@greed.delorie.com>
+Cc: Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>,
+	Collin Funk <collin.funk1@gmail.com>, Sam James <sam@gentoo.org>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org,
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
+Subject: Re: [GNULIB] The goal of the Linux man-pages project
+Message-ID: <anJIHzkK68R5KAgH@CHATZ>
+Mail-Followup-To: Alejandro Colomar <alx@kernel.org>,
+	Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>,
+	Collin Funk <collin.funk1@gmail.com>, Sam James <sam@gentoo.org>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org,
+	bug-gnulib@gnu.org, libc-alpha@sourceware.org
+References: <am-2d02e1qq78Asv@devuan>
+ <87ik5sunm7.fsf@aarsen.me>
+ <20260802231058.o7gud4bd7co2nbhv@illithid>
+ <875x1sp0h2.fsf@gmail.com>
+ <am_TTjDLlAI68zkp@devuan>
+ <87h5lb9u8d.fsf@gentoo.org>
+ <8733wusj68.fsf@gmail.com>
+ <anHVx-xWLmL7SPyM@devuan>
+ <8633wtnaw8.fsf@aarsen.me>
+ <anIaZ8X_73ZjmYtR@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <anIaZ8X_73ZjmYtR@devuan>
 
+Hi all,
 
-What follows is my opinion.  You are free to have a different opinion,
-but please don't tell me my opinion is wrong ;-)
+I think I might be repeating myself a bit, but i would like to express a
+subjective conclusion but from a point of an objective observer, so i had to
+repeat some bits.
 
-Alejandro Colomar <alx@kernel.org> writes:
-> It's the Linux Programmer's Manual, and its purpose is that
-> programmers on a Linux system are able to write correct programs.
+But first, lets start that i'm feeling that we owe to Alejandro, and [t]his
+email I'm ansering should be the proof.
 
-I think I disagree with the scope of "write correct programs" here.
-"Write programs that use the APIs in a way that won't break" is not the
-same as "write programs that use best practices", but "correct" covers
-both.
+Look. People around here i breath, are without second thought the kings of
+selfishness.
+They really like their a.h and they do their best to put it in comfort. But:
 
-> The purpose of this documentation is not, and was never supposed to be,
-> a technical specification of the implementation.
+When they are involved on cases that there is no gain for them, they are and
+without second thought the kings of justness. This brings the desired balance.
+There is a poem, that became a song, and could easily be our national anthem
+that says: "Sun of justice, whom we feel"
 
-In the past, that's exactly what man pages were.  You'd get a box of
-printed manuals, one or more per section, with one or more pages per
-program/file/function being described, and that was the gold standard
-reference for the system the books came with.  Heck, even "man man" says
-it's for the "system reference manuals".
+Now, let's go dive in deep, and keep it short :).
 
-I think that, in so far as the the developer wants to use our APIs, the
-man pages must document what "is" and the information the developer
-needs to use the APIs.  Note that I don't say "correctly" because that's
-too vague - we should cover the correct way to *call* a function, but
-not the correct way to *use* a function - if the programmer wants to
-abuse the function for their own purpose, so be it.
+Is there anyone out there, that if we started afresh a libc and the standard,
+who believes that mem*() belong to string.h header?
 
-If the man pages say what a function does, and what its parameters are,
-and what it returns, that is unbiased factual documentation which the
-programmer can use as they wish.
+Look, there is this one special thing that can characterize a programmer, and
+this is preciseness! Based on that, i really believe that every sane C programmer
+in this planet, would be voting for a header like memory.h, because that is the
+of their operation. End of story.
 
-Where the man pages go beyond this, we call that "examples", "caveats",
-and "best practices" and we have to be careful to disclose that they're
-just recommendations.  It is not our place to tell the developer how to
-write *their* code, beyond interfacing to our APIs.
+Again and to Alex mostly:
+Judging from the current glorious! circumstances we live, to ask from old dogd
+to make such trycks is unreasonable. This is not a fight that deserves to spend
+our valuable energy. End of story. I believe you'll understand. Again, you are
+tottally precise. And in my opinion, you can be accused for overheated enthusiasm
+or overzealously, but with no way for irresponsibility (quite the contrary!),
+and in my opinion you are deserving an apology.
 
-I think the man pages need to, where appropriate, document the STANDARD
-way of doing things, not what the author thinks might be better, or what
-has been historically popular.  In the case of string.h vs memory.h, we
-should take guidance from the current relevant published standards,
-because future standards will assume that also.  If current standards
-conflict with older standards, we could document that (perhaps in a
-CAVEATS or HISTORY section).  We should NOT try to anticipate future
-standards in the man pages, or suggest "best practices" that rely on
-future standards.
+But and to be precise, we all owe to Branden (I can't remember the last time
+I met such a crystal logic, and it feels like a gift (thankfully this giant
+(mostly useless) thread offered some value :))).
 
-> A programmer should be able to write correct code.
+To others: please offer some trust to Alex. He proved (okey he is selfish like
+every f atom in this world we know) that is capable to change mind and offer a
+way out. But is ridicoulous to ask by him to bow in his knees and loose his
+mind. Because it is clear that he believes that he is doing the right thing.
+So again give him some space and trust. We all (always) need each other, but
+especially those brilliant moments we live. Please don't give the machine the
+chance to do even a bit more than it should do. It is obviously fatal if we
+give it even a bit of space out of what we can control with confidence.
 
-We need to leave the definition of "correct" up to the programmer,
-outside of "legal API use".  Their code needs to do what they want, not
-what we want, so long as the programmer sticks to the standards for our
-APIs.
-
-> A piece of documentation that describes an API in detail --as if it were
-> reverse-engineering it from its binary code-- but doesn't tell me how
-> to use it correctly is useless.
-
-Again with "correct".  We need to document how to use it "according to
-what the standards allow and what the function needs and does", and
-possibly provide examples and caveats, but avoid trying to say "and you
-should use it for these purposes."
-
-> Okay, we have an algorithm.  I'm sure you can implement strncpy(3) from
-> that description.  But what is it useful for?  Why would I want to call
-> it?
-
-Who cares?  We're not the developers, let them use the function if the
-algorithm fits their needs.  We document printf() but don't tell the
-developer what data they should print, just *how* to print it.  Same
-here.  Tell the developer what the function does, but leave *why* to use
-it up to them.
-
-If you want to add a HISTORY section that explains the original purpose
-of the function, go ahead.  But that has nothing to do with current
-"correct" usage.
-
-> How do I even call it?
-
-That's the API that we need to document.  HOW is relevent here, WHY is
-not.
-
-> How am I supposed to write programs in a Linux system?
-
-I think what you want is a programmer's guide.  While that may be
-something to include in The Linux Documentation Project, it's outside
-the scope of the man pages.  Even the TLDP FAQ says it provide "Guides,
-HOWTOs, man pages, and FAQs", which implies that man pages are neither
-guides nor HOWTOs.
-
-Do I think we need more documentation to help people write better
-software?  Yes!  Do I think the man pages are the right place for that?
-No.
-
-> Are there any systems without <memory.h>?
-
-Irrelevant.  If the standard says those functions are in <string.h>,
-that's what we should document in the pages for those functions.
-
+Many thanks for listening.
