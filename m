@@ -1,157 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBA3418375
-	for <linux-man@vger.kernel.org>; Thu,  6 Aug 2026 20:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50019421221
+	for <linux-man@vger.kernel.org>; Thu,  6 Aug 2026 20:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786048269; cv=none; b=HvT1h1x1BS2WZCSwyDFnaTjM4prIAEYZfh7h46bwIFtHl3dzn8/bke8+2RUKrF1+jcIZKF97XGcNpTAygVLqdNroSvrEtxvA4t226+/Sw74fxzLdflpjFkMaK/CK4P02rU8ka8DayXdgjZnJXocW3vYpuo0ddr2+EwgPiTyGgvE=
+	t=1786048962; cv=none; b=J6/JOYaOacpI21MpbTiPBg1pKQg0V55jL9W50NJvKeMWnqmi3AHlQPvoh9JN+NPBAC1SljAAiVXtGJLjdH0LlleTTTdsDnSlgp0qYb4VlQ9q4h9zEVRuRj6KELgXYEhQfLte4xC4pSOmno/I3tbTQN4dFFob1GXmZBGVYPUpcoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786048269; c=relaxed/simple;
-	bh=IPVEYm7Kq1xllJs+xnN6x3vhQRdYTP4tdjZyXdjtylM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ePsqrS4tieKF32QbuFhXyyZ3n3X9MJ/Xqld4I7Y+k+CXUPD+8QdJECTueZUbwGMzhsKa+PsNss6PGOjNkkLm6zchWOL1nbLcK0AhYwkDgeTUAeO9rPXwkUEyIWoc57vSBOZYIybGjeUmF3eyGI+v4Q3E1NTGVvXjDYguVOhG2ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijxAewNz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786048962; c=relaxed/simple;
+	bh=nVoBPW2pYcB7JpdYQpl4hFTyP41xjVRzaNzUKAr6qVc=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=teGtQoimYXtqK0kFCS0sHiU5//4CbdPvNdJ6WiC7pKgo91W9xst9weSk/UHk2GWyEFtj63iyySpA7hT57OqjtFX33Cr8e2FRrNP1MD1y8qkaO7LBjqAFipKrXs/jnu9PohFtEIPPQC2B+uiYwTLu4o+TRn/7PXex7G0op76L7Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TRgukapR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijxAewNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CC71F000E9;
-	Thu,  6 Aug 2026 20:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786048267;
-	bh=YUTqLP9eoDXoy8c9KamQ147ijX4TgztaGSX6Tz7dayk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ijxAewNziwe4MQV+KRf98XjAdy8szbM0D7VV8TGlDvbeRrxKCLk70JWQNXo2VJmtp
-	 0MUhOHMC6gRuRJQOQAtCw12w9OX7QkGW5vqgXcGz7CWGyJ5ksqpkSJsIVZi2+W/NO7
-	 r5kfM2Z9Nsdpld9/Vyrw2/KGm8RVrWJhwOcxJ/pmskMxt4coCQt7NORks9sYf2XVKO
-	 8LEaeDBfiV3KhDSnWs7gAxM5x6fzvzys6KroXxhIr9JytKkEW+0JOYNsdy7ctVFd3P
-	 3y59w8PcAPRSobcjUtbyslcHU4/u5f74/DNLHxg1Qob9yX8bS3Z17q03BI22rgYRmZ
-	 FYdIxiN38Xzxg==
-Date: Thu, 6 Aug 2026 22:31:04 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TRgukapR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786048960;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=nVoBPW2pYcB7JpdYQpl4hFTyP41xjVRzaNzUKAr6qVc=;
+	b=TRgukapRoBfBEUoFPYKv1gZdZJjscTd/meM5AwPODI5yxdVGlpEw60WnU3h6ZJwRHghCie
+	W/ugP1lKyuFRL/1QqZ3oml1nMLE+CcS7K8bykRjd6JnHhABmiXPK02FpVTHWKb8lnVLxvz
+	cX8tNW7ZJEIKnTzak/32W50KalkfTcI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-589-LoYO2i5xOoW7BfrQVG4Hug-1; Thu,
+ 06 Aug 2026 16:42:38 -0400
+X-MC-Unique: LoYO2i5xOoW7BfrQVG4Hug-1
+X-Mimecast-MFC-AGG-ID: LoYO2i5xOoW7BfrQVG4Hug_1786048958
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4DF019560B4;
+	Thu,  6 Aug 2026 20:42:37 +0000 (UTC)
+Received: from greed.delorie.com (unknown [10.22.89.120])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8C5C01800348;
+	Thu,  6 Aug 2026 20:42:37 +0000 (UTC)
+Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
+	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 676KgZCW3374722;
+	Thu, 6 Aug 2026 16:42:36 -0400
+From: DJ Delorie <dj@redhat.com>
+To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
 Subject: Re: [PATCH v4 2/4] man/man5/tunables.conf: Document system-wide
  tunables config
-Message-ID: <anTugcvjragzGpSK@devuan>
-References: <anTZdJDceYtD7Rfj@devuan>
- <xn5x1n3swv.fsf@greed.delorie.com>
+In-Reply-To: <anTugcvjragzGpSK@devuan> (message from Alejandro Colomar on
+ Thu, 6 Aug 2026 22:31:04 +0200)
+Date: Thu, 06 Aug 2026 16:42:35 -0400
+Message-ID: <xn33wr3rr8.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7gyf6crm5zec7l63"
-Content-Disposition: inline
-In-Reply-To: <xn5x1n3swv.fsf@greed.delorie.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 
---7gyf6crm5zec7l63
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <anTugcvjragzGpSK@devuan>
-References: <anTZdJDceYtD7Rfj@devuan>
- <xn5x1n3swv.fsf@greed.delorie.com>
-MIME-Version: 1.0
-In-Reply-To: <xn5x1n3swv.fsf@greed.delorie.com>
+Alejandro Colomar <alx@kernel.org> writes:
+> (I haven't tested; I've written it in the mail editor directly)
 
-Hi DJ,
+The placement of the .PD's is important ;-)
 
-> Date: 2026-08-06 16:17:36-0400
-> From: DJ Delorie <dj@redhat.com>
->
-> Alejandro Colomar <alx@kernel.org> writes:
->=20
-> > Hmmmm, let's see.  I couldn't do it in five words, but how about this
-> > schematic approach?
-> >
-> > 	The file may also contain
-> > 	.IR filters ,
-> > 	which limit the tunables following it,
-> > 	The effects of a filter are terminated by
-> > 	any of the following:
-> > 	.IP \[bu] 3
-> > 	The end of the file.
-> > 	.IP \[bu]
-> > 	The end of an included file.
-> > 	.IP \[bu]
-> > 	An
-> > 	.B include
-> > 	directive.
-> > 	.IP \[bu]
-> > 	A new (possibly empty) filter.
->=20
-> I like it as-is, other than "why are there blank lines" but I don't care
-> about that ;-)
+I'll send a v5 with these, you can decide if you like them or not.
 
-We can compact them.  ;-)
-
-	The file may also contain
-	.IR filters ,
-	which limit the tunables following it,
-	The effects of a filter are terminated by
-	any of the following:
-	.PD 0
-	.IP \[bu] 3
-	The end of the file.
-	.IP \[bu]
-	The end of an included file.
-	.IP \[bu]
-	An
-	.B include
-	directive.
-	.IP \[bu]
-	A new (possibly empty) filter.
-	.PD
-
-(I haven't tested; I've written it in the mail editor directly)
-
-> > Since a filter can be empty, we should document that.  If we document
-> > that 'filter:pattern' is optional, it'd be [[filter:pattern]] (with the
-> > appropriate formatting differences: the inner '[' wouldn't be bold).
-> > However, that's likely to be confusing, so let's document that
-> > separately:
-> >
-> > 	A filter can also be empty:
-> > 	.BR [] .
-> > 	Such a filter has no effects.
->=20
-> Done.  I put it after the filter list, so the "also" made sense.
-
-Thanks!
-
-
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---7gyf6crm5zec7l63
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp07wgACgkQ64mZXMKQ
-wqkv4A/+P7lJ9w6cvIVtmP7MrzXdV0tBAo6XZRXpEwPruA+K5GvhY6FRZIK3866E
-MLbxMzX0cyIsA6kH/L5M7fu1l8W3Ddctah2ayGgK9jydwdz2q2mqbCmHaHQbtPjl
-xTHQB34boswukDRk5/ef5vPDHSRknCn/O/8hleaDW3tqChFcCENvG8B5g/5jf/qS
-F6C7OGcVnIWUvOPwnjN2ZWU5MVNMwBBWtIZ1iZ78In+yFByVmL6IinlWyABQ/HA2
-kKKonPI5Uojdg7ntALUcC2KI/So+wqMGZg7MhExwvn8m0ayDwFwiGRWASkH2wMQP
-edIVUiMDuQ6YEy5DndKVQu9lUYhLlZ/BX4ljYWqSKeASo9+lUTa7++YvUgoRdpdQ
-4212jAfK6CA90dzBcJujvZ+u9rjoL10G3/Zu7RMO+eN/hbBl4X9WeROC+oOxbgMs
-p8GdFGnHBNYaJj9cZ36Fq/rBQapKsp2t0BswHlobmMif9GhM4VInYZCw3llQHuJj
-ClM8q7zr/FDSkDHURxVaHG0EJido1fXGHRe/T/rZY7mTActtrwzg1WV+RAAjZ8uH
-JkY9Wp4kH1IMyIcbb0yLw4QFEaHAqFu5WEZX7vGrs7/7nzt+s6D5uhXr7oU5BArA
-hxIdeqi9gmgSKga3r8OrHZkLTj3YJenmIhwIYVvqdhSH86a6WAw=
-=1QBw
------END PGP SIGNATURE-----
-
---7gyf6crm5zec7l63--
