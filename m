@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D2C3E63A8
-	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 22:36:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42DF2D2397
+	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 23:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786142208; cv=none; b=d6xtLGo29vSwt+Bt1+CLTcV2ldiHw+tB4zmXKq6vLSJbPA8NlkX3PFE9SO69cJ638+JV1GhXQCSijArfNYLRcOcytVWhGO3Ah5JsFkpQcj+Gz4X6Suc5HJ6juQoqM8QnUeRpbouNGgVNmJDKQiWmrFZxuDAvyNCBPM+GtNBnpQM=
+	t=1786145166; cv=none; b=hI3xM86S2Mhz4c0u+si72X8R9vAbssPi9pl/HBPJHyEBv/zwEcyad/P9nvg99KyNKxSNH1y6zlTOBEt6miEIennfMpsNwsmNW0+hU59/WReY17Wv4f5Hr3e0g1zUjE1/oQW2K6+c4J9ed96ROuNIPWhudC0DcIoOHXhMyOex9WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786142208; c=relaxed/simple;
-	bh=uAIaCKbU6sgCETPvO7zIN7TxwKuazCLT1LFdJGKmusQ=;
+	s=arc-20240116; t=1786145166; c=relaxed/simple;
+	bh=H2fqTztlOlOB/MKO/yUi3p14Qu/SnZ+hcDYCNNP3gqI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hlGKA8JHNef0uIg5R5/TPlMk5XHkRxpuSwQutjT9fxvQwGtCuWG6eenXndQD4Xw1zu+M01Epd92yzfPot1Ju0u+8eudfozYvl7ueSzP0lJ9W4aOKOBrNrTjBHhi7rjTZmuGZykDgzku2yMQtnSDZuhu8OGlb0oDk2tIRh59wrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgUOxtnR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BlpfuLnhsANl3Bm1JCjRMAVa3/NN+yRqmr4bsO1kaZ4ysUbuQWQr84jBvXBuzdFelGF2tvX/ZkYCOe3AAudmSpDxON8f3lh6ZQfaXmMK1yvGfJfmmk4/QcKaKvdpbGTV/voYmMDD0MZjkVVopMDugLW1JxM65Gh28wQZw1CZH50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e83NioPm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgUOxtnR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C441F000E9;
-	Fri,  7 Aug 2026 22:36:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e83NioPm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEF41F000E9;
+	Fri,  7 Aug 2026 23:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786142206;
-	bh=cad7lk9LAbdbrBPj47Q1fdj7cxw0b9tOkLo/Zn2n18g=;
+	s=k20260515; t=1786145165;
+	bh=Cb6XTqDK2AROpUZ3YoS2qk9+nByLo7JcPqn7yJ6iRKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kgUOxtnRaoEVUDbeq5hRGZhiEDg5hj+PzGB7DEKzByerzXFqy6dQF78rbpUFpM63H
-	 MrI4hOQjYvNCvHqim5TMBjObop7l8CjSy2W0K5mL9YPiqQ+z0vaBsLMF31OwhAs2sL
-	 Pw2X+zVjZoKBn2xaifHg6wuW27LkS76HiPPNHmotS745Dt5gq/l5XaLqqlxkaOshR2
-	 qQ3ztm7aQ8H+XwyKvW0dk3U09hIlPHlzfITowMcG6JR8qf/l8t5V9Iu7GH1ZYG6wvY
-	 yJvN44EV+ZYbnaNqZorIWGSKXW08coM+vLXqAWrn+DnTrUhDEr8X+vsU2TR01ohXsP
-	 /YG6vXWkZiYtQ==
-Date: Sat, 8 Aug 2026 00:36:43 +0200
+	b=e83NioPm8EedKA4HDJs0wOUoaF1nj0YoKmDcZ3AAg2+f8t/fr3DNl82jtI+IUqpRM
+	 CcGNuk3MasqKUJaWNcPnPSpPXGshLkgGJUP6ulACXOL3EpzC1x67EPDW0vvB+X8RIh
+	 pK0dwuLIUnO7mOi7deqt9ugFCntkak6TozehadyqXXtLY6kt+vuytZ2xmjhg1JlbSl
+	 O6tcSlPuGEDTbgBPBaNrobyMbbR9Mw+Ew+1EGuxLTACuuOY0oPvO3BkBgYC4IvyrCj
+	 cMkjPmTF3PcdJ0U75/hEEPp7k9Jzvh8XDPZMScRpu5mjHUlVIBlK6UndcRx/I4Q/3U
+	 kOPgxc8G5uwLQ==
+Date: Sat, 8 Aug 2026 01:26:01 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
+To: Masanari Iida <standby24x7@gmail.com>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <anZdHxYJZ6hLleQv@devuan>
-References: <anUbLZzOLY2qM6iP@devuan>
- <xntsp6393q.fsf@greed.delorie.com>
+Subject: Re: [PATCH] resolv.conf: Update MAXNS header reference for
+ resolv.conf(5)
+Message-ID: <anZpIHHNt96X2Ybv@devuan>
+References: <20260807124916.18007-1-standby24x7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,86 +41,88 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wu43cc2wvlmk4use"
+	protocol="application/pgp-signature"; boundary="wk6xpdfr3gwihqmo"
 Content-Disposition: inline
-In-Reply-To: <xntsp6393q.fsf@greed.delorie.com>
+In-Reply-To: <20260807124916.18007-1-standby24x7@gmail.com>
 
 
---wu43cc2wvlmk4use
+--wk6xpdfr3gwihqmo
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
+To: Masanari Iida <standby24x7@gmail.com>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <anZdHxYJZ6hLleQv@devuan>
-References: <anUbLZzOLY2qM6iP@devuan>
- <xntsp6393q.fsf@greed.delorie.com>
+Subject: Re: [PATCH] resolv.conf: Update MAXNS header reference for
+ resolv.conf(5)
+Message-ID: <anZpIHHNt96X2Ybv@devuan>
+References: <20260807124916.18007-1-standby24x7@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <xntsp6393q.fsf@greed.delorie.com>
+In-Reply-To: <20260807124916.18007-1-standby24x7@gmail.com>
 
-Hi DJ,
+Hi Masanari,
 
-> Date: 2026-08-06 23:25:29-0400
-> From: DJ Delorie <dj@redhat.com>
+> Date: 2026-08-07 21:49:16+0900
+> From: Masanari Iida <standby24x7@gmail.com>
 >
-> Alejandro Colomar <alx@kernel.org> writes:
-> > Hmmmmm, let's say you call execve(2) several times without any fork(2)s.
-> > Assuming a that the program paths that you pass to execve(2) are all
-> > dynamic ELF programs built with glibc, I guess for every time you call
-> > execve(2), ld.so(8) will be run, and the tunables stored in ld.so.cache
-> > will be used.  Is this correct?
->=20
-> I think this rabbit hole is too deep for this part of the man page.  We
-> need a short sentence that's obvious to the reader, not a diatribe on
-> how the linux kernel works.
->=20
-> I'm happy with something like "The resulting data is read when the
-> program starts." regardless of how ambiguous or technically incorrect it
-> might be ;-)
+> The MAXNS limit mentioned in resolv.conf.5 now points
+> to <res_state.h> instead of <resolv.h>, matching the
+> change in glibc headers.
 
-I'm not happy with starts, but if 's/starts/is executed/', or
-alternatively 's/starts/& execution/', I'm happy.
+Would you mind providing a reference to that change?  When did it
+happen?
 
-'starts execution' is precisely the wording that execve(2) uses to
-describe the moment when ld.so(8) is called.
-
-     If the executable is an a.out  dynamically  linked  binary
-     executable  containing shared=E2=80=90library stubs, the Linux dy=E2=
-=80=90
-     namic linker ld.so(8) is called at the start of  execution
-     to  bring  needed  shared objects into memory and link the
-     executable with them.
-
-Does this sound good to you?
+Could you provide a specific glibc commit?
 
 
 Have a lovely night!
 Alex
 
+>=20
+> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+> ---
+>  man/man5/resolv.conf.5 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man/man5/resolv.conf.5 b/man/man5/resolv.conf.5
+> index 8e914f12a18d..89f9d903a1e3 100644
+> --- a/man/man5/resolv.conf.5
+> +++ b/man/man5/resolv.conf.5
+> @@ -50,7 +50,7 @@ or an IPv6 address in colon (and possibly dot) notation=
+ as per RFC 2373.
+>  Up to
+>  .B MAXNS
+>  (currently 3, see
+> -.IR <resolv.h> )
+> +.IR <res_state.h> )
+>  name servers may be listed,
+>  one per keyword.
+>  If there are multiple servers,
+> --=20
+> 2.25.0
+>=20
+
 --=20
 <https://www.alejandro-colomar.es>
 
---wu43cc2wvlmk4use
+--wk6xpdfr3gwihqmo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp2XfQACgkQ64mZXMKQ
-wqlhJxAAtXQx4hqoon2v577gu15+Cbo1bdwTrffJa5+MipTKlNYwm4RxkckGj8C6
-xcH8st4iWXi493ecNRv4DJM5RIw6EI4F7zPuLURACCWH2saM70jV2Q4Ydiljt5wr
-+ihCcOsF018HzRXrtgELhofU7ZprVWp0ezhbZbTn0yYwmQhYAoB7p9i4wQcHtWj5
-niW4uLRKhhWz/jq4LiMf6TtXJQL40owUH/4QKEYyzw179s667py5pFcn1IMF9EjB
-l3dhBqP26iAFhbjPyy0hlYXutVRQrz+lRsXUUF7N2yJo/uBovA+deExdR8YhPH2g
-cHMImSqlN1ennTgfGNWvoTzuZCYHCJ1kqzmMRjF0MFW6IXBDTv4HFaTTnZqgMxKB
-4eLR5ScyGm4Cm4ZZRmhs5kwInK4MfM+DsbkJW75srGEqBB1NaY5Jq+B7rjANaV6E
-oDOUVpC5yHS3rQhxSutjBDjdPHsCZIaYrSY13ru1JQUzKAaozMnbPwpc9Uq8vrWw
-PnXSgSPmDmoT9l/yC4nXmCSXPKB9RGN8XepOSeANc3elgDoA7lGeSz74UVvqqgRx
-7Rp7Vp/I+E2zs1SqOqyq9/VoAT/Q7MWAtjf2IqmQWUAkd0SLheVkbSj7SPDTqLLf
-mWhQj4kLYuWh2VLGhSo8g2ruf62gRjYyka32C7H2qqh+kS7x78k=
-=vb0b
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp2aYkACgkQ64mZXMKQ
+wqmfeg/+LWPWGus1lLJz19BCmUA8PwspJu1UVcr+UUv+QCTPe/+1OMrWipSgsiFn
+6XhU5XCDhNQJ9vNDNM9DHJlIwiXbbKck1dxcR50MGjNSiYSuFjdI2JC8re+mGwS6
+efDmd6E5wiXv3uhFaMuHL9f9weo5o9zBiqTYASDCHfwkbK1LZKeDu/y45CZG+/jZ
+i+XdtD/WIFen3srvqrLuVAzH/Zolp1hV47OvKDrF6c6AN/MEuqH/RtJHUBVsqNNs
+WX5aJDyIH4+HZVEYuI+lBZLGkoXhg4PGZg9aB/ED2nOQGATI5u7KqnL1rM9CvyND
+MszS3D++7PDlju0vHvRQ7+sGKBYGbSP6xdaDp2K5dM892BCSG6SZtY2gsdUBvDNV
+qUz7T5hotUJEecVuTJ0DnB6ybCbHkt28ujNmiWGxHq6Tg3syj3kcIcjv76hR336k
+27jFtdG9TFKvOiXoplvUhAsKRJgZ12mS3wynqlyf2visQOOr6qWYjrGhB6OJClgS
+6DAl959MHkOqgVE6cNoHRZcJ73e79plujkDbjzDwViRXk0mOcvgoaoY1J6OdsB+G
+hENAseeF7tLVzl81SM7bLWsloZ8ZttOfXWZWEhnRAh4A/7OwofnFpd6Bgt8WRyVT
+W1e3mimlUM8Exk4gsQtNs4KjAJpQ9w8A53q52Q4QVLU1hsijNN8=
+=SdPo
 -----END PGP SIGNATURE-----
 
---wu43cc2wvlmk4use--
+--wk6xpdfr3gwihqmo--
