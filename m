@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7844B0493
-	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 00:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C3B14A8B
+	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 00:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786061465; cv=none; b=YEmT3TtJO/XOkjPDWTJ4ZxamF6OwzUyA39NP+iTzZwEjEkBCI8WS9rmZE0fio92OF23+9/3OfEU6Qgq+6aKwrOpZqZem5O7YHHbcsVIMgVc9ggH0hgPiS4JVj16lqKdR6tmJ67USgM6mQpCXLB6TWFYZE3HUiR9aDQuYxyWQ2P0=
+	t=1786061743; cv=none; b=EhcMuK9kkQrnjrkAdWv1NTKvGSQuRgYZzGBRb795RuoJDARMEIY5DoR2X69iy6NLKS3OQa1gY1cgPudCAGTopQkFq+DS0weRJqoIXzyBXEMc9IGKjUQkqBSlslbVJGyrmkrUXVtn7voJokkvmoLHAKfoTH4259UkpPmm52acqnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786061465; c=relaxed/simple;
-	bh=qbRZWg00Vn9jvoK2rx+XL5PE0vOsZVdszcR3/lFTFO8=;
+	s=arc-20240116; t=1786061743; c=relaxed/simple;
+	bh=grtcvMHKfL6jY15pHqoNndywt/OW4n89X9oPoO1DHHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5hM+x+/5G5b96YhFAZFWDAtQFca5qR90HOIAmheUWYBeSJWphZG9PFJn3vbCCDgFBaDC+5yvhR8USNajEmP0CwKVONaSmOURseN4KzfjfApGvTuos00rPM+GYfBpR+9t2rhRRSJLwXlU3fZn9ncv+W5GuO5iszoz1eepy6Q7CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GU2ZYNh6; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=aWUySihuOPsvQeVywQ8C/RUXjxJW7lzcPTR444H5AZ3/37ZrPWQrpKy1t4sehBQ72t/Vvk724IcUW3XK8tSENNjc5gvU6cmgahWZacSTf9WzFnmtjtJ889F2h4K5j3hxt5imYr1xQBlis9a95rp6NmbQUvk44EOweG76hIP/7t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZflkPK8L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GU2ZYNh6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9FDB1F000E9;
-	Fri,  7 Aug 2026 00:11:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZflkPK8L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5341A1F000E9;
+	Fri,  7 Aug 2026 00:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786061464;
-	bh=jxWYWL6FtZkTSFUcWMRa3OUlzwXk2zBV3FOJ0z6vJws=;
+	s=k20260515; t=1786061742;
+	bh=1rhKZ4oBLjctfncyrpVwC6bHsmJ0OAbmT9DFvBoBY/k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GU2ZYNh6DXc232sPaBho5RuZ7l1j/XinmqZdZzq2ylIq+esKWbXXZiXxbJwaKwSRc
-	 UdRx34IQaRBsBy+rx2RIM0o7S/SCm0ardUe1LQ8kIaoWy7GEgHt5Jjp0UET5P50vDR
-	 8eOwGpod6FJvXqCspYCIIgaq4p5IstWqRBgMzCQtE5PwMHwX4Rv9dkzItfqrhd5l0s
-	 wmelYCAgrNQb0RCyeNMh03iTHoQU29duaDbs9qTifxw1NTE1eq3JQaJIa/12GcRm4J
-	 eHZkA6olIxxvNiCYUq5Vhc+BY2eIPYdDL2dTSTN23Rm6PA3zLiJ/2Euy687LGqagis
-	 bL9Jl5AedLBxQ==
-Date: Fri, 7 Aug 2026 02:11:01 +0200
+	b=ZflkPK8LsGmJJ4/t4UQWI6Mrn5S+vruwpHu4X/hXgjvZ90UyjmtBmm4XxvwVsdEoM
+	 lygW9DWiySrxGiXJp5N2mKNx3pMCEaLDK31rLydxaKdYBOPR9oUhFM0lw+SKDQGyo3
+	 Gx4Z1Wzjed78oEj9nM6H1lvfGR5LDbpixf2puMeFwioksun/L9bWOStlVvQvDfdXVx
+	 zZYQnnH16HwoQZfHYYoEBcUbIPO16148SDsa1PtSyoD2NFtYO1K+tJoSvH+A/eWDhe
+	 9V6hJy1gItnw4cKyO3+X6PR4nV3zpbVEoMH/zP6WeAZb6pHegzl5gAb6jrkUcwF6+6
+	 XagvYBBUFe0bg==
+Date: Fri, 7 Aug 2026 02:15:39 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: DJ Delorie <dj@redhat.com>
 Cc: linux-man@vger.kernel.org
 Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
  tunables config
-Message-ID: <anUiQua2QnWnzBeR@devuan>
+Message-ID: <anUjle4uSQ-RTF_Q@devuan>
 References: <anUAwb8lY_u7eU3F@devuan>
  <xnwlu23ngs.fsf@greed.delorie.com>
  <anUbLZzOLY2qM6iP@devuan>
+ <anUiQua2QnWnzBeR@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -43,12 +44,12 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5xbovuxs4jfsvzh5"
+	protocol="application/pgp-signature"; boundary="i3i4m6fdthm5ejap"
 Content-Disposition: inline
-In-Reply-To: <anUbLZzOLY2qM6iP@devuan>
+In-Reply-To: <anUiQua2QnWnzBeR@devuan>
 
 
---5xbovuxs4jfsvzh5
+--i3i4m6fdthm5ejap
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -57,53 +58,78 @@ To: DJ Delorie <dj@redhat.com>
 Cc: linux-man@vger.kernel.org
 Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
  tunables config
-Message-ID: <anUiQua2QnWnzBeR@devuan>
+Message-ID: <anUjle4uSQ-RTF_Q@devuan>
 References: <anUAwb8lY_u7eU3F@devuan>
  <xnwlu23ngs.fsf@greed.delorie.com>
  <anUbLZzOLY2qM6iP@devuan>
+ <anUiQua2QnWnzBeR@devuan>
 MIME-Version: 1.0
-In-Reply-To: <anUbLZzOLY2qM6iP@devuan>
+In-Reply-To: <anUiQua2QnWnzBeR@devuan>
 
-> Date: 2026-08-07 02:07:00+0200
+> Date: 2026-08-07 02:11:04+0200
 > From: Alejandro Colomar <alx@kernel.org>
 >
-> Hi DJ,
->=20
-> > Date: 2026-08-06 18:15:15-0400
-> > From: DJ Delorie <dj@redhat.com>
+> > Date: 2026-08-07 02:07:00+0200
+> > From: Alejandro Colomar <alx@kernel.org>
 > >
-> > Alejandro Colomar <alx@kernel.org> writes:
-> > > You forgot to sign.
+> > Hi DJ,
 > >=20
-> > I will never remember that... :-P
-> >=20
-> > >> +The resulting data is read when a new process is created by
-> > >> +.IR ld.so .
+> > > Date: 2026-08-06 18:15:15-0400
+> > > From: DJ Delorie <dj@redhat.com>
 > > >
-> > > Sorry for noticing this in v4; I forgot about it.  I see this unresol=
-ved
-> > > issue from earlier versions remains.
+> > > Alejandro Colomar <alx@kernel.org> writes:
+> > > > You forgot to sign.
+> > >=20
+> > > I will never remember that... :-P
+> > >=20
+> > > >> +The resulting data is read when a new process is created by
+> > > >> +.IR ld.so .
+> > > >
+> > > > Sorry for noticing this in v4; I forgot about it.  I see this unres=
+olved
+> > > > issue from earlier versions remains.
+> > >=20
+> > > A program is a file on disk.  A process is a running memory image.
 > >=20
-> > A program is a file on disk.  A process is a running memory image.
->=20
-> Yup.  fork(3) creates a process (produces a new PID).  execve(2)
-> replaces the image of the current process with a program read from disk
-> (or in short, executes a program in the current process).
->=20
+> > Yup.  fork(3) creates a process (produces a new PID).  execve(2)
+> > replaces the image of the current process with a program read from disk
+> > (or in short, executes a program in the current process).
 > >=20
-> > Neither fork() nor exec() cause the tunables to be loaded, the process
-> > itself has to do that.  For dynamic ELF programs/processes built with
-> > glibc, ld.so does it before it passes control to the ELF image.  There
-> > are other types of programs/processes that do not use ld.so and thus do
-> > not read the tunables cache (which is called "ld.so.cache" for a reason=
- ;-)
+> > >=20
+> > > Neither fork() nor exec() cause the tunables to be loaded, the process
+> > > itself has to do that.  For dynamic ELF programs/processes built with
+> > > glibc, ld.so does it before it passes control to the ELF image.  There
+> > > are other types of programs/processes that do not use ld.so and thus =
+do
+> > > not read the tunables cache (which is called "ld.so.cache" for a reas=
+on ;-)
+> >=20
+> > Hmmmmm, let's say you call execve(2) several times without any fork(2)s.
+> > Assuming a that the program paths that you pass to execve(2) are all
+> > dynamic ELF programs built with glibc, I guess for every time you call
+> > execve(2), ld.so(8) will be run, and the tunables stored in ld.so.cache
+> > will be used.  Is this correct?
+> >=20
+> > 	#include <unistd.h>
+> > 	int
+> > 	main(int, char *argv[])
+> > 	{
+> > 		sleep(1);
+> > 		execve("proc/self/exe", argv, NULL);
+
+Dumb of me; missing leading '/'.  :)
+
+
+Cheers,
+Alex
+
+> > 	}
 >=20
-> Hmmmmm, let's say you call execve(2) several times without any fork(2)s.
-> Assuming a that the program paths that you pass to execve(2) are all
-> dynamic ELF programs built with glibc, I guess for every time you call
-> execve(2), ld.so(8) will be run, and the tunables stored in ld.so.cache
-> will be used.  Is this correct?
+> Oh, I thought this would work as a recursive infinite-loop program.  It
+> doesn't seem to work.  I guess there's some race condition?  :D
 >=20
+> 	alx@devuan:~$ cd tmp/
+> 	alx@devuan:~/tmp$ cat ex.c=20
 > 	#include <unistd.h>
 > 	int
 > 	main(int, char *argv[])
@@ -111,69 +137,61 @@ ved
 > 		sleep(1);
 > 		execve("proc/self/exe", argv, NULL);
 > 	}
-
-Oh, I thought this would work as a recursive infinite-loop program.  It
-doesn't seem to work.  I guess there's some race condition?  :D
-
-	alx@devuan:~$ cd tmp/
-	alx@devuan:~/tmp$ cat ex.c=20
-	#include <unistd.h>
-	int
-	main(int, char *argv[])
-	{
-		sleep(1);
-		execve("proc/self/exe", argv, NULL);
-	}
-
-	alx@devuan:~/tmp$ gcc -Wall -Wextra ex.c=20
-	alx@devuan:~/tmp$ time ./a.out=20
-
-	real	0m1.003s
-	user	0m0.003s
-	sys	0m0.000s
-
-
-Cheers,
-Alex
-
 >=20
-> Let's also say you fork(2) several times, without any execve(2) calls.
-> I suppose that won't trigger any of this, right?
+> 	alx@devuan:~/tmp$ gcc -Wall -Wextra ex.c=20
+> 	alx@devuan:~/tmp$ time ./a.out=20
 >=20
-> 	#include <unistd.h>
-> 	int
-> 	main(void)
-> 	{
-> 		for (int i =3D 0; i < 10; i++) {
-> 			sleep(1);
-> 			fork();
-> 		}
-> 	}
->=20
-> From my understanding, only the first program will trigger this more
-> than once, right?
->=20
-> If so, I'd use the same wording that execve(2) uses:
->=20
-> 	execve() executes the program referred to by path.
->=20
-> That is, execve(2) executes programs, and ld.so.cache is read when
-> a program is executed (in the current process).
->=20
-> >=20
-> > I don't know how to say this clearly with fewer words...
-> >=20
-> > >> +The syntax allows lines to start with the keyword
-> > >> +.I include
-> > >
-> > > s/I/B/  (since it's a literal, not a variable)
-> >=20
-> > Fixed.
-> >=20
+> 	real	0m1.003s
+> 	user	0m0.003s
+> 	sys	0m0.000s
 >=20
 >=20
 > Cheers,
 > Alex
+>=20
+> >=20
+> > Let's also say you fork(2) several times, without any execve(2) calls.
+> > I suppose that won't trigger any of this, right?
+> >=20
+> > 	#include <unistd.h>
+> > 	int
+> > 	main(void)
+> > 	{
+> > 		for (int i =3D 0; i < 10; i++) {
+> > 			sleep(1);
+> > 			fork();
+> > 		}
+> > 	}
+> >=20
+> > From my understanding, only the first program will trigger this more
+> > than once, right?
+> >=20
+> > If so, I'd use the same wording that execve(2) uses:
+> >=20
+> > 	execve() executes the program referred to by path.
+> >=20
+> > That is, execve(2) executes programs, and ld.so.cache is read when
+> > a program is executed (in the current process).
+> >=20
+> > >=20
+> > > I don't know how to say this clearly with fewer words...
+> > >=20
+> > > >> +The syntax allows lines to start with the keyword
+> > > >> +.I include
+> > > >
+> > > > s/I/B/  (since it's a literal, not a variable)
+> > >=20
+> > > Fixed.
+> > >=20
+> >=20
+> >=20
+> > Cheers,
+> > Alex
+> >=20
+> > --=20
+> > <https://www.alejandro-colomar.es>
+>=20
+>=20
 >=20
 > --=20
 > <https://www.alejandro-colomar.es>
@@ -183,24 +201,24 @@ Alex
 --=20
 <https://www.alejandro-colomar.es>
 
---5xbovuxs4jfsvzh5
+--i3i4m6fdthm5ejap
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp1IpUACgkQ64mZXMKQ
-wqmbxQ/5Ad14PLRpjlrq1h8DOMiD63kuFQ+PLX9UaMNZ525rzRFEDyX9PXX3Wxjr
-+z2IS6afCfYIxfBMWHfDi5YgP/E/Cls5qzQAwMwoHMT8CRfIsKtF4pYByaIWsVn1
-rPsyIHSIGpKBaAL8GwOZwZPE4sK/A1KEhJriw20vWypIcKrLYXQzmkfqwEBWqYpd
-D29iV6xd2I4809Z5IGpcKfpW8WA4v6EvbFEAtSY8z2PCUm2M+lg+UYB/UEa6joao
-N5ZB8XarPruUiinL/Gc+z7G3hLafo3Zk3Ly5V8EuZGYdPV6EdOP5h6bt5LA5r2SH
-P2Kue3/EClBCiNeXuCqkoKd7TMPo8JkMP70w2HLpwbY0hdmax2S2wQWUEWtovqol
-M1A9Zj4MjcKeKCbccmyBBhD1bOTpwJDe6uIMOryVzSAKU5xYSSi9c7LXZu/sm7P3
-NpUjqOZ2XzxxNIW5g+EqwJCTa3tBThOBVPraqT7US8yIrtuL+9S1nqV1fTs1dh/I
-C2K2aTR5Diq3S2mpmgOw29jmodxc3Q3063OcU+jiIcTzBXVkDzy5DB9lwoBsUgoD
-NQWqPoiCOZgUBGG4zvgdeRpJh/MbPS+fDeIX0+ax2HuSlONum4Wyf8qPRw9DWeSO
-O2UZaonKfzfjoz5vIX3A9jG7TgJW0egAUXgCVAZmRqGiq0Hvzvs=
-=IfPr
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp1I6sACgkQ64mZXMKQ
+wqm1/w//VTIRovdCdt8eB56Vq5Ir8QA3kSHYYEKsqzQaKD991octJhMCL4RGqtS9
+9fqJ/h/PScgNiSgftsm2XNLDJKy4GfArs2VS1+HSMbcy99UWEIjpWur8EAR5A8vI
+tZ++aP/opjwQuZd/REr7uTXxgJBU/Q5nHLutb9lu4ysPSQhq9IS7q/sdihlXv8iI
+haCgRmH/k58lE6OdFctgHZFUj1qNGhDQ9+75l8WbRBXk7XLwPYKg/0ZqemijgdG9
+gP50wRyjxX8hxp6kKhRuruNFjeRRR8OYDmHI01p6T+qLf6o9+L9vQ1L8VWUgBgso
+BsZZXtiKQ6dwvGAC1611afz7TVXCRYxgSzZ4Nviu+bGvFMO3QtFrn7opm8Tti8vt
+p13eF3V60kTt4I3Gc6OYk6ublgzntJHILtdCw1MK7efUbF4HrhU+MMPDk/cJ4mAi
+PP9nRVQIrZb1Rbfm+jBxe3NRpDAHIK9Icx+PeO7fBk63f/vF0/HK/4C3uF8JCjOt
+ROLjSFVCi6JXizC2TzDJ3PPO3RxPSEvRB4xlS9hct3m3Wa3DvuLFULPztVoeJgz8
+DS7zqG/8QxkBZZ1raVg9m15e2n6BTgx/XeXTBbDFJhlVIdqAB1rl6L5F9Mb3miGg
+Bgbi3qXVKOMV0P2eWG2/adVTQ5RjXNPmdKslz6ogNzQibF8g6Q0=
+=rDmK
 -----END PGP SIGNATURE-----
 
---5xbovuxs4jfsvzh5--
+--i3i4m6fdthm5ejap--
