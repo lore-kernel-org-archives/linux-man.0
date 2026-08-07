@@ -1,102 +1,127 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BAE476068
-	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 12:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D2C3E63A8
+	for <linux-man@vger.kernel.org>; Fri,  7 Aug 2026 22:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786106978; cv=none; b=U/kbdYmiSJsLRDYVtSc4Ui0MlfwdqJ5t8RXbqWo05n2xpJmMipEzUbL+9By+INYrFiomSF8ZYXx5BWbX7GR9oX7WtjaIslISYStM2xQyIOaXPJqkOzjTVHmjFgo3yASrPbPkLYjvFeYY5xikL3sQesEIXhHR9sJlcltT25A4NDs=
+	t=1786142208; cv=none; b=d6xtLGo29vSwt+Bt1+CLTcV2ldiHw+tB4zmXKq6vLSJbPA8NlkX3PFE9SO69cJ638+JV1GhXQCSijArfNYLRcOcytVWhGO3Ah5JsFkpQcj+Gz4X6Suc5HJ6juQoqM8QnUeRpbouNGgVNmJDKQiWmrFZxuDAvyNCBPM+GtNBnpQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786106978; c=relaxed/simple;
-	bh=+sxc/pzHrlxzK2kuacc/4ReWyl0ACsLBL9hegiMM+so=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sK4Jttk/2q8hhKEGzOKbGk1Q2NM1yM8eBNCEuMbceuEuZlQdSioCE/xiorSdVoygOgVW72VrjxZQANhGopmfshlF+opbvqF8q6uODGsl8O3QDjwfeFGcI1MjeFH4xOZOxP4PUPS8uuAEDPoqrXMKE4PjJc+t7UNUHSilvDejiu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iuePzyuU; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786142208; c=relaxed/simple;
+	bh=uAIaCKbU6sgCETPvO7zIN7TxwKuazCLT1LFdJGKmusQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hlGKA8JHNef0uIg5R5/TPlMk5XHkRxpuSwQutjT9fxvQwGtCuWG6eenXndQD4Xw1zu+M01Epd92yzfPot1Ju0u+8eudfozYvl7ueSzP0lJ9W4aOKOBrNrTjBHhi7rjTZmuGZykDgzku2yMQtnSDZuhu8OGlb0oDk2tIRh59wrnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgUOxtnR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iuePzyuU"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-382ef647e20so3600071a91.1
-        for <linux-man@vger.kernel.org>; Fri, 07 Aug 2026 05:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786106968; x=1786711768; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IuCQOtst+b0eK6rAJLoie3n8Zf0DcvNJxfl6crDIvF0=;
-        b=iuePzyuUOteY2t0s0tVAg9IcTaRnh8E/7w/iYWy33gWZ8YxwcsQ5/BVpPOjyrQU2Ap
-         MrLkAhpsAof5eKmpxhVIqXrAsfdaOf1PPTTgiMqvgPwrjS+fRExltKvg9xyVUjeo1SG0
-         35UT0qgQW80AIThXx7vpBm2wRe9zzu7YoqkOl906CKxAd8K73b64ahKdhZxC7A85+i8/
-         c0UgzOYRcIoqgN7UBvSUfFLRWSof8lbGWDW0ZIfbwiB8qxohsFq1Ey4hjsOZwuZyWHi3
-         95ckV8w4aUFoxiRwcyDOhndoxzRQAScCL1dv2nV+ppAEB5oqIkTdwgCvsUcZJ6v1qWFf
-         QlWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786106968; x=1786711768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IuCQOtst+b0eK6rAJLoie3n8Zf0DcvNJxfl6crDIvF0=;
-        b=sJHu7jIUbsEHvgUtdYfhHknHQQY7u6321BNrQPymR9V4BLr53w0XzfmaOVjexSx3Qe
-         MIHluNkeks/sZFSLOX/ZgpCjqaFHSrVtGereakOL4hJ0PSuMSn7HlFliKyoTZvRalwH9
-         YmNe3Ra4YRmuinyRBEZTJYhCoB+1FQ60jLS6QCjlNcROoiLK3TmEqWsdLOS3195VMmXh
-         mio0rTBLHDDZSNFPzgNg29iUw5RTs6qdnko3LlTGzyv77SrCjjCMfIAl8VfYjqr3ZbtO
-         g/aNwUO1Up85XdH4ZcEVt+SRc8klLyaVpy3WmMhLOMaUbf7sAZRNsOO8PspymeD+CqhB
-         LVSw==
-X-Gm-Message-State: AOJu0Yz6mH6hzwEwoYlFUQmi0Us4ntSQxo4gI+gNAobSAC61SAQpjyPQ
-	dskhDGumDR2JSk7M0BLqz1AR8TvYs2FwmHRSwHI9z9sumvgHgVqABinM
-X-Gm-Gg: AR+sD11rTgt6d+2rvyfLaOl/UHI3C6I+u+PmfIyMDaDxteSHpihnGkPjrjbQcPx6MzY
-	g93Sb1qWjyqhT+H0bUp+SRlwsxDQLyztgSL+9qOUXxu+l2xcSn2E+R7bqKAaLWv7G4xVKdpRWgy
-	+RpL8AFJDBiMz/5hTGv05ADkaMgYn76C6jrunFJkqqJNM/Mdyvc9hVctddiBAVdITC5zRyMjQwt
-	4mAsIwGIcjBYx4Ko0XN8yxshb3GXejFHTr3qNRLrB4KbsTzEal+fjr0/Ngd9KJZxAD0pgfM2tos
-	kAKIcUz+fTv7RNINlFvN0O5EFR3l6EzKcfnLciwoOkP7KsCZlwi4/w2PrkwukzQ34MmngEB/y6J
-	hSaK+dcGYtkWrFRlawYyG6wfa0YTSB20r3rxgKzz68icIUiYJskmL9sGvxc1JIhDRCiP+303xkm
-	Ej+ndn1BnQ0bc8blUpLFG1gSj5e+E6twhHP6MahaKFILTYq2DXt+mnvYuj44ab4PkE8P5Fb01Hv
-	YHMfvZjgu4xSDzFzK1hZFc+wQcwzoZfGluOLJAtmVHwl7QhFpjmTQ==
-X-Received: by 2002:a17:90b:4d84:b0:381:5bd6:eb19 with SMTP id 98e67ed59e1d1-3903c5dfd9amr21206013a91.18.1786106967958;
-        Fri, 07 Aug 2026 05:49:27 -0700 (PDT)
-Received: from masabert (softbank126139061086.biz.bbtec.net. [126.139.61.86])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3925fc6dfcdsm2604771a91.4.2026.08.07.05.49.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 05:49:27 -0700 (PDT)
-Received: by masabert (Postfix, from userid 1000)
-	id 679B123616F1; Fri, 07 Aug 2026 21:49:25 +0900 (JST)
-From: Masanari Iida <standby24x7@gmail.com>
-To: linux-man@vger.kernel.org,
-	alx@kernel.org,
-	mtk@man7.org
-Cc: Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH] resolv.conf: Update MAXNS header reference for resolv.conf(5)
-Date: Fri,  7 Aug 2026 21:49:16 +0900
-Message-Id: <20260807124916.18007-1-standby24x7@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgUOxtnR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C441F000E9;
+	Fri,  7 Aug 2026 22:36:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786142206;
+	bh=cad7lk9LAbdbrBPj47Q1fdj7cxw0b9tOkLo/Zn2n18g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kgUOxtnRaoEVUDbeq5hRGZhiEDg5hj+PzGB7DEKzByerzXFqy6dQF78rbpUFpM63H
+	 MrI4hOQjYvNCvHqim5TMBjObop7l8CjSy2W0K5mL9YPiqQ+z0vaBsLMF31OwhAs2sL
+	 Pw2X+zVjZoKBn2xaifHg6wuW27LkS76HiPPNHmotS745Dt5gq/l5XaLqqlxkaOshR2
+	 qQ3ztm7aQ8H+XwyKvW0dk3U09hIlPHlzfITowMcG6JR8qf/l8t5V9Iu7GH1ZYG6wvY
+	 yJvN44EV+ZYbnaNqZorIWGSKXW08coM+vLXqAWrn+DnTrUhDEr8X+vsU2TR01ohXsP
+	 /YG6vXWkZiYtQ==
+Date: Sat, 8 Aug 2026 00:36:43 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <anZdHxYJZ6hLleQv@devuan>
+References: <anUbLZzOLY2qM6iP@devuan>
+ <xntsp6393q.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wu43cc2wvlmk4use"
+Content-Disposition: inline
+In-Reply-To: <xntsp6393q.fsf@greed.delorie.com>
 
-The MAXNS limit mentioned in resolv.conf.5 now points
-to <res_state.h> instead of <resolv.h>, matching the
-change in glibc headers.
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
----
- man/man5/resolv.conf.5 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--wu43cc2wvlmk4use
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <anZdHxYJZ6hLleQv@devuan>
+References: <anUbLZzOLY2qM6iP@devuan>
+ <xntsp6393q.fsf@greed.delorie.com>
+MIME-Version: 1.0
+In-Reply-To: <xntsp6393q.fsf@greed.delorie.com>
 
-diff --git a/man/man5/resolv.conf.5 b/man/man5/resolv.conf.5
-index 8e914f12a18d..89f9d903a1e3 100644
---- a/man/man5/resolv.conf.5
-+++ b/man/man5/resolv.conf.5
-@@ -50,7 +50,7 @@ or an IPv6 address in colon (and possibly dot) notation as per RFC 2373.
- Up to
- .B MAXNS
- (currently 3, see
--.IR <resolv.h> )
-+.IR <res_state.h> )
- name servers may be listed,
- one per keyword.
- If there are multiple servers,
--- 
-2.25.0
+Hi DJ,
 
+> Date: 2026-08-06 23:25:29-0400
+> From: DJ Delorie <dj@redhat.com>
+>
+> Alejandro Colomar <alx@kernel.org> writes:
+> > Hmmmmm, let's say you call execve(2) several times without any fork(2)s.
+> > Assuming a that the program paths that you pass to execve(2) are all
+> > dynamic ELF programs built with glibc, I guess for every time you call
+> > execve(2), ld.so(8) will be run, and the tunables stored in ld.so.cache
+> > will be used.  Is this correct?
+>=20
+> I think this rabbit hole is too deep for this part of the man page.  We
+> need a short sentence that's obvious to the reader, not a diatribe on
+> how the linux kernel works.
+>=20
+> I'm happy with something like "The resulting data is read when the
+> program starts." regardless of how ambiguous or technically incorrect it
+> might be ;-)
+
+I'm not happy with starts, but if 's/starts/is executed/', or
+alternatively 's/starts/& execution/', I'm happy.
+
+'starts execution' is precisely the wording that execve(2) uses to
+describe the moment when ld.so(8) is called.
+
+     If the executable is an a.out  dynamically  linked  binary
+     executable  containing shared=E2=80=90library stubs, the Linux dy=E2=
+=80=90
+     namic linker ld.so(8) is called at the start of  execution
+     to  bring  needed  shared objects into memory and link the
+     executable with them.
+
+Does this sound good to you?
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--wu43cc2wvlmk4use
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmp2XfQACgkQ64mZXMKQ
+wqlhJxAAtXQx4hqoon2v577gu15+Cbo1bdwTrffJa5+MipTKlNYwm4RxkckGj8C6
+xcH8st4iWXi493ecNRv4DJM5RIw6EI4F7zPuLURACCWH2saM70jV2Q4Ydiljt5wr
++ihCcOsF018HzRXrtgELhofU7ZprVWp0ezhbZbTn0yYwmQhYAoB7p9i4wQcHtWj5
+niW4uLRKhhWz/jq4LiMf6TtXJQL40owUH/4QKEYyzw179s667py5pFcn1IMF9EjB
+l3dhBqP26iAFhbjPyy0hlYXutVRQrz+lRsXUUF7N2yJo/uBovA+deExdR8YhPH2g
+cHMImSqlN1ennTgfGNWvoTzuZCYHCJ1kqzmMRjF0MFW6IXBDTv4HFaTTnZqgMxKB
+4eLR5ScyGm4Cm4ZZRmhs5kwInK4MfM+DsbkJW75srGEqBB1NaY5Jq+B7rjANaV6E
+oDOUVpC5yHS3rQhxSutjBDjdPHsCZIaYrSY13ru1JQUzKAaozMnbPwpc9Uq8vrWw
+PnXSgSPmDmoT9l/yC4nXmCSXPKB9RGN8XepOSeANc3elgDoA7lGeSz74UVvqqgRx
+7Rp7Vp/I+E2zs1SqOqyq9/VoAT/Q7MWAtjf2IqmQWUAkd0SLheVkbSj7SPDTqLLf
+mWhQj4kLYuWh2VLGhSo8g2ruf62gRjYyka32C7H2qqh+kS7x78k=
+=vb0b
+-----END PGP SIGNATURE-----
+
+--wu43cc2wvlmk4use--
