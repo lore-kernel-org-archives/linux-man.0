@@ -1,107 +1,229 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752E910F0
-	for <linux-man@vger.kernel.org>; Sat,  8 Aug 2026 02:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99CC165F1A
+	for <linux-man@vger.kernel.org>; Sat,  8 Aug 2026 03:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786155345; cv=none; b=sKFGa3YrZyEN7qcVuFR3T/96dwPIH/8S7oZxmG/GlPnzvbIjsvfZpNub65uHhRQN6uBXjDEFu6+oPbPrLcbp+nIXuT/x70yscIder6L1xHqVPljwSIAnM6nIY2r6R3tcrY2mhnNt1yBuuVX6h54xLivkeHUbx84+FkwguWFJ3ts=
+	t=1786158501; cv=none; b=AWSAo+a54u4iVhhovmbJ+bKU2Ag3Zu7/TvpR+zS2poaMlyhUQc9BwUmPtb48b9pcUHT3k6rb63ug1chtWvpKro2BSqiVG5d6hVyqBVvCZZY/MM6JSwUNpu4gHulWcEgIoNLj+0TzDRaU5PLZ6z7Ogn0Td8wYpEzNw+uWhCBPFTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786155345; c=relaxed/simple;
-	bh=k1urObhh6lRmzp+QUkWSM0dY+n+pmUKcNRs7b7YdY0U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Aj3OvIaz9w75XqtDc54CrWqXOh08PokrIlIZFv7h1h/JbDDlSh7aTZTHoZp0z9iZ4ioSQA2bZ27Fd0SgCaL5Zs+dL2MCIiMBMvBGDlkP61owPo0zB6QNwhUalxAKNujsGV1T0XeKlt/cPb8TyoMK96ZseTgoS3Tfa6jfEswBujs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfWxSkTE; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786158501; c=relaxed/simple;
+	bh=VkdtMufc6VCALnR66NB/Tb8di6IwbSQpot4HQkbtOmg=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=UGshJpaJ1vwcJhjNVWLmwklofVzO/WDbq6t7QFtEs208dDLTBknGOZldiAxNlHys7voODqdthM5cZP/aTKESJKgsdLnc7s6TkHpI+mQDbzSjBpTpMa5FyadoUpw+vnrOnW0KL25rIH/ZiYCIFbRO316jdX/S1LmqhximVUwiZZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hGkOMUVu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfWxSkTE"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8486ac3f347so2867055b3a.1
-        for <linux-man@vger.kernel.org>; Fri, 07 Aug 2026 19:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786155344; x=1786760144; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hEHpM/fPp8g8DtpaZdR7HMICrdySTMdZcspH9MwAFFs=;
-        b=SfWxSkTE9rqGquanHs0pW8+Cv27PrFO9r2acaxKyg9mzxiOypWhaYrQ17elT6Oh/p8
-         i09saFaa20dVxnGNG9APQbWUNh4T33nZ8xaDBkcyMlUtznhd4YXfZyIlG+pNkKwAfsis
-         398f3hVRyjDbr0DyIoAOZUWYxbbalpMW5JtUBH84OOykoXig87d1fAmRq37wzul90YcG
-         XGE7Y0sIBHF/hjhh0gCAI43NSvNNg5X59jhQMaIfl4NNeuGBTQXgl0kq4yYMkUm/vAFS
-         Je4jlStJArONjxkz1OpItZtayOYSTHeV4pzNArf5gS2uEq8zjuk4FWVvW4QAmzctOghY
-         XXrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786155344; x=1786760144;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hEHpM/fPp8g8DtpaZdR7HMICrdySTMdZcspH9MwAFFs=;
-        b=Qy+5HzpKGCV5tUjoRgUvur5UiWz8bV1zGyIYIBcvjwESkaG4MpWpSsoZEYDHK07iW+
-         ZPSkmNez/S4WZ1Tzj/EQYkvdIIO5KIDSf94cPkektKYt3qpcULmxunaDEmiogpi8+c+s
-         vzw1D/92bjF5/WSu0DegnU3tFIFdoFPk39JBpGLRZxjxKwwX3eAZt6qTKytupc0/zk4t
-         gMZlCgJfdC9o/Hf8USLxIPVlNfB+MXFDv777y+WRYC6ccBAmxLPVtnNkBdKvRsl7tZhg
-         3I4Uon9Zb4kxMU7CMoxmNuZ4jTL+Iry5gWT1nQzPC9SOuN46BFZovrkWgOpItX5xP9nP
-         6PoA==
-X-Gm-Message-State: AOJu0YyZS0nBfgx5lHPxq+LWTKlBtkGFvzQH1IYmXLdQcsvSBm5X/qaC
-	VvKPb17uw/FQzc9a9OtIItAqJHAsmzy8/bDMxibyq3P7Wkxeg3Ap7Ike
-X-Gm-Gg: AR+sD13HfrXWuQFdRVxudzfqEfEfTSFlOCs60XZriCcIQ8+HYqIUdQe2iCvp/LxQIOW
-	ehaj6HL+iRRYydfVTQ4YCVdhoSg0B+nkpGpd4eqvfGPoBLpKn8AZJAbQz0UkqU7wk2PxgHBM6qL
-	QeNVUqMcLPS6s/J3+6z7pb6klVmCyGUQwgbvvC225DCtKjs9pSC6FlxVls3Dj8piycD/YOiAXe1
-	r08lp5EjupOCtrEsPnHMYjIqsuLIfz++45ERldz2b0QffSmkKknUCDUAY5dPmVyDi+N12TVdieu
-	tOsuq4V9oXYx55nqc3XEpPJP5Acug3mHJjuB8kNAhPahW7Beok65wX7Sn6nF49PyMJmLTOB2nuL
-	8YlxOEQz/PO/IRBVrZnq+4yEq2Mhzz55lDjhHdv3Kw59d0qXKtj6LTlm4QEgdaQIfvxTsrAO+i/
-	P7ohLKQeKOhqsYEtnRnYs21e4M5c99SFv4kMgSguasLaJt83VhkdrECia8So8OUX7LX53Y5dt0N
-	PuUpY9Wn7nC6PhLrF3NQtlKy5fWGYazKCzBorjRm+0=
-X-Received: by 2002:a05:6a20:4394:b0:3b4:7459:85a0 with SMTP id adf61e73a8af0-3cbd3c7c71cmr3088831637.18.1786155343706;
-        Fri, 07 Aug 2026 19:15:43 -0700 (PDT)
-Received: from masabert (softbank126139061086.biz.bbtec.net. [126.139.61.86])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe8f35bc75sm1340559a12.19.2026.08.07.19.15.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 19:15:43 -0700 (PDT)
-Received: by masabert (Postfix, from userid 1000)
-	id 9ACB923615E6; Sat, 08 Aug 2026 11:15:41 +0900 (JST)
-From: Masanari Iida <standby24x7@gmail.com>
-To: linux-man@vger.kernel.org,
-	alx@kernel.org,
-	mtk@man7.org
-Cc: Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH] resolv.conf: Update MAXNS header reference for resolv.conf(5)
-Date: Sat,  8 Aug 2026 11:15:39 +0900
-Message-Id: <20260808021539.146429-1-standby24x7@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <anZtjC89LJFudMay@devuan>
-References: <anZtjC89LJFudMay@devuan>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hGkOMUVu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786158498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=EewByttH/YlYYyp0tcRWG+vkzacgySwmEnH5HRLcmXg=;
+	b=hGkOMUVuO0iUZRKoYcwhsPml+1puOuswFStzwMJ5zGteB+04P8+kWLTl8s022Wk+EZSPi8
+	sqrk8ja7yonQbPqIE379YHOAv4HT1XLw1vkIvvGYmdorSMaLB02SrNgFKtSONmYYFxla9M
+	u1IbDREZg0Xg+Cz96sYw+RbdpxeC9aU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-593-mgV8vA9pP3i3OpwSmOuqcw-1; Fri,
+ 07 Aug 2026 23:08:12 -0400
+X-MC-Unique: mgV8vA9pP3i3OpwSmOuqcw-1
+X-Mimecast-MFC-AGG-ID: mgV8vA9pP3i3OpwSmOuqcw_1786158492
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DE2AA1800471;
+	Sat,  8 Aug 2026 03:08:11 +0000 (UTC)
+Received: from greed.delorie.com (unknown [10.22.89.120])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B3DB19560AB;
+	Sat,  8 Aug 2026 03:08:11 +0000 (UTC)
+Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
+	by greed.delorie.com (8.16.1/8.16.1) with ESMTP id 67838A0k3466609;
+	Fri, 7 Aug 2026 23:08:10 -0400
+From: DJ Delorie <dj@redhat.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+In-Reply-To: <anZdHxYJZ6hLleQv@devuan> (message from Alejandro Colomar on
+ Sat, 8 Aug 2026 00:36:43 +0200)
+Date: Fri, 07 Aug 2026 23:08:10 -0400
+Message-ID: <xnecg92tt1.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The MAXNS limit mentioned in resolv.conf.5 points to
-<res_state.h> instead of <resolv.h> after following glibc change.
 
-500b3a499fff (2017-05-20; "Remove __need_list_t and __need_res_state.")
+I'm ok with :
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
----
- man/man5/resolv.conf.5 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  The resulting data is read when the program starts execution.
 
-diff --git a/man/man5/resolv.conf.5 b/man/man5/resolv.conf.5
-index 8e914f12a18d..89f9d903a1e3 100644
---- a/man/man5/resolv.conf.5
-+++ b/man/man5/resolv.conf.5
-@@ -50,7 +50,7 @@ or an IPv6 address in colon (and possibly dot) notation as per RFC 2373.
- Up to
- .B MAXNS
- (currently 3, see
--.IR <resolv.h> )
-+.IR <res_state.h> )
- name servers may be listed,
- one per keyword.
- If there are multiple servers,
--- 
-2.25.0
+This is what I've got so far:
+
+commit 8ed803ba1e814dd7efdeec787b9b278c2e44be83
+Author: DJ Delorie <dj@redhat.com>
+Date:   Fri Aug 7 23:07:04 2026 -0400
+
+    man/man5/tunables.conf: Document system-wide tunables config
+    
+    Signed-off-by: DJ Delorie <dj@redhat.com>
+
+diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
+new file mode 100644
+index 000000000..a27f78cde
+--- /dev/null
++++ b/man/man5/tunables.conf.5
+@@ -0,0 +1,144 @@
++.TH tunables.conf 5 (date) "Linux man-pages (unreleased)"
++.SH NAME
++tunables.conf \- tunables configuration file
++.SH SYNOPSIS
++.nf
++.B /etc/tunables.conf
++.fi
++.SH DESCRIPTION
++Tunables are a feature in the GNU C Library
++that allows application authors and distribution maintainers
++to alter the runtime library behavior to match their workload.
++For a list of supported tunables,
++please consult the glibc manual
++that corresponds to your installed version of glibc,
++or run the following command:
++.P
++.in +4n
++.EX
++ld.so \-\-list\-tunables
++.EE
++.P
++The file is parsed by
++.BR \%ldconfig (8)
++and the results stored in
++.IR /etc/ld.so.cache .
++The resulting data is read when the program starts execution.
++.P
++Each line in the file
++.I /etc/tunables.conf
++specifies a tunable,
++which is specified with a string of the form
++.IB name = value \f[R].\f[]
++.P
++The syntax allows lines to start with the keyword
++.B include
++followed by a
++.BR \%glob (7)
++pattern.
++Files matching that pattern will be processed
++as if their contents were included at that point.
++.P
++Each line may include zero or more keywords or symbols at the beginning,
++which affect how each tunable affects each processes.
++The keywords must be separated by whitespace,
++but the symbols need not be.
++.TP
++.B overridable
++.TQ
++.B +
++Allow the tunable to be overridden by the
++.B GLIBC_TUNABLES
++environment variable when the process runs
++(this is the default).
++.TP
++.B nonoverridable
++.TQ
++.B \-
++Do not allow the tunable to be overridden by the environment variable.
++.TP
++.B onlysecure
++.TQ
++.B @
++The tunable applies only to
++.B AT_SECURE
++processes,
++such as one started from a set-user-ID program,
++or one with elevated capabilities.
++.TP
++.B nonsecure
++.TQ
++.B $
++The tunable applies only to
++.RB non- AT_SECURE
++processes (this is the default).
++.TP
++.B anysecure
++.TQ
++.B *
++The tunable applies to both
++.B AT_SECURE
++and
++.RB non- AT_SECURE
++processes.
++.P
++The file may also contain
++.IR filters ,
++which limit the tunables following it.
++The effects of a filter are terminated by
++any of the following:
++.IP \[bu] 3
++The end of the file.
++.PD 0
++.IP \[bu]
++The end of an included file.
++.IP \[bu]
++An
++.B include
++directive.
++.IP \[bu]
++A new (possibly empty) filter.
++.PD
++.P
++The syntax is:
++.P
++.in +4n
++.EX
++.BI [ filter : pattern ]
++.EE
++.in
++.TP
++.B proc
++The
++.B proc
++filter limits the following tunables to processes
++whose name matches the pattern.
++The pattern may be an absolute path
++or just the base name.
++.P
++A filter can also be empty:
++.BR [] .
++Such a filter has no effects.
++.SH FILES
++.TP
++.I /etc/tunables.conf
++.TP
++.I /etc/ld.so.cache
++cached copy of tunables
++.SH EXAMPLES
++Example configuration file:
++.P
++.in +4n
++.EX
++glibc.malloc.arenas_max=5
++onlysecure glibc.malloc.arenas_max=1
++\-glibc.pthread.rseq=1
++[proc:/bin/bad.program]
++\-glibc.pthread.rseq=0
++[proc:some.program]
++\-glibc.malloc.mmap_threshold=65536
++.EE
++.in
++.SH SEE ALSO
++.BR ld.so (8),
++.BR ldconfig (8)
 
