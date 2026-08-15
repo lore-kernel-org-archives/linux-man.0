@@ -1,98 +1,79 @@
-Received: from esgaroth.petrovitsch.at (esgaroth.petrovitsch.at [78.47.184.11])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E99265623
-	for <linux-man@vger.kernel.org>; Fri, 14 Aug 2026 22:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.47.184.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D3126B0A9;
+	Sat, 15 Aug 2026 05:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786745918; cv=none; b=FYqx/Xkq5tpC2btUIX9BLiZGDd1azEPyA8VRTKzCCdC8QGwJva8zWDOHbUaMlWl5Tpx99gHGuK+9hfRSZIpqFmycZ6HWoLSkf11XYezUd63mRdqZ3zQsz14EgpKwy01tsBVa36L4izK3HiakBXc1uQYpbj4BxJo83e7cWO3WRsY=
+	t=1786771131; cv=none; b=IAlnoXTV5jrDH+Vr1y8c/7ArfBIQQRyAHhuDGOe+Ck2wWfbJFgIC092GcP9vHFLAoCg8ox4+5zawzIZmT/+Jd96w2FmQAxSRGiZksc+xeWh9IN0daf837ud8RgXRErwPl/zKc0cOjg3IJNkYzEC8IgJYPU5IzwK0jk0NAF2CEmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786745918; c=relaxed/simple;
-	bh=HceEDNrjRZgcrFS/6S/MsOILXKCMlhB2at8fw/XSw/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YjdtrCsHxFvtGkc1SYvpisswYLDEqtAnu+yi8arEuXzCqMZJtH8kejB1ni88Zp9Y1ynLof2/nnbo0A6SUVrNEI5pffJJoidZlFPq8qLx808DJJfoFzLjor6zO9KhlfOy4r91JRhfpFShUnlJcWQn90Enbg2h13l0j3WMJ7LILqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxoid.at; spf=pass smtp.mailfrom=tuxoid.at; dkim=pass (1024-bit key) header.d=tuxoid.at header.i=@tuxoid.at header.b=MZkHuZJ3; arc=none smtp.client-ip=78.47.184.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxoid.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxoid.at
+	s=arc-20240116; t=1786771131; c=relaxed/simple;
+	bh=NY67c7Aq2Hg6XyoZQP7pISJUnX4Xld/ciEkGCvDz6aE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h+FxrsRtiyl73tW9OK/Fjt9N4SOdOhgjmgKAV4+6ShrQgJAO1kCDxoD2Khsjm+D7f2Ub0xIGZ91dN+4q30yCqkxEiqMr37Q26kuggrcry/9cSnCh6FX1oChcQCMXQgVHzBtR9dGeC64z49pze/Ik1CPV0oc1W3CYG78dPDx1Zi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Fn3hxDXW; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxoid.at header.i=@tuxoid.at header.b="MZkHuZJ3"
-Received: from [172.16.0.14] (84-115-209-231.cable.dynamic.surfer.at [84.115.209.231])
-	(authenticated bits=0)
-	by esgaroth.petrovitsch.at (8.18.2/8.18.2) with ESMTPSA id 67ELvS1p3427427
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
-	Fri, 14 Aug 2026 23:57:31 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 esgaroth.petrovitsch.at 67ELvS1p3427427
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxoid.at; s=default;
-	t=1786744659; bh=HceEDNrjRZgcrFS/6S/MsOILXKCMlhB2at8fw/XSw/k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MZkHuZJ3xxgAjkSzFaiuQBxD4thzHAcXQqM3TBz5DomIpD+Y4CDxuE2dZm4TKEKgl
-	 KpYn8LiaFan86fVJ7mwqF95WKtpq/+iXOKdixoI69bEiUpZwGVB+mEJu1PLsSz4MFE
-	 KQ+pX+mUymNWpD/Fmn8lKLK8hmm7UVY1v6A32clY=
-Message-ID: <11bb78f1-09d3-4e90-a4ab-1de76db086e1@tuxoid.at>
-Date: Fri, 14 Aug 2026 23:57:22 +0200
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Fn3hxDXW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=6ys2wtszrrbnxlbdzzgh34226m.protonmail; t=1786771114; x=1787030314;
+	bh=VdcNM4MkfoV9SZH5nNr1NdPvteaO1Z24jVA3+xO3bFc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Fn3hxDXWewmAa+WgiZlKbKr5LZdVkC2TFhawwF1ESY5L6UZGDRsNOOSVUtclUMna2
+	 r3q3G/cu7Wxxh1ENWz0aMRKlRJhwreG064OnmjkDU4MFkzfCC8ro1XwhZwLEASqD7U
+	 Ru/uBJGbgQgJT8nh8TEotn89671ENWPZu8q1wvNfdIvxALh5qlIjmumlVa5gEdrscI
+	 MDKFod72Isaiq4oUrinIpqQg9ZxvYKM8R3rv8lIFpYEYrWOTOwpMzMglnQ/ZTdBiiU
+	 UyvVfBGNPtA6ek9qrCd3YciamrmC2s1g2O0clIx9p017vpTIEDq8G8m0xrSkODWoYm
+	 nm6NZplLmiPig==
+Date: Sat, 15 Aug 2026 05:18:33 +0000
+To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
+From: Paolo De Donato <dedo.paolo.24@proton.me>
+Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Information about bind mounts and simultaneous access to /dev/ptmx and /dev/pts/ptmx
+Message-ID: <OL6NOlULLLkBGa0xCeh8WaHQwIqYDyatnuI7X2kfZRVGNtRGHbaarbdGEC9QUCfrYoEtX-k7B1gVRUg1iN4WJE2ES7QU1cgnRMuz9J5KdXo=@proton.me>
+In-Reply-To: <QyCOf8W8P-XlVQEK451kiApqyxPqPQzth8sY0CNnbkUKXoTzkY-jbKI10jr6bjP_8IfsvYqkHnhmGTlL12HQgfzZ4CiVakdps9kiNuH6rTM=@proton.me>
+References: <QyCOf8W8P-XlVQEK451kiApqyxPqPQzth8sY0CNnbkUKXoTzkY-jbKI10jr6bjP_8IfsvYqkHnhmGTlL12HQgfzZ4CiVakdps9kiNuH6rTM=@proton.me>
+Feedback-ID: 61544309:user:proton
+X-Pm-Message-ID: e5e5ac57319913b05279cbf3b1586834c648a111
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: the Linux man-pages as an educational tool
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: =?UTF-8?Q?Arsen_Arsenovi=C4=87?= <arsen@aarsen.me>,
-        Alejandro Colomar <alx@kernel.org>,
-        Collin Funk <collin.funk1@gmail.com>, Paul Eggert <eggert@cs.ucla.edu>,
-        linux-man@vger.kernel.org, bug-gnulib@gnu.org,
-        libc-alpha@sourceware.org
-References: <am56ZBzNM5J07AUa@devuan>
- <f3f50282-8f40-449b-87c2-5df85fbfdc4e@cs.ucla.edu> <am6CnOddgaM10pry@devuan>
- <20260802000833.zpu27l7ibvrbouna@illithid> <am6PkypxYg-Fq4Iz@devuan>
- <87cxw1s58a.fsf@gmail.com> <am6X32HkGdm2xTd7@devuan>
- <alpine.DEB.2.21.2608022219530.55540@angie.orcam.me.uk>
- <am-2d02e1qq78Asv@devuan> <87ik5sunm7.fsf@aarsen.me>
- <20260802231058.o7gud4bd7co2nbhv@illithid>
- <alpine.DEB.2.21.2608140556070.14132@angie.orcam.me.uk>
-From: Bernd Petrovitsch <bernd@tuxoid.at>
-Content-Language: en-US, de-AT
-BIMI-Selector: v=BIMI1; s=default
-In-Reply-To: <alpine.DEB.2.21.2608140556070.14132@angie.orcam.me.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 1.4.5 at smtp.tuxoid.at
-X-Virus-Status: Clean
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-	*      envelope-from domain
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi all!
 
-On 2026-08-14 17:30:17, Maciej W. Rozycki wrote:
-[...]
->> Then why not have one official big header file for the whole standard?
->>
->> #include <stdlibc.h>
-> 
->   That wouldn't be too unreasonable nowadays I suppose, not IMHO anyway.
+Dear Alexander Viro,
 
-The trivial counter example is windows.h (since ages). And at one point
-"they" introduced the #define WIN32_LEAN_AND_MEAN (probably) for a
-reason ...
+I have noticed that trying to open /dev/ptmx device file through a bind mou=
+nt will always fail. More precisely, calling
 
-[...]
+    open("/dev/ptmx", O_RDWR)
 
-Kind regards,
-	Bernd
--- 
-Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
-      There is NO CLOUD, just other people's computers. - FSFE
-mobile: +43 664 4416156                    LUGA : http://www.luga.at
+usually succeeds, however it will always fail if you previously launched th=
+e following command:
 
+   # mount --bind /dev/ptmx /dev/ptmx
+
+I think the root cause of this is the relationship between /dev/ptmx and th=
+e devpts virtual filesystem, usually mounted at /dev/pts since all operatio=
+ns on /dev/ptmx are forwarded to /dev/pts/ptmx. This issue makes unfeasible=
+ to share access to /dev/ptmx through a mount namespace, however bind mount=
+s work as expected with /dev/pts/ptmx (if devpts has been mounted with the =
+option ptmxmode=3D0666).
+
+My question is if it is safe to give full access to both /dev/ptmx and /dev=
+/pts/ptmx (through ptmxmode=3D0666) at the same time, or if there are some =
+racing conditions that would make simultaneous access insecure. Documentati=
+on at https://docs.kernel.org/filesystems/devpts.html and man 4 pts say not=
+hing about this scenario, but I think this information will be very helpful=
+ for all people that needs having pseudoterminal access inside a mount name=
+space.
+
+Bests,
+Paolo
