@@ -1,66 +1,81 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+Received: from master.debian.org (master.debian.org [82.195.75.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445AC2C11DF
-	for <linux-man@vger.kernel.org>; Sun, 16 Aug 2026 12:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE1D282F30
+	for <linux-man@vger.kernel.org>; Sun, 16 Aug 2026 12:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786882026; cv=none; b=ctYOxlPEMdUReee6az0w8LvlCAkoTtXX8bFeCZjF9uDa0fhdIZIC18trtm3us8rK6F6RdtSW5xeBMoVHM7lCLuGbDbXmk/UFRVBuv1N3G/GZh4QDGRAgo3fdy+7YQdbsfEpoRLTJ9Jqd+lqQDvvIzm/xXKZwVXSFvNZ3FrJSOD4=
+	t=1786882138; cv=none; b=UXn5TVVsxuJNcGnx9Mcov2gbw4HQ/soo9u6xAH5ok84DKsl4/nOgildecau4FYv3eW+ex3t8o9M2zU+AyrAeEL/TJd97Ceym1nnRVl0iAJ5YDL8OlO37zMMCAzlcp62uVlU39pbFfdOQ2w2F2GnCtD8oMKO+uLNDRcOoUS6HyQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786882026; c=relaxed/simple;
-	bh=0dkEuo3oBzdmKgqGX/5XcotB+XB1kcS5WdEQQsP8ZlA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pQ584YJEtg36nqDL1ddCBr/u+7J1CUpcx/BncJqg0YQ7xI8UUrWgXWHbJQbnOBHZIy2pl1B+Av1Wf1iP6t6qt6DgDLahv/bOg6e9FoX6/jiRCcTZsfyg0t0RWKXmpefAzqAl/3jhrzDvYtQFGJD1TCEMfMdroyoKlQSU2iBsmjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=nefkom.net; arc=none smtp.client-ip=212.18.0.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nefkom.net
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4hNF7f45Zkz1sPSC;
-	Sun, 16 Aug 2026 14:06:54 +0200 (CEST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4hNF7X5Pswz1sPRy;
-	Sun, 16 Aug 2026 14:06:48 +0200 (CEST)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
-	by mail.m-online.net (Postfix) with ESMTP id 4hNF7X4KCxz1qqlY;
-	Sun, 16 Aug 2026 14:06:48 +0200 (CEST)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.6.182])
- by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
- with ESMTP id iF0NVyk1VvWX; Sun, 16 Aug 2026 14:06:47 +0200 (CEST)
-X-Auth-Info: 0MBwbcfYtg66M8JvXBv4UYZkC4oFxLgRouBZWlBPoRWJ5JvwDYfg7x9DVy56vZqM
-Received: from igel.home (aftr-62-216-202-231.dynamic.mnet-online.de [62.216.202.231])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sun, 16 Aug 2026 14:06:47 +0200 (CEST)
-Received: by igel.home (Postfix, from userid 1000)
-	id 0CCB72C0B25; Sun, 16 Aug 2026 14:06:47 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Guillem Jover <guillem@debian.org>
-Cc: linux-man@vger.kernel.org,  libc-alpha@sourceware.org,  Alejandro
- Colomar <alx@kernel.org>,  Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-In-Reply-To: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
-Date: Sun, 16 Aug 2026 14:06:47 +0200
-Message-ID: <87h5ku46co.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1786882138; c=relaxed/simple;
+	bh=oT8rivDkcdYQH2P2E1wr3ClerN53KprFtMgYcJg1OAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ufyx4j5PyWBdB0esZ2NK9lGrXmD9D5xQA/DGVu+gleFkYHrgvONubQXZ5+tb3NMNKRsKS6J1iRLH7NAqoTefrH3i2f0HiSSox0XZ5QXQ4KjiOSHOLCKE1oC9OhhDwXyqeuHKJ8T6Iqm3l0NwbXDtVIr2Z4jCiSfyc3LPtNKM21A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WuZzt1KE; arc=none smtp.client-ip=82.195.75.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=master.debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WuZzt1KE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.master; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	In-Reply-To:References; bh=oT8rivDkcdYQH2P2E1wr3ClerN53KprFtMgYcJg1OAo=; b=Wu
+	Zzt1KEHrWRmeRo0T8YgdGp7R/xojT/sCPV1Szp89/EzAa8+Y///cdlEeEOXJ9xda2FICQoRBG4cP6
+	+mBBbLbutueMmmEhKY3a1qiFsfjp5a3O0AsD4MFW0LoA5yB3415UuLb1RfdZ6875wAJlZoPTyt5QH
+	PjoBvEqyS3uy7BT02BP8lTDZxuB5GlVRTyHYzMFr179qHMJjZNeNYp7GuO5hpWpwOcqmH9oygN78O
+	S0p8pKPL65JPeBuzYye0bOtTEAbwd/unlNdw9l0rPApEuMWKSENGuytbOmLxZI/zask8Gr5KmvEvZ
+	vePgXYmC/LkpllLbiOH2CamNdXNPowLQ==;
+Received: from guillem by master.debian.org with local (Exim 4.96)
+	(envelope-from <guillem@master.debian.org>)
+	id 1wvZRa-00CyKJ-0O;
+	Sun, 16 Aug 2026 11:54:26 +0000
+Date: Sun, 16 Aug 2026 13:54:24 +0200
+From: Guillem Jover <guillem@debian.org>
+To: linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Cc: Alejandro Colomar <alx@kernel.org>,
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+Subject: On <asm/termbits.h> and <asm/termios.h> usage in man pages
+Message-ID: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
+Mail-Followup-To: Guillem Jover <guillem@debian.org>,
+	linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+	Alejandro Colomar <alx@kernel.org>,
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Aug 16 2026, Guillem Jover wrote:
+Hi!
 
-> the <asm/*> headers are Linux specific,
+I was just refreshing my mind about documentation around TIOCGWINSZ,
+and noticed the weird <asm/termbits.h> and <asm/termios.h> usage in
+various ioctl man pages.
 
-As are the ioctls.
+These originate from commit c023614536251bd6b47a0eab45ab3bcfd2ad9ec2,
+where it states that the «struct termios» definitions in the
+<termios.h> header are incompatible with the defined ioctl calls.
 
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+This seems problematic, for one because the <asm/*> headers are Linux
+specific, so they reduce portability for all these macros, even when
+they do not rely or make use of «struct termios». For another because if
+there is a problem in glibc with the interaction between «struct termios»
+and the ioctl calls, then that should be fixed in glibc, instead of
+adding these workarounds in the man pages.
+
+It seems the problem is that in glibc «struct termios» maps to the Linux
+«struct termios2», but the macros for ioctls that use «struct termios»
+do not match (for example TCGETS instead of TCGETS2)?
+
+
+I think this should be fixed both in glibc, to make the definitions
+coherent, and in man-pages to not use those Linux-only headers where
+it is not necessary and then on a second stage to point back to the
+portable headers once glibc has been fixed?
+
+Thanks,
+Guillem
