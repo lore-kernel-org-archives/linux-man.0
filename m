@@ -1,144 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E308C3C584A;
-	Mon, 17 Aug 2026 09:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B905D3B811F
+	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 09:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786957667; cv=none; b=uS97pgpDhHm0Xt1ZwXbozIlIPICVGuxLNdh2+PvX8Oj1rE5knkv/2At8ggGptQWihZk3uvNUM5OYMw3Ix2Hhe8WnktFiYKUKFATcX6RzHvXkTZv+5ht0HaCGekExeoVrD1vAskP2qvIS86CqBKdzwvHoRIIVkF5lIJwyUrQEmCw=
+	t=1786958646; cv=none; b=V2IdE6ZKlG/3GX9RILCXKVW9LIlefy64ZVoRV4RhsBsh9NIadtsCXNuBNDgRSrhmO2Km0BrEnJ/EXqPKQjazVU90nR33MXYDCI3zDxx96rzmHqvuSiOtkSZT5gF06dpQJjjdnpjyun/eaf5Av5rrwurBcPHrxvX3ejC+WAafY7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786957667; c=relaxed/simple;
-	bh=yuM7Pc9ufTXn9qOIvN/26Y3rOIQ+uSq7I6+Q+2GsoWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sS3CN1dsQPVegZmjSJKhm3HsB2XoM8koGxRIqk91hNzWAFJBdhA2DI58oqfw9rIjKhQe5jZZBs7ckVTfo8yQOmDO6OqE/c2rpu8XZtkpMA8UgEcHmykRjzrNUJUtdGxaZ99PTUP73DXYK+YJollrwIQH2KKBr4Nfzw2pwXhWx9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RuePoHOo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786958646; c=relaxed/simple;
+	bh=/arUInePj3DiwBQwiz/doe0q6gHIToy8tzb/iVO2Ro8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=hKbWwvfGUorZ9h5/pwzjFZ/iQFBPkHIMsu5oRm9cBkrddbda6rlIRzdMvdmci8XQp0OPIgy5QB99WloENuhI09NGixQYje+RiW3at9QudD8L/MS/JEvCZaO+YY5aQD4ErsCdevgWuZZmqXRB6eQPkKaG2rho7xMyhWDbcZkqALU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DAjrLOU3; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuePoHOo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA821F000E9;
-	Mon, 17 Aug 2026 09:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786957665;
-	bh=xwGT5tJCo6zhs0YfuUdogV7G+8vkarwnSczPrBXPfrU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RuePoHOojFgF5YA2p4N4ykmdSI2kKb6EKvHaGYqoxDMQU8fszmikh/RvRAnq7eXgp
-	 x5RJFQrpG4qQVidpeDYeq33iMD6qVdzIo4+6ZyF3ltKZBpmwF6yuU3BmgOxs/YN/NV
-	 pF/z6YRnNFI1xX9NjDRohIIHLaPTlVy3QxaqQnwOVZTP/Yj9I0V5KoXvma9leCGhkP
-	 MfUBXT+7XlYE2cAJYn64OUPAjK33AZACIF0nfH6h8J8PLWaFmnRKg9tQGp83ezaSVs
-	 v1DXQZcXLpfo0QtEtnwoy4z6qBF+R3Qi+JiAvTsXTpbhQZNchBVIy4ElI6/1V4IqnH
-	 kEwcjE0tJjq5g==
-Date: Mon, 17 Aug 2026 11:07:38 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
-Message-ID: <aoLOb0tixHee3AkZ@debian>
-References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DAjrLOU3"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 67H9NjMo899782
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 17 Aug 2026 02:23:46 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 67H9NjMo899782
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026072801; t=1786958626;
+	bh=KN/FrJQN87yduGwl8irQfOez0bRgT42AScnWJJWkEco=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=DAjrLOU33WQ+KFF+0+MDg/+KD+IN621HlamOO4Y7GaXjuyt2gm+J+9CfWXzeznjO/
+	 Rx0oZMkBgNAB5xt3hD/p0ok4J/wi3Lt+xkwDT9W5rGe7UWYR2PZiOfaKPDEx6daOcp
+	 937e64HKR6t25LbDiC2waCfAGtOZlItblxcpxBSlISEfgl8Sg8ft2z3YdVRqYOGN6K
+	 gZj4+9I8fqesPi0S6J/r+Hj4o2EfVXmThmaiVGyzxfGCXz+9hr1sRQQkIMaTdyWydU
+	 4ZYxjP1YAm5LD3egzjWISq44tq7DXazBp8J8kk5i7HZ3aMeww5QNDxvsio1nz3PMX6
+	 DUh+8TdhX8ZOw==
+Date: Mon, 17 Aug 2026 02:23:39 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Alejandro Colomar <alx@kernel.org>
+CC: =?ISO-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
+User-Agent: K-9 Mail for Android
+In-Reply-To: <aoLOL-1JRTElewuP@debian>
+References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org> <20260816121505.jyz3ynrb3rxlvq6h@pali> <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org> <20260816131955.lbuwrp32eyq4rt4b@pali> <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com> <aoLOL-1JRTElewuP@debian>
+Message-ID: <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ar2etpy3xot6qf2d"
-Content-Disposition: inline
-In-Reply-To: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
-
-
---ar2etpy3xot6qf2d
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Bhavik Sachdev <b.sachdev1904@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH] man/man2/statmount.2: Fix incorrect function signature
-Message-ID: <aoLOb0tixHee3AkZ@debian>
-References: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20260815074526.1094308-1-b.sachdev1904@gmail.com>
 
-Hi Bhavik, Josef,
-
-> Date: 2026-08-15 13:15:26+0530
-> From: Bhavik Sachdev <b.sachdev1904@gmail.com>
+On August 17, 2026 2:03:09 AM PDT, Alejandro Colomar <alx@kernel=2Eorg> wro=
+te:
+>Hi all,
 >
-> flags argument is an unsigned int not an unsigned long [1].
->=20
-> [1]:
-> <https://github.com/torvalds/linux/blob/master/fs/namespace.c#L5961>
+>> Date: 2026-08-16 12:49:59-0700
+>> From: "H=2E Peter Anvin" <hpa@zytor=2Ecom>
+>>
+>> On August 16, 2026 6:19:55 AM PDT, "Pali Roh=C3=A1r" <pali@kernel=2Eorg=
+> wrote:
+>> >On Sunday 16 August 2026 10:03:24 Adhemerval Zanella Netto wrote:
+>> >> On 16/08/26 09:15, Pali Roh=C3=A1r wrote:
+>> >> > On Sunday 16 August 2026 13:54:24 Guillem Jover wrote:
+>> >> >> Hi!
+>> >> >>
+>> >> >> I was just refreshing my mind about documentation around TIOCGWIN=
+SZ,
+>> >> >> and noticed the weird <asm/termbits=2Eh> and <asm/termios=2Eh> us=
+age in
+>> >> >> various ioctl man pages=2E
+>> >> >>
+>> >> >> These originate from commit c023614536251bd6b47a0eab45ab3bcfd2ad9=
+ec2,
+>> >> >> where it states that the =C2=ABstruct termios=C2=BB definitions i=
+n the
+>> >> >> <termios=2Eh> header are incompatible with the defined ioctl call=
+s=2E
+>> >> >>
+>> >> >> This seems problematic, for one because the <asm/*> headers are L=
+inux
+>> >> >> specific, so they reduce portability for all these macros, even w=
+hen
+>> >> >> they do not rely or make use of =C2=ABstruct termios=C2=BB=2E For=
+ another because if
+>> >> >> there is a problem in glibc with the interaction between =C2=ABst=
+ruct termios=C2=BB
+>> >> >> and the ioctl calls, then that should be fixed in glibc, instead =
+of
+>> >> >> adding these workarounds in the man pages=2E
+>> >> >>
+>> >> >> It seems the problem is that in glibc =C2=ABstruct termios=C2=BB =
+maps to the Linux
+>> >> >> =C2=ABstruct termios2=C2=BB, but the macros for ioctls that use =
+=C2=ABstruct termios=C2=BB
+>> >> >> do not match (for example TCGETS instead of TCGETS2)?
+>> >> >>
+>> >> >>
+>> >> >> I think this should be fixed both in glibc, to make the definitio=
+ns
+>> >> >> coherent, and in man-pages to not use those Linux-only headers wh=
+ere
+>> >> >> it is not necessary and then on a second stage to point back to t=
+he
+>> >> >> portable headers once glibc has been fixed?
+>> >> >>
+>> >> >> Thanks,
+>> >> >> Guillem
+>> >> >=20
+>> >> > Hello! The main problem is that glibc has different API and ABI fo=
+r
+>> >> > termios functions and structures than the raw Linux syscalls=2E
+>> >> >=20
+>> >> > And at the same time glibc does not provide API for all functional=
+ity
+>> >> > which Linux syscall provides=2E
+>> >> >=20
+>> >> > And POSIX, nor GNU does not provide functions / API for setting
+>> >> > arbitrary baudrate on the tty device=2E
+>> >>=20
+>> >> From NEWS:
+>> >>=20
+>> >>  464 Version 2=2E42
+>> >>  [=2E=2E=2E]
+>> >>  481 * On Linux, the <termios=2Eh> interface now supports arbitrary =
+baud rates;
+>> >>  482   speed_t is redefined to simply be the baud rate specified as =
+an
+>> >>  483   unsigned int, which matches the kernel interface=2E
+>> >
+>> >Nice! So it was finally done=2E
+>> >
+>> >> >=20
+>> >> > So all this functionality and information in the manpage are Linux
+>> >> > specific, they are not portable=2E
+>> >> >=20
+>> >> > Therefore in this case it is necessary for Linux specific thing to=
+ use
+>> >> > Linux-only headers=2E
+>> >> >=20
+>> >> > When I was looking at it in the past, I had feeling that glibc can=
+not
+>> >> > easily fix it because it would break existing glibc ABI and contra=
+ct for
+>> >> > all existing applications=2E
+>> >>=20
+>> >> It turned out to be doable, speed_t was already an unsigned int, old=
+ binaries
+>> >> and the legacy Bxxxx bit-pattern values remain accepted for compatib=
+ility=2E
+>> >>=20
+>> >> The struct termios ABI was preserved (the kernel conversion happens =
+inside
+>> >> tcgetattr/tcsetattr)=2E
+>> >>=20
+>> >> There was one regression in the transition (BZ 33340, non-standard b=
+aud handling
+>> >> of CIBAUD), fixed for 2=2E43 by 8d999a69936=2E
+>> >>=20
+>> >> >=20
+>> >> > But once glibc provides API for setting the arbitrary baudrate on =
+tty
+>> >> > device, we can improve the manpages=2E But as this did not happene=
+d
+>> >> > for 30 years (in past I saw that there were some attempts), I doub=
+t that
+>> >> > it would be in near future=2E It is not easy thing=2E
+>> >>=20
+>> >> The incompatibility we have is glibc and kernel struct termios have =
+different
+>> >> layout, so mixing them is a recipe for trouble=2E
+>> >
+>> >Yes, this is what I remember that there are two structures with same
+>> >name but different layout and I was passing the wrong one to ioctl and
+>> >it did not worked=2E
+>> >
+>> >> Kudos to H=2E Peter Anvin for this work=2E
+>> >
+>> >Thank you very much for this work=2E
+>>=20
+>> It is not just the structure but the Bxxx and several other constants a=
+s well=2E My advice is to use <linux/termios=2Eh> in a separate translation=
+ unit if one is to use the ioctl interface directly=2E=20
+>>=20
+>> It is *also* important to note that not all platforms have the TC*ETS*2=
+ ioctls, and on powerpc the ioctl numbers in glibc are different=2E Virtual=
+ly all code I have seen gets this wrong, together with the handling of CIBA=
+UD=2E
+>>=20
+>> glibc now also has an explicitly numeric interface, with -baud instead =
+of -speed; the hope is that POSIX will eventually adopt that interface too=
+=2E
+>
+>So, any suggested changes to the manual pages?
+>
+>
+>Have a lovely day!
+>Alex
+>
 
-Thanks!
-
-> Fixes: c011cc992510 (2024-07-09; "statmount.2: Add page")
-
-Please CC the people involved in that commit.  (I've done it now.)
-
-> Signed-off-by: Bhavik Sachdev <b.sachdev1904@gmail.com>
-> ---
->  man/man2/statmount.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man/man2/statmount.2 b/man/man2/statmount.2
-> index b6d9dc2a1..a365002dd 100644
-> --- a/man/man2/statmount.2
-> +++ b/man/man2/statmount.2
-> @@ -16,7 +16,7 @@ Standard C library
->  .P
->  .BI "int syscall(SYS_statmount, struct mnt_id_req *" req ,
->  .BI "            struct statmount *" smbuf ", size_t " bufsize ,
-> -.BI "            unsigned long " flags );
-> +.BI "            unsigned int " flags );
-
-LGTM.
-
-$ grepc -tfld statmount . | head -n4
-=2E/fs/namespace.c:SYSCALL_DEFINE4(statmount, const struct mnt_id_req __use=
-r *, req,
-		struct statmount __user *, buf, size_t, bufsize,
-		unsigned int, flags)
-{
-
-
-Josef, was it just a typo, or is there anything that needs checking?
-
-
-Have a lovely day!
-Alex
-
->  .P
->  .B #include <linux/mount.h>
->  .fi
-> --=20
-> 2.53.0
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---ar2etpy3xot6qf2d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqCz1oACgkQ64mZXMKQ
-wqkHEw//e6snaLK/8FrcBF5CzGW2CldFqAHQsDCGSHKUd9OCV34jy5h2PL6YMS34
-VDlgKLvAMRHS0hJnJbgtudGAEEgNRHYwWHDqLZXyeL7q+vAmhp9lUUTBFe1FlGLt
-KUIXC/U2o9tUtCJDGargmYCII9GyUs63+fhgJbCZut01r0x2K5ec1KzyDLnK30am
-onHfBZ6u6uj62tq1PPtg8fdrqxqbRZkUw8uU9Fl4lpb4cZz4ZcHTKNrYM0caebnC
-hIttdlANhUetugsA84htE1/diQiPMcaQ8+1Y6c8qMQxvWt7hNrHpBexvoWg1vAL6
-uIL5vrlPx1vPOaQeblbXnt6OtpO99mooGj+AwvMF95yLPHgGHBsFhYA9HaFrvvsy
-0hXpNnFi0x5au0k72UH+BMvoWp9BRMoKRHpra8o4hw/fwRKs5u3azNPPaHaAa3+q
-lpki2li7wALzIbI6edrWAIdi/VLshne9+26fqsuSUYdKl2QSy2dH6IpaOKsxGY1l
-hdNYQ9aPpYzLz90ly/8+pD0AjIcp9Kndq9unWotv6B7UM82yzlnlfwS204XNC5eL
-At6dD4+YwdLkQcPlf4wyKNrmbEvoVJPKHtPBthNaBUbm7R+HO+Fcjn395aSnRNEL
-mDMlQ229Vcij2DwKttDK2+R2i3fKK7Ef5SeRGr8rQ+bVlAa7AU4=
-=S4v5
------END PGP SIGNATURE-----
-
---ar2etpy3xot6qf2d--
+Didn't we talk about this about two months ago?
