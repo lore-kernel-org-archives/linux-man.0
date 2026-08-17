@@ -1,127 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122673AB47E
-	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 09:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786960397; cv=none; b=YMqsICk4qO9KUJm1pBtrttmdVTkEEQOGFncylTmOQ7x3VS0TVQW3yymw85rDt0AVhJk1TU+Px3xZ/fsPaIruRjFpq68ANylzPHzul5NP952eOvDJiZgFsck5sBJQPBgB2PajPlRMYof02Y8YKIZ38xbxU/NHp9NyasRiHYQfKbg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786960397; c=relaxed/simple;
-	bh=t1lSHLWCCVatD5coP1dXEmKfWXMOKSVq0gp+tnv23mY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPutLQDlL9D2sRYujNDToPyWqPZFuVp9m6uXvsOCwYQALOqQzrxid0RyJJPFjuyKoJRmkHniF/dfd8DoLXHilprAD+s+2hSbiyZL3oY+Rxdix7q8oXQSRB/rvMh0163JNRzRCvEO57yub5khYpxYtlWuWA0Gn+cWj7yoXtea16E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MfmW3OPa; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CDD430319
+	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 13:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786972668; cv=pass; b=ndbJleQOv5etNOwOFsG0Th1uXwncD16VyqsLxjs2tuIEoMWGW1Quy2DWHlAS2BNNAWGFryPvpZn9o95arUI2VuHND9qtgs4gv0No4vYeeu2H+KeuN8lMgKOS5ERQ9mxcO9Uoir3fsxpZ3GBm0e3c/rPQIBOjydcWZuimO0JBaB0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786972668; c=relaxed/simple;
+	bh=gvoy17DxHZHsJ536T/1pWurAj4mte7olx0dhYy/cL+k=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=fkz6clQdvGv3ypvbS7lvqux7EuR84BxL1r/UZj+VF7SHMc5ia2HG/A3gtDZkxh8Gov2i23q/G3VX6UvfevNTP/d7neoBT9dCnyxo1/P4m8B4Ee7Dv9TCFReFzOD3s+b4t8MAPht3LF0G0dTglZFLBIyjwtrS127pe4UM+v9gSmY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=parenting-central.com; spf=pass smtp.mailfrom=parenting-central.com; dkim=pass (2048-bit key) header.d=parenting-central-com.20251104.gappssmtp.com header.i=@parenting-central-com.20251104.gappssmtp.com header.b=xOyxx9VA; arc=pass smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=parenting-central.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parenting-central.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MfmW3OPa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F20AA1F000E9;
-	Mon, 17 Aug 2026 09:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786960395;
-	bh=xKcLPjLuR+t91O4SpWm87xynU7bHlT2vPKxhCLj5OC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MfmW3OPaVSJwlukPTlCbP3OJ1cKv/9t4zhfKpdJ2SkVxBUPUU21hfcOY5KhkLLTDT
-	 ifZYmx55cFnWg5SErfC5XtWYAXA/iPoPuvroqIqElSaFjjyCgoAyDERC5osMJ8Y+x9
-	 ePhSz2FfI6ofWFtaU+SPdbh7GMoXULlNEpIc8AaYFx+b9i6L28a1WTp79LX/bk08yZ
-	 Mhzc/UcDskoBn67qLyb/f1rERVvHa1ZDne1DHHP2vMsBaCeGI2iiEXBMBSOvezN/GQ
-	 hLoBYlrk2EVELSsoeYujsfGIxk6J7nknQpgLbCPrmAar2e/BuFcSXvZ36+3IzHrHeM
-	 AFdVTXEsGSybw==
-Date: Mon, 17 Aug 2026 11:53:09 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org, 
-	libc-alpha@sourceware.org
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-Message-ID: <aoLY9Oko02NzSsuV@debian>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
- <20260816121505.jyz3ynrb3rxlvq6h@pali>
- <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org>
- <20260816131955.lbuwrp32eyq4rt4b@pali>
- <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com>
- <aoLOL-1JRTElewuP@debian>
- <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
+	dkim=pass (2048-bit key) header.d=parenting-central-com.20251104.gappssmtp.com header.i=@parenting-central-com.20251104.gappssmtp.com header.b="xOyxx9VA"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso5067626a91.1
+        for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 06:17:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786972666; cv=none;
+        d=google.com; s=arc-20260327;
+        b=b2Vvg0jao0aTn9IWNqsfINcg5ZflP6y8VpSuiG7OlLUv9SJRYGpp60w+7NpIBvl/tv
+         JRElUxgvQBH5tOD4DQ18o/VgzCuMrOj3/YmSj1AScJdFwz8FQjWFtB7TkubH2CgTNE81
+         h8vBpqeaZW0HLKZ4qCF17hymVXj7z5Eq2+B9cw+7MI77Xmb4W4ExcftYLoF2Ib2P9XTA
+         GGZEguIer/tpn3GpwBiTctTo5wHg5f8YwiGyD3phhffcHhFmbQGZ/we7Ycy08cryLfkS
+         wQtAZuK/e+lW7UfRlpHlj1U6o0gaaLnkB9Jj56diQ11qesWAONWt/4deVsO0JR8vC6oL
+         LJpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=gvoy17DxHZHsJ536T/1pWurAj4mte7olx0dhYy/cL+k=;
+        fh=OclAtLKJTQTIvPXBcbgjquIcuF1L0TED2I15vb2Dds8=;
+        b=kLoPxhRVjWKfSGC8ozlkRCi6JHk/AuutkImdgr5nJrCtJjS0+sSwCrTGR54lpSRBuC
+         n+m+sO+x56hvuZLocp02kqDu0OgZIwnSJlKqi8ECJ/ODqBfue9TsLKpg5qTo2MouSrSk
+         zi0Ii7N8mMTIuuErhyvEF1ugdvj6KFJdM/COzJyuy5lpalNkYlmWxENYq4g9HkKrLcmN
+         i/cQH2osgCQ3kAyZOhwxjDCt1YtUTaekUAgWwEIsURMYsnO+XBrhzUV/Gye7ZPwvaqnc
+         yd3anYhAYBWEuTi1WhAlZXVFC0isvooaWSI59vQZjhuAkkjHwAopEVOBFgLsaLSwLweD
+         E9JA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=parenting-central-com.20251104.gappssmtp.com; s=20251104; t=1786972666; x=1787577466; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=gvoy17DxHZHsJ536T/1pWurAj4mte7olx0dhYy/cL+k=;
+        b=xOyxx9VAAadhqwlTo5eoxAz0rRkYI2d6PGUJ5TtRYR4dToJljS5scu9cv1a+qS6MMU
+         YG/BxM4SWQaLCozrbrkAqncYFBIysQAlvOKT6nLeU0yDvHbMNLiasYRaC+f2oTZPx4xx
+         0/rNXzI1bSWpucyPaekTQNpFAoNwm9WQl2eDiNCcPydOgldBTMGFi4Bj4Me/ATmEUB51
+         QqNdr8pgRYQa+coueOQ+3v9xw1GRpks557M/qcKkAa/GpwiEjKu9+FxNbbeQZHUCMy5j
+         4O6exyMcPTCQntGplqDMUzibpKD5wdQCr/YCUwZPNxXQ7R5p4lfJ72mfaBDv22Qtk85j
+         2xiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786972666; x=1787577466;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gvoy17DxHZHsJ536T/1pWurAj4mte7olx0dhYy/cL+k=;
+        b=nLyPtSpDau/TWxeV6ZH1uGo9J39QuzBQwomhNBoaD8t81VFJCLNXZSOY3jKHk92dMW
+         8FqguWt876dbm9lDsI3EpDn30Thmgz2HDxOeiwzRzwXfxFmEu9jXzHzIDKMBtU0qMtG8
+         LJ48yUlJxrc41+8+jpjQ/7gynHWKLtP6CWAuNf8iHKmTNDb2E5H3WEwrmYjYUfUecQ+U
+         eMMwTQOl2SDAHsNxSWBrzdcRy28VQtkDZUAsK5Rm6ZErSMS/ajKI4WlxB4p0EyKgUZaZ
+         hPTxUBK6Vc9dAtnDRZJav9hDVv82FAWZhnGL2RO8CGhFTLJ8s8uA4s7cIiqakUL9mYyD
+         HMLg==
+X-Gm-Message-State: AOJu0YyVmeRIGQLyfZrPDKzEk+IC4IqD3DPzjAsOqhSUsen+zfNsrIZH
+	ttbjovf+v8yDySFq4EbO+S/gNLY+fwpEjQOw76j+j0ViNFhlROto2onK8VWsNhzJyyfpyCjYWYB
+	ajzBpgLI2UNCcO8eYF8DF9IceJ8MizfdZMrZ3relePUAHi7BqLL3W
+X-Gm-Gg: AR+sD10idFuot1jUKJjvK6sxlrlnjqBLiAr+tmwj7SOO8YkttK33j8tqzbGZ1oVRtlD
+	q3+EzbMB7nsVcNwjwiPuw5nPWUBBOIOudorsgI4x53K8UbnmkH4AdEGGPgDQlSF8LBL0Fhpwjwg
+	gGtPVqgJrhM06z4J4Ndnm1ETfvcmI96zMjONV2HFK1+qNEWwgfYRhs63OsPVSARsJJ4rJf4kQjc
+	tQV496MOv3vh/23SjpcmGr55yHrzEFIm1hNGPt+o+NfuP3KLwaK8JRH4VBV/vKRVcogDC7x13w3
+	vK1bALGnRef+P/WAPnywOZ2rr9gWAkklxKglULihYg==
+X-Received: by 2002:a17:90b:48ce:b0:390:b41a:b92b with SMTP id
+ 98e67ed59e1d1-3933b6d05c3mr27871113a91.4.1786972666599; Mon, 17 Aug 2026
+ 06:17:46 -0700 (PDT)
+Received: from 1001290214511 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 13:17:45 +0000
+Received: from 1001290214511 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 13:17:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jngtsmc5nnzen244"
-Content-Disposition: inline
-In-Reply-To: <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
+From: Cassidy Gibson-Cooper <cassidy@parenting-central.com>
+Date: Mon, 17 Aug 2026 13:17:45 +0000
+X-Gm-Features: AcwNN1WhHOYq8UX9MZw7EOJ8F0XVNEYzyodAEDZchD0J9EXy-j21D9nbZmIBTn0
+Message-ID: <CAKqLQ67Z6s+Ugf=tApQSqDrnbhFNtQHZhiwGHrJ9KP95kQ32HQ@mail.gmail.com>
+Subject: Checking in on our article offer
+To: linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
---jngtsmc5nnzen244
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org, 
-	libc-alpha@sourceware.org
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-Message-ID: <aoLY9Oko02NzSsuV@debian>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
- <20260816121505.jyz3ynrb3rxlvq6h@pali>
- <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org>
- <20260816131955.lbuwrp32eyq4rt4b@pali>
- <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com>
- <aoLOL-1JRTElewuP@debian>
- <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
-MIME-Version: 1.0
-In-Reply-To: <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
+I wanted to follow up on our previous email about providing an article
+for your website on relocating with children. We believe it could be a
+valuable resource for your audience and would love the opportunity to
+contribute.
 
-Hi H. Peter,
+If you already responded, thanks for that and sorry for the repeat.
 
-> Date: 2026-08-17 02:23:39-0700
-> From: "H. Peter Anvin" <hpa@zytor.com>
->
-[...]
-> >So, any suggested changes to the manual pages?
-> >
-> >
-> >Have a lovely day!
-> >Alex
-> >
->=20
-> Didn't we talk about this about two months ago?
-
-Yes, I pushed an extensive set of changes to the manual pages, splitting
-termios(3) into many small pages.
-
-I'm now waiting for your patches to the smaller pages.  I've replied to
-that old thread too.
-
-
-Cheers,
-Alex
-
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---jngtsmc5nnzen244
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqC2gQACgkQ64mZXMKQ
-wqkM1RAAluRIraVu3gFc4k8MNM/tPiHIan3h+4eVVYUEEmaHv0oYZ2yZXp/rnQqT
-npujQcX5gj2pJsd/JyuXSODHPwQDbgCo5XWjlKWnvDXvAzK0ZLrvzKoJxS1Ctb7W
-CViUZa/nY4EXt7BAziguG4F86r932gIDbFl8QghkbT53dT8XtesDisgd62ZTHINp
-OyfSqiUoCXeq1JyCaTEvZcsWaxOXJnifiNXKxK4p//ZDctKRlnOzUayQS68ZrXrc
-cyR7LPp5c86SABk3ECRx82FsxHNAGBEE5b/a3AIAncm3yN3J7B1k2K8tst3Y+4wS
-WjOnsitdVB9Sn6LO6gl6HwJl3vapbcwffZXJIATGbA8hW3N9CioWLnDfDUMLAtf0
-/YuhAD0E1G9Gavw3/ciLUn74NO7T9ArwzgSMNro6heksSMzxcdUv9NBWHJFy1IJU
-Fz/B5SfM9hg6PXakiMo6LML4JRhi4+HHKyHpmTNKk0HU68coiEODMaq3PSzP9KeS
-SrSfEqHb/T6Rm5H6vbhd4ZxvAh/MwDxfFslCYPsQjDHpj1xuPny2p35St59kDHOG
-3myY5xuT/TDzoQo7wv0Kw6t4hQ/eX0fK4d/P9YoGkqRulAYldE0uJaOcn0OmhbJb
-R/1ENV4QjYBevW7liRivVpMOTJCveAE1/X2hV6Hk9C0oGdlFuRA=
-=Jkm2
------END PGP SIGNATURE-----
-
---jngtsmc5nnzen244--
+Best,
+Cassidy and Tim Gibson-Cooper
