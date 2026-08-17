@@ -1,205 +1,238 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B905D3B811F
-	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 09:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1616A377A98
+	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 09:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786958646; cv=none; b=V2IdE6ZKlG/3GX9RILCXKVW9LIlefy64ZVoRV4RhsBsh9NIadtsCXNuBNDgRSrhmO2Km0BrEnJ/EXqPKQjazVU90nR33MXYDCI3zDxx96rzmHqvuSiOtkSZT5gF06dpQJjjdnpjyun/eaf5Av5rrwurBcPHrxvX3ejC+WAafY7U=
+	t=1786960382; cv=none; b=U64ci9eE0hbb5hNyq47yKgBI4P/MDsKtJhKjA7lmQ5G9Y2Q+aloMfTZ+JuqhWufHdp5G3TH6ewrHS7v9g54ae9NUlZhR/jO6dMBDoyqx0YR5RpaCXfHnu3q2VBTYrVesVIKQ2pv1IeJYS5b3mSn0rNl1AALuoe5/gmC2g7QceJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786958646; c=relaxed/simple;
-	bh=/arUInePj3DiwBQwiz/doe0q6gHIToy8tzb/iVO2Ro8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=hKbWwvfGUorZ9h5/pwzjFZ/iQFBPkHIMsu5oRm9cBkrddbda6rlIRzdMvdmci8XQp0OPIgy5QB99WloENuhI09NGixQYje+RiW3at9QudD8L/MS/JEvCZaO+YY5aQD4ErsCdevgWuZZmqXRB6eQPkKaG2rho7xMyhWDbcZkqALU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DAjrLOU3; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1786960382; c=relaxed/simple;
+	bh=lyUSVSd83MVEPmIy+WJsWgex5j4U8j50uyRo9m/5e3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7GR0RajHijsJiH5aV9LRpL2CaavFIAOIonBvADM51bGOV3dCKY2NpqomJ95HyvZGwPZAoY13tiV2YeOByTVWeXHj3dmpsX/hk4ThD8LKsZCwmMeA+leybBrGDei4k3Xt6moDb6kmwOY4ivBZSti/xiwQSqYqI18KOtaJP52PM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1seslML; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DAjrLOU3"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 67H9NjMo899782
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 17 Aug 2026 02:23:46 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 67H9NjMo899782
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026072801; t=1786958626;
-	bh=KN/FrJQN87yduGwl8irQfOez0bRgT42AScnWJJWkEco=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=DAjrLOU33WQ+KFF+0+MDg/+KD+IN621HlamOO4Y7GaXjuyt2gm+J+9CfWXzeznjO/
-	 Rx0oZMkBgNAB5xt3hD/p0ok4J/wi3Lt+xkwDT9W5rGe7UWYR2PZiOfaKPDEx6daOcp
-	 937e64HKR6t25LbDiC2waCfAGtOZlItblxcpxBSlISEfgl8Sg8ft2z3YdVRqYOGN6K
-	 gZj4+9I8fqesPi0S6J/r+Hj4o2EfVXmThmaiVGyzxfGCXz+9hr1sRQQkIMaTdyWydU
-	 4ZYxjP1YAm5LD3egzjWISq44tq7DXazBp8J8kk5i7HZ3aMeww5QNDxvsio1nz3PMX6
-	 DUh+8TdhX8ZOw==
-Date: Mon, 17 Aug 2026 02:23:39 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Alejandro Colomar <alx@kernel.org>
-CC: =?ISO-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-User-Agent: K-9 Mail for Android
-In-Reply-To: <aoLOL-1JRTElewuP@debian>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org> <20260816121505.jyz3ynrb3rxlvq6h@pali> <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org> <20260816131955.lbuwrp32eyq4rt4b@pali> <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com> <aoLOL-1JRTElewuP@debian>
-Message-ID: <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1seslML"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FE11F00A3A;
+	Mon, 17 Aug 2026 09:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786960380;
+	bh=VUbUO1RyORVTjBvqVhrmcn6Zk5UVGB9ThFW/wnuqiGo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=P1seslMLO98d3OJ3n0Swp3tKKSiEO4xgR1VmGuMN8kCzB8OW3bN2BMqIlV+RpyWEN
+	 ISCq8wBBs2jMtOjubt/r55+UkHD2zA9Tnev5tebAxwJKYrqaKVxdXEnTMhWG7SznKp
+	 GU2/MhsmM5/MIuwC2sG4W2CgqZSODBBwUGYpsRpTHqBi0q0q3Oq/wtopWJu3iXRlMD
+	 H0hZTFGsO7xnr1Wic6FEqwPMliLW4ySbDnRR085mltGX6+T7cZ/YW4P0yhb7cZ0hfX
+	 xuDm/3AbbqvvRQt1JhV8XPlSMczvJ59ajoX9D8aLWFuj74eeLGYZHR/ak6rAKnT0qv
+	 aFFGJaOnHRNfQ==
+Date: Mon, 17 Aug 2026 11:52:54 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: Re: [PATCH v2 1/4] man/man3*: document the glibc 2.42+ baud_t
+ termios interface
+Message-ID: <aoLZuTZjb1L-4CVe@debian>
+References: <20260629135910.143781-1-hpa@zytor.com>
+ <20260629135910.143781-2-hpa@zytor.com>
+ <akOL9gQovBTRQ3VW@devuan>
+ <da42ba8e-782c-4b42-bcd7-ed089780acb1@zytor.com>
+ <akQw0mjXu4yTzofX@devuan>
+ <76055054-9902-4cd8-87e5-d2745ae2b261@zytor.com>
+ <akUn-T3OpyEAhm5B@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="unirnmcu4kw6fw76"
+Content-Disposition: inline
+In-Reply-To: <akUn-T3OpyEAhm5B@devuan>
+
+
+--unirnmcu4kw6fw76
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: Re: [PATCH v2 1/4] man/man3*: document the glibc 2.42+ baud_t
+ termios interface
+Message-ID: <aoLZuTZjb1L-4CVe@debian>
+References: <20260629135910.143781-1-hpa@zytor.com>
+ <20260629135910.143781-2-hpa@zytor.com>
+ <akOL9gQovBTRQ3VW@devuan>
+ <da42ba8e-782c-4b42-bcd7-ed089780acb1@zytor.com>
+ <akQw0mjXu4yTzofX@devuan>
+ <76055054-9902-4cd8-87e5-d2745ae2b261@zytor.com>
+ <akUn-T3OpyEAhm5B@devuan>
+MIME-Version: 1.0
+In-Reply-To: <akUn-T3OpyEAhm5B@devuan>
 
-On August 17, 2026 2:03:09 AM PDT, Alejandro Colomar <alx@kernel=2Eorg> wro=
-te:
->Hi all,
+Hi H. Peter,
+
+> Date: 2026-07-01 16:53:34+0200
+> From: Alejandro Colomar <alx@kernel.org>
 >
->> Date: 2026-08-16 12:49:59-0700
->> From: "H=2E Peter Anvin" <hpa@zytor=2Ecom>
->>
->> On August 16, 2026 6:19:55 AM PDT, "Pali Roh=C3=A1r" <pali@kernel=2Eorg=
-> wrote:
->> >On Sunday 16 August 2026 10:03:24 Adhemerval Zanella Netto wrote:
->> >> On 16/08/26 09:15, Pali Roh=C3=A1r wrote:
->> >> > On Sunday 16 August 2026 13:54:24 Guillem Jover wrote:
->> >> >> Hi!
->> >> >>
->> >> >> I was just refreshing my mind about documentation around TIOCGWIN=
-SZ,
->> >> >> and noticed the weird <asm/termbits=2Eh> and <asm/termios=2Eh> us=
-age in
->> >> >> various ioctl man pages=2E
->> >> >>
->> >> >> These originate from commit c023614536251bd6b47a0eab45ab3bcfd2ad9=
-ec2,
->> >> >> where it states that the =C2=ABstruct termios=C2=BB definitions i=
-n the
->> >> >> <termios=2Eh> header are incompatible with the defined ioctl call=
-s=2E
->> >> >>
->> >> >> This seems problematic, for one because the <asm/*> headers are L=
-inux
->> >> >> specific, so they reduce portability for all these macros, even w=
-hen
->> >> >> they do not rely or make use of =C2=ABstruct termios=C2=BB=2E For=
- another because if
->> >> >> there is a problem in glibc with the interaction between =C2=ABst=
-ruct termios=C2=BB
->> >> >> and the ioctl calls, then that should be fixed in glibc, instead =
-of
->> >> >> adding these workarounds in the man pages=2E
->> >> >>
->> >> >> It seems the problem is that in glibc =C2=ABstruct termios=C2=BB =
-maps to the Linux
->> >> >> =C2=ABstruct termios2=C2=BB, but the macros for ioctls that use =
-=C2=ABstruct termios=C2=BB
->> >> >> do not match (for example TCGETS instead of TCGETS2)?
->> >> >>
->> >> >>
->> >> >> I think this should be fixed both in glibc, to make the definitio=
+> Hi,
+>=20
+> On 2026-06-30T15:01:02-0700, H. Peter Anvin wrote:
+> > On 2026-06-30 14:17, Alejandro Colomar wrote:
+> > > >=20
+> > > > However, doing that using the broken-up diffs that you want would b=
+e very
+> > > > difficult at least for me, as I'm neither particularly comfortable =
+with troff
+> > > > nor a good technical writer, plus that this is a "spare time" proje=
+ct for me.
+> > > > I would be willing to try to submit such a rewrite, but if that mea=
 ns
->> >> >> coherent, and in man-pages to not use those Linux-only headers wh=
-ere
->> >> >> it is not necessary and then on a second stage to point back to t=
-he
->> >> >> portable headers once glibc has been fixed?
->> >> >>
->> >> >> Thanks,
->> >> >> Guillem
->> >> >=20
->> >> > Hello! The main problem is that glibc has different API and ABI fo=
-r
->> >> > termios functions and structures than the raw Linux syscalls=2E
->> >> >=20
->> >> > And at the same time glibc does not provide API for all functional=
-ity
->> >> > which Linux syscall provides=2E
->> >> >=20
->> >> > And POSIX, nor GNU does not provide functions / API for setting
->> >> > arbitrary baudrate on the tty device=2E
->> >>=20
->> >> From NEWS:
->> >>=20
->> >>  464 Version 2=2E42
->> >>  [=2E=2E=2E]
->> >>  481 * On Linux, the <termios=2Eh> interface now supports arbitrary =
-baud rates;
->> >>  482   speed_t is redefined to simply be the baud rate specified as =
-an
->> >>  483   unsigned int, which matches the kernel interface=2E
->> >
->> >Nice! So it was finally done=2E
->> >
->> >> >=20
->> >> > So all this functionality and information in the manpage are Linux
->> >> > specific, they are not portable=2E
->> >> >=20
->> >> > Therefore in this case it is necessary for Linux specific thing to=
- use
->> >> > Linux-only headers=2E
->> >> >=20
->> >> > When I was looking at it in the past, I had feeling that glibc can=
-not
->> >> > easily fix it because it would break existing glibc ABI and contra=
-ct for
->> >> > all existing applications=2E
->> >>=20
->> >> It turned out to be doable, speed_t was already an unsigned int, old=
- binaries
->> >> and the legacy Bxxxx bit-pattern values remain accepted for compatib=
-ility=2E
->> >>=20
->> >> The struct termios ABI was preserved (the kernel conversion happens =
-inside
->> >> tcgetattr/tcsetattr)=2E
->> >>=20
->> >> There was one regression in the transition (BZ 33340, non-standard b=
-aud handling
->> >> of CIBAUD), fixed for 2=2E43 by 8d999a69936=2E
->> >>=20
->> >> >=20
->> >> > But once glibc provides API for setting the arbitrary baudrate on =
-tty
->> >> > device, we can improve the manpages=2E But as this did not happene=
-d
->> >> > for 30 years (in past I saw that there were some attempts), I doub=
-t that
->> >> > it would be in near future=2E It is not easy thing=2E
->> >>=20
->> >> The incompatibility we have is glibc and kernel struct termios have =
-different
->> >> layout, so mixing them is a recipe for trouble=2E
->> >
->> >Yes, this is what I remember that there are two structures with same
->> >name but different layout and I was passing the wrong one to ioctl and
->> >it did not worked=2E
->> >
->> >> Kudos to H=2E Peter Anvin for this work=2E
->> >
->> >Thank you very much for this work=2E
->>=20
->> It is not just the structure but the Bxxx and several other constants a=
-s well=2E My advice is to use <linux/termios=2Eh> in a separate translation=
- unit if one is to use the ioctl interface directly=2E=20
->>=20
->> It is *also* important to note that not all platforms have the TC*ETS*2=
- ioctls, and on powerpc the ioctl numbers in glibc are different=2E Virtual=
-ly all code I have seen gets this wrong, together with the handling of CIBA=
-UD=2E
->>=20
->> glibc now also has an explicitly numeric interface, with -baud instead =
-of -speed; the hope is that POSIX will eventually adopt that interface too=
-=2E
->
->So, any suggested changes to the manual pages?
->
->
->Have a lovely day!
->Alex
->
+> > > > refactoring it into small diffs it isn't going to happen.
+> > >=20
+> > > I can break the page myself.  I can use the break points that you told
+> > > me above.
+> > >=20
+> > > Do you prefer that I break the page in small bits and then you apply
+> > > your patches on top of that?  Or would that be inconvenient for you?
+> > >=20
+> >=20
+> > No, that would probably be the best way forward.
+>=20
+> I've pushed the patches in a branch:
+>=20
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=3Dt>
+>=20
+> I can send patches via email, but I suspect you prefer to pull the
+> branch.  Let me know if you want the mailed patches.  Please review, and
+> let me know if I should push these to master.
 
-Didn't we talk about this about two months ago?
+Since you didn't respond, and the patches looked good to me, I've pushed
+them already to master.
+
+You should be able to fetch the changes and work on your patches on top
+of them now.
+
+
+Have a lovely day!
+Alex
+
+>=20
+>=20
+> Have a lovely day!
+> Alex
+>=20
+> >=20
+> > > > In fact, I *did* rewrite and restructure significant chunks of the =
+termios
+> > > > chapter of the glibc texinfo manual during this work partly due to =
+the sheer
+> > > > number of errors that had collected over the years, partly because =
+the clarity
+> > > > was muffled by unclear language caused by wanting to pretend that t=
+he tty
+> > > > interface is anything other than an emulation of an RS232 interface.
+> > > > Explaining it as an *abstraction* of an RS232 interface that may be=
+ real or
+> > > > virtual really clarifies a whole lot of things.
+> > > >=20
+> > > > As such, I would be very very interested in what you think of the f=
+ormulations
+> > > > I used in that document. Perhaps we could use some of them if you t=
+hink that
+> > > > such a rewrite would be worthwhile.
+> > > >=20
+> > > > I *very* strongly believe, however, that the ioctl_tty(2) interface=
+ needs to
+> > > > be kept separate and that we shouldn't muddle that into the termios=
+(3) man
+> > > > page. It's possible that we should be factoring out the termios par=
+ts of the
+> > > > kernel interface into ioctl_termios(2), as the rest of the tty ioct=
+ls
+> > > > generally coexist just fine with the termios(3) interface and thus =
+fall into a
+> > > > separate class.
+> > >=20
+> > > Okay; I'll try to do that, and send the patches to you for a review of
+> > > the overall break points.  When I'm finished, you can rewrite the text
+> > > as you wish.  Does that sound good?
+> >=20
+> > Sounds great to me.
+> >=20
+> > > >=20
+> > > > Speaking of ioctl_tty(2)...
+> > > >=20
+> > > > One thing I have wondered about is that in ioctl_tty(2) you state t=
+o use
+> > > > <asm/termbits.h> as the include, but in practice applications use
+> > > > <linux/termios.h>.
+> > >=20
+> > > IIRC, we weren't sure which header was preferred, so I put one that
+> > > looked correct.  I never used these interfaces myself, so it's probab=
+ly
+> > > good to change it.  Feel free to send patches for that.
+> >=20
+> > Yep, I will look at ioctl_tty(2) and its fellows, but I think that need=
+s to
+> > be separate.
+> >=20
+> > > > There are considerable subtleties in using the kernel
+> > > > termios interfaces, as they are architecture-specific *AND* mutuall=
+y exclusive
+> > > > from the glibc one (neither the types nor the constants necessarily=
+ match up.)
+> > > > On PowerPC, for historical reasons, the ioctl values in <sys/ioctl.=
+h> for
+> > > > TC[GS]ETS* don't even match the kernel ones and are intercepted in =
+glibc and
+> > > > redirected to the *glibc* tc[gs]etattr() functions, expecting the g=
+libc
+> > > > structure which I do believe is different in that it has a differen=
+t number of
+> > > > reserved special character slots which also pushes out the c_ispeed=
+ and
+> > > > c_ospeed members.
+> > > >=20
+> > > > Let me know what you think.
+> > >=20
+> > > I mostly agree with everything, I think.  There's too much to be
+> > > specific, so maybe I should split the page, and then we can discuss m=
+ore
+> > > concrete patches.
+> > >=20
+> > > I'll wait for your confirmation to start breaking the page into many
+> > > bits.
+> >=20
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
+
+
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--unirnmcu4kw6fw76
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqC2fYACgkQ64mZXMKQ
+wqkcEBAAp/tB3EkG8oxREELpW16tig/Yc8Fi31LJAHzdhj6gwU4okUaheZd2iJZ6
+TYcC8n8fbtWsCFL5EGWKPoQeJICnjlXUmK6H1y8cY5SzEk0LZ5D0+kjwjC4ZFNP4
+KJeButH3AqyIQFt+wQrU6a+KX5tBC0r0tJ2dpWcBwRQLi8gvmgaj0ckkrKJFlAfz
+1GhmqrWRRywWIGVMHgzZJ4BhIUOX02LEGSqzNrfZAAmGY9/KN4dPC0c89RCFFGAC
+iDbmOS9bX+HNDx2T8YMqItJkCXcORCF0cmFpE91ZyzkoGfMLdc14rPwo1N7D7cXT
+HxD89sXZh/uVaWgoy3vSKj27JXcTd+QIRukU4+lweRweTaHiuDU441UIAgvXwWq0
+fEXK2cnkr8/SyPLzSLqnlEALcr0y7R6o8klOiuXhvAZ7ksHsx5GxPQTJZJz9xSr1
+Asq+8PFIyjYC6DtGkD313o22gGf9o9lHw34BhTDWdDG43oD4LraIF9p0ZnFvxX/t
+v1pgZNdXbVErNK9b8z6PzKs6pRbc9Gg05KE78cJQTZ6sp51bcKMGNwu49UNLgz1a
+LM1izCHi6SaCcQWhKvE5MHUfrh2evGwT1Zf0g9HfCYfzUf4c8TQ2dam2eu8iCRqF
+oaiJIxkqFwUlVw2hdvMbA1WMGtUQrzX1kdI1ZgptpxpgX1Of7Lg=
+=rsAD
+-----END PGP SIGNATURE-----
+
+--unirnmcu4kw6fw76--
