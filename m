@@ -1,154 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from r9214.ps.combzmail.jp (r9214.ps.combzmail.jp [160.16.66.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594F33AE1AD
-	for <linux-man@vger.kernel.org>; Mon, 17 Aug 2026 21:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DC814ABE
+	for <linux-man@vger.kernel.org>; Tue, 18 Aug 2026 02:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.16.66.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787001742; cv=none; b=q3c785mRjl/roEzK0EZLYTsXZIOpEh+n9FTaAHkeietkeszwv1OH6Hhu0GBDz6MGBUgOoqWVwCk2yoq1MhvjhDRZWR6kIaRIxQ8HiIy0Rhc0iaqW/n/VGcoxwEXfyTRoGWlMO29oHwsSX0XTW5+yEY3m0KAwRGJgN7vnIwO0Yv4=
+	t=1787021096; cv=none; b=fxQesqD8kLDW2aQ5aYJvhXkA1SA5ozU3Pw2jXaFQZUUyVq1LfBbGHQc03V4IFKkWMws6+tJMvubjf7ZDPxvgp9wJ8www/1mmSdlcqhANRGmlt5OIVgvnxqM8dEAMV/t87UVNiPfWC695Ga5w9nizXJ+mzzafbHvk7wZ9SfzzyAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787001742; c=relaxed/simple;
-	bh=AORLw41wgsrMMaKuh6G1IkE82aDLSdLhjtxulfiSTvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgQJi3ZYIxvw5HX21+v6vgb5Wbml7xsbjjzNHeTyosvlyIzkYN5iW9t2Q+PddrV5eKzOgzZDyZslq+LijW8ujXZaoFLKWId88c1ZKQMFM48+bGIaxQp2FFktMmZ3f0H5gMGMZW6crDjzSd6dxjJ0XY/J1KCpL7YQHIG3D5GuObs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DII5OX8H; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DII5OX8H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04EF1F000E9;
-	Mon, 17 Aug 2026 21:22:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787001741;
-	bh=m4LnJ8bzMroUNS6d4wZQixI47voCWbX4+WPNEls0guw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DII5OX8HNa5GqrpgMhyHbe/6W44f6O4OmeBZbf8KPG7AHOuFRKbOhEyEMp2W2svcO
-	 /epiBp2GsXExzEmwuUIvgfwb4/Q/hPTm8WGmewh6/EOuatt9cXSg8RWVO7JaSmqJle
-	 xeAovrXdNQAj+lmBVjyEzy+EnBvCgh5c+KPwAH2eWud6Sj+/m2tpQ5sNs/yKHHsGod
-	 CEEktyDXpm6yeQA2KVzfJEnHReDJSzHxP42OK1dJlBFzwmNc/C3qV/9EDyHRqCf1w/
-	 9hSzFVQBXNHMb5Q+jxLyVfrTCmKOZzlVy5Yr/8XH4VqAkOuidBVDDiSelkUYOc0muh
-	 PNYvts+z2QPxQ==
-Date: Mon, 17 Aug 2026 23:22:16 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org, 
-	libc-alpha@sourceware.org
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-Message-ID: <aoN7GsYixm0fBKdX@debian>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
- <20260816121505.jyz3ynrb3rxlvq6h@pali>
- <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org>
- <20260816131955.lbuwrp32eyq4rt4b@pali>
- <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com>
- <aoLOL-1JRTElewuP@debian>
- <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
- <aoLY9Oko02NzSsuV@debian>
- <A09427A1-AD92-41CE-B0E7-C7D97C401AF0@zytor.com>
+	s=arc-20240116; t=1787021096; c=relaxed/simple;
+	bh=d2J6ugHyCbYhZynF5W+CX6HoZGS2rvrySoTe/l508dE=;
+	h=To:From:Subject:Mime-Version:Content-Type:Message-Id:Date; b=Ys7OL/PWRfG1JRWWmCX+OARedMn8V4h3j3+tXbCZk299tZmRQXzoZAWDqqJd/vb2YA/9wD3w4PUK4bt+5iunaz77aKFhqYmu8wha6Kkme4oEt053qYjJEecAubWRAiDoSXG0QcbffpQ/feSQgkzfuIXNU/2VdpuE5u9jDmXPwkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fc-session.jp; spf=pass smtp.mailfrom=magerr.combzmail.jp; arc=none smtp.client-ip=160.16.66.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fc-session.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
+Received: by r9214.ps.combzmail.jp (Postfix, from userid 99)
+	id 760E9C396E; Tue, 18 Aug 2026 11:44:35 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 r9214.ps.combzmail.jp 760E9C396E
+To: linux-man@vger.kernel.org
+From: =?ISO-2022-JP?B?GyRCQFBFaBsoQg==?= =?ISO-2022-JP?B?GyRCPFM1KBsoQg==?= <info@fc-session.jp>
+X-Ip: 8870751943194862
+X-Ip-source: k85gj7ra48dnsa5pu0p6gd
+Precedence: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Subject: =?ISO-2022-JP?B?SVQbJEI2NTBpJEchIj83NSw7djZIGyhC?=
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jzrc6chxlngn3zrz"
-Content-Disposition: inline
-In-Reply-To: <A09427A1-AD92-41CE-B0E7-C7D97C401AF0@zytor.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-MagazineId: ra5p
+X-uId: 6764295640486064714182451028
+X-Sender: CombzMailSender
+X-Url: http://www.combzmail.jp/
+Message-Id: <20260818024452.760E9C396E@r9214.ps.combzmail.jp>
+Date: Tue, 18 Aug 2026 11:44:35 +0900 (JST)
 
+　新しい事業をお考えの方向けに、
 
---jzrc6chxlngn3zrz
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Guillem Jover <guillem@debian.org>, linux-man@vger.kernel.org, 
-	libc-alpha@sourceware.org
-Subject: Re: On <asm/termbits.h> and <asm/termios.h> usage in man pages
-Message-ID: <aoN7GsYixm0fBKdX@debian>
-References: <aoGk8FSBlwYAmvu8@thunder.hadrons.org>
- <20260816121505.jyz3ynrb3rxlvq6h@pali>
- <61b8b3f7-9c33-4704-a0ba-29e77a5e3cba@linaro.org>
- <20260816131955.lbuwrp32eyq4rt4b@pali>
- <83BA7F0B-7318-4F8B-B59B-1F508750E276@zytor.com>
- <aoLOL-1JRTElewuP@debian>
- <919B6782-3170-4A69-8431-1576526CA33A@zytor.com>
- <aoLY9Oko02NzSsuV@debian>
- <A09427A1-AD92-41CE-B0E7-C7D97C401AF0@zytor.com>
-MIME-Version: 1.0
-In-Reply-To: <A09427A1-AD92-41CE-B0E7-C7D97C401AF0@zytor.com>
+　日本の将来を担う、こども教育にたずさわる事業の
+　パートナー募集説明会(オンライン)を
+　ご視聴頂きたく、ご連絡いたしました。
+　
+　本事業は9割以上、異業種から新規参入されており
+　「未経験」「社員1名」でスタート可能です。
+　
+　本業はそのままで、収益づくりをお考えの方はぜひご視聴ください。
+　
+-----------------------------------------------------------
 
-Hi H. Peter,
+ 　　　不況に強く、少子化でも成長する
+ 　　　 プログラミング教育×個別指導
+　― 地域に"初"のハイブリッド型学習塾を ―
+　
+　日時：8月20日（木）13：00〜14：00
+　形式：オンライン開催
+　提供：エイチ・エム・グループ
 
-> Date: 2026-08-17 14:12:44-0700
-> From: "H. Peter Anvin" <hpa@zytor.com>
->
-> On August 17, 2026 2:53:09 AM PDT, Alejandro Colomar <alx@kernel.org> wro=
-te:
-> >Hi H. Peter,
-> >
-> >> Date: 2026-08-17 02:23:39-0700
-> >> From: "H. Peter Anvin" <hpa@zytor.com>
-> >>
-> >[...]
-> >> >So, any suggested changes to the manual pages?
-> >> >
-> >> >
-> >> >Have a lovely day!
-> >> >Alex
-> >> >
-> >>=20
-> >> Didn't we talk about this about two months ago?
-> >
-> >Yes, I pushed an extensive set of changes to the manual pages, splitting
-> >termios(3) into many small pages.
-> >
-> >I'm now waiting for your patches to the smaller pages.  I've replied to
-> >that old thread too.
-> >
-> >
-> >Cheers,
-> >Alex
-> >
-> >>=20
-> >
->=20
-> Ah, ok.
->=20
-> Things have been a bit insane here because of an unexpected event...
->=20
-> <https://m.facebook.com/story.php?story_fbid=3Dpfbid02XCTWizxhQ8EfouxWt1T=
-DnUPjM6HEZFwe2hVxreFa7gkVi1hhNWm4uvEaVDVhzrm6l&id=3D740261238&mibextid=3DNi=
-f5oz>
+　　　　　　＜ご視聴はこちら＞
+　　　　https://wam-edu-fc.jp/wam2/
 
-Oh, I hope you find a good place to work that you like!  :)
-Things are indeed insane these days.
+-----------------------------------------------------------
+　
+　
+　『少子化なのに、教育事業？』と、思うかもしれませんが
+　
+　実は、教育無償化などの国策もあり、子ども一人にかける
+　教育費の増加に伴い、市場は成長し続けています。
+　
+　また、教育費は不況時でも削減されにくいため
+　コロナ下でも大きく落ち込むことなく底堅さを見せました。
+　
+　そんな教育業界の中でも、プログラミング（IT教育）は
+　小学校で必修化されたため、保護者の関心が非常に高まっています。
+　
+　
+　そこで今回ご紹介するのが、全国300校舎、継続率97.6％を誇る
+　ハイブリッド教育事業「個別指導WAM」です。
+　
+　サイバーエージェント社開発の教材を活用した
+　「プログラミング×個別指導」という
+　他塾にはない独自の教育事業を提供しています。
 
+　いったい、教育市場にどのようなビジネスチャンスがあるのか？
 
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---jzrc6chxlngn3zrz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqDe4gACgkQ64mZXMKQ
-wqmqdxAAi8q5O1V/lAFKzA8hIZEoPPynFKz0f5Lh/pBiXVHf0ltTgXjEGslqCJiY
-66EJD+d5QscaXSl9IhVvzqsOkrRqpXusgXk9pw4Xw2LB78eoOtULo8gk4yOK7riG
-gclgqJHXIBmua62I18H8Sc7qMT6JVV+PUBHfWiQKp96xM68Obz9Kwlt+KnESbWGh
-acYRaniwRVirPzLEs+BgLtzrER11fMTwTrHnLSFAWyP/GWcCh/oz88lcxqYa4Zy/
-byPvqRrjESdMV2dtajY/S3X5tpJyzL2FrcSwnG1I9Z8X08/u547S+VCzF54m1Ap7
-FtfayMjGovml7oPyGDsGAZAmXjIyv6sz4fQnafALOlTgJ+GXJJnttGWSViQ0HKMn
-TlZ8ZsbnGYMizkiuIyFZEQk3oLpQcXKYvLUZSqhjgCNBMgl/LLS+DSlCnkdWxSQy
-pxD8X0uWhFjLzlehgTk2k/FpGFJDJgjpPTBBZzmUBZ6tzTu5viddcMc1l37CREHb
-YQVDCyQYWXbM2Z/i/t0GZW25CD0WqYg+T7kdrgvvDi0j3CUR3TmMWuBeoI6Dxb3E
-lrDWypdZlY0prr1VhlUzr6HbOtkyWWc+KoaVMHF5e10SqJ2u2NO2kZ6NegPbt/uf
-dsEwDz3HOeJOHKEkqiQWT1+RaPvFXdXdTrhc4TDsPlfJUrAuMXc=
-=5qwM
------END PGP SIGNATURE-----
-
---jzrc6chxlngn3zrz--
+　オンラインセミナーで分かりやすく丁寧に
+　お伝えしますので、ぜひご視聴ください。
+　
+　　　　　　＜ご視聴はこちら＞
+　　　　https://wam-edu-fc.jp/wam2/
+　
+　
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+　教育事業FCセミナー事務局
+　電話：0120-889-859
+　住所：東京都中央区銀座7-13-6
+―――――――――――――――――――――――――――――――
+　本メールのご不要な方には大変ご迷惑をおかけいたしました。
+　今後ご案内が不要な方は下記URLよりお手続きをお願いいたします。
+　┗　https://wam-edu-fc.jp/mail/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
