@@ -1,104 +1,118 @@
-Received: from r9214.ps.combzmail.jp (r9214.ps.combzmail.jp [160.16.66.31])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DC814ABE
-	for <linux-man@vger.kernel.org>; Tue, 18 Aug 2026 02:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.16.66.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073E74582C0;
+	Wed, 19 Aug 2026 11:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787021096; cv=none; b=fxQesqD8kLDW2aQ5aYJvhXkA1SA5ozU3Pw2jXaFQZUUyVq1LfBbGHQc03V4IFKkWMws6+tJMvubjf7ZDPxvgp9wJ8www/1mmSdlcqhANRGmlt5OIVgvnxqM8dEAMV/t87UVNiPfWC695Ga5w9nizXJ+mzzafbHvk7wZ9SfzzyAY=
+	t=1787139639; cv=none; b=R34fyIJzwN3rrhaOiHdbveKbbT1XhlDyG7XJVw46UP0ozKZQBibDDvdK8c9MuvqT05tQRh/Vslk4baXCNBwIFA5J+5/eC/B7w8q3zmYODcx1P45CTzE+ruCkA7FT/jBTnqcDDdDSG9rfeNX2RvLr17aw8sDjoGP6PmWDXL9vvd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787021096; c=relaxed/simple;
-	bh=d2J6ugHyCbYhZynF5W+CX6HoZGS2rvrySoTe/l508dE=;
-	h=To:From:Subject:Mime-Version:Content-Type:Message-Id:Date; b=Ys7OL/PWRfG1JRWWmCX+OARedMn8V4h3j3+tXbCZk299tZmRQXzoZAWDqqJd/vb2YA/9wD3w4PUK4bt+5iunaz77aKFhqYmu8wha6Kkme4oEt053qYjJEecAubWRAiDoSXG0QcbffpQ/feSQgkzfuIXNU/2VdpuE5u9jDmXPwkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fc-session.jp; spf=pass smtp.mailfrom=magerr.combzmail.jp; arc=none smtp.client-ip=160.16.66.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fc-session.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
-Received: by r9214.ps.combzmail.jp (Postfix, from userid 99)
-	id 760E9C396E; Tue, 18 Aug 2026 11:44:35 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 r9214.ps.combzmail.jp 760E9C396E
-To: linux-man@vger.kernel.org
-From: =?ISO-2022-JP?B?GyRCQFBFaBsoQg==?= =?ISO-2022-JP?B?GyRCPFM1KBsoQg==?= <info@fc-session.jp>
-X-Ip: 8870751943194862
-X-Ip-source: k85gj7ra48dnsa5pu0p6gd
-Precedence: bulk
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Subject: =?ISO-2022-JP?B?SVQbJEI2NTBpJEchIj83NSw7djZIGyhC?=
+	s=arc-20240116; t=1787139639; c=relaxed/simple;
+	bh=oxdLZ7PX+hNPpcKI1G/Bv8qg/IUjpBf7s+tg6VNMzIE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nOa2BWtMwY0QfrQf2eVhKWZ+1ph/ljKxbjAkibt3LzY6OK9XUEM7dxGgtwhObfGrh1z8Bf2v+nYCj1Juz+gGAZvkt4DtcL3L1zBQ7DfMNcMtxxtw8tNss0apUMIeHW/J88ZH3VmM8zhgNF7ocs0CLGoRhLr1Kj5381umxIZi9dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=pankajraghav.com; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hQ4Pr1VvWzMlHT;
+	Wed, 19 Aug 2026 13:40:32 +0200 (CEST)
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of kernel@pankajraghav.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=kernel@pankajraghav.com
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: linux-man@vger.kernel.org,
+	Alejandro Colomar <alx@kernel.org>
+Cc: linux-xfs@vger.kernel.org,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	linux-ext4@vger.kernel.org,
+	gost.dev@samsung.com,
+	hch@lst.de,
+	Zhang Yi <yi.zhang@huaweicloud.com>,
+	pankaj.raghav@linux.dev,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+Date: Wed, 19 Aug 2026 13:40:22 +0200
+Message-ID: <20260819114022.818734-1-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
-X-MagazineId: ra5p
-X-uId: 6764295640486064714182451028
-X-Sender: CombzMailSender
-X-Url: http://www.combzmail.jp/
-Message-Id: <20260818024452.760E9C396E@r9214.ps.combzmail.jp>
-Date: Tue, 18 Aug 2026 11:44:35 +0900 (JST)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4hQ4Pr1VvWzMlHT
 
-　新しい事業をお考えの方向けに、
+This flag was added to the kernel in v6.17. As of now, only ext4
+supports this flag.
 
-　日本の将来を担う、こども教育にたずさわる事業の
-　パートナー募集説明会(オンライン)を
-　ご視聴頂きたく、ご連絡いたしました。
-　
-　本事業は9割以上、異業種から新規参入されており
-　「未経験」「社員1名」でスタート可能です。
-　
-　本業はそのままで、収益づくりをお考えの方はぜひご視聴ください。
-　
------------------------------------------------------------
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+Note:
+This feature was recently added to XFS and it is expected to land in
+v7.13. I will update this man page again once v7.13 is released.
 
- 　　　不況に強く、少子化でも成長する
- 　　　 プログラミング教育×個別指導
-　― 地域に"初"のハイブリッド型学習塾を ―
-　
-　日時：8月20日（木）13：00〜14：00
-　形式：オンライン開催
-　提供：エイチ・エム・グループ
+ man/man2/fallocate.2 | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-　　　　　　＜ご視聴はこちら＞
-　　　　https://wam-edu-fc.jp/wam2/
+diff --git a/man/man2/fallocate.2 b/man/man2/fallocate.2
+index ef6586c77..b39ca5c8d 100644
+--- a/man/man2/fallocate.2
++++ b/man/man2/fallocate.2
+@@ -244,6 +244,41 @@ SMB3 (since Linux 3.17)
+ .IP \[bu]
+ Btrfs (since Linux 4.16)
+ .\" commit f27451f229966874a8793995b8e6b74326d125df
++.SS Writing zeroes in file space
++Specifying the
++.B FALLOC_FL_WRITE_ZEROES
++flag (available since Linux 6.17)
++.\" commit 7bd43cc79cab3850f34da0a31d5b042b701590ef
++in
++.I mode
++physically zeros space in the byte range starting at
++.I offset
++and continuing for
++.I size
++bytes.
++Within the specified range,
++blocks are allocated with written extents for
++the regions that span the holes in the file.
++After a successful call,
++subsequent reads from this range will return zeros.
++.P
++This
++.I mode
++makes use of the unmap write zeroes functionality feature that many modern
++flash-based storage offers to efficiently zero out the hole space.
++This approach means that the specified range will be physically zeroed out
++on the device (including partial blocks at the either end of the range).
++.P
++No other flags may be specified in
++.I mode
++in conjunction with
++.BR FALLOC_FL_WRITE_ZEROES .
++.P
++Not all filesystems support
++.BR FALLOC_FL_WRITE_ZEROES ;
++if a filesystem doesn't support the operation, an error is returned.
++The operation is supported only in ext4 (since Linux 6.17).
++.\" commit f4265b8d32c49ff95711e6fef7d05245a2905b30
+ .SS Increasing file space
+ Specifying the
+ .B FALLOC_FL_INSERT_RANGE
+@@ -385,6 +420,7 @@ or
+ is
+ .BR FALLOC_FL_COLLAPSE_RANGE ,
+ .BR FALLOC_FL_ZERO_RANGE ,
++.BR FALLOC_FL_WRITE_ZEROES ,
+ or
+ .BR FALLOC_FL_INSERT_RANGE ,
+ but the file referred to by
 
------------------------------------------------------------
-　
-　
-　『少子化なのに、教育事業？』と、思うかもしれませんが
-　
-　実は、教育無償化などの国策もあり、子ども一人にかける
-　教育費の増加に伴い、市場は成長し続けています。
-　
-　また、教育費は不況時でも削減されにくいため
-　コロナ下でも大きく落ち込むことなく底堅さを見せました。
-　
-　そんな教育業界の中でも、プログラミング（IT教育）は
-　小学校で必修化されたため、保護者の関心が非常に高まっています。
-　
-　
-　そこで今回ご紹介するのが、全国300校舎、継続率97.6％を誇る
-　ハイブリッド教育事業「個別指導WAM」です。
-　
-　サイバーエージェント社開発の教材を活用した
-　「プログラミング×個別指導」という
-　他塾にはない独自の教育事業を提供しています。
+base-commit: d926b42e0ea0406d5c2556e18205eced92d053f1
+-- 
+2.51.2
 
-　いったい、教育市場にどのようなビジネスチャンスがあるのか？
-
-　オンラインセミナーで分かりやすく丁寧に
-　お伝えしますので、ぜひご視聴ください。
-　
-　　　　　　＜ご視聴はこちら＞
-　　　　https://wam-edu-fc.jp/wam2/
-　
-　
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-　教育事業FCセミナー事務局
-　電話：0120-889-859
-　住所：東京都中央区銀座7-13-6
-―――――――――――――――――――――――――――――――
-　本メールのご不要な方には大変ご迷惑をおかけいたしました。
-　今後ご案内が不要な方は下記URLよりお手続きをお願いいたします。
-　┗　https://wam-edu-fc.jp/mail/
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
