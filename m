@@ -1,136 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D413C479861
-	for <linux-man@vger.kernel.org>; Thu, 20 Aug 2026 19:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388C3365A0B;
+	Fri, 21 Aug 2026 03:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787253768; cv=none; b=iDTjE++M7vJVdrwqXfKCSU05sjqXxR+6A0eL5oeZ7nFcBKrNC4ZyNU9NpbXF26DzRbN7HBfYyZpVAVKm7QUFBmfU4UHyKJJbA7Npx3BXysIoju8o7ISrulQBg39pKBpDE1eGCHrS7tRPHhiOelUXxNwqwjPx7lPov3RAtm0CF68=
+	t=1787283591; cv=none; b=lqA1/lnNOwR3GC5UX/yljFvf0OORQfVZ20+awMmUzB/z459QdLGgT5/H8ox1M9Ehj7vET678kBCdCsF3R7NWr9g265kGAsR0NENkdxzV9TxRV9SJiFFXLrDCrepF5ZAkhzu8+AUxaCGvG1DYsUUmSqj2vf2AkfJX1QVd8jyWlZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787253768; c=relaxed/simple;
-	bh=huBM7zkdR+Kte1jP0gO3h4+S1W2SZaYFG8hf+7CI5Zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ewz4ElbeRWsE95Ev0uRIiuubGrZBPAdvC1Ku0glzFnz1nsi9SKMQrswyIKuAP/bY+x7Qzn3mZCw0efhHwSUG2LTAogIBlAvQG54wHJdghQr3BumexbSIlvhSSc1ylSz5Mzl5wfsC1cuu/PzKTTtYGgwX+AUggdPW+oriMYKvMt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLiEttHX; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLiEttHX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3D71F000E9;
-	Thu, 20 Aug 2026 19:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787253753;
-	bh=faC9L5Xe48Ea4JLjpr6QgKzLZEVw5UhtJEJbJk/OVgc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OLiEttHXTePcMDqBj8bWeQ2J/l4P+CJ5aIJdzQHilSaulWV1rzIVgo3JyUwusa9We
-	 rjWHaQ8bP1FBqqPvGAZ20Je+vrhqM5zkE0QmI9+j+ZkpY56YcL6JwFiTPNa9LYSX6z
-	 DxTIE+DIyUvTtGeMw9dHK8Y4vGavOZ1ICXDhxuBJXzUL4NXBSiMUliypex2PT6G1vm
-	 g041f8WmfVw7c8evwxVpxKcvnCUhM6cguPpC0qxVSxcwE9LxWrHiksmA53PQor3oa3
-	 go5miqGGEsu+KIcRlhjoiJJPkdqmptY4JLPmaFK1Oex4lvJevmJSpLlMukMSwwUgew
-	 LJEdaAoWc6JkA==
-Date: Thu, 20 Aug 2026 21:22:31 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: vapier@chromium.org
-Subject: Re: [vapier@gmail.com: man-pages-website: crush logo]
-Message-ID: <aodTg9n__Xq_0BXg@debian>
-References: <aockPc7I9x7E2DXk@debian>
+	s=arc-20240116; t=1787283591; c=relaxed/simple;
+	bh=IRkyxu0Ni6Trkwu70PVPHmDd+v34ZZtNEsRgxhAwfEA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FAN0sO40cWrfemH984XJcXrhwxKxXP4nu0MCU6I6MYxR13X0wOZZRNkDfaw4oEKjA3B4zHk2PsgBkVbGI9NmYalBOKweE8sSuOk+OTYylLAGS05yCSGRSxFcqIXhY88T+ZTZnpDLn7Yi4AxSEx8yFYLcjlhh0TpxD7TZObNb5Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hR5df6wCfzYQtjy;
+	Fri, 21 Aug 2026 11:39:18 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id C40184056D;
+	Fri, 21 Aug 2026 11:39:38 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgD35kVsyIdqUkpYDA--.64918S3;
+	Fri, 21 Aug 2026 11:39:38 +0800 (CST)
+Message-ID: <721bf688-85c4-4eab-9876-43b22e607288@huaweicloud.com>
+Date: Fri, 21 Aug 2026 11:39:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xbnuorqjooprwyqs"
-Content-Disposition: inline
-In-Reply-To: <aockPc7I9x7E2DXk@debian>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+To: Pankaj Raghav <p.raghav@samsung.com>, linux-man@vger.kernel.org,
+ Alejandro Colomar <alx@kernel.org>
+Cc: pankaj.raghav@linux.dev, hch@lst.de, linux-xfs@vger.kernel.org,
+ gost.dev@samsung.com, "Darrick J . Wong" <djwong@kernel.org>,
+ linux-ext4@vger.kernel.org
+References: <20260820090400.857720-1-p.raghav@samsung.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20260820090400.857720-1-p.raghav@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_Ch0CgD35kVsyIdqUkpYDA--.64918S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw13tw43tw1fCrWUAr13Arb_yoW5GryxpF
+	WrZF15t3yUXF13Kr93uw40krWrZ3ykGw43ur4Iv34kZrs8ZFn7KFs8GF15ZasrJryrAay0
+	qr10gFy2kwnrAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUymb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UAwIDUUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+On 8/20/2026 5:04 PM, Pankaj Raghav wrote:
+> This flag was added to the kernel in v6.17. As of now, only ext4 and
+> block device nodes support this flag.
+> 
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 
---xbnuorqjooprwyqs
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: vapier@chromium.org
-Subject: Re: [vapier@gmail.com: man-pages-website: crush logo]
-Message-ID: <aodTg9n__Xq_0BXg@debian>
-References: <aockPc7I9x7E2DXk@debian>
-MIME-Version: 1.0
-In-Reply-To: <aockPc7I9x7E2DXk@debian>
+Looks good to me. Thanks!
 
-Hi Mike,
+Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 
-I just learnt you had a gmail account (first email I receive from that
-address), and also just learnt you don't have a @gentoo address anymore.
+> ---
+> Changes since v1:
+> - Change the phrasing around zeroing and its condition (Zhang Yi)
+> - Update ext4 support only for extent-based files (Zhang Yi)
+> 
+> Note:
+> This feature was recently added to XFS and it is expected to land in
+> v7.13. I will update this man page again once v7.13 is released.
+> 
+>  man/man2/fallocate.2 | 38 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+> 
+> diff --git a/man/man2/fallocate.2 b/man/man2/fallocate.2
+> index ef6586c77..48a8c3468 100644
+> --- a/man/man2/fallocate.2
+> +++ b/man/man2/fallocate.2
+> @@ -244,6 +244,43 @@ SMB3 (since Linux 3.17)
+>  .IP \[bu]
+>  Btrfs (since Linux 4.16)
+>  .\" commit f27451f229966874a8793995b8e6b74326d125df
+> +.SS Writing zeroes in file space
+> +Specifying the
+> +.B FALLOC_FL_WRITE_ZEROES
+> +flag (available since Linux 6.17)
+> +.\" commit 7bd43cc79cab3850f34da0a31d5b042b701590ef
+> +in
+> +.I mode
+> +physically zeros space in the byte range starting at
+> +.I offset
+> +and continuing for
+> +.I size
+> +bytes.
+> +Within the specified range,
+> +blocks are preallocated for the regions that span the holes
+> +in the file.
+> +After a successful call,
+> +subsequent reads from this range will return zeros and
+> +subsequent writes to that range do not require further
+> +changes to the file mapping metadata.
+> +.P
+> +Zeroing is done within the filesystem.
+> +The filesystem may use a hardware-accelerated zeroing command
+> +or may submit regular writes.
+> +The behavior depends on the filesystem design and the
+> +available hardware.
+> +.P
+> +No other flags may be specified in
+> +.I mode
+> +in conjunction with
+> +.BR FALLOC_FL_WRITE_ZEROES .
+> +.P
+> +Not all filesystems support
+> +.BR FALLOC_FL_WRITE_ZEROES ;
+> +if a filesystem doesn't support the operation, an error is returned.
+> +The operation is supported only in ext4 (only for extent-based files)
+> +since Linux 6.17.
+> +.\" commit f4265b8d32c49ff95711e6fef7d05245a2905b30
+>  .SS Increasing file space
+>  Specifying the
+>  .B FALLOC_FL_INSERT_RANGE
+> @@ -385,6 +422,7 @@ or
+>  is
+>  .BR FALLOC_FL_COLLAPSE_RANGE ,
+>  .BR FALLOC_FL_ZERO_RANGE ,
+> +.BR FALLOC_FL_WRITE_ZEROES ,
+>  or
+>  .BR FALLOC_FL_INSERT_RANGE ,
+>  but the file referred to by
+> 
+> base-commit: d926b42e0ea0406d5c2556e18205eced92d053f1
 
-Could you confirm whether that mail from you is authentic?  (And if
-possible, it would be ideal if it were done in a signed email.)
-
-
-Have a lovely night!
-Alex
-
-> Date: 2026-08-20 18:02:25+0200
-> From: Alejandro Colomar <alx@kernel.org>
->
-> Hi!
->=20
-> I'd like to note that I've received a phishing attempt (or so I suspect;
-> if it's a real message, please confirm, Mike) from someone claiming to
-> be a usual contributor.
->=20
-> The message contained a compressed file, which for obvious reasons
-> I won't open (I can forward it if anyone wants to see it).
->=20
-> This is a reminder to be aware that people are doing these things, and
-> that I'd very much prefer to see PGP-signed email, especially from
-> frequent contributors.
->=20
->=20
-> Have a lovely day!
-> Alex
->=20
-> ----- Forwarded message from Mike Frysinger <vapier@gmail.com> -----
->=20
-> Date: Thu, 20 Aug 2026 22:36:17 +0700
-> From: Mike Frysinger <vapier@gmail.com>
-> To: alx@kernel.org
-> Subject: man-pages-website: crush logo
-> Message-ID: <CAL+h-jCujsyaHq+7V3D-M0PVqbHakp=3D+Z-Ag4nT_7xsESotocg@mail.g=
-mail.com>
->=20
->=20
->=20
->=20
->=20
-> ----- End forwarded message -----
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---xbnuorqjooprwyqs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqHU/YACgkQ64mZXMKQ
-wqmYOA/8DrJHCrxIy3btVtdWE06TWN9vhJZ4mStUStEoX8x+lgx5J9SqEmA1Q5S9
-wVZhv/xi8EsXFNCgn49VaRYa7xfm33HsEisO/D3OYL7v+SYuWr86cC1bfohxQI2D
-G8Z2q52JAKWYeOL9ROXxVOpA41cZE5SR29y4logCPUGHV+deupZdtahzZZOe8bDo
-382p25Orv9JMhJpbdiXHegOSpkMb1Z4c5ntuc9Vl+ROxymWDnH64JpNhmVdLeMQv
-CtOpclwNs4rkAsAOiNy/3btEmXVracepVuNMbbIhBAYdqBsAnOQdAATT3s8bPYZm
-QC+Mh4xrt3B8tuV/P2UiRXkWR1KIOIYw2dXaFg9XBwlPtFmAnTLlt3Tv1+O7Zr4Z
-XdPWcLemnOFFL5bq1oK/Zlel/cBmRxWoUp4gEEw35tmUy3VLttkivC2W0glm9Jvs
-ym0ozuQYyyr7zZ+DAdkU8scBgh3yl4W1gr1g3AYmBxTGaQHtbSwpCzq9QKZn6Gee
-dHEadjalned5Eye57FsqYDNp1cqaSi3c6PhU/pPS68FzHWpoFCguJjKbEqxbZosy
-VroP/1ARBuVTd9UBdBQ7vCNKEclYPIxtIZmqnKMZF6Q2NfLv2JjQAZOd1AOVPpji
-RQrjGRBgBWjCx4tIc/rh+3Dgtse6E6NR4KU/4mtJNgQNiPO+4WQ=
-=2prq
------END PGP SIGNATURE-----
-
---xbnuorqjooprwyqs--
