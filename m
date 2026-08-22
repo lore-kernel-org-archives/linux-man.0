@@ -1,89 +1,102 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388C3365A0B;
-	Fri, 21 Aug 2026 03:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60D5175A9D;
+	Sat, 22 Aug 2026 12:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787283591; cv=none; b=lqA1/lnNOwR3GC5UX/yljFvf0OORQfVZ20+awMmUzB/z459QdLGgT5/H8ox1M9Ehj7vET678kBCdCsF3R7NWr9g265kGAsR0NENkdxzV9TxRV9SJiFFXLrDCrepF5ZAkhzu8+AUxaCGvG1DYsUUmSqj2vf2AkfJX1QVd8jyWlZs=
+	t=1787402500; cv=none; b=ZMDaWqNqqHx77ou/YUy53PHwkEdxF4m8r6SXBYblWOEWNGJeLIG1dsQap5QCPKqZMtKmv0mpvX8LHRCalpb1m3CTkF1j0bLMSZaCOXISjo5ucP86bJ2ectekoOz+uzNGBAW4hWg+qjQrslQCVSZXiJcEDRohZ8Bdikhus9xAqvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787283591; c=relaxed/simple;
-	bh=IRkyxu0Ni6Trkwu70PVPHmDd+v34ZZtNEsRgxhAwfEA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FAN0sO40cWrfemH984XJcXrhwxKxXP4nu0MCU6I6MYxR13X0wOZZRNkDfaw4oEKjA3B4zHk2PsgBkVbGI9NmYalBOKweE8sSuOk+OTYylLAGS05yCSGRSxFcqIXhY88T+ZTZnpDLn7Yi4AxSEx8yFYLcjlhh0TpxD7TZObNb5Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hR5df6wCfzYQtjy;
-	Fri, 21 Aug 2026 11:39:18 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id C40184056D;
-	Fri, 21 Aug 2026 11:39:38 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP3 (Coremail) with UTF8SMTPSA id _Ch0CgD35kVsyIdqUkpYDA--.64918S3;
-	Fri, 21 Aug 2026 11:39:38 +0800 (CST)
-Message-ID: <721bf688-85c4-4eab-9876-43b22e607288@huaweicloud.com>
-Date: Fri, 21 Aug 2026 11:39:24 +0800
+	s=arc-20240116; t=1787402500; c=relaxed/simple;
+	bh=OQVtR1HgPjVO6sGi5O64Cf27ZAkUaXlSE/u1DP1QreE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IRUA3vt6zU1VF7WGdRcbA/VkU3jzHQCg0gR8JH04Wm9j7EDyDsyYiUFYVbpJwBPFvPxyfp9UDLwRnCEKkP+jpCtmoQrZ0EAwnvofXJwVNelROb0XKuidA6RsfSj0DcSddX5aWi0XZpTJY3VR+9isQrMkh2cq26fPRzv+GKD8ESQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOQPqJ/p; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOQPqJ/p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1331F000E9;
+	Sat, 22 Aug 2026 12:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787402499;
+	bh=SGLicknkCIgRsgg08fxRo1sawmxj4Z8sfoAGg4Hl/k0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FOQPqJ/p8bf+5YnBttB+R+Efa+Nd4ApxYXkS+aVpZe4NGOgf93+4fh+Jm2Wd9Jadf
+	 oIcsEEPi2Qs6ZxyunJ3xEo+uPZ/F+lW9TDyw0N/TIoKlA3rOBD5FnnmL5DSPpOO/n9
+	 EKHNStOc1iSdshIJWMaVc5r70JolkdM0MU4L4gFuA7mFccem6vrEvcaNe9gVndIsU3
+	 22MrT4z19MzUpFwrPEbs5Mum21cdCFxqRh+x5w7XBnSQQlkrX6QzRBsKZcyKwzPt4b
+	 nJzWtadMksWKiV87hgTUtkNaTI068ICM1uKeeVJgEF4zKAus77AePVHsuGq7sy2RaW
+	 l90sHPiOknSAg==
+Date: Sat, 22 Aug 2026 14:41:34 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: linux-man@vger.kernel.org, pankaj.raghav@linux.dev, hch@lst.de, 
+	Zhang Yi <yi.zhang@huaweicloud.com>, linux-xfs@vger.kernel.org, gost.dev@samsung.com, 
+	"Darrick J . Wong" <djwong@kernel.org>, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+Message-ID: <aomV6Jt7udtAwwcw@devuan>
+References: <20260820090400.857720-1-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
-To: Pankaj Raghav <p.raghav@samsung.com>, linux-man@vger.kernel.org,
- Alejandro Colomar <alx@kernel.org>
-Cc: pankaj.raghav@linux.dev, hch@lst.de, linux-xfs@vger.kernel.org,
- gost.dev@samsung.com, "Darrick J . Wong" <djwong@kernel.org>,
- linux-ext4@vger.kernel.org
-References: <20260820090400.857720-1-p.raghav@samsung.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mv6tus4g6cufx3gi"
+Content-Disposition: inline
 In-Reply-To: <20260820090400.857720-1-p.raghav@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgD35kVsyIdqUkpYDA--.64918S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw13tw43tw1fCrWUAr13Arb_yoW5GryxpF
-	WrZF15t3yUXF13Kr93uw40krWrZ3ykGw43ur4Iv34kZrs8ZFn7KFs8GF15ZasrJryrAay0
-	qr10gFy2kwnrAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUymb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UAwIDUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On 8/20/2026 5:04 PM, Pankaj Raghav wrote:
+
+--mv6tus4g6cufx3gi
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: linux-man@vger.kernel.org, pankaj.raghav@linux.dev, hch@lst.de, 
+	Zhang Yi <yi.zhang@huaweicloud.com>, linux-xfs@vger.kernel.org, gost.dev@samsung.com, 
+	"Darrick J . Wong" <djwong@kernel.org>, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+Message-ID: <aomV6Jt7udtAwwcw@devuan>
+References: <20260820090400.857720-1-p.raghav@samsung.com>
+MIME-Version: 1.0
+In-Reply-To: <20260820090400.857720-1-p.raghav@samsung.com>
+
+Hi Pankaj, Christoph,
+
+> Date: 2026-08-20 11:04:00+0200
+> From: Pankaj Raghav <p.raghav@samsung.com>
+> Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZER=
+OES
+
+We use the full path in the prefix.  That is, 'man/man2/...: ...'.
+Also, we use regular sentence conventions for the first letter after
+the ':', so s/add/Add/.
+
 > This flag was added to the kernel in v6.17. As of now, only ext4 and
+
+Please use two spaces after period.
+<https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUT=
+ING.d/patches/description#n44>
+
 > block device nodes support this flag.
-> 
+>=20
 > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 
-Looks good to me. Thanks!
-
-Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
+Please include the CC list here too.
 
 > ---
 > Changes since v1:
 > - Change the phrasing around zeroing and its condition (Zhang Yi)
 > - Update ext4 support only for extent-based files (Zhang Yi)
-> 
+>=20
 > Note:
 > This feature was recently added to XFS and it is expected to land in
 > v7.13. I will update this man page again once v7.13 is released.
-> 
+>=20
 >  man/man2/fallocate.2 | 38 ++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 38 insertions(+)
-> 
+>=20
 > diff --git a/man/man2/fallocate.2 b/man/man2/fallocate.2
 > index ef6586c77..48a8c3468 100644
 > --- a/man/man2/fallocate.2
@@ -106,6 +119,14 @@ Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 > +bytes.
 > +Within the specified range,
 > +blocks are preallocated for the regions that span the holes
+
+What does it mean that "blocks are preallocated"?  That they must be
+allocated prior to this call?  I suspect not.  Otherwise, we'd be saying
+'must be' instead of 'are'.
+
+I suspect it means that this call allocates blocks for those regions,
+but then I'm not sure we want 'pre' there.
+
 > +in the file.
 > +After a successful call,
 > +subsequent reads from this range will return zeros and
@@ -128,6 +149,14 @@ Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 > +if a filesystem doesn't support the operation, an error is returned.
 > +The operation is supported only in ext4 (only for extent-based files)
 > +since Linux 6.17.
+
+Christoph, is this correct?  I remember you said something about block
+device nodes in v1.
+
+
+Have a lovely day!
+Alex
+
 > +.\" commit f4265b8d32c49ff95711e6fef7d05245a2905b30
 >  .SS Increasing file space
 >  Specifying the
@@ -140,6 +169,33 @@ Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 >  or
 >  .BR FALLOC_FL_INSERT_RANGE ,
 >  but the file referred to by
-> 
+>=20
 > base-commit: d926b42e0ea0406d5c2556e18205eced92d053f1
+> --=20
+> 2.51.2
+>=20
 
+--=20
+<https://www.alejandro-colomar.es>
+
+--mv6tus4g6cufx3gi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJmPgACgkQ64mZXMKQ
+wqmdIQ/+NgMSJLmaisJwmo5hxhBnexOjXGKPR8AK2s0jC6+HjsVjqEUJPceVPJL4
+wBcl49yTr43J1N0fGqbo7IN3tci9Xp9OiHE0gPbyjPAOm0MccHKrccsv5Iw3MWIo
+emnocP5Szzw6KHDyI7/tJTAoCw+NDRVJW/JkUz6sI+tAduVxa0w8Kwku27zTbbwd
+cF5dJRND2R9LVv4udefMp1DYt9WOQHidrPiv3ucdT6u4dUWUeYX0bFHkpa8GHbI1
+7i58j1r1eEHK2aIFCUWk59fz7nafgDuo2T0lPvXCSYMmXnOzgjNdIDQPYleRhhHS
+e0NJlwqIsuAPgewKa/k+Qe98tfJBHHr0ZhlNlcmW2T9f7C2vO1qx4YtS2+xwwlZ7
+V/+o3lAtoGE7eNO7Uz63oYjLxmEIMtv/e3upHYpYnfN2ysV0FRHq6xg9b+RFVvIj
+wLv1IAgDHwCEI0M34zS3/lhrI/nUc+mYqiWC91MmTdm12ZPCB6UbKlfsEpH9DNoR
+vEfrsfXei4lEAzXfksR9Ymn4423caS4Z84jgiMi4aOwTGT2jgxI7NYl7DgacysQu
+Q/IsuCna5Eh5cVGZ2ZuOSIX+GDKgSDvE0Z6w5SkDxabmS9nP/rqhSU2Ih9wwS5Vc
+mowM85CUt1mPxXXdaWU7yjSLW4OeTuB49pcyaid8XDbdvNYKm+M=
+=BsSp
+-----END PGP SIGNATURE-----
+
+--mv6tus4g6cufx3gi--
