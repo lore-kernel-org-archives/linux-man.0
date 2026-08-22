@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E047370D6E
-	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 14:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2710A2BEC5E
+	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 16:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787407839; cv=none; b=buqmLY8vqYmdgT2OJJtU6wUCnIjJdQy5xzFA6OuRiUmFoUo0i/yBBSRXsmHeRYe8LhNV9vM5eByILx2rxWTgalPcPaTyvPey3h+vGHc2wO/Mgce68/9v0OfkIAwfv1WagNo8oDTFHSK1VFkaoTdcj7iIlvMaBC0BU08ngeiVS3o=
+	t=1787414618; cv=none; b=CyvslXf/nJebSrx+3TflVAkd1EDp8wd5v4qDIogu+BlJiZIElwdyjPuS7ncjrzMEyOxuKEqdf2VUyR2mj3mo0OFn86fEM63Ljb7juQxrJkK0J8NXj0j/4k9xiSswO8pQY2HhMWiS//VQD1t7sT1UA91uQwAmG6GMW14Qmd6ddDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787407839; c=relaxed/simple;
-	bh=EjNO3A1eUw9UYUxt7KRskuGI30pnekST4SXwIE/cGn4=;
+	s=arc-20240116; t=1787414618; c=relaxed/simple;
+	bh=a7cPvWSmER132d3n95RfeKlG0bm0HmqBDLVdQIRZNAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXXkrHAKTyEb62LLGIVJaab7nvk3UkhNWiXtZsDlnULueCFrdhJXcozAsuynd0QscNj6TucajewDJ/qi5crLLfc0/DYYS2nad1q2IskR7IG+DjYgJrSg1L8V/1wEfjGEO96t4RQqf3YTEDOfpN8XdPJ2XTU728PsXHpbXKn2feg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lv0jgGm3; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KI3S19Ks62WeGr1GYDOxDg5ZeQ4I2HlkeeE3jW5/nhtIsCb4auOZWku04priR5FG7JyVuOQdMzZwREdEgBwYoJ3hSM/qSb9ot8BOioqBhUXqCUBmex/NdcOnrifNRo3dTjwaBKlReXXeWZ0bTIRLq9pgpiGiNhTk4Kk71VZ4cvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUNQG5l4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lv0jgGm3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D3E1F000E9;
-	Sat, 22 Aug 2026 14:10:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUNQG5l4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB6941F000E9;
+	Sat, 22 Aug 2026 16:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787407837;
-	bh=5wZxMECkURxGRZc9twwLk9z6OWZrD6zd0mUn/VVDkgM=;
+	s=k20260515; t=1787414610;
+	bh=w3DdILXpDJp3170ahp0udeqgcihQq1dA8FnkExZUg1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lv0jgGm3oXk4b0deNNSg3WtYcCWJaddgtwIhlIl8jnS0ExNAuGtDxMM8G18r17XCB
-	 mgxdODe6ttQcSqnGezUoUdIAA9kNsx8b/MbzRNX0ADWjDD0KgY6nK/usZ8F1oW9VoS
-	 2bDQB30PU3DYHEeeRqf8iaYJA7oX2J1T7Zgde9ou4xvbxF4o9jIiB3LceKjLxdMCEP
-	 5FbcyQ/SIlQhYHY+BxG+XSUoQKTQFlqkXnlMkpX+B+wKMKwoKuIQxEGTeUxhUVTuCY
-	 mMBRERGQKt3GzCraM5DrMe2EGiJQUC9tgxJoS63kGfgSDICnuxyEp4IlE7LHvTIJvw
-	 r/sSoxl2S9eyg==
-Date: Sat, 22 Aug 2026 16:10:34 +0200
+	b=DUNQG5l4WW0Fs3MsaR8TJQEryRlJHau92StTl7bY5O1MqOxHHkAYPPWwncyis6Hv9
+	 EMvzxd1PSAQdCfPkDqKTFZl7RO8auRgZVuA8Nhg3V7dhJ5TTtlQDuJFt/GvDrJs3YX
+	 YBPP8SMNpy9KuVM9QWmzcFbj7DQ7S1x66Ono53NnqyGyNDe7Ppe30dUZqYCh0EuBiq
+	 PIBPMkeU5aqA1IbNNPCnqxv2TJIeqytMaIli0irtGJyeMu2Joq9EppBXtGLaQdFNGu
+	 ZElp75u32T9qw6XADpa7YZUDUUDvTYr9tpEfDtXQvBfMhlF8/7WUrfXJyRAhFMnc6A
+	 FwW3aKoxp6cZg==
+Date: Sat, 22 Aug 2026 18:03:27 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <aomtdXK5M19xrk0z@devuan>
-References: <anZdHxYJZ6hLleQv@devuan>
- <xnecg92tt1.fsf@greed.delorie.com>
+To: Masanari Iida <standby24x7@gmail.com>
+Cc: linux-man@vger.kernel.org, mtk@man7.org
+Subject: Re: [PATCH] resolv.conf: Update MAXNS header reference for
+ resolv.conf(5)
+Message-ID: <aonIPZvr_UQCDNoy@devuan>
+References: <anZtjC89LJFudMay@devuan>
+ <20260808021539.146429-1-standby24x7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,102 +42,88 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wxeqkqbbuindgotj"
+	protocol="application/pgp-signature"; boundary="hiutf2y223ymljfn"
 Content-Disposition: inline
-In-Reply-To: <xnecg92tt1.fsf@greed.delorie.com>
+In-Reply-To: <20260808021539.146429-1-standby24x7@gmail.com>
 
 
---wxeqkqbbuindgotj
+--hiutf2y223ymljfn
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <aomtdXK5M19xrk0z@devuan>
-References: <anZdHxYJZ6hLleQv@devuan>
- <xnecg92tt1.fsf@greed.delorie.com>
+To: Masanari Iida <standby24x7@gmail.com>
+Cc: linux-man@vger.kernel.org, mtk@man7.org
+Subject: Re: [PATCH] resolv.conf: Update MAXNS header reference for
+ resolv.conf(5)
+Message-ID: <aonIPZvr_UQCDNoy@devuan>
+References: <anZtjC89LJFudMay@devuan>
+ <20260808021539.146429-1-standby24x7@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <xnecg92tt1.fsf@greed.delorie.com>
+In-Reply-To: <20260808021539.146429-1-standby24x7@gmail.com>
 
-Hi DJ,
+Hi Masanari,
 
-> Date: 2026-08-07 23:08:10-0400
-> From: DJ Delorie <dj@redhat.com>
+> Date: 2026-08-08 11:15:39+0900
+> From: Masanari Iida <standby24x7@gmail.com>
 >
+> The MAXNS limit mentioned in resolv.conf.5 points to
+> <res_state.h> instead of <resolv.h> after following glibc change.
 >=20
-> I'm ok with :
+> 500b3a499fff (2017-05-20; "Remove __need_list_t and __need_res_state.")
 >=20
->   The resulting data is read when the program starts execution.
+> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 
-Nice!  :)
-
->=20
-> This is what I've got so far:
->=20
-> commit 8ed803ba1e814dd7efdeec787b9b278c2e44be83
-> Author: DJ Delorie <dj@redhat.com>
-> Date:   Fri Aug 7 23:07:04 2026 -0400
->=20
->     man/man5/tunables.conf: Document system-wide tunables config
->    =20
->     Signed-off-by: DJ Delorie <dj@redhat.com>
-
-Thanks!  I've applied the patch.  Still, a small question (I'll amend
-myself with the result of the answer).
-
-> diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
-> new file mode 100644
-> index 000000000..a27f78cde
-> --- /dev/null
-> +++ b/man/man5/tunables.conf.5
-[...]
-> +The syntax is:
-> +.P
-> +.in +4n
-> +.EX
-> +.BI [ filter : pattern ]
-> +.EE
-> +.in
-> +.TP
-> +.B proc
-> +The
-> +.B proc
-> +filter limits the following tunables to processes
-> +whose name matches the pattern.
-
-Is this also a glob(7) pattern?  Or is it a literal name?
-
-> +The pattern may be an absolute path
-> +or just the base name.
+Thanks!  I've applied the patch.
 
 
 Have a lovely day!
 Alex
 
+> ---
+>  man/man5/resolv.conf.5 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man/man5/resolv.conf.5 b/man/man5/resolv.conf.5
+> index 8e914f12a18d..89f9d903a1e3 100644
+> --- a/man/man5/resolv.conf.5
+> +++ b/man/man5/resolv.conf.5
+> @@ -50,7 +50,7 @@ or an IPv6 address in colon (and possibly dot) notation=
+ as per RFC 2373.
+>  Up to
+>  .B MAXNS
+>  (currently 3, see
+> -.IR <resolv.h> )
+> +.IR <res_state.h> )
+>  name servers may be listed,
+>  one per keyword.
+>  If there are multiple servers,
+> --=20
+> 2.25.0
+>=20
+>=20
+
 --=20
 <https://www.alejandro-colomar.es>
 
---wxeqkqbbuindgotj
+--hiutf2y223ymljfn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJrdoACgkQ64mZXMKQ
-wqkd9Q/9F9ztt2VHktB4kasBRbcYw4yVVpuZ0bFDZJz+AFDvHAu32rogZlNgtDKo
-xPmr+LYz4UAaK+CXOdVe/NBibH9DOe93R4M4SZzasZxKFbUWeSAVC7S5gKq4SiUp
-0hQ3S9+8P9jhWPuZ57QQlD7Jm8cIfUMTwUkpC8T7PQv+DU0uyVsMDYz3Dj4Jt8uL
-S9qRswlGiUnqi0B3z70pbBLZCOSgowNppF2UeG5Rej9G4K1NFaZfLfE1k/uTWpWG
-joERrA28+fXpZ1HbgiueAMTv6RrzrVr9wx65xvOeAqya7q37Dr+hyKNi1OBqgDK1
-zCW6XfLGYVVuHF3iLUiEcfJ87qhZHGN5R/IL/Ue6ELOYNGzHtfUtjMKjT5dhFKcV
-+M30MY+gQbAFX5m858Ka7lGqxJpA3CluaNTui7QIN4t6u5KltkALD3g6bBMRl5Mc
-Qf28YFAGkCa58dNBY/L3FuX7ZZaER7XW8GpVVohc/d+Fk1Dulw1wCKJSJ2/gWYNI
-UlwHA/YA00OYYzdPa+lNmBjq5M0LpEB72wP9BBUhn+ePY3BTO56RHzWhYI9wZFsz
-ARWxBOsu8c1bE/fUKTjhx1It1MXtOA0GrLLdU/YWVgqez3WD4pQfV4b7q7EdONVB
-8sHDZ9R2FnNik8XKkpnrPtoixWdhgIyEhew9bmXtn827msmfXas=
-=1nsU
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJyE8ACgkQ64mZXMKQ
+wqmlQA/+M4uPLTYk17SSWjsQsMAvgmrYTvEZN9NwIS3IkSgLiC34jTc1R29ggY0w
+/mam/yF0UrfAHfyvtYdxs4/1XthPqqQZYK6SVTq9NcDGKmpoUJzr52+KD24uAM4R
+OV5lKELfBGjOAoEPlfTtzB4RFOIQzD+G/xqh9i9Txv1uGCRemvns8O7tJFPFQlb/
+SBIttkEkEThJMHaaIVKhTJqDWERvF0Dx+/uowXlFBtURe2C8zlMtjxPovwyJ51hN
+IwQ8b1/2/mxAjOEQ2eXRaVI8b6UbdsYWOsPYIoIAnSVbB4/yPHjJOnMl9+tvVzP6
+JO7+LxFUiY5dD0FeE2i408q9E78UzHzcCDc3iYrZS46pu0FoJL+s7J1V9JfXJHbV
++e/qvQYxDcSzGiO62hb/jSkop9YrSsx0IhpLBNZHY6iI3WXrH3fDrBXRUS8AknNj
+5zSIvZbFr4BZDl3wwX1bcmoSY69pZLzVjPK/g9Cq3aIvcoUSnbd6ZIL+CwcQJRa3
+BPMTVowgaSsbz7kcLInYYuG0kwmMuNn5NRHtC/IK6JRcvf3tqMsfPQjqMGH8fzpr
+6KeYMojziYagO5pbTZYQaFSE0/X/rN5pY5irFiDit1mnKdrVAxRGHJRO2ovDI7oO
+p/lHDMsh4k9pHeBmLDIjBIlH76ePx9JygERJAtL4GlLyLRlUwwU=
+=zTxH
 -----END PGP SIGNATURE-----
 
---wxeqkqbbuindgotj--
+--hiutf2y223ymljfn--
