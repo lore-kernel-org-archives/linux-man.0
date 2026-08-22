@@ -1,40 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FC838331F
-	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 22:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D1E23EAA6
+	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 22:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787437810; cv=none; b=rs0Mq76opQOGZkB16P1Z6guQkplDDGWgkKpguiBLqPxpRQwDARS8RpPY+BKJQOCRuW1vRV7mY/HiXuGYyfPii6k8+2Ib+Ecc+DTKySbIJOIaVkYRw66kBHQ+7KTPPPUSBc+rhATL8wIkFPwXNgetwyq1OCYU5tKQ2w7c5yCmFBA=
+	t=1787438311; cv=none; b=Q5q0yhKj+GapWmGANAgF6xUf+oNA8d0Xa+Z9A6iU8KRrNW3b6rCFfIIlxQQCXXtbX0O8/X3YGrkl6OV4xY79oEbzwaQ2ZMnCLNZMJZvG9cyyOpdsnvHGpZjTqToTr6W12xBrbcd/xaawLGfuk+Pe64zP7oNS/CotDMWfMsF4Ql4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787437810; c=relaxed/simple;
-	bh=6IUxbooyKNfCZd2FVrHBNSEVpptMgAINu3miuRoJbVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7x+f36h98EwQzjXiCzL1o8NCtBL3Ob8eLilmLhu0IrP3RVvVn/bW58guDR0X+Yq8yvQpss+s+btn8IpyUelqw7LMt6PCDhlr1bRm8MAGlNgXT0SVYqFMMDOpAmotfFYHLDVKixfEC7p4rCGUHGmgbwOwZwCnnOCJoUJQhkM2Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mB2aQKb8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787438311; c=relaxed/simple;
+	bh=SUUrhBpSkxBHXCmE4b65ViFTSzkKbs11xriS1ABdavM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kimzbUdmJGC3t49+Umou3WXPIR5nQojtJerCVt/JLJYseB+R9kAZJFw3hED7vhsB1B6F3hzXTrR31Bz6+guM7SzL1pJvH6NZ/f2G2RKVG1jRPoA5DjsRDBLgeUpRBMakC4pvyyz1+RilPbH9ulzm/9qLuW0NHuerqO8VC2OBDO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djlq46ii; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mB2aQKb8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7871F000E9;
-	Sat, 22 Aug 2026 22:30:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djlq46ii"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724BB1F000E9;
+	Sat, 22 Aug 2026 22:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787437807;
-	bh=1fDjlro3ZKm5jslImHWz2PVsgz2qQXIycJ/eqCkJycA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mB2aQKb8DsHrU/OS/WduHECDXDpMxSdg01xUg4n3HXCV9I86jUM/L4aEhY6IULiYE
-	 cZStOO/vXKuXbALdlLmuPcFt04BJaNCVemLOejU+R7MnNgAIWgGRlNraHtgOfGSrNe
-	 1sEZ4uYIYYvR5N90odsDd7aQ2aVkHVyuPQAGMPlVm0aNEhYR2gohbYIcN8M3mdDBQB
-	 XxuYx8VuWcqHmB2VDAsiozNuFR2ucN/XNFpKuo5yEa2Z6y/JKrsTey2pGNxn9NA6yf
-	 Rt2JeKhoFOrOJxgoEmV3Kv8ab/j+T352o2a0Ftl8v9bwpw6bqEeY7Yl3P0fIrvbQOe
-	 VonbwURqgi+3Q==
-Date: Sun, 23 Aug 2026 00:30:04 +0200
+	s=k20260515; t=1787438310;
+	bh=m1H4vCz7CF/gDZ9U3YkJyA1h/o9rLptHQlRVbn9UdmY=;
+	h=Date:From:To:Cc:Subject;
+	b=djlq46iixemp8lsX7BRGL1I/nRiHSTmKhu2cTdjnkhvaJArZcw/HMLy/zbJO+Rlp3
+	 YtIOsrS9JhD1p0spnzmU3ctaO6rFwlJk5xtwh6tp7DiAZCEKcVs8PC/+XhOSEPgW9W
+	 zuNHHc+su0CZTrIF2xozg6Swg46aHUhxw75KuF491xelarH6yEqklaDwSScrPWTxVU
+	 YJJcLWh25JiJuNCi+BMlKwHemxRcWoDL6ufwCGubwuGfheZ/UUTR8yZmtMWdVKlvGA
+	 psUvVWUxSIgn0DNQLcr1YXpGceuuXTHdOJRfOsO0OS7UpPiuaHC9XFc1YRy2O3ThmL
+	 xypGpjTpXbtuw==
+Date: Sun, 23 Aug 2026 00:38:27 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <aooioNNOhTmULlfl@devuan>
-References: <aonfyurBGGpdjEil@devuan>
- <xn8q5y9h3a.fsf@greed.delorie.com>
+To: linux-man@vger.kernel.org, DJ Delorie <dj@redhat.com>
+Cc: Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH v1] man/man5/{ld.so,tunables}.conf.5: Add subsections
+Message-ID: <34bd47e97f05419ce3171a2464ec2bd22901232f.1787438190.git.alx@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,70 +40,168 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r7mlnqrdkpkeux7m"
+	protocol="application/pgp-signature"; boundary="tuwf6o7yl2xdon4h"
 Content-Disposition: inline
-In-Reply-To: <xn8q5y9h3a.fsf@greed.delorie.com>
 
 
---r7mlnqrdkpkeux7m
+--tuwf6o7yl2xdon4h
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: DJ Delorie <dj@redhat.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
- tunables config
-Message-ID: <aooioNNOhTmULlfl@devuan>
-References: <aonfyurBGGpdjEil@devuan>
- <xn8q5y9h3a.fsf@greed.delorie.com>
+To: linux-man@vger.kernel.org, DJ Delorie <dj@redhat.com>
+Cc: Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH v1] man/man5/{ld.so,tunables}.conf.5: Add subsections
+Message-ID: <34bd47e97f05419ce3171a2464ec2bd22901232f.1787438190.git.alx@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <xn8q5y9h3a.fsf@greed.delorie.com>
+
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
 
 Hi DJ,
 
-> Date: 2026-08-22 13:54:01-0400
-> From: DJ Delorie <dj@redhat.com>
->
-> Alejandro Colomar <alx@kernel.org> writes:
-> > Another detail I noticed now: How is the process name taken?
->=20
-> The kernel doesn't actually tell us the name of the file we're exec'd
-> from.  It passes an already open file descriptor.  So we have to infer
-> the file name from /proc/self/exe.  If that isn't available, we use
-> argv[0] (unless AT_SECURE) but that can be vastly different than
-> /proc/self/exe as it's a separate parameter in the execve() call (hence
-> unless AT_SECURE ;).
+This is a patch for improving a little bit the organization of the two
+files.  Here's how it looks after formatting:
 
-Hmmmm; interesting!  I'll push your patch already, as is, and work on
-a patch (set) of my own to improve it a little bit.  I'll send you the
-patch (set) for discussion.  Thanks!
+	$ MANWIDTH=3D64 diffman-git HEAD--- HEAD^:man/man5/ld.so.conf.5
+	+++ HEAD:man/man5/ld.so.conf.5
+	@@ -13,6 +13,7 @@ DESCRIPTION
+	      The file is parsed by ldconfig(8) and the results stored
+	      in /etc/ld.so.cache.
+	=20
+	+   Directives
+	      The syntax allows lines to start with the keyword include
+	      followed by a glob(7) pattern.  Files matching that pat=E2=80=90
+	      tern will be processed as if their contents were included
+	--- HEAD^:man/man5/tunables.conf.5
+	+++ HEAD:man/man5/tunables.conf.5
+	@@ -21,14 +21,19 @@ DESCRIPTION
+	      program starts execution.
+	=20
+	      Each line in the file /etc/tunables.conf specifies a tun=E2=80=90
+	-     able, which is specified with a string of the form
+	+     able, a directive, or a filter.
+	+
+	+   Tunables
+	+     A tunable is specified with a string of the form
+	      name=3Dvalue.
+	=20
+	+   Directives
+	      The syntax allows lines to start with the keyword include
+	      followed by a glob(7) pattern.  Files matching that pat=E2=80=90
+	      tern will be processed as if their contents were included
+	      at that point.
+	=20
+	+   Modifiers
+	      Each line may include zero or more keywords or symbols at
+	      the beginning, which affect how each tunable affects each
+	      processes.  The keywords must be separated by whitespace,
+	@@ -56,9 +61,9 @@ DESCRIPTION
+	      *      The tunable applies to both AT_SECURE and non=E2=80=90
+		     AT_SECURE processes.
+	=20
+	-     The file may also contain filters, which limit the tun=E2=80=90
+	-     ables following it.  The effects of a filter are termi=E2=80=90
+	-     nated by any of the following:
+	+   Filters
+	+     Filters limit the tunables following it.  The effects of a
+	+     filter are terminated by any of the following:
+	=20
+	      =E2=80=A2  The end of the file.
+	      =E2=80=A2  The end of an included file.
+
+
+Let me know what you think.
 
 
 Have a lovely night!
 Alex
 
---=20
-<https://www.alejandro-colomar.es>
+ man/man5/ld.so.conf.5    |  2 +-
+ man/man5/tunables.conf.5 | 18 ++++++++++--------
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
---r7mlnqrdkpkeux7m
+diff --git a/man/man5/ld.so.conf.5 b/man/man5/ld.so.conf.5
+index d9fae3c1f377..a94e82747f9d 100644
+--- a/man/man5/ld.so.conf.5
++++ b/man/man5/ld.so.conf.5
+@@ -14,7 +14,7 @@ .SH DESCRIPTION
+ .BR \%ldconfig (8)
+ and the results stored in
+ .IR /etc/ld.so.cache .
+-.P
++.SS Directives
+ The syntax allows lines to start with the keyword
+ .B include
+ followed by a
+diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
+index a27f78cde6f7..91bb6b81cb85 100644
+--- a/man/man5/tunables.conf.5
++++ b/man/man5/tunables.conf.5
+@@ -27,10 +27,14 @@ .SH DESCRIPTION
+ .P
+ Each line in the file
+ .I /etc/tunables.conf
+-specifies a tunable,
+-which is specified with a string of the form
++specifies
++a tunable,
++a directive,
++or a filter.
++.SS Tunables
++A tunable is specified with a string of the form
+ .IB name =3D value \f[R].\f[]
+-.P
++.SS Directives
+ The syntax allows lines to start with the keyword
+ .B include
+ followed by a
+@@ -38,7 +42,7 @@ .SH DESCRIPTION
+ pattern.
+ Files matching that pattern will be processed
+ as if their contents were included at that point.
+-.P
++.SS Modifiers
+ Each line may include zero or more keywords or symbols at the beginning,
+ which affect how each tunable affects each processes.
+ The keywords must be separated by whitespace,
+@@ -81,10 +85,8 @@ .SH DESCRIPTION
+ and
+ .RB non- AT_SECURE
+ processes.
+-.P
+-The file may also contain
+-.IR filters ,
+-which limit the tunables following it.
++.SS Filters
++Filters limit the tunables following it.
+ The effects of a filter are terminated by
+ any of the following:
+ .IP \[bu] 3
+
+base-commit: 6bb006086657277c670f120981aeb41d6a4ea14c
+--=20
+2.53.0
+
+
+--tuwf6o7yl2xdon4h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqKIuYACgkQ64mZXMKQ
-wqm2Sg//XM25/m6eFL2qnpzcZsiwB5p/jG9I5d8ru9sTiwd3mro2qUnzUkoKGxoG
-ya2VvEyeADHLLvNG4sLcGQJl6r3AzNxGiJwGNTcVlYmQ9RMgtgutB4Ll2V82Bhfa
-YQF2/RtGs1PQ99kt7YRqSSzo3Q7hadCcSZgmrtvJDo/6hlEJMEzfN97v4sokrp2S
-aO5QsP6UJYdAq/tXEpWBsLZzTqK4sv66VBn9PzwCplxNYLo/bdGN1nmRsFnU20QN
-LKzIsWihDmEJ8SlH8+fDSXTi+yNTGaEA1u2VlDuzar/r/aP/W2tmMrulTM7z7Tne
-bfTu84ghvHf3S9nzFdjjprHwCHFNqwJdYL01QUhnEE66P5MwKcoYhVERohp2Qw/m
-RSiElfRpOzV9SYn6RF3NLeOIlBd4sCdHI1LAZISCEU2TTfraxZGexSnmO4ptEWeY
-fH9/OiqXzXicxVhyf48ixmWrIKS/j9sCuaK5GikZtJsRX43Mn7+mrp3QXgWYJA5m
-a5IHH4/CQizEvqMspB3heCCZJ7HhOhEKu0ODW4bDzkYRZdzfqxGynpHeBOUQskwt
-4k/2Gjkc0L3aU5RVqrWVEE4nqr9JoDY4GFQnLsRL8qXqgUVd4188OuZYEXxAOWJP
-7/4etNh10N50MJx5oxUDFDFs0mARqVfZNrgp8FzSr3gggZzZLdc=
-=vonb
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqKJOMACgkQ64mZXMKQ
+wqlAWQ//UaZz7WAsVrpszUHPI3tguTYWu6CAfCO0tGXawL9mjSXW4bIvhERDzvla
+P6SCQDtIUf0MuSXU8tATG9cy+mPmST5oVhGbFnALQEwDEb6O2s/KmKJN/VrAEBYy
+EPtnbmbjR8H1ZPsvoVKqn+Rc0h5r247xk1Or8dJU8OcRWQ2pzoe1l4qktKXoFlEr
+EmgKp3lhye+AhCX9i6nNWZ82JSqCIlOrWW15UInnhFSCfrh5Tuy4sazWG49cehzh
+Hz8tAlCJE1eZcHfhcS+wUtVjRqiBw8YbsgKzDxc82BqNELfYuzec95Ed9pyKOnXh
+y1mhOxeiUvnb1mvvNVKK718VIDmiwaJY/MvEMbKr22T/x/OCeIVhAn1BkTQL7FjM
+8p4IIMMxYIiNNM48oLjqNLFQs1pJOK+bPNKTkCxs9mD33TkNVSd5MUQvMrXG/5gf
+u9oKHapDngM8dSV8G0ex/WPEc0l1OhnIz+wkta8T4crCaDXrVMaxX/68IJ9xmwC8
+io5F/z9u2MBXZgPUJ6JZoHtIR2HjXL+gHiTPRNpqtj3UIUTqB1/ulQ7otvNXTw0u
+xPW0/G0slinLI0d65RZSU19JRk1YChlHcSRZqKgC+VR5A5GwwarE7B8POjBBAwSn
+nJcoH8fsYxATZetSsUxnR//3Cie8kJoQ/ZMrRc4shtqwEQPT5Jc=
+=Ry1q
 -----END PGP SIGNATURE-----
 
---r7mlnqrdkpkeux7m--
+--tuwf6o7yl2xdon4h--
