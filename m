@@ -1,38 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B18937F01C
-	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 13:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E047370D6E
+	for <linux-man@vger.kernel.org>; Sat, 22 Aug 2026 14:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787407142; cv=none; b=IrEn47/8iiCuBWD5S57dUjFQQeRowgnelqJBXIiHT0vmbY5Ux1m7mYyXWVCwWi+UrsKFmVY/9PuQoxw1oiOY97x4bXRn1OlwVwU106m9z0SKD54jFoB3HwCNU55VyFhMmpxoMm7Ps0PgyKZfFog8k8SwJM9YU2ntK6d4fVsfsJw=
+	t=1787407839; cv=none; b=buqmLY8vqYmdgT2OJJtU6wUCnIjJdQy5xzFA6OuRiUmFoUo0i/yBBSRXsmHeRYe8LhNV9vM5eByILx2rxWTgalPcPaTyvPey3h+vGHc2wO/Mgce68/9v0OfkIAwfv1WagNo8oDTFHSK1VFkaoTdcj7iIlvMaBC0BU08ngeiVS3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787407142; c=relaxed/simple;
-	bh=2U/7NZD11HIFsY9RKWfdin8hW5czr8Tadmgw4Y/iQOE=;
+	s=arc-20240116; t=1787407839; c=relaxed/simple;
+	bh=EjNO3A1eUw9UYUxt7KRskuGI30pnekST4SXwIE/cGn4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwAqitPqJXGEmTjU5QNwwAjedurFsUC343z2gd7HfUQM9/PYZgUhgPVa9FmoRuklAUQh8Bujl6jQTj2UGLgEAHZLW/+MaaYclW+tRs2bF/nZP+SSuuiJOYaZGReqYIDR3338CtvjUBWtt6wzc3eYxrHPgqks4DDBqRhr2ScQ1uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxuncOQ7; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HXXkrHAKTyEb62LLGIVJaab7nvk3UkhNWiXtZsDlnULueCFrdhJXcozAsuynd0QscNj6TucajewDJ/qi5crLLfc0/DYYS2nad1q2IskR7IG+DjYgJrSg1L8V/1wEfjGEO96t4RQqf3YTEDOfpN8XdPJ2XTU728PsXHpbXKn2feg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lv0jgGm3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxuncOQ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F081F000E9;
-	Sat, 22 Aug 2026 13:58:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lv0jgGm3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D3E1F000E9;
+	Sat, 22 Aug 2026 14:10:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787407139;
-	bh=/O1sgk983YC/nmgw0vtRsWGCoAdhlim6B8XAiNgDsww=;
+	s=k20260515; t=1787407837;
+	bh=5wZxMECkURxGRZc9twwLk9z6OWZrD6zd0mUn/VVDkgM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HxuncOQ7ouW6qvVrZWsmXE3M1/T5BpMXfJLZPWksBub//MaVZt9+Uy2fQiT7c7JMt
-	 ltdDtfI62wJhLEEeHJKzbPNTuDABnsIFw01V8Lns3tPO8bEA1JbycZkhxq9P6WreYN
-	 1hoXBl7fW+n8xgIM2EYsTrZObtSFCrPdVB0h5XFQ2TjMYyGpjWASoiemORoMsUx5HQ
-	 YW45MzxW6VbNwYLHE5UNZOe19Qoxf7zx+FxD1INKUhE29riWs45fJeqdckSbTtPHK0
-	 UGIpyGslojvbe7plgmmQLYDCyucwgPZ5bmHCkUGoP9NU7l3e+FIEzyL7xSSpts+SzZ
-	 BAtXfFalvysiw==
-Date: Sat, 22 Aug 2026 15:58:56 +0200
+	b=lv0jgGm3oXk4b0deNNSg3WtYcCWJaddgtwIhlIl8jnS0ExNAuGtDxMM8G18r17XCB
+	 mgxdODe6ttQcSqnGezUoUdIAA9kNsx8b/MbzRNX0ADWjDD0KgY6nK/usZ8F1oW9VoS
+	 2bDQB30PU3DYHEeeRqf8iaYJA7oX2J1T7Zgde9ou4xvbxF4o9jIiB3LceKjLxdMCEP
+	 5FbcyQ/SIlQhYHY+BxG+XSUoQKTQFlqkXnlMkpX+B+wKMKwoKuIQxEGTeUxhUVTuCY
+	 mMBRERGQKt3GzCraM5DrMe2EGiJQUC9tgxJoS63kGfgSDICnuxyEp4IlE7LHvTIJvw
+	 r/sSoxl2S9eyg==
+Date: Sat, 22 Aug 2026 16:10:34 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: linux-man@vger.kernel.org, nabijaczleweli@nabijaczleweli.xyz
-Subject: Re: [PATCH] man/man2/futex_waitv.2: Fix example compilation
-Message-ID: <aomqlZqj26mroz96@devuan>
-References: <20260813160619.52416-1-andrealmeid@igalia.com>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <aomtdXK5M19xrk0z@devuan>
+References: <anZdHxYJZ6hLleQv@devuan>
+ <xnecg92tt1.fsf@greed.delorie.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -40,83 +42,102 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kwtdm3hjhvfwuend"
+	protocol="application/pgp-signature"; boundary="wxeqkqbbuindgotj"
 Content-Disposition: inline
-In-Reply-To: <20260813160619.52416-1-andrealmeid@igalia.com>
+In-Reply-To: <xnecg92tt1.fsf@greed.delorie.com>
 
 
---kwtdm3hjhvfwuend
+--wxeqkqbbuindgotj
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: linux-man@vger.kernel.org, nabijaczleweli@nabijaczleweli.xyz
-Subject: Re: [PATCH] man/man2/futex_waitv.2: Fix example compilation
-Message-ID: <aomqlZqj26mroz96@devuan>
-References: <20260813160619.52416-1-andrealmeid@igalia.com>
+To: DJ Delorie <dj@redhat.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] man/man5/tunables.conf: Document system-wide
+ tunables config
+Message-ID: <aomtdXK5M19xrk0z@devuan>
+References: <anZdHxYJZ6hLleQv@devuan>
+ <xnecg92tt1.fsf@greed.delorie.com>
 MIME-Version: 1.0
-In-Reply-To: <20260813160619.52416-1-andrealmeid@igalia.com>
+In-Reply-To: <xnecg92tt1.fsf@greed.delorie.com>
 
-Hi Andr=C3=A9,
+Hi DJ,
 
-> Date: 2026-08-13 13:06:19-0300
-> From: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> Date: 2026-08-07 23:08:10-0400
+> From: DJ Delorie <dj@redhat.com>
 >
-> The example doesn't compile because it calls the undefined function
-> my_futex_wait_private(), which should be my_futex_wake_private().
 >=20
-> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> I'm ok with :
+>=20
+>   The resulting data is read when the program starts execution.
 
-Thanks!  I've applied the patch.
+Nice!  :)
+
+>=20
+> This is what I've got so far:
+>=20
+> commit 8ed803ba1e814dd7efdeec787b9b278c2e44be83
+> Author: DJ Delorie <dj@redhat.com>
+> Date:   Fri Aug 7 23:07:04 2026 -0400
+>=20
+>     man/man5/tunables.conf: Document system-wide tunables config
+>    =20
+>     Signed-off-by: DJ Delorie <dj@redhat.com>
+
+Thanks!  I've applied the patch.  Still, a small question (I'll amend
+myself with the result of the answer).
+
+> diff --git a/man/man5/tunables.conf.5 b/man/man5/tunables.conf.5
+> new file mode 100644
+> index 000000000..a27f78cde
+> --- /dev/null
+> +++ b/man/man5/tunables.conf.5
+[...]
+> +The syntax is:
+> +.P
+> +.in +4n
+> +.EX
+> +.BI [ filter : pattern ]
+> +.EE
+> +.in
+> +.TP
+> +.B proc
+> +The
+> +.B proc
+> +filter limits the following tunables to processes
+> +whose name matches the pattern.
+
+Is this also a glob(7) pattern?  Or is it a literal name?
+
+> +The pattern may be an absolute path
+> +or just the base name.
 
 
 Have a lovely day!
 Alex
 
-> ---
->  man/man2/futex_waitv.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man/man2/futex_waitv.2 b/man/man2/futex_waitv.2
-> index 9dfad84ce..4158f297d 100644
-> --- a/man/man2/futex_waitv.2
-> +++ b/man/man2/futex_waitv.2
-> @@ -352,7 +352,7 @@ worker(void *arg)
->  \&
->  	usleep(*futex * 10000);
->  	*futex *=3D 2;
-> -	my_futex_wait_private(futex, 1);
-> +	my_futex_wake_private(futex, 1);
->  	return NULL;
->  }
->  \&
-> --=20
-> 2.55.0
->=20
->=20
-
 --=20
 <https://www.alejandro-colomar.es>
 
---kwtdm3hjhvfwuend
+--wxeqkqbbuindgotj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJqyAACgkQ64mZXMKQ
-wqmg7w//fCKDvNjgAWhgWnowjXjD13C95xLMqoXfJn4mVFPVY9hM+4wTrI9ducoT
-8PC5D1ekq9DjUShS1+sxuPBAJZXNSwS7F2MAzji7j6L2vRXsH55LpIBiGf56sXDI
-PfKhgtVyx82k4EHxAc+CCta7q6QpCx2bWyYwM3olLVr57nUXm3wZlXnDyHTHCXXt
-RbYKkrWFnt61tLiNveUCPGWTpLXvVo9crV0N/s+NqO5wRF2Qbic115OenFYVXtNc
-cNrHplBei0m5DJ8PgCSN4cx6KP26BGdoq2fGykNTy3G1/jAUk1d/VEtaWD0xm1TK
-555uZDoenFDIyuyqy39WzWn2dSrKOapFK43NCZFgTpe2n6OVUJ/iawqJ6CjY94My
-RJFBDiVMZ8LfiNUvyEfctr4sFILhkrO7C6MK7FMP1GX+3vp5yB5fR6GhhCXp5HLO
-teqVAp7fP/0yvFzJUvMMVdSWmslwbDeYM6G8EL+C6rH9xRMK9J1ZUyQ2ecp8PwTc
-b0wAtsVfAA/0mKBZUnoWyRlLAjqxhVfBWDXX4maDz2Yj5Hz6fpn6W5T5mzkvtSny
-KP2QxigdbevBAev3089/cx4FGQjWLUF6z7ssKagrfPuzyaqcHQG8VUZKh3tKapXe
-RKpSu2jrNPaKJTieVD43eOQRDMWgx1rwUKTpQh0SE0ctDdfCSqs=
-=Us5K
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqJrdoACgkQ64mZXMKQ
+wqkd9Q/9F9ztt2VHktB4kasBRbcYw4yVVpuZ0bFDZJz+AFDvHAu32rogZlNgtDKo
+xPmr+LYz4UAaK+CXOdVe/NBibH9DOe93R4M4SZzasZxKFbUWeSAVC7S5gKq4SiUp
+0hQ3S9+8P9jhWPuZ57QQlD7Jm8cIfUMTwUkpC8T7PQv+DU0uyVsMDYz3Dj4Jt8uL
+S9qRswlGiUnqi0B3z70pbBLZCOSgowNppF2UeG5Rej9G4K1NFaZfLfE1k/uTWpWG
+joERrA28+fXpZ1HbgiueAMTv6RrzrVr9wx65xvOeAqya7q37Dr+hyKNi1OBqgDK1
+zCW6XfLGYVVuHF3iLUiEcfJ87qhZHGN5R/IL/Ue6ELOYNGzHtfUtjMKjT5dhFKcV
++M30MY+gQbAFX5m858Ka7lGqxJpA3CluaNTui7QIN4t6u5KltkALD3g6bBMRl5Mc
+Qf28YFAGkCa58dNBY/L3FuX7ZZaER7XW8GpVVohc/d+Fk1Dulw1wCKJSJ2/gWYNI
+UlwHA/YA00OYYzdPa+lNmBjq5M0LpEB72wP9BBUhn+ePY3BTO56RHzWhYI9wZFsz
+ARWxBOsu8c1bE/fUKTjhx1It1MXtOA0GrLLdU/YWVgqez3WD4pQfV4b7q7EdONVB
+8sHDZ9R2FnNik8XKkpnrPtoixWdhgIyEhew9bmXtn827msmfXas=
+=1nsU
 -----END PGP SIGNATURE-----
 
---kwtdm3hjhvfwuend--
+--wxeqkqbbuindgotj--
