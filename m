@@ -1,70 +1,62 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from scc-mailout-kit-02.scc.kit.edu (scc-mailout-kit-02.scc.kit.edu [129.13.231.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF526AC5
-	for <linux-man@vger.kernel.org>; Sun, 23 Aug 2026 20:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D035344DAA
+	for <linux-man@vger.kernel.org>; Sun, 23 Aug 2026 22:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.13.231.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787517661; cv=none; b=O8/+DL0IkyOO6kLOfi5f61iwYra7MBmGh8iMIEWRLKKb43EnmDEVcY/aPJsyTWmX+Vceym2L6F2Mcncg7NP6qPAl9Q9I1cDejKaGmWrllM+DAxHwdDqKx30EEpRn1E9bLyMJY8WD+97XHRRu8FPr/hTqk5UDD8hmqdp8/xgY9Io=
+	t=1787525085; cv=none; b=FtigxVVYO15259F+n4wwIvvfHOebYng8Dw/DFI1WfpiyE3wXZr8ZzLLRCqruDMHSppy1PwcY9faDps51+trHKiDtR11LeR5izJbC4Cf5abLtNClSFJWpeTma2sM4pymXO+36vZAXUOp/1g5s9AAPwXJ41C5E/CHL6+BCEgYMNJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787517661; c=relaxed/simple;
-	bh=pzR5e15mxtKIO5D1oijDvC0FYVCSfTaU+6YqRK3T5KI=;
+	s=arc-20240116; t=1787525085; c=relaxed/simple;
+	bh=jX5H/vcDVCdISPc4fev12kLyl7sGh4GGq+LzpjA+rIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pEzaA1y1VRMVe6C0JOy8uzKhpfUItjljXb5G1lflV6JNC/YevsnZIsPcJKpHh3NmGFwezXpkEWCCMrFvzHbI/RmWWD+0tVjch6E+zkM9z0XL8SnG8ua4OVzpGZyn4ZhZRVq9Z8Xx99GNprpl5mvXglPHB6GMGXRE4BPAA0/tDu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bEzDq7Uh; arc=none smtp.client-ip=74.125.224.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RB0ZfeoGwfffNocJ4QlkMWdHZVIW8D2/hKkXzqA5X1GPXKuss2t9p0LIKtqRfdL/JspBa1CG63P6umKeaVoJmbBXAnleIsaIX4w92vBwlIF+Ac/2Wzwq998tAK4R0FnFRqjJ/kLf3CIu2QClGg0I3xI2MzseG54Rm8M+O88vkdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de; spf=pass smtp.mailfrom=usta.de; dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b=a1CFTkUI; dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b=aXD8rKYq; arc=none smtp.client-ip=129.13.231.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usta.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bEzDq7Uh"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66c82b32121so4101254d50.1
-        for <linux-man@vger.kernel.org>; Sun, 23 Aug 2026 13:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787517655; x=1788122455; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6lQby/UTukGvXnq66fgNzg18RcC5ZAfVfxzThTtpcXE=;
-        b=bEzDq7UhGpTBI3yy7VJyAKolH/57eNUzbZVLKfqSCTFcbR8lW7WFKHeJqryeK10eoH
-         15a7uc1bVIcnzdlnV3k+Rv6ewuvRYUxD6qY/SFsD2+J7Y0m3MrIEXUoyF0r0OFcDXBnw
-         LKsnGCNGfJFM9dRjT8Uvig5UjWIfCx8pDB7Z8tIgWjyS/6vY38EJhuT+6g4uv3BgBNin
-         jFS0TDDrhTNeFxYvDIfafSlp059CsJhzcKnHjQSokMh4gZSlxcpZf23eGDw00bo2Tng8
-         kUPpsTiEADNQrhgSzjVwMa6dNGQcakPFq4qzmpxqZikVG6sPmsjoifHKXOpIU07wpTgy
-         XTow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787517655; x=1788122455;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6lQby/UTukGvXnq66fgNzg18RcC5ZAfVfxzThTtpcXE=;
-        b=gULkCIiVS9oa4c9zlAh0nKGNslUdnrV9VdA6Z1Mz0kp1D0zgDOwj9ikfqbXCHebvzx
-         mFyUTmCMril0aipHVZ0NelgWwxnwJcmy4CvQ5NEo8NuJZpvFchWKNKQiV8EazuPe/4O3
-         DYO+olCXMWEcxJnMj1WV4DB630OPXRMUQOdY5xoNEwJB+WhtsL6b89H03it1IBDM8sl7
-         y81UIf0fNULvCTZa4/MuYzTY5ivsC/XVQhIUscdfthyMaSU1TzJcG+dmxrT1EFSaMbkq
-         o8C2OyrLqyM31p83wvXQzJBYoXCkbtzjCifL+26uPgT8tJUeEQlvwHXUXMlrZvaZrMJ+
-         bpMg==
-X-Gm-Message-State: AFuF++nWvqjLFcHh3ZhcTDDlhNQ/08+g+4QDT0Ct8jnZUtgDgeeGYzxr
-	nNc9uAyvcUjoCk1OF7c3PfK9atW6hE16dfylVdjv3QeMJ5SX25JUaMNZ1x24QA==
-X-Gm-Gg: AR+sD13u89UtIy85ch1RdzCeW72oxrcW34BbzxbrDQt0hap2b32yXpmrrMIvG1aTZpP
-	oKS2wMhGL5+reL9G+e6DAxIXnJi4FSIFEi0inp+ZPU4VQ4WiB0L41QiIVj2BL3g0neeB6FVhsk0
-	7fXoYNfRGm2bynhTeJiuMtRJdp3t7dwX3pl6oSHIIl0erOfieKVUAzZwC+iSFyDcQPl68Lme4Zp
-	OgAV8XCc4o+1oX3OtCa7Bi9hMjlUVTNwcALSvGJ8iDicAzHel05t2ChNjBVz0PZnyVSJEDf5Utq
-	wmICmsjVBcXJ0sNfIhPQqSwpmHI9yaYPRbxCaynBApQbGO65YnMmg5BgbsdGTmOdtptHguCykDF
-	vXipqLekiuKjMTbPWoR0YpDc4+WoDYyT28x3+oOqQnPNcyCnIYEQCynG6+K9r0oh7I9vwn9sTPI
-	V+dyvzeqWdNGpcYuT4fSSDLStVTZWungrbi5Q8lpebTcUAYg4RIA==
-X-Received: by 2002:a53:ac9d:0:b0:66c:9f99:9133 with SMTP id 956f58d0204a3-66cf21bc69cmr4682534d50.29.1787517655363;
-        Sun, 23 Aug 2026 13:40:55 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::41])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84caabb9e7bsm24137347b3.28.2026.08.23.13.40.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 13:40:53 -0700 (PDT)
-Date: Sun, 23 Aug 2026 15:40:51 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+	dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b="a1CFTkUI";
+	dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b="aXD8rKYq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de;
+	s=kit2; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject
+	:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=2w6auWWeWYdd9L6DE3bdHWgrJeAL9GNQxZ22EUzXpKY=; b=a1CFTkUISlpbyjczLCuuldATRj
+	Jllh82nyKO0mz3YfHguyi4QHXiqz77rrroSgV0sOVvi861QbsTHDBFnnRUQYJS0bR/ehr/fcbEhyc
+	umBmn5huv6SXG4pjnQAGDM/dbikJ9PMTedsvdGjD06WtwxOPgLafSgT9/jq3QfxOROieGRHwD8CRz
+	V2anvuiYq4zMJOp+poFgtIhww/kaF0dlYa5IEQ0/rNyj39wF7lL3Omon/EIu+Y+N+Kiyvkr8vtduU
+	WUEA9HkOfFeSg3ObqMWWecidmdjebdZqZgJXDMVmBsc1dp9CRkScqsNh/m059uLKNDb3tNBGG4tMN
+	c34WcASA==;
+DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de
+	; s=kit2ed25519; h=In-Reply-To:Content-Type:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=2w6auWWeWYdd9L6DE3bdHWgrJeAL9GNQxZ22EUzXpKY=; b=aXD8rKYqmu7Cok3/y3GcwfjqWJ
+	8ihKFg8XGTESeNzjQ3I3NvTeb/cOr2f2HNEKiBMJ8TgB3Fe0/VvLyr6kaTCg==;
+Received: from hekate.asta.kit.edu ([2a00:1398:5:f401::77])
+	by scc-mailout-kit-02.scc.kit.edu with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(envelope-from <schwarze@usta.de>)
+	id 1wyGim-0000000FHoO-2Cii;
+	Mon, 24 Aug 2026 00:31:21 +0200
+Received: from imap-2.asta.kit.edu ([2a00:1398:5:f400::36])
+	by hekate.asta.kit.edu with esmtp (Exim 4.98.2)
+	(envelope-from <schwarze@usta.de>)
+	id 1wyGil-000000001bF-17Ep;
+	Mon, 24 Aug 2026 00:31:19 +0200
+Received: from isnote.usta.de ([84.177.233.30])
+	by imap-2.asta.kit.edu with ESMTPSA
+	id E2muFLd0i2pTDAcA4A1LTA
+	(envelope-from <schwarze@usta.de>); Mon, 24 Aug 2026 00:31:19 +0200
+Date: Mon, 24 Aug 2026 00:31:07 +0200
+From: Ingo Schwarze <schwarze@usta.de>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-Message-ID: <20260823204051.mkcgwghlljq7fqic@illithid>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org, groff@gnu.org
+Subject: autotools, was: Using LS/LE
+Message-ID: <aot0q9iCIXOJf8Kk@isnote.usta.de>
 References: <anTugcvjragzGpSK@devuan>
  <xn33wr3rr8.fsf@greed.delorie.com>
  <20260807021256.pwzsls7awqmbslti@illithid>
@@ -81,331 +73,228 @@ List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dguaemu7uk3ofhug"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <aotFzewQhmLJSk6N@devuan>
 
+Hello Alejandro and Branden,
 
---dguaemu7uk3ofhug
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-MIME-Version: 1.0
+Alejandro Colomar wrote on Sun, Aug 23, 2026 at 09:30:53PM +0200:
+> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
 
-Hi Alex,
+>> Autoconf, Automake, and Libtool, the collective "autotools", are all
+>> strongly distinguishable in purpose.
 
-At 2026-08-23T21:30:53+0200, Alejandro Colomar wrote:
-> > Date: 2026-08-23 11:44:51-0500
-> > From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-> >
-> > [looping in groff list because Alex brought to my attention an item
-> > of work on the new man(7) `LS` and `LE` macros that needs to be
-> > done]
-> > At 2026-08-23T17:06:16+0200, Alejandro Colomar wrote:
-> > > I dislike autotools for that and other reasons.
-> >=20
-> > Autoconf, Automake, and Libtool, the collective "autotools", are all
-> > strongly distinguishable in purpose.
->=20
-> I guess if you deal with them enough, you get to distinguish them.  In
-> shadow-utils, where we have an autotools-based build system, I
-> consistently avoid to learn it.  I leave it up to the other
-> maintainers and the distro maintainers to keep it working.  I only
-> report the issues to them.  To me, it'd be easier to wipe it all and
-> write a Makefile from scratch than learning the tools.  The day I have
-> to maintain that, I'll probably do so.  But distro maintainers don't
-> want that, and so they keep helping maintain it.
+> I guess if you deal with them enough, you get to distinguish them.
+> In shadow-utils, where we have an autotools-based build system, I
+> consistently avoid to learn it.  I leave it up to the other maintainers
+> and the distro maintainers to keep it working.  I only report the issues
+> to them.  To me, it'd be easier to wipe it all and write a Makefile from
+> scratch than learning the tools.  The day I have to maintain that, I'll
+> probably do so.
 
-Sometimes success looks like that.  :)
+As one data point for Alejandro, that's precisely what i chose to do,
+and not even because i had never used autoconf before, just because
+i considered using autoconf massive overkill and likely to cause
+a maintenance nightmare.  The same applies to automake, but to
+an even higher degree.
 
-> > Autoconf is a brilliant idea, very well executed.  I suspect that
-> > many of its its detractors possess a constellation of negative
-> > traits:
-> >=20
-> > 1.  They're not terribly competent at writing portable shell
-> >     scripts;
->=20
+Look at this:
+
+   $ pwd
+  /co/mandoc
+   $ wc configure  # handwritten, human-readable, and portable
+     693    2537   20370 configure
+   $ wc Makefile   # handwritten, human-readable, and portable
+     619    1600   16050 Makefile
+   $ wc config.h   # generated by ./configure
+      54     150    1326 config.h
+
+Apart from that, there are 37 test-*.c feature test files,
+all handwritten and human-readable, 723 lines grand total,
+i.e. less than twenty lines on average.
+
+Finally, there are 19 compat_*.c portable replacement implementations
+for systems lacking certain functions.
+
+>> Autoconf is a brilliant idea, very
+>> well executed.  I suspect that many of its its detractors possess a
+>> constellation of negative traits:
+>> 
+>> 1.  They're not terribly competent at writing portable shell scripts;
+
+That's indeed true for me.  While i have done a fair amount of shell
+programming (including writing an entire incremental backup system
+in pure sh(1) more than two decades ago, just for the heck of
+learning the language and testing my skill on a non-trivial project,
+which was obviously a terrible idea - yet the project was in use
+for many years at that organization), and including some work in
+the OpenBSD /etc/rc system, particularly rc.d(8) and daily(8),
+i'm certainly not nearly as good at sh(1) as our true shell wizards
+like Alexander Hall or Andrew Fresh.  So no, i don't consider myself
+a competent shell programmer.
+
+Shell is among the hardest languages to write good, secure code in.
+
+That's why i have re-rwitten the OpenBSD security(8) script, which
+used to be in sh(1) before my time, in perl(1), with contributions
+from Andrew Fresh.  The security(8) acript is run from daily(8),
+which is a shell script that i have also significantly contributed to.
+
 > I believe I'm quite competent writing shell scripts.  :)
 
-=46rom what I've seen, I think you're right.  :)
->=20
-> > 2.  they refuse to understand the very simple principle of operation
-> >     of the m4 macro language; and
->=20
-> I have the 2nd negative trait, though.
 
-Nobody has time to learn everything.  But I take a dim view of refusal
-to learn things for bad reasons.  It can be hard to judge, and for sure
-to know exactly what a person's reasons are, because even if they don't
-misrepresent those reasons to others, they might lack the self-awareness
-necessary to know why they don't do things.
+>> 3.  they refuse to believe that the variety of possible deployment
+>>     environments is as wide as it is.
 
-For example, when I procrastinate a task, I often find myself trying to
-figure out post facto why I did so, after I get around to doing it.
+I think that was actually true thirty years ago, when many systems
+shipped shells that were badly starved for features and full of bugs
+and limitations.  It was no longer true 15 years ago.  Nobody
+has used Silurian systems in need of autoconf-style shell workarounds
+for at least a decade, probably much longer.
 
-Often, I expect that a task will be more difficult than it turns out to
-be.  I let myself get unnecessarily daunted.
+Here is the list of systems where the configuration system described
+above is known to just work (sorted alphabetically):
 
-But, speaking only for myself, getting the "gist" of a nearly pure macro
-expansion engine like m4 was extremely useful in a way that I didn't
-appreciate at the time, because the way I learned to think about m4
-ended up helping me to understand how *roff works.  *roff is a very
-_impure_ macro expansion engine.  Lots of extra stuff piled on.  :)
+  Adelie Linux     Alpine Linux     Arch Linux       Chimera Linux
+  Crux Linux       Cygwin           Debian           DragonFly BSD
+  Fedora           FreeBSD          Gentoo           Guix System
+  IBM AIX          illumos          IRIX             macOS
+  Minix 3          NetBSD           NixOS            OpenBSD
+  openSUSE         Oracle Solaris   Slackware Linux  Sun OS 5.9
+  Sun OS 5.10      Termux           Ubuntu           Unleashed OS
+  Void Linux 
 
-Doug McIlroy has a lovely presentation.
+No shortage of weirdos in there, right?
 
-https://www.cs.dartmouth.edu/~doug/barem4.m4
-
-For those who fear to read M4 even when commented, the concepts are also
-discussed in this Computer History Museum oral history interview.
-
-https://archive.computerhistory.org/resources/access/text/2019/11/102740539=
--05-01-acc.pdf
-
-> > 3.  they refuse to believe that the variety of possible deployment
-> >     environments is as wide as it is.
->=20
 > I acknowledge this.  However, some people refuse to believe that
-> hand-crafted makefiles can also handle quite different environments
-> too.  I believe makefiles can do that just fine.  It's a matter of how
-> much makefile code you write.
-
-I wouldn't have ventured an opinion either way; I'm confident GNU Make
-is up to the challenge, but less sure about POSIX Issue 8 make(1).
-
+> hand-crafted makefiles can also handle quite different environments too.
+> I believe makefiles can do that just fine.  It's a matter of how much
+> makefile code you write.
+> 
 > In the Linux man-pages project, we have 120 kB of makefiles.
->=20
+> 
 > 	$ find share/mk/ -type f | xargs wc -c GNUmakefile | tail -n1
 > 	119125 total
->=20
+
+That's an awful lot.  Why would the man-pages Makefiles need to be
+more than seven times larger than the mandoc Makefiles?
+You don't even need to compile and link C code, right?
+
 > I believe that a set of makefiles that would handle all of the targets
-> of a project like groff wouldn't take much more than that.  It might
-> be a few hundred kB.  If it's well organized, it can be maintainable.
+> of a project like groff wouldn't take much more than that.  It might be
+> a few hundred kB.  If it's well organized, it can be maintainable.
 
-I was going to venture that groff's Automake files added up to much less
-than that.  It's less--but not "much".
-
-$ wc -c $(find -name "*.am" | grep -v gnulib | sort)
- 31886 ./Makefile.am
-  1245 ./arch/mingw/mingw.am
-  1295 ./arch/misc/misc.am
-  3554 ./contrib/chem/chem.am
-  1324 ./contrib/eqn2graph/eqn2graph.am
-  2247 ./contrib/gdiffmk/gdiffmk.am
-  2400 ./contrib/glilypond/glilypond.am
-  1583 ./contrib/gperl/gperl.am
-  1842 ./contrib/gpinyin/gpinyin.am
-  1331 ./contrib/grap2graph/grap2graph.am
-  4559 ./contrib/hdtbl/hdtbl.am
-  1046 ./contrib/install-font/install-font.am
-  6150 ./contrib/mm/mm.am
-  5966 ./contrib/mom/mom.am
-  1312 ./contrib/pic2graph/pic2graph.am
-  1281 ./contrib/rfc1345/rfc1345.am
-  2646 ./contrib/sboxes/sboxes.am
- 31579 ./doc/doc.am
-  2210 ./font/devX100-12/devX100-12.am
-  2089 ./font/devX100/devX100.am
-  2175 ./font/devX75-12/devX75-12.am
-  2056 ./font/devX75/devX75.am
-  1757 ./font/devascii/devascii.am
-  2858 ./font/devdvi/devdvi.am
-  2496 ./font/devhtml/devhtml.am
-  1781 ./font/devlatin1/devlatin1.am
-  1739 ./font/devlbp/devlbp.am
-  2956 ./font/devlj4/devlj4.am
-  8531 ./font/devpdf/devpdf.am
-  5580 ./font/devps/devps.am
-  2387 ./font/devutf8/devutf8.am
-  1047 ./font/scripts/scripts.am
-  1331 ./man/man.am
-  1290 ./src/devices/grodvi/grodvi.am
-  1597 ./src/devices/grohtml/grohtml.am
-  1357 ./src/devices/grolbp/grolbp.am
-  1295 ./src/devices/grolj4/grolj4.am
-  2232 ./src/devices/gropdf/gropdf.am
-  1637 ./src/devices/grops/grops.am
-  1589 ./src/devices/grotty/grotty.am
-  4372 ./src/devices/xditview/xditview.am
-  1508 ./src/include/include.am
-  1048 ./src/libs/libbib/libbib.am
-   987 ./src/libs/libdriver/libdriver.am
-  3625 ./src/libs/libgroff/libgroff.am
-  1150 ./src/libs/libxutil/libxutil.am
-  3571 ./src/preproc/eqn/eqn.am
-  1398 ./src/preproc/grn/grn.am
-  1149 ./src/preproc/html/html.am
-  2689 ./src/preproc/pic/pic.am
-  1356 ./src/preproc/preconv/preconv.am
-  2838 ./src/preproc/refer/refer.am
-  1317 ./src/preproc/soelim/soelim.am
-  2785 ./src/preproc/tbl/tbl.am
-  9555 ./src/roff/groff/groff.am
-  1528 ./src/roff/nroff/nroff.am
-  2112 ./src/roff/troff/troff.am
-  1227 ./src/utils/addftinfo/addftinfo.am
-  1686 ./src/utils/afmtodit/afmtodit.am
-  1758 ./src/utils/grog/grog.am
-  1033 ./src/utils/hpftodit/hpftodit.am
-  2085 ./src/utils/indxbib/indxbib.am
-  1109 ./src/utils/lkbib/lkbib.am
-  1098 ./src/utils/lookbib/lookbib.am
-  1443 ./src/utils/pdfmom/pdfmom.am
-  1200 ./src/utils/pfbtops/pfbtops.am
-  1027 ./src/utils/tfmtodit/tfmtodit.am
-  1468 ./src/utils/xtotroff/xtotroff.am
- 15018 ./tmac/tmac.am
-228376 total
-
-228kB is an order of magnitude higher than I'd have guessed.  But I
-should have known better--from bitter experience I should have intuited
-that the "doc.am" beast alone defeats any such notion.
-
-That's always the most troublesome of our Automake scripts, because we
-use the groff that we build to produce further artifacts.  It therefore
-functions in part as an acceptance test.
+Groff is definitely larger than either of man-pages and mandoc,
+and in particular uses a wider variety of languages and file
+format transformations.  The factor might be larger than just
+two or three, but not orders of magnitude larger, that much i
+tend to agree with.
 
 > Because the makefile language is so simple, bugs are easy to spot and
 > fix, compared to autotools (possibly automake, but I can't distinguish
 > them enough).
 
-Apart from needing an awareness of Automake's special variable names,
-which employ a naming scheme that one tends to notice, I can almost
-always get by writing an Automake script using only "make(1) brain",
-which is one reason I've been such crap at actually _learning_ Automake.
+Strongly seconded.  Due to the autotools it uses, the time i spend
+merely maintaining the GNU roff(7) port in OpenBSD, not even
+counting the times i have spent submitting patches to the
+upstream groff build system, is a very large factor (maybe
+about ten times) larger than all the time i ever spent on the
+mandoc build system, even though i wrote most of it from scratch
+and have been maintaining it for over 20 operating systems for
+over a decade.
 
-I more often have problems writing Automake scripts that will maintain
-portability between GNU Make and BSD Make, which is a constraint
-entirely of my own choosing.
+>> The build system is the thing that consistently gives us the most pain
+>> when trying to firm up a release.  So right now you are pulling on HEAD
+>> at its most fragile, ironically.  The code quality should be good, _if_
+>> you can get the build to completion.
 
-> Oh, yeah, I agree with everyone here.  CMake is way worse than
-> autotools.  autotools is the least evil of the non-pure-makefile build
-> systems.
+That is in sharp contrast to my experience with the mandoc build
+system.  When i send out release candidates for mandoc, almost
+all the feedback i get concerns real issues with the actual code
+itself, only a tiny fraction has to do with the files "Makefile"
+and "configure", and even those few issues are typically very easy
+to fix.
 
-I'm curious to hear your opinion of meson/ninja.
-
-> > Hmm, no release since 4.4 on Halloween 2022.  Yeah, they might be
-> > due.
->=20
-> Yup, I've been pinging Paul a few times in the last years.  But I gave
-> up last year.
-
-I don't begrudge Paul D. Smith a victory lap/vacation after the triumph
-of POSIX Issue 8 blessing so many GNU Make extensions.  :)
-
-But each one justified itself more than adequately.
-
-This document remains useful.
-
-https://gist.github.com/Earnestly/29deee4f18346da6630ed1df760f1590
-
-> > Yes, but the tarballs get tested in a greater diversity of
-> > environments.  While I keep git HEAD "green"--I don't "git push"
-> > unless "make distcheck" runs successfully--that applies only to my
-> > personal development environment.  groff doesn't have a CI
-> > infrastructure.
-> >=20
-> > The build system is the thing that consistently gives us the most
-> > pain when trying to firm up a release.  So right now you are pulling
-> > on HEAD at its most fragile, ironically.  The code quality should be
-> > good, _if_ you can get the build to completion.
->=20
 > I'm happy to uncover those bugs; it's not a problem.
 
-I appreciate your patience.  It's hard not to feel like every problem
-discovered in an RC reflects a maintainership failure on my part.
+That's also in sharp contrast to my experience.  I have repeatedly
+spent considerable amounts of time fighting with the groff build
+system, i have never been happy about it, and the considerable
+loss of time it has often caused has been a problem that has often
+hampered progress on more productive topics related to groff and mandoc.
 
-Intellectually, I know that's not how collaborative software development
-works.  Psychologically, I want everything I produce to be so perfect
-that it inspires envy.  :)
+Still, i do often track down such issues out of sheer necessity,
+because otherwise building just fails outright.
 
-> Why not this?:
->=20
-> 	.LE
-> 	.P
+All that said, i don't think revisiting the question of which build
+and portability system to use for groff is particularly productive
+at this time.  Bertrand already did the work of automaking it,
+Branden is apparently reasonably content with the result (and comfort
+of the chief maintainer *is* the eminent consideration regarding a
+build system), so uprooting that beast once again is likely not
+advisable, unless Branden somehow becomes very frustrated with it.
 
-Good idea!  This slots right in with no changes at all to the man(7)
-package.  All of mandoc(1)'s complaints are as expected.
+My motivation of sketching my experience here is mostly for
+Alejandro's personal benefit.
 
-$ mandoc -T lint ATTIC/inline-compact-list.man
-mandoc: ATTIC/inline-compact-list.man:9:2: ERROR: skipping unknown macro: .=
-LS itemized 1 4n
-mandoc: ATTIC/inline-compact-list.man:18:2: ERROR: skipping unknown macro: =
-=2ELE
-mandoc: ATTIC/inline-compact-list.man:1:5: STYLE: lower case character in d=
-ocument title: TH foo
-mandoc: ATTIC/inline-compact-list.man:10:2: WARNING: skipping paragraph mac=
-ro: PP empty
 
-(I expect the third of those ("STYLE") to go away when Ingo makes his
-next mandoc(1) release.)
+Talking about releases, there is finally some progress:
 
-So that's one fewer problem I have to solve.  Thanks!
+ * I finally have a fully working port of groff-1.23
+   with no more unexplained discrepancies left.
+ * I finally have mandoc in sync with groff-1.23 -
+   well, not perfectly, but so far that i now understand
+   all the remaining incompatibilities, in particular
+   those that groff grew from 1.22.4 to 1.23.
+ * I'm currently looking through the mandoc TODO
+   list for things that can be fixed with little risk
+   before release; i think there at at most very few.
+ * After that, my next step will be sending out a mandoc-1.15.1
+   release candidate for testing, then release it.
+ * After that, i will update the groff port to 1-23,
+   then start more seriously looking at porting 1.24.
+ * I will almost certainly *not* look at 1.25 before
+   upgrading the port to 1.24 - last time, giving priority
+   to release testing caused my progress on understanding
+   new discrepancies in 1.23 to stall out, which probably
+   wasn't ideal.
 
-But I just found a different one to replace it.  groff_man(7) says:
+Here is a draft of the NEWS file (temporary file name, will
+go away when the release candidates goes out) - just as a preview
+for you showing likely release content:
 
-            ...  Use IP without arguments to associate successive
-            paragraphs with an existing list item; to these, inter=E2=80=90
-            paragraph spacing applies even in compact lists.
+  https://mandoc.bsd.lv/NEWS.draft.txt
 
-=2E..but that last clause is not working.  I'll work on that.
+I believe a few very weird bugs persist in the GNU tbl(1)
+formatter for terminal output, related to when exactly vertical
+lines between columns extend higher than the top of the table -
+apparently, the set of cases is even different from the set of
+cases where the vertical spacing before tables that Branden
+attempted to remove for 1.23 still persists, and there are a
+few cases in which vertical lines extend far (many lines)
+beyond the table, sometimes above, sometimes below.
+Then again, reporting those multiple weirdnesses properly will
+have to wait until after the update of the port to groff-1.23.
 
-> You might use compactness keywords:
->=20
-> 	.LS itemized precompact
->=20
-> You could have 'precompact', 'postcompact', 'compact', and
-> 'noncompact' (feel free to use names that aren't so terrible).
+If you are dying from curiosity, running the test file
 
-This might now not be necessary at all; people can simply use your
-idiom.  `P` (and its synonyms `LP` and `PP`) always apply
-inter-paragraphing spacing even in compact lists.  That's on purpose,
-because sometimes a document uses compact lists where an item requires
-multiple paragraphs, or interrupts the list with commentary.
+  https://cvsweb.openbsd.org/checkout/src/regress/usr.bin/mandoc/tbl/layout/lines-nogroff.in?rev=1.2
 
-I like your idiom of sticking `P` after the `LS` and/or the `LE` calls
-as and where one wants inter-paragraph spacing before and/or after the
-(compact) list.  I had designed the macros with that in mind, but had
-not thought of that simple way to express it.
+through the mandoc gmdiff script (or just formatting it with groff
+and mandoc and diffing the results) may give you a rough idea,
+but i'm well aware this is *not* a proper bug report.
 
-A list item per se starts with either:
 
-* an argumentful `IP` macro call (for itemized or enumerated lists); or
-* a `TP` macro call (for definition lists).
+I don't yet understand what the point of .LS is - in my experience,
+assembling items from .IP and .TP blocks to form lists is *not*
+among the problems the man(7) language causes - quite to the contrary,
+even though HTML is a strongly structural and semantic language,
+assembling even HTML code from .IP and .TP is a almost never a
+problem, and i don't see which other target format could possibly
+be harder to handle than HTML.  I would probably have to read up
+on prior discussions, but the topic feels unrelated and i won't mix
+it into this mail.
 
-To recap, I have two macro programming problems to solve for RC3.
-
-1.  Argumentless `IP` needs to apply inter-paragraph spacing even to
-    items in compact lists.
-
-2.  `LE` needs to break the line and cancel any indentation implied by
-    the open list even when not followed immediately by a paragraphing
-    macro.
-
-Regards,
-Branden
-
---dguaemu7uk3ofhug
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmqLWswACgkQ0Z6cfXEm
-bc5jjg//fmK/V6XiqwXx7sTLcRl6CLqP5nUsGvziq0YgoUIhUkUcMu7psAbytQln
-2vCbt2CPuF+PoIiPv4LxelBlaU25JB9CURTCXw6/thWPWRTcjz5jAb3u2Mzs4ikN
-0BH1NYcm+atFr6FfVrUIULDyqi/U2Fraa4tMsXSwWlR7OmiVSZQ+ds7c8o17ibw+
-8ay+NFERb5sBOskXGrdceEqa2kdEV14JxolvV/QwFoE5UoA382P8ULFLiklWb8K+
-3YsC+A2Vq3uHKZTKD+XVikeaIeAA6b84xB2FYFtWl7Gyaixn+WNFlv3zs8epJPJL
-K/Y9dUBKOMACTH+jWJn5dvYfIgY6S8SienoN9l35GChPgPVzl+mqecm+pqI4ICM3
-dyhN4xublenhGmFBGIpFhLYTlyG8IU6HfLraHSBqrg5MybktgGU7b7GaQy1zCNNk
-pwESloKwNr5LIpsfcWX4Jh2bDsaOKhYavF5VsFUadxe8S+4KjX/pMiOmfsD0CicN
-aBHZD8Mzr4SeJPCHuq/+SNJNmkPBVCLfYsuTNxOUwQksULBABitSmJVgfKA7NzqS
-OdNMI5QmLxRfhcHjY83WWp5DZPwiztE1bNc2dGb24re/9+ctRWnUMldEG3iPnWC3
-LGipteONcg/PMDWsqSj1RST/rHL+wH/xIcdRnfFcWbmw0CWk4Ek=
-=Kc58
------END PGP SIGNATURE-----
-
---dguaemu7uk3ofhug--
+Yours,
+  Ingo
