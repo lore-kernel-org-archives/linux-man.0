@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59273254B8
-	for <linux-man@vger.kernel.org>; Sun, 23 Aug 2026 23:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DE7757EA
+	for <linux-man@vger.kernel.org>; Mon, 24 Aug 2026 00:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787526667; cv=none; b=Ig4SzXfvye4DHNu5eYaG5j1pHssFCl/bDcAxF/ebKwAEeJ7iY3bnxOq5yUXJ0cfOu10aC77yMS3SRGZUTvHQ3VU6VJrAJzqx76dwayNc1eeuzSt2YKWLxyCLdLHsAUgXGwUka4hmWRQ0xo65DKONJmD8vRXzVrkgytLPAAYbQkw=
+	t=1787530204; cv=none; b=tQLSeQnsiqfO4T+KLlRO0oAXYYifh/+ucS4atwcY1bEHNoKwbKU+V9PLqeyP8BCiEJvQHToOOxLavS0zFaZGGPdupgmFxMOVbtQ6hiV0ZJRTZ+pr6t3rOH2kjvQf5mTSCGxjgPr/i0C+6xfMQWfm1d9J+wyFXb9RK4e4/efrchw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787526667; c=relaxed/simple;
-	bh=iwrATMf7Wy8WIDNRyino1qm3RoxTbTooOkzTIL1zi7c=;
+	s=arc-20240116; t=1787530204; c=relaxed/simple;
+	bh=mmRAYkUsj9fE7INFKHyqc5FxWP74aG7iJXgiuTMiI70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SSYxjvA7Ixvz38VnStOda92x3E7n6NZstAylD8mRQxVK26DKDVMOB1DXl1GMWm0702hcHqfUbXqkOXGTGDe9ENbq/ZR9aH1rkbV1nZm1ioYLEwPq0WUclKMylt2hCleEYgpNXfqLFjMr0iEG5UY9bPEJonWez+0L13aQehn/H00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbSuoHX8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BmQJak3vdPczcBMlx9SYfoW38cY9nHcryIE2jw6smNktd59G3MO8R0AyVCN6NezRSsAsFOiT8kFef856/N9AIHDIeiDJ1zQuUcol/13szJzZrKM+o+DHwLRtGllOAWvVIskjGU7Ii0i7gAwVItSrizrayZJ7inOHJhdRsEijJI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLXuF6Gc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbSuoHX8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D77E1F000E9;
-	Sun, 23 Aug 2026 23:11:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLXuF6Gc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD291F000E9;
+	Mon, 24 Aug 2026 00:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787526665;
-	bh=NQe8sg9IWm/DcNpIpvwp77H9efcwCiPsWNL4du6eksg=;
+	s=k20260515; t=1787530201;
+	bh=KW9MRMl+BUnsfBoZmKqW6XVjkcqNWfpH+eNZqfUBmhQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hbSuoHX8P8L4Fsh3R58LwakO7Y4G954Jk/W7fk/3Vtd8/iwawTbEMNU66u71jHViq
-	 amVv8RfR+G4VN3zPbV+zbbjt8sEXVQfpEGB9zkrlRVAnq4wWemJZhvZB/Txw9j+TTU
-	 PgWHVlq3oxjd9GbyYdi4QV/MuC9SQP5xlUEQ2iJv8tn1VAqVdVs78k04aOCIEFJb6M
-	 zSY9edFdTuJ8x1wIcfz2BQXQkb1UwaeSXFI21eVmi9SYY5nEMsudlRnJB7BdTU2cZ/
-	 IgqudvL0D8PNUZ5WHH2icMJz7pcp5CLIsABUEYrmAAEqPyiCRbWcvFfLVdOqiOycNr
-	 AQHlkeXW+Jn5g==
-Date: Mon, 24 Aug 2026 01:11:00 +0200
+	b=fLXuF6GcgeZmkUpWdHFJ6n/mQQZW+3R9qsHtRbVKQVlV8b5cyWEfVURc2xNqpURGL
+	 +y+1hwPNO4odccHwCXOBRzKXduZn95YzSSfeOHGRHnLrO7KI//Vrt5F6NFX8N+5h7N
+	 Zt6emDvrk5KPmWfbtP3SHsAUEWiWgy4TmhTqRAB2GkJEUC6xe+ZOzknx7XPqVzHbs5
+	 RZemNWCbdKJwiQQH6Kv3NC4CZzsIPRV1FXEe4LsECL2pbXeTfB5QEAaN7Q6w99UXa1
+	 pHRXDJJBqZUsMbZaPsPYxJ9GhBcZPFFS4o7sZrmG88acOetutFp1i9MC/DGCXoZGIC
+	 8RrlY/KQK5CLw==
+Date: Mon, 24 Aug 2026 02:09:58 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-Message-ID: <aott22sJfNucOefn@devuan>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org, groff@gnu.org
+Subject: Re: autotools, was: Using LS/LE
+Message-ID: <aouB88Kiyn9ezoZl@devuan>
 References: <xn33wr3rr8.fsf@greed.delorie.com>
  <20260807021256.pwzsls7awqmbslti@illithid>
  <aorlBv8YTu4JlZcy@devuan>
@@ -42,7 +41,7 @@ References: <xn33wr3rr8.fsf@greed.delorie.com>
  <aosHFaauEzKEFNpl@devuan>
  <20260823164451.5jeolmdu44ubpeba@illithid>
  <aotFzewQhmLJSk6N@devuan>
- <20260823204051.mkcgwghlljq7fqic@illithid>
+ <aot0q9iCIXOJf8Kk@isnote.usta.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -50,21 +49,20 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6m6owsuzqlglcuoz"
+	protocol="application/pgp-signature"; boundary="ey5ioyacprzssten"
 Content-Disposition: inline
-In-Reply-To: <20260823204051.mkcgwghlljq7fqic@illithid>
+In-Reply-To: <aot0q9iCIXOJf8Kk@isnote.usta.de>
 
 
---6m6owsuzqlglcuoz
+--ey5ioyacprzssten
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-Message-ID: <aott22sJfNucOefn@devuan>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: g.branden.robinson@gmail.com, linux-man@vger.kernel.org, groff@gnu.org
+Subject: Re: autotools, was: Using LS/LE
+Message-ID: <aouB88Kiyn9ezoZl@devuan>
 References: <xn33wr3rr8.fsf@greed.delorie.com>
  <20260807021256.pwzsls7awqmbslti@illithid>
  <aorlBv8YTu4JlZcy@devuan>
@@ -74,474 +72,349 @@ References: <xn33wr3rr8.fsf@greed.delorie.com>
  <aosHFaauEzKEFNpl@devuan>
  <20260823164451.5jeolmdu44ubpeba@illithid>
  <aotFzewQhmLJSk6N@devuan>
- <20260823204051.mkcgwghlljq7fqic@illithid>
+ <aot0q9iCIXOJf8Kk@isnote.usta.de>
 MIME-Version: 1.0
-In-Reply-To: <20260823204051.mkcgwghlljq7fqic@illithid>
+In-Reply-To: <aot0q9iCIXOJf8Kk@isnote.usta.de>
 
-Hi Branden,
+Hallo Ingo!
 
-> Date: 2026-08-23 15:40:51-0500
-> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+> Date: 2026-08-24 00:31:07+0200
+> From: Ingo Schwarze <schwarze@usta.de>
 >
-[...]
-> > > 2.  they refuse to understand the very simple principle of operation
-> > >     of the m4 macro language; and
-> >=20
-> > I have the 2nd negative trait, though.
+> Hello Alejandro and Branden,
 >=20
-> Nobody has time to learn everything.  But I take a dim view of refusal
-> to learn things for bad reasons.  It can be hard to judge, and for sure
-> to know exactly what a person's reasons are, because even if they don't
-> misrepresent those reasons to others, they might lack the self-awareness
-> necessary to know why they don't do things.
+> Alejandro Colomar wrote on Sun, Aug 23, 2026 at 09:30:53PM +0200:
+> > From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
 >=20
-> For example, when I procrastinate a task, I often find myself trying to
-> figure out post facto why I did so, after I get around to doing it.
+> >> Autoconf, Automake, and Libtool, the collective "autotools", are all
+> >> strongly distinguishable in purpose.
+>=20
+> > I guess if you deal with them enough, you get to distinguish them.
+> > In shadow-utils, where we have an autotools-based build system, I
+> > consistently avoid to learn it.  I leave it up to the other maintainers
+> > and the distro maintainers to keep it working.  I only report the issues
+> > to them.  To me, it'd be easier to wipe it all and write a Makefile from
+> > scratch than learning the tools.  The day I have to maintain that, I'll
+> > probably do so.
+>=20
+> As one data point for Alejandro, that's precisely what i chose to do,
+> and not even because i had never used autoconf before, just because
+> i considered using autoconf massive overkill and likely to cause
+> a maintenance nightmare.  The same applies to automake, but to
+> an even higher degree.
 
-I believe the reason I avoid learning m4 is that I don't think I need
-it.  So far, GNU Make has proved to be enough for me.  The day I find
-myself writing a build system for a project, and find it impossible or
-impractical to do it using GNU Make, I'll give autotools a chance.
-But I haven't found anything yet that I can't do easily with GNU Make.
+Thanks for the data point!
 
-I have yet to be convinced that autotools provide any benefits over
-GNU Make.
+> Look at this:
+>=20
+>    $ pwd
+>   /co/mandoc
+>    $ wc configure  # handwritten, human-readable, and portable
+>      693    2537   20370 configure
+>    $ wc Makefile   # handwritten, human-readable, and portable
+>      619    1600   16050 Makefile
+>    $ wc config.h   # generated by ./configure
+>       54     150    1326 config.h
 
+Nice!
+
+>=20
+> Apart from that, there are 37 test-*.c feature test files,
+> all handwritten and human-readable, 723 lines grand total,
+> i.e. less than twenty lines on average.
+>=20
+> Finally, there are 19 compat_*.c portable replacement implementations
+> for systems lacking certain functions.
+
+That sounds like what I'd have expected.  Thanks!
+=20
 [...]
-> > > 3.  they refuse to believe that the variety of possible deployment
-> > >     environments is as wide as it is.
-> >=20
+> >> 3.  they refuse to believe that the variety of possible deployment
+> >>     environments is as wide as it is.
+>=20
+> I think that was actually true thirty years ago, when many systems
+> shipped shells that were badly starved for features and full of bugs
+> and limitations.  It was no longer true 15 years ago.  Nobody
+> has used Silurian systems in need of autoconf-style shell workarounds
+> for at least a decade, probably much longer.
+>=20
+> Here is the list of systems where the configuration system described
+> above is known to just work (sorted alphabetically):
+>=20
+>   Adelie Linux     Alpine Linux     Arch Linux       Chimera Linux
+>   Crux Linux       Cygwin           Debian           DragonFly BSD
+>   Fedora           FreeBSD          Gentoo           Guix System
+>   IBM AIX          illumos          IRIX             macOS
+>   Minix 3          NetBSD           NixOS            OpenBSD
+>   openSUSE         Oracle Solaris   Slackware Linux  Sun OS 5.9
+>   Sun OS 5.10      Termux           Ubuntu           Unleashed OS
+>   Void Linux=20
+>=20
+> No shortage of weirdos in there, right?
+
+Indeed!  :)
+
 > > I acknowledge this.  However, some people refuse to believe that
-> > hand-crafted makefiles can also handle quite different environments
-> > too.  I believe makefiles can do that just fine.  It's a matter of how
-> > much makefile code you write.
->=20
-> I wouldn't have ventured an opinion either way; I'm confident GNU Make
-> is up to the challenge, but less sure about POSIX Issue 8 make(1).
-
-Indeed, I use only GNU Make.
-
-<https://make.mad-scientist.net/papers/rules-of-makefiles/>
-
-Paul's first of the Rules of Makefiles:
-
-	1.  Use GNU make.
-
-	    Don=E2=80=99t hassle with writing portable makefiles, use a portable
-	    make instead!=20
-
-Once POSIX Issue 8 make(1) gets more wide spread, I might put some
-effort into transforming some GNU idioms into POSIX idioms, if it's
-easy.
-
+> > hand-crafted makefiles can also handle quite different environments too.
+> > I believe makefiles can do that just fine.  It's a matter of how much
+> > makefile code you write.
+> >=20
 > > In the Linux man-pages project, we have 120 kB of makefiles.
 > >=20
 > > 	$ find share/mk/ -type f | xargs wc -c GNUmakefile | tail -n1
 > > 	119125 total
-> >=20
+>=20
+> That's an awful lot.  Why would the man-pages Makefiles need to be
+> more than seven times larger than the mandoc Makefiles?
+
+The main make file is 1.7k (mainly, the help text); let's ignore that
+part.
+
+20k of share/mk/ seems to be just the include's, so let's also ignore
+that part, since it doesn't affect readability much.
+
+	$ find share/mk/ -type f | xargs cat | wc -c
+	117364
+	$ find share/mk/ -type f | xargs cat | grep -v ^include |  wc -c
+	99476
+
+=46rom the remaining 100k, 22k are part of the linting system, which runs
+a lot of analyzers, both on the manual pages, and on the C examples.
+That's superfluous for actually building, so we could live without it.
+
+	$ find share/mk/lint/ -type f | xargs cat | grep -v ^include |  wc -c
+	21668
+
+Here's a look at the directories:
+
+	$ du -h -d1 -A share/mk/
+	7.0K	share/mk/install
+	2.7K	share/mk/src
+	33K	share/mk/build
+	8.0K	share/mk/dist
+	26K	share/mk/lint
+	2.5K	share/mk/check
+	35K	share/mk/configure
+	1.6K	share/mk/help
+	115K	share/mk/
+
+The 'lint' target seems to be quite heavy.  'build-*' is also heavy, but
+it's more necessary.  Although building the C programs is also done just
+for linting purposes, and wouldn't be necessary.  Let's analyze that
+directory:
+
+	$ du -h -d1 -A share/mk/build/
+	1.4K	share/mk/build/pre
+	12K	share/mk/build/pdf
+	3.6K	share/mk/build/catman
+	2.2K	share/mk/build/html
+	3.2K	share/mk/build/fonts
+	5.3K	share/mk/build/examples
+	3.0K	share/mk/build/ps
+	2.1K	share/mk/build/man
+	33K	share/mk/build/
+
+Hmmm, actually the code for building the examples is actually small.
+The PDF book takes the largest amount of code:
+
+	$ du -h -A share/mk/build/pdf/
+	3.2K	share/mk/build/pdf/pages
+	8.5K	share/mk/build/pdf/book
+	12K	share/mk/build/pdf/
+	$ ls -lh share/mk/build/pdf/book/
+	total 16K
+	-rw-rw-r-- 1 alx alx 1.6K Aug  4 14:16 _.mk
+	-rw-rw-r-- 1 alx alx  511 Aug  4 14:16 front.roff
+	-rwxrwxr-x 1 alx alx 6.4K Aug  4 14:16 prepare.pl
+
+I build all that just to make sure it builds, but we don't need it
+either, and could perfectly live without building anything.  The only
+code we really need from there is that which updates the date in the TH
+line, which is in
+
+	$ ls -lh share/mk/build/man
+	total 12K
+	-rw-rw-r-- 1 alx alx 481 Aug  4 14:16 _.mk
+	-rw-rw-r-- 1 alx alx 995 Aug  4 14:16 nonso.mk
+	-rw-rw-r-- 1 alx alx 629 Aug  4 14:16 so.mk
+
+The remaining 31k of the build-* targets we could live without it.
+
+And then there's the configure/ subdir.  That holds variables for the
+program names and their flags.  I have CFLAGS-like variables for most
+programs, just in case we need to tweak them.  Most of them are
+unnecessary, and we could live without them.  We also have variables for
+every program (including things like CAT :=3D cat).  The nice thing about
+those variables is that I can list _all_ the dependencies of the build
+system, programatically.
+
+	$ make -R help
+	make: warning: undefined variable 'GNUMAKEFLAGS'
+	Common targets:
+		all			Synonym of 'build'
+		build			Build the usual stuff
+		build-all		Build everything
+		check			Check the results of the build
+		clean			Remove all temporary files
+		dist			Produce the release tarball
+		distcheck		Check the release tarball
+		help			Print this help
+		help-list-build-depends	List build dependencies (package/program)
+		help-list-targets	List all targets
+		help-list-variables	List configurable variables
+		install			Install the usual stuff
+		install-all		Install everything
+		lint			Lint the source code
+		nothing			Do nothing; useful for debugging
+		uninstall		Uninstall everything (might leave traces)
+	$ make -R help-list-build-depends | wc -l
+	make: warning: undefined variable 'GNUMAKEFLAGS'
+	63
+	$ make -R help-list-build-depends | head -n1
+	make: warning: undefined variable 'GNUMAKEFLAGS'
+	awk/awk
+
+Also, most of the dependencies would just vanish if we got rid of the
+lint target and didn't build the C programs, so this is in part just due
+to the lint/ subdir.
+
+I could certainly live with just 10% of this build system, but those
+extra targets have been useful to prevent introducing several
+regressions in the pages.
+
+Another important aspect of makefiles is that I *can* add all these lint
+targets just fine (they're just like any other targets).  It's just a
+matter of adding some code; the more I want to lint, the more code, but
+it's not that hard.  With autotools, I'd probably give up.  It's already
+hard to make it just work for simply building, so linting is way beyond
+what one would support.
+
+> You don't even need to compile and link C code, right?
+
+Actually, I do.  I build most of the C examples from the pages, and for
+that, I also had to add the Makefile code to extract them from the
+pages, so it's a bit more.
+
 > > I believe that a set of makefiles that would handle all of the targets
-> > of a project like groff wouldn't take much more than that.  It might
-> > be a few hundred kB.  If it's well organized, it can be maintainable.
+> > of a project like groff wouldn't take much more than that.  It might be
+> > a few hundred kB.  If it's well organized, it can be maintainable.
 >=20
-> I was going to venture that groff's Automake files added up to much less
-> than that.  It's less--but not "much".
->=20
-> $ wc -c $(find -name "*.am" | grep -v gnulib | sort)
-
-Out of curiosity, why would you use $()?  It feels simpler (less
-nesting) to use xargs(1).  It's also more robust, since the output of
-$() might grow in some cases too much for a single command.
-
-	$ find -name "*.am" | grep -v gnulib | sort | xargs wc -c | tail -n1
-	228376 total
-
-Another issue I have with find(1) is that it's so weird that I never
-learnt its name flags.  It has so many different ones, working slightly
-differently, that it's just insane.  grep(1) seems simpler to learn,
-since we already know it anyway.
-Necessary link: <https://doc.cat-v.org/unix/find-history>.
-
-	$ find | grep '\.am$' | grep -v gnulib | sort | xargs wc -c | tail -n1
-	228376 total
-
-[...]
-> 228376 total
-
-Interesting.  The day someone complains again about my makefiles, I'll
-point to this data.  I checked a few other projects out of curiosity:
-
-	alx@devuan:~/src/shadow/shadow/master$ find | grep '\.am$' | grep -v gnuli=
-b | sort | xargs wc -c | tail -n1
-	31885 total
-	alx@devuan:~/src/gnu/glibc/master$ find | grep '\.am$' | grep -v gnulib | =
-sort | xargs wc -c | tail -n1
-	0
-	alx@devuan:~/src/gnu/gcc/master$ find | grep '\.am$' | grep -v gnulib | so=
-rt | xargs wc -c | tail -n1
-	1527474 total
-	alx@devuan:~/src/gnu/coreutils/master$ find | grep '\.am$' | grep -v gnuli=
-b | sort | xargs wc -c | tail -n1
-	8171 ./Makefile.am
-	alx@devuan:~/src/gnu/findutils/master$ find | grep '\.am$' | grep -v gnuli=
-b | sort | xargs wc -c | tail -n1
-	35765 total
-
-Does glibc not use automake?  What do they use?
-
-> 228kB is an order of magnitude higher than I'd have guessed.  But I
-> should have known better--from bitter experience I should have intuited
-> that the "doc.am" beast alone defeats any such notion.
-
-It's interesting that a build system of the same size as mine but based
-on autotools remains problematic, while mine based on GNU makefiles
-consistently has zero issues.  And when one is reported (a few in the
-last years), they are trivial and addressed in minutes.  Also, *all*
-projects I've seen using non-make build systems consistently have issues
-they just leave there because the problem isn't understood.  The more I
-see about other build systems, the more I like mine.
-
-I have to admit that writing a quality build system with GNU Make isn't
-easy.  It took me many years to research, experiment, and learn.  So,
-the makefile code I wrote is hardly maintainable by a novice (I wonder
-what'll happen to it after me).  But the same is true of any good build
-system.
-
-I think distro maintainers are scared of makefiles because the average
-makefile is problematic.  But the same things are said of C, and I don't
-think C is particularly problematic as a language.  It's just the
-average programms that are problematic, in any language.
-
-> That's always the most troublesome of our Automake scripts, because we
-> use the groff that we build to produce further artifacts.  It therefore
-> functions in part as an acceptance test.
+> Groff is definitely larger than either of man-pages and mandoc,
+> and in particular uses a wider variety of languages and file
+> format transformations.  The factor might be larger than just
+> two or three, but not orders of magnitude larger, that much i
+> tend to agree with.
 >=20
 > > Because the makefile language is so simple, bugs are easy to spot and
 > > fix, compared to autotools (possibly automake, but I can't distinguish
 > > them enough).
 >=20
-> Apart from needing an awareness of Automake's special variable names,
-
-Yup.  I have a similar problem with make(1)'s builtin variables and
-rules.  My makefiles start with:
-
-	MAKEFLAGS +=3D --no-builtin-rules
-	MAKEFLAGS +=3D --no-builtin-variables
-	MAKEFLAGS +=3D --warn-undefined-variables
-
-That is, what you see in the makefiles is what happens.  If it's not
-written, it doesn't happen.
-
-> which employ a naming scheme that one tends to notice, I can almost
-> always get by writing an Automake script using only "make(1) brain",
-> which is one reason I've been such crap at actually _learning_ Automake.
+> Strongly seconded.  Due to the autotools it uses, the time i spend
+> merely maintaining the GNU roff(7) port in OpenBSD, not even
+> counting the times i have spent submitting patches to the
+> upstream groff build system, is a very large factor (maybe
+> about ten times) larger than all the time i ever spent on the
+> mandoc build system, even though i wrote most of it from scratch
+> and have been maintaining it for over 20 operating systems for
+> over a decade.
 >=20
-> I more often have problems writing Automake scripts that will maintain
-> portability between GNU Make and BSD Make, which is a constraint
-> entirely of my own choosing.
-
-Indeed.  I don't know why you self-inflict such pain.  The BSDs are okay
-using GNU Make to build GNU-Make-based projects (IIRC, that's what Ingo
-told me).
-
-> > Oh, yeah, I agree with everyone here.  CMake is way worse than
-> > autotools.  autotools is the least evil of the non-pure-makefile build
-> > systems.
+> >> The build system is the thing that consistently gives us the most pain
+> >> when trying to firm up a release.  So right now you are pulling on HEAD
+> >> at its most fragile, ironically.  The code quality should be good, _if_
+> >> you can get the build to completion.
 >=20
-> I'm curious to hear your opinion of meson/ninja.
-
-Ninja
-~~~~~
-
-I only ever used Ninja as a generated language in projects that generate
-it from CMake.  I've never written Ninja myself.  But from what I've
-read, it's meant to be a generated language, so it's uninteresting to
-me.
-
-According to <https://stackoverflow.com/q/62847359/6872717>, Ninja seems
-to be faster because the configure step is slower, and focuses on
-generating optimized Ninja files.  That's ironic, because build systems
-with a 'configure' pre-step are so brittle that I never trust them, and
-thus I end up often wiping the entire generated files, and configuring
-again.  So, a make(1)-only build system --like mine-- would be faster.
-
-About the language itself, it seems to be a cut down version of make(1),
-so I couldn't do any serious work with it.  It's meant to be generated-
-only.
-
-Meson
-~~~~~
-
-I've never used it.  I also don't see why I would.
-
-It's meant to be fast, but many other systems (like Ninja) have also
-claimed to be fast.  They (at least Ninja) actually result in being
-slower, as said above, so I'd have to be convinced that it's not an
-empty claim in the case of Meson too.
-
-To me, GNU Make seems to be really fast.  As long as one writes the
-rules correctly (so that it can be parallelized as much as possible),
-it's super fast.  Maybe they compare it to makefiles written by
-incompetent programmers, but that's not a fair claim.  To be convinced,
-one would have to show that Meson is faster than *my* build system.  But
-I don't believe that's possible; I don't even conceive the possibility
-that make(1) would be anyhow a bottle-neck there.
-
-It claims to be very readable, but everybody claims that of their
-languages.  I find GNU Make to be the most readable build-system
-language, just like I find C to be the most readable programming
-language.  FWIW, I've googled for an arbitrary example of a Meson file,
-and I didn't found it magically readable.
-
-So, what's the point of Meson?  I guess it's okay-ish for people who are
-incompetent at writing build systems and just want their build system to
-work, like in companies, where the money is spent on programmers writing
-code, and not in programmers dedicated to the build system.  That place
-was once fulfilled by CMake, and without having used Meson myself, I
-feel it's more or less the same (simpler than CMake, and thus better,
-but not by much).
-
-> > > Hmm, no release since 4.4 on Halloween 2022.  Yeah, they might be
-> > > due.
-> >=20
-> > Yup, I've been pinging Paul a few times in the last years.  But I gave
-> > up last year.
+> That is in sharp contrast to my experience with the mandoc build
+> system.  When i send out release candidates for mandoc, almost
+> all the feedback i get concerns real issues with the actual code
+> itself, only a tiny fraction has to do with the files "Makefile"
+> and "configure", and even those few issues are typically very easy
+> to fix.
 >=20
-> I don't begrudge Paul D. Smith a victory lap/vacation after the triumph
-> of POSIX Issue 8 blessing so many GNU Make extensions.  :)
->
-> But each one justified itself more than adequately.
-
-Agree; he's doing a great work.
-
-> This document remains useful.
->=20
-> https://gist.github.com/Earnestly/29deee4f18346da6630ed1df760f1590
-
-Thanks!
-
-> > > Yes, but the tarballs get tested in a greater diversity of
-> > > environments.  While I keep git HEAD "green"--I don't "git push"
-> > > unless "make distcheck" runs successfully--that applies only to my
-> > > personal development environment.  groff doesn't have a CI
-> > > infrastructure.
-> > >=20
-> > > The build system is the thing that consistently gives us the most
-> > > pain when trying to firm up a release.  So right now you are pulling
-> > > on HEAD at its most fragile, ironically.  The code quality should be
-> > > good, _if_ you can get the build to completion.
-> >=20
 > > I'm happy to uncover those bugs; it's not a problem.
 >=20
-> I appreciate your patience.  It's hard not to feel like every problem
-> discovered in an RC reflects a maintainership failure on my part.
+> That's also in sharp contrast to my experience.  I have repeatedly
+> spent considerable amounts of time fighting with the groff build
+> system, i have never been happy about it, and the considerable
+> loss of time it has often caused has been a problem that has often
+> hampered progress on more productive topics related to groff and mandoc.
+
+I don't mind because I don't have to work with it often.  I just try to
+build, and if it doesn't, I report it and move on to something else.
+I can certainly see how your opinion is different being a downstream
+packager, where you *have* to make it work, and have pressure to make it
+work rather soon.  To me, if it doesn't build, I'll try the feature some
+other month.
+
+> Still, i do often track down such issues out of sheer necessity,
+> because otherwise building just fails outright.
 >=20
-> Intellectually, I know that's not how collaborative software development
-> works.  Psychologically, I want everything I produce to be so perfect
-> that it inspires envy.  :)
-
-But perfection takes a process.  Making imperfect stuff is part of it.
-In some sense, that's why I avoid authoring permanent documents, like
-articles, or talks, with my knowledge, because I know it's far from
-being perfect.  But I'm quite happy writing crappy documents that are
-part of a git repo, because I take them as a draft of the future
-perfection.  :-)
-
-> > Why not this?:
-> >=20
-> > 	.LE
-> > 	.P
+> All that said, i don't think revisiting the question of which build
+> and portability system to use for groff is particularly productive
+> at this time.  Bertrand already did the work of automaking it,
+> Branden is apparently reasonably content with the result (and comfort
+> of the chief maintainer *is* the eminent consideration regarding a
+> build system), so uprooting that beast once again is likely not
+> advisable, unless Branden somehow becomes very frustrated with it.
 >=20
-> Good idea!  This slots right in with no changes at all to the man(7)
-> package.  All of mandoc(1)'s complaints are as expected.
+> My motivation of sketching my experience here is mostly for
+> Alejandro's personal benefit.
 
-:-)
+Thanks!  It's good to see some programmers share my opinion/concerns.
+In the past, I've received quite some pressure from distro/GNU people
+(mostly, Gentoo maintainers) pushing me to abandon the GNU Make
+hand-crafted build system in favour of their favourite tool (they
+offered autotools, then Meson), and I didn't enjoy that pressure at all.
 
+> Talking about releases, there is finally some progress:
 >=20
-> $ mandoc -T lint ATTIC/inline-compact-list.man
-> mandoc: ATTIC/inline-compact-list.man:9:2: ERROR: skipping unknown macro:=
- .LS itemized 1 4n
-> mandoc: ATTIC/inline-compact-list.man:18:2: ERROR: skipping unknown macro=
-: .LE
-> mandoc: ATTIC/inline-compact-list.man:1:5: STYLE: lower case character in=
- document title: TH foo
-> mandoc: ATTIC/inline-compact-list.man:10:2: WARNING: skipping paragraph m=
-acro: PP empty
->=20
-> (I expect the third of those ("STYLE") to go away when Ingo makes his
-> next mandoc(1) release.)
->=20
-> So that's one fewer problem I have to solve.  Thanks!
+>  * I finally have a fully working port of groff-1.23
+>    with no more unexplained discrepancies left.
+>  * I finally have mandoc in sync with groff-1.23 -
+>    well, not perfectly, but so far that i now understand
+>    all the remaining incompatibilities, in particular
+>    those that groff grew from 1.22.4 to 1.23.
 
-You're welcome!  :-)
+	    --- MAJOR INCOMPATIBLE CHANGE FOR GROFF-1.23 COMPATIBILITY ---
+	 * man(7)/tbl(7): stop unconditionally emitting vertical space before .TS
 
-> But I just found a different one to replace it.  groff_man(7) says:
->=20
->             ...  Use IP without arguments to associate successive
->             paragraphs with an existing list item; to these, inter=E2=80=
-=90
->             paragraph spacing applies even in compact lists.
->=20
-> ...but that last clause is not working.  I'll work on that.
->=20
-> > You might use compactness keywords:
-> >=20
-> > 	.LS itemized precompact
-> >=20
-> > You could have 'precompact', 'postcompact', 'compact', and
-> > 'noncompact' (feel free to use names that aren't so terrible).
->=20
-> This might now not be necessary at all; people can simply use your
-> idiom.
+>  * I'm currently looking through the mandoc TODO
+>    list for things that can be fixed with little risk
+>    before release; i think there at at most very few.
+>  * After that, my next step will be sending out a mandoc-1.15.1
+>    release candidate for testing, then release it.
 
-Yup; I wasn't really understanding why it would be necessary, but just
-in case I was missing something, I mentioned that possibility.  I think
-the current feature is just fine, and moving/removing P's around, one
-can do the right thing.
+	    --- MAJOR NEW FEATURES ---
+	 * man(1): use unveil(2) if provided by the operating system
+	 * mdoc(7): support .Lb libname [...] in the SYNOPSIS section
+	 * man(7): implement .MR (reference manual page), a groff-1.23 extension
 
->  `P` (and its synonyms `LP` and `PP`) always apply
-> inter-paragraphing spacing even in compact lists.  That's on purpose,
-> because sometimes a document uses compact lists where an item requires
-> multiple paragraphs, or interrupts the list with commentary.
->=20
-> I like your idiom of sticking `P` after the `LS` and/or the `LE` calls
-
-You problably mean before the LS and after the LE?
-
-> as and where one wants inter-paragraph spacing before and/or after the
-> (compact) list.  I had designed the macros with that in mind, but had
-> not thought of that simple way to express it.
-
-Here I've written some test page.  I can't handle some cases:
-
-	alx@devuan:~/tmp$ cat ls.man=20
-	.TH a s d f
-	.SH test
-	compact but separated:
-	.P
-	.LS itemized 1
-	.IP \[bu] 3
-	foo
-	.IP \[bu]
-	foo
-	.LE
-	.P
-	compact, and no space before:
-	.LS itemized 1
-	.IP \[bu] 3
-	bar
-	.IP \[bu]
-	bar
-	.LE
-	.P
-	compact, and no space after:  // How to do this??
-	.P
-	.LS itemized 1
-	.IP \[bu] 3
-	baz
-	.IP \[bu]
-	baz
-	.P
-	.LE
-	compact, and no spaces before nor after:  // Same problem.
-	.LS itemized 1
-	.IP \[bu] 3
-	qwe
-	.IP \[bu]
-	qwe
-	.P
-	.LE
-	expanded:
-	.LS itemized
-	.IP \[bu] 3
-	qwe
-	.IP \[bu]
-	qwe
-	.LE
-	.P
-	end of file
-	alx@devuan:~/tmp$ /opt/local/gnu/groff/20260823_master/bin/groff -man -Tut=
-f8 ls.man
-	a(s)                                                                      =
-  a(s)
-
-	test
-	     compact but separated:
-
-	     =E2=80=A2  foo
-	     =E2=80=A2  foo
-
-	     compact, and no space before:
-	     =E2=80=A2  bar
-	     =E2=80=A2  bar
-
-	     compact, and no space after:  // How to do this??
-
-	     =E2=80=A2  baz
-	     =E2=80=A2  baz
-
-	     compact, and no spaces before nor after:  // Same problem.
-	     =E2=80=A2  qwe
-	     =E2=80=A2  qwe
-
-	     expanded:
-
-	     =E2=80=A2  qwe
-
-	     =E2=80=A2  qwe
-
-	     end of file
-
-	f                                       d                                 =
-  a(s)
-
-So, I expect you'll change 'P' to not add that blank line if it's within
-LS/LE?  Or how should we write these?
+Nice!  I'm waiting for that.  :-)
 
 
-Cheers,
+Have a lovely night!
 Alex
-
->=20
-> A list item per se starts with either:
->=20
-> * an argumentful `IP` macro call (for itemized or enumerated lists); or
-> * a `TP` macro call (for definition lists).
->=20
-> To recap, I have two macro programming problems to solve for RC3.
->=20
-> 1.  Argumentless `IP` needs to apply inter-paragraph spacing even to
->     items in compact lists.
->=20
-> 2.  `LE` needs to break the line and cancel any indentation implied by
->     the open list even when not followed immediately by a paragraphing
->     macro.
->=20
-> Regards,
-> Branden
-
-
 
 --=20
 <https://www.alejandro-colomar.es>
 
---6m6owsuzqlglcuoz
+--ey5ioyacprzssten
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqLffgACgkQ64mZXMKQ
-wqmn+g/+NPBw6W6hwE+t8XvxYsa1DDp9mehXyMUEXnsDPihuq3aB+LOlfanfb3oa
-UvjLyMcHKxGp0hzaVMoy0RJsdFzHuer9qpnneEJ4Mx34a/7maeHIonZOZSK8CJ7C
-6qU7At0PTfQ/cA2TpWqZXwIrbXY8wraH+z+V78ylbo617+5+c9eRIoh9XvYFXRRJ
-qeHoq2RbpcQZ7eX8f0jb0kfIphOh+NCphJQSeIXeorRl1nWo+SEMJWT9Q5JXCJ/p
-cjXPhsGViB5GanZE/OBwHUnWKhcfPuIgrkH+1Vpdfoxz+8kt2EOwUx4Httz1OH3z
-t2yyiiKoGiL8CIrCvJknM/IgxYYJRHeqdj5ti+WaGV/60At00T+QFZqm5sxIQeM8
-jMXiQk62sZH20ENkiuHNcmnqeJSvagakm7LfNYa5hZyVQKndKA/4p93/y8CC+4on
-u4Bg0eiD0Z1ah/srePVfLBOUYjP6yAvY75hn0ir6B8O/pAcdMPUbC8zxNJwLsM4l
-ZuHMZMw7UyB+bP3oQSV8d3MSp3uufmh4PJzaDRfUSMKAGPZdNcljWB7ExYI85NyA
-LF5qyCUY4XckFgL30E3yk+3mb17NbWCtcWPqF329e+i+xluEwvp7wUEJYXr3kQfH
-c7ulYsf77x2epX3NVxxs5bz0O1qNLnANRD7rgx+zSgeLhS1AH9g=
-=79tF
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqLi88ACgkQ64mZXMKQ
+wqnCOg//Q9l0djKGbyXphudHMFfoBkdxpmMEFJW6VnZGdcp7ITr9y45WwtGfYBS9
+q3Rn55ERiPpdP2XmDDj/WfWeunhh2+iHsSDFK6ca1PkS4C3TRVP81T8mjulxX0Kj
++6vZVBRp8t2rE1hXMHsOIPy4lIAvnCJbld0QOIOAGkz1hVqTtdnExCCYIiX+HPHj
+2Sa1YuFFTkDNrj5MslCq7x7UZyN0B0ka8g9DGP8erNKPL1c84Mu0XVkFY4j690L4
+Wf1SIp7m8Jg9jcuyOEVHEGjiDzZZz8ux8rlOIsmPH/owGHQJH9vnNj/lVq9wgnq5
+gUeCSI3EiXLjj4jw8WtKiCAOTv41O3IZQp4XaKjo8lxp4YheQrNj1BtY/rsd+Ct2
+a0iA4KeQ8cZS4ACOKacIIss/WSeHo2Hgwbdg7XW+kGmG+ekFZvx/MMYH9RYbxU8J
+oHHdac6zKh7WmCPyCyfBTMjbIOsFADH9Tdc7jZZg8W1vQNx8A5WcVhWk2/LhJM9A
+UU2entysIAIwV0PwwmgZY3hPtDdvoeXQdPDQA3BcoEpFVmkhMpuI9ImiEKGnCSFG
+ZDEk+RQn4L7a0ynBagzE4Wq+y3zrce0a9Ey9pB6DmT8S0MBhOUyEZf4hO1mZJnZh
+GjSo3qmQAZKCQLiRKjaenPD3+yXLxOvvCakTO+Fh6VUSC7RsX0E=
+=00ES
 -----END PGP SIGNATURE-----
 
---6m6owsuzqlglcuoz--
+--ey5ioyacprzssten--
