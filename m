@@ -1,130 +1,171 @@
-Received: from r9221.ps.combzmail.jp (r9221.ps.combzmail.jp [160.16.65.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-60.mta0.migadu.com [91.218.175.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158C6209F43
-	for <linux-man@vger.kernel.org>; Wed, 26 Aug 2026 01:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.16.65.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC2543CEDD
+	for <linux-man@vger.kernel.org>; Wed, 26 Aug 2026 14:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787708537; cv=none; b=sPckNN1/wuM3/n+6im3jp3+8/C30PjlD456nyI4tFyU9gAbRVquIjP+f+MrHxP8fgNx1OtgM0kGChAKCPt3uP5kCz+qLaWwfU4GJwMRNYV6uCp6aHyoUROhfUH2wOi9C8Nl1UvEo/AYbRmY3oIE6gEwOOQAHs3SEdpKlR5eaBqk=
+	t=1787753961; cv=none; b=agq6iLUK8gVJpTlXp4APunoR0w2dJFTVdyRi4st2USEd3L3wXMd4oigrqW62XFp+f0uHRczEbrmQ5eH9PB99TThWdNL8RcgOhvhACswolg4O0tXMn0iZYYaKdhy5Z/BvwV02CurjRewEwv6U/mOj8Ms/sX7SEn4npnEJCOpGJm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787708537; c=relaxed/simple;
-	bh=UiAHW1hVAqKhX2AUy0Z74ywoJCBjp3CE/NFZaDYCwW0=;
-	h=To:From:Subject:Mime-Version:Content-Type:Message-Id:Date; b=IA4G++CuYtxoyQp7faAhW9ZwDRuQOzHJQFDk0XjSELrc0WIZ2s8XFCK3yQj9Hwl9J4GcNhIxIXTvlkNah1CkUE1XUiQg58yBITdCjcX2DqGouwAfUTwSptNseszjKGfyHcNPSaPnwUbH9jh6GcMri2i22itmE8vExxTNU8IktU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=j-pet-hotel.jp; spf=pass smtp.mailfrom=magerr.combzmail.jp; arc=none smtp.client-ip=160.16.65.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=j-pet-hotel.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
-Received: by r9221.ps.combzmail.jp (Postfix, from userid 99)
-	id C4836E3F02; Wed, 26 Aug 2026 10:30:51 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 r9221.ps.combzmail.jp C4836E3F02
-To: linux-man@vger.kernel.org
-From: =?ISO-2022-JP?B?GyRCRnxLXCVaJUMlSCVbJUYlazYoMnEbKEI=?= <info@j-pet-hotel.jp>
-X-Ip: 945226301210551
-X-Ip-source: k85gj72w48dnsa51u0p6gd
-Precedence: bulk
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Subject: =?ISO-2022-JP?B?GyRCOCQhIiVNJTM5JSQtJE4/NzUsJVMlOCVNGyhC?=
- =?ISO-2022-JP?B?GyRCJTkbKEI=?=
+	s=arc-20240116; t=1787753961; c=relaxed/simple;
+	bh=BFzrvzHlHAe4/1F+TkJf7+r1fkLn4+kV0pIxSnDCEKQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HVLOYj1bAfjHWyTSN7clitfTgC2QkQzQQemaNwe86AK3YM+tG3/4/Cp6Wv+dmii6Nzx5lFTMZs1iilVFN1+fJGbD3RPGYfseEZ1LdpMBbuAGnn9SwzMBtiloVVv5kWyf/EoCeYySqiA7bexWfrDJPFvsW53SPieIdZt3HkfQjFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WGhpE9RH; arc=none smtp.client-ip=91.218.175.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WGhpE9RH"
+X-Envelope-To: linux-man@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=BFzrvzHlHAe4/1F+TkJf7+r1fkLn4+kV0pIxSnDCEKQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787753956; v=1; x=1788358756;
+ b=WGhpE9RHNzWYz8vjamNzy1IE6A29o3CL+lBz8kXJGvrBOEb3pqjAIrC/y91599RI1g2nVRxd
+ M3PrarumPq784QLZ3J0EysE5FDh9h/BLn165zHiGc5gTFDjG4f7Ma5P1UyWrS+5X5Grjway9uFx
+ XUtoeP9cr/fOZYgPrOeroq0U=
+X-Envelope-To: linux-man@vger.kernel.org
+Received: from [192.168.8.140] (87.104.0.147)
+	by smtp.migadu.com with ESMTPS id b5317998026f67d0;
+	Wed, 26 Aug 2026 14:19:16 +0000
+X-Mizu-Trace-ID: b5317998026f67d0
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <f5510b49-2904-4962-a944-4a1fdb31b7d6@linux.dev>
+Date: Wed, 26 Aug 2026 16:19:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+To: Alejandro Colomar <alx@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>
+Cc: linux-man@vger.kernel.org, hch@lst.de, Zhang Yi
+ <yi.zhang@huaweicloud.com>, linux-xfs@vger.kernel.org, gost.dev@samsung.com,
+ "Darrick J . Wong" <djwong@kernel.org>, linux-ext4@vger.kernel.org
+References: <20260820090400.857720-1-p.raghav@samsung.com>
+ <aomV6Jt7udtAwwcw@devuan>
+Content-Language: en-US
+From: Pankaj Raghav <pankaj.raghav@linux.dev>
+In-Reply-To: <aomV6Jt7udtAwwcw@devuan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MagazineId: 2w51
-X-uId: 6764296438486064785037201039
-X-Sender: CombzMailSender
-X-Url: http://www.combzmail.jp/
-Message-Id: <20260826013059.C4836E3F02@r9221.ps.combzmail.jp>
-Date: Wed, 26 Aug 2026 10:30:51 +0900 (JST)
 
-　
-　「ペット愛」溢れる、経営者様へ
-　
-　地域で愛犬を安心して預けられる
-　ペットホテル・トリミング事業を始めませんか。
-　
-　
-　■　フランチャイズシステム説明会　■
-　
-　　　愛犬家のオーナー多数！
-　　　ペットホテル・トリミングサロン “ONE LUKE”
-　　　※経験や資格が無くても始められます
-　
-　■　開催方式
-　　　オンライン（申込後に参加方法をご案内）
-　
-　■　日程
-　　　9月7日（月）11:00-12:00
-　　　9月8日（火）13:00-14:00
-　　　9月11日（金）13:00-14:00
+On 8/22/2026 2:41 PM, Alejandro Colomar wrote:
+> Hi Pankaj, Christoph,
+> 
+>> Date: 2026-08-20 11:04:00+0200
+>> From: Pankaj Raghav <p.raghav@samsung.com>
+>> Subject: Re: [PATCH v2] man2/fallocate.2: add doc for FALLOC_FL_WRITE_ZEROES
+> 
+> We use the full path in the prefix.  That is, 'man/man2/...: ...'.
+> Also, we use regular sentence conventions for the first letter after
+> the ':', so s/add/Add/.
+> 
 
-　■　定員
-　　　5名
-　
-　■　ご視聴・詳細はこちら
-　　　https://oneluke-fc-webinar.jp/lp/
-　
-　
-　お世話になります。
-　
-　ペットホテル・トリミングサロンの
-　フラチャイズ説明会のご案内でございます。
+Got it.
 
-　ペットホテルとトリミングサービスを提供する
-　ONE LUKE（ワンルーク）
-　
-　ワンちゃんが好きすぎる創業者が
-　ペットホテルに預けたときに感じた
-　不安や思ったことを施設づくりに活かしています。
-　
-　
-　例えばワンちゃんが泊まるときに、少しでも
-　広く、心地よく過ごして欲しいという思いから
-　鉄のゲージではなくオーダーで職人さんに
-　「お部屋」を作っていただいています。
-　
-　そうした愛犬家目線のきめ細かいサービスが支持され
-　利用した方は高い確率でリピートしてくれます。
-　
-　
-　日本ではいまや「8世帯に1世帯」がペットを飼うまでに
-　増えてきましたが、ペットホテルはまだまだ店舗数が
-　足りていないため、今後も成長が期待できます。
-　
-　
-　ここまでこの文章を読まれたということは、
-　あなたもワンちゃんが大好きなのではないでしょうか。
-　
-　ワンルークのFCオーナー様も愛犬家が多く、中には
-　ご自身が利用者だった、という方もいらっしゃいます。
-　
-　説明会にて詳しいビジネスモデルをお伝えしますので、
-　新規事業を探している愛犬家の経営者様は
-　この機会にぜひご参加ください。
-　
-　地域のペットライフを豊かにし、愛犬が安心して
-　過ごせる空間を一緒につくっていきましょう。
-　
-　
-　■　フランチャイズシステム説明会　■
-　
-　　　愛犬家のオーナー多数！
-　　　ペットホテル・トリミングサロン
-　　　“ONE LUKE（ワンルーク）”
-　
-　■　ご視聴はこちら
-　　　https://oneluke-fc-webinar.jp/lp/
-　
-***********************************************************************
-本メールのご不要な方には大変ご迷惑をおかけいたしました。
-お手数お掛けしますが、メール不要のお手続きは
-下記URLよりお願いいたします。
-<メール停止フォーム>
-　https://oneluke-fc-webinar.jp/mail/
-***********************************************************************
-日本ペットホテル協会株式会社
-愛知県名古屋市千種区内山3丁目9-23 3F
-TEL:052-784-8416
-***********************************************************************
+>> This flag was added to the kernel in v6.17. As of now, only ext4 and
+> 
+> Please use two spaces after period.
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/patches/description#n44>
+> 
+
+Ok!
+
+>> block device nodes support this flag.
+>>
+>> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> 
+> Please include the CC list here too.
+> 
+>> ---
+>> Changes since v1:
+>> - Change the phrasing around zeroing and its condition (Zhang Yi)
+>> - Update ext4 support only for extent-based files (Zhang Yi)
+>>
+>> Note:
+>> This feature was recently added to XFS and it is expected to land in
+>> v7.13. I will update this man page again once v7.13 is released.
+>>
+>>   man/man2/fallocate.2 | 38 ++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 38 insertions(+)
+>>
+>> diff --git a/man/man2/fallocate.2 b/man/man2/fallocate.2
+>> index ef6586c77..48a8c3468 100644
+>> --- a/man/man2/fallocate.2
+>> +++ b/man/man2/fallocate.2
+>> @@ -244,6 +244,43 @@ SMB3 (since Linux 3.17)
+>>   .IP \[bu]
+>>   Btrfs (since Linux 4.16)
+>>   .\" commit f27451f229966874a8793995b8e6b74326d125df
+>> +.SS Writing zeroes in file space
+>> +Specifying the
+>> +.B FALLOC_FL_WRITE_ZEROES
+>> +flag (available since Linux 6.17)
+>> +.\" commit 7bd43cc79cab3850f34da0a31d5b042b701590ef
+>> +in
+>> +.I mode
+>> +physically zeros space in the byte range starting at
+>> +.I offset
+>> +and continuing for
+>> +.I size
+>> +bytes.
+>> +Within the specified range,
+>> +blocks are preallocated for the regions that span the holes
+> 
+> What does it mean that "blocks are preallocated"?  That they must be
+> allocated prior to this call?  I suspect not.  Otherwise, we'd be saying
+> 'must be' instead of 'are'.
+> 
+
+I guess preallocate in this context means unmapped blocks where we guarantee
+space for an application.
+
+> I suspect it means that this call allocates blocks for those regions,
+> but then I'm not sure we want 'pre' there.
+> 
+
+You are right. The blocks are allocated when we use FL_WRITE_ZEROES (they should 
+be marked as MAPPED). I will change it here. I guess the man pages for util 
+linux also needs to be changed[1]. @Zhang Yi, thoughts?
+
+>> +in the file.
+>> +After a successful call,
+>> +subsequent reads from this range will return zeros and
+>> +subsequent writes to that range do not require further
+>> +changes to the file mapping metadata.
+>> +.P
+>> +Zeroing is done within the filesystem.
+>> +The filesystem may use a hardware-accelerated zeroing command
+>> +or may submit regular writes.
+>> +The behavior depends on the filesystem design and the
+>> +available hardware.
+>> +.P
+>> +No other flags may be specified in
+>> +.I mode
+>> +in conjunction with
+>> +.BR FALLOC_FL_WRITE_ZEROES .
+>> +.P
+>> +Not all filesystems support
+>> +.BR FALLOC_FL_WRITE_ZEROES ;
+>> +if a filesystem doesn't support the operation, an error is returned.
+>> +The operation is supported only in ext4 (only for extent-based files)
+>> +since Linux 6.17.
+> 
+> Christoph, is this correct?  I remember you said something about block
+> device nodes in v1.
+> 
+
+Even though block devices support some of the FALLOC_FL_* flags, I don't see it 
+mentioned here as explicitly supported. That is why I kept it out of the 
+changes. Let me know your thoughts.
+
+Thanks for the feedback.
+
+--
+Pankaj
+
+[1] https://man7.org/linux/man-pages/man1/fallocate.1.html
+
