@@ -1,71 +1,38 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2141175A5
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 04:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C19E33FE05
+	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 08:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787978182; cv=none; b=cplKPikn/4nJBYz6PQPIqdtDqttuEi88Z/9pplcTJwIPJb3w8XVj7yxLnBCIOsJCSwarRnG6uCbaAoayjUHMy0Z34+5V9r160ZRHoHdk6XbCCqctieKyDnT0cmiAc8wV2WEe1uoKv2PGYYFoYcUiE76cgRSZVtaFXTHCCq6Z8MI=
+	t=1787992935; cv=none; b=V2Skq+wOOtNePeNXy09zubJbSKAc+BzPE2YdGiDI7v7BfDX1EQHAr3QqUMlSJANur7h4LXYo5nmUUzSGFsuIMIY6Z/o6WjLC/7vosbs2wmde2TNHhM3PLQaa9uzgaw/jqHcxq+P7L4viim93r3JU2XYahgc/sEDgA4IqLpslewc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787978182; c=relaxed/simple;
-	bh=YTW03jTEAlcn0QPRRBjzmVm8y4qQrMmSEtQN5qKTzTQ=;
+	s=arc-20240116; t=1787992935; c=relaxed/simple;
+	bh=N5JVZKyf86oCyTU0u1vwA6CZQHiEPpuv5g3tGud9Hik=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BniZXtpXd6oLkmvI6xzdvHZhhkqXY92KqGIYOF2M7vdMB0HXccEEAaL8dTBNzD9vpoJUpu0TvxpUGqOzVzMCIvqIAmelA6RwSFRrWwwE77RLspIlS5pQzRLE3sSgXe/Z41nrsJKSC87PpPVuQ0D9JwhgF8TsG9BAnX6hWszw8+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJuiUV1t; arc=none smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oC4mWRaXlu0JlWRsfcDNxyRjWF/YCL3QMHX5xOnaAfwBsINH6X/6LFbAIhVxx3Kxf6bNk4PaeMw2SPgffyot+XM/tVb7OXEAoFFPEVsJhEli8h82yLI/N9sFzDmlZx9wwK4Lu3uYVqVhMieRDidruVNR3a66Gwx1/EziiKy/FPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U9YASKrg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJuiUV1t"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66c4e9769bdso2175949d50.0
-        for <linux-man@vger.kernel.org>; Fri, 28 Aug 2026 21:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787978180; x=1788582980; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ug0kMDI9CmzHwotcglYja2PAhea6vwdJuNSEesjfHzY=;
-        b=GJuiUV1tBrB3oT1lxsnpdHKioKUZ7hO1I43OG2N4gK2ZKTsRUTS+f1RoBU6zMdOp0W
-         dHjXM8WxJh8rUh+W3nWt49xD4i2d93X6E7mVY+FpBMDatpZe9wDqur0M5vmyNNUsC8hi
-         q1fpqc58BXIE5Xf6cZAecl268iy8sA9rG5arKHOwxm43qyUFtCKRQ1NWvl8DcxDrFYY3
-         n8JfsrD49/kenCtlzLSrtPfOQs5uU8pHRUnzdnOYHJB7XSwSdnP6zB/LPu6c+DoSeRam
-         JZ4jAsonOWR/G05zZK0p0DJ3igBwmuGrjendBM+mtxUf3cVCmLFSU9sC/4Hm6DeLejgU
-         +ODQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787978180; x=1788582980;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ug0kMDI9CmzHwotcglYja2PAhea6vwdJuNSEesjfHzY=;
-        b=mvc4lvJDAbJ2akvy1/3DnASYCFPL4hxnUh2Swu34qMlGom2jyyTxk2cS1iFfhP2Iev
-         d/EGOqHI/N9loyFYSqJ60EJl4hf8iHnBLNBQcJ34dhqZpJe7/cAYsLYsMy6Cj4hBH1j4
-         lutcN5mSyt8iT/r129tbIkZuokmmry9f66oUCOOVbeKoAZosM3beXjePaMMnloeSvgyn
-         vdIsw3VbO6ttQPCL7RH63QrMpNKW3E30BkHHKULg9Qjs4/1zsFXTcOQBlEeK7Pxr4bhd
-         aO0f8XECMudDP/PnJGvdZMzZbdKtJSbIcTBzQcFctkNv6z+DHCR7zTFSpozLlyjYdZjs
-         fyNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwfrWognq2VA/RVE1XO7yOrTQn3cFzRH6FKlTvE/P345foBbEwa0kSWQwn5+nuebzLy3OfL32LL8Yw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mvSQvUc9K304j+a1BVw0Y+qbF68lvcz7lxE+PpoFRZRpdke+hP
-	SP87o8y5Knam2c5dgpeDy2gncpA6DLWsdVLg4xqWezmCyR7djOq5QaVY
-X-Gm-Gg: AYBFou1GpGZA0GmxmmYgLDBCaM9/LHbg01LotJKjToGONZVAsQ8J9BtOrsMcZFb6XUz
-	DUeEjmgsBLhpso78a3CsS4Zgtr+kq3OWBGYsJTCPgk5aKQpH+L357d0LGa6ch6uuIhJJs48qx1N
-	2UBJZFmipR1YsKqtqZc7vBm84QxUv77mWROueoGRYVw12dMr6L2wNpG6iepN7soa5CUItguOVJf
-	44B1NkJSn0fzSayfIw6F/wjSQ9AGmQhsujNzjlqxPi5I0/40B4g8/Gs0cqA+MEAbg/iFmLf0Uuj
-	fAo+ZfW1wZQk/ApEUKSQCGZdKa+KWhsdXQTLj27T+ysymviJt/JskbqDOm3Wj/0zYv+GeTb1Cfe
-	RczvMapaMrLSfQHuwN/5nN8YvXK5GwQ9j3d8+zxLXm6mLgVogw3E9+Sif5RuQ4WF+iEnikYVdG+
-	coa8pGi9qmPlUZUXxISUtZUM8FQI2FnmVVzpMKmFvXgL7wY1vSHg==
-X-Received: by 2002:a05:690e:d85:b0:66e:56bc:e5ee with SMTP id 956f58d0204a3-66e56bce9a5mr1499794d50.4.1787978179714;
-        Fri, 28 Aug 2026 21:36:19 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::41])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66e4ed163bcsm2035223d50.16.2026.08.28.21.36.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 21:36:18 -0700 (PDT)
-Date: Fri, 28 Aug 2026 23:36:15 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Ingo Schwarze <schwarze@usta.de>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	groff@gnu.org
-Subject: Re: Using LS/LE
-Message-ID: <20260829043615.vuh3idp3a7if4vnm@illithid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U9YASKrg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 578F11F000E9;
+	Sat, 29 Aug 2026 08:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787992934;
+	bh=5fBUhhMKKUFzJsBoPn17HdMmkMnyO9M5S54e/UM3X/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U9YASKrgpjObfthTvRYZzla0Njrkoc12vQeKZFFSDP9MCBJtXsT/abMCIVBtB88aK
+	 fx2tDufkS8Gd8z4Nl+hohklyGqk44vnNlC00eVOsqBVzNk/PtSUg8mWMsvJX4HYvZh
+	 o8bc2c70AMD+7WSJ3JjJOVIh1OSvIRgxT8OOWMgd2djEHeANkakprGtfz8A9bRkFod
+	 JM9iyhvX9aaBBS8kUZIz4p5EhE9fQieLRzTvc+EGU20DWnsk7xAerTQyA+caAvbeJd
+	 h83Oy2XrNaWk2m7RA+C8fGKiVf2aEQdZj5ehYAtELJL42m9aDPCI6U0VBilGSHKnnL
+	 S+ZRwogd5+mdw==
+Date: Sat, 29 Aug 2026 10:42:10 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Larry Kollar <larry.kollar@icloud.com>
+Cc: Groff <groff@gnu.org>, linux-man@vger.kernel.org
+Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
+ Document system-wide tunables config)
+Message-ID: <apKYVACSvXx2pcGw@devuan>
 References: <xn33wr3rr8.fsf@greed.delorie.com>
  <20260807021256.pwzsls7awqmbslti@illithid>
  <aorlBv8YTu4JlZcy@devuan>
@@ -75,147 +42,120 @@ References: <xn33wr3rr8.fsf@greed.delorie.com>
  <aosHFaauEzKEFNpl@devuan>
  <20260823164451.5jeolmdu44ubpeba@illithid>
  <aotFzewQhmLJSk6N@devuan>
- <aot0q9iCIXOJf8Kk@isnote.usta.de>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wrk7bia33i63soje"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bhsswpjzedzrzjr2"
 Content-Disposition: inline
-In-Reply-To: <aot0q9iCIXOJf8Kk@isnote.usta.de>
+In-Reply-To: <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
 
 
---wrk7bia33i63soje
+--bhsswpjzedzrzjr2
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: Using LS/LE
+From: Alejandro Colomar <alx@kernel.org>
+To: Larry Kollar <larry.kollar@icloud.com>
+Cc: Groff <groff@gnu.org>, linux-man@vger.kernel.org
+Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
+ Document system-wide tunables config)
+Message-ID: <apKYVACSvXx2pcGw@devuan>
+References: <xn33wr3rr8.fsf@greed.delorie.com>
+ <20260807021256.pwzsls7awqmbslti@illithid>
+ <aorlBv8YTu4JlZcy@devuan>
+ <20260823132749.pgypzsqv32n67wor@illithid>
+ <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
 MIME-Version: 1.0
+In-Reply-To: <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
 
-Hi Ingo,
+Hi Larry,
 
-At 2026-08-24T00:31:07+0200, Ingo Schwarze wrote:
-> I don't yet understand what the point of .LS is
+> Date: 2026-08-28 22:50:50-0400
+> From: Larry Kollar <larry.kollar@icloud.com>
+>
+>=20
+> Alejandro Colomar <alx@kernel.org> wrote:
+>=20
+> > I believe that a set of makefiles that would handle all of the targets
+> > of a project like groff wouldn't take much more than that.  It might be
+> > a few hundred kB.  If it's well organized, it can be maintainable.
+> >=20
+> > Because the makefile language is so simple, bugs are easy to spot and
+> > fix, compared to autotools (possibly automake, but I can't distinguish
+> > them enough).
+>=20
+> I don=E2=80=99t know. Can a Makefile check for the presence of certain li=
+braries
+> or other apps and fail gracefully (by which I mean exiting with a message
+> like =E2=80=9CYou need app X, plus libraries Y and Z, installed to succes=
+sfully
+> compile this.=E2=80=9D)? That=E2=80=99s one of the things that =E2=80=9Cm=
+akes" me appreciate taking
+> that extra step of typing `.configure` before make.
 
-I have articulated clearly several specific points about it.  I
-initially had the idea for LS/LE as early as December 2022.
+Yes, it can.  Here's a trivial test for that:
 
-https://lists.gnu.org/archive/html/groff/2022-12/msg00075.html
+	alx@devuan:~/tmp/testlib$ cat Makefile=20
+	HAS_LIBFOO :=3D $(shell find /usr/include/foo.h >/dev/null && echo yes || =
+echo no)
 
-At that time, I got no feedback on my proposal, which I interpreted as
-indifference.  That's the usual fate of my proposals.  ;-)
+	ifeq ($(HAS_LIBFOO),no)
+	  $(error You need library FOO installed to successfully compile this.)
+	endif
 
-For example:
-https://lists.gnu.org/archive/html/groff/2026-07/msg00096.html
+	all:
+		echo Done
+	alx@devuan:~/tmp/testlib$ make
+	find: =E2=80=98/usr/include/foo.h=E2=80=99: No such file or directory
+	Makefile:4: *** You need library FOO installed to successfully compile thi=
+s..  Stop.
 
-Earlier this year, after list nesting caused Alex pain again, and having
-gotten more familiar with the bash(1) man page source, I consulted with
-Alex, P=C3=A1draig Brady (GNU coreutils), Stephen Gildea (help2man), and Ch=
-et
-Ramey (GNU Bash) regarding its interface, semantics, and goals.
+You may of course write more complex tests if you need.  Anything that
+you can do with a shell script, you can do it with a Makefile.
 
-> - in my experience, assembling items from .IP and .TP blocks to form
-> lists is *not* among the problems the man(7) language causes - quite
-> to the contrary,
+That said, I personally prefer to fail compilation due to missing header
+files.  It's simpler, and there's not much difference.  After all, if
+compilation fails for <foo.h>, it's trivial to run
 
-Assembling a list is not difficult.   Exercising control over
-indentation and inter-paragraph spacing (even just to turn it on and
-shut it off) as they apply to the items of lists, especially when
-nested, can get quite tedious.
+	$ apt-file find /include/foo.h
 
-> even though HTML is a strongly structural and semantic language,
-> assembling even HTML code from .IP and .TP is a almost never a
-> problem, and i don't see which other target format could possibly
-> be harder to handle than HTML.
+But if you want the test, you can have it.
 
-I don't disagree there.  To get groff man(7) to generate <ol>, <ul>, and
-<dl> elements as desired, I'm going to have to make other revisions to
-grohtml(1) first, because it insists on using HTML tables to mock up
-indentation.[1]  I don't want that.  So unfortunately I don't expect
-that improvement to element tagging in HTML output in groff 1.25, though
-I hope to get that done for 1.26.  (All the other features of LS/LE are,
-and Alex just this week helped ensure that some bugs in it got stomped.)
 
-That's not really HTML's fault, but arises from groff's long tradition
-of swinging a Mario mallet to force its stream-based paradigmatic
-processing peg into HTML's block-structured hole.
+Have a lovely day!
+Alex
 
-> I would probably have to read up on prior discussions, but the topic
-> feels unrelated and i won't mix it into this mail.
+--=20
+<https://www.alejandro-colomar.es>
 
-groff's documentation attempts to motivate the macros' presence.
-
-groff_man(7):
-   List enclosure macros
-     Enclose paragraphing macros between LS and LE to identify them as
-     list items.  Doing so can mark them as =E2=80=9Ccompact=E2=80=9D, ease=
- management
-     of their indentation, and supply hints to the output driver to
-     improve their rendering (as with HTML).  Lists can be nested.
-     (Sub)sectioning macro calls, and the end of the document, close all
-     open lists.  These macros are GNU extensions.
-
-     .LS type [compactness [indentation]]
-            (since groff 1.25) Start (or open) a list.  type is one of
-            =E2=80=9Cdefinition=E2=80=9D, =E2=80=9Cenumerated=E2=80=9D, or =
-=E2=80=9Citemized=E2=80=9D.  compactness is a
-            Boolean value directing suppression of inter=E2=80=90paragraph
-            spacing between list items.  indentation specifies an
-            indentation amount for the body of each list item; it is
-            then unnecessary to specify this argument to the list item
-            macros.  Use IP with a mark argument to represent an
-            itemized or enumerated list item, and TP for a definition
-            list item.  Use IP without arguments to associate
-            successive paragraphs with an existing list item; to these,
-            inter=E2=80=90paragraph spacing applies even in compact lists.
-
-     .LE    (since groff 1.25) End (or close) the most recent open list.
-
-NEWS:
-
-*  The an (man) package offers new macros to ease the formatting of
-   lists.  Enclose paragraphing macros between `LS` and `LE` to identify
-   them as list items.  Doing so can mark them as "compact", ease
-   management of their indentation, and supply hints to the output
-   driver to improve their rendering (as with HTML).  Lists can be
-   nested.  (Sub)sectioning macro calls, and the end of the document,
-   close all open lists.  See groff_man(7) for details, and
-   groff_man_style(7) for an example.  Thanks to Alex Colomar, Chet
-   Ramey, P=C3=A1draig Brady, and Stephen Gildea for consultation and
-   encouragement, and to Alex for selecting these macros' names.
-
-   Because these macros format no text, documents employing them risk no
-   damage to their content if the formatter does not support them.  A
-   man(7) document author can choose either to transition to these
-   macros, to manage list "compactness" and item indentation with
-   existing man(7) package facilities, or to employ both approaches.
-
-Regards,
-Branden
-
-[1] https://savannah.gnu.org/bugs/?68424
-
---wrk7bia33i63soje
+--bhsswpjzedzrzjr2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmqSYbcACgkQ0Z6cfXEm
-bc4qzg/9Gc47qfyW2GP4Wuew20DhOILFv3g8VmjVdtwdTA4xgctKfrFWHupa6sp6
-YUWzJ9lGYwkWF8BJ1vttaTS4wxXj2g19lGAjybSBL9WvgXWqN2SWw9tqPH6vY6Ui
-E5jzQShgGrdpxYiMZTQQ1+Orz6tBPaLqWSwuxh/dGap8dW+/LUsJck1WkPkSJrNY
-ER4Gr5D+LG+Cmw/QDo9gYkFTPwrsgh9GJPlF8bvqEGril8sBnXsczHQt7QvMaMQa
-FnmiBLBET+fu9TM6MoVGtUTcfxvlGeAPWH0UVvMf46yVcM5Bx4ovQlzTjxy0pEhu
-izU0Btgqa48Mp6sUI1Kxu4i8yI/wgMLjqj842lEYUGb2EAV+kKxf4FkODnwQl+bJ
-vTn0jn473lphWnv9XegfKhJWUCGfbAxTceLmvnlTR8UK92sA2cKTMvB2kmwwA0Bn
-qtkZbbIj5DztAipT+u35iDI2y8a07L8Ycp+VWnehx7+dUXxX6IMMcx7bXqi1c/Yy
-10g9NJnS4rnRalmqKWIQx+8+K3H5Y8CVXWzf5Qer/pxPoj8xtTTMOAuD5G18Xdv/
-2dckmXKAS6B3MVJgbKUJfx/+AhiTzJokVxpbnSuV8R963/wFxWtt8DwhG+NVAJwe
-zywfUnwjhAsDTjAcMzYMRqEXcEP1wtcjgz08ATWaC2WTnE6nJ0o=
-=3eyr
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqSm1YACgkQ64mZXMKQ
+wqnpGBAAuJjtPTYpLkI8SSG/hFFcyLKUPHi8fvkTNP+30PDNqo6o4Uo+4duhb8k0
+ilkIC00O+tdb5Ch/5rBRQb5eUS06ndQ9rrzP7oC1sbT8Kp9mVRiyakhFOjNYG6cB
+sOa6thWrssdiLbU2KNT/FoPajv0ElxXBp6ARkh67PAlHYfh+0/fDUs8yhyJHYhKj
+vb9wBRjOvsdZvtSyFqRVF1s3ccRf1V9MsB3AAgo4rIlXaj08xC0j7e3IijJ1CKsI
+jHLswpadPNfXQ86wGXImlXYE3XNL/uXK4MBsV+5dABX63zFrOPT09nZoCciAfZMa
+aE0EY36oi0k+ZIs5/Zy2GfGTzLFaa2IK+YKOWr7llLLYRCgOS32C1/FK9/75Nu2c
+EHRqbdb+0RCYMKtMxSychvKt8rPe6Cn2k1ElxkTWb1FEbra+CHXwNqB1XAbHSYkk
+ahbj1iegscnVO00Yr86WPUj/iaRTUq9MXP0Phfiim8/PDhsYCw54U9NsK2CQVGIU
+qQ8VhvL/BzgLUstYXVcrvnNNhlKYsmo2i/gH4DyMmjfpyKA/KW9AMSY4SJZQjOI/
+XwKEKl5WyelKL7UpbIGs1IZ4JpMyhRbAyfKf68W2lHskhbeHw65P5u/GFfq4XBy5
+2Q2d0wINHRxn8MQc3yzWdZh4mm6R/mjiveUxE2f1aWgeQ0y+9XY=
+=nx0K
 -----END PGP SIGNATURE-----
 
---wrk7bia33i63soje--
+--bhsswpjzedzrzjr2--
