@@ -1,332 +1,234 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from scc-mailout-kit-01.scc.kit.edu (scc-mailout-kit-01.scc.kit.edu [141.52.71.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212D21DED4C
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 15:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E11E3B9942
+	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 15:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.52.71.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788016394; cv=none; b=Dupc1sJ4OkjldSwhaLuK/8ZTQJ8YqOqNy7WBI1Ee4ishDp7+jts5LZRtdtxQRjryRTNj9wu/NYiw7tqev9OYHA8MklV3H0VmrbFNSv/RTBYwAgGVHyJbGDhy7XJdAulnijQu85aBSZhxk6m8TqL2/UdztemM8f39h/5HtLp6e/Y=
+	t=1788017503; cv=none; b=l9wE2uTXDQRj8fOJkHe6VX2ZzIpev24Zu9npKgQcayINT/VUkvglmE1i1GPWanIAXRUFl/wWlQbgu1V9IEfbaOx6Amb9YQEcKNnNUXLXpCwfdiG/7nmMTMn8RQGC7GWhQo67YwPSZTjpOxGUgijtoFPrpFmK7xm1VM4SkYUle3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788016394; c=relaxed/simple;
-	bh=bdgU4Xm0DnA3hHGjgX9phlgzuC2Q32BXMHsDqOmhIaM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uHZ2A3+3emWwrfOeoHqALdF5IJMz08+XioQmImxNK6tQxf86+WMVBYnyNJbWs/V/qUWGDZijp2oGW4O5feHosqHpCpbLIj3UQMNFxNlYCZ/+Cqmv0A30IXE/fcobtx67AkkvKIYmOiIXDDHQZT5qB4LHgD5XdGJnKT9nJcQLWkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org; spf=pass smtp.mailfrom=maowtm.org; dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b=ZotiQfi2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NIYykVEo; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maowtm.org
+	s=arc-20240116; t=1788017503; c=relaxed/simple;
+	bh=eRLp0Suq6fsSkaDvdKlDcKbuWxnWF627c28jy4aL/GQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fZe9Rz7z5JjjLjz0kXnlmy60z4bckYbVshYmjtpJNxshSPLalRoiBTc1PGx6iD4uqwVGiPYPuCL0T49JNDQ3/Q5+0fbQGJ2Tvagk2KLGsUAH9lJaWbwj1xJfcDreS/3La4XEO3fR18w10U+07P7KpwGl5ITd4qxwywD4m5p3D4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de; spf=pass smtp.mailfrom=usta.de; dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b=E9+Lpk1/; dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b=FxS3e6n/; arc=none smtp.client-ip=141.52.71.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usta.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b="ZotiQfi2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NIYykVEo"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 043071D000AC;
-	Sat, 29 Aug 2026 11:13:10 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sat, 29 Aug 2026 11:13:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maowtm.org; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1788016390; x=1788102790; bh=WD
-	CAeep9NZi70YQxEcR/QjFLUY8exUvTz4djj99X+zI=; b=ZotiQfi2qUCII4NpYC
-	2jWcKpNmIYo0UlLSz9E88TMHCqX3fZuu6JZB4cTdL9xsJMIWmMcw6XlzymXJd1N/
-	T8DrH+mLrwocIEur3S9O6cfvaZZQaQvF2Uxe+R+o7jrdiF8FIdwQBnYGeyWCHFrR
-	GiQyZlES7HTuwJyiJpLT3QQSmRV8m6FWmDry12oh4VniLqID8BxhSd73FVOx90ec
-	a2xFvrsOjg0R6+ilcz+gF1zDPJxZE7cq/TyIjNdCMyGXEvR0PQRI5pi4pdIvfDoy
-	hTWg9s09jAXZ9Cz58K019+Emd/pBzFf6BgJiUdU/ohlaXeVvzGzFTQb34pgLK4UL
-	pqLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1788016390; x=1788102790; bh=WDCAeep9NZi70YQxEcR/QjFLUY8e
-	xUvTz4djj99X+zI=; b=NIYykVEoAkbklH9nxTYO0sTO6cvcKp4M992q1v+hz1PV
-	6jHaKFvstfiGVV03HlP3KX0YbeGjSzORbYodrIC5AFppiN6FmXnLjL9SEk+Mzzjl
-	oeBgAVV/kJ2jPeCIxHitX1QQUUd37mmi99ZkfbsGYjM6Whc9Tw7BnKcQ4VM7dxwc
-	hCRMeTKva1sZeO6QHMG/y2NMgWrlwD/MUtnksyzN8TkUvDYCc4M1mPb49lD8eAsG
-	hjVxXFnDeBdpYur1DT3kkOMKMyavvANx6fs/s+UCvzuOXB0xW5F249G3J/nebjo8
-	NlTsEMbUG4ws1+JbfkD6emF8M1Uj2GKcl2HigMaE8Q==
-X-ME-Sender: <xms:BveSanHKmHZU7iYkiH5CXRFgxx8b2uXnRqEVHpQvHJJqVUz6N2YB2A>
-    <xme:BveSarOeSH7E-XZnRTRZQGT0Jc2n7wP90cZ0xEqVTALb0hlb0ZiCIm4h4JrcDmba9
-    pfSIT3QgGIRG_K7OlDEyDcQMJDgikj01HTzVyKogWpvDUrOFvyVNrQ>
-X-ME-Received: <xmr:BveSahf3li1lbmFt5NZtRZ2yTkpLd0l6OOQqaeqklS1vVlORnGUA1iUmaG5oClKMJbxBtA1VokLkkoywUqdUKA6l0afIfOlRQVE5nAn-LVYeQmRUnkLoZqA>
-X-ME-Proxy-Cause: dmFkZTFOVPwSLTBq+aoLuSvWpip1TTa4APUNs/+lIAdterK1XCbDlGMucwm9duVbpThhOl
-    8GqEkLh3K27v/5NreBaYUopLIpMTNqh63NqUp1R/kWlabzLpObOv6tELa/tk7nipanXfXt
-    YgNaBJSNZhOQ1jFPzcbtT1jMxeSk7uXbZ/e4riLG2VMHTvIwyUHcbtUehSxldPXSnTjRC8
-    DoSULoEmdvWLruDd1G8kCE/Lr0LcwWs4KTtZ6rIs/ojV+ZEUys9Rbc8ArYc8u98UOG/VHv
-    61VyBMMT/FKjb6tvEyqDp7YJBhtKcKlAkkLPWBXpUH4s3SSazTwenh5y7iG3NlbJpJWwEQ
-    MfuxJLnetSTLuzQKQE/idB0mN8xexXybpePim8AOaD6Zcp7UNk7PWGUl5UArI2zkcf+hkH
-    8ar8dzgNfqp8589PKbyolaw1A1EA+L5W20jUnZUnYYMopgphW5NKX/Y3kZmR90u2TnE/YK
-    lYu3wWc9OU5zfnB/+zjbgsgWkmAw4Kp1BtHJ/ELbhMg85lzALB/kDDff/Ydk+ZtxunubrK
-    Jltcax3hAbuq2zQaFayUvqpqaTTUdhn8tfO5QWp3yPgjdIkN4Fa03CP2oG1l05jmKBWH55
-    7iYYxsJsj8+OMMwEGJHWpdszzV0QwG2PJ4W5UHibOBwLZ2MgDukincv+Z6OQ
-X-ME-Proxy: <xmx:BveSagsJG0zGQo2rU2y6h8DzPYpsWahOMxArLjdq7onlYimH8_3luw>
-    <xmx:BveSaql43MbV3S4mF6NkSDooGhFqTTv-ULa10-LYzVbrwi1_1lwTng>
-    <xmx:BveSaqyPD47fRfo8PsDyCHjx3MazIhvkt4-6jtKgfs4jr7_1Rij79g>
-    <xmx:BveSakP8fWi9UGsCpLL6BHPQJiLSIChkmBgdALQqIos7CUNl4NTnmQ>
-    <xmx:BveSaqLQaZrtuqM27cKSLnmkH4mkvMp_nt_Igva0kxS5B1vG52qCMTLX>
-Feedback-ID: i580e4893:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 29 Aug 2026 11:13:09 -0400 (EDT)
-From: Tingmao Wang <m@maowtm.org>
-To: Alejandro Colomar <alx@kernel.org>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-Cc: Tingmao Wang <m@maowtm.org>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	linux-man@vger.kernel.org
-Subject: [PATCH v2] landlock.7, landlock_*.2: Document LANDLOCK_ADD_RULE_QUIET
-Date: Sat, 29 Aug 2026 16:13:03 +0100
-Message-ID: <20260829151304.101952-1-m@maowtm.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b="E9+Lpk1/";
+	dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b="FxS3e6n/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de;
+	s=kit2; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject
+	:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=+C2B7R9eKrXsFkYP1AxJQmwlYs3eEghuga9OB318YPE=; b=E9+Lpk1/Euqt5WUxu93IQPNJ7l
+	51m/L7bMqJ+YwoDBbtNrTlOKFZU3aMQtvf0iKkKyDpL+wKODyMdio9Ry3zsT4kbkkQPPlUk6twcDn
+	NXIRLhocZ0HQfjkqowa6LJDqaBZjK4vqCytmbQWQHlPFlK9DUSvapjCHXAGYvFPTii4nZ3AbnhtEm
+	KBp7T2jt0j79hwsnYHRtZwvKxVTFYOlSbUPfPY1HmSIK7iJVPoHTgjrUFAelCAwiTIH5XnfPIZHvV
+	KlYEyuikxLe41CXEETFNpQG3X3LzC3yiP/eRDDIXnLGEuBY/x6YxQGqp+/yPxMnQO90eoNKqnD2EK
+	dJD/JLDQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de
+	; s=kit2ed25519; h=In-Reply-To:Content-Type:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+C2B7R9eKrXsFkYP1AxJQmwlYs3eEghuga9OB318YPE=; b=FxS3e6n/kwpJpyDXfSFUT7q0Jv
+	7D1wxBJ4EbPMB427ODGvqR3ig7LEBAmvuNcWOu1EnZm71zU7QKI7vmPp4IBw==;
+Received: from hekate.asta.kit.edu ([2a00:1398:5:f401::77])
+	by scc-mailout-kit-01.scc.kit.edu with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(envelope-from <schwarze@usta.de>)
+	id 1x0L1p-0000000AwSq-3Chq;
+	Sat, 29 Aug 2026 17:31:34 +0200
+Received: from imap-2.asta.kit.edu ([2a00:1398:5:f400::36])
+	by hekate.asta.kit.edu with esmtp (Exim 4.98.2)
+	(envelope-from <schwarze@usta.de>)
+	id 1x0L1p-00000000FMO-0toR;
+	Sat, 29 Aug 2026 17:31:33 +0200
+Received: from isnote.usta.de ([84.177.233.30])
+	by imap-2.asta.kit.edu with ESMTPSA
+	id kmiIIFX7kmpmVCgA4A1LTA
+	(envelope-from <schwarze@usta.de>); Sat, 29 Aug 2026 17:31:33 +0200
+Date: Sat, 29 Aug 2026 17:31:32 +0200
+From: Ingo Schwarze <schwarze@usta.de>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+Subject: Re: configure separate from make or not
+Message-ID: <apL7VAruk1bIOr1M@isnote.usta.de>
+References: <aorlBv8YTu4JlZcy@devuan>
+ <20260823132749.pgypzsqv32n67wor@illithid>
+ <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <apKou1PHGi1N5gGO@isnote.usta.de>
+ <apLV749V4YvfqCOZ@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <apLV749V4YvfqCOZ@devuan>
 
-LANDLOCK_ADD_RULE_QUIET is a new feature introduced in Landlock ABI
-version 10, merged in kernel v7.2 [1].  This patch copies relevant
-kernel documentation into man-pages.
+[trimming Cc:, this starts becoming off-topic on the groff list;
+ i'm not subscribed to linux-man@ though]
 
-Link: <https://patch.msgid.link/cover.1781228815.git.m@maowtm.org/> [1]
-Signed-off-by: Tingmao Wang <m@maowtm.org>
----
+Hi Alejandro,
 
-Changes in v2:
-- Fix missing .RE, and fix EINVAL label being incorrectly formatted
-- Fix missed API bump in the example program (abi = MIN(abi, 10);)
+Alejandro Colomar wrote on Sat, Aug 29, 2026 at 03:10:25PM +0200:
+> From: Ingo Schwarze <schwarze@usta.de>
 
-Hi,
+> In the Linux man-pages, the configure step is done entirely within
+> make(1) --there's no separate ./configure step--.  But as you say,
+> a separate configure-only step is important for serious debugging.
+> 
+> The solution I implemented is a 'nothing' target in the Makefile, which
+> as the name implies, does nothing.  However, it still runs the
+> configuration step, since that runs as part of parsing the makefiles.
 
-For context, I'm the author of the quiet flag feature and this is my
-first man-pages patch.  @Günther or @Mickaël, can one of you do a quick review?
+That sounds like a serious abuse of the parsing step to me.
+I mean, the whole point of a parsing step is to do parsing and to
+build dependency trees, but not to run code.  The purpose of the
+execution phase of make(1) then is to run code, in an order determined
+from the dependency tree.
 
-All text in this patch is copied from the kernel source except this
-bit:
-    .TP
-    .B EINVAL
-    .I flags
-    is not 0 or one of the allowed values.
+> Here's the rule:
+> 
+> 	nothing:;
+> 
+> When I need to debug the build system itself, I run that target; often
+> with special flags for debugging.  One common command I use when I need
+> to do this kind of debugging is:
+> 
+> 	$ make -p nothing | less
 
-(the kernel says "%EINVAL: @flags is not valid", I decided to make it
-more precise)
+The output of that command looks completely unreadable to me and
+is of horrendous size:
 
- man/man2/landlock_add_rule.2       | 48 ++++++++++++++++++++++++++++--
- man/man2/landlock_create_ruleset.2 | 48 ++++++++++++++++++++++++++++++
- man/man7/landlock.7                | 29 +++++++++++++++++-
- 3 files changed, 121 insertions(+), 4 deletions(-)
+   $ gmake -pR nothing | wc
+  bash: line 1: gcc: command not found
+  realpath: unknown option -- m
+  usage: realpath [-q] file
+  gmake: warning: undefined variable 'GNUMAKEFLAGS'
+   34074  672611 27635924
 
-diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
-index fe01a98d9..c848c9b4b 100644
---- a/man/man2/landlock_add_rule.2
-+++ b/man/man2/landlock_add_rule.2
-@@ -120,7 +120,44 @@ .SH DESCRIPTION
- and it will automatically translate to binding on the related port range.
- .P
- .I flags
--must be 0.
-+can either be 0 or contain:
-+.TP
-+.BR LANDLOCK_ADD_RULE_QUIET "  (since Landlock ABI version 10)"
-+Together with the
-+.I quiet_*
-+fields in
-+.IR "struct landlock_ruleset_attr" ,
-+this flag controls whether Landlock will log audit messages when
-+access to the objects covered by this rule is denied by this layer.
-+.IP
-+If logging is enabled, when Landlock denies an access,
-+it will suppress the log if all of the following are true:
-+.RS
-+.IP \[bu] 3
-+this layer is the innermost layer that denied the access;
-+.IP \[bu]
-+all accesses denied by this layer are part of the
-+.I quiet_*
-+fields in the related
-+.IR "struct landlock_ruleset_attr" ;
-+.IP \[bu]
-+the object (or one of its parents, for filesystem rules) is
-+marked as "quiet" via
-+.BR LANDLOCK_ADD_RULE_QUIET .
-+.RE
-+.IP
-+Because logging is only suppressed by a layer if the layer denies
-+access,
-+a sandboxed program cannot use this flag to "hide" access denials,
-+without denying itself the access in the first place.
-+.IP
-+The effect of this flag does not depend on the value of
-+.I allowed_access
-+in the passed in
-+.IR rule_attr .
-+When this flag is present, the caller is also allowed to pass in an
-+empty
-+.IR allowed_access .
- .SH RETURN VALUE
- On success,
- .BR landlock_add_rule ()
-@@ -159,7 +196,7 @@ .SH ERRORS
- .TP
- .B EINVAL
- .I flags
--is not 0.
-+is not 0 or one of the allowed values.
- .TP
- .B EINVAL
- The rule accesses are inconsistent (i.e.,
-@@ -181,10 +218,15 @@ .SH ERRORS
- .IR \%struct\~landlock_net_port_attr ,
- the port number is greater than 65535.
- .TP
-+.B EINVAL
-+.B LANDLOCK_ADD_RULE_QUIET
-+is passed but the ruleset has no quiet access bits set for the
-+corresponding rule type.
-+.TP
- .B ENOMSG
- Empty accesses (i.e.,
- .I rule_attr\->allowed_access
--is 0).
-+is 0) and no flags.
- .TP
- .B EOPNOTSUPP
- Landlock is supported by the kernel but disabled at boot time.
-diff --git a/man/man2/landlock_create_ruleset.2 b/man/man2/landlock_create_ruleset.2
-index 2a33fa4b5..8611e3aba 100644
---- a/man/man2/landlock_create_ruleset.2
-+++ b/man/man2/landlock_create_ruleset.2
-@@ -45,6 +45,9 @@ .SH DESCRIPTION
-     __u64 handled_access_fs;
-     __u64 handled_access_net;
-     __u64 scoped;
-+    __u64 quiet_access_fs;
-+    __u64 quiet_access_net;
-+    __u64 quiet_scoped;
- };
- .EE
- .in
-@@ -70,6 +73,17 @@ .SH DESCRIPTION
- in
- .BR landlock (7)).
- .IP
-+.I quiet_access_fs
-+is a bitmask of filesystem actions which should not be logged if
-+per-object quiet flag is set.
-+.IP
-+.I quiet_access_net
-+is a bitmask of network actions which should not be logged if
-+per-object quiet flag is set.
-+.IP
-+.I quiet_scoped
-+is a bitmask of scoped actions which should not be logged.
-+.IP
- This structure defines a set of
- .IR "handled access rights" ,
- a set of actions on different object types,
-@@ -100,6 +114,29 @@ .SH DESCRIPTION
- a wide range or all access rights that they know about at build time
- (and that they have tested with a kernel that supported them all).
- .IP
-+.I quiet_access_fs
-+and
-+.I quiet_access_net
-+are bitmasks of actions for which a denial by this layer will not
-+trigger a log if the corresponding object (or its children, for
-+filesystem rules) is marked with the "quiet" bit via
-+.BR LANDLOCK_ADD_RULE_QUIET ,
-+even if logging would normally take place per
-+.BR landlock_restrict_self (2)
-+flags.
-+.I quiet_scoped
-+is similar, except that it does not require marking any objects as quiet
-+-
-+if the ruleset is created with any bits set in
-+.IR quiet_scoped ,
-+then denial
-+of such scoped resources will not trigger any log.
-+These 3 fields are available since Landlock ABI version 10
-+(see
-+.B Quiet rule flag
-+in
-+.BR landlock (7)).
-+.IP
- This structure can grow in future Landlock versions.
- .P
- .I size
-@@ -204,6 +241,17 @@ .SH ERRORS
- or
- .BR LANDLOCK_CREATE_RULESET_ERRATA .
- .TP
-+.B EINVAL
-+.IR quiet_access_fs ,
-+.IR quiet_access_net ,
-+or
-+.I quiet_scoped
-+is not a subset of the corresponding
-+.IR handled_access_fs ,
-+.IR handled_access_net ,
-+or
-+.IR scoped .
-+.TP
- .B ENOMSG
- Empty accesses (i.e.,
- .I attr
-diff --git a/man/man7/landlock.7 b/man/man7/landlock.7
-index 880dd5058..402e35cbe 100644
---- a/man/man7/landlock.7
-+++ b/man/man7/landlock.7
-@@ -456,6 +456,31 @@ .SS Truncating files
- It is also possible to pass such file descriptors between processes,
- keeping their Landlock properties,
- even when these processes do not have an enforced Landlock ruleset.
-+.SS Quiet rule flag
-+Starting with the Landlock ABI version 10,
-+it is possible to selectively suppress logs for specific denied
-+accesses on a per-object basis with the
-+.B LANDLOCK_ADD_RULE_QUIET
-+flag of
-+.BR landlock_add_rule (2),
-+in combination with the
-+.B quiet_access_fs
-+and
-+.B quiet_access_net
-+fields
-+of
-+.IR "struct landlock_ruleset_attr" .
-+It is also now possible to suppress
-+logs for scope accesses via the
-+.B quiet_scoped
-+field of
-+.IR "struct landlock_ruleset_attr" .
-+The object is marked as quiet within a ruleset when at least one
-+.BR landlock_add_rule (2)
-+call is made for it with the
-+.B LANDLOCK_ADD_RULE_QUIET
-+flag, additional add-rule calls for the same object without this flag
-+do not clear it.
- .SH VERSIONS
- Landlock was introduced in Linux 5.13.
- .P
-@@ -500,6 +525,8 @@ .SH VERSIONS
- 8	7.0	LANDLOCK_RESTRICT_SELF_TSYNC
- _	_	_
- 9	7.1	LANDLOCK_ACCESS_FS_RESOLVE_UNIX
-+_	_	_
-+10	7.2	LANDLOCK_ADD_RULE_QUIET
- .TE
- .P
- Users should use the Landlock ABI version rather than the kernel version
-@@ -622,7 +649,7 @@ .SH EXAMPLES
-     perror("Unable to use Landlock");
-     return;  /* Graceful fallback: Do nothing.  */
- }
--abi = MIN(abi, 9);
-+abi = MIN(abi, 10);
- \&
- /* Only use the available rights in the ruleset.  */
- attr.handled_access_fs &= landlock_fs_access_rights[abi \- 1];
--- 
-2.55.0
+Over 25 MB of configuration output?  Seriously?
 
+
+> And if I need to see stderr output from the commands used by the
+> configure scripts, here's a common command:
+> 
+> 	$ make HIDE_ERR= nothing
+> 
+> I'm not saying that this should be done, but this _can_ be done.  With
+> BSD make(1), it might be more difficult to debug, since it doesn't have
+> the -p flag.
+
+It does.  From the OpenBSD make(1) manual:
+
+   -p    Print a dump of the target rules and variables on stdout.  Do not
+         build anything.
+
+   -d flags
+         Turn on debugging, and specify which portions of make are to
+         print debugging information.  flags is one or more of the
+         following:
+
+         [only quoting the flags here, without the descriptions,
+          for brevity]
+
+         AacdDef g1 g2 hiklmnpqstTv
+
+However, reading the output from a simple configure script is much
+simpler than reading make(1) debugging output, for example:
+ 
+   $ ./configure
+  file config.log: writing...
+  file configure.local: reading...
+  tested operating system: OpenBSD -> OSENUM=MANDOC_OS_OPENBSD
+  tested cc -W: tested noop: yes
+  selected CFLAGS="-g -W -Wall -Wmissing-prototypes -Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter"
+  tested noop-static: yes
+  selected STATIC="-static"
+  tested attribute: yes
+  tested cmsg: yes
+  tested dirent-namlen: yes
+  tested be32toh: yes
+  tested be32toh-DSYS_ENDIAN: yes
+  tested EFTYPE: yes
+  tested err: yes
+  tested getline: yes
+  tested getsubopt: yes
+  tested isblank: yes
+  tested mkdtemp: yes
+  tested mkstemps: yes
+  tested nanosleep: yes
+  tested ntohl: yes
+  tested O_DIRECTORY: yes
+  tested PATH_MAX: yes
+  tested pledge: yes
+  tested sandbox_init: no (compilation failed)
+  tested progname: yes
+  tested reallocarray: yes
+  tested recallocarray: yes
+  tested recvmsg: yes
+  tested rewb-bsd: yes
+  tested rewb-sysv: yes
+  tested strcasestr: yes
+  tested stringlist: no (compilation failed)
+  tested strlcat: yes
+  tested strlcpy: yes
+  tested strndup: yes
+  tested strptime: yes
+  tested strsep: yes
+  tested strtonum: yes
+  tested unveil: yes
+  tested vasprintf: yes
+  tested fts-DFTS_COMPARE_CONST: no (compilation failed)
+  tested fts: yes
+  tested less: yes
+  selected BINM_PAGER=less
+  tested less -T: yes
+  selected UTF8_LOCALE=en_US.UTF-8
+  tested wchar-DUTF8_LOCALE="en_US.UTF-8": yes
+  tested ohash: no (compilation failed)
+  tested ohash-lutil: yes
+  selected LDADD="   -lutil -lz"
+  file config.h: written
+  file Makefile.local: written
+
+and then you can inspect config.h and Makefile.local for generated
+settings and inspect config.log if serious debugging is needed.
+
+ $ wc config.h Makefile.local config.log
+      54     150    1326 config.h
+      40     137    1026 Makefile.local
+     305    1401   12998 config.log
+     399    1688   15350 total
+
+Even the "total" is half a permille of the output volume 
+from the gmake -p you recommend - and that already includes *all*
+the debugging information, whereas in your 25 MB of gmake -p output,
+i was unable to find the reason why the build systems tries to use gcc(1)
+even though i don't have GCC installed.  Generally, searching in that
+monster is next to impossble because it contains very large numbers
+of extremely long lines, each of which contains basically all the
+words that one might possibly wish to search for.
+
+> But the output from configure tests can still be read
+> without building anything, with a dummy 'nothing' rule.
+
+I briefly tried to read man-pages/GNUmakefile but quickly gave up
+because it feels impossible to follow the control flow.
+The program fails to explicitly say which targets it runs
+with which dependencies, IMHO making it unreadable for a human.
+
+Yours,
+  Ingo
