@@ -1,66 +1,41 @@
-Received: from scc-mailout-kit-01.scc.kit.edu (scc-mailout-kit-01.scc.kit.edu [141.52.71.239])
+Received: from scc-mailout-kit-02-level5.scc.kit.edu (scc-mailout-kit-02-level5.scc.kit.edu [129.13.231.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA31F2D12ED
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 09:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.52.71.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4433F2836A6
+	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 11:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.13.231.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787997196; cv=none; b=Mgn8IWHVdZn1Hl72E1J0ysEEMXYwn3J9eZPm+M+AlzjqEmZb21ZxuqlQEOwzoc1PbBT0K7pRLkehY1/MHZdb+pRYds1PPUS1MFUV83AmXtivqvAJAxx1tb2cIHEXZHaUA5MLsyEPvtAJLSwICfsBmfDuqdMsIPUd6Od6hmA6PYs=
+	t=1788003998; cv=none; b=OG4iY0eX5YRs49cQGAvk4YBXrn5I+bZSo0SLn5fuMn9VMgeEzsoQLnxgJb2voT964G382tKTvlH6EgyaAO9oeH4n5Jv9FA7Q6fWhui5yw1DpP6pENw9eNnihzQcMJH9QyxXQ474mFhRG7/9gL08LFpQ0yP3NBHklf8D7ypWUOsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787997196; c=relaxed/simple;
-	bh=+UHWk0Yzdh/9oGXNcMUWbvPw5HnpwUBzCmhsO+arQa8=;
+	s=arc-20240116; t=1788003998; c=relaxed/simple;
+	bh=YS/Vht9xP3V/UhIlnK8+/8n8oP3hyO9XDGPe3cO+ECg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZTiwhg+eXYx+Y7yjKNKgIa9mEOszdUfEOeKvpjNvUl58HU0HNyZ2olE1gX07Lpzwvq17sfUFqjcK0bv+SIwywfRItfvAmQuctV7rqaXoJiAdK7BgR9ibeOp5/zTwVkE+XvuEYTpXSErh0g1LhXA4G8iPXK63MGVC/llBhAfmIOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de; spf=pass smtp.mailfrom=usta.de; dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b=aIwIgLBl; dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b=BRNR5AvW; arc=none smtp.client-ip=141.52.71.239
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwjgksVdVLD+IcxGdgINVDZ8fS7lGmzmMNPZw5AWu7G+wawit0MlSLXltodFccAeYZ/LZBRWTmqc6qxykdEQyTHA3ZAPBTqYE8CLzQOE700ZbHjdHuqH/pUkL/6LBfp6lEPWxMeVg1wSleRmiyrKwynOWKXQQtStl4/4paeVYuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de; spf=pass smtp.mailfrom=usta.de; arc=none smtp.client-ip=129.13.231.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usta.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b="aIwIgLBl";
-	dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b="BRNR5AvW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de;
-	s=kit2; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject
-	:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=H8mqb3MpO2cmh1qryk/JTJwZ6FQGB3SJ5eMt9xjirXw=; b=aIwIgLBlj9sMPUWwSiqRDjM5Yg
-	0LTZRLhDbnJBY5QWib8p3pNJPoF0Q4Wf06zqP3IWjzXtaKeq3F4tyGpyc9PISvtlRaoRfzO9P9RaE
-	Jf+N4gzP5N9HthU9rHMFobFKOWNXV+XOPr+2RDuwqrCQzmzZ9PQNhyQlyGnv1uxJPsMJ0CLkM24WR
-	C4lS/84x7K1f3K2fSNH//7IDKrsJ5CTIR4iR+DWDwkEaRuAPjuI/qC3L5A2lpMk0ypVNTtHZIOwk3
-	3+/mZ2comDXJTnvkXQ32IoeD0kDaysEh/9IDgvfbkvirEn6sge8+MbtEwO5JCYqKT8tOP+LrySltu
-	R8GMH39g==;
-DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de
-	; s=kit2ed25519; h=In-Reply-To:Content-Type:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=H8mqb3MpO2cmh1qryk/JTJwZ6FQGB3SJ5eMt9xjirXw=; b=BRNR5AvWOLpjM2qRxkw3qpeBE7
-	ToyFui9gyMeGC8JiItmTtqMX6dBufKc2qXMf8fzHL4IymXE3pk16aCMX8BDA==;
 Received: from hekate.asta.kit.edu ([2a00:1398:5:f401::77])
-	by scc-mailout-kit-01.scc.kit.edu with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	by scc-mailout-kit-02.scc.kit.edu with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(envelope-from <schwarze@usta.de>)
-	id 1x0FX9-0000000AMpC-0lhu;
-	Sat, 29 Aug 2026 11:39:31 +0200
+	id 1x0HKr-00000008OUN-1Vox;
+	Sat, 29 Aug 2026 13:34:58 +0200
 Received: from imap-2.asta.kit.edu ([2a00:1398:5:f400::36])
 	by hekate.asta.kit.edu with esmtp (Exim 4.98.2)
 	(envelope-from <schwarze@usta.de>)
-	id 1x0FX8-00000000Ewd-21D2;
-	Sat, 29 Aug 2026 11:39:30 +0200
+	id 1x0HKq-00000000F4U-462e;
+	Sat, 29 Aug 2026 13:34:57 +0200
 Received: from isnote.usta.de ([84.177.233.30])
 	by imap-2.asta.kit.edu with ESMTPSA
-	id vvVMLtKokmrf8CcA4A1LTA
-	(envelope-from <schwarze@usta.de>); Sat, 29 Aug 2026 11:39:30 +0200
-Date: Sat, 29 Aug 2026 11:39:20 +0200
+	id CL9rEOHDkmr6GigA4A1LTA
+	(envelope-from <schwarze@usta.de>); Sat, 29 Aug 2026 13:34:57 +0200
+Date: Sat, 29 Aug 2026 13:34:55 +0200
 From: Ingo Schwarze <schwarze@usta.de>
-To: Larry Kollar <larry.kollar@icloud.com>
-Cc: Alejandro Colomar <alx@kernel.org>, Groff <groff@gnu.org>,
-	linux-man@vger.kernel.org
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-Message-ID: <apKou1PHGi1N5gGO@isnote.usta.de>
-References: <xn33wr3rr8.fsf@greed.delorie.com>
- <20260807021256.pwzsls7awqmbslti@illithid>
+To: g.branden.robinson@gmail.com
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
+	groff@gnu.org
+Subject: Re: Using LS/LE
+Message-ID: <apLD35LsoOqX6fK1@isnote.usta.de>
+References: <20260807021256.pwzsls7awqmbslti@illithid>
  <aorlBv8YTu4JlZcy@devuan>
  <20260823132749.pgypzsqv32n67wor@illithid>
  <aor4LIdGrSGHe3TB@devuan>
@@ -68,102 +43,214 @@ References: <xn33wr3rr8.fsf@greed.delorie.com>
  <aosHFaauEzKEFNpl@devuan>
  <20260823164451.5jeolmdu44ubpeba@illithid>
  <aotFzewQhmLJSk6N@devuan>
- <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <aot0q9iCIXOJf8Kk@isnote.usta.de>
+ <20260829043615.vuh3idp3a7if4vnm@illithid>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260829043615.vuh3idp3a7if4vnm@illithid>
 
-Hi Larry,
+Hi Branden,
 
-Larry Kollar wrote on Fri, Aug 28, 2026 at 10:50:50PM -0400:
-> Alejandro Colomar <alx@kernel.org> wrote:
+G. Branden Robinson wrote on Fri, Aug 28, 2026 at 11:36:15PM -0500:
+> At 2026-08-24T00:31:07+0200, Ingo Schwarze wrote:
 
->> I believe that a set of makefiles that would handle all of the targets
->> of a project like groff wouldn't take much more than that.  It might be
->> a few hundred kB.  If it's well organized, it can be maintainable.
->> 
->> Because the makefile language is so simple, bugs are easy to spot and
->> fix, compared to autotools (possibly automake, but I can't distinguish
->> them enough).
+>> I don't yet understand what the point of .LS is
 
-> I don't know. Can a Makefile check for the presence of certain libraries
-> or other apps and fail gracefully
+> I have articulated clearly several specific points about it.  I
+> initially had the idea for LS/LE as early as December 2022.
+> 
+> https://lists.gnu.org/archive/html/groff/2022-12/msg00075.html
+> 
+> At that time, I got no feedback on my proposal,
 
-Obviously, a Makefile can do anything a sh(1) script can do -
-arguably, the central idea of make(1) is topological sorting
-of sh(1) script snippets according to a dependency graph.
-So the answer to your question is an emphatic "yes".
+If i remember correctly, i read that message as "i don't have clear
+goals, i don't have clear plans, and i don't see much need",
+so i saw no need to respond.
 
-> (by which I mean exiting with a message like "You need app X, plus
-> libraries Y and Z, installed to successfully compile this.")?
+> which I interpreted as indifference.
+> That's the usual fate of my proposals.  ;-)
 
-Absolutely, and some real-world Makefiles do just that,
-for example the large and frightening bsd.port.mk(5) on OpenBSD:
+Well, sometimes some people (including myself) do consider your proposals.  :)
 
-  https://man.openbsd.org/bsd.port.mk
-  https://cvsweb.openbsd.org/ports/infrastructure/mk/bsd.port.mk
+> For example:
+> https://lists.gnu.org/archive/html/groff/2026-07/msg00096.html
 
-But smaller, simpler Makefiles emitting diagnostic messages of the
-kind you describe exist, too.
+I missed that one, i wasn't around much in July.
+Not sure whether that's needed from a general-purpose typesetting
+perspective, i would have to think about that.
 
-> That's one of the things that "makes" me appreciate taking
-> that extra step of typing `.configure` before make.
+For manual pages, that .ref proposal sounds like massive overengineering.
+It's simply not needed because almost all such information can be
+derived directly from the semantic manual page macros - and that's
+not theoretical speculation, mandoc(1) contains a mature implementation
+that is several years old by now.  While mdoc(7) in mandoc does provide
+the .Tg macro, it is very rarely needed: currently, there are 214
+instances of .Tg in OpenBSD /usr/share/man/, even though that directory
+contains 4635 manual pages, that's one instance in over 20 manual pages
+on average.  Only 9 out of 4635 manualpages use the .Tg macro at all,
+which is less than two permille.
 
-Well, that doesn't look like a particularly strong argument,
-because adding a rule to the Makefile that automatically runs
-the configure script when needed would usually not be difficult,
-and the end result regarding diagnostics would be identical to
-what you desire.
+> Earlier this year, after list nesting caused Alex pain again,
 
-I think the main reason why build system developers don't usually
-run configure automatically from the Makefile is that from a user
-perspective, it makes sense to keep the two steps "inspect the
-configuration and make some decisions, but do not start building
-anything just yet" and "build the stuff, using the variables and
-decisions made at the configure stage" separate.  Users may even
-want to pause between the two steps, consider the decisions made,
-for example by inspecting configure output files like config.h
-or Makefile.local or, in case serious debugging is needed, config.log
-and maybe even change some of the decisions manually and re-run
-configure, even though autoconf(1) makes both steps, inspection
-and manipulation of decisions, gratuitiously hard, both by spewing
-vast amounts of noise and by the ./configure script being next to
-unreadable.  But saner, better-written configure scripts can make
-both inspection and manipulation quite simple and pleasant.
+Oh yes, that is true.  The man(7) language doesn't really support
+nested lists well.
 
-Running the configure script automatically from the Makefile
-would remove this opportunity for inspection and tweaking.
+> and having gotten more familiar with the bash(1) man page source,
+> I consulted with Alex, Pádraig Brady (GNU coreutils),
+> Stephen Gildea (help2man), and Chet Ramey (GNU Bash) regarding
+> its interface, semantics, and goals.
 
-My point isn't that configure should be integrated into the
-Makefile.  Quite to the contrary, medium-sized projects like groff
-and mandoc that need to run dozens of configuration tests do benefit
-from having a separate configure script.  What i'm saying is that
-developers can save themselves massive amounts of work and pain
-by ditching autoconf(1) and writing their own configure script -
-and thus also make life massively easier for their users, because
-dealing with autoconf(1) is equally painful for users.
+>> - in my experience, assembling items from .IP and .TP blocks to form
+>> lists is *not* among the problems the man(7) language causes - quite
+>> to the contrary,
 
-But again, i do *not* advocate for ripping autoconf(1) out of groff
-because Branden seems happy enough with it for now, and it kind
-of works most of time, admittedly with regular hiccups around
-releases.  Ripping it out would look like a make-work project
-at this point; constantly revisiting the same decisions is not
-very productive, and automake(1) was only integrated a few years ago.
+> Assembling a list is not difficult.   Exercising control over
+> indentation and inter-paragraph spacing (even just to turn it on and
+> shut it off) as they apply to the items of lists, especially when
+> nested, can get quite tedious.
 
-> Now, a lot of older software (or modern, simple programs) won't
-> need that complexity, and a well-written INSTALL file can call out
-> necessary Makefile edits before letting 'er rip.
+Again, that is true.
 
-Right, suckless.org software comes to mind as an example.
-(That's not to say that i would endorse them in every respect -
-for example, i like small amounts of configurability and do not
-like the "zero configuration at run time" approach of suckless.)
+The mandoc(1) -T man output mode uses .RS at the beginning and .RE
+at the end of each list to set up the indentation, and in nested
+lists, it uses .RS after the end of an inner list to get back to
+the indentation of the outer list.  It uses .PD 0 whenever
+following paragraph(s) want no leading vertical space and .PD with
+no arguments whenever following paragraphs want normal vertical
+spacing again.
+
+That being tedious is a direct consequence of man(7) being more of
+a presentational than semantic language.
+
+>> even though HTML is a strongly structural and semantic language,
+>> assembling even HTML code from .IP and .TP is a almost never a
+>> problem, and i don't see which other target format could possibly
+>> be harder to handle than HTML.
+
+> I don't disagree there.  To get groff man(7) to generate <ol>, <ul>, and
+> <dl> elements as desired, I'm going to have to make
+
+Well, mandoc -man -T html already generates (see man_html.c) <dl>
+or <ul> from .IP and .TP, since 2019:
+
+  date: 2019/03/02 16:29:49;  author: schwarze;  lines: +68 -16
+  Represent multiple subsequent .IP blocks having a consistent
+  head argument of *, \-, or \(bu as <ul> rather than as <dl>,
+  using a bit of heuristics.
+
+  Basic idea suggested by Dagfinn Ilmari Mannsaker <ilmari at github>
+  in https://github.com/Debian/debiman/issues/67 and independently by
+  <Pali dot Rohar at gmail dot com> on <discuss at mandoc dot bsd dot lv>.
+
+> other revisions to
+> grohtml(1) first, because it insists on using HTML tables to mock up
+> indentation.[1]  I don't want that.  So unfortunately I don't expect
+> that improvement to element tagging in HTML output in groff 1.25, though
+> I hope to get that done for 1.26.  (All the other features of LS/LE are,
+> and Alex just this week helped ensure that some bugs in it got stomped.)
+> 
+> That's not really HTML's fault, but arises from groff's long tradition
+> of swinging a Mario mallet to force its stream-based paradigmatic
+> processing peg into HTML's block-structured hole.
+
+>> I would probably have to read up on prior discussions, but the topic
+>> feels unrelated and i won't mix it into this mail.
+
+> groff's documentation attempts to motivate the macros' presence.
+> 
+> groff_man(7):
+>    List enclosure macros
+>      Enclose paragraphing macros between LS and LE to identify them as
+>      list items.  Doing so can mark them as "compact", ease management
+>      of their indentation, and supply hints to the output driver to
+>      improve their rendering (as with HTML).  Lists can be nested.
+>      (Sub)sectioning macro calls, and the end of the document, close all
+>      open lists.
+
+Do you recommend closing open lists before ending the section,
+or do you recommend dropping the .LE if it happens to be at the end
+of a section?  This sentence sounds like the latter.
+
+I would probably strongly recommend the former and have the macro set
+warn about missing .LE because many years of experience show that
+forgotten list end macros are a widespread oversight among manual page
+authors, often causing the list to run further than intended.
+For that reason, having the warning about missing .LE seems
+important.
+
+>      These macros are GNU extensions.
+
+Using these macros is probably less disruptive than using .MR,
+because lack of support in the formatter will only ruin spacing
+and indentation but not corrupt the text.  Considering that the
+benefit of .LS/.LE is relatively minor, it was indeed important
+to choose such a conservative design.
+
+>      .LS type [compactness [indentation]]
+
+What is the logical reason for requiring that, to specify the
+indentation, you also need to specify the compactness?
+
+>             (since groff 1.25) Start (or open) a list.  type is one of
+>             "definition", "enumerated", or "itemized".  compactness is a
+>             Boolean value directing suppression of inter-paragraph
+>             spacing between list items.
+
+That sounds very confusing.  Does "Boolean" mean: either the string "0"
+or the string "1"?  Or what would "true" or "false" mean?
+Then, "Boolean value directing suppression" sounds vaguely as if "1"
+might mean "suppress", but that's not expressed unambiguously.
+
+Finally, why only *between* list items?  Why not *before each*
+list item?  Would suppressing the vertical spacing before the first
+list item still require .PD 0 *in addition* to "compact"?
+
+>             indentation specifies an
+>             indentation amount for the body of each list item; it is
+>             then unnecessary to specify this argument to the list item
+>             macros.
+
+That sounds as if the syntax of "indentation" is probably the same
+as for the .IP and .TP "width" argument, but that is not clearly
+stated.  So, what is the syntax?
+
+>             Use IP with a mark argument to represent an
+>             itemized or enumerated list item, and TP for a definition
+>             list item.  Use IP without arguments to associate
+>             successive paragraphs with an existing list item; to these,
+>             inter-paragraph spacing applies even in compact lists.
+
+Not sure the phrase staring with "to these" should be advertised
+so prominently.  *If* an author chooses to make a list "compact"
+but then kind of contradicts themselves by inserting paragraph
+breaks into individual list items, the behaviour you describe is
+probably what the formatter should do.
+
+But authors ought to be strongly discouraged from doing that.
+When one or more items of your list are so complicated that they
+require more than one paragraph of text, making your list "compact"
+makes no sense in the first place and will result in ugly and
+confusing typography.
+
+
+To summarize, after reviewing the design of .LS/.LE, my first
+impression is that it is likely a small-value, small-harm
+addition.  I think i will support them in mandoc(1) -man when
+i find the time, but not emit them from mandoc(1) -T man, at least
+not for many years to come, because the whole point of that output
+mode is dealing with operating systems that use ancient
+manual page formatters, and those are unlikely to support .LS/.LE.
+
+Chances are the the deeper scrutiny that will be necessary to
+implement .LS/.LE in mandoc(1) may lead to additional criticism;
+or if we are lucky, it may not.
 
 Yours,
   Ingo
