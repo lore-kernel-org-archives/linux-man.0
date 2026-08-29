@@ -1,256 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from scc-mailout-kit-01.scc.kit.edu (scc-mailout-kit-01.scc.kit.edu [141.52.71.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45092222AC
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 09:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA31F2D12ED
+	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 09:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.52.71.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787994179; cv=none; b=TA2COFXNBe5jqhCbkNR5uLrPsUxuT5FrXZS1ecll273T5ds4jxOu+5k1mAJsKcaKrrprkVUK5kt90kLJfyt3epli9WOxdmUuAih99DpN8gp3o+LGj89qEoor01g0AVxIHKdg9AbTEzi726+8/nbpFfTAPPqRM3Ks3YKcnOSKGqw=
+	t=1787997196; cv=none; b=Mgn8IWHVdZn1Hl72E1J0ysEEMXYwn3J9eZPm+M+AlzjqEmZb21ZxuqlQEOwzoc1PbBT0K7pRLkehY1/MHZdb+pRYds1PPUS1MFUV83AmXtivqvAJAxx1tb2cIHEXZHaUA5MLsyEPvtAJLSwICfsBmfDuqdMsIPUd6Od6hmA6PYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787994179; c=relaxed/simple;
-	bh=AxSFJqW8Weg6tO4oLtGdB4z0Nnwq0Bi7qP25mkfk2jg=;
+	s=arc-20240116; t=1787997196; c=relaxed/simple;
+	bh=+UHWk0Yzdh/9oGXNcMUWbvPw5HnpwUBzCmhsO+arQa8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rkbr5lCho544qhMeu7g9g/kKzmKhTfTVTN+oZaQdZgKMnp82s69UT4IFShLnDAKCUpJbyzq0rAVLVDU+paT9jHMn0RRLcTrOfsWZClQ5uTQJVZlHaB9exSbFpe6DL15nBuR07ErpG4L7Ih/emZq25mpPBqLCWpM1fJAwTxvRttY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GIutwcls; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTiwhg+eXYx+Y7yjKNKgIa9mEOszdUfEOeKvpjNvUl58HU0HNyZ2olE1gX07Lpzwvq17sfUFqjcK0bv+SIwywfRItfvAmQuctV7rqaXoJiAdK7BgR9ibeOp5/zTwVkE+XvuEYTpXSErh0g1LhXA4G8iPXK63MGVC/llBhAfmIOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de; spf=pass smtp.mailfrom=usta.de; dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b=aIwIgLBl; dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b=BRNR5AvW; arc=none smtp.client-ip=141.52.71.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=usta.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usta.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GIutwcls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF211F00A3D;
-	Sat, 29 Aug 2026 09:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787994177;
-	bh=g0PLGgUHBgqimNSWGo8JN3NE1g4F4mJO4JPCix2o/4Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GIutwclstNh3xAfeFZPYnMtaBjZ83jRzJPpp9Yae6ehh003psVa9Vy2bwYtF/Gyvi
-	 nou7BMCYT/XvB+G2AWz9ycOtAlDzPoZ1jPD3fgwCshJAh08XNHzuTsLdBhCQ70MCt9
-	 C7uY/OdskQMQvlEaWuOVRnIHJtcb9sq04z6scBla9HgBbj2AqQkIQ228udvzyywSFa
-	 s08n5uMhyfGBW2vuFlACkOvCQ5TvAEaGxmnVIneEOHAt6h3I7kFYPjBIfhYJ4L7x6w
-	 Q1/M3117v8h2Dx9TclNeEZmATNYMlMsDKyMp/QM2wyV5wXO2Rj4fsqMI9PL32sbXa4
-	 y2CXd1RDtpEhA==
-Date: Sat, 29 Aug 2026 11:02:53 +0200
-From: Alejandro Colomar <alx@kernel.org>
+	dkim=pass (2048-bit key) header.d=usta.de header.i=@usta.de header.b="aIwIgLBl";
+	dkim=permerror (0-bit key) header.d=usta.de header.i=@usta.de header.b="BRNR5AvW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de;
+	s=kit2; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject
+	:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=H8mqb3MpO2cmh1qryk/JTJwZ6FQGB3SJ5eMt9xjirXw=; b=aIwIgLBlj9sMPUWwSiqRDjM5Yg
+	0LTZRLhDbnJBY5QWib8p3pNJPoF0Q4Wf06zqP3IWjzXtaKeq3F4tyGpyc9PISvtlRaoRfzO9P9RaE
+	Jf+N4gzP5N9HthU9rHMFobFKOWNXV+XOPr+2RDuwqrCQzmzZ9PQNhyQlyGnv1uxJPsMJ0CLkM24WR
+	C4lS/84x7K1f3K2fSNH//7IDKrsJ5CTIR4iR+DWDwkEaRuAPjuI/qC3L5A2lpMk0ypVNTtHZIOwk3
+	3+/mZ2comDXJTnvkXQ32IoeD0kDaysEh/9IDgvfbkvirEn6sge8+MbtEwO5JCYqKT8tOP+LrySltu
+	R8GMH39g==;
+DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed; d=usta.de
+	; s=kit2ed25519; h=In-Reply-To:Content-Type:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=H8mqb3MpO2cmh1qryk/JTJwZ6FQGB3SJ5eMt9xjirXw=; b=BRNR5AvWOLpjM2qRxkw3qpeBE7
+	ToyFui9gyMeGC8JiItmTtqMX6dBufKc2qXMf8fzHL4IymXE3pk16aCMX8BDA==;
+Received: from hekate.asta.kit.edu ([2a00:1398:5:f401::77])
+	by scc-mailout-kit-01.scc.kit.edu with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(envelope-from <schwarze@usta.de>)
+	id 1x0FX9-0000000AMpC-0lhu;
+	Sat, 29 Aug 2026 11:39:31 +0200
+Received: from imap-2.asta.kit.edu ([2a00:1398:5:f400::36])
+	by hekate.asta.kit.edu with esmtp (Exim 4.98.2)
+	(envelope-from <schwarze@usta.de>)
+	id 1x0FX8-00000000Ewd-21D2;
+	Sat, 29 Aug 2026 11:39:30 +0200
+Received: from isnote.usta.de ([84.177.233.30])
+	by imap-2.asta.kit.edu with ESMTPSA
+	id vvVMLtKokmrf8CcA4A1LTA
+	(envelope-from <schwarze@usta.de>); Sat, 29 Aug 2026 11:39:30 +0200
+Date: Sat, 29 Aug 2026 11:39:20 +0200
+From: Ingo Schwarze <schwarze@usta.de>
 To: Larry Kollar <larry.kollar@icloud.com>
-Cc: Groff <groff@gnu.org>, linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, Groff <groff@gnu.org>,
+	linux-man@vger.kernel.org
 Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
  Document system-wide tunables config)
-Message-ID: <apKgD9rwWO0ejh41@devuan>
-References: <20260823132749.pgypzsqv32n67wor@illithid>
+Message-ID: <apKou1PHGi1N5gGO@isnote.usta.de>
+References: <xn33wr3rr8.fsf@greed.delorie.com>
+ <20260807021256.pwzsls7awqmbslti@illithid>
+ <aorlBv8YTu4JlZcy@devuan>
+ <20260823132749.pgypzsqv32n67wor@illithid>
  <aor4LIdGrSGHe3TB@devuan>
  <20260823141622.7vszwghxrxvkff4j@illithid>
  <aosHFaauEzKEFNpl@devuan>
  <20260823164451.5jeolmdu44ubpeba@illithid>
  <aotFzewQhmLJSk6N@devuan>
  <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
- <apKYVACSvXx2pcGw@devuan>
- <apKcB5bwhYRoZdR4@devuan>
- <apKdoCfK_tYf5wX8@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cu5pqikoiidtop2c"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apKdoCfK_tYf5wX8@devuan>
+In-Reply-To: <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
 
+Hi Larry,
 
---cu5pqikoiidtop2c
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Larry Kollar <larry.kollar@icloud.com>
-Cc: Groff <groff@gnu.org>, linux-man@vger.kernel.org
-Subject: Re: Using LS/LE (was: [PATCH v4 2/4] man/man5/tunables.conf:
- Document system-wide tunables config)
-Message-ID: <apKgD9rwWO0ejh41@devuan>
-References: <20260823132749.pgypzsqv32n67wor@illithid>
- <aor4LIdGrSGHe3TB@devuan>
- <20260823141622.7vszwghxrxvkff4j@illithid>
- <aosHFaauEzKEFNpl@devuan>
- <20260823164451.5jeolmdu44ubpeba@illithid>
- <aotFzewQhmLJSk6N@devuan>
- <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
- <apKYVACSvXx2pcGw@devuan>
- <apKcB5bwhYRoZdR4@devuan>
- <apKdoCfK_tYf5wX8@devuan>
-MIME-Version: 1.0
-In-Reply-To: <apKdoCfK_tYf5wX8@devuan>
+Larry Kollar wrote on Fri, Aug 28, 2026 at 10:50:50PM -0400:
+> Alejandro Colomar <alx@kernel.org> wrote:
 
-> Date: 2026-08-29 10:53:02+0200
-> From: Alejandro Colomar <alx@kernel.org>
->
-> > Date: 2026-08-29 10:45:34+0200
-> > From: Alejandro Colomar <alx@kernel.org>
-> >
-> > > Date: 2026-08-29 10:42:14+0200
-> > > From: Alejandro Colomar <alx@kernel.org>
-> > >
-> > > Hi Larry,
-> > >=20
-> > > > Date: 2026-08-28 22:50:50-0400
-> > > > From: Larry Kollar <larry.kollar@icloud.com>
-> > > >
-> > > >=20
-> > > > Alejandro Colomar <alx@kernel.org> wrote:
-> > > >=20
-> > > > > I believe that a set of makefiles that would handle all of the ta=
-rgets
-> > > > > of a project like groff wouldn't take much more than that.  It mi=
-ght be
-> > > > > a few hundred kB.  If it's well organized, it can be maintainable.
-> > > > >=20
-> > > > > Because the makefile language is so simple, bugs are easy to spot=
- and
-> > > > > fix, compared to autotools (possibly automake, but I can't distin=
-guish
-> > > > > them enough).
-> > > >=20
-> > > > I don=E2=80=99t know. Can a Makefile check for the presence of cert=
-ain libraries
-> > > > or other apps and fail gracefully (by which I mean exiting with a m=
-essage
-> > > > like =E2=80=9CYou need app X, plus libraries Y and Z, installed to =
-successfully
-> > > > compile this.=E2=80=9D)? That=E2=80=99s one of the things that =E2=
-=80=9Cmakes" me appreciate taking
-> > > > that extra step of typing `.configure` before make.
-> > >=20
-> > > Yes, it can.  Here's a trivial test for that:
-> > >=20
-> > > 	alx@devuan:~/tmp/testlib$ cat Makefile=20
-> > > 	HAS_LIBFOO :=3D $(shell find /usr/include/foo.h >/dev/null && echo y=
-es || echo no)
->=20
-> You can also trivially test with gcc(1) instead of find(1):
->=20
-> 	$ echo '#include <foo.h>' | gcc -x c -E >/dev/null 2>&1 && echo yes || e=
-cho no
-> 	no
->=20
-> If you put that expression within $(shell ...), you can use it similarly.
+>> I believe that a set of makefiles that would handle all of the targets
+>> of a project like groff wouldn't take much more than that.  It might be
+>> a few hundred kB.  If it's well organized, it can be maintainable.
+>> 
+>> Because the makefile language is so simple, bugs are easy to spot and
+>> fix, compared to autotools (possibly automake, but I can't distinguish
+>> them enough).
 
-Of course, I had some typos there.
+> I don't know. Can a Makefile check for the presence of certain libraries
+> or other apps and fail gracefully
 
-Here's a fully working example:
+Obviously, a Makefile can do anything a sh(1) script can do -
+arguably, the central idea of make(1) is topological sorting
+of sh(1) script snippets according to a dependency graph.
+So the answer to your question is an emphatic "yes".
 
-	alx@devuan:~/tmp/testlib$ cat Makefile=20
-	CC ::=3D cc
+> (by which I mean exiting with a message like "You need app X, plus
+> libraries Y and Z, installed to successfully compile this.")?
 
-	HAS_STDLIB ::=3D \
-		$(shell \
-			echo '#include <stdlib.h>' \
-			| $(CC) -x c - -E >/dev/null \
-			&& echo yes \
-			|| echo no; \
-		)
+Absolutely, and some real-world Makefiles do just that,
+for example the large and frightening bsd.port.mk(5) on OpenBSD:
 
-	HAS_LIBFOO ::=3D \
-		$(shell \
-			echo '#include <foo.h>' \
-			| $(CC) -x c - -E >/dev/null \
-			&& echo yes \
-			|| echo no; \
-		)
+  https://man.openbsd.org/bsd.port.mk
+  https://cvsweb.openbsd.org/ports/infrastructure/mk/bsd.port.mk
 
-	ifeq ($(HAS_STDLIB),no)
-	  $(error You need <stdlib.h> installed to successfully compile this)
-	endif
-	ifeq ($(HAS_LIBFOO),no)
-	  $(error You need library FOO installed to successfully compile this)
-	endif
+But smaller, simpler Makefiles emitting diagnostic messages of the
+kind you describe exist, too.
 
-	all:
-		echo Done
-	alx@devuan:~/tmp/testlib$ make
-	<stdin>:1:10: fatal error: foo.h: No such file or directory
-	compilation terminated.
-	Makefile:23: *** You need library FOO installed to successfully compile th=
-is.  Stop.
+> That's one of the things that "makes" me appreciate taking
+> that extra step of typing `.configure` before make.
 
+Well, that doesn't look like a particularly strong argument,
+because adding a rule to the Makefile that automatically runs
+the configure script when needed would usually not be difficult,
+and the end result regarding diagnostics would be identical to
+what you desire.
 
-Cheers,
-Alex
+I think the main reason why build system developers don't usually
+run configure automatically from the Makefile is that from a user
+perspective, it makes sense to keep the two steps "inspect the
+configuration and make some decisions, but do not start building
+anything just yet" and "build the stuff, using the variables and
+decisions made at the configure stage" separate.  Users may even
+want to pause between the two steps, consider the decisions made,
+for example by inspecting configure output files like config.h
+or Makefile.local or, in case serious debugging is needed, config.log
+and maybe even change some of the decisions manually and re-run
+configure, even though autoconf(1) makes both steps, inspection
+and manipulation of decisions, gratuitiously hard, both by spewing
+vast amounts of noise and by the ./configure script being next to
+unreadable.  But saner, better-written configure scripts can make
+both inspection and manipulation quite simple and pleasant.
 
->=20
->=20
-> Cheers,
-> alex
->=20
-> > >=20
-> > > 	ifeq ($(HAS_LIBFOO),no)
-> > > 	  $(error You need library FOO installed to successfully compile thi=
-s.)
-> >=20
-> > Oh, I didn't need the period here...
-> >=20
-> > > 	endif
-> > >=20
-> > > 	all:
-> > > 		echo Done
-> > > 	alx@devuan:~/tmp/testlib$ make
-> > > 	find: =E2=80=98/usr/include/foo.h=E2=80=99: No such file or directory
-> > > 	Makefile:4: *** You need library FOO installed to successfully compi=
-le this..  Stop.
-> >=20
-> > ... make(1) already appended one here.
-> >=20
-> > :)
-> >=20
-> > >=20
-> > > You may of course write more complex tests if you need.  Anything that
-> > > you can do with a shell script, you can do it with a Makefile.
-> > >=20
-> > > That said, I personally prefer to fail compilation due to missing hea=
-der
-> > > files.  It's simpler, and there's not much difference.  After all, if
-> > > compilation fails for <foo.h>, it's trivial to run
-> > >=20
-> > > 	$ apt-file find /include/foo.h
-> > >=20
-> > > But if you want the test, you can have it.
-> > >=20
-> > >=20
-> > > Have a lovely day!
-> > > Alex
-> > >=20
-> > > --=20
-> > > <https://www.alejandro-colomar.es>
-> >=20
-> >=20
-> >=20
-> > --=20
-> > <https://www.alejandro-colomar.es>
->=20
->=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
+Running the configure script automatically from the Makefile
+would remove this opportunity for inspection and tweaking.
 
+My point isn't that configure should be integrated into the
+Makefile.  Quite to the contrary, medium-sized projects like groff
+and mandoc that need to run dozens of configuration tests do benefit
+from having a separate configure script.  What i'm saying is that
+developers can save themselves massive amounts of work and pain
+by ditching autoconf(1) and writing their own configure script -
+and thus also make life massively easier for their users, because
+dealing with autoconf(1) is equally painful for users.
 
+But again, i do *not* advocate for ripping autoconf(1) out of groff
+because Branden seems happy enough with it for now, and it kind
+of works most of time, admittedly with regular hiccups around
+releases.  Ripping it out would look like a make-work project
+at this point; constantly revisiting the same decisions is not
+very productive, and automake(1) was only integrated a few years ago.
 
---=20
-<https://www.alejandro-colomar.es>
+> Now, a lot of older software (or modern, simple programs) won't
+> need that complexity, and a well-written INSTALL file can call out
+> necessary Makefile edits before letting 'er rip.
 
---cu5pqikoiidtop2c
-Content-Type: application/pgp-signature; name="signature.asc"
+Right, suckless.org software comes to mind as an example.
+(That's not to say that i would endorse them in every respect -
+for example, i like small amounts of configurability and do not
+like the "zero configuration at run time" approach of suckless.)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqSoD0ACgkQ64mZXMKQ
-wql5Xg/8Dz+on+73xxF/Q5f/zeKxAyEXl9dGtG+MzAZi3Lu0WwBv2lkb7OmOWHs5
-iY5p9Wy7TuZCeOXh+ooUzV0KxXwAbZXyiWPgj19A9sdpp0cEjmQSdHusRF4JCOpP
-lE9wV7qewmucFTzE0E6XzqQbsQBeh53a23Qx+6KjC6V+RgLemDVnGzw28K8lAm+p
-scgOF6A3G5C2eY3aLiTeX6EBVne5lxIei7gJ4UBKnqtHKljjFqpbVo7WjsuGkluI
-W3Typ0mmMBBP8wdRHCbAcrr36lC1s9OQGjaYPXS2gisisQruNRwvLNjriyk7HnYJ
-VV+nLWon+RaCc1V2qj3bT04YxRcLlucrmyYR5LDDulGoPY4DG6Paq4YO4dZcbCrh
-gC5pnJbW3x/zOA0ZPTz6nBh6ibaB0T8RW06Z7weqxvYF+dTsBXhymrQBl2GuFuSr
-XRl1+yncYTdvVdzPSldirdmZbLjr6HhZqh7GgGE5UXH1NejFpda3Yp+KSsppaGnI
-SjpeROcceqVjFlnKo1cdDmZusI40TuPnqX+4BsGKA8pfvLYBz5plKJj1yS1UzsPb
-zaiDCiyY9zU5rlflvUViPO+elTg5uoD521TyihojVHhn9Ims5Lh0XoGYV1M/6VfN
-PVvo7JlJ3/hNuoL75vgdWR07RFsHp73brKTuSpso2ZKKVzLQlkw=
-=eN+P
------END PGP SIGNATURE-----
-
---cu5pqikoiidtop2c--
+Yours,
+  Ingo
