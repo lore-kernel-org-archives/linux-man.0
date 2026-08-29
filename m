@@ -1,679 +1,466 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4162CCC6
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 19:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6099A7083C
+	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 20:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788031006; cv=none; b=LQMgc2pgR15l1sGAKpJLbdVH5JY9iPlLL+aTQt65y2Vq+d+eXUAxpUqVpBzE0mQG61CWYJuXgoZboCC72lEEiDJgEhzW3OL+XYby/46DhAP8xBC/5ortG0HJ3ofOjVyVOGaldB6e3MaXuWgkSLp41KbO6HzYNUheQkV6mjLwulE=
+	t=1788036550; cv=none; b=e4rPpLAHh4IGxcLqSAg4/1hgeQzc8V17bIHhAuu1yMgqZWtv2hnraakvKq2+A5/MvGx1sJfxsYaP9Tdsmf61Qo8x5NPqrsDGj+TKWT8UcQjmxpDk73khnm+5NPd8okPaaSte9tgm0sE8ISRCei1NNo/J5xhq5/IiGIljf1FY+aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788031006; c=relaxed/simple;
-	bh=sGGLUCMFOkO+n4DGae+AZUef7SGVRdpevqIKyzj+C50=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jGRmPXj7mKPJvl5ouTrtbXUUZTRUT/chkIOseZirykBE2dqUm3SAWZ0FcHdb7u/X6coq6lK8q9L+Yhoh/p5XthExplW0asX9ERGmVspWJEq/afohpwVjXOYu1k8qfWPiJQrRg7bK8TGO0ipZYj8yoMot3zVCPPWUy/T40gqDZus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IVLxCXbN; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788036550; c=relaxed/simple;
+	bh=EjXKaTzouGJkqivmC3J8uyJcuMMssU3daGLDZVbO3zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PH8se3mKvEfp2BJ3a0j2Z49P+8Xv7ObfF1w9jojAPn9j1uy7yxaHwBx8xIwNd7LHky2q99hmCT6wIAJ0UgxRHKlEdeajTBpTflS2TRwIViJ8adVbbjyys9ZQOowc7HbS107GFVviagqOXfhFhKTklQ2uuczkN18O2boI+rhYof0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+WoCvo5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IVLxCXbN"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66c70cff944so2587793d50.0
-        for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 12:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788031003; x=1788635803; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7FnKBVbv84ropfXDsciZURZJq2ooSDXUiHDFfQ2wKHY=;
-        b=IVLxCXbNCIZPqJa5hcg39m4wtoifcQFGwdADyJlXY5vcnKDqWZ6C2XEcv86O0ddkKc
-         gieO9IlkyaZJPRMjvJrr60C2jeTiyboXTX68D3HfmYY9jVeINuyoCOAkJWLgg4XEhTLI
-         VkS230VicsvWDjn8NS/0tPeHeO6Kfq7t7aeVD/Rwq5xNSbRSXVmLF7m0+sSyMJ4F9LlL
-         Bf2IUZxP50XTZmIuu4B8Y4bOOWF+tvaFXzpGtw5MyPOiv4LVPjB8UzSFx6tzOVtMTzGQ
-         MjWm1j11CCWQIzN+ZAzJUPm8dpGZTbFIWKlUf009xsUUxo6sdjPZFa2eszwgoVOuzLf2
-         zJfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788031003; x=1788635803;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7FnKBVbv84ropfXDsciZURZJq2ooSDXUiHDFfQ2wKHY=;
-        b=q841kLNdK/oBj/FXtgSGkVwLkN9FEQUPU/u0KeEuJBSUKFgrg4EASVQbnoiUoc5eX5
-         jjH/zMeUgpoCNjvu89GrGkoCxv4l5LKibQpDMGn983eH97/0PdS8gyeZKm5viTrKxL/C
-         f3kSJMVEHHPcE//TT0IujcAZtbjCmxwiPEA2evKeC2ZXjrop4ABYJUsXWOa3H1D5/LkP
-         NLoca5i9zJfgJDKJhIdOYrBQZr8B6yKnUVt1rzERBV7qctPEdodQKg/qyIuQnqBQ+JTx
-         8eWlMvgADvTfYmr0QoVSIWuVyJwtGKhIWwp+RT0C4nHNstpefY/YEf7ISj1XaSG0f29V
-         vw1w==
-X-Gm-Message-State: AFuF++lcI7qpV4p+z64Pojt6rdjOzym2WyvJY0eZGz+4mCgkmR3jM1rT
-	0vx/wumVR6OlRAftHg8TCahXildZifmezHSPLT4SyhVFowVu5iK9jR3p
-X-Gm-Gg: AYBFou1O1tCYhViZPHxxLT1FGNqQ4RcSgxqHwCaoMEzBUPBzDslF8zFW9iikVlmHGG9
-	yM5uSc1RQeFLB77GH3co/oPHlqYkBHTQdW+QXjYMOf1hXEFO7GmSHeEHV0W9xCMR+5ZmEfcbqFG
-	gm9CE82H73xCjw0+mqaxH4clFMAoRYJpC3IOwKj1Lch1EDE1HRCJ9hYEuKYoPpkti/DATvPpDZd
-	4TPqj7wb6ZVOgeXfXWsCI3CsGYH5yecOQGFcgAzSb5beLnxUkwxJaaybfpjJkUPxvUq0zr0H81K
-	/PMu5DZl92c2L3hKh61RHfpBAsisyBsVZDGpOiiNmdIdUh95cbEUf+Im2m4ykONOMRkBk5m9NU3
-	AXy5CaNWT+oPK/Y1iJb6qZCrFNNz7gLCF+MIO9uL+l77b/DtTP3TUw+LzrG3sriO9AsZ2X8oOgR
-	lUmUS2458sMUkCB/cr4VIbxK+TC+yh/xhvIaztwnv749BkCEq8mw==
-X-Received: by 2002:a05:690e:43cc:20b0:66e:6494:efda with SMTP id 956f58d0204a3-66e6494f0bemr146022d50.44.1788031002385;
-        Sat, 29 Aug 2026 12:16:42 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::41])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66e4ed2986csm3021323d50.18.2026.08.29.12.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 12:16:40 -0700 (PDT)
-Date: Sat, 29 Aug 2026 14:16:39 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Ingo Schwarze <schwarze@usta.de>, Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: Using LS/LE
-Message-ID: <20260829191639.p43vvljsfy2vnxo5@illithid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+WoCvo5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E01C1F000E9;
+	Sat, 29 Aug 2026 20:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788036548;
+	bh=Kj1L0d9Y1nMNqw1R/yxrgYoCeqzJJUmqM8+ddWBGJs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=i+WoCvo5z28DuDOQld0D51mAmVk+Ed5ygW5K51AvD2Rnjc14xyvuvsBrQzqjjsaL/
+	 VET1tbYKdZPLABvLCTrCThqJrczNbHPO7mxyi5Pe7YS7sSZMHhUmMwJ/iVW6J10Tvc
+	 EJ+3hfpWoiCno2HeYbkW6v1rllHKWYu/Kjod4ko8FLewwuiua+Nin6tdVLecVMlLun
+	 oSigXlv50dbk3ViH2HXiKNY2Ew6At8oJjy/0o7c5wwA4o6xQxWG6KQrp+UuLNQD5eg
+	 4IFQBTARPJduE1Zyk3apy0rCRrEsIcoGJ45LgGcYV7+nHjSbNi5A8aNVE9ewytjkju
+	 /DY0uFiIRz4Sg==
+Date: Sat, 29 Aug 2026 22:49:05 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: linux-man@vger.kernel.org
+Subject: Re: configure separate from make or not
+Message-ID: <apMytOcLd3pecFFc@devuan>
+References: <20260823132749.pgypzsqv32n67wor@illithid>
+ <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <apKou1PHGi1N5gGO@isnote.usta.de>
+ <apLV749V4YvfqCOZ@devuan>
+ <apL7VAruk1bIOr1M@isnote.usta.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gfqtrg5l5ns4ya42"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qjjrypovaattxzm3"
 Content-Disposition: inline
-In-Reply-To: <apLD35LsoOqX6fK1@isnote.usta.de>
- <apLSc6uhVjBNhtyy@devuan>
+In-Reply-To: <apL7VAruk1bIOr1M@isnote.usta.de>
 
 
---gfqtrg5l5ns4ya42
+--qjjrypovaattxzm3
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: Using LS/LE
+From: Alejandro Colomar <alx@kernel.org>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: linux-man@vger.kernel.org
+Subject: Re: configure separate from make or not
+Message-ID: <apMytOcLd3pecFFc@devuan>
+References: <20260823132749.pgypzsqv32n67wor@illithid>
+ <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <apKou1PHGi1N5gGO@isnote.usta.de>
+ <apLV749V4YvfqCOZ@devuan>
+ <apL7VAruk1bIOr1M@isnote.usta.de>
 MIME-Version: 1.0
+In-Reply-To: <apL7VAruk1bIOr1M@isnote.usta.de>
 
-Hi Ingo & Alex,
+Hi Ingo,
 
-At 2026-08-29T13:34:55+0200, Ingo Schwarze wrote:
-> G. Branden Robinson wrote on Fri, Aug 28, 2026 at 11:36:15PM -0500:
-> > At 2026-08-24T00:31:07+0200, Ingo Schwarze wrote:
+> Date: 2026-08-29 17:31:32+0200
+> From: Ingo Schwarze <schwarze@usta.de>
+>
+> [trimming Cc:, this starts becoming off-topic on the groff list;
+>  i'm not subscribed to linux-man@ though]
 >=20
-> >> I don't yet understand what the point of .LS is
+> Hi Alejandro,
 >=20
-> > I have articulated clearly several specific points about it.  I
-> > initially had the idea for LS/LE as early as December 2022.
-> >=20
-> > https://lists.gnu.org/archive/html/groff/2022-12/msg00075.html
-> >=20
-> > At that time, I got no feedback on my proposal,
->=20
-> If i remember correctly, i read that message as "i don't have clear
-> goals, i don't have clear plans, and i don't see much need",
-> so i saw no need to respond.
-
-Fair enough.  I shelved the item for over 3 years and finally it
-accumulated enough of all three to be actionable.
-
-> > which I interpreted as indifference.
-> > That's the usual fate of my proposals.  ;-)
->=20
-> Well, sometimes some people (including myself) do consider your
-> proposals.  :)
->=20
-> > For example:
-> > https://lists.gnu.org/archive/html/groff/2026-07/msg00096.html
->=20
-> I missed that one, i wasn't around much in July.
-> Not sure whether that's needed from a general-purpose typesetting
-> perspective, i would have to think about that.
-
-[begin brief excursion off of LS/LE]
-
-That's the whole point of it.  The context of the argument between Deri
-and me was driven by his enhancement of the ms(7) package to better
-support PDF features, including internal bookmarks.  It's long been a
-goal to do the same for all of groff's full-service macro packages,
-which basically means tackling me(7) and mm(7) as well, since mom(7)
-already has such support.
-
-> For manual pages, that .ref proposal sounds like massive
-> overengineering.
-
-There's more to groff's world than man pages.
-
-I'm snipping the rest of this paragraph because your focus is
-misdirected.  If we ever need hyperlinked internal bookmarks in man
-pages, mdoc(7) already has `Sx` and I have no problem adding a `SX` to
-man(7).
-
-The point of the machinery is to solve the forward reference problem.
-You are essentially saying that _any_ two-pass assembler is "massively
-overengineered" compared to a one-pass one.
-
-That is not the consensus of the field.
-
-A one-pass assembler simply cannot resolve forward references.  It has
-only "errata".  Achieving with a second design what was flatly
-impossible for the first does not constitute "overengineering" to me.
-
-What decides the issue is your selection of problems to solve.
-
-[end brief excursion off of LS/LE]
-
-> > Earlier this year, after list nesting caused Alex pain again,
->=20
-> Oh yes, that is true.  The man(7) language doesn't really support
-> nested lists well.
-
-Right.
-
-> > and having gotten more familiar with the bash(1) man page source,
-> > I consulted with Alex, P=C3=A1draig Brady (GNU coreutils),
-> > Stephen Gildea (help2man), and Chet Ramey (GNU Bash) regarding
-> > its interface, semantics, and goals.
->=20
-> >> - in my experience, assembling items from .IP and .TP blocks to
-> >> form lists is *not* among the problems the man(7) language causes -
-> >> quite to the contrary,
->=20
-> > Assembling a list is not difficult.   Exercising control over
-> > indentation and inter-paragraph spacing (even just to turn it on and
-> > shut it off) as they apply to the items of lists, especially when
-> > nested, can get quite tedious.
->=20
-> Again, that is true.
->=20
-> The mandoc(1) -T man output mode uses .RS at the beginning and .RE
-> at the end of each list to set up the indentation, and in nested
-> lists, it uses .RS after the end of an inner list to get back to
-> the indentation of the outer list.  It uses .PD 0 whenever
-> following paragraph(s) want no leading vertical space and .PD with
-> no arguments whenever following paragraphs want normal vertical
-> spacing again.
->=20
-> That being tedious is a direct consequence of man(7) being more of
-> a presentational than semantic language.
-
-Right, and when a machine takes care of the tedium, that's just about
-bearable.  But it's not when a human has to handle the tedium.
-
-> >> even though HTML is a strongly structural and semantic language,
-> >> assembling even HTML code from .IP and .TP is a almost never a
-> >> problem, and i don't see which other target format could possibly
-> >> be harder to handle than HTML.
->=20
-> > I don't disagree there.  To get groff man(7) to generate <ol>, <ul>,
-> > and <dl> elements as desired, I'm going to have to make
->=20
-> Well, mandoc -man -T html already generates (see man_html.c) <dl>
-> or <ul> from .IP and .TP, since 2019:
->=20
->   date: 2019/03/02 16:29:49;  author: schwarze;  lines: +68 -16
->   Represent multiple subsequent .IP blocks having a consistent
->   head argument of *, \-, or \(bu as <ul> rather than as <dl>,
->   using a bit of heuristics.
->=20
->   Basic idea suggested by Dagfinn Ilmari Mannsaker <ilmari at github>
->   in https://github.com/Debian/debiman/issues/67 and independently by
->   <Pali dot Rohar at gmail dot com> on <discuss at mandoc dot bsd dot
->   lv>.
-
-Acknowledged.  I didn't want to use heuristics.  To quote the Tao^WZen
-of Python: "Explicit is better than implicit."[1]
-
-> > groff's documentation attempts to motivate the macros' presence.
-> >=20
-> > groff_man(7):
-> >    List enclosure macros
-> >      Enclose paragraphing macros between LS and LE to identify them
-> >      as list items.  Doing so can mark them as "compact", ease
-> >      management of their indentation, and supply hints to the output
-> >      driver to improve their rendering (as with HTML).  Lists can be
-> >      nested.  (Sub)sectioning macro calls, and the end of the
-> >      document, close all open lists.
->=20
-> Do you recommend closing open lists before ending the section,
-> or do you recommend dropping the .LE if it happens to be at the end
-> of a section?
-
-I make no recommendation here.  Personally I follow the aforementioned
-Zen of Python in man(7) composition.  Or would, if I had cause to use
-nested lists in groff's own man pages.  I haven't yet.
-
-> This sentence sounds like the latter.
-
-No, I'm not trying to imply a preference for either.  If I ever have a
-reason to recommend one practice over the other, I will do so.  Until
-then, my intention is simply to observe the community and see what
-patterns arise in use.
-
-> I would probably strongly recommend the former and have the macro set
-> warn about missing .LE because many years of experience show that
-> forgotten list end macros are a widespread oversight among manual page
-> authors, often causing the list to run further than intended.
-> For that reason, having the warning about missing .LE seems
-> important.
-
-I would agree if `LS`/`LE` weren't designed to be harmlessly skippable
-by the many implementations that don't recognize them, including
-previous versions of groff and mandoc(1).
-
-> >      These macros are GNU extensions.
->=20
-> Using these macros is probably less disruptive than using .MR,
-> because lack of support in the formatter will only ruin spacing
-> and indentation but not corrupt the text.  Considering that the
-> benefit of .LS/.LE is relatively minor, it was indeed important
-> to choose such a conservative design.
-
-Yes, that's my view.
-
-> >      .LS type [compactness [indentation]]
->=20
-> What is the logical reason for requiring that, to specify the
-> indentation, you also need to specify the compactness?
-
-* Employing a compactness flag is what kills off 99%+ of all uses I have
-  observed of the `PD` macro.  I seek to exterminate `PD`.
-
-* The man(7) writer can always specify an indentation explicitly as an
-  argument to the `IP` and `TP` calls comprising the list items, and
-  many will anyway, either for portability to mandoc(1) and older groff,
-  or because they're simply accustomed to doing so.
-
-* In many cases I find explicit specification of an indentation amount
-  to be unnecessary.  A man(7) author should refrain from doing so
-  unless readers are confused by the default indentation.  That will be
-  rare.  There _is_ a population of man(7) authors, including myself in
-  groff's man pages, who wish to fiddle the typography with precision.
-  But that population is small.  I'm trying to nudge the bulk of man(7)
-  authors who _don't_ care about those details, and who often resent
-  writing a man page at all, from specifying parameters they will tell
-  you out loud that they don't care about.  If they feel forced to
-  choose a value, they will much more often than not pick a lousy one,
-  because there _is_ an art to laying out a page, and artistry demands
-  intention, practice, and taste.
-
-* Contriving a new syntax for man(7) macro arguments, like mdoc(7)'s
-  `-centered`, `-filled`, `-literal`, `-ragged`, and so forth, which
-  look like X11-style Unix command-line options, is a major anti-goal of
-  mine.  Nothing in man(7) looks like that and I mean not to make it
-  start.  In fact I think this is a bad idea in macro package design
-  because the superficial resemblance to the Unix command line is
-  misleading and will be overinterpreted by users.  I deplore mm(7) and
-  especially mdoc(7) for chasing this blinkered pseudosymmetry.
-
-  man(7)'s macro argument handling is simple and positional, and I mean
-  to keep it that way.
-
-* I'm already having to innovate more than I care for with the "literal
-  word" argument in the first position, "definition", "enumerated", or
-  "itemized".  In 1979 this certainly would have been spelled using an
-  integer mapping, or maybe by abbreviation to a single letter.  But
-  such an encoding is a bad idea, driven by the punitive nature of
-  operating a Teletype machine as a terminal.  By using a whole English
-  word, the reader can likely infer what the macro call is doing even if
-  they never read the package's man page.
-
-  On a related note, Ada and modern Fortran use language keywords
-  excellently.  C and C++ use them horribly; practitioners of these
-  language pride themselves on knowing what `static`, `restrict` and
-  `auto` mean in multiple contexts and across revisions of the language
-  standard.  If we were honest, we'd recognize ourselves as objects of
-  pity, having cheerfully invited Ritchie and Stroustrup to bury axe
-  blades in our skulls, and then touting our ability to endure pointless
-  punishment as a personal virtue to prospective tech sector employers.
-
-> >             (since groff 1.25) Start (or open) a list.  type is one
-> >             of "definition", "enumerated", or "itemized".
-> >             compactness is a Boolean value directing suppression of
-> >             inter-paragraph spacing between list items.
->=20
-> That sounds very confusing.  Does "Boolean" mean: either the string
-> "0" or the string "1"?  Or what would "true" or "false" mean?  Then,
-> "Boolean value directing suppression" sounds vaguely as if "1" might
-> mean "suppress", but that's not expressed unambiguously.
-
-You're right; this is the only occurrence of "Boolean" in groff_man(7)
-and I need to fix that.  I was carrying over a practice from my
-revisions to the groff_mm(7) page, where integral, Boolean-valued
-macro arguments are idiomatic.  I'll clarify this.  Thanks!
-
-> Finally, why only *between* list items?  Why not *before each*
-> list item?
-
-Because there is already a mechanism for achieving that.
-
-> Would suppressing the vertical spacing before the first list item
-> still require .PD 0 *in addition* to "compact"?
-
-No, `.PD 0` is never required under this design; this was an essential
-trait since one of my objectives is to exterminate the `PD` macro in the
-wild.
-
-One can still _use_ `PD` calls in parallel with `LS`/`LE` if one likes,
-and I expect bash(1) to do so, assuming Chet doesn't get cold feet on
-using `LS`/`LE` at all.
-
-But, if you mess up your `PD` calls such that compactness breaks, that's
-on you.
-
-> >             indentation specifies an indentation amount for the body
-> >             of each list item; it is then unnecessary to specify
-> >             this argument to the list item macros.
->=20
-> That sounds as if the syntax of "indentation" is probably the same
-> as for the .IP and .TP "width" argument, but that is not clearly
-> stated.  So, what is the syntax?
-
-One can profitably look at the `IP` and `TP` macro descriptions in the
-same document and perceive the parallel usage.
-
-     .TP [indentation]
-            Set an indented paragraph with a leading unindented tag.
-            The macro plants a one=E2=80=90line input trap that honors the =
-\c
-            escape sequence; text on the next line becomes the tag, set
-            without indentation.  Text on subsequent lines is indented
-            by indentation, if specified, and by the amount of the IN
-            register otherwise.  If the tag, plus the =E2=80=9Ctag spacing=
-=E2=80=9D
-            stored in the TS register (see section =E2=80=9COptions=E2=80=
-=9D below) is
-            wider than the indentation, the package breaks the line
-            after the tag.
-=2E..
-     .IP [mark [indentation]]
-            Set an indented paragraph with an optional mark.  Arguments,
-            if present, are handled as with TP, except that the mark
-            argument to IP cannot include a macro call, and the tag
-            separation amount stored in the TS register is not enforced.
-
-> >             Use IP with a mark argument to represent an itemized or
-> >             enumerated list item, and TP for a definition list item.
-> >             Use IP without arguments to associate successive
-> >             paragraphs with an existing list item; to these,
-> >             inter-paragraph spacing applies even in compact lists.
->=20
-> Not sure the phrase staring with "to these" should be advertised so
-> prominently.  *If* an author chooses to make a list "compact" but then
-> kind of contradicts themselves by inserting paragraph breaks into
-> individual list items, the behaviour you describe is probably what the
-> formatter should do.
->=20
-> But authors ought to be strongly discouraged from doing that.  When
-> one or more items of your list are so complicated that they require
-> more than one paragraph of text, making your list "compact" makes no
-> sense in the first place and will result in ugly and confusing
-> typography.
-
-This detail was motivated by the presence of this exact pattern in the
-bash(1) man page, which does indeed employ multi-paragraph compact list
-items.
-
-I am mindful of my distinct roles as groff maintainer and macro package
-programmer on the one hand, and as a coach/advisor on man page
-composition practices on the other.
-
-Put differently, I have implemented `LS`/`LE` to provide mechanism.  I
-cannot use that mechanism to dictate policy; only to make "good policy"
-easier to practice.
-
-> To summarize, after reviewing the design of .LS/.LE, my first
-> impression is that it is likely a small-value, small-harm
-> addition.
-
-I agree.  Most man(7) documents don't mess with nested lists.  But I
-needed a non-heuristic means to smuggle semantic information about list
-properties to the grohtml(1) output driver, and saw a couple of other
-birds I could kill with the same stone.
-
-> I think i will support them in mandoc(1) -man when
-> i find the time, but not emit them from mandoc(1) -T man, at least
-> not for many years to come, because the whole point of that output
-> mode is dealing with operating systems that use ancient
-> manual page formatters, and those are unlikely to support .LS/.LE.
-
-That sounds fine, but, hmm, if you're already heuristically computing
-when to bracket list items with `.PD 0` and `.PD`, you're already doing
-most of the work it would take to emit `LS` and `LE`.
-
-But I don't think it matters much.
-
-> Chances are the the deeper scrutiny that will be necessary to
-> implement .LS/.LE in mandoc(1) may lead to additional criticism;
-> or if we are lucky, it may not.
-
-Fingers crossed.
-
-At 2026-08-29T14:51:44+0200, Alejandro Colomar wrote:
-> Hi Ingo,
->=20
-> > Date: 2026-08-29 13:34:55+0200
+> Alejandro Colomar wrote on Sat, Aug 29, 2026 at 03:10:25PM +0200:
 > > From: Ingo Schwarze <schwarze@usta.de>
-> >
-> [...]
-> > The mandoc(1) -T man output mode uses
-> > [...]
 >=20
-> Oh, there's a -Tman mode!  That's interesting!  Some years ago,
-> I wondered whether groff(1) could have a -Troff mode, which would
-> evaluate the man(7) (or any other -m macros, FWIW) macros without
-> formatting the document.
-
-I know of no troff that permits this.  In interpretation mode (that is,
-"not copy mode"), interpolation and transformation of tokens to nodes
-are both operations that occur at the earliest possible opportunity
-while interpreting the input stream.
-
-In the past year or so I have revised groff's Texinfo manual to give the
-formatter's internals better coverage.
-
----snip---
-5.37 GNU 'troff' Internals
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-
-GNU 'troff' processes input in three steps.  It gathers one or more
-input characters into a "token",(1) (*note GNU troff
-Internals-Footnote-1::) the smallest meaningful unit of 'troff' input.
-The process of formatting translates tokens into nodes that populate a
-pending output line (recall *note Manipulating Filling and
-Adjustment::).  A "node" is a data structure representing any object
-that may ultimately appear in the output, like a glyph or motion on the
-page.  When the pending output line breaks, the formatter applies any
-relevant adjustment, line number, and margin character, and finally
-appends it to the current diversion.  Periodically, the formatter
-"flushes" accumulated output line(s) to the output device, a process
-that translates each node into a device-independent output language
-representation understood by all output drivers.  Copy mode tokenizes
-but does not format; diversions (apart from that at the top level)
-format but do not write output.
-
-   For example, GNU 'troff' converts the input 'Gi\[:u]\%seppe' into a
-character token for 'g', a character token for 'i', a special character
-token for ':u' (representing 'u' with an umlaut), a token encoding a
-hyphenation point,(2) (*note GNU troff Internals-Footnote-2::) and
-further character tokens.  You can observe this process by storing the
-foregoing input into a string--which, because its contents are read in
-copy mode, is only tokenized, not formatted--and dumping it with the
-'pm' request.(3)  (*note GNU troff Internals-Footnote-3::) (Using
-'printf(1)' requires us to double the '\' and '%' characters.)
-
-     $ printf '.ds str Gi\\[:u]\\%%seppe\n.pm str\n' \
-         | groff 2>&1 | jq
-
-   Similarly, we can observe the details of the formatting process by
-interpolating the string, or supplying its contents directly as input,
-and invoking the 'pline' request.
-
-     $ printf 'Gi\\[:u]\\%%seppe\n.pline\n' | groff -z 2>&1 | jq
-
-   We now see a list of nodes, including an output line start node,
-several glyph nodes, a discretionary break node containing a glyph node
-for the special character ':u' _and_ a glyph node for the special
-character 'hy' (hyphen), and a word space node at the end corresponding
-to the newline at the end of input.(4)  (*note GNU troff
-Internals-Footnote-4::)
-
-   If we change 'G' to 'f', we see that the first two glyph nodes, for
-'f' and 'i', become contained by a ligature node (provided the current
-font has a glyph for this ligature).  All output glyph nodes are
-"processed", which means that they are associated with a given font,
-type size, advance width, and so forth.
-=2E..
----end snip----
-
-GNU troff's ability to recursively dump string/macro/diversion,
-user-defined character, and pending output line contents as a forest of
-JSON nodes was a major new feature of groff 1.24.
-
-It's not the same thing by any means as a "wholly macro expanded
-document", but given how dynamic a language *roff is, I'm not sure the
-goal you had in mind is possible.  A language theorist might be able to
-help me devise a proof one way or the other.
-
-Nevertheless, the recursive node dumping feature, as with other new
-debugging requests in groff 1.24, forces the formatter to disclose the
-truth about its internal state to a degree unprecedented in *roff.
-
-(I'll just be shampooing out the pomade and taking this plaid blazer off
-now, thanks.)
-
-> [...]
-> > Finally, why only *between* list items?  Why not *before each*
-> > list item?  Would suppressing the vertical spacing before the first
-> > list item still require .PD 0 *in addition* to "compact"?
+> > In the Linux man-pages, the configure step is done entirely within
+> > make(1) --there's no separate ./configure step--.  But as you say,
+> > a separate configure-only step is important for serious debugging.
+> >=20
+> > The solution I implemented is a 'nothing' target in the Makefile, which
+> > as the name implies, does nothing.  However, it still runs the
+> > configuration step, since that runs as part of parsing the makefiles.
 >=20
-> The idea, I think, is that if you write '.P' surriounding LS/LS,
-> you'll get the outer blanks, and if not, you'll get compactness also
-> before and/or after the list.
+> That sounds like a serious abuse of the parsing step to me.
+> I mean, the whole point of a parsing step is to do parsing and to
+> build dependency trees, but not to run code.
 
-Yes.
+The main thing I run code for in the makefiles is for listing all the
+source files.  Here's an example:
 
-> > Not sure the phrase staring with "to these" should be advertised
-> > so prominently.  *If* an author chooses to make a list "compact"
-> > but then kind of contradicts themselves by inserting paragraph
-> > breaks into individual list items, the behaviour you describe is
-> > probably what the formatter should do.
+	$ grepc -xmk -tv -n MANPAGES share/mk/
+	share/mk/src/man.mk:20:MANPAGES ::=3D $(shell $(FIND) $(MANDIR)/* -type f \
+			| $(GREP) -E '$(MANEXT)' \
+			| $(SORTMAN) \
+			| $(SED) 's,:,\\:,g')
+
+I know you prefer to list them manually, but I like this little bit
+of magic (it's not that magic, since it's written in the code, but
+admittedly, if you're not used to this build system, it's hard to
+expect it).
+
+> The purpose of the
+> execution phase of make(1) then is to run code, in an order determined
+> from the dependency tree.
 >=20
-> I'm not convinced about this detail either.  I think in a compact list
-> this should not produce a blank line:
+> > Here's the rule:
+> >=20
+> > 	nothing:;
+> >=20
+> > When I need to debug the build system itself, I run that target; often
+> > with special flags for debugging.  One common command I use when I need
+> > to do this kind of debugging is:
+> >=20
+> > 	$ make -p nothing | less
 >=20
-> 	.P
-> 	.LE
+> The output of that command looks completely unreadable to me and
+> is of horrendous size:
 >=20
-> But this should:
+>    $ gmake -pR nothing | wc
+>   bash: line 1: gcc: command not found
+>   realpath: unknown option -- m
+>   usage: realpath [-q] file
+>   gmake: warning: undefined variable 'GNUMAKEFLAGS'
+>    34074  672611 27635924
 >=20
-> 	.LE
-> 	.P
+> Over 25 MB of configuration output?  Seriously?
 
-I disagree.  As presently implemented, they're equivalent.  A `P`
-paragraph _does not mark a list item_.  Only `IP` and `TP` do.
+Hmmm, I would like it to be less.  I've been thinking about ideas to
+cut it down a little bit (at least one order of magnitude).
 
-I wanted to support the case where a list is interrupted by a paragraph.
-It's not uncommon in technical writing.
+The thing is, we have 1.5k non-link pages, and we use absolute paths
+in most variables.  Thus, each variable can hold around 100kB for the
+paths:
 
-Here's a contrived example.
+	$ find man/ -type f | xargs grep -l '^\.TH' | xargs realpath | wc -c
+	106833
 
-$ cat ATTIC/blertch.man
-=2ETH blertch 7 2026-08-29 "Blertch language reference"
-=2ESH Name
-blertch \- a fake language for fake programmers
-=2ESH Description
-The Blertch language supports the following operators.
-=2EP
-=2ELS definition 1 \" compact
-=2ETP
-=2EB a + b
-=2ETP
-=2EB a \- b
-=2ETP
-=2EB a * b
-=2ETP
-=2EB a / b
-=2ETP
-=2EB a % b
-=2EP
-It also supports the unary plus and minus operators.
-=2EP
-=2ETP
-=2EB +a
-=2ETP
-=2EB \-a
-=2ELE
-=2EP
-Operator overloading is not implemented.
-$ nroff -rLL=3D72n -man ATTIC/blertch.man
-blertch(7)          Miscellaneous Information Manual          blertch(7)
+'make help-list-targets' lists 119 .PHONY targets, of which most require
+at least one variable for holding the actual file targets.  A simple
+multiplication and rounding says there's 100x100k =3D 10M in these path
+variables.  Then 25 MB sounds not far from that.
 
-Name
-     blertch - a fake language for fake programmers
+I think I might be able to optimize this down by using relative paths.
+I might be able to optimize this a bit further by using suffix rules
+as much as possible, instead of listing all targets in the rules again.
+But there's a hard floor.  It should be hard to go much below current
+size, at least without reducing targets.
 
-Description
-     The Blertch language supports the following operators.
+I tried removing some targets, out of curiosity, to see how much size
+they contribute:
 
-     a + b
-     a - b
-     a * b
-     a / b
-     a % b
+	$ rm -rf share/mk/lint/
+	$ rm -rf share/mk/check/
+	$ rm -rf share/mk/build/examples/
+	$ rm -rf share/mk/build/catman/
+	$ rm -rf share/mk/build/fonts/
+	$ rm -rf share/mk/build/html/
+	$ rm -rf share/mk/build/pdf/
+	$ rm -rf share/mk/build/ps/
+	$ rm -rf share/mk/build/pre/
+	$ rm -rf share/mk/dist/check/
+	$ rm -rf share/mk/install/html.mk=20
+	$ rm -rf share/mk/install/pdf/
 
-     It also supports the unary plus and minus operators.
+After that, the output of 'make -p nothing' goes down to ~ 1/7.5 of the
+original size.  This is still sufficient to build and install the pages,
+and produce the release tarball.  The rest is for detecting issues in
+the pages, the examples, and in the tarball.
 
-     +a
-     -a
+The main issue is the large number of files, not the complexity of what
+we do with them.  With thousands of pages, the size must remain in MB,
+or in the high kB.
 
-     Operator overloading is not implemented.
-
-Blertch language reference     2026=E2=80=9008=E2=80=9029                  =
-   blertch(7)
-
-I can imagine a counterargument.
-
-"But why support interrupting the list that way?  It's _really_ two
-lists, so the document author should have to close off the first list
-with `LE`, do their 'interrupting' paragraph, then start a new list with
-`LS`."
-
-I say no.
-
-The purpose of the macro package is to serve the technical writer and
-aid them to communicate.  It is not to serve the HTML/XML weenie who
-wants all their tags nested in some canonical fashion.  Sometimes,
-technological constraints will propagate backward to our language
-designs.  But that's a phenomenon to be regretted, not leaned into.
-
-It's certainly possible that, when I revise grohtml(1) to support output
-of the foregoing, I'll have to break this into two HTML lists.  If so,
-that's fine.  That's where the problem _should_ be solved.  It should
-not be back-propagated onto the document author if we can help it.
-
-> > But authors ought to be strongly discouraged from doing that.
-> > When one or more items of your list are so complicated that they
-> > require more than one paragraph of text, making your list "compact"
-> > makes no sense in the first place and will result in ugly and
-> > confusing typography.
+> > And if I need to see stderr output from the commands used by the
+> > configure scripts, here's a common command:
+> >=20
+> > 	$ make HIDE_ERR=3D nothing
+> >=20
+> > I'm not saying that this should be done, but this _can_ be done.  With
+> > BSD make(1), it might be more difficult to debug, since it doesn't have
+> > the -p flag.
 >=20
-> +1
+> It does.  From the OpenBSD make(1) manual:
+>=20
+>    -p    Print a dump of the target rules and variables on stdout.  Do not
+>          build anything.
 
-Again, this is a matter of policy, not mechanism.  My focus in
-implementing this feature is on the latter.
+Oh, I didn't remember each BSD has its own make(1).  I checked bmake(1),
+which is available in Debian and doesn't have -p, but that seems to be
+NetBSD's make(1).
 
-Regards,
-Branden
+>=20
+>    -d flags
+>          Turn on debugging, and specify which portions of make are to
+>          print debugging information.  flags is one or more of the
+>          following:
+>=20
+>          [only quoting the flags here, without the descriptions,
+>           for brevity]
+>=20
+>          AacdDef g1 g2 hiklmnpqstTv
+>=20
+> However, reading the output from a simple configure script is much
+> simpler than reading make(1) debugging output, for example:
+> =20
+>    $ ./configure
+>   file config.log: writing...
+>   file configure.local: reading...
+>   tested operating system: OpenBSD -> OSENUM=3DMANDOC_OS_OPENBSD
+>   tested cc -W: tested noop: yes
+>   selected CFLAGS=3D"-g -W -Wall -Wmissing-prototypes -Wstrict-prototypes=
+ -Wwrite-strings -Wno-unused-parameter"
+>   tested noop-static: yes
+>   selected STATIC=3D"-static"
+>   tested attribute: yes
+>   tested cmsg: yes
 
-[1] https://peps.python.org/pep-0020/
+You could implement this output in a makefile, and it would take as much
+code as it takes in a configure script.
 
---gfqtrg5l5ns4ya42
+You may not like having code that runs before targets (and that's
+reasonable, of course), but it also has benefits: having an atomic
+configure+make operation, avoids issues due to outdated configure
+output; I don't need to 'make clean' anymore, for example.
+
+[...]
+> and then you can inspect config.h and Makefile.local for generated
+> settings and inspect config.log if serious debugging is needed.
+>=20
+>  $ wc config.h Makefile.local config.log
+>       54     150    1326 config.h
+>       40     137    1026 Makefile.local
+>      305    1401   12998 config.log
+>      399    1688   15350 total
+>=20
+> Even the "total" is half a permille of the output volume=20
+> from the gmake -p you recommend - and that already includes *all*
+
+I don't _recommend_ it.  I just mentioned it as a possibility.
+I mentioned it since you had said it was impossible to do it, IIRC.
+
+> the debugging information, whereas in your 25 MB of gmake -p output,
+> i was unable to find the reason why the build systems tries to use gcc(1)
+> even though i don't have GCC installed.  Generally, searching in that
+> monster is next to impossble because it contains very large numbers
+> of extremely long lines, each of which contains basically all the
+> words that one might possibly wish to search for.
+
+Many lines have it, as there's a directory called .../gcc/, but with a
+regex we can get rid of it and show just a bunch of lines:
+
+	$ make -R nothing -p | grep '[^/]gcc'
+	make: warning: undefined variable 'GNUMAKEFLAGS'
+	CC_VENDOR :=3D gcc
+	CPP :=3D gcc -O3 -flto -Wall -Wextra -Werror -Wstrict-prototypes -Wdeclara=
+tion-after-statement -Wno-reserved-identifier -Wno-unused-macros -Wno-error=
+=3Dunused-parameter -Wno-error=3Dsign-compare -Wno-error=3Dformat -Wno-erro=
+r=3Duninitialized -fanalyzer  -E
+	LD :=3D gcc -O3 -flto -Wall -Wextra -Werror -Wstrict-prototypes -Wdeclarat=
+ion-after-statement -Wno-reserved-identifier -Wno-unused-macros -Wno-error=
+=3Dunused-parameter -Wno-error=3Dsign-compare -Wno-error=3Dformat -Wno-erro=
+r=3Duninitialized -fanalyzer  -isystem /usr/include/x86_64-linux-gnu/bsd -D=
+LIBBSD_OVERLAY -D_FORTIFY_SOURCE=3D2=20
+	CC :=3D gcc
+
+CC_VENDOR and/or CC sound suspicious.  Both seem to be defined in the
+same file:
+
+	$ grepc -xmk -tv CC_VENDOR share/mk/
+	share/mk/configure/build-depends/gcc/cc.mk:CC_VENDOR ::=3D \
+		$(shell \
+			$(CC) -v 2>&1 \
+			| $(SED) -n '1p;$$p' \
+			| $(SED) '/gcc version/s/.*/gcc/' \
+			| $(SED) '/clang version/s/.*/clang/' \
+			| $(SED) '/Apple LLVM version/s/.*/clang/' \
+			| $(GREP) -e '^gcc$$' -e '^clang$$' \
+			|| $(ECHO) unknown; \
+		)
+	$ grepc -xmk -tv CC share/mk/
+	share/mk/configure/build-depends/gcc/cc.mk:CC ::=3D gcc
+
+And so it seems it's CC.  I don't know why I set it to gcc.  I'll fix
+it, and set it to just 'cc'.  Thanks for the report!  It seems CC was
+previously set as cc, and in 546141e11357 (2024-02-17; "share/mk/:
+Reorganize build dependencies") I changed it to gcc, but that seems an
+accident.  I've applied this fix:
+
+	commit 294f74eb2a284ecf8772cb0060b85b6d3f9bb7bd
+	Author: Alejandro Colomar <alx@kernel.org>
+	Date:   2026-08-29 21:42:58 +0200
+
+	    share/mk/: $CC: Use cc(1), not gcc(1)
+	   =20
+	    Fixes: 546141e11357 (2024-02-17; "share/mk/: Reorganize build dependen=
+cies")
+	    Reported-by: Ingo Schwarze <schwarze@openbsd.org>
+	    Message-ID: <apL7VAruk1bIOr1M@isnote.usta.de>
+	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
+
+	diff --git a/share/mk/configure/build-depends/gcc/cc.mk b/share/mk/configu=
+re/build-depends/gcc/cc.mk
+	index 80c07b4f4a09..d541e39137a0 100644
+	--- a/share/mk/configure/build-depends/gcc/cc.mk
+	+++ b/share/mk/configure/build-depends/gcc/cc.mk
+	@@ -12,7 +12,7 @@ include $(MAKEFILEDIR)/configure/build-depends/sed/sed.mk
+	=20
+	=20
+	 ifndef CC
+	-CC ::=3D gcc
+	+CC ::=3D cc
+	 endif
+
+
+> > But the output from configure tests can still be read
+> > without building anything, with a dummy 'nothing' rule.
+>=20
+> I briefly tried to read man-pages/GNUmakefile but quickly gave up
+> because it feels impossible to follow the control flow.
+> The program fails to explicitly say which targets it runs
+> with which dependencies, IMHO making it unreadable for a human.
+
+The start point is, as usual, the 'all' target, whose rule is defined
+as this:
+
+	all: build;
+
+It has an empty recipe, and depends on the 'build' target.  The 'build'
+target is defined under share/mk/:
+
+	$ grepc -xmk -tr -n build share/mk/
+	share/mk/build/_.mk:25:build: \
+		build-man;
+
+	$ grepc -xmk -tr -n build-man share/mk/
+	share/mk/build/man/_.mk:18:build-man: build-man-nonso build-man-so;
+
+	$ grepc -xmk -tr -n build-man-nonso share/mk/
+	share/mk/build/man/nonso.mk:32:build-man-nonso: $(_NONSO)
+
+	$ grepc -xmk -tr -n build-man-so share/mk/
+	share/mk/build/man/so.mk:24:build-man-so: $(_SO_MAN)
+
+Those are all empty recipes, since they're .PHONY targets.  The real
+targets are $(_NONSO) and $(_SO_MAN).
+
+	$ grepc -xmk -tr -n _NONSO share/mk/
+	share/mk/build/man/nonso.mk:18:_NONSO ::=3D $(patsubst $(MANDIR)/%, $(_MAN=
+DIR)/%, $(NONSO))
+	share/mk/build/man/nonso.mk:21:$(_NONSO): $(_MANDIR)/%: $(MANDIR)/% $(MK) =
+| $$(@D)/
+		$(info	$(INFO_)SED		$@)
+		<$< \
+		$(SED) "/^\.TH /s/(date)/$$($(MANPAGEDATECMD))/" \
+		| $(SED) '/^\.TH /s/(unreleased)/$(DISTVERSION)/' \
+		| $(SED) '/^\.Dd /s/$$Mdocdate$$'"/$$($(MANPAGEDATECMD))/" \
+		| $(SED) '/^\.Os /s/(unreleased)/$(DISTVERSION)/' \
+		>$@
+
+	$ grepc -xmk -tr -n _SO_MAN share/mk/
+	share/mk/build/man/so.mk:15:_SO_MAN ::=3D $(patsubst $(MANDIR)/%, $(_MANDI=
+R)/%, $(SO_MAN))
+	share/mk/build/man/so.mk:18:$(_SO_MAN): $(_MANDIR)/%: $(MANDIR)/% $(MK) | =
+$$(@D)/
+		$(info	$(INFO_)CP		$@)
+		$(CP) -T $< $@
+
+The latter copies .so pages as is, while the former takes the non-link
+pages and edits the date and version, with values gotten from git(1).
+We can also follow that:
+
+	$ grepc -xmk -tv -n MANPAGEDATECMD share/mk/
+	share/mk/configure/version.mk:62:MANPAGEDATECMD =3D $(GIT) log --format=3D=
+%cs -1 -- $< $(HIDE_ERR)
+
+	$ grepc -xmk -tv -n VERSION share/mk/
+	share/mk/configure/version.mk:23:VERSION       ::=3D $(shell $(GIT) descri=
+be --dirty | $(SED) 's/$(projname)-//')
+
+That's all that runs through the 'all' target.
+
+Then there's stuff that runs prior to it, for initializing some
+variables, but that should not produce any lasting effects, so it should
+be more or less unimportant (unless you want to debug stuff, and then
+ you need to see the output of -p to learn it).  You can check
+everything that runs before any targets, by grepping for '$(shell '
+under share/mk/:
+
+	$ grep -rn '$(shell ' share/mk/
+	share/mk/src/man.mk:20:MANPAGES ::=3D $(shell $(FIND) $(MANDIR)/* -type f \
+	share/mk/src/man.mk:26:MANINTROPAGES ::=3D $(shell $(FIND) $(MANDIR)/* -ty=
+pe f \
+	share/mk/src/man.mk:45:NONSO ::=3D $(shell $(FIND) $(MANDIR)/* -type f \
+	share/mk/src/sh.mk:16:BIN_sh ::=3D $(shell $(FIND) $(SRCBINDIR) -type f \
+	share/mk/dist/files.mk:21:DISTFILES    ::=3D $(shell $(DISTFILESCMD) | $(S=
+ED) 's,:,\\:,g')
+	share/mk/dist/files.mk:29:	$(shell \
+	share/mk/configure/version.mk:23:VERSION       ::=3D $(shell $(GIT) descri=
+be --dirty | $(SED) 's/$(projname)-//')
+	share/mk/configure/version.mk:58:DISTDATE ::=3D $(shell $(DISTDATECMD))
+	share/mk/configure/build-depends/cpp/cpp.mk:22:	$(shell \
+	share/mk/configure/build-depends/cpp/cpp.mk:31:	$(shell $(PKGCONF_CMD) --c=
+flags $(PKGCONF_LIBS) $(HIDE_ERR))
+	share/mk/configure/build-depends/groff-base/nroff.mk:20:NROFF_LINE_LENGTH =
+   ::=3D $(shell $(EXPR) $(MANWIDTH) - 2)
+	share/mk/configure/build-depends/groff-base/nroff.mk:24:	$(shell $(LOCALE)=
+ charmap \
+	share/mk/configure/build-depends/binutils/ld.mk:22:	$(shell \
+	share/mk/configure/build-depends/binutils/ld.mk:35:	$(shell $(PKGCONF_CMD)=
+ --libs-only-L $(PKGCONF_LIBS) $(HIDE_ERR)) \
+	share/mk/configure/build-depends/binutils/ld.mk:36:	$(shell $(PKGCONF_CMD)=
+ --libs-only-other $(PKGCONF_LIBS) $(HIDE_ERR))
+	share/mk/configure/build-depends/binutils/ld.mk:52:	$(shell $(PKGCONF_CMD)=
+ --libs-only-l $(PKGCONF_LIBS) $(HIDE_ERR))
+	share/mk/configure/build-depends/gcc/cc.mk:20:	$(shell \
+
+The order in which these run is unspecified (there are obvious
+dependencies, if one variable uses the results of another, though), but
+if you're interested in auditing everything that may run with
+'make nothing' (and thus with every run of make(1), with any targets),
+this would be the list.
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--qjjrypovaattxzm3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmqTMA8ACgkQ0Z6cfXEm
-bc7miA//dWlS4P228J2dGOq69lbaHdSKbgd7WNm4KsxqrhWS++JsGuqlv0UMxM6w
-iszkrWCzgurRu0HhwVRtugMAHlwOHZv1BBTUyL7VqgocxxwZ6LNsdMeLFcPFaPji
-51fu37NHQcybbTjduW/m2slvNi8GHq2uuzNk8ZBLX7rNbWDK2q9bkIKw+vu9evtq
-RN3DbRNhQShBJTEgCGM6S1MicjnFWx/lGocSExyBATafXbV6K1g2LQP0qAGXGupA
-J3/giGYDB9ARX+TIhyS0kV+HMZyEwDNiUPqy38uKBOxXPym//UEnpTXyFfYRNXQu
-r2VpZk4xZ2djYZeIamBVArXEF3nPHx/7tm/Yap4tO8X9VSoY50mG4D8LzbZoe9o1
-tiWkpbpFcA+FVAfO/0vxFX6dBvLJwCRBDGlYAp15kGkuMtbogF/Cdmu1FzH8gNLY
-nOPfjfLqq5eIeeIRe7GhXP1gZaaeInK+eeirfQ3ZdacMVJr6KR7nkPJjjBvrnc0+
-MFTu5NLP1JADkEtVU4w0rZRw5QTHiPhqhvKsPWatwgka3jIqmA0CR0nHskHFKBzj
-I6t31abAdxEvOYMzFj3S8u9LLkLVxjI3atuNwWXngDk6WIr3zYbY1O780riiX5Xl
-3JTBpAouUIIq7X0QYNOA7kNZakoAAh8SBY7GZu8KWp2JnDwGQ2A=
-=4iuC
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqTRboACgkQ64mZXMKQ
+wqlKeQ/+NESvKHPxMUW/4htPRjqW3eRzSWAgf0p0wvjbrB5WfAGgwICC1POIsQRp
+VdYFWIUCPZsGPmlfpcG3ZMLOAFeeUptyeiuxTC2hFr8ljdueYTpqF97VdLw1zB9a
+xoQeY6FtS+HsXdSzuORR9BD4syorS8cWMyv+mkLpDWDYDUfKT3rARxoWofjTUUtj
+QLJhAjktatUxRcJ1Q2IbDwQwaRr6+ibOC0nYMw1yhW0YGVa9B6OzBPTOZjuWIRsQ
+VBmMQPKB5Kqhn9LMVkypIHGDmGgtKuLIqi5UdkKDDSmL9CymyAps0AZWPoMSUxHe
+9Ydp7mrA/lK3+DqRf/7jwRGhUIxYE/Lpsp8KTUPnE7/isHiP2Maxz2HgKGdKhfxk
+YJ19lKycm0zjhHAByXu1107kXJRMPal6JlT7eHZM9TtFyJK2STa4ouCcZ/Yoz2W0
+NUX5/gUaxt5O35OhvbdDfAOwa3+OpmYkDUw/6HUrDw3B8NueZqdsLnx7qg/LmYu5
+/jR0kYXzH+P3jjkhuUFcbAoUsEWITqWvy6PW3hs8HF2kozg6vqJeItQuEbwIe4o5
+QCj1h638FqMIa5a0yWHwzpmO90kZ2M4wK+XzVKm/xI11HOtnb77W5oQGSgKSERKx
+92+rv9cBBroZVXj0y+0KEgnyUFCSXedOEaUhswqlj7DW+ufrji4=
+=TNIW
 -----END PGP SIGNATURE-----
 
---gfqtrg5l5ns4ya42--
+--qjjrypovaattxzm3--
