@@ -1,41 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F0141D23A
-	for <linux-man@vger.kernel.org>; Sat, 29 Aug 2026 21:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6CD12CDA5
+	for <linux-man@vger.kernel.org>; Sun, 30 Aug 2026 13:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788039803; cv=none; b=HSEb6bCG/SsNg0003HquQW3KBngSxZ33ips+AW8n91nhMsULHMsxCmQZ0x93qerzWaxLBWXNGSiQEfLkJ1kqPC7sHe5OjIhDDyamakpV018cCOJnN5JUktpba51IdJi5z8E6UDet/ehakGs83g5bhwjLYXP5ToBRdyfty+L0GPc=
+	t=1788095832; cv=none; b=DCp6LLAHJwCRrz1XL9FFpRlOEFptRFGLUYXqZwqlJZnuyTxtUTvtAOprqg8l5QGeG7U39LsccgHUNI2mbYKEdB3//Iz1QuoSxBqzTvqRvf8spZ0XZ299U459KMR/c7mSjc9IIf6Nx/yfy2vVDE5q5xTVjNr256CDhoQL6nqGXR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788039803; c=relaxed/simple;
-	bh=kYMekXSeYsRgyLMu1Xw5OjX9JJVPyDz92N5J7hiDEPY=;
+	s=arc-20240116; t=1788095832; c=relaxed/simple;
+	bh=oN+LooPkC8LQqtaoFux2ONrg+B/a/ABlePwojN2f0jg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d7MgiVAhATpzmMeqM8uhVEpZC2J63RJX/Q4dmgFx+GWXZ4m6Q5BtLIS62b4YvopKFgHH7UR0SpXk/7DW4vRwpfEhgJr21+PVpAxrmtsyFg22QtKYcf1wyXKJwqKb0rHh5djcpW/m/n3kbB1lMxL/Q7EaOYQOWRjWU6zs1r1kYMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d66OOFry; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMiuJMATBEU4vK95Uci2JnxQNj9F0b6W58Hj76s70Vu4LaBJDuL9KUkzeD+LNOMTfrQGIQ6L/VLrC2364/2U4dbznJ28U+esqhhD4meOWlnvm+/KCtvjWdXwcGkafNdNI2Esl0fUpE34F9X+nqU3/Xyo/McTHN99zELaD8X93jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KCeayvVL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d66OOFry"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF36B1F000E9;
-	Sat, 29 Aug 2026 21:43:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KCeayvVL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEA3E1F000E9;
+	Sun, 30 Aug 2026 13:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788039801;
-	bh=H9+U1EOrBpgp/dS+4kF/9CqsuJk5HwL6Jw/ztQDM+i8=;
+	s=k20260515; t=1788095831;
+	bh=OQQaxZsTqKpun8YuYlUQtNCOXyhG9Uz38f7pJlgMgzg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d66OOFryKx547sruZnFypb1fJBea/HyR5LdZObG0eN8VaUablxAVXhRiJ9hPUjK2+
-	 ppfvDAs7g5qGWtoFxWET6i04TFesmgmNEpQJEdT4QnzOMeYrr5SVmehsooUbLxRE14
-	 O/T/n77kI4TvfbGWi52i2UUsPv+PWDQ0JdJpXpjlePm+8EK5Sgs6y7ciNWqMnicxwC
-	 GNAbDoarpmW2ASUUcrQrRTi0AlBeknanq3VBEbVA9z9DYGwyw3jXI3VKnqpqg/ebAi
-	 HjxrhfU9x1uzCKFBJTXFCDcV6QJhZEyaDDFN1Leg7Em/YQKkhUEZIvAQqqfp7PiGIT
-	 y8mpftFtxpKuw==
-Date: Sat, 29 Aug 2026 23:43:18 +0200
+	b=KCeayvVLJLtjk2k34VtwrntZXbBNAYRYNq7urTUc8dqpkL9iNbNKMawUykNyBTZxw
+	 OXHuu9gcj2Q4bkB7k1eePbnr+nkATikITaqiGQFxY03v6OiyBEEf5U0WAJuWLQLBEJ
+	 w72rr0lyNmowqEZGV+kv//B+xNet4oPxhJiQ0JSkndk0vfiszINx6RalntAAn3OOu6
+	 1J3BwMK0gh7jWlYlMWBhhmzyLKsZl2NlPlDSXtgH75pNwA44nlLDvrh5lTE7xpEJCq
+	 XDKcPCO+seldWZ/FfdgM3UkgPSvj75W8wv0RGeO0h/+4FLK69ir1Kjwfp5gQ3PkgXW
+	 6JYMHnRudpkcQ==
+Date: Sun, 30 Aug 2026 15:17:07 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Ingo Schwarze <schwarze@usta.de>, linux-man@vger.kernel.org, 
-	groff@gnu.org
-Subject: Re: Using LS/LE
-Message-ID: <apNRtf5j8TZj83Bm@devuan>
-References: <apLD35LsoOqX6fK1@isnote.usta.de>
- <apLSc6uhVjBNhtyy@devuan>
- <20260829191639.p43vvljsfy2vnxo5@illithid>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: linux-man@vger.kernel.org
+Subject: Re: configure separate from make or not
+Message-ID: <apQq4u6L8i3Ax_DA@devuan>
+References: <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <apKou1PHGi1N5gGO@isnote.usta.de>
+ <apLV749V4YvfqCOZ@devuan>
+ <apL7VAruk1bIOr1M@isnote.usta.de>
+ <apMytOcLd3pecFFc@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -43,137 +49,119 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cbn74gutkvxdwhvl"
+	protocol="application/pgp-signature"; boundary="t65wwtfog25phy5d"
 Content-Disposition: inline
-In-Reply-To: <20260829191639.p43vvljsfy2vnxo5@illithid>
+In-Reply-To: <apMytOcLd3pecFFc@devuan>
 
 
---cbn74gutkvxdwhvl
+--t65wwtfog25phy5d
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Ingo Schwarze <schwarze@usta.de>, linux-man@vger.kernel.org, 
-	groff@gnu.org
-Subject: Re: Using LS/LE
-Message-ID: <apNRtf5j8TZj83Bm@devuan>
-References: <apLD35LsoOqX6fK1@isnote.usta.de>
- <apLSc6uhVjBNhtyy@devuan>
- <20260829191639.p43vvljsfy2vnxo5@illithid>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: linux-man@vger.kernel.org
+Subject: Re: configure separate from make or not
+Message-ID: <apQq4u6L8i3Ax_DA@devuan>
+References: <aor4LIdGrSGHe3TB@devuan>
+ <20260823141622.7vszwghxrxvkff4j@illithid>
+ <aosHFaauEzKEFNpl@devuan>
+ <20260823164451.5jeolmdu44ubpeba@illithid>
+ <aotFzewQhmLJSk6N@devuan>
+ <8DE76435-CBDB-42D6-9E0F-9E27291560B6@icloud.com>
+ <apKou1PHGi1N5gGO@isnote.usta.de>
+ <apLV749V4YvfqCOZ@devuan>
+ <apL7VAruk1bIOr1M@isnote.usta.de>
+ <apMytOcLd3pecFFc@devuan>
 MIME-Version: 1.0
-In-Reply-To: <20260829191639.p43vvljsfy2vnxo5@illithid>
+In-Reply-To: <apMytOcLd3pecFFc@devuan>
 
-Hi Branden,
+Hi Ingo,
 
-> Date: 2026-08-29 14:16:39-0500
-> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+> Date: 2026-08-29 22:49:08+0200
+> From: Alejandro Colomar <alx@kernel.org>
 >
 [...]
-> > > The mandoc(1) -T man output mode uses
-> > > [...]
-> >=20
-> > Oh, there's a -Tman mode!  That's interesting!  Some years ago,
-> > I wondered whether groff(1) could have a -Troff mode, which would
-> > evaluate the man(7) (or any other -m macros, FWIW) macros without
-> > formatting the document.
+>
+> The main thing I run code for in the makefiles is for listing all the
+> source files.  Here's an example:
 >=20
-> I know of no troff that permits this.  In interpretation mode (that is,
-> "not copy mode"), interpolation and transformation of tokens to nodes
-> are both operations that occur at the earliest possible opportunity
-> while interpreting the input stream.
+> 	$ grepc -xmk -tv -n MANPAGES share/mk/
+> 	share/mk/src/man.mk:20:MANPAGES ::=3D $(shell $(FIND) $(MANDIR)/* -type =
+f \
+> 			| $(GREP) -E '$(MANEXT)' \
+> 			| $(SORTMAN) \
+> 			| $(SED) 's,:,\\:,g')
 >=20
-> In the past year or so I have revised groff's Texinfo manual to give the
-> formatter's internals better coverage.
->=20
-> ---snip---
-[...]
-> ---end snip----
->=20
-> GNU troff's ability to recursively dump string/macro/diversion,
-> user-defined character, and pending output line contents as a forest of
-> JSON nodes was a major new feature of groff 1.24.
->=20
-> It's not the same thing by any means as a "wholly macro expanded
-> document", but given how dynamic a language *roff is, I'm not sure the
-> goal you had in mind is possible.  A language theorist might be able to
-> help me devise a proof one way or the other.
->=20
-> Nevertheless, the recursive node dumping feature, as with other new
-> debugging requests in groff 1.24, forces the formatter to disclose the
-> truth about its internal state to a degree unprecedented in *roff.
->=20
-> (I'll just be shampooing out the pomade and taking this plaid blazer off
-> now, thanks.)
+> I know you prefer to list them manually, but I like this little bit
+> of magic (it's not that magic, since it's written in the code, but
+> admittedly, if you're not used to this build system, it's hard to
+> expect it).
 
-I'll keep poking you about it from time to time, hoping some day you'll
-have the internal tools to implement this.  :)
+BTW, the git repository is tracking 3387 files (at the moment, and
+growing), and thus the distribution tarball contains that many files.
+Given this amount of files, I find it more maintainable using scripts
+instead of hard-coded lists.  I could have a hard-coded list, and
+regularly diff it with the output of find(1), but I prefer using find(1)
+directly in the makefiles.  Also, I wouldn't want to have 80k of
+Makefile text that is the output of a command:
+
+	$ git ls-files | wc -c
+	80511
+
+We already have quite heavy makefiles, at around 100k, and that would
+duplicate their size.
 
 [...]
-> Description
->      The Blertch language supports the following operators.
+> The thing is, we have 1.5k non-link pages, and we use absolute paths
+> in most variables.  Thus, each variable can hold around 100kB for the
+> paths:
 >=20
->      a + b
->      a - b
->      a * b
->      a / b
->      a % b
+> 	$ find man/ -type f | xargs grep -l '^\.TH' | xargs realpath | wc -c
+> 	106833
 >=20
->      It also supports the unary plus and minus operators.
+> 'make help-list-targets' lists 119 .PHONY targets, of which most require
+> at least one variable for holding the actual file targets.  A simple
+> multiplication and rounding says there's 100x100k =3D 10M in these path
+> variables.  Then 25 MB sounds not far from that.
 >=20
->      +a
->      -a
->=20
->      Operator overloading is not implemented.
->=20
-> Blertch language reference     2026=E2=80=9008=E2=80=9029                =
-     blertch(7)
->=20
-> I can imagine a counterargument.
->=20
-> "But why support interrupting the list that way?  It's _really_ two
-> lists, so the document author should have to close off the first list
-> with `LE`, do their 'interrupting' paragraph, then start a new list with
-> `LS`."
+> I think I might be able to optimize this down by using relative paths.
+> I might be able to optimize this a bit further by using suffix rules
+> as much as possible, instead of listing all targets in the rules again.
+> But there's a hard floor.  It should be hard to go much below current
+> size, at least without reducing targets.
 
-Indeed, I believe this is two lists.
-
-> I say no.
->=20
-> The purpose of the macro package is to serve the technical writer and
-> aid them to communicate.  It is not to serve the HTML/XML weenie who
-> wants all their tags nested in some canonical fashion.  Sometimes,
-> technological constraints will propagate backward to our language
-> designs.  But that's a phenomenon to be regretted, not leaned into.
-
-Hmmmm, I'm not convinced we should support this, but I don't care too
-much about it either.
+Self-correction: we're not using absolute paths; they're relative.
+It seems I had already implemented this optimization, and I didn't
+remember.  Anyway, relative paths don't change much.  The best gain
+would come from using suffix rules, which would save a few variables
+entirely.
 
 
-Have a lovely night!
+Have a lovely day!
 Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---cbn74gutkvxdwhvl
+--t65wwtfog25phy5d
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqTUnAACgkQ64mZXMKQ
-wqn8Ag//e/j2DB4CXp50ikUym07/xzcnjuZZG+DOGxi8++naVwdYLbT50ar6MF6J
-eNNqOSUbIiuRe/UYF7e95lT2qpDIM1lHyyyXGhx3qvoUmluxbECHQN9EnZqCidym
-W6OrBb1lDUbcy/7SuYekq+Lnhc1X8tyn3zamiTsrj7gpyYQXx/LwaIIppkAdTcqj
-dCCgad3b2KLdK6Bs79Slsl9Pil7Xs2iGzrxL+3BM474NrelYAGPhRlxEJDi7AQAB
-N9stxjgiAbk7a+w2eznU9eh5FsCVo5jj0PZxp8a9SfpOe10Y0N9VlMeu3CKQvua1
-kstv8NeTE/GgwrA77OhuabXpesRa4tXxjXA75WJOTucLOcUh1VSRqEjbyo/f+Pe/
-KpHmbdexQvn745bq06IZOrrTokP42+mRjEgUZ14+5TBrXEwE42+9LL50MWrcT30w
-AQin5j+BUDrrw0w3SNmecmXa4mr/Ztxs5ePBfV5Lh2j/PTyM4iyPVhMHzgIbWavC
-12X3h15fvVdenHWrvbwo1J6vOYB010Y5wmSYxa4D7GnqN1NXTVpeFZVTeWBUj5CT
-PeYqLwRNdMsPfIvHXdZZQeoABSbnTxdDjGHAPLDCKX56c6btIWnjMW0feIYOMY+J
-HlswwquNKNWHX/eiRf22ZaJ6qPcGYsAcjrkUY4CkGs0uive9IWA=
-=jSIn
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqULU0ACgkQ64mZXMKQ
+wqlCQxAAqYjAKB3MrrBPPRgKLWd+iFMOLZbsXmKRcWgeTi0EgSYzqBR0PWBHI9G4
+WDE+pyha/bjCYLBCWtM7G6dTiSpTyeZNuTAAnm81Ty+n4dS4bbpQpuhJHjk8ny9F
+LNK/ZbXFlZG1qiNu7bfHkaSfRkBMirmg+KIfwDJ1QUHhwAPKNMoTMHOGv3qFT6Uv
+m8j4nFpEQJw/GNbElahs5QDvgBkAnBXrEg6Ru4gMT1IRra9BRjPKsM67ecPTXsCv
+eVFuSdnWscWJFIxH7hsz8f6LBpNnXNwXaHt7MzBGTr/uFMtR2oTLMR76Gq9YVegJ
+iTgsUOS1inmDTQyAx1k51IBdLB9bYLK7nGbCcc7TvUvC93jCS/z7fpzPqqUaudp+
+oWSYVRKX4XbjuMLUPdDa4tTVt2rrA5ZDnLV0TcGZ1obLU0FOR6ZgP3aOxclZhZ9f
+QxM/8oUUJ8WablRVO3WfuOZXHRafzAAjAl/jqYo5EgaiIZZALnN1ZdBdrpudOkD7
+N3CTDXRT5b9Tu2r9OQ/lFIv9wSuneF4WuahRd/VZZShP55kGYWUH733kPKLW8Lmz
+FFGErenpLVRCEvbJpkt1rQOV1rTGGjtxhqTrEpTrWRFVPKAe3wu3O9rCkNg2besD
+hWRjwKzYG4vxnZ1xBNaFVPKCo0B6G18Vqv0nmbcrAyMtFJO+moA=
+=GLcQ
 -----END PGP SIGNATURE-----
 
---cbn74gutkvxdwhvl--
+--t65wwtfog25phy5d--
