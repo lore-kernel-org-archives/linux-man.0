@@ -1,142 +1,148 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F983F6C30
-	for <linux-man@vger.kernel.org>; Sat,  5 Sep 2026 07:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788594363; cv=pass; b=myAEq31UAPLxVpGa+Y7hBogC2+yscVV0iFdkFuYMv/vR7f5ZFFQ95Qg1zh6rcZWPW3y1yCP2TvtAvxV6Xy6YIPL+FvURjAWbEOuYgYnXLTYU8B5urQuCXh4tPsZ53sWidyP1y+YV+hrLXZvL11/XIkZV0dC60N0nUmowuqL8SRE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788594363; c=relaxed/simple;
-	bh=svBRPs/fXoIMNjLRyzscAT687G7DqRerfAef2tvmWS8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VJIphJrI2fDZiaTjbu/VeS0g5/Kel2TwjtbJ41UV1399cVX+CbOVpUlc7/bTxIco4mUCu2EdEhhKBPjWddIe5lXqkRyitBHp5824xXoqKN9E3Gig30c1+facQEIswDlBwSBF5KZtnzq6dwIyvqt0jmhVDkg+IPUyQJpE5gLpRHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOZyIlNh; arc=pass smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1999334F27F
+	for <linux-man@vger.kernel.org>; Sun,  6 Sep 2026 08:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788683940; cv=none; b=Wa2j0OEKyU4EUD5C8vmlcw/qvclO1gPO6VAqsm4yMu7ARCr1Pv7ex05WKjB1pZ5cXrViwJS1SYJdPE018OQxyf9LY25Nj2xcTLjt5uORYZijTelzJE0VG+561uBNVzA0GMlzzZWLYHKN6ftUaAvSYywTytN4IUftY+fmnB/eCa8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788683940; c=relaxed/simple;
+	bh=gR2IxZ5juv4tNx++86ktwezu28aMwqT5ZWi/LTAYas8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PiwlJ7PZhx11q3ynrknXkXdGQDK6bAAPGz8UJG8CI2e/SULxqEWFpObs1E01q1azBmPGjyplKNBp9uTVY7vwGEV/PhLiPXv1spnuzahTj1qhNKWFFPSADvloSCh8+IdBDwfntrmVnwYIwNQbPRpWgHLCBx9bscTLH+q4izhw+is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJQqpkKj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOZyIlNh"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fb7ba702eso238021d50.0
-        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2026 00:46:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788594358; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MdJzkZbcfRuteK+ifhbq1Ox0QflArh+kgSB/uf7eg6ZA3Aic/QEIhVt69lLRTFgzVQ
-         O6xJ+v6rqLuoUC7bEOctQacBRpBAM617CFrNG8yQP+49LUQtgriUikurNq7itb8on682
-         Kr+ppx2fH8sqwqqJNupLQwXFoPnKDl1n40nh5CEFlCxvwMdrKI3EYTEm5FW2xZkVNTuU
-         BJAfHLMJpyW5KcmoOfwP11+XpXT93WMATFVF/PA+G18fCk2vTu3M/VAWMlmjyvCW5DAz
-         TqAU+tihVQOQI8mktK6kjVMP4Wlz2UVSjHrYZZtbmOFtVxz6ffGhlA5IwdBADvumu5FE
-         61iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kiFI3c2SPovBA6XiCmh9K3RudbozAYSqI0KaFvYbrJ8=;
-        fh=HQrAeJGtoj0mrk18UcVkFyZbpURbuUn9DSibLkpCvQs=;
-        b=VYOYRTYRdmYh8bqmROEtonFAmAcOtHvK4joygxDtG++iGdUyFSrKjCFb/RjyHIbqJf
-         U5xTwObeIsKFo4qXf6q4vklaX8bC1dtOT/a7hjlLx8K8SZZhuaJR0BSguptyvWyDtPCI
-         DQPXI4NfPijvPv7xpwhybNs6qu7fVT/pB6cdQqtyTnu2/dZnSxBLOb6RN0pe2mDqc+EN
-         JtM2s0O+8jIMs6bE9G9bXDJpsLlaMlqJLAEVFhY4lKKKB0T6Z/Xj/u3zahUOyPtfPV+7
-         Cj/bp70QG2GL6s8Y2svbRSxgom7ObVrNKKjjKY5XzGCWgjeP+Om3HvYzO/mnpAXQvpMO
-         zruw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788594358; x=1789199158; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kiFI3c2SPovBA6XiCmh9K3RudbozAYSqI0KaFvYbrJ8=;
-        b=LOZyIlNhz2Msed+EfwpKb1oQ80QgZ8swkSgDKX0LSb3D2xRyuk7E3yxeK1ve5FSEHB
-         IDSYExEU5/ct4ajmawZiX7Vg+BOy5nSIGiICc0usYw5i8c3Qm+/Y8XLn3vQSXXdFJn4U
-         KUcpKkqA6PPkg7jhlJ+cBWPZ4i0xhd6Lz7fHtiKhPsVUeQzh9Had/3Cr/ularz6/lDUV
-         sE7CI2XW7TZO0zfkacsT7acYttIwr6/b6b+8g/oUUHMmB6ZrD8v2d4QZoG4ZGFXrRkCj
-         g1JuXeEvdGbkvdqGyUhIu15N4APYc1IbaLrTSD2WVIxR+5wswW0Tjw42E9DLn1iE4am8
-         BGzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788594358; x=1789199158;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kiFI3c2SPovBA6XiCmh9K3RudbozAYSqI0KaFvYbrJ8=;
-        b=emIJl8RYWBP0ELpeWGOMrGHHraQ4uLAu2ciHhk/W8czjMAQmnzlSfwuMOESQNKiwiJ
-         0/9Pec1jW3OxYsGvsUQMKWht2F/KrxpO3BcRUEdXZcYDORt/cR1TduS6MI2UA88u6ItS
-         gx3Al1AELFmeSROW3iFsGjEXl6eo1UVQbqHzqQtr5iB4SKelB3ydCf567mHldgkNRLZ8
-         NYkyEmxsqa2jwJNE+nqpAV5WPcfNA1WEKEIpfIUt0O0GOs2/YN/3S4WOHAlBNS9JQDoC
-         hLfCyZZoO0RipZjsTAO3tTlMYNaFnvw9pwkeRoe9frDQu33OIb0S/nJ4OYa2aaui97G9
-         Y+NQ==
-X-Gm-Message-State: AFuF++nhrL7dP+kASKJrBJrMl81H+ACiHQUXACVhrTcB8/t1IxJkctPo
-	dvc+3Zks9aEKHLKm3TI3SqkSvJ+kzNW3sAbFcXHMU9937bjjzferLfL852TZ3yn695tA55C0Fkb
-	zG/eXcm3UF0tslBVDE44LzW4plal7H0g=
-X-Gm-Gg: AYBFou2jDLyK/PeZGx3QJQqoIH8Oc/SugtJf9mgsg++ez7XY1ixu6F+EMTVS7Ct1GDx
-	TByZ5DTni7Emm2Ys4A6vAOdupAE323ruFxENxxk2vGqXFjohTntlcqJuiguYzlN7ZXtzc7RtD3y
-	zuV+V5yVnh5b0avxu03KPzOa8vr5krUlhLfBpRr/Pxask9tgow8GrUhSTQYeoWcWT/m+cUwex9m
-	TfOHaucweUJkc//cKnEGOfD7xtg5EoTvx7O4NlS5xGXEoz/5EZ1kp+RMVZdzwdFTDwaX7e3+FP6
-	X9pN0cXH0PZZNOc0a0ktKsXUwNq3xBFuI8fXMcly/borYWl2tV/Ibt04AUpRW+Yf5lwTy/j2duQ
-	=
-X-Received: by 2002:a53:d74b:0:b0:668:43a3:9de3 with SMTP id
- 956f58d0204a3-66fc2f94874mr866173d50.3.1788594355925; Sat, 05 Sep 2026
- 00:45:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJQqpkKj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B726B1F00A3A;
+	Sun,  6 Sep 2026 08:38:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788683938;
+	bh=eG841upAxaKWTz+9YoXTZ/ed9Ye30Yk/DeU7StkFC0A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cJQqpkKj65bwQ3Aflnd3XG6BzJZoFVTfbHLkSVho7d8Oog+0h8fAWfOnfNN8rUvyH
+	 FtA75hJ6Zxf7CHIzuG54nHYlHkGdMZ97cRN4kbb2hl88vpjVqzWdojUKcZrpk3aUrR
+	 AvKxUguAjkFUkEynEQPFJ7D0EXZBoMiCNZ4Fnnf2Bn95l79um5Bzd9Yc3l5oEeHRKl
+	 H01ihyTGBaTmeYnSd+WnGDGxxAwpkNKYXou1VlJcrtO29BVPSPP2E9KOV+Ax1kRTaP
+	 gD1An+dvCG6DGkF3h3ZVyGD5s1fu+y43PaPALYV8T1UDR94g4dSOWXJuoJS3lwRj2j
+	 v7eYyA02ODkTQ==
+Date: Sun, 6 Sep 2026 10:38:55 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Cyril Hrubis <chrubis@suse.cz>, ltp@lists.linux.it, 
+	linux-man@vger.kernel.org
+Subject: Re: [LTP] [PATCH v3 00/31] Add sysfs sanity tests
+Message-ID: <ap0lzsqRF8Qaaio2@devuan>
+References: <20260827112157.1748734-1-chrubis@suse.cz>
+ <20260903172419.GL1107507@pevik>
+ <20260904084438.GA1189532@pevik>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAE8uRQ0-xyboJ3gy5wu-EaoQ2UEj4bL74hnrosaMpNkqJ9vYnA@mail.gmail.com>
-In-Reply-To: <CAE8uRQ0-xyboJ3gy5wu-EaoQ2UEj4bL74hnrosaMpNkqJ9vYnA@mail.gmail.com>
-From: Maxim Inozemtsev <milnadar@gmail.com>
-Date: Sat, 5 Sep 2026 00:45:44 -0700
-X-Gm-Features: AcwNN1X_Wqpg5wDbwgeXkoV_q7t-u4qUEEJ0rcaIg1A_pVom4ZwPntlZs2H5D0w
-Message-ID: <CAE8uRQ1WhW=5X-zCCi4g9y4s-rEYdmY_=2o4Re1thKyijV3RXw@mail.gmail.com>
-Subject: Re: Subject: [PATCH 0/1] inotify.7: Fix typo in struct size calculation
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bpgfap5i7nedvwlq"
+Content-Disposition: inline
+In-Reply-To: <20260904084438.GA1189532@pevik>
+
+
+--bpgfap5i7nedvwlq
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Cyril Hrubis <chrubis@suse.cz>, ltp@lists.linux.it, 
+	linux-man@vger.kernel.org
+Subject: Re: [LTP] [PATCH v3 00/31] Add sysfs sanity tests
+Message-ID: <ap0lzsqRF8Qaaio2@devuan>
+References: <20260827112157.1748734-1-chrubis@suse.cz>
+ <20260903172419.GL1107507@pevik>
+ <20260904084438.GA1189532@pevik>
+MIME-Version: 1.0
+In-Reply-To: <20260904084438.GA1189532@pevik>
 
-From 9b0b60cfd59dc5b89c59ec255ef7da77c0dbaf25 Mon Sep 17 00:00:00 2001
-From: Maxim Inozemtsev <milnadar@gmail.com>
-Date: Fri, 4 Sep 2026 00:12:32 -0700
-Subject: [PATCH 1/1] inotify.7: Fix typo in struct size calculation
+Hi Petr,
 
----
- man/man7/inotify.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Date: 2026-09-04 10:44:38+0200
+> From: Petr Vorel <pvorel@suse.cz>
+> In-Reply-To: <20260904084438.GA1189532@pevik>
+>
+> Hi Cyril, Alejandro,
+>=20
+> also, its nice that only /sys/fs/smackfs and /sys/kernel/cgroup/ are not
 
-diff --git a/man/man7/inotify.7 b/man/man7/inotify.7
-index 9575b82e7..675f86f4b 100644
---- a/man/man7/inotify.7
-+++ b/man/man7/inotify.7
-@@ -137,7 +137,7 @@ including the null bytes;
- the size of each
- .I inotify_event
- structure is thus
--.IR "sizeof(struct inotify_event)+size" .
-+.IR "sizeof(struct inotify_event)+len" .
- .P
- The behavior when the buffer given to
- .BR read (2)
+This message seems to be in reply to another one, but that other one
+isn't quoted, and I can't find it in either mailing list archives.
+
+> covered (both are subsystems are at least somehow covered in LTP).
+> =3D> very good test coverage.
+>=20
+> $ for i in $(grep -h '.I /sys' ../man-pages.git/man/man5/sysfs.5 | cut -d=
+  ' ' -f2); do git grep -q $i || echo "$i is missing"; done
+> /sys/fs/smackfs is missing
+> /sys/kernel/cgroup/ is missing
+>=20
+> @Alejandro FYI man/man5/sysfs.5 (or other man pages) could be updated, few
+> /sys/ directories are missing:
+
+Sure!  Feel free to send patches documenting those, if you know their
+interfaces.  (If you start working on that, please let me know, just to
+avoid doing stuff that might cause conflicts with your work.)
+
+
+Have a lovely day!
+Alex
+
+> man/man5/sysfs.5 (I haven't found more specific man page)
+> /sys/class/ata_device
+> /sys/class/bdi
+> /sys/class/hwmon
+> /sys/class/leds
+> /sys/class/thermal
+> /sys/class/wakeup
+> /sys/devices/system/cpu/vulnerabilities
+>=20
+> man/man4/loop.4
+> /sys/block/loop
+>=20
+> man/man4/rtc.4
+> /sys/class/rtc
+>=20
+> I'm not sure if these should be documented in man page:
+>=20
+> /sys/devices/system
+> /sys/devices/system/clockevents
+> /sys/devices/system/clocksource
+> /sys/kernel/mm/ksm
+> /sys/kernel/mm/swap
+>=20
+> Kind regards,
+> Petr
+
 --=20
-2.55.0
+<https://www.alejandro-colomar.es>
 
+--bpgfap5i7nedvwlq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-On Sat, Sep 5, 2026 at 12:44=E2=80=AFAM Maxim Inozemtsev <milnadar@gmail.co=
-m> wrote:
->
-> The documentation explains how the size of each `inotify_event` structure
-> is computed using fields from the structure itself. However, it mistakenl=
-y
-> uses the term `size` instead of `len` at the end of the math expression.
->
-> Since `len` is the actual field name indicating the bytes in `name`, fix
-> `sizeof(struct inotify_event)+size` to `sizeof(struct inotify_event)+len`=
-.
->
-> Maxim Inozemtsev (1):
->   inotify.7: Fix typo in struct size calculation
->
->  man/man7/inotify.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> --
-> 2.55.0
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqdJp8ACgkQ64mZXMKQ
+wqmlwA/+Kprh2JS7wkiLMG/x1Uc0/+W+QKCmIKSjE5wBgnFuKdM1TJerlbCjkS/3
+SnWbd4xiCIpso+UiWYaC8VfWulypjGv9J/3UKvNxaoNTc+3uWHanb6ZEjrruoJgp
+xvB4l+rV6HicAjKcLvgJDxCSyEQaZ4uNAAYISoa1pwtSjp06OrbYSq5rT24LAh1q
+cqqhJIP0xkkDpl/Vw17Sah90Sc0pOzX1jVV7rkRiKP2G62giK/zVuymSrN4Uu0F+
+PJ8Yc6XRC339FeVs0yuU9FLeFpwx3lcr3fNqDvEsX4zRpY34kWAytXiGEO05unyZ
+VmJoDRFW800gQ4zTyRgLmZ8udBKRrahEJ9QxZo+RYulcGH/mpgv7N9HMizdK3zMX
+ZlYXvyt3dDmGFXwZrn2mWwVM3g5zIu8zfpTXTK/bgqJ8LJxfRqu9L5aadpvw2VA1
+8VCT+iUb82vCxoSmVDVFqvBrcL8H5KDNJG82aTR7WgHvQAm/zcAWztATEMCDsy9a
+V8loT/ewoq8cvz8XFKIPFbCHIE0PstiTVlFwHBxZj4XEuw2cBOiGnlx/uSoB+zJk
+MvoLkW1IPRnDqzIF5bWR2G0JSkvZ0cS+Rh1js2bISqylvXh8OYzNfE0onHoKSivv
++isqhugrY+j30y1Z4xuyLt7antTF20rXpN18EU0e8UESaWNYm+0=
+=B/XY
+-----END PGP SIGNATURE-----
+
+--bpgfap5i7nedvwlq--
