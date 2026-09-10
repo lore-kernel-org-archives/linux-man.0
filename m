@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6820637E2E5;
-	Thu, 10 Sep 2026 16:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A74A1F91E3;
+	Thu, 10 Sep 2026 22:38:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059052; cv=none; b=NhIWAhlmwRWJFQheK35qpgMpw3Mu62TWEsoNGURRlr8yKo2OQxGlm/COLJRUbjieyhs+MJe/aMab/iLS3rdFrKxG9leM8ds6ex7pNqrqDNJRHiPs1cbfWTQlrQJO1sMWtZG6SkiuwHh2eq7sy4XqMRq8+B3DSQL3o5yBsLHVPQk=
+	t=1789079907; cv=none; b=nfFNfkZOsCzgpmOSCDuraCQmM+WoEXgpU0tDlGNYyOGQj+m/md+ulCMtMbzrtVt2M3Cl1+9k/kr1qXAOuD5WW2CypMkqN8TtUcaOJP69MF4CRGnQk1yyRrhQ/2dVxYVcDivsFg7FdE5ODuodoy+CCZiLRUB1/l6ICB2FQXD3ITc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059052; c=relaxed/simple;
-	bh=ve+YzAe1THUrssJx9M0hn0ogePi0eRNIQbzjOTvRZBc=;
+	s=arc-20240116; t=1789079907; c=relaxed/simple;
+	bh=gG4Kc6X/pJNavuySiOjwo58rC1hP+lXJlzh8VLjrjtA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kRQHszbEPnhkd4isG+5eTIlopqmh1dgMXuxVwELdT0PggxC6IObmP5A8yNh/gJcXXpg0jF1Jq7gJiSIISxXJ5dgJhjMR62sarBh/0RMScoKssK+bXHJa3PdmaluoBBElMYwOGwyKwwP0uFa/1oK3M32xTGKm/9H8bDZs/+sDBng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBOAFJFX; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8S1dzNFuyYzveiQ5qM5uoUOt7sk/UcnqvOfggvPcRppGRzAf7sFat3xji6Bj/kcHNmWE3G5O8Sv/tHSbB9vD6pXktXaRXfGb+6/sWn1HcMsxS3eKjbS54YjFyAqzQ5xJeSGXT4j0Kc4rT9urkLG4qN9+XFyi4kV3AOlpTNf4UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKEL3NWb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBOAFJFX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC68E1F000FF;
-	Thu, 10 Sep 2026 16:50:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKEL3NWb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C6C1F000FF;
+	Thu, 10 Sep 2026 22:38:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789059050;
-	bh=IqJaHL1SoRN/fotdlqk5VLMGRkmaCB9LrRkSUPHbFYk=;
+	s=k20260515; t=1789079906;
+	bh=nrB/z21/ndSYlKuXF/4TZ1eS8rCPAlvlLs1OSophTus=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gBOAFJFXcsUfzZ7HUbA2L4BZ/os79bLL9sOZgRLs+QlBJSJOQ9RapQCnGB3aBUfua
-	 dU4uAhYx4Ex4W7yZ8J1OKmWo9jLpC4xIlQ+FqBupnW42bnSg8aJi/pYdqZ04e92yUd
-	 Kxf5Arcsc6UTWxPzArcx9PNNdg0hyysSJyrgydPuhURYVcHD90qTNOm+fkNsi+Es/p
-	 x0fsJv2vtUtcQSGs4X3uCWnTV2WW9Hjkr7hiJc7NU+nKPWc4v44ugdz21y5vYaZ9TL
-	 0+G/AOSfXmU7SOsAUirPtDS9Tm6eiLyxNMtwHc228ZMAFuVYKTf8WujBfcO/I9+Y+q
-	 ZL+hMLxpHPoig==
-Date: Thu, 10 Sep 2026 18:50:46 +0200
+	b=iKEL3NWbeQ6D+cxh3KJ4TSDFW2qEkU/qwIGcM3WBTqyLSd1JYrctcssR4gdl9DO6J
+	 KUgdCDfFehnL9ikUJRqm53Gu/0B5Gq/QScOF8A9MBXA5kJauHuKKEXWUHU1Fsua61w
+	 WzqZdc1j8/FDYl6WHzPCtmsudERbnRlO3pycVziLLkw2dizDkvkoYc6mwuYEKziZgP
+	 KemJBVoz3zFjzq4DHjnmkKug8bntlLR+cEy4Xxm2qiOmaFC4CHD96EN7/eCKAqYx+0
+	 EDKxGwYVtrR3gbwi2rf/6N0g/wMVnuOzUmSipgYzMMqzBL1Zme1mDCSWhJkjsxqaAX
+	 2vo+0XSqdLXdg==
+Date: Fri, 11 Sep 2026 00:38:23 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-man@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqLfs-6crlKiqZw9@devuan>
+Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: quotactl(2) (was: [PATCH v2] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls)
+Message-ID: <aqMwVislUcWIRTUb@devuan>
 References: <20260910104120.3964799-1-aalbersh@kernel.org>
  <aqKgTGHh3nDnM3eh@devuan>
  <20260910161204.GE6238@frogsfrogsfrogs>
  <aqLY-1do_4hmZpfI@devuan>
  <20260910164428.GF6238@frogsfrogsfrogs>
+ <aqLfs-6crlKiqZw9@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -47,94 +46,77 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5wzgosbtrgpzmppd"
+	protocol="application/pgp-signature"; boundary="36qfbwysvk5yvru6"
 Content-Disposition: inline
-In-Reply-To: <20260910164428.GF6238@frogsfrogsfrogs>
+In-Reply-To: <aqLfs-6crlKiqZw9@devuan>
 
 
---5wzgosbtrgpzmppd
+--36qfbwysvk5yvru6
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-man@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqLfs-6crlKiqZw9@devuan>
+Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: quotactl(2) (was: [PATCH v2] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls)
+Message-ID: <aqMwVislUcWIRTUb@devuan>
 References: <20260910104120.3964799-1-aalbersh@kernel.org>
  <aqKgTGHh3nDnM3eh@devuan>
  <20260910161204.GE6238@frogsfrogsfrogs>
  <aqLY-1do_4hmZpfI@devuan>
  <20260910164428.GF6238@frogsfrogsfrogs>
+ <aqLfs-6crlKiqZw9@devuan>
 MIME-Version: 1.0
-In-Reply-To: <20260910164428.GF6238@frogsfrogsfrogs>
+In-Reply-To: <aqLfs-6crlKiqZw9@devuan>
+
+[CC trimmed]
 
 Hi Darrick,
 
-> Date: 2026-09-10 09:44:28-0700
-> From: "Darrick J. Wong" <djwong@kernel.org>
->
-[...]
-> > > > Should we document FS_IOC_FSGETXATTR in a new FS_IOC_FSGETXATTR(2co=
-nst)
-> > > > manual page?
-> > >=20
-> > > https://www.man7.org/linux/man-pages/man2/ioctl_xfs_fssetxattr.2.html
-> >=20
-> > Thanks!  I didn't know that page.
-> >=20
-> > I see the page uses the constants as XFS_ instead of FS_?  I think the
->=20
-> The sorded history of the xfs(ish) file attributes calls is that they
-> began their lives as XFS_IOC_FSGETXATTR since they were XFS-specific.
-> Then we tried to make them "generic" by removing the 'X', and that's how
-> we got FS_IOC_FSGETXATTR.  Finally Andrey came along and made them
-> proper syscalls with path-lookup abilities ... but for now they use the
-> same struct as the old XFS_IOC_FSGETXATTR.
->=20
-> Personally I think we should only document XFS_IOC_FSGETXATTR (in
-> xfsprogs) and file_getattr (in man-pages).  And leave FS_IOC_FSGETXATTR
-> unmentioned.
->=20
-[...]
->=20
-> quotactl (and xattrs) have a similar weird history of originating in XFS
-> and later getting yanked into the vfs.  Every time I have to go look up
-> the quota syscalls I just get a headache. :/
+> > Date: 2026-09-10 09:44:28-0700
+> > From: "Darrick J. Wong" <djwong@kernel.org>
+> >
+> > quotactl (and xattrs) have a similar weird history of originating in XFS
+> > and later getting yanked into the vfs.  Every time I have to go look up
+> > the quota syscalls I just get a headache. :/
 
-Thanks!  That makes sense.  :)
+I have recently worked on having quotactl(2) split into more organized
+manual pages.  This has been part of the man-pages-6.19 release.
+Have you had a look at these manual pages after that change?  Did the
+headache experience improve (or worsen) after this change?
+
+Michael's man7.org already includes the latest version:
+<https://www.man7.org/linux/man-pages/man2/quotactl.2.html>
+
+I'd welcome feedback, and any improvements or suggestions to improve
+the pages.
 
 
-Cheers,
+Have a lovely night!
 Alex
-
->=20
-> --D
 
 --=20
 <https://www.alejandro-colomar.es>
 
---5wzgosbtrgpzmppd
+--36qfbwysvk5yvru6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqi3+AACgkQ64mZXMKQ
-wqnqGA//UFWo6BWamWW0lHUOwM1TBq/jb8eQNiDgOZ8S/EEotA/iGJSxnjFasvcW
-dxSaYDVVfom1gEWv1UDGO56rwVDB2Onwj65k3OJZ+JYm9o04VvRZ5ZeMxWXPXmxV
-AmTpan0viSRx0ZYMiBTDEkDDc0M8qnh5msYUyif4HLnDqVg5JBOBQ6byfd90x8Jw
-wwvC3TR0P8nZDxIPfoRmtk1Y3Cw5R6YNevcv4YILsTA8tMXNoirqE88zSsNRkL6l
-ZY8dwetCnS+FjlI/qDBrWEIHoXh+6Clzbj5Uk1HFE20e0uA/RALMjvr1FQGd95K/
-34yuJMo8K+ydyVjggpWT10D5cIDaZ8RBa4qJadS30l/UGkDkshHLx/dJ0ZvG3tFx
-mfb7x/AfH7PkpE88bAw1IIhf3x9a3YbCNbzjj9Sc+dpBorQebEoZAKlrzqAEH5JR
-gqKy56L6enutEO7UwZp2MkTFcUjM2MvKEIwm3ZCxOxunj7LFtkVl+8Noy8xGdACD
-FhZso906rr4wnHvXmE4mVV6i7QZevqAO7m/EXyl3qnXX5AmeMVKiDZL6nBJx1cFp
-yOX+g/faY3pFJyBZMG1KRptNBTuITHLoig3DJdKbeCbszOOf2E5b7URsM8cxIaUJ
-BmtGCalk11zMO8TJKG/cM3d0gkhI0Fu5T2/BiRPecE6S0iF4vq0=
-=3ZuC
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqjMVkACgkQ64mZXMKQ
+wqnW6g//RmLKAIopqRvPSP/CPKFzq1zgWlotwXOFpTMZGs5YOzBuNYRfrgTnB0Um
+WR59gXjYwbCOzM5NYB/pS0HqnKhu1CiLQQUH5FqOhdLQKvVioauD3WyRSkL/gAZv
+yKe9gD/l405LjQQGFgO6BjwXR5tBEpFSYHmggfq97kz8tznsCl/xseSokte7TBjp
+SH9+At8h6arRnhmVmWkQtm/aFT0ri3QyFOOM4VNHT4x+ZZxBsRv2epi/LderjUzw
+9zRvt85aATweGVg3p12MGcTlYWWfef+BsyBN3bv7KEZb+PfpZ73lLmXh4BGqEuN4
+87bMzUD//6e5cUiirqwdZx35f9Dloewz/3sKfmE52I7s7FQ1lDvYx3bjfxbfshPT
+T9XBRxKTl68WRr6sZRyqLe9I/O0h+S0MXk/9Fnw/j+3SZExYpcCz83CPZ3SmkDrg
+Uxb73tDO90AlFOrAzIyngpmY1JrYfUr3qoRHdGqqhdB5UJ3FojA0eoH3sW/mNGDH
+yXnm5sY3X+KceaidxCOVPup/xeiKKj2c81uKe3F3ltd3HG5DW0USGlUVxktGVv0H
+Jsshrb3nZ7nfZ/p40bFrq5rDSQUhc4mwq6Dr28jpoHlLMU8V+qsK9LADiATsFb1B
+wRG1TTtpEgkx6lAe5ieiwrH6AdgA9zKH8suHxWvf+1S/1yyfTuE=
+=lL1q
 -----END PGP SIGNATURE-----
 
---5wzgosbtrgpzmppd--
+--36qfbwysvk5yvru6--
