@@ -1,37 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B292C2E3FE
-	for <linux-man@vger.kernel.org>; Fri, 11 Sep 2026 00:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B30D2E92BA
+	for <linux-man@vger.kernel.org>; Fri, 11 Sep 2026 11:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789085640; cv=none; b=L61iKWfcUGye9qXgSyRc15S9MKTMJov/MtIDRsq1eohZ2fXI7pIytQAOL03LyQEqtKEAAbeO79vvKaTv7Ow4oGA9sU3FPkwOEfbJvx0B+1AMZ6qFh5yE4E/nSbBTXjhal1rjljOmRdH9+lxZ5MdnSPdX1BRpDT+vl6HP9KOb/5k=
+	t=1789124553; cv=none; b=Kz4nFLStAqg08j7HFAZ51Mx2JjErf4gU1rFCYUwyeZeiProKTtYY2wX3ESlpzJTpohXlVRvuFXSoINioF3ZBopzCMySMfn/27XJwIxqXWITiw42LxSsq5Yana7TAHeu/poad+uuulTHZtDW/l4IqmjyC8wvyOG8yxPe1ITyKisk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789085640; c=relaxed/simple;
-	bh=qIpZa/zoJR23PbVIgjow4XKMcEPt5NkqfbBQENztzl0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pjhQXyTu0SKQ7IVEgUndSU9BvaAbjZlfdmkiZCbuCFa6bCOZDKTxogbNhK5D3Da4IMmKPyBAcjSl0lzVa2c8NXnKpH8wDOBlrw+f2yBNTEgLrSZkJJNrGpjg4yDzy+K+hF7kSntblx8qh+PjTTw6qL7BA1cMGlzO/FZmU3t1t5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxr+KWYd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789124553; c=relaxed/simple;
+	bh=U+vRF/maOXW0u4kw7Tiw7rMr1eXqtHEMNx3givPDE8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfQsrPzV4rfz+Hs4/FmGzFEzlL1BMi0o8vktPE03gjFk9WZ6lBucQf7FAq30tpzcUJsg5JFv2YYoIlXO1CtyG/aqXB204uj/x6LyWjH/d5yY4o1SbK3hC7DH1oSoZwZnHI++30nGA2SN9/xmLnCWdmprnu4dMox1Z/LBBbyv/zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Of/UvF/x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxr+KWYd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9A01F000FF;
-	Fri, 11 Sep 2026 00:13:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Of/UvF/x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0021A1F000FF;
+	Fri, 11 Sep 2026 11:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789085639;
-	bh=L6r4aUf/cS2c2wcl6y7MTjR0gkq3asuDORP+IhEA5zg=;
-	h=Date:From:To:Subject;
-	b=mxr+KWYdVx330gyoKEbLOr94D569+onMkZMRpdUha3ZufEREJSH7jKV2j9BRgAB1q
-	 BBvxaVEd5p5Rs35YuWQB5b58m4yR21YOFy+3u82Pg2xnu+7jtpX2D24WFwzAZKqy0W
-	 CQ1/xSpyQ+v4FXl5DlZs/CFOJoHyc+WkfNRYTaDzk29/DP1PYtimVShW1FdOkkvFhT
-	 plMF7Xvhq47yUeSY0fXdF78n1YCJBLmjdSSf6Rvy1xMY5X/XHTwHgGQKpXaZ4GMgZp
-	 eJ3Q9aox+JceU4PAGQHyVt0D9DfuzZFplsUmAwClQ7bGEhXmw4ZePjlSVXwjX0devU
-	 7L/ShFHZZ9hbQ==
-Date: Fri, 11 Sep 2026 02:13:55 +0200
+	s=k20260515; t=1789124552;
+	bh=+MUWnkjRc5ng8OJ7rhowZQASb+7hLjd1XjHH2P4sxDc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Of/UvF/xcpkepZGSz+rD6BVktBDoIRRhYLamwcW3b3uQCMTjVVNxcyhTFBcPn88/b
+	 uVdYbiPSG6sREI2OO9YDCBuaTNPLX05wDoHjdcfMCoJvHtZR5p4dQwSOl9kcLrTCP8
+	 OnlE5IU8hHUmGV2JbVXwCiNxc8qrbpHPMHiWsPbY/yq8kT+zn8gJPrccnYVg5azNrK
+	 /RWJtVIF4Rq+YqfdudK/p84rGrpALmRsUoeH8CNjHmAwyO7Z5cvTaUJWA9vhGRdewi
+	 l5g6B3F8Nl5wZXZOzlcsCq1/Z2LPqnyPQf72OdztCBnHB69RalugNfhY1Syz4bY+Y1
+	 H0DlTfLxcaz3g==
+Date: Fri, 11 Sep 2026 13:02:28 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org, man-db-devel@nongnu.org
-Subject: Spaces, underscores, and dashes in manual page names when using
- man(1)
-Message-ID: <aqNFJA3aXiitHCyz@devuan>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+Cc: Tingmao Wang <m@maowtm.org>, 
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v4] landlock.7, landlock_*.2: Document
+ LANDLOCK_ADD_RULE_QUIET
+Message-ID: <aqPfntaF5CMStaq9@devuan>
+References: <20260901234202.1608520-1-m@maowtm.org>
+ <apg8FsPOChcB-tJh@google.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -39,130 +44,72 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ndpsva65xnlx7noe"
+	protocol="application/pgp-signature"; boundary="jj5st6pnmdjsuprh"
 Content-Disposition: inline
+In-Reply-To: <apg8FsPOChcB-tJh@google.com>
 
 
---ndpsva65xnlx7noe
+--jj5st6pnmdjsuprh
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org, man-db-devel@nongnu.org
-Subject: Spaces, underscores, and dashes in manual page names when using
- man(1)
-Message-ID: <aqNFJA3aXiitHCyz@devuan>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+Cc: Tingmao Wang <m@maowtm.org>, 
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v4] landlock.7, landlock_*.2: Document
+ LANDLOCK_ADD_RULE_QUIET
+Message-ID: <aqPfntaF5CMStaq9@devuan>
+References: <20260901234202.1608520-1-m@maowtm.org>
+ <apg8FsPOChcB-tJh@google.com>
 MIME-Version: 1.0
+In-Reply-To: <apg8FsPOChcB-tJh@google.com>
 
-Hi Colin,
+Hi Tingmao, G=C3=BCnther,
 
-I find this quite intriguing.  Using a space in place of an underscore
-in the name of a manual page seems to work, but using two seems to not
-work.  This seems inconsistent.  I'd say this should either work for any
-and/or all spaces, or for none of them.
+> Date: 2026-09-02 17:09:10+0200
+> From: G=C3=BCnther Noack <gnoack@google.com>
+>
+> On Wed, Sep 02, 2026 at 12:42:02AM +0100, Tingmao Wang wrote:
+> > LANDLOCK_ADD_RULE_QUIET is a new feature introduced in Landlock ABI
+> > version 10, merged in kernel v7.2 [1].  This patch copies relevant
+> > kernel documentation into man-pages.
+> >=20
+> > Link: <https://patch.msgid.link/cover.1781228815.git.m@maowtm.org/> [1]
+> > Signed-off-by: Tingmao Wang <m@maowtm.org>
+> > ---
+[...]
+>=20
+> Reviewed-by: G=C3=BCnther Noack <gnoack@google.com>
 
-	$ man -aw proc_sys_fs_inotify
-	/usr/local/man/man5/proc_sys_fs_inotify.5
-	$ man -aw proc sys_fs_inotify
-	/usr/local/man/man5/proc_sys_fs_inotify.5
-	$ man -aw proc_sys fs_inotify
-	/usr/local/man/man5/proc_sys_fs_inotify.5
-	$ man -aw proc_sys_fs inotify
-	/usr/local/man/man5/proc_sys_fs_inotify.5
-	$ man -aw proc sys fs_inotify
-	/usr/local/man/man5/proc_sys.5
-	/usr/share/man/man5/proc_sys.5.gz
-	No manual entry for fs_inotify
-	$ man -aw proc sys_fs inotify
-	/usr/local/man/man5/proc_sys_fs.5
-	/usr/share/man/man5/proc_sys_fs.5.gz
-	/usr/local/man/man7/inotify.7
-	/usr/share/man/man7/inotify.7.gz
-	$ man -aw proc_sys fs inotify
-	/usr/local/man/man5/proc_sys_fs.5
-	/usr/share/man/man5/proc_sys_fs.5.gz
-	/usr/local/man/man7/inotify.7
-	/usr/share/man/man7/inotify.7.gz
-	$ man -aw proc sys fs inotify
-	/usr/local/man/man5/proc_sys.5
-	/usr/share/man/man5/proc_sys.5.gz
-	/usr/local/share/man/man5/filesystems.5
-	/usr/share/man/man5/filesystems.5.gz
-	/usr/local/man/man7/inotify.7
-	/usr/share/man/man7/inotify.7.gz
-
-The same thing happens with dashes:
-
-	$ man -aw user-session-keyring
-	/usr/local/man/man7/user-session-keyring.7
-	/usr/share/man/man7/user-session-keyring.7.gz
-	$ man -aw user session-keyring
-	/usr/local/man/man7/user-session-keyring.7
-	/usr/share/man/man7/user-session-keyring.7.gz
-	$ man -aw user-session keyring
-	/usr/local/man/man7/user-session-keyring.7
-	/usr/share/man/man7/user-session-keyring.7.gz
-	$ man -aw user session keyring
-	No manual entry for user
-	/usr/local/man/man7/session-keyring.7
-	/usr/share/man/man7/session-keyring.7.gz
-
-And also with combinations:
-
-	alx@devuan:~/src/linux/man-pages/man-pages/contrib$ man -aw proc_sysrq-tri=
-gger
-	/usr/local/man/man5/proc_sysrq-trigger.5
-	/usr/share/man/man5/proc_sysrq-trigger.5.gz
-	alx@devuan:~/src/linux/man-pages/man-pages/contrib$ man -aw proc sysrq-tri=
-gger
-	/usr/local/man/man5/proc_sysrq-trigger.5
-	/usr/share/man/man5/proc_sysrq-trigger.5.gz
-	alx@devuan:~/src/linux/man-pages/man-pages/contrib$ man -aw proc_sysrq tri=
-gger
-	/usr/local/man/man5/proc_sysrq-trigger.5
-	/usr/share/man/man5/proc_sysrq-trigger.5.gz
-	alx@devuan:~/src/linux/man-pages/man-pages/contrib$ man -aw proc sysrq tri=
-gger
-	/usr/local/man/man5/proc.5
-	/usr/share/man/man5/proc.5.gz
-	No manual entry for sysrq
-	No manual entry for trigger
-
-The (one) space is well-known to work, and helps find documentation for
-things like 'git diff' as 'man git diff', so that behavior should stay.
-I suspect we also want to make it work for more than one space, though.
-Or are there any important issues with handling more than one space?
-
-Here's the version of man-db I have installed (Devuan unstable):
-
-	$ dpkg -l man-db | tail -n1
-	ii  man-db   2.13.1-1   amd64          tools for reading manual pages
+Thanks!  I've applied the patch and appended the tag.
 
 
-Have a lovely night!
+Have a lovely day!
 Alex
 
 --=20
 <https://www.alejandro-colomar.es>
 
---ndpsva65xnlx7noe
+--jj5st6pnmdjsuprh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqjR7sACgkQ64mZXMKQ
-wql/vxAArIfmaBbVJmR7OJrgTQfUasoKy7vppjxJS+4VUVDseg2/jCF2IfQelKuN
-Ldwb9mYsuzgLP5GQhjyJ2XR+iTrnpKZyG3KeB2dYwf/wyY4piPlJr2E0Ft5RCfwr
-XZjLyAQri4grRN1iIRu8ljanTLHU3KkEkPqzwIYWBX9EGiiX1aTZaDZDtN6Dv2Sm
-uDsADNYwckZX3zCC9LKjEV/b4H0LNV3c7rs6D72Mb7mt1KWStjGDeG365FuE4IW1
-qWYcmyEoZYfhJ0WfNhW8KnxLHW5hWBd5omHVpzFI6tDJKaUb5YnEHc3ObpdqqSbQ
-OGCFcfrspaT+aD6h4GJ1kXTBXYnUmntqkBrjRNTnReS/A1RzKCMitP3AO02MBxPN
-CO5OLMr0bg+Ad94g9yE7rfutc/u2DDIinZNutoDLU+cHCxVrtiEWzWSGdiESf74F
-QG9ZwdazhVAYOuJ/Umdh+EXD8xrrpWlIh9sOcTwe0xsIIF9/jVgos9csImnX9slm
-tE3P7obZmDo4IAnN9MtNo4+RS12quqyVkaTqLijibpd/JNgw2c5qrhxUkCUXHlBu
-8sb5exEppOSnqIGXxp5v3aXOEYX/O01sDlOzg4ju1nOyQA3/VdrPIeZ4hfGziEh7
-JyvmkGTgFoe/+09PqJjJc7GsmVQo7VztZPrH4cCWBeJRxTQmzY0=
-=eF4N
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqj38QACgkQ64mZXMKQ
+wqkQeBAAjgRnJaHsEllO5AGMMvBwp0I4vZxHcW9mLa73dazmOgxWbDURYOM9ZYOx
+V65ZaCKCB5FyOMXH0WOJ7Z9cpTqnSYhBZqCm8/5jv/U3ah8FP8Dxpzv1IXwqjsQT
+CHXq/Btrv15UwGl5s83tHqL5WfblX5NHYQJqH2tX7krQjNieLzNFlKX374dKjlWH
+qR5eRHmzCVUOcOGvrHR9Kr6XiBefm5YuxtpIVP7eW5pf41ie98HJFwSwNGEmnwiD
+AGEjgrxQyWw/ioR9SwayhJGHfK8rreP4STzBDzOMhwFatwDa3NXyHtDS/D/5yurr
+0SKjqKlcOwCCbxfZe9CtWT9JvD+4O1AszxEkHRgVSPlHNiypUnTQST0zoAXo827T
+Zqd0ezenKp5HTh4DnBU3G5MTgXYOwAYeHrbqtOKw4b5afJIfMZeoyQYHVFOJjPM3
+kcxyBcDPjcbHdac2gVBo1XVGJ1kVIahRnlGA3NctI+Bmz3epx71aOBZCPcnhfzO/
+E3aF+e+WTEbJvIPV/3fDlq2QTtM7Gfafw83YczevoMWWvUSrdufol5zm3Owt7Scd
+0OiP/FvvfsKWjywF9pBvNtp0wgns3R7dQxbJglOVLGzA3GnBeisKE1gLrMJWGz5r
+MmPODwywhx07r3vLiRPeDLa3s/+pB+VXqGqsRUcn/PhZ6M7K5ZA=
+=l7M1
 -----END PGP SIGNATURE-----
 
---ndpsva65xnlx7noe--
+--jj5st6pnmdjsuprh--
