@@ -1,41 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DD2365A0F;
-	Fri, 11 Sep 2026 15:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7883B38AF
+	for <linux-man@vger.kernel.org>; Fri, 11 Sep 2026 17:54:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789139223; cv=none; b=HIa+7KjN5jf/KL9xnaAjLyHjrMVEeth8/OdJ3w/fhq/YNansOTp7fI6LWWiZeinN5Hp0YZr8zKx/ANA6ivxQyHVSY8ry1p/h6C8npxwnSx6YSMHtei+5/8KiuZUyhVeoIndP0Wga0TOMZsxatMzz1pR/AgHJQ/f25jnEs2inP0A=
+	t=1789149276; cv=none; b=ZNldHJtm8TyoELR8+h4KlLOoOR57vBYS5abl+diD4fTZDqB/Q3YBwpG+eexbxs0q8z/wcvwj79+70oAQ4PVa1W6XkS/iYUFvzL2z+3qtbJns4WwEF+6wtC9tJN2h9we6r62R7qcWs8X70wMjPCDmH+4ZUAZqpsS9HqwTBWaNdnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789139223; c=relaxed/simple;
-	bh=QN05eFoGOE6Mj05kEDJFXnD+mS8HvLu9j7+4owhkroQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dUqFVrgXEDuokfawkFxPC6gzexBh8+aGMhNabkU5OczNMTCdi26M/l+yYDuuCcJn8p8VO4x99vo585p0oYHC8MtnIOpDmyQjlnnRem64YlOOgD3Mh95teAOuyOarTKV6HHftGhmPf3FBhj5CWmC3Mb/PF3pYKWGEkNwM4F+nFJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbJC64Zb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789149276; c=relaxed/simple;
+	bh=718c23E9d7oT/x2jKtCFj3pLELHcM8mRFjdlM5cw6OM=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OZFtPCPD8nIaasfpSaGzsKjhpG3emPpftxAUBx7Bvps6wLgVDlVS3/tXkZAxCjK+ubjaNAwjH9vtuTWlAdmMx8YLcpwxwuWnp2e1p9C7kv2Rmu9IXK8w/Upi9eZhghsyP6LAIVB3S3R5YVCBRS4N0j81Ziiu+1rik68NdENrEh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHfEsfuL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbJC64Zb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88621F000FF;
-	Fri, 11 Sep 2026 15:07:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHfEsfuL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6F01F000FF;
+	Fri, 11 Sep 2026 17:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789139222;
-	bh=dumtvvNlzHdMjdEmvI1ZvztP2C/VFwH4zITPO8Dd78E=;
-	h=Date:From:To:Cc:Subject;
-	b=EbJC64ZbRqbYTVaYMNp4IXgNT9cF6jaB5piLED0IUOvs1onrwd1XAS7IWchprzO47
-	 CZ8nd73qy28vmRkkyZ9UQw3TQ57FN2HM/4SltWKTtXvmfbDfHYS50VCDglOI7Xwvi5
-	 0MBf/pg6kX5zrc8joQcsCiB2Na4pKUjBJYepuvO+3tQ4RRhi1tgdGHvrISjQQcctos
-	 a+iAl9N+ST+XvK9tsB2n3Uqca8Ut/N9HtQfItggq5tvQmspjiwv60CVUutG/Lq2DqZ
-	 iO7XKNRRdkiyGgGP75xmZNW3RE7IwY8EWZVJcl5L7GUVzWQonD4bx+irCC6FTQyfay
-	 sFa31IMcleIeg==
-Date: Fri, 11 Sep 2026 17:06:58 +0200
+	s=k20260515; t=1789149274;
+	bh=HbjUsMtZUl68MRlx6qgfBlK1NkNzMBVc/zpgB2pcYbk=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=BHfEsfuLtFILnfUgDVUOgjwLFBZohSUOAWsIPlqQoc30gYdaES5IXFr/cXx5HQhuK
+	 ZdQKaBKHQb+e/FCjRTF8hz0xXB7BdMu9id6FSeL4Sb9Tuk8xXoNGoXhjKlMZSyZER+
+	 3Ggf8mMxviO59wc72y6IGbFkUNJlt6DfivAbwmnWMHxA8rt5IQIPA1shn4H1dVYZeD
+	 k7sLxuU1soUHHtLaRxonIeQQ/cvaJS4Me30pS1KkUr2Jyf2yKQHLs0I2bo5QTbLCiN
+	 4taV+mxc6YGAd2MVBLPzH7n8s/L2rpd3CtGD0GhwWtISDnLQH1h/N6rgQJvUa4KtZB
+	 qsAvqU09TqO/Q==
+Date: Fri, 11 Sep 2026 19:54:31 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	astian <astian@memeware.net>, Andreas Jaeger <aj@suse.de>, 
-	Linux-Arch <linux-arch@vger.kernel.org>
-Subject: [PATCH v1] man/man2/outb.2: STANDARDS: Document that this is
- Linux-only, and specifically, x86- and alpha-only.
-Message-ID: <ceea4a6d8238e5bf6090586cafdf60de8dd247b9.1789139207.git.alx@kernel.org>
-X-Mailer: git-send-email 2.55.0
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v1] share/mk/: Use suffix rules where possible
+Message-ID: <aqQ1tJR43K-72xMV@devuan>
+References: <9a74fe43cf61f80f253e1401b547296b6f97c44a.1788101363.git.alx@kernel.org>
+ <apRfmYBBPy0S8IAI@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -43,78 +41,652 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5qjbnvrp2q5nal4j"
+	protocol="application/pgp-signature"; boundary="ecg4iyva5uze6fvz"
 Content-Disposition: inline
+In-Reply-To: <apRfmYBBPy0S8IAI@devuan>
 
 
---5qjbnvrp2q5nal4j
+--ecg4iyva5uze6fvz
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	astian <astian@memeware.net>, Andreas Jaeger <aj@suse.de>, 
-	Linux-Arch <linux-arch@vger.kernel.org>
-Subject: [PATCH v1] man/man2/outb.2: STANDARDS: Document that this is
- Linux-only, and specifically, x86- and alpha-only.
-Message-ID: <ceea4a6d8238e5bf6090586cafdf60de8dd247b9.1789139207.git.alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v1] share/mk/: Use suffix rules where possible
+Message-ID: <aqQ1tJR43K-72xMV@devuan>
+References: <9a74fe43cf61f80f253e1401b547296b6f97c44a.1788101363.git.alx@kernel.org>
+ <apRfmYBBPy0S8IAI@devuan>
 MIME-Version: 1.0
+In-Reply-To: <apRfmYBBPy0S8IAI@devuan>
 
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
-Message-Id: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
-Cc: astian <astian@memeware.net>
-Cc: Andreas Jaeger <aj@suse.de>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
- man/man2/outb.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[CC trimmed; To =3D Lorenzo]
 
-diff --git a/man/man2/outb.2 b/man/man2/outb.2
-index ba87455b121f..3a01bae1f2e5 100644
---- a/man/man2/outb.2
-+++ b/man/man2/outb.2
-@@ -73,14 +73,14 @@ .SH DESCRIPTION
- .SH VERSIONS
- .BR outb ()
- and friends are hardware-specific.
- The
- .I value
- argument is passed first and the
- .I port
- argument is passed second,
- which is the opposite order from most DOS implementations.
- .SH STANDARDS
--None.
-+Linux (x86, alpha).
- .SH SEE ALSO
- .BR ioperm (2),
- .BR iopl (2)
+Hi Lorenzo,
 
-base-commit: c949d123cd0c00bdd027fac3179d7ef35af132ba
+I've seen the news from <https://lwn.net/Articles/1093398/>, and thought
+this recent experiment in the build system of the Linux man-pages
+project might seem relevant to you.
+
+> Date: 2026-08-30 18:55:19+0200
+> From: Alejandro Colomar <alx@kernel.org>
+>
+> Hi Ingo,
+>=20
+> > Date: 2026-08-30 16:51:24+0200
+> > From: Alejandro Colomar <alx@kernel.org>
+> >
+> > Ingo complained that the size of the database is huge.  We can't make it
+> > much smaller than this, but at least we can shrink it to one third.
+> >=20
+> > Using suffix rules, we avoid having an explicit copy of the file list
+> > in the rules, and thus optimizes the makefiles so that make(1)'s
+> > database shrinks to around 1/3rd of the size.  The time for running
+> > 'make nothing' also improves from ~ 0.45 s to ~ 0.33 s in my computer.
+>=20
+> While this optimizes the size of make(1)'s database, and the run-time
+> of the configuration part (everything before the targets start running),
+> the actual work of the build is slowed down by orders of magnitude
+> (I suspect associating targets with suffix rules is more expensive than
+>  explicit rules).  Thus, I've dropped this change.  I can live with a
+> somewhat-larger database, and make(1) seems to be fast with it.
+
+The Linux man-pages Makefile-only build system uses explicit rules
+everywhere, listing all target files in our makefile rules.  We use
+'static pattern rules' almost everywhere.
+<https://www.gnu.org/software/make/manual/html_node/Static-Pattern.html>
+
+Here's for example the rule we use to build the C programs in the
+EXAMPLES sections of manual pages:
+
+	ext ::=3D .o
+	xfail ::=3D $(MAKEFILEDIR)/build/examples/cc.xfail
+
+	tgts ::=3D $(patsubst %.c, %$(ext), $(_EX_TU_c))
+	ifeq ($(SKIP_XFAIL),yes)
+	tgts ::=3D $(filter-out $(patsubst %.c, $(_MANDIR)/%$(ext), $(file < $(xfa=
+il))), $(tgts))
+	endif
+
+
+	_EX_TU_o ::=3D $(tgts)
+
+
+	$(_EX_TU_o): %$(ext): %.c $(MK)
+		$(info	$(INFO_)CC		$@)
+		$(CC) -c $(CFLAGS_) $(CPPFLAGS_) -o $@ $<
+
+Recently (as shown in the quoted text above), I thought using regular
+'pattern rules' might improve the build times, as the database used by
+make(1) wouldn't need expanding all that text at once when defining the
+rules, and indeed reduces that database to 1/3rd of the original size.
+However, after trying it, the build times of a full build worsened by
+orders of magnitude, and the time of a no-op build was only reduced by
+fractions of a second (since it only takes a fraction of a second in the
+first place).
+
+I believe 'static pattern rules' go through simpler decision paths
+within make(1), which might be the reason for the performance
+differences I've experimented.
+
+=46rom what I've seen, the kernel seems to use regular 'pattern rules'
+extensively.  I wonder if moving to 'static pattern rules' would bring
+a benefit similar to the one we experience in the Linux man-pages
+project.
+
+Another important thing is that the build system of the Linux man-pages
+uses a single make(1) process to build (i.e., we don't use recursive
+make(1)).  That makes it parallelize better.  I'm not sure whether the
+kernel makefiles are recursive (for the main build) and how much that
+affects the kernel build.  It might be something to check too, as I
+remember it was very impactful.  Recursive make(1) is considered harmful
+by some (I agree, IME).
+
+
+Have a lovely day!
+Alex
+
+> Cheers,
+> Alex
+>=20
+> >=20
+> > Reported-by: Ingo Schwarze <schwarze@openbsd.org>
+> > Message-ID: <apL7VAruk1bIOr1M@isnote.usta.de>
+> > Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> > ---
+> >=20
+> > Hi Ingo,
+> >=20
+> > Here's an optimization for the man-pages' build system.  Would you mind
+> > checking if this also shows similar improvements in your system?
+> >=20
+> >=20
+> > Have a lovely day!
+> > Alex
+> >=20
+> >  share/mk/build/catman/eqn.mk        |  2 +-
+> >  share/mk/build/catman/grotty.mk     |  2 +-
+> >  share/mk/build/catman/troff.mk      |  2 +-
+> >  share/mk/build/examples/cc.mk       |  2 +-
+> >  share/mk/build/examples/dir.mk      |  2 +-
+> >  share/mk/build/html/post-grohtml.mk |  2 +-
+> >  share/mk/build/html/troff.mk        |  2 +-
+> >  share/mk/build/pdf/pages/eqn.mk     |  2 +-
+> >  share/mk/build/pdf/pages/troff.mk   |  2 +-
+> >  share/mk/build/pre/preconv.mk       |  2 +-
+> >  share/mk/build/pre/tbl.mk           |  2 +-
+> >  share/mk/build/ps/eqn.mk            |  2 +-
+> >  share/mk/build/ps/grops.mk          |  2 +-
+> >  share/mk/build/ps/troff.mk          |  2 +-
+> >  share/mk/check/catman/col.mk        |  2 +-
+> >  share/mk/check/catman/grep.mk       |  2 +-
+> >  share/mk/lint/c/clang-tidy.mk       | 11 ++---------
+> >  share/mk/lint/c/cppcheck.mk         | 11 ++---------
+> >  share/mk/lint/c/cpplint.mk          | 10 ++--------
+> >  share/mk/lint/c/iwyu.mk             | 11 ++---------
+> >  share/mk/lint/man/blank.mk          |  2 +-
+> >  share/mk/lint/man/dash.mk           |  2 +-
+> >  share/mk/lint/man/mandoc.mk         |  2 +-
+> >  share/mk/lint/man/poems.mk          |  2 +-
+> >  share/mk/lint/man/quote.mk          |  2 +-
+> >  share/mk/lint/man/so.mk             |  2 +-
+> >  share/mk/lint/man/ws.mk             |  2 +-
+> >  27 files changed, 31 insertions(+), 58 deletions(-)
+> >=20
+> > diff --git a/share/mk/build/catman/eqn.mk b/share/mk/build/catman/eqn.mk
+> > index 895662ac3710..e2830dab53ac 100644
+> > --- a/share/mk/build/catman/eqn.mk
+> > +++ b/share/mk/build/catman/eqn.mk
+> > @@ -18,7 +18,7 @@ ext ::=3D .cat.troff
+> >  _CATMAN_troff ::=3D $(patsubst %.eqn, %$(ext), $(_MAN_eqn))
+> > =20
+> > =20
+> > -$(_CATMAN_troff): %$(ext): %.eqn $(MK) | $$(@D)/
+> > +%$(ext): %.eqn $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)EQN		$@)
+> >  	! ($(EQN) -T$(NROFF_OUT_DEVICE) $(EQNFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/build/catman/grotty.mk b/share/mk/build/catman/gr=
+otty.mk
+> > index 66151b6cee93..a578edbeb191 100644
+> > --- a/share/mk/build/catman/grotty.mk
+> > +++ b/share/mk/build/catman/grotty.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .cat
+> >  _CATMAN ::=3D $(patsubst %.cat.set, %$(ext), $(_CATMAN_set))
+> > =20
+> > =20
+> > -$(_CATMAN): %$(ext): %.cat.set $(MK) | $$(@D)/
+> > +%$(ext): %.cat.set $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GROTTY		$@)
+> >  	$(GROTTY) $(GROTTYFLAGS_) <$< >$@
+> > =20
+> > diff --git a/share/mk/build/catman/troff.mk b/share/mk/build/catman/tro=
+ff.mk
+> > index 07e315327278..fc5bf0c18de8 100644
+> > --- a/share/mk/build/catman/troff.mk
+> > +++ b/share/mk/build/catman/troff.mk
+> > @@ -28,7 +28,7 @@ endif
+> >  _CATMAN_set ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_CATMAN_set): %$(ext): %.cat.troff $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): %.cat.troff $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)TROFF		$@)
+> >  	! ($(TROFF) -mandoc $(TROFFFLAGS_) $(NROFFFLAGS_) <$< 2>&1 >$@ \
+> >  	   | $(GREP) -v -f '$(filter %.grep, $^)' \
+> > diff --git a/share/mk/build/examples/cc.mk b/share/mk/build/examples/cc=
+=2Emk
+> > index 680b80f3e832..5806d8de0118 100644
+> > --- a/share/mk/build/examples/cc.mk
+> > +++ b/share/mk/build/examples/cc.mk
+> > @@ -25,7 +25,7 @@ endif
+> >  _EX_TU_o ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_EX_TU_o): %$(ext): %.c $(MK)
+> > +%$(ext): %.c $(MK)
+> >  	$(info	$(INFO_)CC		$@)
+> >  	$(CC) -c $(CFLAGS_) $(CPPFLAGS_) -o $@ $<
+> > =20
+> > diff --git a/share/mk/build/examples/dir.mk b/share/mk/build/examples/d=
+ir.mk
+> > index 10286c73bc0c..9782ad300193 100644
+> > --- a/share/mk/build/examples/dir.mk
+> > +++ b/share/mk/build/examples/dir.mk
+> > @@ -14,7 +14,7 @@ include $(MAKEFILEDIR)/configure/build-depends/coreut=
+ils/touch.mk
+> >  _PAGEEXDIRS ::=3D $(patsubst %, %.d/, $(_NONSO))
+> > =20
+> > =20
+> > -$(_PAGEEXDIRS):
+> > +%.d/:
+> >  	+$(info	$(INFO_)MKDIR		$@)
+> >  	+$(MKDIR) -p $@
+> >  	+$(TOUCH) $@
+> > diff --git a/share/mk/build/html/post-grohtml.mk b/share/mk/build/html/=
+post-grohtml.mk
+> > index 0c96a78609d8..fa886f09d0d8 100644
+> > --- a/share/mk/build/html/post-grohtml.mk
+> > +++ b/share/mk/build/html/post-grohtml.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .html
+> >  _HTMLMAN ::=3D $(patsubst %.html.set, %$(ext), $(_HTMLMAN_set))
+> > =20
+> > =20
+> > -$(_HTMLMAN): %$(ext): %.html.set $(MK) | $$(@D)/
+> > +%$(ext): %.html.set $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)POST_GROHTML	$@)
+> >  	$(POST_GROHTML) $(POST_GROHTMLFLAGS_) <$< >$@
+> > =20
+> > diff --git a/share/mk/build/html/troff.mk b/share/mk/build/html/troff.mk
+> > index b6c1e659b7e4..6bdf9db1dbfa 100644
+> > --- a/share/mk/build/html/troff.mk
+> > +++ b/share/mk/build/html/troff.mk
+> > @@ -25,7 +25,7 @@ endif
+> >  _HTMLMAN_set ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_HTMLMAN_set): %$(ext): %.eqn $(MK) | $$(@D)/
+> > +%$(ext): %.eqn $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)TROFF		$@)
+> >  	! ($(TROFF) -mandoc -Thtml $(TROFFFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/build/pdf/pages/eqn.mk b/share/mk/build/pdf/pages=
+/eqn.mk
+> > index 6ef945af3e10..49b1a72c6b08 100644
+> > --- a/share/mk/build/pdf/pages/eqn.mk
+> > +++ b/share/mk/build/pdf/pages/eqn.mk
+> > @@ -17,7 +17,7 @@ ext ::=3D .pdf.troff
+> >  _PDFMAN_troff ::=3D $(patsubst %.eqn, %$(ext), $(_MAN_eqn))
+> > =20
+> > =20
+> > -$(_PDFMAN_troff): %$(ext): %.eqn $(MK) | $$(@D)/
+> > +%$(ext): %.eqn $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)EQN		$@)
+> >  	! ($(EQN) -Tpdf $(EQNFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/build/pdf/pages/troff.mk b/share/mk/build/pdf/pag=
+es/troff.mk
+> > index e4c4d347fe6c..550168646d5b 100644
+> > --- a/share/mk/build/pdf/pages/troff.mk
+> > +++ b/share/mk/build/pdf/pages/troff.mk
+> > @@ -25,7 +25,7 @@ endif
+> >  _PDFMAN_set ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_PDFMAN_set): %$(ext): %.pdf.troff $(MK) | $$(@D)/
+> > +%$(ext): %.pdf.troff $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)TROFF		$@)
+> >  	! ($(TROFF) -mandoc -Tpdf $(TROFFFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/build/pre/preconv.mk b/share/mk/build/pre/preconv=
+=2Emk
+> > index d19d12d261d7..e3dde5981949 100644
+> > --- a/share/mk/build/pre/preconv.mk
+> > +++ b/share/mk/build/pre/preconv.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .tbl
+> >  _MAN_tbl ::=3D $(patsubst %, %$(ext), $(_NONSO))
+> > =20
+> > =20
+> > -$(_MAN_tbl): %$(ext): % $(MK) | $$(@D)/
+> > +%$(ext): % $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)PRECONV		$@)
+> >  	$(PRECONV) $(PRECONVFLAGS_) $< >$@
+> > =20
+> > diff --git a/share/mk/build/pre/tbl.mk b/share/mk/build/pre/tbl.mk
+> > index 5883b6ec0c80..0375b958ff05 100644
+> > --- a/share/mk/build/pre/tbl.mk
+> > +++ b/share/mk/build/pre/tbl.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .eqn
+> >  _MAN_eqn ::=3D $(patsubst %.tbl, %$(ext), $(_MAN_tbl))
+> > =20
+> > =20
+> > -$(_MAN_eqn): %$(ext): %.tbl $(MK) | $$(@D)/
+> > +%$(ext): %.tbl $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)TBL		$@)
+> >  	$(TBL) <$< >$@
+> > =20
+> > diff --git a/share/mk/build/ps/eqn.mk b/share/mk/build/ps/eqn.mk
+> > index 315bed0e4cde..18c885655c99 100644
+> > --- a/share/mk/build/ps/eqn.mk
+> > +++ b/share/mk/build/ps/eqn.mk
+> > @@ -17,7 +17,7 @@ ext ::=3D .ps.troff
+> >  _PSMAN_troff ::=3D $(patsubst %.eqn, %$(ext), $(_MAN_eqn))
+> > =20
+> > =20
+> > -$(_PSMAN_troff): %$(ext): %.eqn $(MK) | $$(@D)/
+> > +%$(ext): %.eqn $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)EQN		$@)
+> >  	! ($(EQN) -Tps $(EQNFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/build/ps/grops.mk b/share/mk/build/ps/grops.mk
+> > index 463c7bac6f08..4b85b6a96854 100644
+> > --- a/share/mk/build/ps/grops.mk
+> > +++ b/share/mk/build/ps/grops.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .ps
+> >  _PSMAN ::=3D $(patsubst %.ps.set, %$(ext), $(_PSMAN_set))
+> > =20
+> > =20
+> > -$(_PSMAN): %$(ext): %.ps.set $(MK) | $$(@D)/
+> > +%$(ext): %.ps.set $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GROPS		$@)
+> >  	$(GROPS) $(GROPSFLAGS_) <$< >$@
+> > =20
+> > diff --git a/share/mk/build/ps/troff.mk b/share/mk/build/ps/troff.mk
+> > index 851fb971faf3..8137014fe9e9 100644
+> > --- a/share/mk/build/ps/troff.mk
+> > +++ b/share/mk/build/ps/troff.mk
+> > @@ -25,7 +25,7 @@ endif
+> >  _PSMAN_set ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_PSMAN_set): %$(ext): %.ps.troff $(MK) | $$(@D)/
+> > +%$(ext): %.ps.troff $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)TROFF		$@)
+> >  	! ($(TROFF) -mandoc -Tps $(TROFFFLAGS_) <$< 2>&1 >$@) \
+> >  	| $(GREP) ^ >&2
+> > diff --git a/share/mk/check/catman/col.mk b/share/mk/check/catman/col.mk
+> > index 25b8b6e154a6..de326d989183 100644
+> > --- a/share/mk/check/catman/col.mk
+> > +++ b/share/mk/check/catman/col.mk
+> > @@ -16,7 +16,7 @@ ext ::=3D .cat.grep
+> >  _CHECK_catman_grep ::=3D $(patsubst %.cat, %$(ext), $(_CATMAN))
+> > =20
+> > =20
+> > -$(_CHECK_catman_grep): %$(ext): %.cat $(MK) | $$(@D)/
+> > +%$(ext): %.cat $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)COL		$@)
+> >  	$(COL) $(COLFLAGS_) <$< >$@
+> > =20
+> > diff --git a/share/mk/check/catman/grep.mk b/share/mk/check/catman/grep=
+=2Emk
+> > index bcfa1a134459..2fce886ae920 100644
+> > --- a/share/mk/check/catman/grep.mk
+> > +++ b/share/mk/check/catman/grep.mk
+> > @@ -25,7 +25,7 @@ endif
+> >  _CHECK_catman ::=3D $(tgts)
+> > =20
+> > =20
+> > -$(_CHECK_catman): %.check-catman.touch: %.cat.grep $(MK) | $$(@D)/
+> > +%.check-catman.touch: %.cat.grep $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GREP		$@)
+> >  	! $(GREP) -n '.\{$(MANWIDTH)\}.' $< /dev/null >&2
+> >  	$(TOUCH) $@
+> > diff --git a/share/mk/lint/c/clang-tidy.mk b/share/mk/lint/c/clang-tidy=
+=2Emk
+> > index 8333c8ace12c..d992b956baf3 100644
+> > --- a/share/mk/lint/c/clang-tidy.mk
+> > +++ b/share/mk/lint/c/clang-tidy.mk
+> > @@ -24,14 +24,8 @@ ifeq ($(SKIP_XFAIL),yes)
+> >  tgts_EX ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(ext), $(file < =
+$(xfail))), $(tgts_EX))
+> >  endif
+> > =20
+> > -tgts ::=3D $(tgts_EX)
+> > =20
+> > -
+> > -$(tgts_EX): %$(ext): %
+> > -$(tgts): $(CLANG_TIDY_CONF) $(MK) | $$(@D)/
+> > -
+> > -
+> > -$(tgts):
+> > +%$(ext): % $(CLANG_TIDY_CONF) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)CLANG_TIDY	$@)
+> >  	$(CLANG_TIDY) $(CLANG_TIDYFLAGS_) $< -- $(CLANGFLAGS_) $(CPPFLAGS_) 2=
+>&1 \
+> >  	| $(SED) '/generated\.$$/d' >&2
+> > @@ -39,13 +33,12 @@ $(tgts):
+> > =20
+> > =20
+> >  .PHONY: lint-c-clang-tidy
+> > -lint-c-clang-tidy: $(tgts);
+> > +lint-c-clang-tidy: $(tgts_EX);
+> > =20
+> > =20
+> >  undefine ext
+> >  undefine xfail
+> >  undefine tgts_EX
+> > -undefine tgts
+> > =20
+> > =20
+> >  endif  # include guard
+> > diff --git a/share/mk/lint/c/cppcheck.mk b/share/mk/lint/c/cppcheck.mk
+> > index c377120e4fa1..3952414c9cfd 100644
+> > --- a/share/mk/lint/c/cppcheck.mk
+> > +++ b/share/mk/lint/c/cppcheck.mk
+> > @@ -21,27 +21,20 @@ ifeq ($(SKIP_XFAIL),yes)
+> >  tgts_EX ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(ext), $(file < =
+$(xfail))), $(tgts_EX))
+> >  endif
+> > =20
+> > -tgts ::=3D $(tgts_EX)
+> > =20
+> > -
+> > -$(tgts_EX): %$(ext): %
+> > -$(tgts): $(CPPCHECK_SUPPRESS) $(MK) | $$(@D)/
+> > -
+> > -
+> > -$(tgts):
+> > +%$(ext): % $(CPPCHECK_SUPPRESS) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)CPPCHECK	$@)
+> >  	$(CPPCHECK) $(CPPCHECKFLAGS_) $<
+> >  	$(TOUCH) $@
+> > =20
+> > =20
+> >  .PHONY: lint-c-cppcheck
+> > -lint-c-cppcheck: $(tgts);
+> > +lint-c-cppcheck: $(tgts_EX);
+> > =20
+> > =20
+> >  undefine ext
+> >  undefine xfail
+> >  undefine tgts_EX
+> > -undefine tgts
+> > =20
+> > =20
+> >  endif  # include guard
+> > diff --git a/share/mk/lint/c/cpplint.mk b/share/mk/lint/c/cpplint.mk
+> > index 6a714bc315ad..9ecef7f45553 100644
+> > --- a/share/mk/lint/c/cpplint.mk
+> > +++ b/share/mk/lint/c/cpplint.mk
+> > @@ -13,26 +13,20 @@ include $(MAKEFILEDIR)/configure/build-depends/cppl=
+int/cpplint.mk
+> > =20
+> >  ext ::=3D .lint-c.cpplint.touch
+> >  tgts_EX ::=3D $(patsubst %, %$(ext), $(_EX_TU_src))
+> > -tgts    ::=3D $(tgts_EX)
+> > =20
+> > =20
+> > -$(tgts_EX): %$(ext): %
+> > -$(tgts): $(CPPLINT_CONF) $(MK) | $$(@D)/
+> > -
+> > -
+> > -$(tgts):
+> > +%$(ext): % $(CPPLINT_CONF) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)CPPLINT		$@)
+> >  	$(CPPLINT) $(CPPLINTFLAGS_) $< >/dev/null
+> >  	$(TOUCH) $@
+> > =20
+> > =20
+> >  .PHONY: lint-c-cpplint
+> > -lint-c-cpplint: $(tgts);
+> > +lint-c-cpplint: $(tgts_EX);
+> > =20
+> > =20
+> >  undefine ext
+> >  undefine tgts_EX
+> > -undefine tgts
+> > =20
+> > =20
+> >  endif  # include guard
+> > diff --git a/share/mk/lint/c/iwyu.mk b/share/mk/lint/c/iwyu.mk
+> > index e4477dbfac58..03bc68f55546 100644
+> > --- a/share/mk/lint/c/iwyu.mk
+> > +++ b/share/mk/lint/c/iwyu.mk
+> > @@ -27,14 +27,8 @@ ifeq ($(SKIP_XFAIL),yes)
+> >  tgts_EX ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(ext), $(file < =
+$(xfail))), $(tgts_EX))
+> >  endif
+> > =20
+> > -tgts ::=3D $(tgts_EX)
+> > =20
+> > -
+> > -$(tgts_EX): %$(ext): %
+> > -$(tgts): $(MK) | $$(@D)/
+> > -
+> > -
+> > -$(tgts):
+> > +%$(ext): % $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)IWYU		$@)
+> >  	! ($(IWYU) $(IWYUFLAGS_) $(CLANGFLAGS_) $(CPPFLAGS_) $< 2>&1 \
+> >  	   | $(SED) -n '/should add these lines:/,$$p' \
+> > @@ -48,13 +42,12 @@ $(tgts):
+> > =20
+> > =20
+> >  .PHONY: lint-c-iwyu
+> > -lint-c-iwyu: $(tgts);
+> > +lint-c-iwyu: $(tgts_EX);
+> > =20
+> > =20
+> >  undefine ext
+> >  undefine xfail
+> >  undefine tgts_EX
+> > -undefine tgts
+> > =20
+> > =20
+> >  endif  # include guard
+> > diff --git a/share/mk/lint/man/blank.mk b/share/mk/lint/man/blank.mk
+> > index f8eca7ac86b7..8fc7ad4be0a8 100644
+> > --- a/share/mk/lint/man/blank.mk
+> > +++ b/share/mk/lint/man/blank.mk
+> > @@ -22,7 +22,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(MK) | $$(@D)/
+> > +%$(ext): % $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GREP		$@)
+> >  	$(CAT) <$< \
+> >  	| if $(GREP) '^$$' >/dev/null; then \
+> > diff --git a/share/mk/lint/man/dash.mk b/share/mk/lint/man/dash.mk
+> > index 85307af0e449..d82ac734880d 100644
+> > --- a/share/mk/lint/man/dash.mk
+> > +++ b/share/mk/lint/man/dash.mk
+> > @@ -21,7 +21,7 @@ regexf ::=3D $(MAKEFILEDIR)/lint/man/dash.pcre2grep
+> >  tgts ::=3D $(patsubst %, %$(ext), $(_NONSO))
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): % $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)PCRE2GREP	$@)
+> >  	$(CAT) <$< \
+> >  	| if $(PCRE2GREP) -f '$(filter %.pcre2grep, $^)' >/dev/null; then \
+> > diff --git a/share/mk/lint/man/mandoc.mk b/share/mk/lint/man/mandoc.mk
+> > index 5c24ca66ee7a..d96f94439933 100644
+> > --- a/share/mk/lint/man/mandoc.mk
+> > +++ b/share/mk/lint/man/mandoc.mk
+> > @@ -25,7 +25,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): % $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)MANDOC		$@)
+> >  	! ($(MANDOC) $(MANDOCFLAGS_) $< 2>&1 \
+> >  	   | $(GREP) -v -f '$(filter %.grep, $^)' \
+> > diff --git a/share/mk/lint/man/poems.mk b/share/mk/lint/man/poems.mk
+> > index b7ee792f346c..b0e799d2997a 100644
+> > --- a/share/mk/lint/man/poems.mk
+> > +++ b/share/mk/lint/man/poems.mk
+> > @@ -25,7 +25,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): % $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)PCRE2GREP	$@)
+> >  	$(CAT) <$< \
+> >  	| if $(PCRE2GREP) -f '$(filter %.pcre2grep, $^)' >/dev/null; then \
+> > diff --git a/share/mk/lint/man/quote.mk b/share/mk/lint/man/quote.mk
+> > index 3aca334967c0..86bc397c1d2b 100644
+> > --- a/share/mk/lint/man/quote.mk
+> > +++ b/share/mk/lint/man/quote.mk
+> > @@ -23,7 +23,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): % $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GREP		$@)
+> >  	$(CAT) <$< \
+> >  	| if $(GREP) -Pf $(filter %.Pgrep, $^) >/dev/null; then \
+> > diff --git a/share/mk/lint/man/so.mk b/share/mk/lint/man/so.mk
+> > index 09b7816ae38f..cf8d6776e15d 100644
+> > --- a/share/mk/lint/man/so.mk
+> > +++ b/share/mk/lint/man/so.mk
+> > @@ -24,7 +24,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(MK) | $$(@D)/
+> > +%$(ext): % $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)FIND		$@)
+> >  	$(GREP) '^\.so ' <$< \
+> >  	| $(CUT) -f2 -d' ' \
+> > diff --git a/share/mk/lint/man/ws.mk b/share/mk/lint/man/ws.mk
+> > index 7fd3bb69361d..2f587fc4e6ea 100644
+> > --- a/share/mk/lint/man/ws.mk
+> > +++ b/share/mk/lint/man/ws.mk
+> > @@ -23,7 +23,7 @@ tgts ::=3D $(filter-out $(patsubst %, $(_MANDIR)/%$(e=
+xt), $(file < $(xfail))), $(t
+> >  endif
+> > =20
+> > =20
+> > -$(tgts): %$(ext): % $(regexf) $(MK) | $$(@D)/
+> > +%$(ext): % $(regexf) $(MK) | $$(@D)/
+> >  	$(info	$(INFO_)GREP		$@)
+> >  	$(CAT) <$< \
+> >  	| if $(GREP) -Ef $(filter %.egrep, $^) >/dev/null; then \
+> >=20
+> > Range-diff against v0:
+> > -:  ------------ > 1:  9a74fe43cf61 share/mk/: Use suffix rules where p=
+ossible
+> > --=20
+> > 2.53.0
+> >=20
+>=20
+>=20
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
+
+
+
 --=20
-2.55.0
+<https://www.alejandro-colomar.es>
 
-
---5qjbnvrp2q5nal4j
+--ecg4iyva5uze6fvz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqkGRIACgkQ64mZXMKQ
-wqka6w//VJs58d70kS02Jii8T8ZTNQ3Ek9AOY98cHB02zJkmbQn1FklOq6D7X+JJ
-v2GmguGjPW3cWHlCcaH6Nfiu+VbQeTTRnCveBqS3rpI1xQKJlPcuzk1sUKfrkZMd
-q5QvlWOT3U6Gei9o98cfNXkNVVXuvVCjsAF5QxICLd+Egi4yd6o/RZ765smtvZD6
-EFegGkD1l9vp1Hu6VogAHZcvdLJ5em4P2FQVqz20jkN+SHDn6cjfbwMBgoKDvqhO
-/NGPTcK1Zirc0YHLKC4JysO7SnDAZSiKrpUQQKo9nwDdMiKjzbA1OVHNOh2D0RAm
-g7O21eprxcvEipodVkB7dQ1OVxRcndhZ9xXAVgs79T3Y7Bz6HqXjQ9rpacMX0dWx
-62hFjD5Jio9MAayIM+rWZ3UZR+qXNnbRqhD7Ws+NxWt/8zvK5MC/FWwy/jZOOphj
-JLJCHpkKyZyOlejICwAhHGEJUGk9X9W8bJuCeo0qIMpdl0HnvJEK+daY/RymYCzV
-wSnNVXauy78McRCIy5qdgoT3L0IHQUeBykTHq0WLbsHuaI0rnD8+cdyPZN6DzYMV
-su9jNoO+pP+CnlyfncKoWrj19v/BUrnoTWR6fV2N7kytQc4Mm0jgmKsO+tERugCu
-qnu/EoVax9DF8ljbum4zcbePmBkSCnyedMJTX/cUE5mYPV9wzoE=
-=4ixk
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqkQFEACgkQ64mZXMKQ
+wqnOURAAgHyHQVzGFnaa62IhFukFNr6EbrEesgRLJ4sONMJKIykWIQpDKDu3a+CS
+hnIKpg3qTfJdJsIJz482/g+/7Yi/1t1e/SpEytGBqIMR1MdustqShfJeJq4vbx6k
+GJl4+KcWtAGUaRoj/eh/4RHFqWCOFvVn3If5fuEbPnfc5mWn5yehRXoBER0a01z8
+Dm/RF4Ynf0K2JTV6I4al1DITCnprsrTzvcKrvBfzBgTZXs14ikHpqS3pG8+a7YLR
+bqWNsQWgMjPDi2dfB5gmhM85qssQahUunE36rlNgW185VG12BTkWEYaVCfJCsqPI
+4sRfSfobF8FUSLv6YxO5CAOZtuBWrhSF8l/uotdyLoXmHbQpDHhyYCbUY9kRUqL3
+c4LidzTbQKY/OX/0hy5rvc5p2/pz3cghePeyFwAuXpkI1qwT6qm+YHnEabtuklMM
+9nw8k7fX+wHwmVFzr6DQ966+5EQjdxrek0QbzO3/9Tu3KAz/KFZFLH0a89FCX8zq
+74wl64A6WiVKQw1E2qDHdD28qQ7OvTaPeoXEW1vhbUWcWMVEUUi4PmO18eGVt3l0
+KnXHxiYTdayh7zpSenBqbR+F9e1Pk9zG01ePy4AlLFp/bhf8l7xqeYSpfsDu8zNP
+7vG4Ot9PBArbPBdATbqJNafaNuC5s+eD5J9KqhDCCSAWOHb/auY=
+=miUE
 -----END PGP SIGNATURE-----
 
---5qjbnvrp2q5nal4j--
+--ecg4iyva5uze6fvz--
