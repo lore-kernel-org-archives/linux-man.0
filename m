@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A09C2F3632;
-	Fri, 11 Sep 2026 12:54:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DD2365A0F;
+	Fri, 11 Sep 2026 15:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131253; cv=none; b=EohAHzRfjtdHWOY/U9TfjlftK5dncV1JU+B4njPVRoIv9TOcP2NRRB96ctxW9AConFIOwUT++5V/OC++Pqa2rSYSTLRMLl/aWPi/FHJ3xVaQnSCHnwpowIwwSJL0KBla+yrjdWi0lKevxmbiyomrxj/Ii8Pw2Kf8jHQw1cFY4LY=
+	t=1789139223; cv=none; b=HIa+7KjN5jf/KL9xnaAjLyHjrMVEeth8/OdJ3w/fhq/YNansOTp7fI6LWWiZeinN5Hp0YZr8zKx/ANA6ivxQyHVSY8ry1p/h6C8npxwnSx6YSMHtei+5/8KiuZUyhVeoIndP0Wga0TOMZsxatMzz1pR/AgHJQ/f25jnEs2inP0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131253; c=relaxed/simple;
-	bh=vmU9Dno4g9w5n0bGOE1W0Dp7oYJdxcLp+RMsbZV0yKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMNV649TYiGxwhr+8fpQ1cRt7aaIJX0//Hj7ci9/5vfKD/mZdZFbzeeiSANhBTvZ+yN76wHz2E5cCaAsgtyaSv0l7ny8j2BnfKHBKINIiHPMgbkIHqxmWRLXetk5555jbC4AeGSU8pgwFQJsuAJ5NoApZBROpwm4hZJx0DExRjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iX9r7CT/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789139223; c=relaxed/simple;
+	bh=QN05eFoGOE6Mj05kEDJFXnD+mS8HvLu9j7+4owhkroQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dUqFVrgXEDuokfawkFxPC6gzexBh8+aGMhNabkU5OczNMTCdi26M/l+yYDuuCcJn8p8VO4x99vo585p0oYHC8MtnIOpDmyQjlnnRem64YlOOgD3Mh95teAOuyOarTKV6HHftGhmPf3FBhj5CWmC3Mb/PF3pYKWGEkNwM4F+nFJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbJC64Zb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iX9r7CT/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3361B1F00893;
-	Fri, 11 Sep 2026 12:54:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbJC64Zb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88621F000FF;
+	Fri, 11 Sep 2026 15:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789131251;
-	bh=Y12PtyNHuLG4wZ4glSRJ8LTvqHRVQ8wgV9JCM2xUR5k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iX9r7CT/1y8Q0LOcrodYBYyxXyv8NUTTNIFjXvcD2IBGfP/r53ijoKwzqXPuMM7Pt
-	 nHCtxeDYzzT9Ne2jeATiIvCv9pIrLHLf3FqDTOWyVTbLYAhC8fSA+TNQJqUBV121Ad
-	 T/VcoRtCYgwP7T3KBzfj1eFCCIXhNVyWqEqGW4Qgy5f+GfRwlxUbOXrJZ6fXSwvcyb
-	 0yI5u72cS/E02IX4R83bdDd4rXt+pps6y/W01uAnkGvkGZgjzRqGxsROp8mGMruP8y
-	 Ypz/wA1hhNw7M3QRXNvaq+EV6vmg7XgQpTKmtbVztr3tIS/86w2ckPQSJGuhQOe6Tb
-	 37Hmq3O+H0/CA==
-Date: Fri, 11 Sep 2026 14:54:08 +0200
+	s=k20260515; t=1789139222;
+	bh=dumtvvNlzHdMjdEmvI1ZvztP2C/VFwH4zITPO8Dd78E=;
+	h=Date:From:To:Cc:Subject;
+	b=EbJC64ZbRqbYTVaYMNp4IXgNT9cF6jaB5piLED0IUOvs1onrwd1XAS7IWchprzO47
+	 CZ8nd73qy28vmRkkyZ9UQw3TQ57FN2HM/4SltWKTtXvmfbDfHYS50VCDglOI7Xwvi5
+	 0MBf/pg6kX5zrc8joQcsCiB2Na4pKUjBJYepuvO+3tQ4RRhi1tgdGHvrISjQQcctos
+	 a+iAl9N+ST+XvK9tsB2n3Uqca8Ut/N9HtQfItggq5tvQmspjiwv60CVUutG/Lq2DqZ
+	 iO7XKNRRdkiyGgGP75xmZNW3RE7IwY8EWZVJcl5L7GUVzWQonD4bx+irCC6FTQyfay
+	 sFa31IMcleIeg==
+Date: Fri, 11 Sep 2026 17:06:58 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, astian <astian@memeware.net>, 
-	Andreas Jaeger <aj@suse.de>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v1] man/man2/outb.2: Remove obsolete note about optimizations
-Message-ID: <049db2a23b976fcef7fe1a667848724fa2067f07.1789131131.git.alx@kernel.org>
+Cc: Alejandro Colomar <alx@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	astian <astian@memeware.net>, Andreas Jaeger <aj@suse.de>, 
+	Linux-Arch <linux-arch@vger.kernel.org>
+Subject: [PATCH v1] man/man2/outb.2: STANDARDS: Document that this is
+ Linux-only, and specifically, x86- and alpha-only.
+Message-ID: <ceea4a6d8238e5bf6090586cafdf60de8dd247b9.1789139207.git.alx@kernel.org>
 X-Mailer: git-send-email 2.55.0
-References: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -43,99 +43,78 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cdkydfbvltlv2dhm"
+	protocol="application/pgp-signature"; boundary="5qjbnvrp2q5nal4j"
 Content-Disposition: inline
-In-Reply-To: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
 
 
---cdkydfbvltlv2dhm
+--5qjbnvrp2q5nal4j
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, astian <astian@memeware.net>, 
-	Andreas Jaeger <aj@suse.de>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v1] man/man2/outb.2: Remove obsolete note about optimizations
-Message-ID: <049db2a23b976fcef7fe1a667848724fa2067f07.1789131131.git.alx@kernel.org>
-References: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
+Cc: Alejandro Colomar <alx@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	astian <astian@memeware.net>, Andreas Jaeger <aj@suse.de>, 
+	Linux-Arch <linux-arch@vger.kernel.org>
+Subject: [PATCH v1] man/man2/outb.2: STANDARDS: Document that this is
+ Linux-only, and specifically, x86- and alpha-only.
+Message-ID: <ceea4a6d8238e5bf6090586cafdf60de8dd247b9.1789139207.git.alx@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
 
-It seems this was necessary due to an old glibc bug, fixed in glibc.git
-994cc0ea88ce (2000-08-23; "(_EXTERN_INLINE): Remove. Use static __inline
-instead of _EXTERN_INLINE.").
-
-Link: <https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D994cc0e=
-a88ce7a33d532b735c0723705742b1a7e>
-Reported-by: astian <astian@memeware.net>
-Reported-by: Alejandro Colomar <alx@kernel.org>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
+Cc: astian <astian@memeware.net>
 Cc: Andreas Jaeger <aj@suse.de>
 Cc: Linux-Arch <linux-arch@vger.kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
-
-Hi Arnd,
-
-Thanks for confirming!  I've taken that as an 'Acked-by'.
-
-I'll also prepare a commit for mentioning the non-portability, and the
-archs that support this.  Thanks for that suggestion!
-
-
-Have a lovely day!
-Alex
-
- man/man2/outb.2 | 9 ---------
- 1 file changed, 9 deletions(-)
+ man/man2/outb.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man/man2/outb.2 b/man/man2/outb.2
-index 98bd6bab4ffa..ba87455b121f 100644
+index ba87455b121f..3a01bae1f2e5 100644
 --- a/man/man2/outb.2
 +++ b/man/man2/outb.2
-@@ -62,15 +62,6 @@ .SH DESCRIPTION
- .\" in addition to that given in
- .\" .BR outb (9).
- .P
--You must compile with
--.B \-O
--or
--.B \-O2
--or similar.
--The functions
--are defined as inline macros, and will not be substituted in without
--optimization enabled, causing unresolved references at link time.
--.P
- You use
- .BR ioperm (2)
- or alternatively
+@@ -73,14 +73,14 @@ .SH DESCRIPTION
+ .SH VERSIONS
+ .BR outb ()
+ and friends are hardware-specific.
+ The
+ .I value
+ argument is passed first and the
+ .I port
+ argument is passed second,
+ which is the opposite order from most DOS implementations.
+ .SH STANDARDS
+-None.
++Linux (x86, alpha).
+ .SH SEE ALSO
+ .BR ioperm (2),
+ .BR iopl (2)
 
-base-commit: bd51589ffe65f720d9618bffef5da00938e9842e
+base-commit: c949d123cd0c00bdd027fac3179d7ef35af132ba
 --=20
 2.55.0
 
 
---cdkydfbvltlv2dhm
+--5qjbnvrp2q5nal4j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqj+fAACgkQ64mZXMKQ
-wqmR8A//RBm+MrVT9DrkbExfgyUqwuWYzyh4UpTAQbxhRJMC13l3TV+p2oENgfrF
-BzaVQnEr/X6G1TCLqTsqa+sJJ99XI6t7+rGT0VbpBpHvWaFGTR+hSMm6m9nqQ+w+
-+weCcZkkk5fGm8qiZciJNE4aGM66m26thQoqTg6PQowBnIfhe+j8bMzrq9EnkIPo
-a3uEWMZgTxlvIIKPfO56Pny+xGcvEcQy0LSSREU0Bq3x2bwPY4gYkSJnpcrx1SZ3
-yIDTkXApAB6WCkLZYr7RjkL0pHk2MeII2tTunZafZ1GG6WvF3cRS1BGn5XuH/+Uo
-PKp4d4IK3zku43wEAumH9zyZMRTgi5R+r7GuqwNIWacV6xLp16BxZddwzH8yDW4q
-mmKsS605tyjYZSX/Ro1xFFcJHYejclrR0DI9xYh6SLWm4F3NxWh/0WgUUzIak0YQ
-drgMpf/ATAbNmtPDQ4dEpaSX9FMlQbdNZq/0gPOTdF0blCRXCTOD+n3OUH5iEZ8M
-DjZi9vlizYE5a89oQEBEM1bveSzwh9IQE1pahurvDr+M9cSlztv3HVX6UCJe8zJF
-5m+EXhQQ4tLtGhgdsITKVJyVmKY3W2Jinmw93w/hhd5TIfbJ9g5kTRKije3Z1ezu
-phGeLPCCnVN/rivRrb59FeIm5XpKwkyfl994HBedHpFA4IBkXfg=
-=uO01
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqkGRIACgkQ64mZXMKQ
+wqka6w//VJs58d70kS02Jii8T8ZTNQ3Ek9AOY98cHB02zJkmbQn1FklOq6D7X+JJ
+v2GmguGjPW3cWHlCcaH6Nfiu+VbQeTTRnCveBqS3rpI1xQKJlPcuzk1sUKfrkZMd
+q5QvlWOT3U6Gei9o98cfNXkNVVXuvVCjsAF5QxICLd+Egi4yd6o/RZ765smtvZD6
+EFegGkD1l9vp1Hu6VogAHZcvdLJ5em4P2FQVqz20jkN+SHDn6cjfbwMBgoKDvqhO
+/NGPTcK1Zirc0YHLKC4JysO7SnDAZSiKrpUQQKo9nwDdMiKjzbA1OVHNOh2D0RAm
+g7O21eprxcvEipodVkB7dQ1OVxRcndhZ9xXAVgs79T3Y7Bz6HqXjQ9rpacMX0dWx
+62hFjD5Jio9MAayIM+rWZ3UZR+qXNnbRqhD7Ws+NxWt/8zvK5MC/FWwy/jZOOphj
+JLJCHpkKyZyOlejICwAhHGEJUGk9X9W8bJuCeo0qIMpdl0HnvJEK+daY/RymYCzV
+wSnNVXauy78McRCIy5qdgoT3L0IHQUeBykTHq0WLbsHuaI0rnD8+cdyPZN6DzYMV
+su9jNoO+pP+CnlyfncKoWrj19v/BUrnoTWR6fV2N7kytQc4Mm0jgmKsO+tERugCu
+qnu/EoVax9DF8ljbum4zcbePmBkSCnyedMJTX/cUE5mYPV9wzoE=
+=4ixk
 -----END PGP SIGNATURE-----
 
---cdkydfbvltlv2dhm--
+--5qjbnvrp2q5nal4j--
