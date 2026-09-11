@@ -1,208 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCC135F170;
-	Fri, 11 Sep 2026 11:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E892E542C;
+	Fri, 11 Sep 2026 12:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789127822; cv=none; b=oWC5uKokKIh0Ub5QKGrpS0tqSHxqesd0yH7ltgJg1QNCcAPLG11zRlL0JWaMUi8kUKJ08vtwJou1aecgn6A9xrmSQDzLcvGzXEqAb/tR8jjRyobxzmd6LMjwEEnTM+123s9+9hoWcK4CmGI7QgoTMwTmZOzByV5wVd/1GD549oA=
+	t=1789129254; cv=none; b=bQLfE51HhXLBuYfeyDdoHoIoNfoGCaoL4wth9Q0BkqEjdb9Psdel6664xWxOvPgLd7hzQerP4TKVLMYUx9DhZFBwfV1cMQ2aTbqWPS3ZSdSbTzbLZPJapAC1Vns2pN1fktIFcTbUn2eXsVrW7c4VaAdlzJddOrsGYioxdk/xYWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789127822; c=relaxed/simple;
-	bh=w9StJE+nn0gkG1gomyMgGNCH6NI28semBIPVleJDVGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FGSFcZGaKk5lkHdlb1s81ISx0SoOZgVQgX/tvQWw92uxhPoDtpM/Np6u0DlCii6uyoBU8FgcLudzgtaeZ0c2mYnx3zPzsimgP5Jq7QBW1YD/56oDg7VKx9toonLwiuOZgB24ahqjTQ1zZeIYPuVyXokyfbQ1qV9101lUevLqHpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K11BV0Q0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789129254; c=relaxed/simple;
+	bh=b+xEuspYkjMBmlRvZiWciiKYoR20PgwVVqxO8v7qS58=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Im+3Fbw6MPCXYDDxgXnFlX/VRoQnBheTMS5QckJzmCfbVgVw6UoxRNv1bXrJ87o0WF8a7i/DksQ5PmUF100Zb2v0lQkIQqiegkQkeGGdQjhjY65Mko2dWmxehcgXKkBHwmak4McpVVSJJH987fNjD0FdsfLcGBQm4Kvk7BTG+oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=B2KDladt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wxCbCG1v; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K11BV0Q0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10FD01F000FF;
-	Fri, 11 Sep 2026 11:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789127820;
-	bh=L1OeiMMiUuX2c3YfVw5XAKf2PuPZvV9E0osxi7XkgcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K11BV0Q0GfXgRWBY9hWvTQTZUx1Y/DXSo9d5Lsn/KBpbt7Fweoopm7LTE6t7xgAUP
-	 NShNd5sxVrhUs74tL8AyqYIc3l62PRAwMsYrWuiQT0AOYotHhdpOIOmjs9XckKD5Ai
-	 mioUp6silLKJgXoQsE7Y9nAWcZ83QyJ3DN4NcRuNyDpCGaVbbI4f2PIOtazYVI3jGl
-	 N/TpPN5b9boXVr9/DwwHPOGvh2VpTWaDWieU1lspaJLR1Hvajkq3FQHbiufN3HqWtw
-	 Ia6UuoUw69iWxKJcz2v4457+ig63Hgy8+Azvrq4n8/Dh/w6BAMbXFm/8JyGQpJyaFU
-	 fFWBr2lbIGglg==
-Date: Fri, 11 Sep 2026 13:56:55 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
-	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqPrI5F-IE6_lmK7@devuan>
-References: <20260910104120.3964799-1-aalbersh@kernel.org>
- <aqKgTGHh3nDnM3eh@devuan>
- <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="B2KDladt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wxCbCG1v"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4B05C1400138;
+	Fri, 11 Sep 2026 08:20:50 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 11 Sep 2026 08:20:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789129249;
+	 x=1789215649; bh=Qxwnp7cGJ3b921bADKRcDRkcwsc3OksxRmgtXyUmX4o=; b=
+	B2KDladtytUV6B9K9q+d/+XuTXRbe9I/58nyIhRrbSWWSto6FdHsHY71UrfKIRxZ
+	pgFdYhk014mEd1akvf12a7Ve1Ui+0ATSaAiz30IcIKLLIh2FoTm9jyL5B4OZRv9D
+	xMyUq9v8RtDCfmADdCrVrXm10FXM/5BAyahdAzQVYqf7/01qmXyr02rvcR9ps4Ez
+	bT03ukStOXZ/PGxt6lbvqKdbeBapuT0w0ICvGAxEoUntwhJb4ruVc3uJKxq5raBx
+	D+8vZwf90Gs6jc71zFC4A5q6UiY6+ri1Ud4Z85SBXoiPpB6sSStBmjN7pXCrqKHL
+	Dv9vXbr9th4K8h73EaiCLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789129249; x=
+	1789215649; bh=Qxwnp7cGJ3b921bADKRcDRkcwsc3OksxRmgtXyUmX4o=; b=w
+	xCbCG1vhKurLxQvvyE+vT7VXv+obopeqCCWeJzpAmbmKh6h8C/1phgVj922BmlWk
+	pfEkgB3Yd6tgznhup6TaYDSEuXfj0rZ3LH/YDkBemsLSAGL6WRtJfmYEni2agbx7
+	WKErSEuTdhaUJHPa5NdZ/94jOS9y1OTn5u57oRrbNRvAioONMRyfcrK7cL/5+uu4
+	ZRFwEpbXk0ayUImxcB3aaFm6BCkG56L6DKaEGmBcSH++/ED1dJLVQudydDCubLVM
+	+xG5BJQoxn4X5jRk6aZHossqJ5DC9PwJPqxlnnMSlj5kZI63p8i4lC6SRFyARq0d
+	tAcN7O11YP4nVtlf3nEVw==
+X-ME-Sender: <xms:HvKjanPto3C4_jsxzTav2yHkDo4lrhqDmiBLBfKE-qfMDq1zdHtVZw>
+    <xme:HvKjasw_tLiSdx7iWRgK1jCggeq-azQTSHT7kwfyhklIx45jfbC-E0SQZkWOqceDm
+    zpQJmlMpyiaAZvgSmKIHvL90rf6UjTldDIAXUjjb6ZAyKou_SZU6Mus>
+X-ME-Proxy-Cause: dmFkZTE+aWhMJrI4VcIq6qA0bOlxL9vSGDXREwkDOiNOAVBF3rW97fRO4nJd1BaPKmWyRM
+    Bn1GcYBnAMye6B8fYVCwe/0UsjTHBNtoYtfG/YmehIpzKwa7wNI2hIwuSl8PUeMu6wi06X
+    2x2IkK+8kzLYj3yBu6jItjeF1B4JQeLTn4Ci4TCrVBKgMAGJQEXuszTynIk3woBRZizJQr
+    4FUqL2xk7OfWp1+tTy5aHqOzPPNMfCingWOOVrwyL2wjNvRrsgNpDd2nOlVWL9cLuqpUsK
+    5y73zZ1FVcvBVDcde2sv/yGyu85NYF+aZZhPjRab74EP3GlQ7XrGkCjNTHkL2ab5jakxRR
+    CzYh5c+KGAOh1OYVs08CRMI3SurCOJEzsRMJKMVmHHPQlsu0wZna/hyjXd0IXQaLcpQ0mV
+    HD5ZcmJIItcOzrOwA4AN24TJUC+PKbIRx5yJ1fXH1YNhTFjQrggwItUqUAttKSLrpmmTOk
+    hUU/Y3ac1eKfP88kDzb/8oFcM/2y/JKNcrjylmeuPbDDxAicHuBkyl2r75fm3OVQNxOe9+
+    DbTwR+9CfCLPhaGqySXrPBI0FdZ+kRO5oEUubU2iV8vI/IVRRYOLwTDBx88mJTE8sz0OSi
+    4jkeibAxl/5IuDEuVDEVK5Id8X1D2er12ghDuYGfCqcBVb9PqJVh/oG8JlOg
+X-ME-Proxy: <xmx:H_KjapZgPViIFE8R53TkjqzWsGr6TvO39QdJ0haZmRhxx9Ep9n_CeQ>
+    <xmx:H_KjapU9Ldl7sCFR-anNxFxhN8bYh9C2hdwoHKI61V0MxCVWHnnXZw>
+    <xmx:H_KjanheLG_qcVDV6XK1Lg3e9tjKJeLRl-qHwNB0q5aoNfV5u4ReHQ>
+    <xmx:H_KjantK1VCjjXJUKw9nYfBmZZa4MG41e4G29trAx0gp-9xRdJlnZQ>
+    <xmx:IfKjakylIO8S3Eq9VpX3gbXJ60wWt-6X16SxWIquHRueaKAbc5yqx208>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 3EA9D32A0081; Fri, 11 Sep 2026 08:20:46 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="szfb7nu3rmkucoyg"
-Content-Disposition: inline
-In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+X-ThreadId: ATCgFu_bFIfN
+Date: Fri, 11 Sep 2026 14:20:05 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alejandro Colomar" <alx@kernel.org>, astian <astian@memeware.net>,
+ "Andreas Jaeger" <aj@suse.de>
+Cc: linux-man <linux-man@vger.kernel.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>
+Message-Id: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
+In-Reply-To: <aqPmNKbqjBILjoqw@devuan>
+References: <DL30FONT5B6G.1ETPJ04T023RU@memeware.net>
+ <aqPmNKbqjBILjoqw@devuan>
+Subject: Re: outb(2): terminology correction
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+On Fri, Sep 11, 2026, at 13:36, Alejandro Colomar wrote:
+>> Date: 2026-08-31 09:09:46+0000
+>> From: astian <astian@memeware.net>
 
---szfb7nu3rmkucoyg
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
-	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqPrI5F-IE6_lmK7@devuan>
-References: <20260910104120.3964799-1-aalbersh@kernel.org>
- <aqKgTGHh3nDnM3eh@devuan>
- <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-MIME-Version: 1.0
-In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-
-[CC +=3D PERFORMANCE EVENTS SUBSYSTEM maintainers]
-
-Hi Andrey,
-
-> Date: 2026-09-11 13:17:12+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
+> Yes, 'inline functions' seems more appropriate than 'inline macros' (all
+> macros are inlined, due to how the preprocessor works, so they'd be just
+> macros, and as you showed, these are not even macros --except maybe in
+> some architectures--).
 >
-> Hi Alejandro,
->=20
-> Thanks for the review, I will apply your suggestions, responses to
-> some of the questions below:
->=20
-[...]
-> > > +The
-> > > +.I flags
-> > > +argument is a bit mask, available flags are:
-> >=20
-> > The usual language we use for this is:
-> >=20
-> > 	The
-> > 	.I flags
-> > 	argument contains
-> > 	a bitwise OR of zero or more of the following constants:
-> >=20
-> > See for example readv(2).
->=20
-> I will use "constants" then (the readv uses "following flags")
+> However, I doubt the entire paragraph.  I don't know why inline
+> functions would produce unresolved references at link time _even if they
+> were not substituted_.  The point of inline functions is that they are
+> sometimes inlined, and sometimes not, and the compiler does the right
+> thing in both cases.
+>
+> This seems like paranoia from decades ago, when inline functions were
+> less known (and maybe compilers were more buggy than they are now).
 
-Ok.
+My best guess is that this described a bug in glibc that was fixed in
+https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=994cc0ea88ce7a33d532b735c0723705742b1a7e
 
-> > There are some minor variations of this in other pages, and I should
-> > make them more uniform.
-> >=20
-[...]
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is relative but
-> > > +.I dirfd
-> > > +is neither
-> > > +.B AT_FDCWD
-> > > +nor a valid file descriptor.
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is an empty string,
-> > > +.B AT_EMPTY_PATH
-> > > +was specified,
-> > > +but
-> > > +.I dirfd
-> > > +is an invalid file descriptor.
-> >=20
-> > I was wondering: is it valid to specify AT_EMPTY_PATH, use an empty
-> > string, and use AT_FDCWD as the dirfd?  That should act on the current
-> > working directory itself, right?  Or is that not supported?
->=20
-> Yes, this is valid combination. I can describe this case.
+commit 994cc0ea88ce7a33d532b735c0723705742b1a7e
+Author: Andreas Jaeger <aj@suse.de>
+Date:   Wed Aug 23 16:57:31 2000 +0000
 
-Thanks!  I think using wording similar to the one above would be enough:
+    (_EXTERN_INLINE): Remove. Use static __inline instead of _EXTERN_INLINE.
 
-	but
-	.I dirfd
-	is neither
-	.B AT_FDCWD
-	nor a valid file descriptor.
+--- a/sysdeps/unix/sysv/linux/i386/sys/io.h
++++ b/sysdeps/unix/sysv/linux/i386/sys/io.h
+@@ -40,12 +40,7 @@ extern int iopl (int __level) __THROW;
+ 
+ #if defined __GNUC__ && __GNUC__ >= 2
+ 
+-# ifndef _EXTERN_INLINE
+-#  define _EXTERN_INLINE extern __inline
+-# endif
+-
+-
+-_EXTERN_INLINE unsigned char
++static __inline unsigned char
+ inb (unsigned short int port)
+ {
+   unsigned char _v;
+...
 
-[...]
-> > > +.TP
-> > > +.B EINVAL
-> > > +.I size
-> > > +is smaller than
-> > > +.BR FILE_ATTR_SIZE_VER0 .
-> >=20
-> > perf_event_open(2) reports E2BIG for a size smaller than
-> > PERF_ATTR_SIZE_VER0.  This seems unnecessarily inconsistent.  I'm not
-> > sure which I'd say is more appropriate, but I'd expect them to be
-> > consistent.  I mentioned perf_event_open(2) because that's the only page
-> > that has a *_VER0 constant and documents an error if a size is smaller
-> > than it.  There's also mount_setattr(2) which documents
-> > MOUNT_ATTR_SIZE_VER0, but it's not documented in ERRORS.
-> >=20
-> > I think kernel maintainers should have a look at the different APIs that
-> > have such a value, and discuss whether the error codes should be made
-> > uniform retroactively, or whether we should accept the existing
-> > divergence but decide on an error code for new APIs.
-> >=20
-> > I've CCed linux-api@.
->=20
-> The MOUNT_ATTR_SIZE_VER0 also returns an EINVAL
+Using 'extern __inline' without optimization in --std=gnu89 would lead to
+the compiler using an 'extern' reference rather than emitting a static
+version, the 'static __inline' variant works as intended in both gnu
+and standard c99.
 
-Thanks!  I'll document that.
+> Arnd, should we remove the paragraph entirely?  Or is there any obscure
+> reason why optimizations are required?
 
-> I'm in favor of EINVAL as E2BIG is probably a more confusing naming
-> for the too small argument.
+Yes, removing it seems best to me. If you're changing the file, I would
+suggest also adding a note that the interfaces are nonportable and only
+work on x86 and alpha. 32-bit arm has an empty stub implementation for
+sys/io.h, everything else doesn't seem to have anything in glibc here.
 
-I think I agree.
-
-I've CCd the maintainers of perf_event_open(2).  Can perf_event_open(2)
-be changed to report EINVAL?  Or is that mistake set in stone?
-
-
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---szfb7nu3rmkucoyg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqj7IEACgkQ64mZXMKQ
-wqlezg//RLQAo0BxssEGu8xfo6SW+0W2DNb3gXUM9X7eVQuUNVndRL3KWcRf0lSD
-bdpX9Z4eK9TfgvYM6U6QLI1qkJMdc76zQKhgU2OwTgJECziYSDaPWeDdTXEU4XTe
-seSFHNg/PKr/FWZaSII4AtH8XIeJt7vMoJcr958fHUnflFb87oXOoyYxQzQ/f69k
-fvLN7IlIJj7ARdJOEHnVinv45b1VSoNNSo2vo6Z9iO6DdIfd8fiROQgz7TG2MhRo
-C38uQapJ77W4V4uF5ui0MMq7AXcN8Ire1+4tZrmWevUYehOJYujROuhxwjfA5VeL
-v9lteYeeyiv4sQIpLgUmI5HmhRyoER43J1N5iXrTbAQhsMxFoslnoruw33lnJ79L
-AVTz2qEm23M9QFHwrxstuv0m2OnH28DIMdu7v439Cpso9NGTtVuPF016gwIapNge
-P7E6g4qgb85H5qZy5JumNB/0OdBBYfYz5CVOsW+0m3D0XwjJYmlw42MMOh5TRDrF
-o5brnzgbdtwJuZaLTZVbB/8HGil5xHQMt8szE6FgKxbWm7aAUNto+MQrhq0TuaRD
-+wzhCILjvWNSbueJ/r9gN9PHqU7ura6s1OOnJi6mJ3/YAIueKN0ZCjIwtKBzdugH
-HTkCNhYUgB4udiV9O/+EI8xtDsihKRJbSBm/joWWFV0A08A32n4=
-=pDVG
------END PGP SIGNATURE-----
-
---szfb7nu3rmkucoyg--
+       Arnd
