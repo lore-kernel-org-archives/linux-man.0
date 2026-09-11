@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7883B38AF
-	for <linux-man@vger.kernel.org>; Fri, 11 Sep 2026 17:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA949BD77
+	for <linux-man@vger.kernel.org>; Fri, 11 Sep 2026 18:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789149276; cv=none; b=ZNldHJtm8TyoELR8+h4KlLOoOR57vBYS5abl+diD4fTZDqB/Q3YBwpG+eexbxs0q8z/wcvwj79+70oAQ4PVa1W6XkS/iYUFvzL2z+3qtbJns4WwEF+6wtC9tJN2h9we6r62R7qcWs8X70wMjPCDmH+4ZUAZqpsS9HqwTBWaNdnU=
+	t=1789149606; cv=none; b=GMxUVUlv7MTwV7Py5EtztYbsp9+diAUE7W25HxXjvjm1wFyuZyTsy4b5TxwUMA2PPSQEfiJZ9IQ5/L9JERu70OHvUNjtbRnW9GqbukdqaSVJ93iW9fItPC3+KjwDzWG003uLLDFVyQZZPGBn7lhluTAbNc7J3xpsUfApTYoZKdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789149276; c=relaxed/simple;
-	bh=718c23E9d7oT/x2jKtCFj3pLELHcM8mRFjdlM5cw6OM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OZFtPCPD8nIaasfpSaGzsKjhpG3emPpftxAUBx7Bvps6wLgVDlVS3/tXkZAxCjK+ubjaNAwjH9vtuTWlAdmMx8YLcpwxwuWnp2e1p9C7kv2Rmu9IXK8w/Upi9eZhghsyP6LAIVB3S3R5YVCBRS4N0j81Ziiu+1rik68NdENrEh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHfEsfuL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789149606; c=relaxed/simple;
+	bh=j+XxKfBid+4boRYu3allxnDjuZSjL4fF30FZc42PiYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jF/LpVM6bYNIzXDQmEauW9uDfKp+Ddyn5SDIrrlI0VSGftqIoWwGBboo7po3T47py/dGuQu6Gn7lkFJUXcUrsTl07dXj8a8x0Gtzr8OlguVvkdTSCBL1hYdiBbDBS4PVFQpuJ24bcPQBeabf+kfIc3OABkq2458LMb3njT/6Hv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PkHWy6FB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHfEsfuL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6F01F000FF;
-	Fri, 11 Sep 2026 17:54:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PkHWy6FB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D1D11F000FF;
+	Fri, 11 Sep 2026 18:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789149274;
-	bh=HbjUsMtZUl68MRlx6qgfBlK1NkNzMBVc/zpgB2pcYbk=;
-	h=Date:From:To:Subject:References:In-Reply-To;
-	b=BHfEsfuLtFILnfUgDVUOgjwLFBZohSUOAWsIPlqQoc30gYdaES5IXFr/cXx5HQhuK
-	 ZdQKaBKHQb+e/FCjRTF8hz0xXB7BdMu9id6FSeL4Sb9Tuk8xXoNGoXhjKlMZSyZER+
-	 3Ggf8mMxviO59wc72y6IGbFkUNJlt6DfivAbwmnWMHxA8rt5IQIPA1shn4H1dVYZeD
-	 k7sLxuU1soUHHtLaRxonIeQQ/cvaJS4Me30pS1KkUr2Jyf2yKQHLs0I2bo5QTbLCiN
-	 4taV+mxc6YGAd2MVBLPzH7n8s/L2rpd3CtGD0GhwWtISDnLQH1h/N6rgQJvUa4KtZB
-	 qsAvqU09TqO/Q==
-Date: Fri, 11 Sep 2026 19:54:31 +0200
+	s=k20260515; t=1789149603;
+	bh=JW4ZNnsqJba0cJCbUyiC4eO7ctPF2mLoos2bigz0mUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PkHWy6FB8Bexy4xECSKUUhswFh1zJT1alqTJwjAX8hHmMbTcalsEQ/o9T3rHzQQgv
+	 g/BRXhzUjY6MGlx/eTb4tVN33f+ySZA5jobmIVLXZoLK0cOUlgFecqRBuIl04YkNgq
+	 nGk51fJZhA5+OyYHkWp24gdSy5rvao6P5w7lWytx2bRHuqaPb9whsVvEDaX2CwNgzE
+	 7KVUjRBMbcIAzThmvE0OyjiIZf3pzTsiSspM88NwHQnEOOUtQRUbQrt/TFQVRSK/1Z
+	 wrIYivwU5Z26Ogz6QtX1jExnNmLsUEo3iu0BhIGTMhQXDc8U8x1sGU9bkS/CnJ8Lbw
+	 7vF26csD2L0TA==
+Date: Fri, 11 Sep 2026 20:00:00 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	linux-man@vger.kernel.org
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: linux-man@vger.kernel.org
 Subject: Re: [PATCH v1] share/mk/: Use suffix rules where possible
-Message-ID: <aqQ1tJR43K-72xMV@devuan>
+Message-ID: <aqRBY9JDWTuNrk3T@devuan>
 References: <9a74fe43cf61f80f253e1401b547296b6f97c44a.1788101363.git.alx@kernel.org>
  <apRfmYBBPy0S8IAI@devuan>
+ <aqQ1tJR43K-72xMV@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -41,23 +42,42 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ecg4iyva5uze6fvz"
+	protocol="application/pgp-signature"; boundary="bckbfsuncig3szbz"
 Content-Disposition: inline
-In-Reply-To: <apRfmYBBPy0S8IAI@devuan>
+In-Reply-To: <aqQ1tJR43K-72xMV@devuan>
 
 
---ecg4iyva5uze6fvz
+--bckbfsuncig3szbz
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	linux-man@vger.kernel.org
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: linux-man@vger.kernel.org
 Subject: Re: [PATCH v1] share/mk/: Use suffix rules where possible
-Message-ID: <aqQ1tJR43K-72xMV@devuan>
+Message-ID: <aqRBY9JDWTuNrk3T@devuan>
 References: <9a74fe43cf61f80f253e1401b547296b6f97c44a.1788101363.git.alx@kernel.org>
  <apRfmYBBPy0S8IAI@devuan>
+ <aqQ1tJR43K-72xMV@devuan>
 MIME-Version: 1.0
+In-Reply-To: <aqQ1tJR43K-72xMV@devuan>
+
+I used an old address.  I'm sending now to the @kernel.org one.
+
+
+Cheers,
+Alex
+
+----- Forwarded message from Alejandro Colomar <alx@kernel.org> -----
+
+Date: Fri, 11 Sep 2026 19:54:34 +0200
+=46rom: Alejandro Colomar <alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  linux-man@vger.kernel.org
+Subject: Re: [PATCH v1] share/mk/: Use suffix rules where possible
+Message-ID: <aqQ1tJR43K-72xMV@devuan>
+References: <9a74fe43cf61f80f253e1401b547296b6f97c44a.1788101363.git.alx@ke=
+rnel.org>
+ <apRfmYBBPy0S8IAI@devuan>
 In-Reply-To: <apRfmYBBPy0S8IAI@devuan>
 
 [CC trimmed; To =3D Lorenzo]
@@ -669,24 +689,31 @@ ossible
 --=20
 <https://www.alejandro-colomar.es>
 
---ecg4iyva5uze6fvz
+
+
+----- End forwarded message -----
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--bckbfsuncig3szbz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqkQFEACgkQ64mZXMKQ
-wqnOURAAgHyHQVzGFnaa62IhFukFNr6EbrEesgRLJ4sONMJKIykWIQpDKDu3a+CS
-hnIKpg3qTfJdJsIJz482/g+/7Yi/1t1e/SpEytGBqIMR1MdustqShfJeJq4vbx6k
-GJl4+KcWtAGUaRoj/eh/4RHFqWCOFvVn3If5fuEbPnfc5mWn5yehRXoBER0a01z8
-Dm/RF4Ynf0K2JTV6I4al1DITCnprsrTzvcKrvBfzBgTZXs14ikHpqS3pG8+a7YLR
-bqWNsQWgMjPDi2dfB5gmhM85qssQahUunE36rlNgW185VG12BTkWEYaVCfJCsqPI
-4sRfSfobF8FUSLv6YxO5CAOZtuBWrhSF8l/uotdyLoXmHbQpDHhyYCbUY9kRUqL3
-c4LidzTbQKY/OX/0hy5rvc5p2/pz3cghePeyFwAuXpkI1qwT6qm+YHnEabtuklMM
-9nw8k7fX+wHwmVFzr6DQ966+5EQjdxrek0QbzO3/9Tu3KAz/KFZFLH0a89FCX8zq
-74wl64A6WiVKQw1E2qDHdD28qQ7OvTaPeoXEW1vhbUWcWMVEUUi4PmO18eGVt3l0
-KnXHxiYTdayh7zpSenBqbR+F9e1Pk9zG01ePy4AlLFp/bhf8l7xqeYSpfsDu8zNP
-7vG4Ot9PBArbPBdATbqJNafaNuC5s+eD5J9KqhDCCSAWOHb/auY=
-=miUE
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqkQaAACgkQ64mZXMKQ
+wqk5PA//aUdzsa4OEsxqYow+/Fe0VVlJPuGEFeAvVZfBfgK0x/wZHhIMNNjLpAef
+cF51hCI6YUT/K9Zak3dGKqnM7OVCT20dHcLMPfaceVjPmqNlzzpOrs+QrqKV2fPO
+KdizQpXCF0gj7ECjqKxFx9rkkVPfhmd4qwwwe/Q9NYIetl+d8WtxrvglFAN+0sol
+YzKahVoWXTvl0HNIwQgz+aMDxz0qAuc4EV/F+mzGN/XgMYSeeUqy7WzDTMIsf+kP
+6o1Dvh6+5Szq9lKHUjwWWS+vk1pSMo140f5lkqOrYndkusRmpXbl6BN3Z5SEZYCY
+T7ny5Plh0aekWnSeXWsItnU1TYtzhYPEgYoWe+OnGPXDK8fKcNl/1i9/IEgus8OO
+9Rol8XWKbEQEOxexFa6c+6etN8BjrCc+rMvhtxgrv5eMlY3i6M5EV4IKGVOlZ7H2
+oWZFAulpMCEK0TxIxBfRDkU1/dGIlCFKJuKoq+jD0AVhzGUMRqIhduWJfUVfjzQv
+xhbfyu9490TOncAKROTRK27frhM7xEQPiKUPm/g7Qsu35R9ZGqqZXhGPFsvrszZU
+VQGnIiDh8VzO6XJ0G+qdhoo/DoZQvSP9ggvvQRELJxEBTO3+Li+GA47nmdt8j6f0
+9Sxbg/W4+eBqLA8trDSeuMGVOdWWaF99ATdhioQ2pQ2JclMl4no=
+=XYNI
 -----END PGP SIGNATURE-----
 
---ecg4iyva5uze6fvz--
+--bckbfsuncig3szbz--
