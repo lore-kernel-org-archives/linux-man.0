@@ -1,132 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cock.li (mail.cock.li [37.120.193.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090B347ECDE
-	for <linux-man@vger.kernel.org>; Sat, 12 Sep 2026 13:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA3B314A73;
+	Sat, 12 Sep 2026 21:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789220507; cv=none; b=OBV5ibj2i7FFRp+cM48t1vtgQ98SXNZX+4JIzvZ7gY+9GF13Z2mOYvHEOPIiMKElNy/4O7FcM+AXeK8nw9AZFvOiIkwrClYGlSbHNg1hIWznvPLj+FhZUh4EGgA3+aNDftNaNfze3zAN4iLjyOpHGIeT5QHjgyBRXEsBljrgr+Y=
+	t=1789250352; cv=none; b=OKd+nr66xVYnTIRMbeo6hk3Y2rhS4N2ka7lR63zs4n6MeuJcaROX+tbBOy7ZICtIwTYe6fVOvHCaoZfd2FjFAgJ8F34YlHjJH2TNPexZjuwdyPPgZ+99XSK3ISUqlumANh4YQS/tnMqtI1za/T6ZLK6Id3+KIO1VYnkJfnUp+uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789220507; c=relaxed/simple;
-	bh=seDL9XqNyqjiaOYQfhHrTG3kSDvPkkSfWitYGB++Yzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avxfbVXmxE3oN9KMvDrRpyWrXD+X/EL+DiG1pH/+y/Xu/91LEhQSTgnLJcXnmJd+wJikN1qGyZa3279A4SRPkj7rJ8G0yzzAePte0q2E7Pzb2cI1ItRLrhJNhsO5i2OaxL3Z118j3Z2LyCwi4NtO3FJ3vH+MeQ773qVUGyo/3ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKIT0GS4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789250352; c=relaxed/simple;
+	bh=VW8F22p449+zFSEUhbHDye81XIvDVNO4ILh6KfBONlg=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
+	 References:In-Reply-To; b=L6UBLrkrONk0Pmfk3pGFUSIIYFJYDWj/6E0YNK0LNNLk9bDsrfoBHaYyfvirtZbTG9kdWX4FobGYA8baZ4uSe9bl3qDBQb7Ola743mCA4bETbL21s40w0jDyTqrUkfbl0h/6RTJGCrEZRHoHKlhxEUaMQm8f/k25ZSM40Xs6ffU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=memeware.net; spf=pass smtp.mailfrom=memeware.net; dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b=jSVkUtBg; arc=none smtp.client-ip=37.120.193.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=memeware.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memeware.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKIT0GS4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86BB1F00893;
-	Sat, 12 Sep 2026 13:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789220505;
-	bh=85ZUnXz0bkMT75Yo5yYBM1iDBkoKsdWIpW9vbdBuw04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EKIT0GS42aJ+YbEKViBk5r40GUbHcthhvt2DSI+f2iPVwew91zmr/iCfGwvnmWhoF
-	 /Y25Du4hDQHzEE+0GWHZz09lHdFpJESVFLOAorefKK6hhQrjF3bBHQp+1VQfMAGUDZ
-	 ThnG87kZrBC2YNtY24OApyI2j/dk8Yp5PjhjIjhwHq45FTzjGijlADxsQNhJLWhinz
-	 EA+x15IDafeoNbnZXUAixlQ2K7nb8O9NT1QmXcAxstMhNGkeXA0Dp4pW7FdiKa+w4R
-	 WLn0LcaiU0yDVJhvhbjZ09WIx0DL1kRL+Xkq6kGq1DMHgrS7uVOP1EX3X1mBt5d6FL
-	 8m1sImdv2IzzA==
-Date: Sat, 12 Sep 2026 15:41:41 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Max Chernoff <git@maxchernoff.ca>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 3/3] man/man7/capabilities.7: CAP_MAC_ADMIN allows
- setting undefined SELinux contexts
-Message-ID: <aqVWdILY1dRay2EM@devuan>
-References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
- <bed5f1b68369af7e6a5cd5ebae8eb8ecfa7ef441.1789212041.git.git@maxchernoff.ca>
+	dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b="jSVkUtBg"
+Content-Type: text/plain; charset=UTF-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=memeware.net; s=mail;
+	t=1789250337; bh=VW8F22p449+zFSEUhbHDye81XIvDVNO4ILh6KfBONlg=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=jSVkUtBguRH87GGSf6sQNCcStV1EWnJaPEDTidC7r4Y1HOSze+1pGDZ1zAL7qYsAE
+	 BP2X/+PahERzwMZ+HVrs5GBM+UJzD8fBnPiGTUhVDTt4j6PrkDYO1r7onYWPl+yalo
+	 Xg+7alpWCY3K4SoimUeFARkd++UAjea6PsSFNMKqltuscCk8HC0cP4+/uJszzLKvWl
+	 E0zsywTY+U8MRV6e6HWO5a0syQDkZxrVP7mKSq3Z1ejuvGrq6utxp0prQURxYnIVxi
+	 h2w78Rw7rOlSmmUXlTQoGDwgdYZCX/HQ29peBJbCtKgXW/j80qUHhFuxqL59JYoRpO
+	 s0MS7EGAM8MGw==
+Date: Sat, 12 Sep 2026 21:58:26 +0000
+Message-Id: <DLDOAQWX9IIH.E1ZNJ3O80VQ@memeware.net>
+Cc: "linux-man" <linux-man@vger.kernel.org>, "Linux-Arch"
+ <linux-arch@vger.kernel.org>
+Subject: Re: outb(2): terminology correction
+From: "astian" <astian@memeware.net>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Alejandro Colomar" <alx@kernel.org>,
+ "Andreas Jaeger" <aj@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zrx7keit4zstckjc"
-Content-Disposition: inline
-In-Reply-To: <bed5f1b68369af7e6a5cd5ebae8eb8ecfa7ef441.1789212041.git.git@maxchernoff.ca>
-
-
---zrx7keit4zstckjc
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Max Chernoff <git@maxchernoff.ca>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 3/3] man/man7/capabilities.7: CAP_MAC_ADMIN allows
- setting undefined SELinux contexts
-Message-ID: <aqVWdILY1dRay2EM@devuan>
-References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
- <bed5f1b68369af7e6a5cd5ebae8eb8ecfa7ef441.1789212041.git.git@maxchernoff.ca>
-MIME-Version: 1.0
-In-Reply-To: <bed5f1b68369af7e6a5cd5ebae8eb8ecfa7ef441.1789212041.git.git@maxchernoff.ca>
+References: <DL30FONT5B6G.1ETPJ04T023RU@memeware.net>
+ <aqPmNKbqjBILjoqw@devuan>
+ <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
+In-Reply-To: <b6258140-1ece-4113-bcb4-025302ef59cc@app.fastmail.com>
 
-> Date: 2026-09-12 05:32:13-0600
-> From: Max Chernoff <git@maxchernoff.ca>
+On 11 Sep 2026 13:43 +0200, Alejandro Colomar wrote:
+>> Date: 2026-09-11 13:36:29+0200
+>> From: Alejandro Colomar <alx@kernel.org>
+>>
+>> [CC +=3D GENERIC INCLUDE/ASM HEADER FILES maintainers]
+>>=20
+>> Hi astian, Arnd,
+>>=20
+>> > Date: 2026-08-31 09:09:46+0000
+>> > From: astian <astian@memeware.net>
+>> >
+>> > outb(2) says:
+>> >
+>> >   You must compile with -O or -O2 or similar.  The functions are defin=
+ed
+>> >   as inline macros, and will not be substituted in without optimizatio=
+n
+>> >   enabled, causing unresolved references at link time.
+>> >
+>> > "inline macros [...] not substituted in without optimization" doesn't
+>> > make any sense.  C pre-processor macros cannot be inline or not inline=
+.
+>> > Indeed these are inline *functions* (at least in this system) with
+>> > embedded assembly apparently referencing parameters (which, I surmise,
+>> > is why the functions need to be inlined by the compiler or the assembl=
+y
+>> > will not work).
+>> >
+>> > From /usr/include/x86_64-linux-gnu/sys/io.h (glibc 2.43):
+>> >
+>> >   [...]
+>> >   #if defined __GNUC__ && __GNUC__ >=3D 2
+>> >
+>> >   static __inline unsigned char
+>> >   inb (unsigned short int __port)
+>> >   {
+>> >     unsigned char _v;
+>> >
+>> >     __asm__ __volatile__ ("inb %w1,%0":"=3Da" (_v):"Nd" (__port));
+>> >     return _v;
+>> >   }
+>> >
+>> >   [...]
+>> >
+>> >   static __inline void
+>> >   outb (unsigned char __value, unsigned short int __port)
+>> >   {
+>> >     __asm__ __volatile__ ("outb %b0,%w1": :"a" (__value), "Nd" (__port=
+));
+>> >   }
+>> >
+>> >   [...]
+>> >
+>> > So I would say just s/inline macros/inline functions/g.
+>>
+>> Yes, 'inline functions' seems more appropriate than 'inline macros' (all
+>> macros are inlined, due to how the preprocessor works, so they'd be just
+>> macros, and as you showed, these are not even macros --except maybe in
+>> some architectures--).
+>>
+>> However, I doubt the entire paragraph.  I don't know why inline
+>> functions would produce unresolved references at link time _even if they
+>> were not substituted_.  The point of inline functions is that they are
+>> sometimes inlined, and sometimes not, and the compiler does the right
+>> thing in both cases.
+>>
+>> This seems like paranoia from decades ago, when inline functions were
+>> less known (and maybe compilers were more buggy than they are now).
+>>
+>> Arnd, should we remove the paragraph entirely?  Or is there any obscure
+>> reason why optimizations are required?
 >
-> Link: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/commit/?id=3D12b29f34558b9b45a2c6eabd4f3c6be939a3980f>
-> Signed-off-by: Max Chernoff <git@maxchernoff.ca>
-> ---
+> Or maybe those assembly instructions are what causes the linker issues?
+> If so, we should probably say something about that.
 
-Reviewed-by: Alejandro Colomar <alx@kernel.org>
+I had a closer look and I now think that's not the case.  These
+instructions work fine even if the function is not inlined.  See more
+below.
 
+On 11 Sep 2026 14:20 +0200, Arnd Bergmann wrote:
+> My best guess is that this described a bug in glibc that was fixed in
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D994cc0ea88ce=
+7a33d532b735c0723705742b1a7e
+>
+> commit 994cc0ea88ce7a33d532b735c0723705742b1a7e
+> Author: Andreas Jaeger <aj@suse.de>
+> Date:   Wed Aug 23 16:57:31 2000 +0000
+>
+>     (_EXTERN_INLINE): Remove. Use static __inline instead of _EXTERN_INLI=
+NE.
+>
+> --- a/sysdeps/unix/sysv/linux/i386/sys/io.h
+> +++ b/sysdeps/unix/sysv/linux/i386/sys/io.h
+> @@ -40,12 +40,7 @@ extern int iopl (int __level) __THROW;
+> =20
+>  #if defined __GNUC__ && __GNUC__ >=3D 2
+> =20
+> -# ifndef _EXTERN_INLINE
+> -#  define _EXTERN_INLINE extern __inline
+> -# endif
+> -
+> -
+> -_EXTERN_INLINE unsigned char
+> +static __inline unsigned char
+>  inb (unsigned short int port)
+>  {
+>    unsigned char _v;
+> ...
+>
+> Using 'extern __inline' without optimization in --std=3Dgnu89 would lead =
+to
+> the compiler using an 'extern' reference rather than emitting a static
+> version,
 
-Cheers,
-Alex
+This seems to be the original reason for the optimisation requirement.
+The manual says [0]:
 
->  man/man7/capabilities.7 | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/man/man7/capabilities.7 b/man/man7/capabilities.7
-> index bb8f6d9db433..8813ff81f0ea 100644
-> --- a/man/man7/capabilities.7
-> +++ b/man/man7/capabilities.7
-> @@ -210,8 +210,16 @@
->  .BR FS_IOC_SETFLAGS (2const)).
->  .TP
->  .BR CAP_MAC_ADMIN " (since Linux 2.6.25)"
-> -Allow MAC configuration or state changes.
-> -Implemented for the Smack Linux Security Module (LSM).
-> +.RS
-> +.IP \[bu] 3
-> +.PD 0
-> +For the Smack Linux Security Module (LSM),
-> +allow MAC configuration or state changes;
-> +.IP \[bu]
-> +For the SELinux LSM,
-> +allow setting undefined security contexts on inodes (since Linux 2.6.27).
-> +.RE
-> +.PD
->  .TP
->  .BR CAP_MAC_OVERRIDE " (since Linux 2.6.25)"
->  Override Mandatory Access Control (MAC).
-> --=20
-> 2.55.0
->=20
+  GCC does not inline any functions when not optimizing unless you
+  specify the =E2=80=98always_inline=E2=80=99 attribute for the function [.=
+..]
 
---=20
-<https://www.alejandro-colomar.es>
+  [...]
 
---zrx7keit4zstckjc
-Content-Type: application/pgp-signature; name="signature.asc"
+  If you specify both inline and extern in the function definition, then
+  the definition is used only for inlining.  In no case is the function
+  compiled on its own, not even if you refer to its address explicitly.
+  Such an address becomes an external reference, as if you had only
+  declared the function, and had not defined it.
 
------BEGIN PGP SIGNATURE-----
+  This combination of inline and extern has almost the effect of a
+  macro. [...]
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqlVpQACgkQ64mZXMKQ
-wqmW9A//Tgw9rSGKnl1ime9dU6cF0nghFyHfxZYNdVKJnEJgUr5G9+ZBGcO0NH1y
-Wl0x4Hykp2vInnFh4Uxk/ByG0bpa9uyusPIQU+ZxkLvI81JyP81Uo+J9VqwjLrDA
-N/tYNNS4LTWvmSgiUMasblTjVGUohZvHaACaaKesRvSPmfur8pA81Acm34W4/UU0
-O8ZBh7NfFCshZU6BMH6OD0UepUG5FpqvUAU3iJmQLzi4B15Uxh3hI74JLKfajq+1
-G2wZD/UCv87WaaQB1Yiiy17tdCslcu+RCIpT+xJGMXoz/rFqjezCmoC+aBl3N4Nl
-OkPyV8KBKinNuamimbU2WDnZJcVqg02yXtIINUodz2rA0V0Vw8HcoPw40qHJsIRn
-ZuhTgDmO9gb/4B/GMARX0Av2Tg1gD1esMw5CBsuvHUoiOy7AE8jssbZmtTPpkCw5
-NtlgyFsxLrrPbgouZ7AFCcvWyN4CpSesFfusv4ZMG7yP4I97/O5v22kRMsQ8MYP/
-2H3i0adX+Li6Ns32YYPBD1LP4ECKU2Hgkbh374lxCojiDdLWjTbF8sXo3o9LW7uM
-Bp/bfM5ETH+pl6GW1E1IbugPpC5lQsvd5sS1iUQDQwTCE7iJeKd9eUrKIuwuTfdY
-u4mTaSDQ4hkoxT+L019BiHf7+6p3UgMnGRCTrsnLSlabPCPG3as=
-=B+Ve
------END PGP SIGNATURE-----
+  0: https://gcc.gnu.org/onlinedocs/gcc/Inline.html
 
---zrx7keit4zstckjc--
+Thus, using "extern inline" but not enabling optimisations (and not
+providing a separate definition in some other object) would have
+produced a linker error.
+
+> the 'static __inline' variant works as intended in both gnu
+> and standard c99.
+
+That "__inline" keyword (yes, it's a keyword, regardless of eponymous
+macros) is odd.  Apparently an old non-standard import from MSVC.
+
+Are standard/newer keywords (inline/__inline__) not used for reasons of
+backward compatibility (with old compiler or C language versions)?
