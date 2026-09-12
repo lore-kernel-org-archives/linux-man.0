@@ -1,39 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE41747C111
-	for <linux-man@vger.kernel.org>; Sat, 12 Sep 2026 13:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2544038AC9A
+	for <linux-man@vger.kernel.org>; Sat, 12 Sep 2026 13:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789220114; cv=none; b=VdukRBOWxbH7Aqw89hK/TIlvlSplBnW0btSGzrQgHgn2Sx6eT4D8Qa/RsCms2IXIi4Y8lA/Jcu6TISlRGCERwAmK84bs+T6YFdOA0+AXO0xaoLooEQi3MEgA/Jo2r4TYe0GOoXTKtEW1pgv8Baq8HYSrmRzc5a9FHPlIzUMRKvs=
+	t=1789220383; cv=none; b=VRTod21Y+R3Xf9KFeqK78Qy+2HfoXqWhSjfoCw27a4htUUNvgW2qkrD54X5AMlmXfKcMdEX2CSVT8nQBnslOFEi26+MpCOv4gQHfLqMF4nvVhzlXqb8KLg/688NtkrDUhccoLDMoqw7EsDAGcpBUw3dXTOYdhvdEJXq6Rl/oEI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789220114; c=relaxed/simple;
-	bh=kXL/xeet1b9udkFX7IJdmpgB/cAcS5ztLpcyBE+MA3g=;
+	s=arc-20240116; t=1789220383; c=relaxed/simple;
+	bh=9/n4CSDt/x/JnMfUodWyhkcWMBTcy+ewvfKfUVAX0pQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HC/TbSLYMK8lPses1mJ3GDs8m958XQJQDkmC7GqTT2td0pA9jZLzXRzXK9sCmjf7YEVg4eQk/aoz5hfB02bR9YK4EJKHZVpYIgsiiRSAcYH2eIZ9lyvPm6S2qyY7wq3bDlDV6yD6QDn5i87NtZIpBHY6Om2xrIKoppffqZUg998=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQTAB0bM; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnlrTLgfwhRT9NzCUxrP8faoEWFXeLT8Na+z4GMe3aTVWDMhlSPYhqlDla5V2Dt3tnVkSvqJ0jY3kAc76f6yr1a3N/NHr55ZgekJlMAyMeTV+kNHpLldQTjjju6+Lwy1+QBpeeuC05o566k4Jfpc0/m8xLUh04sp5dSKnfH7pVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GW0soVw6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQTAB0bM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C96DD1F000FF;
-	Sat, 12 Sep 2026 13:35:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GW0soVw6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 975BA1F00893;
+	Sat, 12 Sep 2026 13:39:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789220112;
-	bh=M/jTqwuH+6tbctWNOMzMoLnR1U1T8/ckpqAoWSpg0IM=;
+	s=k20260515; t=1789220380;
+	bh=4rMbsWtdOgZplmbmch+nYYpav27xAOOXY//nKeuK34I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UQTAB0bMzFEhtwu321++14+q7IyDRhHGsycJF2dDm0rngychGrx4I2UTZsZCxuKw0
-	 VC78iBRuyuvZkDyX8AGroE/FpwLrxQA9ponOSj+WN3YFNDnVeiS/6AVFh6d4e/j8pJ
-	 JDif85cd/DtnOHqNk0lr7plkIJ+HQWVTp850Xub4YgHip8I2524HblpVLgHeA3UqHo
-	 omwvFs7YYHcv6UT4R3OoazZNbmoZxZ59pFnneuOislfA4FwclwIRW34k4h6FNwO12Z
-	 MYO6BgR2GHk/uegMVgatYygHyfr66RUEbSOQvJ/qH4/S2M4MFWYLJkb5f9bL4lWYMs
-	 aSMs6BHzB2iHQ==
-Date: Sat, 12 Sep 2026 15:35:09 +0200
+	b=GW0soVw6KvaIbfbwLMySn9Dosq5y9vu5ih3vkhU3iav8HuWTiOfXkbrrBO6MS4U7Y
+	 7nMTXOSvYuw1if8090yFvCaPRzHk1FgcQJ0Htf2mjF9ITRjIC5hWNm+R68q4eVlkWM
+	 jmg29LKECjAtV9griUIxzSWX1y/bZM+nH/hpD2+T1XkJPYxCAw+kPGKjSGwdDdwwz3
+	 gRd1QYv8XZnUU1c18/V8NcOmnIFZhtF369aX+5SxglwHKJreYPVrnH5gMzTK+jSANv
+	 FZyKpGQBviMu1hjOvxuWA8vPFWHiW0mnPYfWbpV9PcKVYRpWc4bmh3umtgR6mBySY0
+	 LQeMa34C8+B9A==
+Date: Sat, 12 Sep 2026 15:39:37 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Max Chernoff <git@maxchernoff.ca>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/3] man/man5/proc_pid_smaps{,_rollup}.5: Add
- proc_pid_smaps_rollup(5)
-Message-ID: <aqVUfFdWaHxWvBWf@devuan>
+Subject: Re: [PATCH 2/3] man/man5/proc_pid_{smaps,smaps_rollup,maps}.5,
+ man/man7/capabilities.7: CAP_PERFMON allows reading
+ /proc/pid/{smaps,smaps_rollup,maps}
+Message-ID: <aqVWA9eVr0jSxHGX@devuan>
 References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+ <b239ee32ef7d0cbdc09c95f28034bb2426f72507.1789212041.git.git@maxchernoff.ca>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -41,96 +43,103 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2ugvonblzv4iitrd"
+	protocol="application/pgp-signature"; boundary="h6vkmgouaxu4r6u5"
 Content-Disposition: inline
-In-Reply-To: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+In-Reply-To: <b239ee32ef7d0cbdc09c95f28034bb2426f72507.1789212041.git.git@maxchernoff.ca>
 
 
---2ugvonblzv4iitrd
+--h6vkmgouaxu4r6u5
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: Max Chernoff <git@maxchernoff.ca>
 Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/3] man/man5/proc_pid_smaps{,_rollup}.5: Add
- proc_pid_smaps_rollup(5)
-Message-ID: <aqVUfFdWaHxWvBWf@devuan>
+Subject: Re: [PATCH 2/3] man/man5/proc_pid_{smaps,smaps_rollup,maps}.5,
+ man/man7/capabilities.7: CAP_PERFMON allows reading
+ /proc/pid/{smaps,smaps_rollup,maps}
+Message-ID: <aqVWA9eVr0jSxHGX@devuan>
 References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+ <b239ee32ef7d0cbdc09c95f28034bb2426f72507.1789212041.git.git@maxchernoff.ca>
 MIME-Version: 1.0
-In-Reply-To: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+In-Reply-To: <b239ee32ef7d0cbdc09c95f28034bb2426f72507.1789212041.git.git@maxchernoff.ca>
 
-Hi Max,
-
-> Date: 2026-09-12 05:32:11-0600
+> Date: 2026-09-12 05:32:12-0600
 > From: Max Chernoff <git@maxchernoff.ca>
 >
-> Document /proc/pid/smaps_rollup, which is similar to /proc/pid/smaps,
-> except it merges all mappings are merged into a single synthetic
-> entry [1].
->=20
-> Also, add a better description to the NAME, following the discussion
-> in [2].
-
-Thanks!  Although I'd prefer the renaming to happen in a separate
-commit, please.
-
-> Link [1]: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux=
-=2Egit/commit/?id=3D493b0e9d945fa9dfe96be93ae41b4ca4b6fdb317>
-> Link [2]: <https://lore.kernel.org/lkml/3f250c7105010613115554b9d9@mail.g=
-mail.com>
-
-Would you mind quoting the most relevant lines of it?  It seems a long
-discussion.
-
+> Link: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
+/commit/?id=3D0c555a3c1bc9114ad91422b941dcd29e02490687>
 > Signed-off-by: Max Chernoff <git@maxchernoff.ca>
-> ---
->  man/man5/proc_pid_smaps.5        | 7 ++++++-
->  man/man5/proc_pid_smaps_rollup.5 | 1 +
->  2 files changed, 7 insertions(+), 1 deletion(-)
->  create mode 100644 man/man5/proc_pid_smaps_rollup.5
->=20
-> diff --git a/man/man5/proc_pid_smaps.5 b/man/man5/proc_pid_smaps.5
-> index 9c433dbc1e60..51440cc13bf6 100644
-> --- a/man/man5/proc_pid_smaps.5
-> +++ b/man/man5/proc_pid_smaps.5
-> @@ -7,7 +7,7 @@
->  .\"
->  .TH proc_pid_smaps 5 (date) "Linux man-pages (unreleased)"
->  .SH NAME
-> -/proc/pid/smaps \- XXX: What does 's' in "smaps" stand for?
-> +/proc/pid/smaps, /proc/pid/smaps_rollup \- size of mapped memory regions
->  .SH DESCRIPTION
->  .TP
->  .IR /proc/ pid /smaps " (since Linux 2.6.14)"
-> @@ -125,5 +125,10 @@
->  file is present only if the
->  .B CONFIG_PROC_PAGE_MONITOR
->  kernel configuration option is enabled.
-> +.TP
-> +.IR /proc/ pid /smaps_rollup " (since Linux 4.14)"
-> +This file is similar to
-> +.IR /proc/ pid /smaps ,
-> +except all mappings are merged into a single synthetic entry.
 
-LGTM.  Thanks!
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
 
 
-Have a lovely day!
+Cheers,
 Alex
 
->  .SH SEE ALSO
->  .BR proc (5)
-> diff --git a/man/man5/proc_pid_smaps_rollup.5 b/man/man5/proc_pid_smaps_r=
-ollup.5
-> new file mode 100644
-> index 000000000000..4b5f9eba0484
-> --- /dev/null
-> +++ b/man/man5/proc_pid_smaps_rollup.5
-> @@ -0,0 +1 @@
-> +.so man5/proc_pid_smaps.5
+> ---
+>  man/man5/proc_pid_maps.5  |  5 ++++-
+>  man/man5/proc_pid_smaps.5 | 10 ++++++++++
+>  man/man7/capabilities.7   |  9 ++++++++-
+>  3 files changed, 22 insertions(+), 2 deletions(-)
 >=20
-> base-commit: 59ba1c34fb6538206e96597739f053183d1e6428
+> diff --git a/man/man5/proc_pid_maps.5 b/man/man5/proc_pid_maps.5
+> index 8783dbb3a89d..dcd455ea840c 100644
+> --- a/man/man5/proc_pid_maps.5
+> +++ b/man/man5/proc_pid_maps.5
+> @@ -16,7 +16,10 @@
+>  .BR mmap (2)
+>  for some further information about memory mappings.
+>  .IP
+> -Permission to access this file is governed by a ptrace access mode
+> +Permission to access this file is governed by
+> +.B CAP_PERFMON
+> +(since Linux 6.15)
+> +or a ptrace access mode
+>  .B PTRACE_MODE_READ_FSCREDS
+>  check;
+>  see
+> diff --git a/man/man5/proc_pid_smaps.5 b/man/man5/proc_pid_smaps.5
+> index 51440cc13bf6..d83521409375 100644
+> --- a/man/man5/proc_pid_smaps.5
+> +++ b/man/man5/proc_pid_smaps.5
+> @@ -16,6 +16,16 @@
+>  .BR pmap (1)
+>  command displays similar information,
+>  in a form that may be easier for parsing.)
+> +.IP
+> +Permission to access this file is governed by
+> +.B CAP_PERFMON
+> +(since Linux 6.15)
+> +or a ptrace access mode
+> +.B PTRACE_MODE_READ_FSCREDS
+> +check;
+> +see
+> +.BR ptrace (2).
+> +.IP
+>  For each mapping there is a series of lines such as the following:
+>  .IP
+>  .in +4n
+> diff --git a/man/man7/capabilities.7 b/man/man7/capabilities.7
+> index eef074979f1b..bb8f6d9db433 100644
+> --- a/man/man7/capabilities.7
+> +++ b/man/man7/capabilities.7
+> @@ -283,7 +283,14 @@
+>  call
+>  .BR perf_event_open (2);
+>  .IP \[bu]
+> -employ various BPF operations that have performance implications.
+> +employ various BPF operations that have performance implications;
+> +.IP \[bu]
+> +read the contents of
+> +.IR /proc/ pid /maps,
+> +.IR /proc/ pid /smaps,
+> +and
+> +.IR /proc/ pid /smaps_rollup
+> +for all processes.
+>  .RE
+>  .PD
+>  .IP
 > --=20
 > 2.55.0
 >=20
@@ -138,24 +147,24 @@ ollup.5
 --=20
 <https://www.alejandro-colomar.es>
 
---2ugvonblzv4iitrd
+--h6vkmgouaxu4r6u5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqlVQcACgkQ64mZXMKQ
-wql0PBAAp+ob3fospu0+89itIr2LnCAecxoc6MwSCSqBIh/11T48wDPIicG4cbd2
-M5KZIrAjBtQEicpSf+T6R/ZcM6rVPNyA5flJk/QR+AjgCkzwOoafBD9hQVRsKmg9
-iSVve2rSBhfuVBR2hA0JEmUj2A85cR2CvIiqrKO0EjHXEIdwv+KZJJpBwH/M4cD9
-FgNReOn93eQGYIPj0gf1aQsb00xlspVLJi1oIbnnp0o6PFqJVFMKbbKoa/tRF6nT
-BeMLHhtcA3eDcVjl+2l6tYHwr/ktgoxdlpoh5cO811qoeva6o1X7a6XYXWD8RZ4j
-sKZjUzq8ulzBCwW+WoTgzm1zcJ5pdMSn1vEDmg//wBclfToOD9z+/mjVCKHHUxDv
-A81sjh53u+XLyvZeS0Wx1LoAX0+9cG5o9TvSne8Xx3o/IlEwFKOnPq1SQXkgCpn+
-Q9bO+E32KIMsM7vz75YQVZ30Ho72P34llAzjhPWTpL2zULeNaEnBILoSTcjUxJth
-pK+ekf3A4QIEihvtkihjCToh2zOQ+X2e+odeZIzo9dbDAQASTHgfqMJDWSEX3fuQ
-nhaWCxZaAI4Do0TH60T7cq73DeJYA9wRtsks1Fv0VXbhtkYnCf8zM0EJq30qpmf+
-N+M9N5D8v56fMjBN9cpDw78JbHSX6cfus3geG+vjgTVTfDdCO2o=
-=/9R2
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqlVhkACgkQ64mZXMKQ
+wqkv6BAApeKsDRZgNxwfDgrOcUFhYKqDlhymDHJLYDuFdSEeNoYzu0umpgzvTsWz
+lhcZ7dbgOsq6CREj2GD/mKG4vk6hpL/pCdRoMKnc4lTAYOPD9V4IAy5gO1pTFbR7
+ws2k4hsSKV6pUoNze5rHcbnIManTI6tSRv6XWbRnTizO3OHoALmvewe6DCwinGdB
+S6M0mv9H83oH4lEGIh4UBTMtzWzAH0XMCGvU7jLPwLN8gQ5rEt5wd7vi+sVEhQ6H
+oF9o1/rvp8AXhz9Rt5+XP9gE9YYOTmCGCO08rhE17iaOv80RItg7+101tszPCMEr
+g/O2NpZJxSDXB7k1nDzNMwrz9YWPJ9QPH/dwsYu7SxCIPBR5JvG/dXcnL193J/D/
+UUYjvxjwwKzOG7zn2EXupua/HPyFKyQ1KHh4FqkD5YLbj+ALhT8JMQ9MrR8CUcX2
+LeaP11zbF/qAtVoq3ffBTK96q3BrWxou/w7xBgzSDowW5Fb8btiYhfjASS6RgXN1
+8ob/v8GT9DtndORS/4LvewqFg/cuambIo/DfjJ22MH527QlEnDEsioQDYD32Ldnr
+o9w+qKO9/jmLi0VgeJokIZaOo7hXI5mWr+rKvK6k6NtE6qLiF7bmzohspV8IAf+4
+4GKYmZHQ1QOdVceksiUZmE8h4LpvJMERbbBZ+3G5lov8VyZTJK0=
+=gK0u
 -----END PGP SIGNATURE-----
 
---2ugvonblzv4iitrd--
+--h6vkmgouaxu4r6u5--
