@@ -1,142 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-13.mta0.migadu.com [91.218.175.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D8D418A4F
-	for <linux-man@vger.kernel.org>; Mon, 14 Sep 2026 11:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932053D9DC9
+	for <linux-man@vger.kernel.org>; Mon, 14 Sep 2026 11:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789386248; cv=none; b=YK6txV1g73rXwmdhSqPfEpFdPGzFlruj56U0YJYv9zWlOcKOVoXeLDMofWONSnIavmO/BFGX4e9hDAjwWN4MIgCoK2XREX+zzVRKiwOHKg+gj1+JkKpwntMR2u4l62Ecp1U55j1uQt2il930ZJdWKG7gEkdpA9YZH4OB80Mqymg=
+	t=1789386768; cv=none; b=HQzAo2pY878W8zwnXqRtVbyVrrJxBs5yx/UrhSOxe/F8qIj7Uq5oQyrxswkuxQ+3eZZ7VsVGsy8YoouVeJgeRsn9aHyfXGk0ku0uKjuYqaZGjoPRm6avGDNaoX1DIJpk27Ju6nI+hu8gunrB0UQcSCkTLiAwuuxlfBc/DDhWKcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789386248; c=relaxed/simple;
-	bh=WozLLgjwBB7pOTudqxm5u6CApMAwpxtLQYoFGql1gzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlzQqGn8DHRNGqo1rL/mJpVl1KOfFW3RjVZMuo1Px4qmCFk0Lh/jG/fVoHSofQUuENNQzp5nDqts8o1vmOmGmZ6ioTIbH1V80qdgH67ZtXBYVZNh+7rYqs36S74Wbtnn/iAPQX7FDrzZW3kiQh6WuBGfg+F67v81fY9N5FMU2Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gR+Gvgtq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789386768; c=relaxed/simple;
+	bh=MUbDlSzdaWwAQu84PAR+iNUHKmprKGRjfcneOi+mO9U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OmrO7FCaKdiWs0GAvgTOpdN3wvPHG2NabZ0kpaTwInifNQvJ7CG6riHqXDa9l5Rm1iiQbmM6VKCvui9l5FZzv9FckzPOLmidq62SBlWNYoAcJ5aLHQC8U5w9F/jdTsvr3nHMq7H9k8uEmUrkVG1324CcBs9AMWPF/xDiS+gWoSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maxchernoff.ca; spf=pass smtp.mailfrom=maxchernoff.ca; dkim=pass (2048-bit key) header.d=maxchernoff.ca header.i=@maxchernoff.ca header.b=UV9yWQz3; arc=none smtp.client-ip=91.218.175.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maxchernoff.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxchernoff.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gR+Gvgtq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A4CD1F000FF;
-	Mon, 14 Sep 2026 11:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789386247;
-	bh=AKnumAbTg9YdoCfASvEkKupJbfLZBe4UGXQHoHFVYuQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gR+GvgtqhVgljQnkHpK2mwsqRsBXpqPNkt2Dtw+tg8uNyP4iQ6lq/39kNfxEd/UJI
-	 hNCnGzNUcifB/DZyUbKPUn+HU3eCJIJdKeM4/5GEM50Q7/gjK4MLEdZ0o7kuX9XojA
-	 D/IEhGGpnm+5Aslbz/tO4mCYM5rNhCf/2Iu1bH/4V/Ldg575oNI9rDWGW78INxnD/v
-	 fubGRyrw7qdfTgsbpYVoDmGrDJdG9C1yidt0QGGzOemPR8P9Z4Djsw8sIAmLYeJrYM
-	 UB55TZMwXE06KcFD2A7G+MvONyrKl6xsn0kFqXVtbRDuaTBsw1L+McA26NgVPqvPnN
-	 PWaqZelqdaF9Q==
-Date: Mon, 14 Sep 2026 13:44:04 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Petr Vorel <pvorel@suse.cz>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/1] man/man2/request_key.2: Add missing GNU size
- forward-declarations
-Message-ID: <aqfd1_Xa_TbzE1ML@devuan>
-References: <20260914111511.1610878-1-pvorel@suse.cz>
+	dkim=pass (2048-bit key) header.d=maxchernoff.ca header.i=@maxchernoff.ca header.b="UV9yWQz3"
+X-Envelope-To: linux-man@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=MUbDlSzdaWwAQu84PAR+iNUHKmprKGRjfcneOi+mO9U=;
+ c=simple/simple; d=maxchernoff.ca;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789386763; v=1; x=1789991563;
+ b=UV9yWQz3KAp2cZ5hqddsBcAP0VYoVEuG46YoQPQgQ0UwXCtXglLSqqkGcRH5k2cGDKeiqira
+ iz3FvcDS7/kximA3DuSTJ69nYbAl9Xa+FMhKDW4NUvACXFeSQgaOm23DTnnnxtIDV05e2SnKXR+
+ nm+QMmPSmDr9DPeP8/hKVfKobCRIu9x7MbUJL94GqtiShdHnEg2X7ZM7tcnpqcRhCH4aDhqZ2KV
+ /cxcdIYwatslxE0FeIvx0ADjQWxp284EULiRLNHqa5fHvVWBAHuBIF3Xq4Spl3uuTDkXniPQIUJ
+ WVnuIrgjR+CFcguUJdbZidn7empCOOzyBSyPZzTcSr1fQ==
+X-Envelope-To: linux-man@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8a02d815d4e0e28c;
+	Mon, 14 Sep 2026 11:52:43 +0000
+X-Mizu-Trace-ID: 8a02d815d4e0e28c
+X-Migadu-Flow: FLOW_OUT
+From: Max Chernoff <git@maxchernoff.ca>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Max Chernoff <git@maxchernoff.ca>,
+	linux-man@vger.kernel.org
+Subject: [PATCH v2 1/4] man/man5/proc_pid_smaps.5: Add description
+Date: Mon, 14 Sep 2026 05:51:45 -0600
+Message-ID: <43dbde187d860da709a564041428026cad0ae4b4.1789386106.git.git@maxchernoff.ca>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1789386106.git.git@maxchernoff.ca>
+References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca> <cover.1789386106.git.git@maxchernoff.ca>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lzcfro4yixxcu4vq"
-Content-Disposition: inline
-In-Reply-To: <20260914111511.1610878-1-pvorel@suse.cz>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=942; i=git@maxchernoff.ca; h=from:subject:message-id; bh=MUbDlSzdaWwAQu84PAR+iNUHKmprKGRjfcneOi+mO9U=; b=owGbwMvMwCXWf8WB5bZ2aR3jabUkhqzl9y9n3uliS5i0Q1X8zt+rd56dluh++Djlk1tEd0Dpv De/gtIyOkpZGMS4GGTFFFliMlM4viY+O7RQS3sBzBxWJpAhDFycAjAR5aUM/+zyO8QiJ+T1qL1P vN/0PuL1g8BcNsESkVc/ygLfSC04uoiR4bTrbs6p11Sv1/1Yq6i4YdqitDM3pl41Mov0SJY0b3g RwwcA
+X-Developer-Key: i=git@maxchernoff.ca; a=openpgp; fpr=5C696408F561E6C2A12A2BA08FD44004DB2B757E
+Content-Transfer-Encoding: 8bit
 
+From the patch that first introduced the file:
 
---lzcfro4yixxcu4vq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Petr Vorel <pvorel@suse.cz>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/1] man/man2/request_key.2: Add missing GNU size
- forward-declarations
-Message-ID: <aqfd1_Xa_TbzE1ML@devuan>
-References: <20260914111511.1610878-1-pvorel@suse.cz>
-MIME-Version: 1.0
-In-Reply-To: <20260914111511.1610878-1-pvorel@suse.cz>
-
-Hi Petr,
-
-> Date: 2026-09-14 13:15:11+0200
-> From: Petr Vorel <pvorel@suse.cz>
+> Here is a new entry developed for /proc that prints for each process
+> memory area (VMA) the size of rss.
 >
-> request_key was left from GNU forward-declarations of parameters for
-> sizes of array parameters.
->=20
-> Fixes: d2c2db883 ("man/: SYNOPSIS: Use GNU forward-declarations of parame=
-ters for sizes of array parameters")
-> Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> ---
-> Hi Alejandro,
->=20
-> although I don't like N3207 GNU forward-declarations of parameters for
-> sizes of array parameters syntax (I'd prefer to have the signatures
-> which are in the headers) and I don't think it's practical (before one
-> could copy paste the signature from man page), I understand it's a
-> wanted feature. Therefore I fixed missing size parameter in request_key.
->=20
-> I suppose more functions were left in d2c2db883.
->=20
-> Kind regards,
-> Petr
->=20
->  man/man2/request_key.2 | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/man/man2/request_key.2 b/man/man2/request_key.2
-> index 3bb52f31b..d16642d9f 100644
-> --- a/man/man2/request_key.2
-> +++ b/man/man2/request_key.2
-> @@ -14,7 +14,8 @@ Linux Key Management Utilities
->  .nf
->  .B #include <keyutils.h>
->  .P
-> -.BI "key_serial_t request_key(const char *" type ", const char *" descri=
-ption ,
-> +.BR "key_serial_t request_key(" "size_t size;"
-> +.BI "                         (const char *" type ", const char *" descr=
-iption ,
->  .BI "                         const char *_Nullable " callout_info ,
->  .BI "                         key_serial_t " dest_keyring );
+> [...]
+>
+> + smaps	 Extension of maps, presenting the rss size for each mapped file
 
-I don't see the 'size' being a parameter of this function at all.  Am
-I missing something?
+Link: <https://lore.kernel.org/all/3f250c7105010613115554b9d9@mail.gmail.com/T>
+Signed-off-by: Max Chernoff <git@maxchernoff.ca>
+---
+ man/man5/proc_pid_smaps.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/man/man5/proc_pid_smaps.5 b/man/man5/proc_pid_smaps.5
+index 9c433dbc1e60..963136109ad8 100644
+--- a/man/man5/proc_pid_smaps.5
++++ b/man/man5/proc_pid_smaps.5
+@@ -7,7 +7,7 @@
+ .\"
+ .TH proc_pid_smaps 5 (date) "Linux man-pages (unreleased)"
+ .SH NAME
+-/proc/pid/smaps \- XXX: What does 's' in "smaps" stand for?
++/proc/pid/smaps \- size of mapped memory regions
+ .SH DESCRIPTION
+ .TP
+ .IR /proc/ pid /smaps " (since Linux 2.6.14)"
+-- 
+2.55.0
 
-Have a lovely day!
-Alex
-
->  .fi
-> --=20
-> 2.55.0
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---lzcfro4yixxcu4vq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqn3gMACgkQ64mZXMKQ
-wqkNwBAAjonVoS4N3nkfcfmW7lZTQ3YYQRT9q4jPWFii27JfxHsG8pqJc39OlBQP
-T5SRsx+gT/GWe4Uyj9/aEOIqmDa8V6NQT4Y33XY3uoYTL3fg7dQomwthcu/ddHmE
-74U+s+lg8OevPrYuz7fhxYiqsy2uDUBtbSjhtikRZPULU0wz02VlLsqMDr5Af3uE
-PBxrbq0q9IudeqnRTwFIaA3qMjN8B9ax9W4iJNJ+mqNvowAeoPXGbBpxMS0LutS7
-lUe7E7iJ684U9yejq+K+S9g8Xw/lzhnPI4XR9Oqel9/gQIYZSIzTNkyUyTJK1nx3
-47divlhJY4ej7nSQpJX9m+xgRUTpTgJQIhImEch/b2v6HH3qzffhXslpuTz0u5AT
-9yDJLIeruG/TrR5JP1sXam0VrUe57sKVqqM5//RI6iKV3BKfRouM8WJl6kQj1y9e
-9j3k+AjtUmDS0wuWBCJVSZ22yhNVbQnd2mVtWhL86k1re8b7MasTcaYA/QbZPHkI
-AStD2QifScN88HPsxqzIWRm7fmZjHwCWFa19h6lF+BXPSDBZDb6tyeRyDSFrgsd2
-ftOYVZXaJLRe3xeWD2xUikNakk8CJ08J0FOb0aCz+iywPT/aSyIUyqODidErIHWH
-HKZUZ1R67xHpNtog7iJ7LHHVRXnf8uJXu6BUH5c3x2cQsVugiYM=
-=V5xz
------END PGP SIGNATURE-----
-
---lzcfro4yixxcu4vq--
