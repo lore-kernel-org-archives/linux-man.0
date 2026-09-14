@@ -1,218 +1,176 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailrelay.tugraz.at (mailrelay.tugraz.at [129.27.2.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D939A06A
-	for <linux-man@vger.kernel.org>; Mon, 14 Sep 2026 18:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97CC36CDE9
+	for <linux-man@vger.kernel.org>; Mon, 14 Sep 2026 18:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.27.2.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789411086; cv=none; b=oxk+gPzV5s2kDU+/STuxG/kVIaXr9y5/jSEx/OPE+4BN+yBJfoeGodMp7Ue0KL9K59onP4Uvnfk/zoAggtcdsm6CjQ3vaEuFAarU3Fqq6ja+7hyRYiIp46dMelHfqR7umNSkHic3icV6/qjLeeK/+XAAAR7mlJwrThDwPa3iWMY=
+	t=1789411279; cv=none; b=XMz4S3blhiYysbhbW1o6qKtkgXv5N388XUFAlHvX9sMTCyKNFCg5918cfR3V0LPKPbCFylDDIjdqmI3kze3KDJzwC9sCKixiwk1fVwqA/COStQVQexVsO5DH2kcEnBqPwZSqMv7zVszDPdfUoaEeap23qTg7FheYpHZDlYxmb5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789411086; c=relaxed/simple;
-	bh=B52C/zSVX+bWim+q3NfFsYtYwbMJIspKz8MtOrDPFnc=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gIUZlnuyYVfILrBZiPCI80Bwtj0Ib6gw5VUMnsMApE6hjBcGEDqqH52cG9jtajTcwrc9BeSkwadKk2dcVxNIXT1iiL4uqk2b0PJ1P9/O0di5JjGwHr46Mjb62dGZL0kNf0rhvpPFl7rxQqymEwPK2QfO2qvpNp0HdEpKFzGRpE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rnMxCFJm; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789411279; c=relaxed/simple;
+	bh=nbO9uqi5NV6IJgcoRbS9ZJ6weUDjhHmkAgp5OA1LJIU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=S8f2MGJdr+qcGnQ3+gf4qSw1/nO6ucskLyE5ITkQJjB2kg0Z/e2eyScLfExcfaGl3cVjeroIkNWD/Jyh4v61omeMf6Uphs8Q5vW67vdS3RRROjeNbc5VJTVNJRt5DvCQKphSZPMSkknOool/8aw31/CfO3MC90iCydyH4rD+HAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tugraz.at; spf=pass smtp.mailfrom=tugraz.at; dkim=pass (1024-bit key) header.d=tugraz.at header.i=@tugraz.at header.b=A5q1YDoL; arc=none smtp.client-ip=129.27.2.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tugraz.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tugraz.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnMxCFJm"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e50968489so1837001d50.0
-        for <linux-man@vger.kernel.org>; Mon, 14 Sep 2026 11:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789411078; x=1790015878; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EboBGCGaT45IwkjWNDN9n6KRDcDfAdw0/pnvybKVuKc=;
-        b=rnMxCFJmDRAmy2xaUrVhQRlK4e+y9VLdh1W0F6BIz+/TXUuWGZTmK/WRRS88+t/rF5
-         jzjn8zbfZGzyYLX8QOf1oVVEtppv418CG1ka/r9Ib/EOGzWRXqxYdfAeDOn1ACeosSL9
-         St5glDRxyZytiuYxyFEJ24qyGSH3v1kkJahy3kaxSJNjoGREaowDoePqBOZaQ1HvZX8a
-         iUhXQcunOj5xDOX0ns2HYmge09u8hV1tICNARWwd38Cd11+XOcOQzK+++SGOiJV6TS0d
-         tYd8WR6fkbfRincTNPwaF9LUjI0JEsbl+FwZ54aKC4L1lLY2nptSAjqxduQukvNYpITu
-         1cUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789411078; x=1790015878;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EboBGCGaT45IwkjWNDN9n6KRDcDfAdw0/pnvybKVuKc=;
-        b=JWw6zcvf+M4hVFlGpu4Hadm8hRCMHypbFDnp92ygdu5xneLaBmHYwUw2+fccwNESKE
-         Ko9Tf03sAFMWs5Y+/ZLzAy8gP1lWPesuOt99eKEjrNXZx0DRAGfcWDkUD1mlzM2+ZYFn
-         BAQg7WWPHhbtRNV38puovr1ZLL3wB/6uICGSE1E+8IGWzIGIXIWMwpTqVFIhBZ8/PCsm
-         fktB3bObNKy3nQUVCDMRYPVkEpolm+cu0gpbzScuj14LxgSscylv1nrhycN5viIwg+mm
-         +7SR3Wz/bFcgUf2SG9YF+tvgzA2etazsx3m823hvwta0uTtGOuzwJoD61XjFbQiX55Hq
-         64Hw==
-X-Gm-Message-State: AFuF++kS+lvXIzmvtX6RcrRfBupvudLk6r17W+ejYXN+4acOkKwqB6/B
-	vcI3wHkcQmxToYiVZ5kMxvzNx6VgpPd9162MfAAv28FioijS+l5lkBflQ9+kkA==
-X-Gm-Gg: AYBFou01lhqrfcpzSc9xy5kxvRbGwgFbQzIDuYR+le1t9I1KLE0QUli0y9Id1hDyEz6
-	E8KBkQaSA1P+oQ5CmHa5e7CK3PEmhfxE3bXbPUwKAM3PMltw1bJqRcfLp4aLZi8cThotdQ1O5PT
-	0qM3vM+8KBJqipnzkt/xkczOxfvWOiqubqwDW8T3UDXKo4A0DyHHjPmZKAt7BmhQXzSfXsAJP6M
-	RE/vt9AUXAv4zho/MojizpIqQs3+7YEp5rJV/7te2YrGaki8Uajpgz0fdwizIDLwp0+IvF3BjsB
-	vQRplHm88V70dhwMDB3xt6Jp58ksXLvHwGPZhxZmLtzI/r0G/Zy0RNxpAe/hp3dL5s+6Jbk6/Qq
-	N/2wTc31bYLFveiePR4b4xw3DwPuJE7SvZtfjPI3S32zZ+kTos0KI9lmbgKnnPR0pFm+pRBmH7A
-	9Q534ER7j9c2bTSwW1WGZ8TjLrQisiwL0HQ5gp0gRxC23ryaThuG/2mByBvwv7O8XA92qxVpLgZ
-	ZLqkXF+qw0=
-X-Received: by 2002:a05:690e:4847:b0:671:3036:42d8 with SMTP id 956f58d0204a3-6714e195eefmr1061031d50.45.1789411072691;
-        Mon, 14 Sep 2026 11:37:52 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980:4f4c:9d3d:ae83:2fcc])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67125db3459sm4961569d50.6.2026.09.14.11.37.51
-        for <linux-man@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 11:37:51 -0700 (PDT)
-Date: Mon, 14 Sep 2026 13:37:50 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: linux-man@vger.kernel.org
-Subject: status of C forward declarations (was: [PATCH 1/1]
- man/man2/request_key.2: Add missing GNU size forward-declarations)
-Message-ID: <20260914183750.cpvfbblgoegjlo2f@illithid>
+	dkim=pass (1024-bit key) header.d=tugraz.at header.i=@tugraz.at header.b="A5q1YDoL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tugraz.at;
+	s=mailrelay; t=1789410848;
+	bh=bm72rZ5644b//2QqN8gdZPL5EFvgjnQ3zBPwGKnpJYo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=A5q1YDoLDoYhY6owMHCPGkz6p5rCC4LrNjNckvckWVhWIGFdVIKTALDh7vn+rGDA4
+	 1tf+1VllPA0eyL3zSVIctLNVjZTptRT3i1Hj/3VDAOBn1xqWaDJyHKiRnvseEi6xVn
+	 4UL7DhFOV30WLpy/m8ZE72uhoOoSbjpszyvrP5DM=
+Received: from vra-168-188.tugraz.at (vra-168-188.tugraz.at [129.27.168.188])
+	by mailrelay.tugraz.at (Postfix) with ESMTPSA id 4hkDM4330mz2xMM;
+	Mon, 14 Sep 2026 20:34:08 +0200 (CEST)
+Message-ID: <4ec579cb8963a7221ee833dda507d062a787fd47.camel@tugraz.at>
+Subject: Re: [PATCH 1/1] man/man2/request_key.2: Add missing GNU size
+ forward-declarations
+From: Martin Uecker <uecker@tugraz.at>
+To: Alejandro Colomar <alx@kernel.org>, Mark Harris <mark.hsj@gmail.com>
+Cc: Petr Vorel <pvorel@suse.cz>, linux-man@vger.kernel.org, Yeoul Na
+	 <yeoul_na@apple.com>, John McCall <rjmccall@apple.com>
+Date: Mon, 14 Sep 2026 20:34:07 +0200
+In-Reply-To: <aqg0173m_lx_UB4G@devuan>
 References: <20260914111511.1610878-1-pvorel@suse.cz>
- <aqfd1_Xa_TbzE1ML@devuan>
- <20260914122442.GA1591402@pevik>
- <aqf1jJ1qxsTdw6kE@devuan>
- <CAMdZqKFVE-1-LkBR+ei77rd4dwXXS2AG_nySx5ACi61whtxG1g@mail.gmail.com>
+	 <aqfd1_Xa_TbzE1ML@devuan> <20260914122442.GA1591402@pevik>
+	 <aqf1jJ1qxsTdw6kE@devuan>
+	 <CAMdZqKFVE-1-LkBR+ei77rd4dwXXS2AG_nySx5ACi61whtxG1g@mail.gmail.com>
+	 <aqg0173m_lx_UB4G@devuan>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pffi7euchmbtgkq2"
-Content-Disposition: inline
-In-Reply-To: <CAMdZqKFVE-1-LkBR+ei77rd4dwXXS2AG_nySx5ACi61whtxG1g@mail.gmail.com>
+X-TUG-Backscatter-control: G/VXY7/6zeyuAY/PU2/0qw
+X-Spam-Scanner: SpamAssassin 3.003001 
+X-Spam-Score-relay: 0.0
+X-Scanned-By: MIMEDefang 2.74 on 129.27.10.116
 
-
---pffi7euchmbtgkq2
-Content-Type: text/plain; charset=us-ascii; protected-headers=v1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: status of C forward declarations (was: [PATCH 1/1]
- man/man2/request_key.2: Add missing GNU size forward-declarations)
-MIME-Version: 1.0
-
-At 2026-09-14T10:19:13-0700, Mark Harris wrote:
-> Alejandro Colomar wrote:
-> > > Anyway N3207 (spec mentioned in d2c2db883) is something I'll need
-> > > to get used to :).
-> >
-> > There's a more recent paper with a slightly better spec (also
-> > compatible with GCC): N3681.
-> > <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3681.pdf>
+Am Montag, dem 14.09.2026 um 20:12 +0200 schrieb Alejandro Colomar:
+> Hi Mark,
 >=20
-> There is an even more recent paper addressing this subject, N3923
-> <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3923.pdf>, and the
-> outcome from the last WG14 meeting was strong direction to proceed
-> along these lines.  Hopefully this much more human-readable approach
-> will prevail and we can do away with these confusing forward
-> declarations in parameter lists.
+> > Date: 2026-09-14 10:19:13-0700
+> > From: Mark Harris <mark.hsj@gmail.com>
+> >=20
+> > Alejandro Colomar wrote:
+> > > > Anyway N3207 (spec mentioned in d2c2db883) is something I'll need t=
+o get used to :).
+> > >=20
+> > > There's a more recent paper with a slightly better spec (also compati=
+ble
+> > > with GCC): N3681.
+> > > <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3681.pdf>
+> >=20
+> > There is an even more recent paper addressing this subject, N3923
+> > <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3923.pdf>,
+>=20
+> Indeed, there's that newer proposal.  It's a different one, though.
+>=20
+> > and the
+> > outcome from the last WG14 meeting was strong direction to proceed
+> > along these lines.
+>=20
+> The actual poll results are 15 in favour, 7 against, and 4 abstentions.
+> I wouldn't have called that "strong direction to proceed".  I know
+> that's what the minutes say, but I don't agree with how polls are taken
+> as strong direction.  7 votes against is quite vocal opposition.
+>=20
+> Here's a summary of the room feelings:
+> The committee was more or less (including myself) saying "as a user, I'd
+> like it, but as an implementor, it'd probably be a nightmare; as long as
+> implementors are okay with it, we're fine".  There was a comment from
+> one implementor of a small C compiler which essentially said it was
+> un-implementable for them, which raised some concerns.  From the
+> minutes:
+>=20
+> 	Uecker:	The SlimCC developer and another compiler developer
+> 		wrote in a discussion about general features that they
+> 		are worried about parameters for active declaration
+> 		scoping.  It is difficult for them to implement this.
+> 		They would rather implement template C++ functions.
+>=20
+> I suggested a way forward: first, write a proposal prohibiting the use
+> of parameter names in array length expressions that clash with variables
+> declared at an outer scope.  The wording would look like this (taken
+> from n3923 itself):
+>=20
+>     6.7.7.4  Function declarators
+> 	@@ p4+1
+> 	+Within a parameter declaration list,
+> 	+if an identifier used in a parameter=E2=80=99s array bound expression
+> 	+refers to a name declared later in the same list,
+> 	+no declaration of an identifier with the same name
+> 	+shall be visible from an enclosing scope.
+>=20
+> This would require that the following code results in a diagnostic:
+>=20
+> 	int n;
+> 	void foo(int a[n], int n);
 
-This sort of naked triumphalism when reporting on working group
-deliberations would be better replaced by a citation of the minutes of
-the WG14 meeting in question.  Since you didn't do that, I will, and
-further will quote the relevant portion.
+The - rather serious in my opinion - issue with having a constraint
+is that you can not always control what identifiers are in
+scope, or will come into scope ten years later when some library
+you happen to use adds a new symbol and then now breaks your code.
 
-At this point, the meeting minutes for summer 2026 are available in
-draft form only.
+Yes, for "n" this will not happen, for other symbols it might.
+The whole point of having scopes is that they shield the nested
+scopes from the outside.
 
-https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3953.htm
+This becomes even more serious once you allow any kind of nested
+functions or lambdas, because then the collision surface becomes
+much larger.  If you insert lambdas via macros because people
+start to use them as a replacement for statement expressions, then
+you suddenly have macro that randomly fail to compile in
+specific contexts.
 
----snip---
-Na/, Forward Parameter References through Retroactive Scoping, v2
-(Updates N3830) [N3923]
 
-Celeste: I like this. But I am worried that "constraint" is too strong.
-Unrelated libraries can collide with each other. I would recommended
-practice be strong enough.
+Maybe we should have both, forward declarations and some limited
+form of retroactive scoping.  Then one could fix collisions with
+a forward declaration that hides the outer symbol and harden
+macros.
 
-Bhakta: I like the changes. I also like that there is no new syntax for
-it. Some compilers still have issues with far-enough look-ahead; that is
-my only concern.
+The issue that it would be a major pain to implement full
+retrospective scoping even in GCC remains. I think the only
+realistic fix for this is to really narrow it down to a very
+limited set of expressions.
 
-Gustedt: I am sympathetic to this approach; we need a solution. I am
-still baffled that we did not get any other solutions. I am scared of
-the complexity. I would still prefer forward declarations.
+Martin
 
-Celeste: This is similar for pre-C90 where you had to hook up with a
-declaration later.
+=20
 
-Adams: How does this integrate with the type system? Is it separated?
 
-Na: Your question is about the attributes, right? This is not about
-attributes. We have other proposals about intended attributes. What is
-your proposal number?
-
-Adams: My example is for the noreturn attribute. What is the current
-status for the C type system?
-
-Na: This proposal is for core language array size.
-
-Bazley: SDCC already supports forward parameter declarations, but is
-more limited than GCC. I wonder if this is an over-engineered solution
-for a problem that does not need to exist at all?
-
-Celeste: Is this ready for the Wording Group?
-
-Gustedt: No, there are too many unanswered questions.
-
-Columnar: I strongly prefer forward declarations. I like this proposal
-more. Given that small implementors cannot implement this, I am not
-comfortable accepting this.
-
-Uecker: The SlimCC developer and another compiler developer wrote in a
-discussion about general features that they are worried about parameters
-for active declaration scoping. It is difficult for them to implement
-this. They would rather implement template C++ functions.
-
-Na: I need to discuss with that person offline the nature of their
-problem.
-
-Colomar: Would it be acceptable for Clang to propose forward
-declarations, and then allow compilers to decide whether they want to do
-this retroactive parsing?
-
-Tarditi: You could use that rationale to deny many changes. I do not
-think this is a serious issue. We could add implementation-defined
-limits if forward tokens is an issue.
-
-Celeste: This could potentially be optional. I do not think that is
-possible. It does not give any cues to the compiler. Which bits would be
-optional? If the expression in the array bounds is limited to an
-identifier, there is no parsing problem.
-
-Meneide: We do have an "implementation limit" section in the standard
-for such things. Limits on look-ahead for this feature can go there.
-
-Straw Poll: Would WG14 like to adopt something along the lines of N3923
-for C2y? 3-0-0+12-7-4=3D15-7-4 strong direction to proceed
-
-Gustedt: If we want this into C2y, we should have a paper with the
-semantics cleared by November, so it can go to the Wording Group.
----end snip---
-
-I assume the "Columnar" listed above is a typo for "Colomar".
-
-Regards,
-Branden
-
---pffi7euchmbtgkq2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmqoPvYACgkQ0Z6cfXEm
-bc5d8w/+PETRuP5qr86KyJmKioATSK76by767Qpdqxzm0MeXIK24qmk2Q1hhwMXo
-+syJSwIUe1buuCI++nzTljwBTE+9eeFZ5gIXOyWMxTysMOIH7BB9qZ6oiBDR42KJ
-RREgUKGqtjiS6A22Qa7S83md+w6YXFCRjNxT7L59LOTN6xuApJPXdzkr+fVnGHwt
-WrzCxPzCm59mGR2bao37/NsNMkPGAb7Bq8RU6Fc9fL50nOouqU6923MSumLRmtn8
-iwOuJFgVcXGUgTyOaCZr75lV2BhSdnklxqHeLjOvQrGrTpY/KPqtoC7rrRrEnBGk
-UpeYLsYvIJXseqk6/aNMQXdqi97diehjkayFo+inhSEPk76yXxtRpIqr9rr2CJxB
-6Q7n9iCn+mJjG76UZMsunwQgN0D7Y+NKx0RxqKIfOP1bZaOOQUvuKDB7CCTwS4Yc
-UGgMbnb79fQmaMIYs/jrQD/DBbf97L3ptZdca79KW8qKwvR23Xl3WBD5RUrzd+ZS
-Kp747Zv3L4BDgZ4AyZfOH0s2xnDWSiLQ1XIa1/98FZFdc9ECTdshqHLqgyPwXlF0
-r0x7B7Swfzb/+alAVbCLKlPAJ02zoDouB4uXzk2seSHAh2pQQ3lJpmTSbF+EE45A
-zKKRRJ/ZwZ+Y3shzhUqDxMb3aRaajGhiaH6+zZxLL1dhryBWJ88=
-=xP6d
------END PGP SIGNATURE-----
-
---pffi7euchmbtgkq2--
+>=20
+> But it would allow the following code without diagnostics:
+>=20
+> 	int n;
+> 	void bar(int n, int a[n]);
+> 	void baz(int a[n]);
+>=20
+> This is obviously a good constraint, since it disallows code that is
+> most likely already broken, and doesn't affect code that works fine.
+>=20
+> Once that constraint is in place, we could add --as a second proposal--
+> retroactive declaration of parameters being optional (so that small
+> compilers can say they don't support it), but we'll be sure that code
+> will not misbehave on such compilers.
+>=20
+> >  Hopefully this much more human-readable approach
+> > will prevail and we can do away with these confusing forward
+> > declarations in parameter lists.
+>=20
+> Agree.
+>=20
+>=20
+> Have a lovely day!
+> Alex
+>=20
+> >=20
+> >  - Mark
