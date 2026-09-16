@@ -1,126 +1,183 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F581509EEA
-	for <linux-man@vger.kernel.org>; Wed, 16 Sep 2026 13:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003644F055A
+	for <linux-man@vger.kernel.org>; Wed, 16 Sep 2026 14:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789566742; cv=none; b=roCCPhDNP6oGleokBknXIa24EPgPuhY/EZCZ7UH/Ar9VtE4tLY3jFmMhg6VlOjt4DMy51EDMZiZr382em8TkEBR/K5iQndm2vz2IuwGrkt5YwKrVn+m5ZVYrztKHdCjW4INSklPqx0uhLOIUPBm35Y/CAHSId2Rc0HKclkG+iD0=
+	t=1789568570; cv=none; b=eUlMAd7iYkYaI7fT3yXSfYRaZKDI7OmNw05ieLXH6RDx5zgnny/LQ6Ku9n52MYeP5GHj0y8n7hOfyClL0g/I1xhyBvqsJ/tI13afsfR208wmIdQFk9ZWZLA5RLDtvAI8HB8k9YdTiV8va4C0h1I8itqxrH6Yn4nFA6v1oUQnnwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789566742; c=relaxed/simple;
-	bh=T8Yv61LqH4tuZjRHE2lGJ8C17f8dGSJTVyo3HieOuVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dlYnItR6eaYT82trybP9wDMSWqmuMdUNJkLoc0LhZLtFH1eCwBD07OjQsGX2nPJ0R8L4OepjojDg0VT9fbXsltqICoSKyM9q8Q/m4bDMgPnb9BwDfeQXovHS/Xh5O2+f4vUDwiKzzV6Txe16Hctr3Sadec9U+dpoyhvu1pPJ0Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=spit.ac.in; spf=pass smtp.mailfrom=spit.ac.in; dkim=pass (2048-bit key) header.d=spit.ac.in header.i=@spit.ac.in header.b=FC4DAbI2; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=spit.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=spit.ac.in
+	s=arc-20240116; t=1789568570; c=relaxed/simple;
+	bh=pTXxjmirf1MuIBWFppnJrN520boXV8glzmiGoRH6jlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z7qoG4ctdqQJ6Vh7LNOBNFhCu9DpDEbhyZqZCp3d+dVVOXraT3KpUNXbwOHhsqx2d369kHJ6jfdijLfzfmQjXFCAPtZWNZBzCKuSJTQzZGPKzqNaN+MdKI9UYzewn84tDDnWp9RoiOQVpHNHVqMEOUB9d1Ns/087xAMB7YXZ9Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AHVJ0yhb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=spit.ac.in header.i=@spit.ac.in header.b="FC4DAbI2"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-39647184c73so1784821a91.1
-        for <linux-man@vger.kernel.org>; Wed, 16 Sep 2026 06:52:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=spit.ac.in; s=google; t=1789566731; x=1790171531; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:subject:cc:to:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Cj39kN8A6iXEQ3nMlYEzg9AKc7uNStS+3fq5xofKEFo=;
-        b=FC4DAbI2P3LeJela+gcEXAotz7xyZEhaTcS/tgucCNsvDAdbWUHP4LFHqr+rLATu+d
-         KNgY2V5FLOPerQI0VS8j4zJiyEmE4+qHWZpo+AUjMqVu+pbLWX00Prqz5D9OFuazw2kB
-         L+xIWnmVStEQCrNqs128LpHe/n98PLH7vCa4gifXalSVxkjdZXy7V7xhS8xvwC7l66gv
-         cKxW/sWa8gFubGlHf/MFdoUjJeEy2ARjXX0enYCLVLYtjrYDp4IOSSIjD62Oaw8+bTpQ
-         0RStmWg+FleFmvmrMpoqeCKK8JxyOkFC6fdVtEKXZubkaBUwBTSpoPW5G0NJRPhr+FfB
-         eGxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789566731; x=1790171531;
-        h=content-type:mime-version:message-id:date:subject:cc:to:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Cj39kN8A6iXEQ3nMlYEzg9AKc7uNStS+3fq5xofKEFo=;
-        b=2TkUUgj6+rxIzz8o1j+IGhjh959/bWvwwtyE1gmEig+PIlGhF9x7m9BCmTudy8pfeM
-         kmG6vzTfwb5NClofURM9ZGXGggyXUgoU4se7V+Jc6n/J25obUS9EegU2UQAvlQyB2KmD
-         zyq6qMgPQWATtPfKb2OrNRAYdsFurlGIv1aE8fu79HS8XkR0s1gNwJRbrOGUZfpbajeP
-         ZF0BBltA7ePxA5PTmAHgTmOSi78HlmqyM4jF+WSyz2UBj0UcPOLy59T/OAFJJRRqGdIV
-         sO/1jG3nNW+75BhOA7X4YFWBaWNFlBA8lhlf6G8x8sM2UbqHMFuP6k74YRoylqXjLkOx
-         WHyA==
-X-Gm-Message-State: AFuF++nvi7+iS38X2aY0mj+uR6pTt0XvFUbw1xBla8exs5qZ8sleoqhJ
-	MzGDPuAmeQgskyTtU1BO4sRRXnkAi6ExFo7feYXwtsTUsf5HEM/T1Tp68SZaKaMUiO1d9XDepun
-	M5FYTUhqFw81tWhSBzi8/QoybbshRtCUnS0hqJbPI78/M9iF/hyvMsdE=
-X-Gm-Gg: AYBFou2Fo3FCnTE2GbwXWrcZska7536CEwxIEFkc40jC6oKD7U4iNahbxj0N3r9L/Qb
-	I4brgC+rZx1oIkccSR/qZ+B+BDpJERghLR36dkd4ncmMnVKCFg1MdbXBCFCQUXODoP4hBeNeW8m
-	ed9LLjrLbEWWgbXMLtC95eNIwdNtDkaToSe0dSprM39weyytFfh3mQyFDl9V4pMNoc94/ZJZ7pz
-	ORqS6/6j3VW3dKF6N2C9cqqmP1JW7bkTX5UWROfu8CmttcbWH1gWArk5/OjVBvblVTxrrcKWl+W
-	e6yzrW0P7o4NXC56LikIja98IWxkwjz45MJSqaw1iGpVHn11BjHm6ltYNq2M96rEUSKcNJ+8rF5
-	AUYMSayCR2zeFHaFIByQ4VPfhuF+IX8QIWbi0VEb9ZByqw8CkD0+whndXFAiDPDvgACdMxTupIY
-	yq/pQUB2HCcyxMkPGGLWnf31ARJBAyqeAUcHBfC4lnh/Qum6ev1rLHrPqpC9OhtF2TIOdpiXHUq
-	Z5nlzldFA202+HsrNV/dKgjnrgb6aFjd7K+hUi1qKYjalmOU4gyH34gmlWP9A==
-X-Received: by 2002:a17:90b:4a:b0:381:10a3:8b10 with SMTP id 98e67ed59e1d1-39dfe070a4fmr12475804a91.14.1789566730996;
-        Wed, 16 Sep 2026 06:52:10 -0700 (PDT)
-Received: from AnmolsLap.tailf2b25f.ts.net ([103.104.226.58])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5af6593sm8060690eec.25.2026.09.16.06.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 06:52:10 -0700 (PDT)
-From: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org,
-	Anmol Katiyar <anmol.katiyar24@spit.ac.in>
-Subject: [PATCH] read.2: Fix mangled SYNOPSIS macro
-Date: Wed, 16 Sep 2026 19:22:05 +0530
-Message-ID: <20260916135205.84561-1-anmol.katiyar24@spit.ac.in>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AHVJ0yhb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2371F00899;
+	Wed, 16 Sep 2026 14:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789568568;
+	bh=6ZL5XaZxRZVXT95zEfb98n9S4NjZwkp5wlsA6Sa3aJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AHVJ0yhbO7p0hTiNzckEsn5lwrY/YCRw90uKAbtxCj0gQr0LiITNDvO/QUn+DLcjp
+	 QqCFKdTLWFAjVqdt0GQPGtlEU+NoIvH7NKef7OFAOJTrYa6AClUcHgr4b0gwBUKQ8N
+	 IXLYmbAtd28fN+DRrItdUcdEo1nZvm1RBZ6bHh9evnJcRPBnluzz7VZlr0/Ed5Cv3o
+	 1oLxZmU3l3RjaQGO95gWZNSCZPhqKmmgmlEXeE+hHvb4iFURrpo9oo3Qt1iOofDE5L
+	 S3duEMlkF2sI3RWOdaK+GVEnJc0nEef8MZ8V1g5Fd2PeroQbJ+ksMB6KZwa41p1x5N
+	 pJa70bWvin6xg==
+Date: Wed, 16 Sep 2026 16:22:45 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] read.2: Fix mangled SYNOPSIS macro
+Message-ID: <aqqih5uGqYP0D_db@devuan>
+References: <20260916135205.84561-1-anmol.katiyar24@spit.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-
-The .BR/.BI macro pair for the function prototype was broken:
-.BR alternates bold/roman rather than bold/italic, and a stray
-duplicate "size_t count;" fragment had been left in from an
-apparent botched conversion to the buf[.count] bounds-annotation
-style. This rendered as invalid C:
-
-    ssize_t read(size_t count;
-                 int fd, void buf[count], size_t count);
-
-Replace with a single correct .BI call, matching the bounds-
-annotation convention used elsewhere in the page set.
-
-Signed-off-by: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
----
- man/man2/read.2 | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/man/man2/read.2 b/man/man2/read.2
-index 8eb222743..c460a2a61 100644
---- a/man/man2/read.2
-+++ b/man/man2/read.2
-@@ -14,8 +14,7 @@ Standard C library
- .nf
- .B #include <unistd.h>
- .P
--.BR "ssize_t read(" "size_t count;"
--.BI "             int " fd ", void " buf [ count "], size_t " count );
-+.BI "ssize_t read(int " fd ", void " buf "[." count "], size_t " count );
- .fi
- .SH DESCRIPTION
- .BR read ()
--- 
-2.55.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kv5ufyqpqvto3evi"
+Content-Disposition: inline
+In-Reply-To: <20260916135205.84561-1-anmol.katiyar24@spit.ac.in>
 
 
--- 
+--kv5ufyqpqvto3evi
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] read.2: Fix mangled SYNOPSIS macro
+Message-ID: <aqqih5uGqYP0D_db@devuan>
+References: <20260916135205.84561-1-anmol.katiyar24@spit.ac.in>
+MIME-Version: 1.0
+In-Reply-To: <20260916135205.84561-1-anmol.katiyar24@spit.ac.in>
 
+Hi Anmol,
 
+> Date: 2026-09-16 19:22:05+0530
+> From: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
+>
+> The .BR/.BI macro pair for the function prototype was broken:
+> .BR alternates bold/roman rather than bold/italic, and a stray
+> duplicate "size_t count;" fragment had been left in from an
+> apparent botched conversion to the buf[.count] bounds-annotation
+> style. This rendered as invalid C:
+>=20
+>     ssize_t read(size_t count;
+>                  int fd, void buf[count], size_t count);
 
+This is valid GNU C (ignoring the array of void, of course.)
 
-*Disclaimer*
-*This email and any files transmitted with it are 
-confidential and intended solely for the use of the individual or entity to 
-whom they are addressed. If you are not the named addressee you should not 
-disseminate, distribute or copy this e-mail. Please notify the sender 
-immediately by e-mail if you have received this e-mail by mistake and 
-delete this e-mail from your system. If you are not the intended recipient 
-you are notified that disclosing, copying, distributing or taking any 
-action in reliance on the contents of this information is strictly 
-prohibited.*
+	$ cat r.c
+	#include <stddef.h>
+	#include <sys/types.h>
 
+	ssize_t read_char(size_t count;
+		          int fd, char buf[count], size_t count);
+	$ gcc -Wall -Wextra -S r.c=20
+	$=20
+
+See at the bottom of this page from the GCC documentation:
+<https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html>
+
+Here's the text as of gcc-15 (the documentation has improved a bit in
+gcc-16, but the feature hasn't changed since decades ago):
+
+	$ info gcc -n 'Variable Length' | sed -n '/arguments/,$p';
+	 You can also use variable-length arrays as arguments to functions:
+
+	     struct entry
+	     tester (int len, char data[len][len])
+	     {
+	       /* ... */
+	     }
+
+	 The length of an array is computed once when the storage is allocated
+	and is remembered for the scope of the array in case you access it with
+	=E2=80=98sizeof=E2=80=99.
+
+	 If you want to pass the array first and the length afterward, you can
+	use a forward declaration in the parameter list--another GNU extension.
+
+	     struct entry
+	     tester (int len; char data[len][len], int len)
+	     {
+	       /* ... */
+	     }
+
+	 The =E2=80=98int len=E2=80=99 before the semicolon is a =E2=80=9Cparamete=
+r forward
+	declaration=E2=80=9D, and it serves the purpose of making the name =E2=80=
+=98len=E2=80=99 known
+	when the declaration of =E2=80=98data=E2=80=99 is parsed.
+
+	 You can write any number of such parameter forward declarations in the
+	parameter list.  They can be separated by commas or semicolons, but the
+	last one must end with a semicolon, which is followed by the "real"
+	parameter declarations.  Each forward declaration must match a "real"
+	declaration in parameter name and data type.  ISO C99 does not support
+	parameter forward declarations.
+
+> Replace with a single correct .BI call, matching the bounds-
+> annotation convention used elsewhere in the page set.
+
+The rest of the pages use the same convention as this page.
+The convention using [.length] was used in the past, and was changed
+precisely because it's not valid C.
+
+> Signed-off-by: Anmol Katiyar <anmol.katiyar24@spit.ac.in>
+> ---
+
+Have a lovely day!
+Alex
+
+>  man/man2/read.2 | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/man/man2/read.2 b/man/man2/read.2
+> index 8eb222743..c460a2a61 100644
+> --- a/man/man2/read.2
+> +++ b/man/man2/read.2
+> @@ -14,8 +14,7 @@ Standard C library
+>  .nf
+>  .B #include <unistd.h>
+>  .P
+> -.BR "ssize_t read(" "size_t count;"
+> -.BI "             int " fd ", void " buf [ count "], size_t " count );
+> +.BI "ssize_t read(int " fd ", void " buf "[." count "], size_t " count );
+>  .fi
+>  .SH DESCRIPTION
+>  .BR read ()
+> --=20
+> 2.55.0
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--kv5ufyqpqvto3evi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqqpi8ACgkQ64mZXMKQ
+wqnnmxAArgcCNsMpd8wzCp+RPfYARTr+Tk/pSjVqdfGZOnQdniEvPirDPVGApW1U
+74X9H2bZ6gXDuqSIllqLbFScwL3qh7JbVpbx2DQzQ6C6EjL5tuOkN/Gg+ADBVv86
+sxeRjbI3x9KDj2krK/jp1CbYLvWfvZbP323LpAh8gkPlXpnJFetJ373zZG7TLWz6
+3Jzz2bGf/rCQflKDmhXlnoVjsHPSSUIWnPnEuUjSfG3SwkU5ZyZ3D+UIYK7GeTRA
+ccyRwlNBPirYycZzDzxlIhyy+6MicRwjVes2gzmCrh4SdXFf9OlD0PNgVkrmh4Yl
+Ln72ux5WtoRgR9xywAgiRw9qWWUAyKVTfYLmSXgbOSogmSS50fhShuPoO2BWnq4d
+lh5VcJqMHpboIuC7DgW81o8uY1O2g/qc0xSYdv/LksQ+lDWYgQwGy22gUMpZxQO6
+oS9C4fDQfdUwTm+y/MVCHKKyuQGQYnSD/gWaRBOe7CiAsDYp7H3PFsf57Qu/phYD
+nE/TZe0qHmg+4LY0S/dDdz59au5gHWv7lFZjV3YoaeoCjTcRqkxYqiLO6J3dX9dD
+Em3gNrsrGVnuwBdAX711rCCeyhih+MOYp3SDuXUJnXztGnLZFZJ///hy9YhTHZzW
+t1tQpC3d+agOghpfUlZNc2Q2HAhxDz0w0aTHux6nH8oGTbJVFYE=
+=L7ER
+-----END PGP SIGNATURE-----
+
+--kv5ufyqpqvto3evi--
