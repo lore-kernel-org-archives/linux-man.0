@@ -1,139 +1,94 @@
 Received: from mail.cock.li (mail.cock.li [37.120.193.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237FD4D4881
-	for <linux-man@vger.kernel.org>; Thu, 17 Sep 2026 19:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F3654705D
+	for <linux-man@vger.kernel.org>; Thu, 17 Sep 2026 19:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789672160; cv=none; b=AG6eFm/uG7d2Br471m0PrbMblZfHr/6+ICrYyG1kyKDcDzbZIdDRsxRsjbgxY/oy60wIWvfzy+2bjf1vfBlFHItMGFou7tftZ5FhejAL98+en+fr5kzWqJOLYjJ42MUMe/w8bRQt5vM61N53szxQ/6s5HGrNm3SHLeQWAKEsW9E=
+	t=1789672201; cv=none; b=mSv95sMvm+b8eLR8RuHMJIyhUbjAEDf6wIBT49rW5qxbtRQ15CLNcb5onSFzuBTeI8mdUEjmQWyt05pqAE0OHkK8rXqBV9p+BtcXiKYXGScxxxy651seib2HoWEplFB59CfpNE91yEWprmzExBTZjk9fP8iDxGO8PwnvSQJlxgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789672160; c=relaxed/simple;
-	bh=K2G3FYxpy+Ae/4Xqee8Itwi3S9zgV4yK+4DoXKeqo3U=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
-	 References:In-Reply-To; b=upgwVeiVq/uKwjWq5jdUxv+1ldeTUsPT3Agm6bpbDuUG2qmUGQQphhKuRvPO4jXsBaCgELSnHkdMgj8MjqF8mZyxK7skGVIPFKkXTxiz8zOp2aOAa16WPvunlZEQWfB5N/Tfxqn3avqvNsLWH2nBqQ6nIrQw/WBnB44pSjbuSXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=memeware.net; spf=pass smtp.mailfrom=memeware.net; dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b=dNyDt0fX; arc=none smtp.client-ip=37.120.193.124
+	s=arc-20240116; t=1789672201; c=relaxed/simple;
+	bh=g3rY1vr8t5RebbgondbjAsmT65Pu8OqKLJ6FpfD7N/U=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:Mime-Version:
+	 References:In-Reply-To; b=LEWnZYpRTKcshV2g/tJAuDVhTc4o1CgDIKDb9WK46E2dFejmIKHc8Rx2ed4z/Hao7WSnpP8FFMf5LzWhke9eadqEtL0yEZdVIHrqKNfHl00jorKr9cGedbZdE2c08WnOvhnWI7r1tFx9a7NkEHJPqImvX5puiTzCZSpC/+UbJME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=memeware.net; spf=pass smtp.mailfrom=memeware.net; dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b=N3rJAufp; arc=none smtp.client-ip=37.120.193.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=memeware.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memeware.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b="dNyDt0fX"
+	dkim=pass (2048-bit key) header.d=memeware.net header.i=@memeware.net header.b="N3rJAufp"
 Content-Type: text/plain; charset=UTF-8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=memeware.net; s=mail;
-	t=1789672150; bh=K2G3FYxpy+Ae/4Xqee8Itwi3S9zgV4yK+4DoXKeqo3U=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=dNyDt0fXbQQcqHCF8BHlJqj8IP0kGkvR0LhyC03229/DM0alO/q1eBrUBDyXfjCXp
-	 BstbtvMxwPcyYABNnQ+J8TZVEGJYKcVJ/W6TRgC96YUjMPWUNQP0C3FZ8Vq1CX5M+u
-	 Bn6t8Gh+jCFe01rp6jyKGMsoIVKZ4TWaRRMUKyoF1ucX7LMIixVRcyU1fi0Ih0Zd7n
-	 mGxd2S9qktnAc+B4vDliBnuXZm0vjSNaQGRzphN0uCyAirvIvZiq6j+vccP/EOsShv
-	 Zj6MUKEvlIjFvxvFu0eKkkwfnOsjLbyMH1Er1z02CRbzQZQNS+sOrgwN9FDuvAXtYW
-	 NuCYWvUU02tKA==
-Date: Thu, 17 Sep 2026 19:08:44 +0000
-Message-Id: <DLHTTJ9FETPL.27KU2F08VUTLP@memeware.net>
+	t=1789672193; bh=g3rY1vr8t5RebbgondbjAsmT65Pu8OqKLJ6FpfD7N/U=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=N3rJAufpvMYQ06UcFbqIruxkyq7nY2zR6U/xBfTWR7OLj6JQbxmiRZBdXtOX6lNFh
+	 VyQ1kzOgVeZa0GnQq+YM1S1OAJyjdWAZeYMImdv/w4L8CZs3akjAz+d3Sm8sDOqtAW
+	 hlomdrOl5GTWmG51NQeiX4+VqHGpCgSwZaPInnAe/nWFecoRFD9vBWOEb4MZD3CQol
+	 AEVxyrZs8NJDMAineyOt0TLZPkEZHSZF61KKX9Tu0eno9i9JqEILb1H3vEt5jwKs9N
+	 iVUEhzWGcFpzrlg/Kgi8It4zWBFa2FYS+99rpeLio8floH6Y2MkEOdTJ3OYv+32I4O
+	 +2rL30mz+uAIA==
+Date: Thu, 17 Sep 2026 19:09:41 +0000
+Message-Id: <DLHTUAUL26OP.JKIAQT055DTD@memeware.net>
+To: "Alejandro Colomar" <alx@kernel.org>, "G. Branden Robinson"
+ <g.branden.robinson@gmail.com>
 Cc: "linux-man" <linux-man@vger.kernel.org>
 Subject: Re: ioperm(2): confusing terminology
 From: "astian" <astian@memeware.net>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>, "Alejandro
- Colomar" <alx@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-References: <aqvHRZ7DfbdG5XBt@devuan> <aqvVeSW_dHnYbwca@devuan>
- <20260917123845.valu5ro5zur23o56@illithid>
-In-Reply-To: <20260917123845.valu5ro5zur23o56@illithid>
+References: <DLDOCNQUCW9N.3GGL01BMV0HNG@memeware.net>
+ <aqXOgqne-v4GtglY@devuan> <DLDZ6A0QS5NY.E0Y1TPNME1IN@memeware.net>
+ <aqfsMbQWdqq_TG_b@devuan> <DLHEF3KZF52V.2PBZHFYF7KPYO@memeware.net>
+ <aqvHRZ7DfbdG5XBt@devuan>
+In-Reply-To: <aqvHRZ7DfbdG5XBt@devuan>
 
-On 17 Sep 2026 07:38 -0500, G. Branden Robinson wrote:
-> Hi Alex,
->
-> At 2026-09-17T13:00:30+0200, Alejandro Colomar wrote:
->> > Date: 2026-09-17 07:04:37+0000
->> > From: astian <astian@memeware.net>
->> > On 14 Sep 2026 14:56 +0200, Alejandro Colomar wrote:
->> > [...]
->> > > One thing that is very important is that we use semantic newlines.
->> > > That discards .md and .rst, since they are meant to be written
->> > > with paragraphs as they'd be read by humans.
+On 17 Sep 2026 13:00 +0200, Alejandro Colomar wrote:
+[...]
+>> >> Which bring up the question, why not moving to a less hairy source
+>> >> format?
 >> >
->> > Sorry, I didn't read groff_man fully, but I'm curious: what is the
->> > meaning of newlines in man that gets lost in those other formats?
->>
->> They have no meaning.
+>> > This question comes up every now and then.  TL;DR: other formats are
+>> > worse.
+>> >
+>> > man(7) is pretty simple, and easy to learn exactly by editing words
+>> > blindly.  There are very few macros, and their behavior is trivial onc=
+e
+>> > you use them a few times.
+>> >
+>> > One thing that is very important is that we use semantic newlines.
+>> > That discards .md and .rst, since they are meant to be written with
+>> > paragraphs as they'd be read by humans.
+>>=20
+>> Sorry, I didn't read groff_man fully, but I'm curious: what is the
+>> meaning of newlines in man that gets lost in those other formats?
 >
-> I wouldn't go that far.
+> They have no meaning.
 >
-> Like TeX, *roff uses newlines, _in context_, to help it automatically
-> decide where sentence boundaries are.
+>> Looking at some source pages now and it seems most newlines are about as
+>> (non) meaningful as in those formats (i.e., the paragraph is reflowed
+>> during rendering).
 >
-> Because the formatter, not the macro package, makes that decision, the
-> rules are documented not in groff_man_(7), but roff(7) and groff's
-> Texinfo manual.  If a person follows the "semantic newline" guidance
-> from man-pages(7), they can worry less often about what the rules for
-> automatic sentence boundary detection are.
->
-> roff(7):
->
-> Input conventions
->      Since a roff formatter fills text automatically, its experienced
->      users tend to avoid visual composition of text in input files: the
->      esthetic appeal of the formatted output is what matters.
->      Therefore, roff input should be arranged such that it is easy for
->      authors and maintainers to compose and develop the document,
->      understand the syntax of roff requests, macro calls, and
->      preprocessor languages used, and predict the behavior of the
->      formatter.  Several traditions have accrued in service of these
->      goals.
->
->      =E2=80=A2  Follow sentence endings in the input with newlines to eas=
-e their
->         recognition.  It is frequently convenient to end text lines
->         after colons and semicolons as well, as these typically precede
->         independent clauses.  Consider doing so after commas; they often
->         occur in lists that become easy to scan when itemized by line,
->         or constitute supplements to the sentence that are added,
->         deleted, or updated to clarify it.  Parenthetical and quoted
->         phrases are also good candidates for placement on text lines by
->         themselves.
+> I don't know how you read .md or .rst, but I read them in the terminal,
+> usually with less(1), which doesn't reflow them.
 
-Thanks.
+But you read the rendered manpage, the output of running groff (and co.)
+on the manpage source, right?  If you were to read manpage sources with
+less in the terminal there wouldn't be reflowing either, naturally.
 
-So, if I'm understanding this right, the newlines are semantic only
-insofar as letting the formatter know that it should insert an
-additional space if the character before the newline is a dot.  Right?
+The point I was making is that newlines in groff_man pages did not seem
+to be more semantic than those in adoc/md/rst/whatever.  Upon rendering,
+paragraph lines are reflowed.  After Robinson's explanation I can see 1
+bit of meaning to them (sentence delimiters).
 
-(PS: More or less:
-https://www.gnu.org/software/groff/manual/groff.html.node/Sentences.html)
+> Is there any program for reading these in the terminal reflowed?
 
-> Following this practice also helps keep document revisions from
-> "bleeding" into unaltered adjacent sentences in a diff.  (I think it's
-> worth studying why the Markdown/AsciiDoc/"plain text markup" communities
-> have not independently re-created this practice.)
-
-I don't find this surprising.  The whole point of those formats is that
-they look nice enough and read smoothly enough in their source form
-(insert small-letter caveats here).  If we start putting in line breaks
-for the purpose of nicer diffs we soon lose the smoothness and get some
-of the *roff-like hairiness ;).
-
-Regarding the delimiting of sentences, it doesn't seem like the most
-typical rendered outputs for those formats (HTML, PDF) cares about
-putting the correct number of spaces after a dot ;).
-
-And yet it turns out this exists:
-
-  https://asciidoctor.org/docs/asciidoc-recommended-practices/
-
-  One Sentence Per Line
-
-  Don't wrap text at a fixed column width.  Instead, put each sentence
-  on its own line, a technique called sentence per line.  This technique
-  is similar to how you write and organize source code.  The result can
-  be spectacular.
-
-Kinda defeats the goal of having a nicely formatted source, but if one
-were to consistently use that convention, then whatever program is used
-to turn adoc into man already has the sentence problem solved at the
-source, and whatever program is used to turn adoc into final
-presentation format can know where a double-space sentence separator
-needs to go, if so desired.
+I guess there are although I don't personally use one (of course, that's
+the point of these "light markup" formats: they mostly look like plain
+text so you don't much need a renderer).  For example, there are plenty
+of tools to convert these formats to HTML which can then be viewed in a
+terminal browser.  Or one could use pandoc to convert them to *roff
+and... haha ;).
