@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623064E06DA
-	for <linux-man@vger.kernel.org>; Thu, 17 Sep 2026 11:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BE54DD3B3
+	for <linux-man@vger.kernel.org>; Thu, 17 Sep 2026 12:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789646395; cv=none; b=deU1ovPNAZvjnGdXu6wl1H+kF3i2zk4XBMIR0oZBySJvt1cygwHH/3GL/fgxv3zdHhVZ1/D8xu4hTn+GxkA1zKFv/TbLd58aL6numbR49t+sCkqecilXryPFI1mXi2VHaY9sC1/vZrNvs0s84pfnbyX2/rIciz9W01o8WiSQmGY=
+	t=1789646790; cv=none; b=eKZtPYHQ+4XCwXHrBwbErrGoW8cQgx0NZCmXlJ7//EJK/I4m48ap2hKbViVOeI1koNJhD4mBbJmPRMTFsuJnwzmdi4ePusPPJtJhAzaVbV2uzV1e49uGw+MV2OWz5wrgo86MfqGp74/mUZlp1S+CW7KYCM+037SHXWCDf6LbpAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789646395; c=relaxed/simple;
-	bh=e8ZBVUdnD/vk3qU2RWfN3Bc2qQ7TJndixZgij99/l5s=;
+	s=arc-20240116; t=1789646790; c=relaxed/simple;
+	bh=nYihFaCQDqvLBCZQHWbRx560C2zRMQzBsiwKFovlDag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NE4ac1pTlkSoY4yawmdAQobZ72KFcSBHVJKihRpmrbLAb5ReTfQ02+QVLN/PhhlxZQIzfrAiAt0xmm9NMLgQBz44/z2rMphUDQxjC0y30MJvlijumUXHoHq26+0JpeaVZ3IkjjtnpWZX/gdYzvii73RjpVFfiEPb25hgNmTb1uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cYy+dMPF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=LstZ93WBv19uTCMo9Fm+81ejtQOLvOBoZeAd8ZrB1AC8HZW/qJU/2sdiSiZrXBjfGcKDzny87LShR4jDSkdfmrAU1ogCsaRsvcAs1MHHw2xJJO3XlY+aDyjVhAztZ2dbiMMqli1yOMM/sGRgdWFduze/biL4w3NEMbdssmmKDHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IpgaSTLc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cYy+dMPF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F541F000FF;
-	Thu, 17 Sep 2026 11:59:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IpgaSTLc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAABD1F00893;
+	Thu, 17 Sep 2026 12:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789646386;
-	bh=g8MX24c1H0DANf2YMmzpXAGxT2i9EXgmSds+hffeut0=;
+	s=k20260515; t=1789646782;
+	bh=OHNlmtU1VST0JUzOOX4y2sX9IFs4VO7n5IRlp6oLdSU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cYy+dMPF2Gbr2O3A4DCGeE7nI/rfKG9cbnMEMOmhQMHTzDy9QOO43VJ11aSW8j4o+
-	 LBuXVBmpNlmnuH7n2uteZco6IBh+4k924PP4Is/BjXf7EtYuyI+dTqMOBu8SXIJ2z/
-	 eyLgo0YNH0KvXuXtyFslm/C+f5EBM5RMhq+byLVNnDrM9rdE3jS/6V9CRSuFVNhcVm
-	 2TLfzlLqRUfeYD8LHaHuSoB+LItUeb11n9ZM4MG1hhR5nfeOl6nwClcge3kml03CyL
-	 YjQc3tsXKaFZDvctDjHHc6XdyEerhylTXpyCHd/ueJdcgXVZMjZaB3AK9IOQlCXmWe
-	 /QgfCu8cui5iw==
-Date: Thu, 17 Sep 2026 13:59:44 +0200
+	b=IpgaSTLcKlxE7rE9aZ8FnUDvG6dEErrA4wNx0vNnzAGNbbSUCIdWvyDZH3/YRXGZj
+	 FF2UA+N7+J/cF4dSLiuaDI5HZeVhTOY9eemI/GZbsgzLQ9bTygpLoDKVpPvqpiqPO4
+	 LGTua15tbwF1uSRDpZL1CbcfVUc1KX4QgcrmiK1j8k/H/siYxSteYpOd/XHT9lD/+J
+	 5wRI48x11VutlnnKyhMvUy4WVphiub6yBRQUNW1lA+X9eRnwTJn5DPfbtMsO8YVA5q
+	 UFJrcm4r+6cI393Bd0VYMjCh5h5f6FZC+a6mf6beJctqi3QZW7D2NLb+cTKVsmrjaS
+	 6GN/eo4zxzBZQ==
+Date: Thu, 17 Sep 2026 14:06:19 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: astian <astian@memeware.net>
-Cc: linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH 1/2] man/man2/ioperm.2: Reword slightly for clarity
-Message-ID: <aqvWHiz44NxkDbPh@devuan>
-References: <aqXOgqne-v4GtglY@devuan>
- <20260917062039.1365378-1-astian@memeware.net>
+To: Max Chernoff <git@maxchernoff.ca>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] /proc/pid/smaps_rollup + CAP_MAC_ADMIN
+Message-ID: <aqvXnNyYz2UItr6I@devuan>
+References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+ <cover.1789386106.git.git@maxchernoff.ca>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -41,71 +41,59 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bsa3j5yme7rt2sro"
+	protocol="application/pgp-signature"; boundary="en3i4kxpqxzypgxt"
 Content-Disposition: inline
-In-Reply-To: <20260917062039.1365378-1-astian@memeware.net>
+In-Reply-To: <cover.1789386106.git.git@maxchernoff.ca>
 
 
---bsa3j5yme7rt2sro
+--en3i4kxpqxzypgxt
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: astian <astian@memeware.net>
-Cc: linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH 1/2] man/man2/ioperm.2: Reword slightly for clarity
-Message-ID: <aqvWHiz44NxkDbPh@devuan>
-References: <aqXOgqne-v4GtglY@devuan>
- <20260917062039.1365378-1-astian@memeware.net>
+To: Max Chernoff <git@maxchernoff.ca>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] /proc/pid/smaps_rollup + CAP_MAC_ADMIN
+Message-ID: <aqvXnNyYz2UItr6I@devuan>
+References: <2129b0c39ad5248641f24b43a4b1750bb62be43f.1789212041.git.git@maxchernoff.ca>
+ <cover.1789386106.git.git@maxchernoff.ca>
 MIME-Version: 1.0
-In-Reply-To: <20260917062039.1365378-1-astian@memeware.net>
+In-Reply-To: <cover.1789386106.git.git@maxchernoff.ca>
 
-Hi astian,
+Hi Max,
 
-> Date: 2026-09-17 06:16:00+0000
-> From: astian <astian@memeware.net>
+> Date: 2026-09-14 05:51:44-0600
+> From: Max Chernoff <git@maxchernoff.ca>
 >
-> Replace unexplained mention of "bits" (implicit reference to a
-> kernel-maintained permissions bitmap) with "ports".
+> Thanks for the review; I've split the first commit into two, and quoted
+> the relevant lines from the long thread. The last two commits are both
+> unchanged, aside from being renumbered.
 >=20
-> Link: <https://lore.kernel.org/linux-man/aqfsMbQWdqq_TG_b@devuan/T/>
-> Signed-off-by: astian <astian@memeware.net>
-> ---
-> Didn't address your questions about general arch support and the
-> EIO/ENOSYS on PowerPC.
+> Max Chernoff (4):
+>   man/man5/proc_pid_smaps.5: Add description
+>   man/man5/proc_pid_smaps{,_rollup}.5: Add proc_pid_smaps_rollup(5)
+>   man/man5/proc_pid_{smaps,smaps_rollup,maps}.5,
+>     man/man7/capabilities.7: CAP_PERFMON allows reading
+>     /proc/pid/{smaps,smaps_rollup,maps}
+>   man/man7/capabilities.7: CAP_MAC_ADMIN allows setting undefined
+>     SELinux contexts
+
+Thanks!  I've applied the entire patch set.
 
 
-Thanks!  I've applied patch 1/2.
-
-
-Cheers,
+Have a lovely day!
 Alex
 
 >=20
->  man/man2/ioperm.2 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man/man5/proc_pid_maps.5         |  5 ++++-
+>  man/man5/proc_pid_smaps.5        | 17 ++++++++++++++++-
+>  man/man5/proc_pid_smaps_rollup.5 |  1 +
+>  man/man7/capabilities.7          | 21 ++++++++++++++++++---
+>  4 files changed, 39 insertions(+), 5 deletions(-)
+>  create mode 100644 man/man5/proc_pid_smaps_rollup.5
 >=20
-> diff --git a/man/man2/ioperm.2 b/man/man2/ioperm.2
-> index cb2c48652b5d..e4a058164f6f 100644
-> --- a/man/man2/ioperm.2
-> +++ b/man/man2/ioperm.2
-> @@ -16,13 +16,13 @@ .SH SYNOPSIS
->  .fi
->  .SH DESCRIPTION
->  .BR ioperm ()
-> -sets the port access permission bits for the calling thread for
-> +sets the calling thread's access permission for
->  .I num
-> -bits starting from port address
-> +ports starting from port address
->  .IR from .
->  If
->  .I turn_on
-> -is nonzero, then permission for the specified bits is enabled;
-> +is nonzero, then permission for the specified ports is enabled;
->  otherwise it is disabled.
->  If
->  .I turn_on
+>=20
+> base-commit: 59ba1c34fb6538206e96597739f053183d1e6428
 > --=20
 > 2.55.0
 >=20
@@ -114,24 +102,24 @@ Alex
 --=20
 <https://www.alejandro-colomar.es>
 
---bsa3j5yme7rt2sro
+--en3i4kxpqxzypgxt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqr1i8ACgkQ64mZXMKQ
-wqnhUg/+LdLnBZZbXLPXrtym5WBUBz6kPT9ehFw0zdlNFEGLrwVa1/No3VxjeN+r
-m2ToL++hRNTQ0sUmdECqiUmZ6lDVXhBL8mwGjiY/vDTQ6yoCJLF2qbSbOtSRX7CG
-dZIyk3QPlzD4taAygTwtLEdXKQmr3sV4+HIpmOnN3h6Fkesk4IyJZ9hTSrLUrIyb
-ry7eiSdGdQ+C2JujepPxZDNPxCtM4d+s1LoSe8PsK77dN/wvwr6WXhXWdx1jmsqV
-ozOHjEKYxTtey1UpxUP9kJx45Xw20m6u7ac2T5eAkO7V2NIKAllvXXdiq4qAVHFZ
-0PYsV5BE0rTqpY4UL7qq6xzCgLqAO12iCKoApQb6G1qK7/c0TednAhBsEZnwxdAF
-2Rl6qY5Bwa/rrnLYQKmo0rvnSKhdFzUKsH6NV1J0yUublzfyrUER9xfbHNombIK8
-QblYHFk9LKxkDi20GkyE2dbRkYcO/C9hlquW6m73eqqIuUumzN+NKMpniu+M/fqD
-rWXrtraYjUDtR3UOmFzwRypz8CsLGMWMuA6YGVzZ63/2fCQkKQpybfFmznYBGQEs
-z8Q1o56M/wwLiQgnZlnmCNUIzqV5evak/mHArxQf1GHh/vnr8whdXmvMQBuftYPI
-bnBRu+Wdh1ezE6VkoP44gnXXvVT+99/9okEChyaWNszgqj+HjNI=
-=q3y6
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqr17sACgkQ64mZXMKQ
+wqn7WBAAkJMgoP3uaCWNjOzEvPtkv7r0+1da2iZ52ot9xIhcrwCwkVgo+1FSgEXD
+Oune1ldjx7WCZkWa7JvYsuQg1u/6I4Glqmlgi0CpdWMbiSippFeTfNB4U5lzXJZZ
+tr1l++GRfIFHLwx2DVxNxbDYN89StsEvuN0gaiR+CeNbvDWXts7RxiNwrWtvh8ll
+tIjh31Wjl3JGXQRdlbEL9lkrKxBh+b7OvrNjGatJWWoIBIbm2BFeDV5mHnIheucJ
+dkfEMcVyU9M6nNB8TGMQCkKizVNFBS1PdrbAUZnn5byh0Mk8xIe5gXADye5G/ALB
+0xF+kCJHcMWubs3Ihw0tyd+TZH9ilgc3q1NLwMsKLT3riK1OQm8/0wEi6+rUUFHZ
+C3lqZZM9Ca9iyPwtJlUhW295Su4HpERZuTxZBkR/warC8uWuPG+fXlgso1NKWHUn
+CyrP+C077TY/FoZFV8W21RRIiGDTTu2q63hJwENSBPfBcGLSqJAfNkEu0sU9Fz91
+LEUdL5krXx4/qxyqjqKVRYXb0QvrNyyaUxiw82f3pELg4EhuYlcMHKpvgwnrA2mD
+ivXmgaydBjk4fCZnwE58WepAruuRxT/rRfe7QYnJBQH94zkWU7upYQastkbCHijt
+aBtNSJitf18qtAyjKHcnDoDfsTsVGU7frw6cOJrHGOWGDVdZRhI=
+=mRWM
 -----END PGP SIGNATURE-----
 
---bsa3j5yme7rt2sro--
+--en3i4kxpqxzypgxt--
