@@ -1,81 +1,76 @@
-Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta79.mxroute.com (mail-108-mta79.mxroute.com [136.175.108.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966EC4AA402
-	for <linux-man@vger.kernel.org>; Mon, 21 Sep 2026 17:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1912701D9
+	for <linux-man@vger.kernel.org>; Wed, 23 Sep 2026 00:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790011277; cv=none; b=s+gDrWrPOgwFEtkxhDe4wcSliLFiRA+F0cqwMkvlC0grzMWthlfppWRcpqB2sYzA81kU2n09jRhPXI0UKzOXKbSTvIdoqHWzkcSeGoSC6hxPvgalv2GGVcXGu90fDFFmSmBofzZneA/LGB0p+Knv+LuELsS4IEiuWdLN7YHglSo=
+	t=1790125116; cv=none; b=FSKWyfr7Cvh6FCkoweAfhRvmodMopqRyGeZ/G8M4cVfiJi9vD35pl6hDz0JjE+5GuJpZR0zH5g2pdZpXyAPGrpTkenWpTYOHwGK3aSqXgm+827i7TY3nSidkTvPhObma27FIla52EniY47ufQ7Vx2hlLMWI3nUdWt39b6wm/aos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790011277; c=relaxed/simple;
-	bh=Uv0eeKd3R2D4y6Rl9kBc6B5RCJGTlD1u4KnKOcSJQZ4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h4+NYkrc7N+tF745lz86XvdCGg9DPUUKVkuSsPeRFgMfYDt6cKOelc2ImXorNkywuNgvTsVq26umSxrnbTbwWdi3VDpqpAPiQAixcjvEkbSa+WTQlK8X8YnaxuJ6tvIs5vQ0saw4n1PzcWAl3vAfiortBJG3v5a51jXHLJsVH5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=OOS3uq//; arc=none smtp.client-ip=185.70.43.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1790125116; c=relaxed/simple;
+	bh=E4tWMi0X1lS7ZEKBZ1E5/9xMakzP3DiHyhFmYXqYKDc=;
+	h=Mime-Version:Content-Type:Message-Id:Subject:To:From:Date; b=up5Iz7keconyVj8V88125DRGcE/n6k5I224dwBVBo/xU/vB6d8jBMMdFzIxq2c6slZWK6im4K3g6cOnjrW/K2JjdT1y0Wlrsq65my5Il5m/7XQWF6C6hl0a7G+3CwV0laYiH25rImCoVLwQOlmK1MNa88FE+reJXPw2Nns4D6Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com; spf=pass smtp.mailfrom=trevorgross.com; dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b=caF71KgG; arc=none smtp.client-ip=136.175.108.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trevorgross.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="OOS3uq//"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=fh2yy5twsngxzavak2slksus6i.protonmail; t=1790011270; x=1790270470;
-	bh=2qLzXrp017LtSYCFpuPchYznFD5Li67tAD86jKPOLSw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=OOS3uq//oMKu3dpJ8a29uZz4Xgz3+2CwEoK55Tx+FRE3SUXOnMFRuU5ElZ2YKUjTj
-	 TroGPndHrvJ5/Nyz5qXTTWiZgv5LrIBSNDIP03P0yl/5uOZQyB+bKxHvKHuvesQBeJ
-	 mWP42OJe8ZtG4OEK7Ke2CW45BbApYY9GcpKC8FIchppDEMWcQvd2eovic1a6L52rd5
-	 OThQ7/nQYdLU1jAIT//XyXrRF1PjsDa+omFdweIptO578i+pABdDHukQIKA5e/PjUc
-	 yDetJS/zyxcPabt9lZmS78iVk5JhFoRdrYJL4q4DuuSsO05TNyIvZGZ9ftC54v59Pc
-	 xEFmfs3c1tbSw==
-Date: Mon, 21 Sep 2026 17:21:06 +0000
-To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-From: Paolo De Donato <dedo.paolo.24@proton.me>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: R: Information about bind mounts and simultaneous access to /dev/ptmx and /dev/pts/ptmx
-Message-ID: <u0blsUQK3V0VROdoD27_YvnNNzSTvaNeV2j31wJtxqZYCUQyH9Mqg0_djDpXqqhJhJWUm4w5fakh-0whJsG3zhibJsc9C_E5tQUzQNBkYIM=@proton.me>
-In-Reply-To: <OL6NOlULLLkBGa0xCeh8WaHQwIqYDyatnuI7X2kfZRVGNtRGHbaarbdGEC9QUCfrYoEtX-k7B1gVRUg1iN4WJE2ES7QU1cgnRMuz9J5KdXo=@proton.me>
-References: <QyCOf8W8P-XlVQEK451kiApqyxPqPQzth8sY0CNnbkUKXoTzkY-jbKI10jr6bjP_8IfsvYqkHnhmGTlL12HQgfzZ4CiVakdps9kiNuH6rTM=@proton.me> <OL6NOlULLLkBGa0xCeh8WaHQwIqYDyatnuI7X2kfZRVGNtRGHbaarbdGEC9QUCfrYoEtX-k7B1gVRUg1iN4WJE2ES7QU1cgnRMuz9J5KdXo=@proton.me>
-Feedback-ID: 61544309:user:proton
-X-Pm-Message-ID: 30fb6ca93baa3092ad0fb1b703ee15207e678e03
+	dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b="caF71KgG"
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta79.mxroute.com (ZoneMTA) with ESMTPSA id 1a0cbc0cb9d00028b2.003
+ for <linux-man@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 23 Sep 2026 00:53:25 +0000
+X-Zone-Loop: 77b5f1acf49619082b484ad7cbdeb74d126588ce90a0
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=trevorgross.com; s=x; h=Date:From:To:Subject:Message-Id:Content-Type:
+	Content-Transfer-Encoding:Mime-Version:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=E4tWMi0X1lS7ZEKBZ1E5/9xMakzP3DiHyhFmYXqYKDc=; b=caF71KgG84E1wYI4pxrGaH1H1w
+	vyRNvyS6etwkrJwiLX06A6rK02kq7XV1xdouz/Y9dxfRVR4lO/OFDgTCgSTZSktltkX5uWTwhKVup
+	9a1RQd99yOQmziAd6U+D9KD+UI+EctcKccAhSl4X8WudQCagnGjUP90JK3qyiaO8VFPT0rO+92iGp
+	uJazYJspl7P8bLOTd4wbFZ4496Rb+rVyKuXxshPs335j2i/NQAidWAg115UFZgBZAGkeGYQyekjfm
+	zb4d+4r0mgdTYsHvhgu6Gt3f6aBLm/IeWENnF725NPg+Lr7nt9zpCL22F0JqPtHOCmeYlG6tw4xZT
+	0RjmKv7A==;
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Message-Id: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
+Subject: async-signal-safety of chroot
+To: <linux-man@vger.kernel.org>, <musl@lists.openwall.com>,
+ <libc-alpha@sourceware.org>
+From: <tg@trevorgross.com>
+Date: Wed, 23 Sep 2026 00:53:16 +0000
+X-Authenticated-Id: tg@trevorgross.com
 
-Up
+Hi everyone,
 
->=20
-> Dear Alexander Viro,
->=20
-> I have noticed that trying to open /dev/ptmx device file through a bind m=
-ount will always fail. More precisely, calling
->=20
->     open("/dev/ptmx", O_RDWR)
->=20
-> usually succeeds, however it will always fail if you previously launched =
-the following command:
->=20
->    # mount --bind /dev/ptmx /dev/ptmx
->=20
-> I think the root cause of this is the relationship between /dev/ptmx and =
-the devpts virtual filesystem, usually mounted at /dev/pts since all operat=
-ions on /dev/ptmx are forwarded to /dev/pts/ptmx. This issue makes unfeasib=
-le to share access to /dev/ptmx through a mount namespace, however bind mou=
-nts work as expected with /dev/pts/ptmx (if devpts has been mounted with th=
-e option ptmxmode=3D0666).
->=20
-> My question is if it is safe to give full access to both /dev/ptmx and /d=
-ev/pts/ptmx (through ptmxmode=3D0666) at the same time, or if there are som=
-e racing conditions that would make simultaneous access insecure. Documenta=
-tion at https://docs.kernel.org/filesystems/devpts.html and man 4 pts say n=
-othing about this scenario, but I think this information will be very helpf=
-ul for all people that needs having pseudoterminal access inside a mount na=
-mespace.
->=20
-> Bests,
-> Paolo
+Is `chroot` async-signal-safe?
+
+It is a somewhat popular pattern to `fork`, `chroot`, then `exec`.
+However, only AS-safe functions may be called between `fork` and `exec`
+(stated at [1]) but the manual entry for `chroot` makes no such mention
+[2]. signal-safety(7) [3] only covers POSIX, so it is also not listed
+there.
+
+The rather old POSIX edition that last specified chroot also does not
+mark it AS-safe [4], [5].
+
+Is code using this pattern buggy, or is it just missing documentation?
+I expect it's the latter but it would be nice to confirm either way.
+
+Thanks,
+Trevor
+
+[1]: https://man7.org/linux/man-pages/man2/fork.2.html
+[2]: https://man7.org/linux/man-pages/man2/chroot.2.html
+[3]: https://man7.org/linux/man-pages/man7/signal-safety.7.html
+[4]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/chroot.html
+[5]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/sigaction.html
