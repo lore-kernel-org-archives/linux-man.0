@@ -1,86 +1,99 @@
-Received: from mail-108-mta142.mxroute.com (mail-108-mta142.mxroute.com [136.175.108.142])
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031492E7395
-	for <linux-man@vger.kernel.org>; Thu, 24 Sep 2026 00:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80A73B42CB
+	for <linux-man@vger.kernel.org>; Thu, 24 Sep 2026 02:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790210397; cv=none; b=eYUWWuLNa7TixAyAmRnpUC7ZQQ4uxep7pfTIog1U4iA/WyDTpb3I/pPwInJVmwZPcYuHkDwbMmDG2F3vnV2CzcRs3f9g/5ct7bE25l7V6+t2xg2s9g+YFf0i8Wiet/vuVrN2foVMLQxoRZlQGJyzQlhGXsrwMRhvDQhr2ubW24A=
+	t=1790215988; cv=none; b=lDZTZdYeLtB6NUlfpJXmvoaHXZAAmzuGfVPmrXbMiLzVYSt5tvBDRshPWuJIrpuK2d+OvRLAD1WpvQ/0b0qgcRE1SebiPKbBQIiAVy+xmQBw5YYZqI97+TpS7tHLMWBiHq/CSbjOesVRpN5yinw0/2NPO0Xl6+Sm+zl8qDfCq2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790210397; c=relaxed/simple;
-	bh=bqlQUVrROEgQAVy1cfsXWkJHE8KxOw5mDFCVN0QYwjA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=B3gL9hgAVDdD12oEpqRAtACUyyFJFbsPP0P1cQE3+q/nM2nhrYap2OANBmhIYnBKV+pT0iU5huufv/JRvwn9MD9i0n7mI6/QO883vVdSaXVM56mgSly9kde0vCNXwruP5vFoxW9u6B7rKUp/OAq+evKv1R4dRZG3acsRPiKBUX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com; spf=pass smtp.mailfrom=trevorgross.com; dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b=othqGKbH; arc=none smtp.client-ip=136.175.108.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trevorgross.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b="othqGKbH"
-Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta142.mxroute.com (ZoneMTA) with ESMTPSA id 1a0d0d60b0600028b2.003
- for <linux-man@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Thu, 24 Sep 2026 00:34:43 +0000
-X-Zone-Loop: e9b8fb833580fb1b732cc542c29ceebf4a81dfa17705
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=trevorgross.com; s=x; h=In-Reply-To:References:To:From:Subject:Cc:
-	Message-Id:Date:Content-Type:Content-Transfer-Encoding:Mime-Version:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bqlQUVrROEgQAVy1cfsXWkJHE8KxOw5mDFCVN0QYwjA=; b=othqGKbHQjia6h1IXpo7FIGagg
-	TPbOxk13bYcpbrIC8RPxnjBJtTv/EQoBGBzsdAy2FXMkIS/W7hAQQKQ3YxHTEHvV72AOgrJc7njEb
-	yrtYbOW0jxNW36mPKXXwiJwYwehmY9MSxR5rzhyGahWAo6SK2JiJ1GmL3kqPFatyAr/rea3ug1rjU
-	9YdnAnucGbt/stzdzAiT9kba+dPE6QBh7ilvWOPcfGDyKLFk7QzrvHwSih3hvchTFkP3N3lMUZIMU
-	OpLBzMzAbtO1vr4TRhjDAclM8E+49u/n5tUAmlwt0khJDxYk9vrKyCo/F3BpiOJ+0Pd4OkJjyNZd2
-	uel7/MLg==;
+	s=arc-20240116; t=1790215988; c=relaxed/simple;
+	bh=rJQ+gTZMCfiiUpei/XihcsnK+g3m8BfM6t1wKTQ4jrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5R/zfse6FJjok4gHtwCnpoKzaLcUX4ofNVkcHODxT9YDEWt3L/Mut6ogrwuHp0piAsk++qEmrzAlDHUdMa2B8xwptqtprPM1Mv/yikYgEPZ3cyKFpVm40x8YhpCnNKXM0hEAb8tP1yIrnXfpoPD4VDRImv/k//7dD1aWlK0BKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=aerifal.cx; arc=none smtp.client-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
+Date: Wed, 23 Sep 2026 22:12:22 -0400
+From: Rich Felker <dalias@libc.org>
+To: Trevor Gross <tg@trevorgross.com>
+Cc: musl@lists.openwall.com, linux-man@vger.kernel.org,
+	libc-alpha@sourceware.org
+Subject: Re: [musl] Re: async-signal-safety of chroot
+Message-ID: <20260924021222.GC23438@brightrain.aerifal.cx>
+References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
+ <20260923013428.GT23438@brightrain.aerifal.cx>
+ <DLN4IBB6FV7K.WN3EVWC5FG17@trevorgross.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 23 Sep 2026 19:34:35 -0500
-Message-Id: <DLN4IBB6FV7K.WN3EVWC5FG17@trevorgross.com>
-Cc: <linux-man@vger.kernel.org>, <libc-alpha@sourceware.org>
-Subject: Re: async-signal-safety of chroot
-From: "Trevor Gross" <tg@trevorgross.com>
-To: <musl@lists.openwall.com>, <tg@trevorgross.com>
-References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
- <20260923013428.GT23438@brightrain.aerifal.cx>
-In-Reply-To: <20260923013428.GT23438@brightrain.aerifal.cx>
-X-Authenticated-Id: tg@trevorgross.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLN4IBB6FV7K.WN3EVWC5FG17@trevorgross.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 
-On Tue Sep 22, 2026 at 8:34 PM CDT, Rich Felker wrote:
->
-> Also, both glibc and musl relax the restriction on only calling
-> AS-safe functions in the child after a multi-threaded parent forks. In
-> glibc this is sort of a best-effort thing, but in musl we went through
-> a detailed process of ensuring that everything is made consistent for
-> the child. The only thing that might not be consistent is dynamic
-> linker state, which might make it impossible to dlopen in the child,
-> but this is treated as a reportable error condition not a crash or
-> deadlock or anything.
->
-> The changes to lift the restrictions on the child happened in commit
-> 167390f05564e0a4d3fcb4329377fd7743267560
->
-> Rich
+On Wed, Sep 23, 2026 at 07:34:35PM -0500, Trevor Gross wrote:
+> On Tue Sep 22, 2026 at 8:34 PM CDT, Rich Felker wrote:
+> >
+> > Also, both glibc and musl relax the restriction on only calling
+> > AS-safe functions in the child after a multi-threaded parent forks. In
+> > glibc this is sort of a best-effort thing, but in musl we went through
+> > a detailed process of ensuring that everything is made consistent for
+> > the child. The only thing that might not be consistent is dynamic
+> > linker state, which might make it impossible to dlopen in the child,
+> > but this is treated as a reportable error condition not a crash or
+> > deadlock or anything.
+> >
+> > The changes to lift the restrictions on the child happened in commit
+> > 167390f05564e0a4d3fcb4329377fd7743267560
+> 
+> A followup question: the usual wisdom has been that `fork` must always
+> be followed by an `exec`, and not doing so is somewhere between
+> error-prone and completely unsound.
 
-A followup question: the usual wisdom has been that `fork` must always
-be followed by an `exec`, and not doing so is somewhere between
-error-prone and completely unsound. Based per the commit it sounds like
-there are no more deadlocks, and without the POSIX AS-safe requirement,
-the soundness question goes away. Does this mean that it is now
-considered correct and reasonable code to `fork` without `exec` for the
-purpose of e.g. invoking a function in a separate process? Similar to
-what can be done with `clone`.
+I would not say that is "usual wisdom" at all. Traditional unix
+practice was very much to take maximal advantage of fork. Lots of
+daemons run connections/sessions this way, shells implement subshells
+this way, etc.
 
-Of course that case may be better served by a way to re-`exec` the same
-process for clean state without relying on the exact same hacks, but
-that unfortunately doesn't exist.
+I would say, however, that it's good practice not to fork except to
+exec, and to avoid that too (use posix_spawn instead) when possible.
+There are lots of pitfalls with keeping around a forked child, ranging
+from leaking potentially sensitive data you didn't intent to copy from
+the parent -- especially if dropping privileges in the child -- to
+logic bugs around sole ownership of a resource potentially becoming
+shared/multiple ownership. Plus there are the portability issues if
+anything in the parent is using threads, or if you want to port to
+systems where fork is slow, poorly emulated, or unavailable (Windows,
+MMU-less microcontrollers, etc.)
 
-- Trevor
+> Based per the commit it sounds like
+> there are no more deadlocks, and without the POSIX AS-safe requirement,
+> the soundness question goes away. Does this mean that it is now
+> considered correct and reasonable code to `fork` without `exec` for the
+> purpose of e.g. invoking a function in a separate process?
+
+This works on musl and maybe mostly on glibc, but unless you know the
+parent is single-threaded, it's not portable. If you look back at the
+reason we made it work, it's because one or more interpreted languages
+(sorry I don't remember which one(s) at the moment) *wrongly assumed
+it works* and built their own language constructs (exposed to
+applications written in those languages) around the assumption that it
+works.
+
+> Similar to
+> what can be done with `clone`.
+
+Generally clone is far more dangerous than fork in this regard. There
+is no formal spec for how it behaves, and you are likely stuck with
+the same or tighter AS-safety restrictions than fork would have.
+
+musl makes clone roughly as safe as fork (see commit fa4a8abd06a4),
+and disallows flags that are not compatible with executing any part of
+libc in the child, but afaik glibc still has an anything-goes
+approach.
+
+Rich
