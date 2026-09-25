@@ -1,105 +1,91 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602B0483BC6
-	for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 17:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143223955EA
+	for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 19:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790357086; cv=none; b=mrWR3z+En9CyX7/RUmbjcc/JNSgGVXa3yxtiNqepoC+Wx7r8Lki0K2FZYQUgqFFRmzLSIzWz9IAbPG8avaTsJh04FIH61ge1jawVF4GrEPJh2J6w3pZxyd01xdiQexTCQrariW1K0bJmik7al+5WkVHPBr8VgYF54haYWbLAYp8=
+	t=1790366108; cv=none; b=j4Pr5AIvryGDINgID+wX4bn/Wlpx6mgfdBKnWYsMHBLsVFWU5xS7mva948bOBg8IslLTevchcak1FchvJjGL3hcd59EzE5deQypr7tZS+/9XSzBwfX1eqWIuRdxDW1D3QochrBZaI4CwveFu4OLqu5s4okDT8UrdpmexWTwLW7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790357086; c=relaxed/simple;
-	bh=fvHZzDskk7v8po+/mEGcgbeYaav8EksZCcn7KJqF0yA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qaG6guUm8+zAC3HsTGbgJn1Cw9OFJqAYhTPjQh3dW3JUbJA4r3YhJkr6CR0r0nk/D/2Y84fGZM2152CZuwT3duoVzTzwSQgMtCQ+PVKVrwKqCeVAHVu7EZXnUYBUdJ8xbQjZ1RtjfEQKXdUXTdYn2XxmeFV++gYydsEXY+kB99k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIXTwzIb; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790366108; c=relaxed/simple;
+	bh=VAYx2Qzp30BDLeHyjHKkGaMW63Lk2SDdL/cg4JsHDTc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oQCwdafsc3cQkztnoWAwjTwiUCoQbn2JK7tu0SK0iDqhK1zLEC427Lt/k/Z8xfOh658y8uvMgOXXI6Y+ziH0xwDINus1NnFWPepvhvxd3aJfOleITh9V85eJwWw07sYmYS0tLcJYsSnzHft/kzFNqOkL7Q9xxR+uS3eRV1pyXIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F7AJTCd1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIXTwzIb"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939695b5741so110886685a.1
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 10:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790357083; x=1790961883; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gODMPbHUvL+X4VsBZGbFZufIr6Cdjo1EClW7N7ND5p4=;
-        b=hIXTwzIbzGEfV77sS/beRfvhrZvjIStDxVLBzxNhtdpfpsShBv6/XY1pfVuj2AdMC7
-         Arxg0slicQsR9CmDZQnEjHxaM1mgV6Mxw4d75Qu3KyCyKoJ00KX6lZ3dtCMHcZuIxaTW
-         fPaX4XHXSEw/9Vv5DNj3KiGhTebMFdioChaJLMSetxsYeCA9yvQBS6iBaxuuY1V0rxUw
-         hgWfewXK0fP/B6XhngpXBlsd91qvteiRrN+mu1GJm/AGDnSk5sa8b79M50mO2Sn1HLkN
-         Kc8r9tXKwfeORlq2+21fy5U1XYqBJ19GabRaKPmkXxw4fqPMfswtSyNQeHBTDhR1uFTb
-         RTQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790357083; x=1790961883;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gODMPbHUvL+X4VsBZGbFZufIr6Cdjo1EClW7N7ND5p4=;
-        b=hPOVSENM+Hmdbqp6rMHZCF6OPoeANpr6YvfU4JyHSE6SItlr4SFPD+0ODKCE4t1NTf
-         CY0K+6m2TW8pcJ6OHGnuZ8R6uNRjqpumGVvi/yY5nfTGDf0nVe6fXt8e1WQDCr9bjM6u
-         zuUhLNqbvMcMXwPIE2jHW8EiDgFrpqOrr9rIDNS5gIkvLN6k/IrecB44ZiingJqgZaOL
-         /zOxn6vJ8XxhA68RzJTZjcePIxlkYkAaFh7rWjna0YjK8eAWFVMCbKAyQ8DFDhKQWfR1
-         m4xBZCsw49IeBqIxn72D2h9tZ6H/bz1/sJ6QXAO9CxRB2RYC48i5xwY2Ep8PJIjHwbDf
-         N7Ig==
-X-Gm-Message-State: AFuF++nkD8iaeG9JjHOsDiNvi1i2Nr7W8nHfDcua9c/vFwt9PLpq9au+
-	Q6Vek8xbgpd8WY1w5T6/OrezsOb/ZayyFFFBBcJxY2O8/4LTLGfTmheaB2HeljFB
-X-Gm-Gg: AYBFou25QwFyf/qB00/JfCYx+0uB5FODUqoBkyVeB24kjqUkMqPm8Rs/XFuySNZswx9
-	VdKhjj4W9XCDGDeWDhFAAaQw4mLzFVNTWPpmpHIhfDXfXdFg4sr1X185Mx8QLYrUEeKl7+0rC6c
-	UtCbylMJa6O6ZRr9jSQAugXVHkVfjBfHcIYiRMmz5HOM8EgAvtHdzxFfSyU9wXecnHGviBAYy6e
-	pbU39fP8VKWCuPJnR96IUa2oR3c9Xoms+oDa0IuxEBB+yMXKUPrSisbKOW9iZt3QmhIm5QVGf3V
-	pyvPkY9IUJob6qzwFs6YR4Kbo/hkCbnxkc8vaot8dAqUDJhxOpbhXrh3s0l0pNxFhMYFqUl81Eg
-	etGwU3KTgw9YI0xiyhrCThbEMVApnwerHL5xSRuYOstfZsMAa42YJTIYsovfAZFadi1TdFwRfKE
-	M19UEwUXeYyRllMGDwBmAwbh4e1rhq9Pori8hzR+n9MKqy+ci8YQVMN133FMs0bAPYHJfzjFzV4
-	P83xKNy1wRgI5X7LNWTvxNybyrEC4Kb3FJDS/MqWObGs5T3VFFxcSxi9cCoZ7h3z72BbMNMmIXe
-	2EVRoyQ=
-X-Received: by 2002:a05:620a:284b:b0:93b:e6d3:3145 with SMTP id af79cd13be357-93c43d42079mr590223685a.64.1790357083005;
-        Fri, 25 Sep 2026 10:24:43 -0700 (PDT)
-Received: from str-mac-5701 ([2601:140:9000:ea70:398b:ef19:5908:7be0])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c448ae879sm228738585a.13.2026.09.25.10.24.42
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 25 Sep 2026 10:24:42 -0700 (PDT)
-From: Ethan Ferguson <ethanf108@gmail.com>
-X-Google-Original-From: Ethan Ferguson <ethan.ferguson@str.us>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org,
-	Ethan Ferguson <ethanf108@gmail.com>
-Subject: [PATCH] Changed wording in userfaultfd.2
-Date: Fri, 25 Sep 2026 13:24:40 -0400
-Message-ID: <20260925172440.24358-1-ethan.ferguson@str.us>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F7AJTCd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790366105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7R8g2g5io5Mc6RO3UGBOrZqqRoN8DE1RnEMk++o65BA=;
+	b=F7AJTCd1Vl0dGN2GCSnlegoObUmgUQ4FsLZoG9JgaXRU9mo6II1N4VImJWR2L5fXLrtNvN
+	XASgNsZognq3QhVLfXOnLzTbhXKBolmhY64HehbN0cEkTwugkI52sQ7hOzjcoine/GLybo
+	3SAOBznN+puzSVlKWaZ5CHJC633ddjA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-163-o8NgNQbtMVmEIv14y3B1kA-1; Fri,
+ 25 Sep 2026 15:55:00 -0400
+X-MC-Unique: o8NgNQbtMVmEIv14y3B1kA-1
+X-Mimecast-MFC-AGG-ID: o8NgNQbtMVmEIv14y3B1kA_1790366099
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE060195BDF1;
+	Fri, 25 Sep 2026 19:54:58 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D1F06195604D;
+	Fri, 25 Sep 2026 19:54:56 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Rich Felker <dalias@libc.org>
+Cc: Trevor Gross <tg@trevorgross.com>,  Alejandro Colomar <alx@kernel.org>,
+  linux-man@vger.kernel.org,  libc-alpha@sourceware.org,
+  musl@lists.openwall.com
+Subject: Re: [musl] [PATCH 2/2] man/man2/fork.2: Document glibc and musl
+ relaxed fork->exec AS requirements
+In-Reply-To: <20260923234714.GB23438@brightrain.aerifal.cx> (Rich Felker's
+	message of "Wed, 23 Sep 2026 19:47:14 -0400")
+References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
+	<20260923233818.25289-3-tg@trevorgross.com>
+	<20260923234714.GB23438@brightrain.aerifal.cx>
+Date: Fri, 25 Sep 2026 21:54:54 +0200
+Message-ID: <lhuqzihxg1d.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-From: Ethan Ferguson <ethanf108@gmail.com>
+* Rich Felker:
 
-A fourth userfaultfd mode was added in commit aa7589c9ffce, but this
-wording wasn't changed.
+>> +On glibc and musl libc, this is relaxed;
+>> +it is safe to call non-async-signal-safe functions in the time between
+>> +.BR fork ()
+>> +and
+>> +.BR exec ()
+>> +\&.
 
-Signed-off-by: Ethan Ferguson <ethanf108@gmail.com>
+> While glibc has taken measures to make this mostly work, especially
+> malloc-after-fork, I don't think glibc has an intentional model for
+> ensuring that arbitrary libc functions work right in the child of a
+> multithreaded fork. Before accepting such a man page patch, we should
+> at least get an official position from glibc on whether they claim
+> this property or at least aim for it.
 
----
- man/man2/userfaultfd.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Far from everything in glibc is fork-protected, so the statement is not
+true today as far as glibc is concerned.  We try to maintain
+compatibility with existing application requirements, but the precise
+goals have not been written down.
 
-diff --git a/man/man2/userfaultfd.2 b/man/man2/userfaultfd.2
-index 23ae53890..c765b64c0 100644
---- a/man/man2/userfaultfd.2
-+++ b/man/man2/userfaultfd.2
-@@ -75,7 +75,7 @@ all memory ranges that were registered with the object are unregistered
- and unread events are flushed.
- .\"
- .P
--Userfaultfd supports three modes of registration:
-+Userfaultfd supports four modes of registration:
- .TP
- .BR UFFDIO_REGISTER_MODE_MISSING " (since Linux 4.10)"
- When registered with
-
-base-commit: 227f4c2fd6c421ad8e4f81ccf1acad1a139fe3a7
--- 
-2.55.0
+Thanks,
+Florian
 
