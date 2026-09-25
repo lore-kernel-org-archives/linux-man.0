@@ -1,80 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6DA44C645
-	for <linux-man@vger.kernel.org>; Thu, 24 Sep 2026 09:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602B0483BC6
+	for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 17:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790241726; cv=none; b=RcWI0b4fPLGZlzquYa2ToJHcykDvfJCLGlDZu0Duk3kPPu4lRl6394/TH15NUBVIzc1eW5Z0P4AVWbkKRZ1LWfORCicgsKjA/IYpJYi444ZSLjFjRUqfPK6rJk3R422fjv8OJt1h8WFbYRjmwF4JSrxuzsyTGp43Szk0bvVhGVM=
+	t=1790357086; cv=none; b=mrWR3z+En9CyX7/RUmbjcc/JNSgGVXa3yxtiNqepoC+Wx7r8Lki0K2FZYQUgqFFRmzLSIzWz9IAbPG8avaTsJh04FIH61ge1jawVF4GrEPJh2J6w3pZxyd01xdiQexTCQrariW1K0bJmik7al+5WkVHPBr8VgYF54haYWbLAYp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790241726; c=relaxed/simple;
-	bh=vj45IlW2zCNVUyVC7nDYxLC4+9GMMupaI75HclSbDSQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ogMwMUOsSrgUkxReLgPMY4sadzjjywAJ8vqIA49HMeKVhw14TII1ObIo4k2XarNFAE+Sp0ot6M15JLNClRETQA1C2NQYQAE6Of+If6IeP0UeU2oZikqWzhXZkelkvR1bkaAYy4pI0hZ4MbsP1R5WuuzDUadLkSZOryZIzAHp7PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PzAbCfmx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790357086; c=relaxed/simple;
+	bh=fvHZzDskk7v8po+/mEGcgbeYaav8EksZCcn7KJqF0yA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qaG6guUm8+zAC3HsTGbgJn1Cw9OFJqAYhTPjQh3dW3JUbJA4r3YhJkr6CR0r0nk/D/2Y84fGZM2152CZuwT3duoVzTzwSQgMtCQ+PVKVrwKqCeVAHVu7EZXnUYBUdJ8xbQjZ1RtjfEQKXdUXTdYn2XxmeFV++gYydsEXY+kB99k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIXTwzIb; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PzAbCfmx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790241721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vj45IlW2zCNVUyVC7nDYxLC4+9GMMupaI75HclSbDSQ=;
-	b=PzAbCfmxMwB+VF7QXpfEzvslLT0XF74V7G/vUWBckl85lJ9h5fp44uHqwZ3b2jNVhtATAa
-	9eSNIaH6a2zKHGGGLDL3xsvgsX0A2I0Q5wplOlxFSFfDa7+NIr+6ey37LnFo+yZT/uPk5R
-	F2MnLTJxayvyRe/nmFX4ATp9pmRiXew=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-138-qo3y9nnaP0-h4WXQuQ2SNQ-1; Thu,
- 24 Sep 2026 05:21:57 -0400
-X-MC-Unique: qo3y9nnaP0-h4WXQuQ2SNQ-1
-X-Mimecast-MFC-AGG-ID: qo3y9nnaP0-h4WXQuQ2SNQ_1790241716
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 57C5C1977590;
-	Thu, 24 Sep 2026 09:21:55 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6F32441B;
-	Thu, 24 Sep 2026 09:21:52 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Rich Felker <dalias@libc.org>
-Cc: Trevor Gross <tg@trevorgross.com>,  musl@lists.openwall.com,
-  linux-man@vger.kernel.org,  libc-alpha@sourceware.org
-Subject: Re: [musl] Re: async-signal-safety of chroot
-In-Reply-To: <20260924021222.GC23438@brightrain.aerifal.cx> (Rich Felker's
-	message of "Wed, 23 Sep 2026 22:12:22 -0400")
-References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
-	<20260923013428.GT23438@brightrain.aerifal.cx>
-	<DLN4IBB6FV7K.WN3EVWC5FG17@trevorgross.com>
-	<20260924021222.GC23438@brightrain.aerifal.cx>
-Date: Thu, 24 Sep 2026 11:21:50 +0200
-Message-ID: <lhuecejhump.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIXTwzIb"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939695b5741so110886685a.1
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 10:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790357083; x=1790961883; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gODMPbHUvL+X4VsBZGbFZufIr6Cdjo1EClW7N7ND5p4=;
+        b=hIXTwzIbzGEfV77sS/beRfvhrZvjIStDxVLBzxNhtdpfpsShBv6/XY1pfVuj2AdMC7
+         Arxg0slicQsR9CmDZQnEjHxaM1mgV6Mxw4d75Qu3KyCyKoJ00KX6lZ3dtCMHcZuIxaTW
+         fPaX4XHXSEw/9Vv5DNj3KiGhTebMFdioChaJLMSetxsYeCA9yvQBS6iBaxuuY1V0rxUw
+         hgWfewXK0fP/B6XhngpXBlsd91qvteiRrN+mu1GJm/AGDnSk5sa8b79M50mO2Sn1HLkN
+         Kc8r9tXKwfeORlq2+21fy5U1XYqBJ19GabRaKPmkXxw4fqPMfswtSyNQeHBTDhR1uFTb
+         RTQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790357083; x=1790961883;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gODMPbHUvL+X4VsBZGbFZufIr6Cdjo1EClW7N7ND5p4=;
+        b=hPOVSENM+Hmdbqp6rMHZCF6OPoeANpr6YvfU4JyHSE6SItlr4SFPD+0ODKCE4t1NTf
+         CY0K+6m2TW8pcJ6OHGnuZ8R6uNRjqpumGVvi/yY5nfTGDf0nVe6fXt8e1WQDCr9bjM6u
+         zuUhLNqbvMcMXwPIE2jHW8EiDgFrpqOrr9rIDNS5gIkvLN6k/IrecB44ZiingJqgZaOL
+         /zOxn6vJ8XxhA68RzJTZjcePIxlkYkAaFh7rWjna0YjK8eAWFVMCbKAyQ8DFDhKQWfR1
+         m4xBZCsw49IeBqIxn72D2h9tZ6H/bz1/sJ6QXAO9CxRB2RYC48i5xwY2Ep8PJIjHwbDf
+         N7Ig==
+X-Gm-Message-State: AFuF++nkD8iaeG9JjHOsDiNvi1i2Nr7W8nHfDcua9c/vFwt9PLpq9au+
+	Q6Vek8xbgpd8WY1w5T6/OrezsOb/ZayyFFFBBcJxY2O8/4LTLGfTmheaB2HeljFB
+X-Gm-Gg: AYBFou25QwFyf/qB00/JfCYx+0uB5FODUqoBkyVeB24kjqUkMqPm8Rs/XFuySNZswx9
+	VdKhjj4W9XCDGDeWDhFAAaQw4mLzFVNTWPpmpHIhfDXfXdFg4sr1X185Mx8QLYrUEeKl7+0rC6c
+	UtCbylMJa6O6ZRr9jSQAugXVHkVfjBfHcIYiRMmz5HOM8EgAvtHdzxFfSyU9wXecnHGviBAYy6e
+	pbU39fP8VKWCuPJnR96IUa2oR3c9Xoms+oDa0IuxEBB+yMXKUPrSisbKOW9iZt3QmhIm5QVGf3V
+	pyvPkY9IUJob6qzwFs6YR4Kbo/hkCbnxkc8vaot8dAqUDJhxOpbhXrh3s0l0pNxFhMYFqUl81Eg
+	etGwU3KTgw9YI0xiyhrCThbEMVApnwerHL5xSRuYOstfZsMAa42YJTIYsovfAZFadi1TdFwRfKE
+	M19UEwUXeYyRllMGDwBmAwbh4e1rhq9Pori8hzR+n9MKqy+ci8YQVMN133FMs0bAPYHJfzjFzV4
+	P83xKNy1wRgI5X7LNWTvxNybyrEC4Kb3FJDS/MqWObGs5T3VFFxcSxi9cCoZ7h3z72BbMNMmIXe
+	2EVRoyQ=
+X-Received: by 2002:a05:620a:284b:b0:93b:e6d3:3145 with SMTP id af79cd13be357-93c43d42079mr590223685a.64.1790357083005;
+        Fri, 25 Sep 2026 10:24:43 -0700 (PDT)
+Received: from str-mac-5701 ([2601:140:9000:ea70:398b:ef19:5908:7be0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c448ae879sm228738585a.13.2026.09.25.10.24.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 25 Sep 2026 10:24:42 -0700 (PDT)
+From: Ethan Ferguson <ethanf108@gmail.com>
+X-Google-Original-From: Ethan Ferguson <ethan.ferguson@str.us>
+To: alx@kernel.org
+Cc: linux-man@vger.kernel.org,
+	Ethan Ferguson <ethanf108@gmail.com>
+Subject: [PATCH] Changed wording in userfaultfd.2
+Date: Fri, 25 Sep 2026 13:24:40 -0400
+Message-ID: <20260925172440.24358-1-ethan.ferguson@str.us>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Transfer-Encoding: 8bit
 
-* Rich Felker:
+From: Ethan Ferguson <ethanf108@gmail.com>
 
-> musl makes clone roughly as safe as fork (see commit fa4a8abd06a4),
-> and disallows flags that are not compatible with executing any part of
-> libc in the child, but afaik glibc still has an anything-goes
-> approach.
+A fourth userfaultfd mode was added in commit aa7589c9ffce, but this
+wording wasn't changed.
 
-Yes, there is no filtering in glibc, and no update of the (shared) TCB.
-Several web browsers longjmp out of the clone callback and patch the TCB
-with the new TID, so that mutexes work as expected.
+Signed-off-by: Ethan Ferguson <ethanf108@gmail.com>
 
-Thanks,
-Florian
+---
+ man/man2/userfaultfd.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man/man2/userfaultfd.2 b/man/man2/userfaultfd.2
+index 23ae53890..c765b64c0 100644
+--- a/man/man2/userfaultfd.2
++++ b/man/man2/userfaultfd.2
+@@ -75,7 +75,7 @@ all memory ranges that were registered with the object are unregistered
+ and unread events are flushed.
+ .\"
+ .P
+-Userfaultfd supports three modes of registration:
++Userfaultfd supports four modes of registration:
+ .TP
+ .BR UFFDIO_REGISTER_MODE_MISSING " (since Linux 4.10)"
+ When registered with
+
+base-commit: 227f4c2fd6c421ad8e4f81ccf1acad1a139fe3a7
+-- 
+2.55.0
 
