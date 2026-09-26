@@ -1,76 +1,76 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6F547059
-	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 10:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69B028DB55
+	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 10:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790416878; cv=none; b=WIww5mkWEWiiGZHecOmdJhyXRRF9UyewhKHnlihRXPW6QLezr/5oyuDVyBxXNgC8MT5kghf69gNZE0PjHTL/+iwHzSq32S+9q42pS6ykn4hBvBwD4miIl+HDFKZei63zvn98LoNZ5sefAafy80aWrgwwRmgQhECG5QvcUlswvLc=
+	t=1790417605; cv=none; b=h1VvcWjChfG4HyfBGn+VKD3GiMxVuKHRnDzdWX1Ah965aAPns+YglW/k737vSC/kmYhgqNbxK/QV0TQacB9ADRDJjgndbZ0DsP6NWsUppA0jaKnMsyXm5GQC+9yl/IKqg/LWT9BmcCGL3Kqedx1sRJ67yAYwbhbCegG12Ao+s4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790416878; c=relaxed/simple;
-	bh=2tCOh/8tRfVYut6/w76lPZ1FWc4Woow/IPCFd0Vmd4U=;
+	s=arc-20240116; t=1790417605; c=relaxed/simple;
+	bh=Q5+m4LYYc2JOBiy1W6cq2k1HvdSo0SJTV1ka9b/EqKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gQze1LNKK2Cjs1zf/Uhdfw3H0vDTdYHYW+scIWOWFeJW10s+AaAxXdogrMHyTYmVM/fDevRQ3Yz1TzrtWRGxOKCLkemAta/78G8vNQatFVv4bSqiCxHR5hGbSsib/iR8Ry+FNGG4A4Sw9I3JHqcanS3zZ4ax6UTGRdsjOmwOpuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZ9Hmfw+; arc=none smtp.client-ip=74.125.225.141
+	 Content-Type:Content-Disposition:In-Reply-To; b=oEqgssdF37p04njs11EOKI+g96+NQECOnsdqRgKv3XQSz/DcBnUMrmxd3sx0tTZUrO04492s2rkR/+i5Lg1FjCfPcDAICjH4INL/TTVK5XnFZGYk5rnDNToqZvbbjs4Zi3rFc5Akb5WnN/GZRS4uF4TFmf+rM8PVQMTjv/FYC7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rZ1W2umE; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZ9Hmfw+"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3920so12049975e9.1
-        for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 03:01:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rZ1W2umE"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d391aso11590945e9.2
+        for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 03:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790416875; x=1791021675; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790417602; x=1791022402; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UuY7s3PZKhkdU+KHQ9H69RLkSvM95QBEw6xuNnntf7U=;
-        b=RZ9Hmfw+UYyqzAJuWmhddCBxfdDZ0PDqo3V0We1Sq6xxe+ur0fcOoNmI8yGupn/AUF
-         yTqbLHULnxnuuHJi2UE9rDT0n/zBnd1yT1NEWOc/DIDQf/w8rC5cAhmoGVEHf/vhrLFR
-         Xq94FPDtrq4kFEg5y2sdfOmxrr3HpuM/cu/J2KBqZjSAsSGKzKrJg2IPFeYbA0/Df693
-         K+BZ/Bqc8e3pfhKmzTpbzHalEPfvh4qtZoRUDjrak7Fjq395w88RrXui/wrYkXuuzMrG
-         78z2cYRf0W60iBZHrxXHwjNqSzlFq2fPaQtJhQFVyHnqmIBHp2KSdLHQ3GxLTDSK+whl
-         L1PQ==
+        bh=K/ahq8lxhE/RFtgYl86FKRkJtKUZ+kM7YUnWXi3cjio=;
+        b=rZ1W2umEs3yQkYuuJgapdENX8oetI5/xBVk+SsqzRmH8t8utcJ/5RKo4Pb97hAOf1J
+         0aPws4/vHIy2D+60FotFz88htbEUCNd4jnkYzrvXgdDD7KtM7nD/3OtB6poEAQMg/wL8
+         UcBY/FpWjJhClr38R58tmb57BtG6X9KyQCRg4W4L59iJtQjdVJUGfukJMhR2gw12+H42
+         hO9mTPdS89xG2n/jxQjaEXULO09rjsGRUJvkw222PXbSfrlw+ItQ5WVYK+jP1mG64PTT
+         l4I4FgAk+kE8uqfQRSuSxIlrULObahJcKmro2get8SUcgG4WkQzBJNCGyR8SsPHnmkfD
+         RxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790416875; x=1791021675;
+        d=1e100.net; s=20260707; t=1790417602; x=1791022402;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=UuY7s3PZKhkdU+KHQ9H69RLkSvM95QBEw6xuNnntf7U=;
-        b=Vi3s2C433d8xRpBfP/GRtLXlUSVdbG+5+4q6XmDfPhjUZfkbRh2TdivlOlEmDjWgmT
-         xcMVklRgJocrLNp1544t6m/W6vz63S0x0ggZ4bN4GBHZ4xEBPJ1tEqCYcb9alEFzwZkT
-         HAza/s7oUFqONJe6Stvk0tZXEzan96Nfg2i9Iv99yGbbsfcylKvjfXjuGOOT7I0Fc1s8
-         /lh8IoJDeK6Q/47FU7hheAaB4d2n5D/kRUAD81n59v7iy89hG3VrSZ91cLANKa65qp4i
-         q93F0YLtztgmzJDg//ogdNTz7ec85kyo7VKC59nh7ACbHA+tyCk7M4Cto/gwu4mRnHLw
-         sCiQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzUQeo3zGiuRw0TDGBqg9uHTmBj/QBcvMzsPithj8Js/Mo0XgupvTG13fg+6DDdBlJTHWcZUA7T4IA=@vger.kernel.org
-X-Gm-Message-State: AFuF++nflvMDpPrmZebFe3L6E4YPBVez6duF9Dc5wnCzlFZLdRXsQxfY
-	Oa7FHW6VBU6SeohAltHwoCwk7vpJXAAAy0GVjOvI2fsfzNoT/xtTxDZC
-X-Gm-Gg: AYBFou0ClkFKReG9GCguJsDwq6IQiibefZTbcqu8IFLeypNh9GRVYuOcPQNs9vVIdxr
-	z0bjCFg7JDzlizuYzig/UeIrTDRUIiFtGsIh2lBIghgxpHhVOsOWlcdsMRY+omHUg5qry8DOy3I
-	Vg0qRiP/nxPdjWjT/1Qd9ZT1V0Lk5tKxTLEEwEBmAI8lkHpLVl9Yo4KKDkGR/7fEM/Hf4AasuXJ
-	EpWBcu1hPuDA69+BEhDaJBTqxZyVQ/TnlZvam6KK9BcDPRxYdFcOgZ58ER54BgADnNZ4oTbBT63
-	62SSiilMPkp2Semz1Q3OPwKtmf4wtp3mul56yE4V0aM7BIArEmcrdq/gMZxamsg+hGyNUgq05o3
-	e/O5AZwkNU3tgNR/ZPqNisNc9KVW7j+XCAAPZAe0MSm547t0bkzS9pq5Nuqi/69FqIYys3P/L9f
-	xprm6X+JW1ZsEQ6ay13bpJJYrkXUDRUP8J/XEZwus5tUWCP36ca+nCxxkm2s86ZbeXMuWPTTLX4
-	5y7f/b6HLiP24f4Otb8Ec0=
-X-Received: by 2002:a05:600c:5489:b0:49f:d71f:9a39 with SMTP id 5b1f17b1804b1-49fe66c9ad8mr145158445e9.1.1790416874738;
-        Sat, 26 Sep 2026 03:01:14 -0700 (PDT)
+        bh=K/ahq8lxhE/RFtgYl86FKRkJtKUZ+kM7YUnWXi3cjio=;
+        b=uaHLne/wZoO0eHsT8BT/WGnbfHx4060EiF97L+0E7yVDczfZK5NRCzEv6KbdrxeTDO
+         hZJMEe34zLb4kjgADkwPVaw8xIvksFbt9T8DWYAo9jnRJkgrrHpq90ZQfhPOuQdMffNV
+         GTywh+0Ef0623pYCmdDdhKSxvXGMxeU/A5YNzeYpwSp1D7IuMeMmAL6cYTTBhelzzevW
+         Ra7glLSPxPyPr7jCbt38M2s7PADKIW9ujWmanvEKLZCBiw9G1oxI/a+YRsXSH1D3aq3f
+         a+UDIAQ8A8jNydL//saTqEv72ZKCx+5GvrQ1Nrpo17TYwQbvJAR3H4K78KILs4XYmjLN
+         OVGg==
+X-Forwarded-Encrypted: i=1; AKwUvBzpF2kmGJHBsSLzSP/pIYKquQajMLgoq/NcaPYNaAK74C1G9F6S/4HlzVfB/uW0qIMWltfC4DsZRms=@vger.kernel.org
+X-Gm-Message-State: AFuF++mMBKl0BSbLd99V+sr6Z4SDa8wDsO2nkwp2S/t7U0bUjFwHjfR/
+	xhv5WjBg0CFAWQHajOeDP/518bdmH7gk7684mcmrCyh4gCa7LXMwejAk
+X-Gm-Gg: AYBFou2cSTJrtjr/PsGIgXd0TNezzMGCgRgwsb7eJYJpmsEyKND4z8ik8SU2qtP+ruq
+	Xq/f9DuHxQcsk7CXQY8EZHeqGf00gs/KEuFb4MkLdKTct7XNKq0PSU2/84ljJ0r8aDgD3Jq4gyU
+	VqEs9mA79talNjkerfcABMvZdR7bnejDXHQUge+xEWkjFccLAzkj7Jjj1Wesc9/622lZ9QniOrA
+	KJPuJHEm+ouYPwNw8PUnECpGNU26VShVMR5wrhsalOqbngaw5tD+WBlfXJJp6fuel4qTYv1aQ8M
+	XpE7pHzqkrrd4mwln12ZUnD19qHmlhDoTuLBouGIw2/ZolqdyZhbnmsiWinigwrI/Q78ZR0jNH6
+	RyfI6UC2qY03gy5+Inl8VoIQyJT021xizgOpG+FmlJ3Ri0lfJaSNdAQ2KzDAs/2+7eyziB/sbwQ
+	g5q3qUy26aCd9pUwU8JgCBxqrK9R6O0FmSHQv3MBbEZQWgfyqrmVGijKpQleFxB5+hTWcj3lAvN
+	lrvRVw27DoTkClO4Pt+zVU=
+X-Received: by 2002:a05:600c:310b:b0:49d:34:420d with SMTP id 5b1f17b1804b1-49fe66f3e61mr145640835e9.20.1790417601839;
+        Sat, 26 Sep 2026 03:13:21 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ffabc3f33sm25403925e9.4.2026.09.26.03.01.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06bdd11sm123983765e9.9.2026.09.26.03.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 03:01:14 -0700 (PDT)
-Date: Sat, 26 Sep 2026 12:00:11 +0200
+        Sat, 26 Sep 2026 03:13:21 -0700 (PDT)
+Date: Sat, 26 Sep 2026 12:13:20 +0200
 From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
 To: Matthieu Buffet <matthieu@buffet.re>
 Cc: Alejandro Colomar <alx@kernel.org>,
 	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
 	linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/3] man/man2/landlock_add_rule.2: Clarify ephemeral port
- range
-Message-ID: <20260926.6c13f561a21f@gnoack.org>
+Subject: Re: [PATCH 2/3] man/man7/landlock.7: Document AF_UNSPEC behaviour
+ and error codes
+Message-ID: <20260926.a28e567365e5@gnoack.org>
 References: <20260917075853.10231-1-matthieu@buffet.re>
- <20260917075853.10231-2-matthieu@buffet.re>
+ <20260917075853.10231-3-matthieu@buffet.re>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -80,57 +80,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260917075853.10231-2-matthieu@buffet.re>
+In-Reply-To: <20260917075853.10231-3-matthieu@buffet.re>
 
-On Thu, Sep 17, 2026 at 09:58:50AM +0200, Matthieu Buffet wrote:
-> Clarify that ephemeral port range can differ from system to system, and
-> that a compromised application can choose (without any randomness)
-> exactly which ephemeral port will be chosen next (as long as it is
-> within the kernel-wide ip_local_port_range)
+Nit in patch subject: "behavior" (man pages use US English)
+
+On Thu, Sep 17, 2026 at 09:58:51AM +0200, Matthieu Buffet wrote:
+> Current TCP documentation is missing a description of how AF_UNSPEC is
+> mapped (depending on operation and address contents) to AF_INET, and the
+> error codes synthesized by Landlock.
 > 
 > Signed-off-by: Matthieu Buffet <matthieu@buffet.re>
 > ---
->  man/man2/landlock_add_rule.2 | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  man/man7/landlock.7 | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-> diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
-> index fe01a98d99ea..633d89824373 100644
-> --- a/man/man2/landlock_add_rule.2
-> +++ b/man/man2/landlock_add_rule.2
-> @@ -109,9 +109,13 @@ is the network port in host endianness.
->  It should be noted that port 0 passed to
->  .BR bind (2)
->  will bind to an available port from the ephemeral port range.
-> -This can be configured in the
-> +The range is configured globally in the
->  .I /proc/sys/net/ipv4/ip_local_port_range
-> -sysctl (also used for IPv6).
-> +sysctl (also used for IPv6),
-> +and can be further restricted per-socket using
+> diff --git a/man/man7/landlock.7 b/man/man7/landlock.7
+> index 880dd50582f3..51e63f40052c 100644
+> --- a/man/man7/landlock.7
+> +++ b/man/man7/landlock.7
+> @@ -276,6 +276,24 @@ Bind a TCP socket to a local port.
+>  .TP
+>  .BR LANDLOCK_ACCESS_NET_CONNECT_TCP "  (since Landlock ABI version 4)"
+>  Connect an active TCP socket to a remote port.
+> +.P
+> +Note on
+> +.BR AF_UNSPEC :
+> +Calling
+> +.BR connect (2)
+> +with that address family
 
-Grammar nit: I believe this should be "per socket".
+I realize this is technically correct, but to a reader who does not
+remember the nomenclature of the socket() call in detail, it is
+possible to misinterpret "that address family" as referring to TCP,
+rather than to "AF_UNSPEC".
 
-> +.BR setsockopt (2)
-> +with
-> +.BR IP_LOCAL_PORT_RANGE (2const).
->  .IP
->  A Landlock rule with port 0
->  and the
+connect(AF_UNSPEC) also does not work universally on all socket
+families and types (see connect(2)), so the socket that it's being
+used with also has an address family that plays a role here.
+
+Maybe simpler to just say "AF_UNSPEC" instead of "that address
+family"?
+
+> +can only dissolve existing associations,
+> +and as such is always allowed.
+
+
+> +Calling
+> +.BR bind (2)
+> +with that address family
+> +is treated the same way the network stack treats it:
+> +for IPv4 and
+> +.B INADDR_ANY
+> +it is treated as
+> +.BR AF_INET .
+> +All other uses of that address family result in the same error codes
+> +as when Landlock is not in use.
+
+It's unclear to me how bind() with an AF_UNSPEC family address is
+relevant to Landlock sandboxing?  Is this relevant to include?
+
+>  .\"
+>  .SS Scope flags
+>  These flags enable isolating a sandboxed process from a set of IPC actions.
 > -- 
 > 2.47.3
 > 
 
-High level remark: The kernel-side documentation has slightly
-different phrasing, saying:
+I also could not find this change in the kernel documentation, I
+assume you plan to copy it there as well?
 
-  It should be noted that port 0 passed to bind(2) will bind to an
-  available port from the ephemeral port range. This can be configured
-  with the /proc/sys/net/ipv4/ip_local_port_range sysctl (also used
-  for IPv6), and within that range, on a per-socket basis with
-  setsockopt(IP_LOCAL_PORT_RANGE).
-
-But I think your variant is slightly clearer.  Do you plan to update
-the kernel-side documentation as well?
-
-Thanks,
 –Günther
