@@ -1,122 +1,194 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6810345DF68
-	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 14:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9563F329C7C
+	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 23:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790431853; cv=none; b=u82hW6PSKFaa1ClVD1cgocs41qnT7NttVpTgVgXpw9Q9GP1ot99w+7l9w0NDSn0Ta3LkaPEx5JHE7hlJA8AAz4WkZOT+UE6u08O4TfOilesafVQyaHS8g6y5spVgCv8WstmMnYvLtZLI4r5C3iBoKwSZU0AKkBtqYTb3Ru7PlUk=
+	t=1790465540; cv=none; b=Vy2E+7aFePLTtDKajr57xVAVlPdcC64qEhC//Ar3h0LoGUrYmD30Eu7a7AQL0WUq48aZs89TRStbYWto730ifKs/3Qd71hnBgVnh3cyKwQHZ8DpvwCQZEauA1nQxGmanZmu+NV4TsG0lXLIGgRHnmiu7650D8Y3OiKg7oKiNuKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790431853; c=relaxed/simple;
-	bh=cvdO4USGW3RpEaVY3IXzlzHQLN2wzZi6i98UQ5aTkX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=adBjD3zgMyRXh05BbZKFiYAG+GxJDllgU+YZh1N8pS8ehkn5l771fnBIqGCVym8t/S7DFKepUOLQ180v8nprdGAoobohPwrz0f6lveuJfsqq6sAR3shk2/KbcMYGzNGKfsKSzjeT2MZ+e+ghZw7cELdlZ8wzx/rvw8kpb1mHaEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qy8gFSv5; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790465540; c=relaxed/simple;
+	bh=/4VC4x9PpIfi2jsGgmcRErzz+roJvLD2iHnoUCXfJK4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e3LeaqHWsQHK08Va4TCgwqQKlbaIsQbAAuIwVbZcR82nP9DDzkHyrRHeZkI/pzyU3zZb8tuY7h0YnjkKjVfgYVhG7FT9B9tm2Xio11EsqXnLoj0kP2rySHLz2tEOwOrAWwFBQJ6gdd7gzJr+jNNJ3Dcs0/3noYQ95WBQQNo/r+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O24XqwUN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qy8gFSv5"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843f22dcb8so1345189f8f.0
-        for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 07:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790431846; x=1791036646; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OJpF3uab6VqfOfsvmd55TCmhzgQET5RNL/v+FYxCbmA=;
-        b=Qy8gFSv5Atb9ubUCy45W0ib+Cc1XRHiGeN7VypT1R1sOw1NWr78JIlQFJvLXrn03oj
-         uJcTRhkiMvJuh0hdYQoAUTPtTOodkwQDyNsTyO5ea5ABybmUS2kUvWCbi7E48D0tYGRM
-         T0uX9CmTLMXrppfIehnjD6D0k9KY1Djc16lw91zmP57Qf7A8hnwYfKTdWqBs2Tp+3Rq5
-         ECj6SkO8+POf6Yj5TQlGSUcxtQZtV/k6b3MK5DcknvyZr5eEY/gFYBZlJwwbW9uFZvoK
-         cs6Yd9lkGzcFCb2W6lMgvjcevbcyRCog5z9jRs8NdBEIYzsd+lEeJfBV8go9X4xcsY6+
-         jEHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790431846; x=1791036646;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=OJpF3uab6VqfOfsvmd55TCmhzgQET5RNL/v+FYxCbmA=;
-        b=wzqpWfJwCS9ZWtHlAe5q3CeqMG+N8o4hfMk9xR6UwSWjLvMGdSPQPpFHKQm9lqyKzA
-         bJYq/k77SBE+TVClNs33YsT/WhkXhFEZ/AzM7M7zrJbhHRAk+1jON7Wx9wvwq5UZ4gSS
-         9sXFvHOb1KJY1QbTFVfqBNqSbaiFcOYHbNLGnmnzsk5XPL/2WvRfzOyqWWWo8K306tLZ
-         oVvcW6gv7m1R06XCuPAo4LeNESh9JtcYjXiiaJGhIF5NvlzLyjiDDgUJxmzp1SUL7ZGP
-         bd5VGGtEDDSZB5F65b1wj3M4iNkrgWQOQZkp4k3/P0enxvyNZQt4gJTDI9Id0F+YAviL
-         S80g==
-X-Forwarded-Encrypted: i=1; AKwUvBxk11zsOqc5ZxCESiM22C9ZZl0N2+IAn44Od8XLmTRXHuotpBNhVVUm95RlMEt53yxbDtpOjuSLE+M=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKxnOfui2kbhO6IZXBvDOvNwnmKtcccm74XIb0rSe0ftMPoIXHI
-	wa73+i/bYYJyflDyfupeMLS8RZxtIah3/+NHnOLTOCSncz3RQa2jm5Up0CWCLl6e
-X-Gm-Gg: AYBFou3Ioz315tMTVsgeOaO78yD6oMik/GGYbF6TzNBDpyoJIoGzVNYJGsVbi0uk+P+
-	/p2w2+q9yfVuiCbSHhqmJaF0F4Xr5FgdcLVhCb8ohF4cmK4MYLnu3BuaE2BNkAR2oZge6bPVg/3
-	Tb97im0tYy/YcXN1HK9x1EA8VSj1u0GsLQvSm6q2IYP69IeBe7SRdEvBu+rcFkvSqrNi+ttS3Er
-	qjU4zHdm7kFwn8u+SYxTulVZWriJ0E26GCokmFLuuw+ccimYywHbUZDLeSeHsjUZovJmsm8Avq1
-	g4gTymtfAZ/kLzooF3cl+erjIuIcliJazPl954FDMhCcM1FmN1ISX4FrMNUryvWTh6CpGNUxtmY
-	DTs/FHVGztxjFoveUnsVNrT4V2w+aTf7/Jp/fkpXoxnLEuveYqDP8JdcQkp5RO3qa27F5EXlciV
-	uc9j0ArfSkVMNPKf6WyrA8oXB4cT133EpjV8tALJ3SIz6GhVu2hHe2eS80yRHIm8Q1/nSBcX3xp
-	WE10mbFAr/Lg/4I9RGUcIk=
-X-Received: by 2002:a05:6000:2385:b0:488:811c:c78 with SMTP id ffacd0b85a97d-488811c0f2dmr8094206f8f.32.1790431846194;
-        Sat, 26 Sep 2026 07:10:46 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349731sm14812337f8f.12.2026.09.26.07.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 07:10:45 -0700 (PDT)
-Date: Sat, 26 Sep 2026 16:10:44 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man7/landlock.7: Document whiteout object
- peculiarities
-Message-ID: <20260926.919c130a1a6b@gnoack.org>
-References: <20260828160340.11238-2-gnoack3000@gmail.com>
- <apHkx3LvRyqYIB2F@devuan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O24XqwUN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 689191F0089F
+	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 23:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790465539;
+	bh=nw4tcFFem5fMw8F25atJ8BPsyQyyVvwGckLrZIYusgw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=O24XqwUNbyqLbpfpgau8U9KIjgGQpvMIZy+o0BPMnU9M7avf8xkE2Z6iDEjeP2DUQ
+	 vjhDgNE6QvAeAZkzYkys7I/rkiWDPsuS+NpwxJbqYpFJ1bhWWlyAfbymM0HEf00r+T
+	 df1VQboklT/TGdEN3z8DOpLpSu2qhk//mmmq00ADfCiAAjLcG8fRvfK4BQIhkkFnUj
+	 x65D1dcPHiVPthUSkpKBaebMsNW7OPYQDWJlpzC5fkoY3yrFqjunS7XgU9rYSoagaf
+	 pJafGdz2uADKCw51Jyyb6G2MbbWZ22476aG2qC/IiwJZmX+JTQvmgMtTTv+ctkf0mk
+	 S93pcBPtDyNGA==
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a4fbc5586so296002766b.2
+        for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 16:32:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzC4JBKdB8hY2TzDoGbkb9en6MERQJYOlfQG3ihylFkVeRX6lJM981jqsIhBJgKwIKP6sfB950ytkU=@vger.kernel.org
+X-Gm-Message-State: AFuF++lWmEfjiNXnP+ZLuM30CFvh86Q1UH2sBn6aveGzDTiwmnh/x4dS
+	S0zwjTaSgqOmmSNOZOuJoQstHNJqD+UFV3TlJfZPMoD08k7rRqYP4hUbjYtmU+1KZV/vraHN/FT
+	JWL1RTleFat2fzgkBH25elUxvyrF+lAJfoMYE66iftg==
+X-Received: by 2002:a17:907:962a:b0:c2d:ca32:2176 with SMTP id
+ a640c23a62f3a-c2dca3235abmr54019966b.8.1790465537433; Sat, 26 Sep 2026
+ 16:32:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <apHkx3LvRyqYIB2F@devuan>
+References: <20260926045517.3458413-1-matthias.goergens@gmail.com>
+In-Reply-To: <20260926045517.3458413-1-matthias.goergens@gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 26 Sep 2026 13:32:06 -1000
+X-Gmail-Original-Message-ID: <CACePvbWPLegjMtF4jYN4+_1ZeoEuBHwZuwNyMpYwPZaA0edO5A@mail.gmail.com>
+X-Gm-Features: AclHuK9AxoX5x-gecpb2ks2aU57CnhQ2g3FIIpOxpjBk-hgB0LOGfyaEJiKPKFM
+Message-ID: <CACePvbWPLegjMtF4jYN4+_1ZeoEuBHwZuwNyMpYwPZaA0edO5A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/4] mm/swap: reserve swap areas for deliberate offload
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>, 
+	Youngjun Park <youngjun.park@lge.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-api@vger.kernel.org, 
+	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, Karel Zak <kzak@redhat.com>, 
+	util-linux@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Shuah Khan <shuah@kernel.org>, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Alejandro,
+On Fri, Sep 25, 2026 at 6:55=E2=80=AFPM Matthias Goergens
+<matthias.goergens@gmail.com> wrote:
+> The series fixes zram selftest device tracking and error reporting, adds
+> the swap policy with DRM eligibility checks, and tests routing, workingse=
+t
+> activation and retained-entry write refusal. It is based on mm-new at
+> 995829088503.
 
-On Fri, Aug 28, 2026 at 09:44:18PM +0200, Alejandro Colomar wrote:
-> > Date: 2026-08-28 18:03:41+0200
-> > From: Günther Noack <gnoack3000@gmail.com>
-> >
-> > Bring documentation for LANDLOCK_ACCESS_FS_MAKE_REG in line with the
-> > Landlock whiteout patch [1].
-> > 
-> > Link: [1] <https://lore.kernel.org/all/20260813093157.1436894-3-gnoack@google.com/>
-> > Link: [2] <https://github.com/landlock-lsm/linux/issues/66>
-> > ---
-> >  man/man7/landlock.7 | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/man/man7/landlock.7 b/man/man7/landlock.7
-> > index 880dd50582f3..3642a64ff1f6 100644
-> > --- a/man/man7/landlock.7
-> > +++ b/man/man7/landlock.7
-> > @@ -204,6 +204,9 @@ Create (or rename) a directory.
-> >  .TP
-> >  .B LANDLOCK_ACCESS_FS_MAKE_REG
-> >  Create (or rename or link) a regular file.
-> > +.IP
-> > +This also guards the creation of whiteout objects
-> > +as used in OverlayFS.
-> 
-> Reviewed-by: Alejandro Colomar <alx@kernel.org>
-> 
-> 
-> I guess this should not be applied yet, right?  If it's ready, please
-> let me know.
+Hi Matthias,
 
-The whiteout patch has been backported as bugfix to Linux 7.2, 6.18,
-6.12, 6.6 and 6.1.  Since it is in stable, I think this can be
-considered ready for the purpose of putting it into man pages?
-(Otherwise, we can also wait for the 7.3 release.)
+I can't find mm-new 995829088503 anymore.
 
-–Günther
+Your patch does not apply cleanly to the current tip of mm-new
+mm-unstable, or mm-stable branches.
+Do you have a git repo with your patch applied?
+
+mm-new is whatever Andrew can find on the mailing list, regardless of
+whether it has been reviewed. That mm-new branch is very unstable,
+even more so than mm-unstable, which should at least have some review
+already. Maybe consider using mm-stable or mm-unstable as base next
+time.
+
+Chris
+
+>
+> Feedback is particularly welcome on:
+>
+> - Activation-time eligibility versus backend placement or migration:
+>   is retained-entry refusal, with possible reclaim churn or OOM,
+>   acceptable without migration?
+> - Eligible-capacity accounting, including overcommit limits and OOM
+>   scoring; cache recovery, cluster invalidation and workingset activation=
+.
+> - Persistent activation and visibility: current swap listings do not
+>   expose the policy.
+>
+> Validation includes x86 builds, affected arm64 MTE objects and builds
+> without swap or memory cgroups. QEMU tests covered routing, retained-entr=
+y
+> recovery, data integrity and cleanup, with negative controls for write
+> refusal and teardown failure.
+>
+> I have also been using this policy on my own machine with experimental
+> bcachefs swap support, with no problems observed so far. Deliberate stres=
+s
+> testing is confined to VMs; I do not deliberately stress-test this machin=
+e.
+>
+> Changes since v1, incorporating Sashiko's public review [7]:
+>
+> - Improve selftest isolation, retained-swap measurement and memlock skips=
+.
+> - Track allocated zram devices, wait for udev probes and report cleanup
+>   errors without deleting data through a mount that could not be released=
+.
+> - Clarify activation, capacity reporting and conventional fallback limits=
+.
+>
+> [1] https://patchew.org/linux/20260825153238.2695446-1-nphamcs@gmail.com/
+> [2] https://patchew.org/linux/20260713025644.170839-1-youngjun.park@lge.c=
+om/
+> [3] https://openzfs.github.io/openzfs-docs/Project%20and%20Community/FAQ.=
+html#using-a-zvol-for-a-swap-device-on-linux
+> [4] https://engineering.fb.com/2022/06/20/data-infrastructure/transparent=
+-memory-offloading-more-memory-at-a-fraction-of-the-cost-and-power/
+> [5] https://www.kernel.org/doc/html/latest/admin-guide/mm/damon/reclaim.h=
+tml
+> [6] https://www.kernel.org/doc/html/latest/admin-guide/mm/zswap.html
+> [7] https://sashiko.dev/#/patchset/20260914104501.3960616-1-matthias.goer=
+gens@gmail.com
+> [8] https://github.com/util-linux/util-linux/pull/4633
+> [9] https://lore.kernel.org/all/20260914105606.3997649-1-matthias.goergen=
+s@gmail.com/
+>
+> v1: https://lore.kernel.org/all/20260914104501.3960616-1-matthias.goergen=
+s@gmail.com/
+>
+> Matthias Goergens (4):
+>   selftests: zram: track owned devices and report cleanup failures
+>   mm: restrict offload-only swap to proactive reclaim
+>   selftests: zram: cover offload-only swap policy
+>   selftests: zram: cover retained offload-only entries
+>
+>  Documentation/mm/swap.rst                     | 105 ++++
+>  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |   2 +-
+>  .../gpu/drm/i915/gem/selftests/huge_pages.c   |   6 +-
+>  drivers/gpu/drm/msm/msm_gem_shrinker.c        |   2 +-
+>  drivers/gpu/drm/panthor/panthor_gem.c         |   2 +-
+>  drivers/gpu/drm/ttm/ttm_backup.c              |   2 +-
+>  drivers/gpu/drm/xe/tests/xe_bo.c              |   2 +-
+>  include/linux/swap.h                          |  29 +-
+>  include/linux/vm_event_item.h                 |   1 +
+>  mm/memcontrol.c                               |  20 +-
+>  mm/page_io.c                                  |  24 +-
+>  mm/swapfile.c                                 | 123 ++++-
+>  mm/vmscan.c                                   |  31 +-
+>  mm/vmstat.c                                   |   1 +
+>  tools/testing/selftests/zram/.gitignore       |   2 +
+>  tools/testing/selftests/zram/Makefile         |   4 +-
+>  tools/testing/selftests/zram/README           |  20 +-
+>  tools/testing/selftests/zram/config           |  10 +-
+>  tools/testing/selftests/zram/settings         |   1 +
+>  tools/testing/selftests/zram/swap_offload.c   | 425 +++++++++++++++++
+>  .../selftests/zram/workingset_offload.c       | 207 ++++++++
+>  tools/testing/selftests/zram/zram.sh          |   9 +
+>  tools/testing/selftests/zram/zram01.sh        |   9 +-
+>  tools/testing/selftests/zram/zram02.sh        |   9 +-
+>  tools/testing/selftests/zram/zram03.sh        | 174 +++++++
+>  tools/testing/selftests/zram/zram04.sh        | 164 +++++++
+>  tools/testing/selftests/zram/zram05.sh        | 447 ++++++++++++++++++
+>  tools/testing/selftests/zram/zram_lib.sh      | 189 ++++++--
+>  28 files changed, 1926 insertions(+), 94 deletions(-)
+>  create mode 100644 tools/testing/selftests/zram/settings
+>  create mode 100644 tools/testing/selftests/zram/swap_offload.c
+>  create mode 100644 tools/testing/selftests/zram/workingset_offload.c
+>  create mode 100755 tools/testing/selftests/zram/zram03.sh
+>  create mode 100755 tools/testing/selftests/zram/zram04.sh
+>  create mode 100755 tools/testing/selftests/zram/zram05.sh
+>
+> --
+> 2.55.0
+>
