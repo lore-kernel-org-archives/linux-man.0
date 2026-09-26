@@ -1,91 +1,221 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143223955EA
-	for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 19:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F77E35C686
+	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 04:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790366108; cv=none; b=j4Pr5AIvryGDINgID+wX4bn/Wlpx6mgfdBKnWYsMHBLsVFWU5xS7mva948bOBg8IslLTevchcak1FchvJjGL3hcd59EzE5deQypr7tZS+/9XSzBwfX1eqWIuRdxDW1D3QochrBZaI4CwveFu4OLqu5s4okDT8UrdpmexWTwLW7Q=
+	t=1790398533; cv=none; b=W6RoqlvALqOASwbZSAvkGgqNZ4hKrk1CaJe2DOj7wjc2w+442n7OGe3I2dKrkuQoRVY86FBw5ASPtPTZ+lB1oNTUjBU0U0YfNGHEgF7G66r50sFXtGF43avoD709JgxgcvAz+79W4SD1hBcPZkTpFo+E5vkT/4hzU85qSodLkIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790366108; c=relaxed/simple;
-	bh=VAYx2Qzp30BDLeHyjHKkGaMW63Lk2SDdL/cg4JsHDTc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oQCwdafsc3cQkztnoWAwjTwiUCoQbn2JK7tu0SK0iDqhK1zLEC427Lt/k/Z8xfOh658y8uvMgOXXI6Y+ziH0xwDINus1NnFWPepvhvxd3aJfOleITh9V85eJwWw07sYmYS0tLcJYsSnzHft/kzFNqOkL7Q9xxR+uS3eRV1pyXIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F7AJTCd1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790398533; c=relaxed/simple;
+	bh=VJt+X1k/ydRjcIAibigZ3Pxk4kxu4GwSuJxbtbPx6e0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PPXibdiPGKD1gq+OwcJ3UCaR/diMkTSz+p0/mjVHufe2KxBcMry3cAFy69Fl+NcU24h9QfLBWIjlwsxwmMvXrsJJHL3rklYFh53rXf7vsaSv2qzNnImqcEKBtWmfaiVnnPRW1xqLd7aHxEafMrvdFNRhtnSJjQumom2dqF+8woI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7s1KCd1; arc=none smtp.client-ip=74.125.229.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F7AJTCd1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790366105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7R8g2g5io5Mc6RO3UGBOrZqqRoN8DE1RnEMk++o65BA=;
-	b=F7AJTCd1Vl0dGN2GCSnlegoObUmgUQ4FsLZoG9JgaXRU9mo6II1N4VImJWR2L5fXLrtNvN
-	XASgNsZognq3QhVLfXOnLzTbhXKBolmhY64HehbN0cEkTwugkI52sQ7hOzjcoine/GLybo
-	3SAOBznN+puzSVlKWaZ5CHJC633ddjA=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-163-o8NgNQbtMVmEIv14y3B1kA-1; Fri,
- 25 Sep 2026 15:55:00 -0400
-X-MC-Unique: o8NgNQbtMVmEIv14y3B1kA-1
-X-Mimecast-MFC-AGG-ID: o8NgNQbtMVmEIv14y3B1kA_1790366099
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE060195BDF1;
-	Fri, 25 Sep 2026 19:54:58 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D1F06195604D;
-	Fri, 25 Sep 2026 19:54:56 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Rich Felker <dalias@libc.org>
-Cc: Trevor Gross <tg@trevorgross.com>,  Alejandro Colomar <alx@kernel.org>,
-  linux-man@vger.kernel.org,  libc-alpha@sourceware.org,
-  musl@lists.openwall.com
-Subject: Re: [musl] [PATCH 2/2] man/man2/fork.2: Document glibc and musl
- relaxed fork->exec AS requirements
-In-Reply-To: <20260923234714.GB23438@brightrain.aerifal.cx> (Rich Felker's
-	message of "Wed, 23 Sep 2026 19:47:14 -0400")
-References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
-	<20260923233818.25289-3-tg@trevorgross.com>
-	<20260923234714.GB23438@brightrain.aerifal.cx>
-Date: Fri, 25 Sep 2026 21:54:54 +0200
-Message-ID: <lhuqzihxg1d.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7s1KCd1"
+Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-1438e88300cso1319797c88.0
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2026 21:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790398529; x=1791003329; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lez8Lh9LK2IJV3Lg+4+qOHMKMvDRPEZgp+OMdBxRRpI=;
+        b=b7s1KCd1Fc3xk7Px/PBFexs1HShEbmxEi3Q/iJYAj5PgTXH9qm5E/gmCE1R0dPRlbD
+         2qQezhrQiSfuQxXSg5DmYbvvtXPVuM3erE53zeONQJlGk7S5Ekh0+o2VWqM+0950t7rS
+         QP8zY6BIytqUO2w4L/tROUegVB/hV7x5/050miymXwwzjtSepoRxWBEdCHLUSwS1KPwA
+         PCIeOfTm0v/uSuCVk5NWm9dMICd8VhGbXRMni37lFvhEl/BEJvBy6mJNyMj9KS2mkQNX
+         g40MyqggOsyDLyAfHsNB+wKwufepyQCd+AhSGrsUZsQLyEv0F1eR1TUd2ox+0/YL6NdR
+         9WXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790398529; x=1791003329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lez8Lh9LK2IJV3Lg+4+qOHMKMvDRPEZgp+OMdBxRRpI=;
+        b=YYxI7yaDvDYIIujRzHheV7yWNzmT4GqxbxF1hPhOpRYx3hQnGMislpTJr8KcI3EtR1
+         OTqxmuyOtJTqa57GyAV5VnVoLt4nIYq0Q0zGbGm+PC0uAjMnOQuqm1milGNcvkVkw7QB
+         SmY58midmGEwfiAMPl/vjKxGOm22pcBak9xGxbCSf33W3hIOvx96LCtiT1RITyWMYZYW
+         2geidFsduTQ0YWyCaJ6lSNnBv09uy2bf7sjk27SYIXpl6iZpSP6sHyAOw7KdaTS/xyY+
+         EU7FYvYXkB76PFwBnuAQ8mcxYVFG/vcf+klcS56adpRZRtF9+sH0Fki0+ozACZlGhxOl
+         4p+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBz8InQFtx5kJVNsNVh9I+tXuRVnzU/i7fKvKRttjAsvVGaBAJ4mucyNUZJIzjWp3ckH+2ad/ZYLHSc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kY04GRTNO39SPII3llkSwMQusTazaLEFniXAQLNvScOOod2K+P
+	vIZNL6EtIhjaojpp8BXnp66EeJ8yySwptNe7PAfJ31XEw5jQOHB0ymzU6+W4AiMmH4UNaQJY
+X-Gm-Gg: AYBFou0xweuIYR6AeLOu44g81mGlELWDUmDQMmvXlG3/U+yTZdTukUVLOTtybeIb/VG
+	rM0rdeOSKI4HlSf6sd0SBDtNhmnsppyyimg0XFMfVLEo6UVvJl8kMmn4zZN4sgrTG/vGjLaEKGc
+	wrC1djuLeu7+/Hkb4AJ8cXYz9BpLnN0TxVnmts7gf0378ftiF9G6Orm8WU57PIfwEeuonPFeNer
+	oiPkXjiEtV09dwotOFp06XUdZN+DsdhbVPg9eq0khU+nT9tQwyxs+Z7ughhOtAqXko2pAwS3FMg
+	vVc99RYRt2Gy0L6kWRO97XLCz4ZmhntopHdv2TOEMNUg/0nrNf68wqpaOmNOh4CKKdAJRLAKfJz
+	JSsfO8cYp84DZx9eiL+yb9muVvAZbH23hKulf8wU21ui7rVNbpn+YYxDgct3izSccE6KVcnEmGL
+	bC0fBHLUdKXphwyhdbHMH9GDcaONLIBF08b2XKYUdHm8DWXAhw7G3EA0mkj306SG8SvgXockaAs
+	EYkj5dLbDXnVxCUONeeGVR8W69hh/UQlvnZIUqnZMw/MhOXoTkhusHKZx/YL/HNdIx2dBsvpGPz
+	3pPYgnim7tLh+rB3CTmN24gIZ0ZZwXlu2WkaP9HRlUBJXLKSiFRassvigs4=
+X-Received: by 2002:a05:701b:4354:b0:143:8865:cca with SMTP id a92af1059eb24-146cfdcf390mr1703579c88.22.1790398527862;
+        Fri, 25 Sep 2026 21:55:27 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145adcc5b00sm9334211c88.15.2026.09.25.21.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 21:55:27 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthias Goergens <matthias.goergens@gmail.com>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	David Hildenbrand <david@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Yosry Ahmed <yosry@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Alejandro Colomar <alx@kernel.org>,
+	linux-man@vger.kernel.org,
+	Karel Zak <kzak@redhat.com>,
+	util-linux@vger.kernel.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Shuah Khan <shuah@kernel.org>,
+	linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH v2 0/4] mm/swap: reserve swap areas for deliberate offload
+Date: Sat, 26 Sep 2026 12:55:13 +0800
+Message-ID: <20260926045517.3458413-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
 
-* Rich Felker:
+This RFC adds offload-only swap areas for deliberate cold-page offload to
+backends unsuitable for pressure reclaim. ZFS zvol swap has documented
+deadlocks under memory pressure [3]; compressed swap is another target
+because writes may need memory despite free logical slots.
 
->> +On glibc and musl libc, this is relaxed;
->> +it is safe to call non-async-signal-safe functions in the time between
->> +.BR fork ()
->> +and
->> +.BR exec ()
->> +\&.
+Explicit proactive reclaim can use these areas alongside conventional
+swap, ordered by priority. Ordinary reclaim cannot initiate non-zero
+writes to them, including through retained swap entries. Conventional
+capacity is not reserved for emergencies. Operators choose the policy;
+the kernel does not measure headroom or make an allocating backend safe.
 
-> While glibc has taken measures to make this mostly work, especially
-> malloc-after-fork, I don't think glibc has an intentional model for
-> ensuring that arbitrary libc functions work right in the child of a
-> multithreaded fork. Before accepting such a man page patch, we should
-> at least get an official position from glibc on whether they claim
-> this property or at least aim for it.
+TMO/Senpai [4] and DAMON_RECLAIM [5] are related cold-page reclaim
+approaches. This RFC admits offload-only swap through memory.reclaim and
+per-node reclaim, but not DAMON. Other related work includes per-cgroup
+zswap writeback control [6], Virtual Swap Space v4 [1] and swap tiers v10
+[2].
 
-Far from everything in glibc is fork-protected, so the statement is not
-true today as far as glibc is concerned.  We try to maintain
-compatibility with existing application requirements, but the precise
-goals have not been written down.
+The util-linux companion [8] proposes swapon --offload-only and an fstab
+option. Older swapon silently ignores the fstab token, so persistent
+activation needs discussion. Apply the separate i915 fix [9] first to avoid
+a pre-existing folio-lock leak when shmem writeback is skipped.
 
-Thanks,
-Florian
+The series fixes zram selftest device tracking and error reporting, adds
+the swap policy with DRM eligibility checks, and tests routing, workingset
+activation and retained-entry write refusal. It is based on mm-new at
+995829088503.
+
+Feedback is particularly welcome on:
+
+- Activation-time eligibility versus backend placement or migration:
+  is retained-entry refusal, with possible reclaim churn or OOM,
+  acceptable without migration?
+- Eligible-capacity accounting, including overcommit limits and OOM
+  scoring; cache recovery, cluster invalidation and workingset activation.
+- Persistent activation and visibility: current swap listings do not
+  expose the policy.
+
+Validation includes x86 builds, affected arm64 MTE objects and builds
+without swap or memory cgroups. QEMU tests covered routing, retained-entry
+recovery, data integrity and cleanup, with negative controls for write
+refusal and teardown failure.
+
+I have also been using this policy on my own machine with experimental
+bcachefs swap support, with no problems observed so far. Deliberate stress
+testing is confined to VMs; I do not deliberately stress-test this machine.
+
+Changes since v1, incorporating Sashiko's public review [7]:
+
+- Improve selftest isolation, retained-swap measurement and memlock skips.
+- Track allocated zram devices, wait for udev probes and report cleanup
+  errors without deleting data through a mount that could not be released.
+- Clarify activation, capacity reporting and conventional fallback limits.
+
+[1] https://patchew.org/linux/20260825153238.2695446-1-nphamcs@gmail.com/
+[2] https://patchew.org/linux/20260713025644.170839-1-youngjun.park@lge.com/
+[3] https://openzfs.github.io/openzfs-docs/Project%20and%20Community/FAQ.html#using-a-zvol-for-a-swap-device-on-linux
+[4] https://engineering.fb.com/2022/06/20/data-infrastructure/transparent-memory-offloading-more-memory-at-a-fraction-of-the-cost-and-power/
+[5] https://www.kernel.org/doc/html/latest/admin-guide/mm/damon/reclaim.html
+[6] https://www.kernel.org/doc/html/latest/admin-guide/mm/zswap.html
+[7] https://sashiko.dev/#/patchset/20260914104501.3960616-1-matthias.goergens@gmail.com
+[8] https://github.com/util-linux/util-linux/pull/4633
+[9] https://lore.kernel.org/all/20260914105606.3997649-1-matthias.goergens@gmail.com/
+
+v1: https://lore.kernel.org/all/20260914104501.3960616-1-matthias.goergens@gmail.com/
+
+Matthias Goergens (4):
+  selftests: zram: track owned devices and report cleanup failures
+  mm: restrict offload-only swap to proactive reclaim
+  selftests: zram: cover offload-only swap policy
+  selftests: zram: cover retained offload-only entries
+
+ Documentation/mm/swap.rst                     | 105 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |   2 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   6 +-
+ drivers/gpu/drm/msm/msm_gem_shrinker.c        |   2 +-
+ drivers/gpu/drm/panthor/panthor_gem.c         |   2 +-
+ drivers/gpu/drm/ttm/ttm_backup.c              |   2 +-
+ drivers/gpu/drm/xe/tests/xe_bo.c              |   2 +-
+ include/linux/swap.h                          |  29 +-
+ include/linux/vm_event_item.h                 |   1 +
+ mm/memcontrol.c                               |  20 +-
+ mm/page_io.c                                  |  24 +-
+ mm/swapfile.c                                 | 123 ++++-
+ mm/vmscan.c                                   |  31 +-
+ mm/vmstat.c                                   |   1 +
+ tools/testing/selftests/zram/.gitignore       |   2 +
+ tools/testing/selftests/zram/Makefile         |   4 +-
+ tools/testing/selftests/zram/README           |  20 +-
+ tools/testing/selftests/zram/config           |  10 +-
+ tools/testing/selftests/zram/settings         |   1 +
+ tools/testing/selftests/zram/swap_offload.c   | 425 +++++++++++++++++
+ .../selftests/zram/workingset_offload.c       | 207 ++++++++
+ tools/testing/selftests/zram/zram.sh          |   9 +
+ tools/testing/selftests/zram/zram01.sh        |   9 +-
+ tools/testing/selftests/zram/zram02.sh        |   9 +-
+ tools/testing/selftests/zram/zram03.sh        | 174 +++++++
+ tools/testing/selftests/zram/zram04.sh        | 164 +++++++
+ tools/testing/selftests/zram/zram05.sh        | 447 ++++++++++++++++++
+ tools/testing/selftests/zram/zram_lib.sh      | 189 ++++++--
+ 28 files changed, 1926 insertions(+), 94 deletions(-)
+ create mode 100644 tools/testing/selftests/zram/settings
+ create mode 100644 tools/testing/selftests/zram/swap_offload.c
+ create mode 100644 tools/testing/selftests/zram/workingset_offload.c
+ create mode 100755 tools/testing/selftests/zram/zram03.sh
+ create mode 100755 tools/testing/selftests/zram/zram04.sh
+ create mode 100755 tools/testing/selftests/zram/zram05.sh
+
+-- 
+2.55.0
 
