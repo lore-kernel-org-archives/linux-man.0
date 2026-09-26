@@ -1,1284 +1,303 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A008B451984;
-	Sat, 26 Sep 2026 13:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448544746A5
+	for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 14:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790431104; cv=none; b=HkDCaTwsxcUImmKtvtdvX/xwXCt5J9m5dav0vkcqzTVJtC2KtzKFzmAPRMzfnFAj0Dr7eJplIBJsMo6a3lS/azb7dHplIbnOJCUxp6ShSE4eTvt8FwefvVax4Yz8t/9tXRw79/GBMimEUfzUIQoZZOhccjhOLm+JrptV0ecuiQU=
+	t=1790431341; cv=none; b=hYuaVAcP41RkPt7gRh0AegTvVL+04rqkqGT20ijPAYfbBfAUNU3KDJbnwb990gpBHeHPdQJprk7PCRF9vMRGZQ+96sOCf5O3TWqApgJ/ySI1Hny4IGwwmhJpUzA6C9rF5WbFA7kJCIoI4DWMCLEuRNU/9YVMC2Up+8Y6j/0uHs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790431104; c=relaxed/simple;
-	bh=Pgv4gtR6JwK/Ow6u9cMfdlP2zejzoMbK0KOb0++m+zM=;
+	s=arc-20240116; t=1790431341; c=relaxed/simple;
+	bh=NYHB7+t4bVQrUa9YHM57xQ0Ozm+TlgiYWZc+BCDkhlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEAvhUyEL/aE5yb81yhTwup/Vn0CXz+hdjOV50QVdkWfLkbJKss/ZlIxX3ip/rxvlFLmwyY+WtLeW+Mts6/ZUBBYuekJpvsInd4GzZjleWXFbs2psHMGvY05rG9Ri7iFQCW7Ilgk4eJTkhQVmiA4AFqvFmA12LSDUEshK4c7HQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3kwz/E3; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EtPFW0v+24A3O1F8O9aODJurCGE/uPLJiswrok3y/eD+qFbRmuWSLV6EcO6AiMC9wX90Ado+eqcw4njhrcCtgmBYu2iM5Cvo0tfdovlcVHld5bZQDSyXK69kxTNA/ENwq1Ijee5ywf6vPOvwThPcyUErhuzW27tNZ4rzux57eI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=es813jxw; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3kwz/E3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C44A11F000FF;
-	Sat, 26 Sep 2026 13:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790431098;
-	bh=T8UahbqwEO7ja3F4h2ywNBxggI/LKEHh/A2SncRVkug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D3kwz/E3AiQrwCEdpgrRK5EBGKYPFfcQ2xwlmrtLXy0qkkDG/kcYNhaH5KrbKDqho
-	 IJGONID7QwHaZWRFzMXk1LNSs3hzgGB4boid3pcm63NArhAHyKG4sQ0X97gz0tDZjo
-	 IebLEC2YQnl7lmYeeAE8d4g9pe4hI2UjhF6A/138TPA4MiiwJ+oG9DoTrfgATtJxmy
-	 /nr2/jjOsZwj4kWSiMicxtrQzTxbipbHzhtEJ9Is6Crerw3VexcVQcnqDX3rmTNJLq
-	 +e07XJJ3JpUxML+Aonp0JTkTSohNYxGwbeiQNNUCUni+mU1hP14D4//Dmx0P5Qm0OC
-	 8BrCyjPSqXmOQ==
-Date: Sat, 26 Sep 2026 15:58:10 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v4] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <arfHy0O0c1cfoSkh@debian>
-References: <20260914111107.1735564-1-aalbersh@kernel.org>
- <20260916115141.3500780-1-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="es813jxw"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e71cdb22bso12500645e9.2
+        for <linux-man@vger.kernel.org>; Sat, 26 Sep 2026 07:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790431331; x=1791036131; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iIgD58c3Si7igjuyW1uGFYpmTtqXOGmMHw21w+6OK04=;
+        b=es813jxwiti92lXjEdIKsEjC/WuZacZDZuMC08ez6KjUcUuzFPNUB3RsPbjVvnXqgs
+         ysl7Mgu59/VKeH9FsQuqipdNl4QZYwkaMUC8cKzIYptaIkcUJD/Q9oMuRkezhXJNZGkh
+         O5+31g9tNABw5HtL0FMkY97Y9JLOdDa75KccaCPoz/Nm3Epqg5U7Zulu2PeTer843os/
+         2XceQDWwi+yNL7eB3yNE9KiLyxSAkJLeRhXfw1K1QWbTKTFzt7+ZNxxY9KFzTkae7G79
+         rumAlEKVQt6WrqSRn8sIWd7RmYmlazZ+OUzuYTIzjYR26nt3sJOjceKPgdOOrTviqfTS
+         EaqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790431331; x=1791036131;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=iIgD58c3Si7igjuyW1uGFYpmTtqXOGmMHw21w+6OK04=;
+        b=0y7WD/7Orsn03d2NnSYSL+P9lgxxNdSYgZGw8GZKn0PT+HpjOeqDYDdSmdqMByrs0W
+         87xxpnFTJiyzOTiEo4g9GaW5TxcCzzo5N4Lpdv17SqJMXQK1zo8bS1pzwZ7VUlZLZEcw
+         YJt7HvkIQG87/PmyEnZsydkP0NCsubpl0BThsbhYt5/gMJcIdp1qOYVUfT/ZfzEkYti1
+         Aifhq58l4zXnw/Sy19HDmBrLS39NUXh3ZPChAA0Q562RxqJmANbS9mNdKZJea+4WWd3/
+         6hW6s29DSYq4ZTIDw8B+TyVQIS3lc5vEMkDfz3Mgt/anU6kajWs8dMR7FdCxwx/SYlfJ
+         wZ2g==
+X-Forwarded-Encrypted: i=1; AKwUvBwtLP2rGx9sJfsess31hUwV8AgOfx64Jty00tcyOujZFHFoKn6yf7W7MhIgVqo2B+xHukwnERUTsqg=@vger.kernel.org
+X-Gm-Message-State: AFuF++mu82R++RQYecNhSJDs/Eu41776MggGaujHyHjaEC+JldkBrwa7
+	gBetNKb3PxWcxTH1tVPxXk5YEkpuAE9irGYmk5/y8pxriI3GX0OfOpM8jEqOyK0a
+X-Gm-Gg: AYBFou1JQAmfAi7EeVs5bbnG5DUXLzQmQ/IQwg4CD+Je7oa8r5TRVv3mPfhqSfnya7D
+	d74LTekFL7juqWZNNfPkGrTlMLgZBrOeP50Wi9ATLBql1j860XAuUehh6EL3uMuzlhD4XqkT0Rv
+	/SrCoruHOFFBFsD6HA+6HqY7FRaTNRPlAf11ze0YgoUqL8s+1CfTtdUQHIIU7Lmmqtn3iFrwmI/
+	TBZqYxjv8r06dGbLBJgn9KRv2pMyjoFkCAaRN9sGfwgN3z7Z3VdNQo/MWsOXcWgCxlIC1IphVc3
+	Hg7gW/Gyh6x5SFWU1GdBZOkpU7r5465ZexI+zt8Pt6kSnJUKBYIIHil0foBVxrjHGR828ct8f6Y
+	vv2XjTaM0AkLtGJLwWIEQNJF7Zunz7oRALeR1gR9uYtgQjY/jub9dJ2QKsjmU8vJN0QbFiewH0h
+	VOwgFg9TrbSFAHeWUgAyOn+/178ZQu8ivUi612+0h8D9xXeqa9jj1sBPGtIFKRUxuoE7Kq1EE2O
+	c0tVnqDGy0z1Nf8Z/x6z50=
+X-Received: by 2002:a05:600c:c173:b0:49c:fa20:cbfd with SMTP id 5b1f17b1804b1-49fe66eb262mr156141155e9.20.1790431330864;
+        Sat, 26 Sep 2026 07:02:10 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fffa334e6sm24917985e9.10.2026.09.26.07.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 07:02:10 -0700 (PDT)
+Date: Sat, 26 Sep 2026 16:01:55 +0200
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: Matthieu Buffet <matthieu@buffet.re>
+Cc: Alejandro Colomar <alx@kernel.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH 3/3] man/man7/landlock.7, man/man2/landlock_add_rule.2:
+ Document UDP support
+Message-ID: <20260926.1c3fe1d53003@gnoack.org>
+References: <20260917075853.10231-1-matthieu@buffet.re>
+ <20260917075853.10231-4-matthieu@buffet.re>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rqz2sg4sh37j4buv"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260916115141.3500780-1-aalbersh@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260917075853.10231-4-matthieu@buffet.re>
 
+Nit: On subject line: You can use "man/man?/landlock*.?", similar to
+Tingmao's commit bd51589f (2026-09-11; "man/man?/landlock*.?: Document
+LANDLOCK_ADD_RULE_QUIET")
 
---rqz2sg4sh37j4buv
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v4] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <arfHy0O0c1cfoSkh@debian>
-References: <20260914111107.1735564-1-aalbersh@kernel.org>
- <20260916115141.3500780-1-aalbersh@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20260916115141.3500780-1-aalbersh@kernel.org>
+High level remark: This patch does not apply cleanly, can you please
+rebase?  I think it might be conflicting with Tingmao's recent "quiet
+flag" changes.
 
-Hi Andrey,
-
-> Date: 2026-09-16 13:51:39+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
->
-> Add manual pages for file_getattr() and file_setattr() syscalls and
-> struct file_attr used as input/output argument.
->=20
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc352=
-27b@kernel.org/
->=20
+On Thu, Sep 17, 2026 at 09:58:52AM +0200, Matthieu Buffet wrote:
+> Landlock support for UDP-specific policy was merged in 7.2 in
+> linux.git 9a8ed15ce224 ("landlock: Add UDP bind() access control")
+> and
+> linux.git e61247a2e694 ("landlock: Add UDP send+connect access control")
+> 
+> Update the example to account for ABI v10, and add documentation for new
+> access rights taken from the UAPI header, plus:
+> - explicitly state in the access right description that sending
+>   datagrams without a destination does not require any access right
+> - more importantly: clarify the description of the most non-trivial
+>   behaviour (auto-bind denials when emitting, which can occur even if
+>   CONNECT_SEND_UDP is not handled)
+> 
+> Link: <https://github.com/landlock-lsm/linux/issues/66>
+> Signed-off-by: Matthieu Buffet <matthieu@buffet.re>
 > ---
+>  man/man2/landlock_add_rule.2 | 15 +++++---
+>  man/man7/landlock.7          | 70 ++++++++++++++++++++++++++++++++++--
+>  2 files changed, 78 insertions(+), 7 deletions(-)
+> 
+> diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
+> index 633d89824373..2b2b28147de0 100644
+> --- a/man/man2/landlock_add_rule.2
+> +++ b/man/man2/landlock_add_rule.2
+> @@ -82,7 +82,7 @@ just a file.
+>  .TP
+>  .BR LANDLOCK_RULE_NET_PORT "  (since Landlock ABI version 4)"
+>  For these rules,
+> -the object is a TCP port,
+> +the object is a TCP or UDP port,
+>  and the related actions are defined with
+>  .IR "network access rights" .
+>  .IP
+> @@ -120,8 +120,14 @@ with
+>  A Landlock rule with port 0
+>  and the
+>  .B LANDLOCK_ACCESS_NET_BIND_TCP
+> -right means that requesting to bind on port 0 is allowed
+> -and it will automatically translate to binding on the related port range.
+> +or
+> +.B LANDLOCK_ACCESS_NET_BIND_UDP
+> +right means that requesting to bind on port 0
+> +(explicitly, or implicitly
+> +by e.g.\& sending a datagram on an unbound UDP socket)
+      ^^^^^^
 
-Thanks!  It looks quite good.  I have another round of small comments.
+Per man-pages(7) style guide, "e.g." is followed by a comma and should
+be avoided except in short parenthetical asides (e.g., like this one).
 
-> Changes from v3:
-> - dropped VERSIONS section in file_attr.2type
-> - reference arguments and errors from file_setattr to file_getattr
-> - Minor wording fixes
-> - Minor formatting fixes
-> - Removed zero-initialized requirement
-> - Interdiff with v3 below
->=20
-> Changes from v2:
-> - a few grammar fixes
-> - styling fixes
-> - sashiko.dev fixes (wrong AT_FDCWD combined with AT_EMPTY_PATH
->   description, unused "dfd")
-> - dropped requirement to zero fattr before using file_setattr()
-> - Pathname -> path
-> - Dropped description of why FS_IOC_ aren't usable with special files
-> - Fixed backslashes in the code examples
-> ---
->  man/man2/file_getattr.2      | 254 +++++++++++++++++++++++++++++++++++
->  man/man2/file_setattr.2      | 180 +++++++++++++++++++++++++
->  man/man2type/file_attr.2type | 151 +++++++++++++++++++++
 
-I prefer 3 patches, eacch of which adds one manual page.  That will
-make the 'Subject:' of the patch more explicit.
+> +is allowed
+> +and it will automatically translate to
+> +binding on a kernel-assigned ephemeral port.
+>  .P
+>  .I flags
+>  must be 0.
+> @@ -141,7 +147,8 @@ can fail for the following reasons:
+>  .I rule_type
+>  is
+>  .BR LANDLOCK_RULE_NET_PORT ,
+> -but TCP is not supported by the running kernel.
+> +but the kernel was built without
+> +.BR CONFIG_INET .
 
->  3 files changed, 585 insertions(+)
->  create mode 100644 man/man2/file_getattr.2
->  create mode 100644 man/man2/file_setattr.2
->  create mode 100644 man/man2type/file_attr.2type
->=20
-> diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
-> new file mode 100644
-> index 000000000000..fe804d97976b
-> --- /dev/null
-> +++ b/man/man2/file_getattr.2
-> @@ -0,0 +1,254 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH file_getattr 2 (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +file_getattr \- get filesystem file attributes
-> +.SH SYNOPSIS
-> +.nf
-> +.BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
-> +.BR "#include <linux/fs.h>" "         /* " FS_XFLAG_* " constants */"
-> +.BR "#include <sys/syscall.h>" "      /* " SYS_* " constants */"
-> +.B #include <unistd.h>
+Good catch, this should be adapted in the kernel documentation as
+well.
+
+>  .TP
+>  .B EBADF
+>  .I ruleset_fd
+> diff --git a/man/man7/landlock.7 b/man/man7/landlock.7
+> index 51e63f40052c..884e1d49feb0 100644
+> --- a/man/man7/landlock.7
+> +++ b/man/man7/landlock.7
+> @@ -53,8 +53,8 @@ For these rules, the object is a file hierarchy,
+>  and the related filesystem actions are defined with
+>  .IR "filesystem access rights" .
+>  .TP
+> -.BR "Network rules" " (since ABI v4)"
+> -For these rules, the object is a TCP port,
+> +.BR "Network rules" " (since ABI v4 for TCP, v10 for UDP)"
+> +For these rules, the object is a TCP or UDP port,
+>  and the related actions are defined with
+>  .IR "network access rights" .
+>  .\"
+> @@ -277,6 +277,55 @@ Bind a TCP socket to a local port.
+>  .BR LANDLOCK_ACCESS_NET_CONNECT_TCP "  (since Landlock ABI version 4)"
+>  Connect an active TCP socket to a remote port.
+>  .P
+> +And similarly for UDP port numbers:
+> +.TP
+> +.BR LANDLOCK_ACCESS_NET_BIND_UDP "  (since Landlock ABI version 10)"
+> +Bind a UDP socket to the given local port.
+> +.TP
+> +.BR LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP "  (since Landlock ABI version 10)"
+> +Set the remote port of a UDP socket to the given port,
+> +or send datagrams to the given remote port
+> +taking precedence over any destination pre-set on a socket.
+> +Sending without an explicit destination
+> +(i.e.\& on a socket already connected)
+
+Same for "i.e." as for "e.g.".
+
+> +is never restricted.
 > +.P
-> +.B long syscall(SYS_file_getattr,
-> +.BI "               int " dirfd ", const char *" path ,
-> +.BI "               struct file_attr *" fattr ", size_t " size ,
-> +.BI "               unsigned int " flags );
-> +.fi
-> +.SH DESCRIPTION
-> +The
-> +.BR file_getattr ()
-> +system call retrieves filesystem file attributes
-
-+of the file
-
-> +specified by path.
-> +.P
-> +As with
-> +.BR openat (2),
-> +if
-> +.I path
-> +is relative,
-> +then it is interpreted relative to the directory
-> +referred to by the file descriptor
-> +.IR dirfd .
-> +The special
-> +.I dirfd
-> +value
-> +.B AT_FDCWD
-> +can be used to refer to the current working directory of the calling pro=
-cess.
+> +Note on auto-binding:
+> +Setting a remote address
+> +or sending a first datagram
+> +on UDP sockets
+> +performs an implicit
+> +.BR bind (2)
+> +to an ephemeral local source port
+> +if not already bound.
 > +If
-> +.I path
-> +is absolute,
-> +then
-> +.I dirfd
-> +is ignored.
-> +.P
-> +The
-> +.I fattr
-> +argument is a pointer to a
-> +.I file_attr
-> +structure.
-> +This structure will be filled with file attributes.
-> +This structure is described in
-> +.BR file_attr (2type).
-> +.P
-> +The
-> +.I size
-> +argument specifies the size of the structure pointed to by
-> +.IR fattr .
-> +The size indicates version of the structure in use, refer to
-
-s/version/the &/
-
-> +.B file_attr (2type)
-> +for more information on versioning.
-
-I would remove the reference to file_attr(2type) here entirely.  The
-only thing the user needs to care at this point is that it's used as
-a version.  The user will probably read file_attr(2type) for other
-reasons, and will find the HISTORY section, but I think it's not
-relevant enough at this point to add a sentence referring to it.
-
-On the other hand, I think we should explicitly say that this should
-always be specified as sizeof(struct file_attr).
-
-	This size indicates the version of the structure in use,
-	and should always be specified as
-	.IR \%sizeof(struct\~file_attr) .
-
-> +.P
-> +The
-> +.I flags
-> +argument contains a bitwise OR of zero or more of the following constant=
-s:
-> +.TP
-> +.B AT_EMPTY_PATH
-> +If
-> +.I path
-> +is an empty string,
-> +operate on the file referred to by
-> +.IR dirfd .
-> +In this case,
-> +.I dirfd
-> +can refer to any type of file,
-> +not just a directory.
-> +.TP
-> +.B AT_SYMLINK_NOFOLLOW
-> +If
-> +.I path
-> +is a symbolic link,
-> +do not dereference it;
-> +instead get attributes of the symbolic link inode itself.
-
-s/instead/&,\n/
-
-> +By default, symbolic links are dereferenced.
-
-I think we can get rid of this last sentence.  I seems obvious by the
-fact that there's a flag for changing the behavior.
-
-> +.SH RETURN VALUE
-> +On success,
-> +zero is returned.
-> +On error,
-> +\-1 is returned,
-> +and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.B E2BIG
-> +.I size
-> +is too big (larger than
-> +.BR PAGE_SIZE ).
-> +.TP
+> +.B LANDLOCK_ACCESS_NET_BIND_UDP
+> +is handled,
+> +to avoid an
 > +.B EACCES
-> +Search permission is denied for one of the directories
-> +in the path prefix of
-> +.IR path .
-> +.TP
-> +.B EBADF
-> +.I path
-> +is relative but
-> +.I dirfd
-> +is neither
-> +.B AT_FDCWD
-> +nor a valid file descriptor.
-> +.TP
-> +.B EBADF
-> +.I path
-> +is an empty string,
-> +.B AT_EMPTY_PATH
-> +was specified,
-> +but
-> +.I dirfd
-> +is neither
-> +.B AT_FDCWD
-> +nor a valid file descriptor.
-> +.TP
-> +.B EFAULT
-> +.I path
-> +or
-> +.I fattr
-> +is an invalid pointer.
-> +.TP
-> +.B EINVAL
-> +Unknown flag specified in
-
-s/flag/&s/
-
-> +.IR flags .
-> +.TP
-> +.B EINVAL
-> +.I size
-> +is smaller than
-> +.BR FILE_ATTR_SIZE_VER0 .
-> +.TP
-> +.B ELOOP
-> +Too many symbolic links encountered while resolving
-> +.IR path .
-> +.TP
-> +.B ENAMETOOLONG
-> +.I path
-> +is too long.
-> +.TP
-> +.B ENOENT
-> +A component of
-> +.I path
-> +does not exist,
-> +or
-> +.I path
-> +is an empty string and
-> +.B AT_EMPTY_PATH
-> +was not specified in
-> +.IR flags .
-
-These two are quite distinct errors, so I'd add two separate entries:
-
-	.TP
-	.B ENOENT
-	A component of
-	.I path
-	does not exist.
-	.TP
-	.B ENOENT
-	.I path
-	is an empty string and
-	.B AT_EMPTY_PATH
-	was not specified in
-	.IR flags .
-
-> +.TP
-> +.B ENOMEM
-> +Insufficient kernel memory was available.
-> +.TP
-> +.B ENOTDIR
-> +A component of the path prefix of
-> +.I path
-> +is not a directory, or
-> +.I path
-> +is relative and
-> +.I dirfd
-> +is a file descriptor referring to a file other than a directory.
-
-I'd also split these two, as they're quite distinct.
-
-	.TP
-	.B ENOTDIR
-	A component of the path prefix of
-	.I path
-	is not a directory.
-	.TP
-	.B ENOTDIR
-	.I path
-	is relative and
-	.I dirfd
-	is a file descriptor referring to a file other than a directory.
-
-> +.TP
-> +.B EOPNOTSUPP
-> +The filesystem does not support getting attributes on this type of inode.
-> +.SH HISTORY
-> +.SS Linux 6.17
-> +This system call is introduced.
-
-We often just say this:
-
-	.SH HISTORY
-	Linux 6.17.
-
-That's understood as the version in which it was added.
-
-> +.SH NOTES
-> +This system call is designed to be extensible.
-> +The
-> +.I size
-> +argument allows user-space applications to indicate
-> +which version of the
-> +.I file_attr
-> +structure they are using,
-> +enabling the kernel to support both old and new versions
-> +of the structure simultaneously.
+> +error when sending outbound datagrams
+> +(even if
+> +.B LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP
+> +is not handled),
+> +either:
+> +.IP \[bu] 3
+> +use a socket already bound to a port
+> +before the ruleset started being enforced;
+> +.IP \[bu] 3
+> +grant
+> +.B LANDLOCK_ACCESS_NET_BIND_UDP
+> +on port 0, meaning
+> +\[lq]any port in the ephemeral port range\[rq];
+> +.IP \[bu] 3
+> +grant
+> +.B LANDLOCK_ACCESS_NET_BIND_UDP
+> +on a specific port,
+> +and call
+> +.BR bind (2)
+> +on that port before trying to
+> +.BR connect (2)
+> +or send datagrams.
 > +.P
-> +If
-> +.I size
-> +is smaller than the structure size the kernel expects,
-> +only the fields that fit within
-> +.I size
-> +will be filled in.
-> +If
-> +.I size
-> +is larger than the kernel's structure size,
-> +the extra bytes are zeroed.
-> +.SH EXAMPLES
-> +The program below demonstrates the use of
-> +.BR file_getattr ()
-> +to retrieve and display file attributes.
-> +.P
-> +.in +4n
-> +.EX
+>  Note on
+>  .BR AF_UNSPEC :
+>  Calling
+> @@ -292,6 +341,17 @@ for IPv4 and
+>  .B INADDR_ANY
+>  it is treated as
+>  .BR AF_INET .
+> +Sending datagrams to that address family
+> +on IPv4 UDP sockets
+> +will similarly be treated as
+> +.BR AF_INET .
+> +On IPv6 UDP sockets,
+> +such use is not supported
+> +and will always result in a denial as if the policy rejected it:
+> +use a
+> +.I NULL
+> +address instead to get the same semantics
+> +inside and outside a Landlock domain.
+>  All other uses of that address family result in the same error codes
+>  as when Landlock is not in use.
+>  .\"
+> @@ -518,6 +578,9 @@ _	_	_
+>  8	7.0	LANDLOCK_RESTRICT_SELF_TSYNC
+>  _	_	_
+>  9	7.1	LANDLOCK_ACCESS_FS_RESOLVE_UNIX
+> +_	_	_
+> +10	7.2	LANDLOCK_ACCESS_NET_BIND_UDP
+> +\^	\^	LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP
+>  .TE
+>  .P
+>  Users should use the Landlock ABI version rather than the kernel version
+> @@ -628,6 +691,7 @@ __u64 landlock_fs_access_rights[] = {
+>      (LANDLOCK_ACCESS_FS_IOCTL_DEV    << 1) \- 1,  // v7: same
+>      (LANDLOCK_ACCESS_FS_IOCTL_DEV    << 1) \- 1,  // v8: same
+>      (LANDLOCK_ACCESS_FS_RESOLVE_UNIX << 1) \- 1,  // v9: add "resolve_unix"
+> +    (LANDLOCK_ACCESS_FS_RESOLVE_UNIX << 1) \- 1,  // v10: UDP support
+>  };
+>  \&
+>  int abi = landlock_create_ruleset(NULL, 0,
+> @@ -640,7 +704,7 @@ if (abi == \-1) {
+>      perror("Unable to use Landlock");
+>      return;  /* Graceful fallback: Do nothing.  */
+>  }
+> -abi = MIN(abi, 9);
+> +abi = MIN(abi, 10);
+>  \&
+>  /* Only use the available rights in the ruleset.  */
+>  attr.handled_access_fs &= landlock_fs_access_rights[abi \- 1];
+> -- 
+> 2.47.3
+> 
 
-Please wrap the program code with markers so that the build system can
-actually build the program (and run linters on it).  Please look at
-man2/membarrier.2 for an example of how it's done (it's just a comment
-in the manual page's source code).
+Documentation seems correct.
 
-	$ grep -C2 SRC man2/membarrier.2
-	.P
-	.in +4n
-	.\" SRC BEGIN (membarrier.c)
-	.EX
-	#include <stdlib.h>
-	--
-	}
-	.EE
-	.\" SRC END
-	.in
-	.P
+I notcied that the original kernel documentation was rephrased in
+multiple places.  I think these rephrases are largely good and help to
+explain the subject, but I'm a bit worried that the two documentation
+places might drift apart.  Are you planning on sending a follow-up on
+the kernel side to keep both sides in sync?
 
+In some cases, we might need to balance conciseness and detail (e.g.,
+you might want to see how this looks rendered (man -l) to see that the
+descriptions of the UDP rights are not significantly longer than the
+ones for TCP.)
 
-> +#include <fcntl.h>
-> +#include <linux/fs.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <sys/syscall.h>
-> +#include <unistd.h>
-> +
+Reviewed-by: Günther Noack <gnoack3000@gmail.com>
 
-Blank lines should contain a "dummy" character (to avoid a diagnostic):
-
-	...
-	#include <unistd.h>
-	\&
-	#ifndef SYS_file_getattr
-	...
-
-> +#ifndef SYS_file_getattr
-> +#define SYS_file_getattr 467
-> +#endif
-> +
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +    struct file_attr fa;
-> +    long ret;
-> +
-> +    if (argc !=3D 2) {
-> +        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    ret =3D syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa, sizeof(fa)=
-, 0);
-> +    if (ret =3D=3D \-1) {
-> +        perror("file_getattr");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    printf("File attributes:\[rs]n");
-> +    printf("  xflags:     0x%llx\[rs]n", (unsigned long long) fa.fa_xfla=
-gs);
-
-We could use ISO C23's "%w64x" for printing a 64-bit integer.  That
-avoids a cast.
-
-> +    printf("  extsize:    %u\[rs]n", fa.fa_extsize);
-> +    printf("  nextents:   %u\[rs]n", fa.fa_nextents);
-> +    printf("  projid:     %u\[rs]n", fa.fa_projid);
-> +    printf("  cowextsize: %u\[rs]n", fa.fa_cowextsize);
-
-Since these are u32, it might make more sense to print them with
-"%w32u".
-
-> +
-> +    /*
-> +     * Try setting NODUMP flag with chattr +d ./foo to see the difference
-> +     */
-> +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
-> +        printf("  NODUMP flag is set\[rs]n");
-> +
-> +    exit(EXIT_SUCCESS);
-> +}
-> +.EE
-> +.in
-> +.SH SEE ALSO
-> +.BR file_setattr (2),
-> +.BR file_attr (2type),
-> +.BR ioctl (2),
-> +.BR ioctl_fs (2),
-> +.BR openat (2),
-> +.BR ioctl_xfs_fssetxattr (2)
-> diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
-> new file mode 100644
-> index 000000000000..0389f42afb50
-> --- /dev/null
-> +++ b/man/man2/file_setattr.2
-> @@ -0,0 +1,180 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH file_setattr 2 (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +file_setattr \- set filesystem file attributes
-> +.SH SYNOPSIS
-> +.nf
-> +.BR "#include <linux/fcntl.h>" "      /* Definition of " AT_* " constant=
-s */"
-> +.BR "#include <linux/fs.h>" "         /* Definition of " FS_XFLAG_* " co=
-nstants */"
-> +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constan=
-ts */"
-> +.B #include <unistd.h>
-> +.P
-> +.B long syscall(SYS_file_setattr,
-> +.BI "               int " dirfd ", const char *" path ,
-> +.BI "               struct file_attr *" fattr ", size_t " size ,
-
-I expect in the 'set' version, the 'fattr' argument will be read-only,
-right?  Then it should be 'const'.
-
-> +.BI "               unsigned int " flags );
-> +.fi
-> +.P
-> +.SH DESCRIPTION
-> +The
-> +.BR file_setattr ()
-> +system call sets filesystem file attributes
-> +on the file specified by path.
-> +.P
-> +The
-> +.IR dirfd ,
-> +.IR path ,
-> +.IR fattr ,
-
-I expect 'fattr' will be read instead of written to.  That's an
-important difference to be documented (if I'm assuming correctly).
-
-> +.IR size ,
-> +and
-> +.I flags
-> +arguments behaves in the same way as in
-
-s/behaves/behave/
-
-> +.BR file_getattr (2).
-> +The only difference is that
-> +user-space applications should use
-> +.BR file_getattr (2)
-> +to initialize
-> +.I fattr
-> +argument beforehand.
-> +.SH RETURN VALUE
-> +On success,
-> +zero is returned.
-> +On error,
-> +\-1 is returned,
-> +and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.P
-> +The errors are the same as returned by
-> +.BR file_getattr (2)
-> +with the addition of following ones:
-> +.TP
-> +.B E2BIG
-> +.I size
-> +indicates a version which the kernel doesn't support
-> +(the size is larger than the kernel expects)
-> +and new fields are non-zero.
-> +.TP
-> +.B EINVAL
-> +Invalid combination of parameters provided in
-> +.I fattr
-> +for this type of file or filesystem.
-> +.TP
-> +.B EPERM
-> +The caller does not have the necessary permissions
-> +to change the file attributes.
-> +.TP
-> +.B EROFS
-> +The file is on a read-only filesystem.
-> +.SH HISTORY
-> +.SS Linux 6.17
-> +This system call is introduced.
-
-To simplify:
-
-	.SH HISTORY
-	Linux 6.17.
-
-> +.SH NOTES
-> +This system call is designed to be extensible.
-> +The
-> +.I size
-> +argument allows user-space applications to indicate
-> +which version of the
-> +.I file_attr
-> +structure they are using,
-> +enabling the kernel to support both old and new versions
-> +of the structure simultaneously.
-> +.P
-> +If
-> +.I size
-> +is smaller than the structure size the kernel expects,
-> +the kernel treats the missing fields as having zero values
-> +(which is a no-op).
-> +If
-> +.I size
-> +is larger than expected,
-> +the kernel checks that all unknown (to the kernel) fields are zero;
-> +if not,
-> +the call fails with
-> +.BR E2BIG .
-> +.SH EXAMPLES
-> +The program below demonstrates the use of
-> +.BR file_setattr ()
-> +to set the
-> +.B FS_XFLAG_NODUMP
-> +flag on a file.
-> +.P
-> +.in +4n
-> +.EX
-> +#include <fcntl.h>
-> +#include <linux/fcntl.h>
-> +#include <linux/fs.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/syscall.h>
-> +#include <unistd.h>
-> +
-
-\&
-
-> +#ifndef SYS_file_getattr
-> +#define SYS_file_getattr 467
-> +#endif
-> +
-
-\&
-
-> +#ifndef SYS_file_setattr
-> +#define SYS_file_setattr 468
-> +#endif
-> +
-
-\&
-=20
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +    struct file_attr fa;
-> +    int dfd;
-> +    long ret;
-> +
-> +    if (argc !=3D 2) {
-> +        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    dfd =3D open(argv[1], O_RDONLY);
-> +    if (dfd =3D=3D \-1) {
-> +        perror("open");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    ret =3D syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa), AT_EMPTY=
-_PATH);
-> +    if (ret =3D=3D \-1) {
-> +        perror("file_getattr");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    printf("Current flags: 0x%llx\[rs]n", (unsigned long long) fa.fa_xfl=
-ags);
-> +
-> +    fa.fa_xflags |=3D FS_XFLAG_NODUMP;
-> +
-> +    ret =3D syscall(SYS_file_setattr, dfd, "", &fa, sizeof(fa), AT_EMPTY=
-_PATH);
-> +    if (ret =3D=3D \-1) {
-> +        perror("file_setattr");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    ret =3D syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa), AT_EMPTY=
-_PATH);
-> +    if (ret =3D=3D \-1) {
-> +        perror("file_getattr");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
-> +        printf("flags 0x%llx (NODUMP flag is set)\[rs]n",
-> +            (unsigned long long) fa.fa_xflags);
-> +
-> +    exit(EXIT_SUCCESS);
-> +}
-> +.EE
-> +.in
-> +.SH SEE ALSO
-> +.BR file_getattr (2),
-> +.BR ioctl (2),
-> +.BR ioctl_fs (2),
-> +.BR openat (2),
-> +.BR file_attr (2type),
-> +.BR path_resolution (7),
-> +.BR ioctl_xfs_fssetxattr (2)
-> diff --git a/man/man2type/file_attr.2type b/man/man2type/file_attr.2type
-> new file mode 100644
-> index 000000000000..221d97b5220d
-> --- /dev/null
-> +++ b/man/man2type/file_attr.2type
-> @@ -0,0 +1,151 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH file_attr 2type (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +file_attr \- describe filesystem file attributes to get or set
-> +.SH SYNOPSIS
-> +.EX
-> +.B #include <linux/fs.h>
-> +.P
-> +.B struct file_attr {
-> +.BR "    u64  fa_xflags;" "     /* Extended flags */"
-> +.BR "    u32  fa_extsize;" "    /* Extent size hint */"
-> +.BR "    u32  fa_nextents;" "   /* Number of extents (read-only) */"
-> +.BR "    u32  fa_projid;" "     /* Project identifier */"
-> +.BR "    u32  fa_cowextsize;" " /* CoW extent size hint */"
-> +.B };
-> +.EE
-> +.SH DESCRIPTION
-> +Describes filesystem file attributes
-> +for use with the
-> +.BR file_getattr (2)
-> +and
-> +.BR file_setattr (2)
-> +system calls.
-> +.P
-> +The fields are as follows:
-> +.TP
-> +.I fa_xflags
-> +This field contains file attribute flags.
-> +It is a bit mask consisting of zero or more of the
-> +.B FS_XFLAG_*
-> +flags.
-> +Refer to the section
-> +.B FLAGS
-> +below for a list of all flags.
-> +.TP
-> +.I fa_extsize
-> +Extent size allocator hint in bytes.
-> +This value suggests a preferred extent size
-> +for new allocations to this file.
-> +.TP
-> +.I fa_nextents
-> +Number of data extents in the file (read-only).
-> +This field is filled in by
-> +.BR file_getattr (2)
-> +and is ignored by
-> +.BR file_setattr (2).
-> +.TP
-> +.I fa_projid
-> +Project identifier.
-> +Used by quota systems to group related files.
-
-Should we maybe have a reference to any quota pages (e.g., quotactl(2))
-instead of just saying quota?
-
-> +.TP
-> +.I fa_cowextsize
-> +Copy-on-Write (CoW) extent size hint in bytes.
-> +This value suggests a preferred extent size
-> +for CoW operations.
-> +.SH FLAGS
-> +Flags can be:
-> +.RS
-> +.TP
-> +.B FS_XFLAG_REALTIME
-> +Data is stored in a realtime volume.
-> +.TP
-> +.B FS_XFLAG_IMMUTABLE
-> +File cannot be modified.
-> +.TP
-> +.B FS_XFLAG_APPEND
-> +All writes must append to the end of the file.
-> +.TP
-> +.B FS_XFLAG_SYNC
-> +All writes are synchronous.
-> +.TP
-> +.B FS_XFLAG_NOATIME
-> +Do not update file access time on reads.
-> +.TP
-> +.B FS_XFLAG_NODUMP
-> +Do not include file in backups.
-> +.TP
-> +.B FS_XFLAG_DAX
-> +Use Direct Access (DAX) for I/O operations.
-> +.TP
-> +.B FS_XFLAG_NODEFRAG
-> +Exclude this file from defragmentation operations.
-> +.TP
-> +.B FS_XFLAG_FILESTREAM
-> +Use filestream allocator for this file.
-> +.TP
-> +.B FS_XFLAG_EXTSIZE
-> +Use the extent size hint from the
-> +.I fa_extsize
-> +field.
-> +.TP
-> +.B FS_XFLAG_COWEXTSIZE
-> +Use the CoW extent size hint from the
-> +.I fa_cowextsize
-> +field.
-> +.RE
-> +.P
-> +Directory only flags:
-> +.RS
-> +.TP
-> +.B FS_XFLAG_RTINHERIT
-> +New files created in this directory inherit the realtime flag.
-> +.TP
-> +.B FS_XFLAG_NOSYMLINKS
-> +Disallow creation of symbolic links in this directory.
-> +.TP
-> +.B FS_XFLAG_EXTSZINHERIT
-> +New files created in this directory inherit the extent size hint.
-> +.TP
-> +.B FS_XFLAG_PROJINHERIT
-> +New files created in this directory inherit the project identifier.
-> +.RE
-> +.P
-> +The following flags are read-only:
-> +.RS
-> +.TP
-> +.B FS_XFLAG_PREALLOC
-> +File has preallocated extents.
-> +.TP
-> +.B FS_XFLAG_HASATTR
-> +File has extended attributes.
-> +.TP
-> +.B FS_XFLAG_VERITY
-> +File has fs-verity enabled.
-> +.TP
-> +.B FS_XFLAG_CASEFOLD
-> +The filesystem performs case-insensitive lookups (file and directory name
-> +comparisons ignore case).
-> +.TP
-> +.B FS_XFLAG_CASENONPRESERVING
-> +The filesystem does not preserve the case of file and directory names.
-> +.RE
-> +.P
-> +Not all filesystems support all flags.
-> +Setting unsupported flags may result in an
-> +.B EINVAL
-> +or
-> +.B EOPNOTSUPP
-> +error.
-> +.SH HISTORY
-> +.SS Linux v6.17
-> +This structure is introduced.
-> +.SS Linux v7.2
-> +The FS_XFLAG_CASEFOLD and FS_XFLAG_CASENONPRESERVING are introduced to e=
-nable
-> +upper layers, such as NFSD, to retrieve case sensitivity information.
-> +.SH SEE ALSO
-> +.BR file_getattr (2),
-> +.BR file_setattr (2)
-
-
-Have a lovely day!
-Alex
-
->=20
-> Interdiff against v3:
->   diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
->   index 1168b23c5ce5..fe804d97976b 100644
->   --- a/man/man2/file_getattr.2
->   +++ b/man/man2/file_getattr.2
->   @@ -4,7 +4,7 @@
->    .\"
->    .TH file_getattr 2 (date) "Linux man-pages (unreleased)"
->    .SH NAME
->   -file_getattr \- get filesystem inode attributes
->   +file_getattr \- get filesystem file attributes
->    .SH SYNOPSIS
->    .nf
->    .BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
->   @@ -21,7 +21,7 @@ file_getattr \- get filesystem inode attributes
->    The
->    .BR file_getattr ()
->    system call retrieves filesystem file attributes
->   -from the file.
->   +specified by path.
->    .P
->    As with
->    .BR openat (2),
->   @@ -31,9 +31,11 @@ is relative,
->    then it is interpreted relative to the directory
->    referred to by the file descriptor
->    .IR dirfd .
->   -The special value
->   +The special
->   +.I dirfd
->   +value
->    .B AT_FDCWD
->   -could be used to refer to the current working directory of the calling=
- process.
->   +can be used to refer to the current working directory of the calling p=
-rocess.
->    If
->    .I path
->    is absolute,
->   @@ -55,16 +57,9 @@ The
->    argument specifies the size of the structure pointed to by
->    .IR fattr .
->    The size indicates version of the structure in use, refer to
->   -.B file_attr(2type)
->   +.B file_attr (2type)
->    for more information on versioning.
->    .P
->   -Userspace applications should zero-initialize
->   -.I struct file_attr
->   -before calling
->   -.BR file_getattr ()
->   -to ensure that fields not filled in by older kernels
->   -will have predictable values.
->   -.P
->    The
->    .I flags
->    argument contains a bitwise OR of zero or more of the following consta=
-nts:
->   @@ -176,15 +171,12 @@ is a file descriptor referring to a file other th=
-an a directory.
->    The filesystem does not support getting attributes on this type of ino=
-de.
->    .SH HISTORY
->    .SS Linux 6.17
->   -This system call is introduced as a more flexible alternative to the
->   -FS_IOC_FSGETXATTR
->   -.BR ioctl (2)
->   -which could work on any type of file.
->   +This system call is introduced.
->    .SH NOTES
->    This system call is designed to be extensible.
->    The
->    .I size
->   -argument allows userspace applications to indicate
->   +argument allows user-space applications to indicate
->    which version of the
->    .I file_attr
->    structure they are using,
->   @@ -222,7 +214,7 @@ to retrieve and display file attributes.
->    int
->    main(int argc, char *argv[])
->    {
->   -    struct file_attr fa =3D { 0 };
->   +    struct file_attr fa;
->        long ret;
->   =20
->        if (argc !=3D 2) {
->   diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
->   index 2b30f25c64de..0389f42afb50 100644
->   --- a/man/man2/file_setattr.2
->   +++ b/man/man2/file_setattr.2
->   @@ -4,12 +4,11 @@
->    .\"
->    .TH file_setattr 2 (date) "Linux man-pages (unreleased)"
->    .SH NAME
->   -file_setattr \- set filesystem inode attributes
->   +file_setattr \- set filesystem file attributes
->    .SH SYNOPSIS
->    .nf
->    .BR "#include <linux/fcntl.h>" "      /* Definition of " AT_* " consta=
-nts */"
->   -.BR "#include <linux/fs.h>" "         /* Definition of " FILE_ATTR_* \
->   -" and " FS_XFLAG_* " constants */"
->   +.BR "#include <linux/fs.h>" "         /* Definition of " FS_XFLAG_* " =
-constants */"
->    .BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " const=
-ants */"
->    .B #include <unistd.h>
->    .P
->   @@ -23,77 +22,23 @@ file_setattr \- set filesystem inode attributes
->    The
->    .BR file_setattr ()
->    system call sets filesystem file attributes
->   -on the file.
->   -.P
->   -As with
->   -.BR openat (2),
->   -if
->   -.I path
->   -is relative,
->   -then it is interpreted relative to the directory
->   -referred to by the file descriptor
->   -.I dirfd
->   -(or the current working directory of the calling process,
->   -if
->   -.I dirfd
->   -is the special value
->   -.BR AT_FDCWD ).
->   -If
->   -.I path
->   -is absolute,
->   -then
->   -.I dirfd
->   -is ignored.
->   -.P
->   -The
->   -.I fattr
->   -argument is a pointer to a
->   -.I file_attr
->   -structure,
->   -which specifies the attributes to set on the file.
->   -This structure is described in
->   -.BR file_attr (2type).
->   -Userspace applications should use
->   -.B file_getattr(2)
->   -to initialize
->   -.I struct fattr
->   -beforehand.
->   -.P
->   -The
->   -.I size
->   -argument specifies the size of the structure pointed to by
->   -.IR fattr .
->   -The size indicates version of the structure in use, refer to
->   -.B file_attr(2type)
->   -for more information on versioning.
->   +on the file specified by path.
->    .P
->    The
->   +.IR dirfd ,
->   +.IR path ,
->   +.IR fattr ,
->   +.IR size ,
->   +and
->    .I flags
->   -argument contains a bitwise OR of zero or more of the following consta=
-nts:
->   -.TP
->   -.B AT_EMPTY_PATH
->   -If
->   -.I path
->   -is an empty string,
->   -operate on the file referred to by
->   -.I dirfd
->   -(which may have been obtained using the
->   -.BR open (2)
->   -.B O_PATH
->   -flag).
->   -In this case,
->   -.I dirfd
->   -can refer to any type of file,
->   -not just a directory.
->   -.TP
->   -.B AT_SYMLINK_NOFOLLOW
->   -If
->   -.I path
->   -is a symbolic link,
->   -do not dereference it:
->   -instead set attributes on the symbolic link itself.
->   -By default (i.e., if this flag is not specified),
->   -symbolic links are dereferenced.
->   +arguments behaves in the same way as in
->   +.BR file_getattr (2).
->   +The only difference is that
->   +user-space applications should use
->   +.BR file_getattr (2)
->   +to initialize
->   +.I fattr
->   +argument beforehand.
->    .SH RETURN VALUE
->    On success,
->    zero is returned.
->   @@ -103,98 +48,22 @@ and
->    .I errno
->    is set to indicate the error.
->    .SH ERRORS
->   +.P
->   +The errors are the same as returned by
->   +.BR file_getattr (2)
->   +with the addition of following ones:
->    .TP
->    .B E2BIG
->    .I size
->   -is larger than
->   -.BR PAGE_SIZE .
->   -.TP
->   -.B E2BIG
->   -.I size
->   -indicates the version which kernel doesn't support (the size is larger=
- than the
->   -kernel expects) and new fields are non-zero.
->   -.TP
->   -.B EACCES
->   -Search permission is denied for one of the directories
->   -in the path prefix of
->   -.IR path .
->   -(See also
->   -.BR path_resolution (7).)
->   -.TP
->   -.B EBADF
->   -.I path
->   -is relative but
->   -.I dirfd
->   -is neither
->   -.B AT_FDCWD
->   -nor a valid file descriptor.
->   -.TP
->   -.B EBADF
->   -.I path
->   -is an empty string,
->   -.B AT_EMPTY_PATH
->   -was specified in
->   -.IR flags ,
->   -and
->   -.I dirfd
->   -is neither
->   -.B AT_FDCWD
->   -nor a valid file descriptor.
->   -.TP
->   -.B EFAULT
->   -.I path
->   -or
->   -.I fattr
->   -is an invalid pointer.
->   -.TP
->   -.B EINVAL
->   -Unknown flag specified in
->   -.IR flags .
->   -.TP
->   -.B EINVAL
->   -.I size
->   -is smaller than
->   -.BR FILE_ATTR_SIZE_VER0 .
->   +indicates a version which the kernel doesn't support
->   +(the size is larger than the kernel expects)
->   +and new fields are non-zero.
->    .TP
->    .B EINVAL
->    Invalid combination of parameters provided in
->    .I fattr
->    for this type of file or filesystem.
->    .TP
->   -.B ELOOP
->   -Too many symbolic links encountered while resolving
->   -.IR path .
->   -.TP
->   -.B ENAMETOOLONG
->   -.I path
->   -is too long.
->   -.TP
->   -.B ENOENT
->   -A component of
->   -.I path
->   -does not exist,
->   -or
->   -.I path
->   -is an empty string and
->   -.B AT_EMPTY_PATH
->   -was not specified in
->   -.IR flags .
->   -.TP
->   -.B ENOMEM
->   -Insufficient kernel memory was available.
->   -.TP
->   -.B ENOTDIR
->   -A component of the path prefix of
->   -.I path
->   -is not a directory, or
->   -.I path
->   -is relative and
->   -.I dirfd
->   -is a file descriptor referring to a file other than a directory.
->   -.TP
->   -.B EOPNOTSUPP
->   -The filesystem does not support setting attributes on this type of ino=
-de.
->   -.TP
->    .B EPERM
->    The caller does not have the necessary permissions
->    to change the file attributes.
->   @@ -203,10 +72,7 @@ to change the file attributes.
->    The file is on a read-only filesystem.
->    .SH HISTORY
->    .SS Linux 6.17
->   -This system call is introduced as a more flexible alternative to the
->   -FS_IOC_FSSETXATTR
->   -.BR ioctl (2)
->   -which could work on any type of files.
->   +This system call is introduced.
->    .SH NOTES
->    This system call is designed to be extensible.
->    The
->   @@ -259,7 +125,7 @@ flag on a file.
->    int
->    main(int argc, char *argv[])
->    {
->   -    struct file_attr fa =3D { 0 };
->   +    struct file_attr fa;
->        int dfd;
->        long ret;
->   =20
->   diff --git a/man/man2type/file_attr.2type b/man/man2type/file_attr.2type
->   index fd426c19f5f0..221d97b5220d 100644
->   --- a/man/man2type/file_attr.2type
->   +++ b/man/man2type/file_attr.2type
->   @@ -140,45 +140,9 @@ Setting unsupported flags may result in an
->    or
->    .B EOPNOTSUPP
->    error.
->   -.SH VERSIONS
->   -.SS Structure size
->   -The structure size is defined by
->   -.B FILE_ATTR_SIZE_VER*
->   -which is also a version of the structure being used.
->   -The
->   -.I size
->   -parameter passed to
->   -.BR file_getattr (2)
->   -and
->   -.BR file_setattr (2)
->   -indicates the version of
->   -.I struct file_attr\fP.
->   -.SS FILE_ATTR_SIZE_VER0
->   -Size is 24 bytes.
->    .SH HISTORY
->    .SS Linux v6.17
->    This structure is introduced.
->   -The
->   -.I struct file_attr
->   -provides similar functionality to
->   -.I struct fsxattr
->   -used by the
->   -.B FS_IOC_FSGETXATTR
->   -and
->   -.B FS_IOC_FSSETXATTR
->   -.BR ioctl (2)
->   -operations,
->   -but is designed to be extensible through the
->   -.I size
->   -parameter of the system calls.
->   -.P
->   -Extra fields may be appended to the structure in future kernel version=
-s.
->   -The kernel will expect new fields to be zeros
->   -for older versions of the structure.
->   -Therefore, a user
->   -.I must
->   -zero-fill the structure on initialization to keep compatibility with o=
-lder
->   -kernels.
->    .SS Linux v7.2
->    The FS_XFLAG_CASEFOLD and FS_XFLAG_CASENONPRESERVING are introduced to=
- enable
->    upper layers, such as NFSD, to retrieve case sensitivity information.
-> --=20
-> 2.55.0
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---rqz2sg4sh37j4buv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmq3z2YACgkQ64mZXMKQ
-wqnrWA/9GhcVzoaIjvbmUQzy+zr2Nk6Aq4p/oQ0kx1eULMEfKkCH6/Z/elTB4GDD
-H3hcZ+CDec1aO9QZo7ph7bCCDsvB35LQAZ0A577otixP8Nvqt5NtMl6d6hOraZt8
-k9GJD1HVWqpSX2wXmb5rFnyjEM3hh96RvN/N7teDGY490U78ZK3YaUYxfMz1jbke
-TsIu0dM50MjtDm1I2AC0+bTkgIPmuMQGnb+IgYYo5sOwA0DLRQelqCd7bE2uNvX+
-k6P3ZK0MyvmSu1k7e2ZJYfy6Tpgb1JhJ5+8QAG06GGYuuSWASr1vYcbPfWHlcEP5
-pZ9+xlIGevYolAX5M+LL1v4Q41zivb9iRrfvj1sd11rkJ5KwqgllYlbjTWky13fT
-OMJhSHdrJatOHxLY4lTV/epmSbL+nZN7Ho2gZcpPtAYC0kB35wEWqklDRyxZ0BHV
-rtV+E2kJiZgMNRS8ZDrH0G5g69PJytP9NYH1+AYEqV03P5UB28mq6L4L+Mghs8Tp
-Srp7fwWmXArhUfhWwiF2y4FCJSaNT9JxbfE6NUudfYMJGfJWzUeUtGpGoVET2BtS
-FXrVs3MNCOisOWCcsJIGyNtG6QkBStxZNlyQo6fP12W9G0FC9v8XCvbH0yhicErk
-nOV98oh4CWuWkCFRsOZhaHso7nbZi/R17ORJ328VHIom/c8cl2o=
-=QH3n
------END PGP SIGNATURE-----
-
---rqz2sg4sh37j4buv--
+Thanks,
+-Günther
