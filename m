@@ -1,255 +1,414 @@
-Received: from mail-yx2-f42.google.com (mail-yx2-f42.google.com [74.125.224.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8B939AD34
-	for <linux-man@vger.kernel.org>; Tue, 29 Sep 2026 07:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A909526A85;
+	Tue, 29 Sep 2026 13:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790668481; cv=none; b=kzwUCXYPZI3H5lhN3ZYpJ9VpoqkkaMDu5Ddx8kxZPDejyKjeU4Xb76sqgGM46WGY+bbrakZFPdU/b/v/xpuMobJ5ymWk3LCncu0lGkor0r+6kNxCyZM7aT4QrB48Hdxfw4Zq2IrVR6GgOby3qvNm+CBECKWbqbmyB0J4LZRgkas=
+	t=1790686990; cv=none; b=JKZp+PkVNxEWexLcsWq0BKRZgYt/x9XQ7/8VzR1w7NXcHaZTuPWh8X9DOFXZeL9t8IU/xKpo20RC125EY4VwQMoNZhg8X7hsx52WaMQ0oQU7f6U+Iv9UQRhNFUZFff5x5X7REQBT8j5IxLnnNyCfQxgqsWgsHiRBqaXYzwm+AB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790668481; c=relaxed/simple;
-	bh=8dFDk/wcicYww4GbFhDzgke17htc8eO1djn6Kr2cWfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FugHoZak2PZK+U5IPYixXgfiK0QbfmMVr7JHiZ5l8DkcFO0upqGHD1Hohiz0gUF7qpLGB76Q5PVhfYpd8VgqKuQjrHv4VxYMcesKz5A9gVjrOuVtiQY2FrYCnqpvhhcm9c7IvuiTv3dnUp2vRxaqlSuX6Mj6yGJoItJtKgayR3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RyGU2QDs; arc=none smtp.client-ip=74.125.224.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790686990; c=relaxed/simple;
+	bh=1noLLYLgKsdPkSgbQ5oEqG5u0IxgtUmUTgvsc8jMzCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sKsqMkRrpgMtTAKsW35FoBHuMzfKsXyZ/OpxgqyLDIfDn/jJrJTuxrbqujnKZqN+nnbV67wfSiNAUDtpe0/7/4FSHmP1JAasDyWFocU6s8NhQBFFW8iMTh337FJcooPgtZsoR5VpyMQdLAbcilWrhZKwAygZpodblLPR4yec8PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixb6LEeC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RyGU2QDs"
-Received: by mail-yx2-f42.google.com with SMTP id 00721157ae682-8a45b788a71so31191687b3.0
-        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2026 00:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790668478; x=1791273278; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V6ayEDo4dR0CQVojzymb8/NsfycnriQTm9AZuy4exoE=;
-        b=RyGU2QDshEUSQJU2ohbakduQc3H17Srq4BWwrz6d055FKG2GUGqMT1u0GcgECxfl/z
-         UsFtVAYXjLL6mFF1jgQB/C4tw+yOlPIHAp+y4b8uXXgWIeUOSVD8e0E8JhmhywiN6PLD
-         8gl9y3qJn9p5tq2/TEy/0NZDLq0FGsNcQ5XfDWiU67JzSXBcRh5FLznqYxwplCvHIf1a
-         xMCI69Ls8aQpqdz/YyaMK/J1Qfuk89Of5kEiR5QUxpwhb2kB7ZTWtXX/ZcdbA5HE+Er4
-         igCqWgiuXa3stu6IjDCGrzA5YQ5xnTSD3cV6FaTgFColYO5lto3Jml1YmgluvLhrxphU
-         DsEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790668478; x=1791273278;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V6ayEDo4dR0CQVojzymb8/NsfycnriQTm9AZuy4exoE=;
-        b=D2/CkfJlmeAoNITTbdAH7bZXghg50JqSN0pR7QL5Sov4Z9JUd1b2tsknZOUkaSggBi
-         MNtBIPR/E/v02ejtp8CUrzvV4RAwl5p9DCyAU6r/9kkufJXRpRrPCYMY9CdZE7ckLaDr
-         mxTGUt6f7zggg3ESxjWuM6pDfEEfiEE0mNREVdpX34wGCsaBxQjEFErMijfvGs8bp8QX
-         6Q3XEGllgPoTziYafnO180PGSrIIbh9slIs3e/SV0/Kq4+zjXUFgdRvaqygfYpuZFjFG
-         +6vSb2S4JYL0aDtMhVdg9DDu/zPGXVdXME0n7l+/2eKazOHNlG6+PkMlmALNk1NPwav2
-         nrKg==
-X-Forwarded-Encrypted: i=1; AKwUvBxMVpCU47UkPRmUYtRXvE1NRnIAKUnzo2tIyiB6ccHTb98jQfbTgkItoB0+GlCtSc707Zn3ME6vZ2k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJFlNc7f+zM3qQx/E7H77NU1GkvE2tfyfdyPe1rqo3Zh9dpLQjA
-	CMgfA8N9RB6RmY2kNqcj9ZLwimpUVuYq8SEp3qpzH72PZB3jQUghher0BImxKA==
-X-Gm-Gg: AYBFou2om2pJHZGr8cJotvSpuCIZaFRXeknnUU6ueVJqu5518v2eFR+aE7a5kk/H3Pb
-	QrLdNdeoHLEkQciHGSqeOGEFJ9LHixsCNKfi91hI2JA3daXP0hcL1c0XNtBKChhpvz6PbzzXymX
-	pnhxMoGm+oQ9FxI9ZeKgcm/XbhALWiXsa66XjGwFTHEM6fN9IlKfMgTnYwCNzoOgMy5yVEns6do
-	JkODqjoBANRFre1ca6wIjOsy+huszSAARwU/rnlbZNZw54iAf3Vz01TjqCandvYQ0Rm9fabdOeK
-	k6MW4bM4q07lmirdyoIhnjwm/Igz3lPouo9oafP09v7OBt3YHWM1V/GH1Ee+vn/OkR07809D+Bg
-	q5X1KqA3kZncBKIpZxk4MuGPMNSnaP7RlqLe725ubvSDYrDWD54JIBiJV322gy+yKymfisgZURh
-	NpYguyUiTXqip+EZRnVIGIYaeV+AO6sZr93kGQ7HkcKLWTjwsnAE58dwoOBG0=
-X-Received: by 2002:a05:690c:4992:b0:882:1d1e:88ca with SMTP id 00721157ae682-8a67953d325mr75807157b3.10.1790668478412;
-        Tue, 29 Sep 2026 00:54:38 -0700 (PDT)
-Received: from illithid ([2600:1702:7cd0:e980::49])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a860f8d2d9sm56121587b3.23.2026.09.29.00.54.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 00:54:37 -0700 (PDT)
-Date: Tue, 29 Sep 2026 02:54:35 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: info-gnu@gnu.org, info-groff@gnu.org
-Cc: groff@gnu.org, linux-man@vger.kernel.org
-Subject: groff 1.24.2 released
-Message-ID: <20260929075435.2njsyseqeea6hon2@illithid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixb6LEeC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607D91F000FF;
+	Tue, 29 Sep 2026 13:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790686988;
+	bh=0eGshAiCx2DPMmKieMEBhmMv9saVqllOoc3nNCljZds=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ixb6LEeCZPBzyq7LYBkKNz8UxXG0UaP/vH2YVKFwgfeWsFQIawCYX8xVOgFpX9kZr
+	 kfsGH/ISQJMGHefk5rvVDEeRst2FW6hRIpSzbrb+HDroEyPw3TV85y+6WE8G2M8Y0k
+	 iFaQOgDuFOZGJ2KUlMoIgyqA+55TRmMwXYED1AyiPVHxjBV9RemnM9rhYH6kThe1Eu
+	 byswwiM5mfafU9E7vaPE/j/FBjdIuBJw9xAxvKVhz2k+fJ/wIyzgsOLQTJV+0VBrKi
+	 IEXRTRFDeX1YVQHOc2oALY4ldHniYC/e5rDW0m+apup69Dcbs/ku+KDmNRy0WLEzeM
+	 KYYsu3pA7J+WA==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Alejandro Colomar <alx@kernel.org>,
+	linux-man@vger.kernel.org
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	djwong@kernel.org
+Subject: [PATCH v5 0/3] Introduce man pages for file_getattr() and file_setattr()
+Date: Tue, 29 Sep 2026 15:02:29 +0200
+Message-ID: <20260929130234.3547891-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260916115141.3500780-1-aalbersh@kernel.org>
+References: <20260916115141.3500780-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fe7va3alggovyirp"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+Hi folks,
 
---fe7va3alggovyirp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: groff 1.24.2 released
-MIME-Version: 1.0
+This series introduce 3 man pages for file_getattr() and file_setattr()
+syscalls and struct file_attr used as an argument for these syscalls.
 
-We are anxious to announce the availability of groff 1.24.2.  This
-release resolves recently discovered security vulnerabilities affecting
-all groff releases dating back to 2012, and even farther.
+Changes from v4:
+- Split single patch into 3 separate ones
+- Mark examples for linters
+- Use special char for empty lines in examples
+- Use w64/w32 in printf() in examples
+- Use const fattr in file_setattr() definition
+- Other minor fixes
+- A few fixes found by lint in examples
 
-Obtain it from the GNU mirror network,
+Changes from v3:
+- dropped VERSIONS section in file_attr.2type
+- reference arguments and errors from file_setattr to file_getattr
+- Minor wording fixes
+- Minor formatting fixes
+- Removed zero-initialized requirement
+- Interdiff with v3 below
 
-  https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz
+Changes from v2:
+- a few grammar fixes
+- styling fixes
+- sashiko.dev fixes (wrong AT_FDCWD combined with AT_EMPTY_PATH
+  description, unused "dfd")
+- dropped requirement to zero fattr before using file_setattr()
+- Pathname -> path
+- Dropped description of why FS_IOC_ aren't usable with special files
+- Fixed backslashes in the code examples
 
-or, if the network is for some reason inoperative, directly from GNU.
+Andrey Albershteyn (3):
+  man/man2: introduce man page for struct file_attr
+  man/man2: introduce man page for file_getattr(2) syscall
+  man/man2: introduce man page for file_setattr(2) syscall
 
-  https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz
+ man/man2/file_getattr.2      | 262 +++++++++++++++++++++++++++++++++++
+ man/man2/file_setattr.2      | 183 ++++++++++++++++++++++++
+ man/man2type/file_attr.2type | 153 ++++++++++++++++++++
+ 3 files changed, 598 insertions(+)
+ create mode 100644 man/man2/file_getattr.2
+ create mode 100644 man/man2/file_setattr.2
+ create mode 100644 man/man2type/file_attr.2type
 
-Ensure the integrity of your download by checking this source code
-archive's cryptographic signature; see "Obtaining groff" below.
+Interdiff against v4:
+diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
+index fe804d97976b..e3c86fc45711 100644
+--- a/man/man2/file_getattr.2
++++ b/man/man2/file_getattr.2
+@@ -21,6 +21,7 @@ file_getattr \- get filesystem file attributes
+ The
+ .BR file_getattr ()
+ system call retrieves filesystem file attributes
++of the file
+ specified by path.
+ .P
+ As with
+@@ -56,9 +57,9 @@ The
+ .I size
+ argument specifies the size of the structure pointed to by
+ .IR fattr .
+-The size indicates version of the structure in use, refer to
+-.B file_attr (2type)
+-for more information on versioning.
++The size indicates the version of the structure in use,
++and should always be specified as
++.IR sizeof(struct file_attr) .
+ .P
+ The
+ .I flags
+@@ -80,8 +81,8 @@ If
+ .I path
+ is a symbolic link,
+ do not dereference it;
+-instead get attributes of the symbolic link inode itself.
+-By default, symbolic links are dereferenced.
++instead,
++get attributes of the symbolic link inode itself.
+ .SH RETURN VALUE
+ On success,
+ zero is returned.
+@@ -128,7 +129,7 @@ or
+ is an invalid pointer.
+ .TP
+ .B EINVAL
+-Unknown flag specified in
++Unknown flags specified in
+ .IR flags .
+ .TP
+ .B EINVAL
+@@ -147,8 +148,9 @@ is too long.
+ .B ENOENT
+ A component of
+ .I path
+-does not exist,
+-or
++does not exist.
++.TP
++.B ENOENT
+ .I path
+ is an empty string and
+ .B AT_EMPTY_PATH
+@@ -161,7 +163,9 @@ Insufficient kernel memory was available.
+ .B ENOTDIR
+ A component of the path prefix of
+ .I path
+-is not a directory, or
++is not a directory.
++.TP
++.B ENOTDIR
+ .I path
+ is relative and
+ .I dirfd
+@@ -170,8 +174,7 @@ is a file descriptor referring to a file other than a directory.
+ .B EOPNOTSUPP
+ The filesystem does not support getting attributes on this type of inode.
+ .SH HISTORY
+-.SS Linux 6.17
+-This system call is introduced.
++Linux 6.17
+ .SH NOTES
+ This system call is designed to be extensible.
+ The
+@@ -199,51 +202,56 @@ The program below demonstrates the use of
+ to retrieve and display file attributes.
+ .P
+ .in +4n
++.\" SRC BEGIN (file_getattr.c)
+ .EX
++#define _GNU_SOURCE
+ #include <fcntl.h>
+ #include <linux/fs.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sys/syscall.h>
+ #include <unistd.h>
+-
++\&
+ #ifndef SYS_file_getattr
+ #define SYS_file_getattr 467
+ #endif
+-
++\&
+ int
+ main(int argc, char *argv[])
+ {
+     struct file_attr fa;
+     long ret;
+-
++\&
+     if (argc != 2) {
+         fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
+         exit(EXIT_FAILURE);
+     }
+-
+-    ret = syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa, sizeof(fa), 0);
++\&
++    ret = syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa,
++                  sizeof(fa), 0);
+     if (ret == \-1) {
+         perror("file_getattr");
+         exit(EXIT_FAILURE);
+     }
+-
++\&
+     printf("File attributes:\[rs]n");
+-    printf("  xflags:     0x%llx\[rs]n", (unsigned long long) fa.fa_xflags);
+-    printf("  extsize:    %u\[rs]n", fa.fa_extsize);
+-    printf("  nextents:   %u\[rs]n", fa.fa_nextents);
+-    printf("  projid:     %u\[rs]n", fa.fa_projid);
+-    printf("  cowextsize: %u\[rs]n", fa.fa_cowextsize);
+-
++    printf("  xflags:     0x%w64x\[rs]n", fa.fa_xflags);
++    printf("  extsize:    %w32u\[rs]n", fa.fa_extsize);
++    printf("  nextents:   %w32u\[rs]n", fa.fa_nextents);
++    printf("  projid:     %w32u\[rs]n", fa.fa_projid);
++    printf("  cowextsize: %w32u\[rs]n", fa.fa_cowextsize);
++\&
+     /*
+-     * Try setting NODUMP flag with chattr +d ./foo to see the difference
++     * Try setting NODUMP flag with chattr +d ./foo to see
++     * the difference.
+      */
+     if (fa.fa_xflags & FS_XFLAG_NODUMP)
+         printf("  NODUMP flag is set\[rs]n");
+-
++\&
+     exit(EXIT_SUCCESS);
+ }
+ .EE
++.\" SRC END
+ .in
+ .SH SEE ALSO
+ .BR file_setattr (2),
+diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
+index 0389f42afb50..b11c9ff9277f 100644
+--- a/man/man2/file_setattr.2
++++ b/man/man2/file_setattr.2
+@@ -14,10 +14,9 @@ file_setattr \- set filesystem file attributes
+ .P
+ .B long syscall(SYS_file_setattr,
+ .BI "               int " dirfd ", const char *" path ,
+-.BI "               struct file_attr *" fattr ", size_t " size ,
++.BI "               const struct file_attr *" fattr ", size_t " size ,
+ .BI "               unsigned int " flags );
+ .fi
+-.P
+ .SH DESCRIPTION
+ The
+ .BR file_setattr ()
+@@ -27,14 +26,16 @@ on the file specified by path.
+ The
+ .IR dirfd ,
+ .IR path ,
+-.IR fattr ,
+ .IR size ,
+ and
+ .I flags
+-arguments behaves in the same way as in
++arguments behave in the same way as in
+ .BR file_getattr (2).
+-The only difference is that
+-user-space applications should use
++The
++.IR fattr ,
++is read-only argument with
++file attributes to set.
++User-space applications should use
+ .BR file_getattr (2)
+ to initialize
+ .I fattr
+@@ -48,7 +49,6 @@ and
+ .I errno
+ is set to indicate the error.
+ .SH ERRORS
+-.P
+ The errors are the same as returned by
+ .BR file_getattr (2)
+ with the addition of following ones:
+@@ -71,8 +71,7 @@ to change the file attributes.
+ .B EROFS
+ The file is on a read-only filesystem.
+ .SH HISTORY
+-.SS Linux 6.17
+-This system call is introduced.
++Linux 6.17
+ .SH NOTES
+ This system call is designed to be extensible.
+ The
+@@ -104,71 +103,75 @@ to set the
+ flag on a file.
+ .P
+ .in +4n
++.\" SRC BEGIN (file_setattr.c)
+ .EX
++#define _GNU_SOURCE
+ #include <fcntl.h>
+-#include <linux/fcntl.h>
+ #include <linux/fs.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/syscall.h>
+ #include <unistd.h>
+-
++\&
+ #ifndef SYS_file_getattr
+ #define SYS_file_getattr 467
+ #endif
+-
++\&
+ #ifndef SYS_file_setattr
+ #define SYS_file_setattr 468
+ #endif
+-
++\&
+ int
+ main(int argc, char *argv[])
+ {
+     struct file_attr fa;
+     int dfd;
+     long ret;
+-
++\&
+     if (argc != 2) {
+         fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
+         exit(EXIT_FAILURE);
+     }
+-
++\&
+     dfd = open(argv[1], O_RDONLY);
+     if (dfd == \-1) {
+         perror("open");
+         exit(EXIT_FAILURE);
+     }
+-
+-    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa), AT_EMPTY_PATH);
++\&
++    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
++                  AT_EMPTY_PATH);
+     if (ret == \-1) {
+         perror("file_getattr");
+         exit(EXIT_FAILURE);
+     }
+-
+-    printf("Current flags: 0x%llx\[rs]n", (unsigned long long) fa.fa_xflags);
+-
++\&
++    printf("Current flags: 0x%w64x\[rs]n", fa.fa_xflags);
++\&
+     fa.fa_xflags |= FS_XFLAG_NODUMP;
+-
+-    ret = syscall(SYS_file_setattr, dfd, "", &fa, sizeof(fa), AT_EMPTY_PATH);
++\&
++    ret = syscall(SYS_file_setattr, dfd, "", &fa, sizeof(fa),
++                  AT_EMPTY_PATH);
+     if (ret == \-1) {
+         perror("file_setattr");
+         exit(EXIT_FAILURE);
+     }
+-
+-    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa), AT_EMPTY_PATH);
++\&
++    ret = syscall(SYS_file_getattr, dfd, "", &fa, sizeof(fa),
++                  AT_EMPTY_PATH);
+     if (ret == \-1) {
+         perror("file_getattr");
+         exit(EXIT_FAILURE);
+     }
+-
++\&
+     if (fa.fa_xflags & FS_XFLAG_NODUMP)
+-        printf("flags 0x%llx (NODUMP flag is set)\[rs]n",
+-            (unsigned long long) fa.fa_xflags);
+-
++        printf("flags 0x%w64x (NODUMP flag is set)\[rs]n", fa.fa_xflags);
++\&
+     exit(EXIT_SUCCESS);
+ }
+ .EE
++.\" SRC END
+ .in
+ .SH SEE ALSO
+ .BR file_getattr (2),
+diff --git a/man/man2type/file_attr.2type b/man/man2type/file_attr.2type
+index 221d97b5220d..3a1aabbc9e7d 100644
+--- a/man/man2type/file_attr.2type
++++ b/man/man2type/file_attr.2type
+@@ -50,7 +50,9 @@ and is ignored by
+ .TP
+ .I fa_projid
+ Project identifier.
+-Used by quota systems to group related files.
++Used by quota systems
++.BR quotactl (2)
++to group related files.
+ .TP
+ .I fa_cowextsize
+ Copy-on-Write (CoW) extent size hint in bytes.
+-- 
+2.55.0
 
-
-What is groff?
-==============
-
-groff (GNU roff) is a typesetting system that reads plain text input
-that includes formatting commands to produce output in PostScript,
-PDF, HTML, or DVI formats or for display to a terminal.  Formatting
-commands can be low-level typesetting primitives, macros from a
-supplied package, or user-defined macros.  All three approaches can be
-combined.
-
-A reimplementation and extension of troff and other programs from AT&T
-Unix, groff is widely available on POSIX and other systems owing to its
-long association with Unix manuals, including man pages.  It and its
-predecessor have produced several best-selling software engineering
-texts.  groff can create typographically sophisticated documents while
-consuming minimal system resources.
-
-  https://www.gnu.org/software/groff/
-
-
-Details
--------
-
-Since groff 1.24.1 was released on 14 March 2026, 2 people have
-authored a total of 6 commits on the "1.24.x" stable branch.
-
-     5  G. Branden Robinson
-     1  Deri James
-
-This release resolves the following issues in the GNU Savannah ticket
-tracker.
-
-bug #68689: [PATCH] [mm] `mmroff` vulnerable to command injection (CWE-78)
-bug #68688: [PATCH] [grohtml] `pre-grohtml` vulnerable to command injection (CWE-78)
-bug #68687: [PATCH] [pdfmom] vulnerable to command injection (CWE-78)
-bug #68152: [gxditview] SEGVs when invoked with no arguments
-
-One way of capturing the amount of revision is as follows.
-
-$ COLUMNS=72 git diff --stat 1.24.1 1.24.2
- ChangeLog                       | 52 +++++++++++++++++++++++++++++++++
- NEWS                            | 21 +++++++++++++
- arch/mingw/grap2graph.cmd       |  2 +-
- contrib/mm/ChangeLog            | 15 ++++++++++
- contrib/mm/mmroff.pl            |  2 +-
- doc/webpage.ms                  |  2 +-
- src/devices/gropdf/pdfmom.pl    | 29 ++++++++++++------
- src/devices/xditview/xditview.c | 24 ++++++++-------
- src/preproc/html/pre-html.cpp   | 11 +++++++
- src/roff/troff/input.cpp        | 14 +++++++++
- 10 files changed, 149 insertions(+), 23 deletions(-)
-
-
-Obtaining groff
-===============
-
-Here are the compressed sources and a GPG detached signature[*].
-  https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz
-  https://ftp.gnu.org/gnu/groff/groff-1.24.2.tar.gz.sig
-
-Use a mirror for higher download bandwidth.
-  https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz
-  https://ftpmirror.gnu.org/groff/groff-1.24.2.tar.gz.sig
-
-Here are the SHA-1 and SHA-256 checksums.
-
-8f43c4d049207689b85af8a211742d87356e64e6  groff-1.24.2.tar.gz
-+cHv1b6743/G4QY9t0c86N8ePgvk/w9DzgT85X6cXdk=  groff-1.24.2.tar.gz
-
-The SHA-256 checksum is encoded in Base64 instead of the hexadecimal
-form that most checksum tools default to.  The mechanism follows.
-
-sha256sum < groff-1.24.2.tar.gz | cut -f1 -d\  | xxd -r -p | base64
-
-(Because "base64" reads from a pipe, it doesn't know the file name, and
-so the file name will not appear in the output.)
-
-[*] Use a .sig file to verify that the corresponding file (without the
-    .sig suffix) is intact.  First, be sure to download both the .sig
-    file and the corresponding archive.  Then, verify the archive.
-
-      gpg --verify groff-1.24.2.tar.gz{.sig,}
-
-    If that command fails because you don't have the required public
-    key, you can import it.
-
-      wget -O 108747.asc \
-        'https://savannah.gnu.org/people/viewgpg.php?user_id=108747'
-      gpg --import 108747.asc
-
-    Re-run the 'gpg --verify' command above again subsequently.
-
-
-Caveats
-=======
-
-o GNU tools, or otherwise POSIX-conforming ones, are generally required
-  to build on Solaris 10 or 11.  See the "PROBLEMS" file in the
-  distribution archive.
-
-o Solaris 10 has known problems with automated tests; see the "PROBLEMS"
-  file in the distribution archive.
-
-
-News
-====
-
-This release corrects command injection security vulnerabilities
-(CWE-78) in the mmroff, pdfmom, and pre-grohtml programs.  The last of
-these is a preprocessor that is run when groff or troff is run with the
-`-T html` or `-T xhtml` options.  The vulnerabilities are variously
-14-26 years old.  Malicious input can escape groff's default "safer"
-mode, running commands embedded in that input at the user's privilege
-level.  The groff development team recommends this release to any users
-who employ the named tools or GNU troff output formats with untrusted
-inputs.
-
-Man page rendering is not vulnerable unless rendering (X)HTML.
-
-This release also resolves a command-line argument processing defect in
-the gxditview program.  It is not known to have any security impact.
-
-There are no new features.
-
-
-Acknowledgements
-================
-
-We'd like to thank the following people for helping ensure the quality
-of this release.
-
-Deri James
-Ingo Schwarze
-Pavol Sloboda
-
---fe7va3alggovyirp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmq7brMACgkQ0Z6cfXEm
-bc6BSA/9Fdweu7MKGWeuvo/UfbQgxN3phnOihRjrLQNLZSiU3rnKhRMwz2r3sRtX
-zjKeRCfrTafxyPaNNF6CoEl/CSn2Slx7zfAwKF56kqa+GN+TlMqWPEFsXu5w9MYY
-73/kkVCUPfoFu8X1+TSiBekr/wPlFt7X9H9DI/hUt2gujozSTuquPWjd81+AHjt+
-zseYC4lmrSPWaWUr5gyUOflxm0za/c0XKOn41Sm1Tu6vyNF/tAyd3emC4t1j6Kgq
-zpUTFxPR76FZWHxBWYthjmiBe3oEx+a9iU9Ye3srsdHUzDp9VEvvwvpMlkNsUGK8
-gDIYMC29gIJNeN5xwNeuS30kgS5LvhNka+dUD4ZHsWkuNUg4PBMgp3+VH0Y/t2R4
-C7g2bQathNuXXMem9CM/ANby/v7d6M2+xeJTcKTUiDWaQ5GG8/ZGfR3+Kn65yuOP
-LlR5QWH9qlUc8jPvOSnHjxC8rFgcdPuIFNlxykXawg6fV+gj3SIs+ChAaCLqniM4
-vyL63WRHNWPE7H3q7bGvG2xEjxHLgKTjw1+fhXS2FDWXDuoXg4XKp9hXWsRSt2uU
-1UgBvnaf6knOgBjHrXzrl4HfYJpleBzJis+S6KVG6VMynYOFfwPBZCFZNiraDbhR
-reOcLhMsQ0K89OrYzcFByngceF89RJZ5/fNQdXbPprqjJBKbBa8=
-=pwuZ
------END PGP SIGNATURE-----
-
---fe7va3alggovyirp--
