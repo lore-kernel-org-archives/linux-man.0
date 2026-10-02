@@ -1,90 +1,101 @@
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [84.16.66.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta91.mxroute.com (mail-108-mta91.mxroute.com [136.175.108.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0809D46EC9B
-	for <linux-man@vger.kernel.org>; Tue, 29 Sep 2026 19:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F351F3BAC
+	for <linux-man@vger.kernel.org>; Fri,  2 Oct 2026 06:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790708921; cv=none; b=sybPZUbx0+uFrRsB6r/KE4UUo5/CvkN9bLNFXH6HP+C2ijgIlUzFzxJCU05bE6jv0eqAiN4iDTF3j0elcpTaX0YYgaJBxIg4Th9kHx57wXPAtw5G0J0P2pmUogdeV9Xdv0566CEcJKFF1LGKxvVRZ73G+4efoLK9NJX8fx97eD8=
+	t=1790924145; cv=none; b=h67QYlOBH9Cg14Ennnm8exfCdVXWB4iYRiV6Foua1o7y/57gE8KSbYAKPlpn1IaZqORCLfI5iV21Be7+2ViFnobEb5qStKRUXY4YB08aY5FCW94Ag1os3nMZLDX5qFswg2lmm2jBDq0teC0s8sR81EnPI/+H9jMBNTd/KHxOGUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790708921; c=relaxed/simple;
-	bh=0n0uyICspv/ygv8IdgnvDiR8WZOqxFUCpC7Ae/waoOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D17bXt92EhkdvoUuy62l4XD5zmbf5pDxhnLejt8CR+umkCAN+SkOnTQ3Ovas3h30EL6Qv2OfrR/ZKQ18OjG7gLxpCEqTmP9Eb1RYJwcS1vWS2frbxBuhWjO33TqpJs3wOR9CEpPQ4rnAk3XNechsK9fYjW64sRcANKA3qGNhrhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=M2FGBvbP; arc=none smtp.client-ip=84.16.66.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1790924145; c=relaxed/simple;
+	bh=xAoDoh5yshly5t9OZsn8Ikn7etLdz8+T4EDxoRXvaQg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=XiQS4FbaKIYfjixIhGkSDm2wWe8mfoUJ/PSKk9Z/0VI+159S3RV1Rjd2aSL5/rFjAj9GCniLiPHPTBP5df/zhUIUIvjq4p0W/WagmZM8Eghuk/4jbfM0sNF75gVEB+aaaI7jUnjPzeK6ZovJPO1XUrsQpyOy3jfl/CncTlgc0cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com; spf=pass smtp.mailfrom=trevorgross.com; dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b=vF2HN+yk; arc=none smtp.client-ip=136.175.108.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trevorgross.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trevorgross.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="M2FGBvbP"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hvSH273YczrXS;
-	Tue, 29 Sep 2026 21:02:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1790708558;
-	bh=XpW8uEEfWfDU7qotW1NKZgINIufGYcNMMJx/aI6JJF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M2FGBvbPO7bMrhTo9yYRw81L7eH1zNMKLTKtSqrgihWRHYT/D9k+NBTMzQ+6A9nf1
-	 CUDLNcrOrPM50EsGVKVYrNoPhuJ7mMcYAkZmLLytZsAUVomoaXvOKg4ISKusSTn3rd
-	 qaqe/dvtC53/Lrpf9xrT7i4+y1trdblNDwQX1Dak=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hvSH01YYTz1PB;
-	Tue, 29 Sep 2026 21:02:35 +0200 (CEST)
-Date: Tue, 29 Sep 2026 21:02:34 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Matthieu Buffet <matthieu@buffet.re>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add Landlock UDP support documentation
-Message-ID: <20260929.phoohohs5Hoo@digikod.net>
-References: <20260917075853.10231-1-matthieu@buffet.re>
+	dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b="vF2HN+yk"
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta91.mxroute.com (ZoneMTA) with ESMTPSA id 1a0fb60f59600028b2.006
+ for <linux-man@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Fri, 02 Oct 2026 06:50:30 +0000
+X-Zone-Loop: dc8f779012c5f445b72f3d9d90b76a080823b7b072ba
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=trevorgross.com; s=x; h=In-Reply-To:References:To:From:Subject:Cc:
+	Message-Id:Date:Content-Type:Content-Transfer-Encoding:Mime-Version:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Ac7C9mCPJp62+xuelBeOrRC6khjVqeCtK9BkqC52qP8=; b=vF2HN+ykwpT/VF9crmJLd6LJmN
+	2vFRtIuXeOPvp8sCgGs5xwNsTNLG1JF1UqAy1J3aaYBsg9BMFHvTjWaiXZg3YkZR+Ouk+T3qgRSER
+	lxWQBYLGExa2O7UO4aIr33VdLyxrOrT/k0DPGtFMWkNBHWpB5g8hngUvQb6bCAViA1/EexlADWmLD
+	BKmDx4Ua0vsYWAsaFHfCa6LGSqM9XoDHsgBAGh8nbRukbJTsk56+Z489EbmGpTyg700Sxu3otHYxk
+	RBs+dtIfrBXsV0A14V+2PIxaU1gPBuqZw3/dXsrM9++gbOe2s8O15VL1i7vW3Ffj2Jy0g8rh0aONk
+	pB2o6aRQ==;
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260917075853.10231-1-matthieu@buffet.re>
-X-Infomaniak-Routing: alpha
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 02 Oct 2026 01:50:22 -0500
+Message-Id: <DLU5IDY7FCX4.OWYMCXDOF2R5@trevorgross.com>
+Cc: "Trevor Gross" <tg@trevorgross.com>, "Alejandro Colomar"
+ <alx@kernel.org>, <linux-man@vger.kernel.org>, <libc-alpha@sourceware.org>,
+ <musl@lists.openwall.com>
+Subject: Re: [musl] [PATCH 2/2] man/man2/fork.2: Document glibc and musl
+ relaxed fork->exec AS requirements
+From: "Trevor Gross" <tg@trevorgross.com>
+To: "Florian Weimer" <fweimer@redhat.com>, "Rich Felker" <dalias@libc.org>
+References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
+ <20260923233818.25289-3-tg@trevorgross.com>
+ <20260923234714.GB23438@brightrain.aerifal.cx>
+ <lhuqzihxg1d.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <lhuqzihxg1d.fsf@oldenburg.str.redhat.com>
+X-Authenticated-Id: tg@trevorgross.com
 
-On Thu, Sep 17, 2026 at 09:58:49AM +0200, Matthieu Buffet wrote:
-> Hi Alejandro, Mickaël, Günther,
-> 
-> Here is a small update to landlock.7 and landlock_add_rule.2 to add
-> missing TCP info, and add UDP specifics introduced in kernels 7.2+.
-> With the benefit of hindsight, re-reading UAPI header changes, I
-> actually did a bit more than copy-pasting from them (see patch 3/3):
-> - explicitly state in the access right description that sending
->   datagrams without a destination does not require any access right
-> - more importantly: clarify the description of the most non-trivial
->   behaviour (auto-bind denials when emitting, which can occur even if
->   CONNECT_SEND_UDP is not handled)
+On Fri Sep 25, 2026 at 2:54 PM CDT, Florian Weimer wrote:
+> * Rich Felker:
+>
+>>> +On glibc and musl libc, this is relaxed;
+>>> +it is safe to call non-async-signal-safe functions in the time between
+>>> +.BR fork ()
+>>> +and
+>>> +.BR exec ()
+>>> +\&.
+>
+>> While glibc has taken measures to make this mostly work, especially
+>> malloc-after-fork, I don't think glibc has an intentional model for
+>> ensuring that arbitrary libc functions work right in the child of a
+>> multithreaded fork. Before accepting such a man page patch, we should
+>> at least get an official position from glibc on whether they claim
+>> this property or at least aim for it.
+>
+> Far from everything in glibc is fork-protected, so the statement is not
+> true today as far as glibc is concerned.  We try to maintain
+> compatibility with existing application requirements, but the precise
+> goals have not been written down.
 
-Thanks for the patches!
+Would the following be more accurate?=20
 
-> Mickaël, if you are okay with these additions, would you like them in a
-> UAPI header patch to sync the two?
+    On glibc and musl libc, this is relaxed. With musl environments, it
+    is safe to call non-async-signal-safe functions in the time between
+    fork() and exec(). With glibc environments, some functions that are
+    not AS-safe may be called between fork() and exec() may be safe to
+    call; however, there is no exact list maintained.
 
-Yes please.
+Open to better wording as well, I'm not sure sure how best to express
+the glibc case - if that's worth it at all.
 
-> 
-> Have a nice day!
-> 
-> Link: <https://github.com/landlock-lsm/linux/issues/66>
-> 
-> Matthieu Buffet (3):
->   man/man2/landlock_add_rule.2: Clarify ephemeral port range
->   man/man7/landlock.7: Document AF_UNSPEC behaviour and error codes
->   man/man7/landlock.7, man/man2/landlock_add_rule.2: Document UDP
->     support
-> 
->  man/man2/landlock_add_rule.2 | 23 +++++++---
->  man/man7/landlock.7          | 88 ++++++++++++++++++++++++++++++++++--
->  2 files changed, 102 insertions(+), 9 deletions(-)
-> 
-> 
-> base-commit: dbc7211e1e52dcd485bd3e081cfa761506edc4e9
-> -- 
-> 2.47.3
-> 
+Rich, is this reasonable to document for musl? It is a rather helpful
+property even if not portable, but I'm not sure whether it is more of an
+implementation detail for improved compatibility vs. something musl is
+comfortable with users relying on.
+
+- Trevor
+
