@@ -1,131 +1,103 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6186F4A35
-	for <linux-man@vger.kernel.org>; Sat,  3 Oct 2026 20:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C275245008
+	for <linux-man@vger.kernel.org>; Sun,  4 Oct 2026 08:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791060504; cv=none; b=dcGge9w0hGgCvdv8PrLBbsrN2rDVZGi810E9rDTj7V5fw3UQA/QGSa81Um/qeY4Cqpt0MieXBlKCHIR9pU+qs/G7YUqfoNFxwEh/BTbZ1cKWLwlASnYQ0xDvH/nTTQTrxmh5mOYPgkMI5klLUhfVXjAZWNnxQOgKbTXFSqVCWvc=
+	t=1791103795; cv=none; b=IJLy6KFuU6JGbyY2hXwVmEBRKmCYxOBN2VK7XRiEKX69nLsU+wzSf/8925Uj0bpX+5DCBiRM4ZZfw0nhTeTjB4BNf9/unmNvRboU8s9xrQ7XlAsPO7LQy6AtjIuFZPTrqvGVNpghb80CblKONJzCS7NXNzNiCTMtDTCtgLvUVEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791060504; c=relaxed/simple;
-	bh=dYORu69rzod+Oz7VAto7zGr2SxRSE/XXrsF9JFg+6bA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yl/eT5HQLwXX6UzF8PW16O6ysXliLzhZBvTaa2Q2pb0DMBCO6oG1cCnsTuVVFQ2HsSZmIjZ8lG3+CCfJMGIerv19hMm1/2V4NcH0Ig3SM1y94284t4Yr/9AizYrB6ncFp6z9Nk5EbTigo4CQr1TWD7W4uYJerZpXT+DLDwAVWaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RX6Flx3K; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791103795; c=relaxed/simple;
+	bh=3K39z77q7gY0FJLPEX7NFz3O2hV//isTF98vMIZn9d0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ozjPKwxwZ+7UBAVj3Ze9/cHJ7mbREphB6eEePTODSrdfAucI+7dUpUOgr6VRuxTyEU2wjmq6uOjf1RLHbpWT5T7LL4rpMjOvE+iKChHhWRzfb8ZLT6rZPRzcX9DucX0MtghYDE60HjtevW5TMDcGgL71XhQfmF0ZRTuMwzQRMcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETbUtz9c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RX6Flx3K"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so7238065e9.1
-        for <linux-man@vger.kernel.org>; Sat, 03 Oct 2026 13:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791060502; x=1791665302; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bbvz2kP5ROkukItBOwlv17sEVJe0tQD5wVACLjqoeBk=;
-        b=RX6Flx3KEYdH+9Iygg5gfhLpbDrurT4M3m+Wh8yKEjf9aUFk1DquWCCUtM2N1qyo1j
-         kPWraugX+IFDWQKwGpjcI56XTO2PCrFX8ZGkcslHpy18VvL5D33rSLpAd6NA4Vnn8eYY
-         PwyVJ3f//wFMi6/DCH2M9aT76VOmOAv/3jrsDmxH5cZnIV3sfGZq8NRZaATNkAOrNfrA
-         HdR2JBdpgUQn672N08vq9SuVXSnis0mNcuYvyc+VpC2aapRTl/g8WvUq2FFS77U5Q7V6
-         F1foaOXRtROzkDL8VYOFsFjgexk4LTccVSva/BXZXGJEALjegMpGRBvMiO0JrB5USP4+
-         yMuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791060502; x=1791665302;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bbvz2kP5ROkukItBOwlv17sEVJe0tQD5wVACLjqoeBk=;
-        b=ddg5Er1YNS/iO30BcxADyvJrQTe2VZOkfn/pHg4WQxkwDUlVplSsHATddGKDtoyJVE
-         HF3ngGBi00ETjEEuUwKwOTyAFVypQUwWrcNatEaCBsVTyi609mawryjquANq3MjPNlAL
-         rqYzYb5euCzzu/PnMgXgGSPEUwCIOVA4WYs8WqofRCH7KFTcXYgB6JIV59q1KoET5s3F
-         7jnlwM1o6iNyr4zcBOt5IRRX3DDx+6L8Bm96AhZzvfNPdZ3hzdEMD6b6hnTfOWoU7Z3n
-         1AhDh7/axsikUDKF2gLpmJMDQmNoNp73OphBEuH7lg7aQGJBeIEd5If5VV1b6fMiczM4
-         saPA==
-X-Forwarded-Encrypted: i=1; AKwUvBy30QTU4g52s7lau/7mRO+FKfxbV4SswoVk12kb0rW2WGuJdl3PhpU+Cm1pCczk5DXGk/i38NMR8tc=@vger.kernel.org
-X-Gm-Message-State: AFuF++knDkazH/MjPl9wzt+ZwMSir0mhabBRg3qVYamKhvrQXlbGK3Ia
-	9YsGeIM+H01v0ppUQJ1+6JhuwEhdwEnqVwpN0AUMboLUi+xVs4Eh1u88
-X-Gm-Gg: AYBFou3n3wvFBzewmrYzwoWe3XS5nXjFctNglrdosVgfdZpIKRHBqf98zqxiqVXwiCm
-	VHvNyaP84jevVvT13KvhSodMabvQ25XipVgBLmZfCJzkcv9Z/jDD3KSmhuL7feN4BwOJaQrnN+r
-	ZMorAgIHCBDKcslOu+s0zr46l3CrfJ9DcewqEWJ/r4tab2Mswh1jvq8oINB7LHWuG/9vt/2YxSg
-	IKEI1SjLAs/qu/E2+6kCsYk3ZhGjhyMerNLpdJO3dHSPVn0QOPcyvH43nvTiGo4CTHLUXv0k3Mz
-	SODgvnHbci31IN78HchBBeXyfB7zLxqLqKxETgp+VrfO0k1RVpAP4E8wuKmANHVVgfe+DIC3CXZ
-	iTV6H6Am6erGwY7x0wlesSVlq4rZsnWtPFciDDAa2ZUqoKc1BHXLD3M14n2OnetbCjvP2g23lUp
-	NGL0e8Y2lH6uIrleowGpGyJXHyFovT0f+L/zIlvmF2AzqRBoxfX3tzymW70XZA7kiqYQ==
-X-Received: by 2002:a05:600c:b95:b0:49f:d087:6526 with SMTP id 5b1f17b1804b1-4a168106239mr48095905e9.34.1791060501594;
-        Sat, 03 Oct 2026 13:48:21 -0700 (PDT)
-Received: from ?IPV6:2a07:b944::2:2? ([2a02:6ea0:d411:6008::31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027698f13sm191511305e9.1.2026.10.03.13.48.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Oct 2026 13:48:21 -0700 (PDT)
-Message-ID: <591a1789-bed4-48ff-958f-867f8688a8ac@gmail.com>
-Date: Sat, 3 Oct 2026 22:48:17 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETbUtz9c"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 94A44C2BCB9;
+	Sun,  4 Oct 2026 08:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791103794;
+	bh=3K39z77q7gY0FJLPEX7NFz3O2hV//isTF98vMIZn9d0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=ETbUtz9cbdD2dRPURqdD4jmnxAC3/LWxMxAAJR3+g4/BF9qiu+6oUnLhiPzuc2uBi
+	 tYVpLXIl8kuhK+ce3HrbA1s/8cy+vsh9/ZU2UtH5OgTUnRXVmZwWMs1uERtyJCZbIs
+	 hcVOj5yDH/6eGSVzB3nf6rt1wwZabvkzsTnrnm5lgL2EgIn+ilGEj9JVMJqHiv2Tj9
+	 8P97/nF63Ys4SMJ2/V2AdpPOZAp5opvHltk9Y43BdhMgLx72ZabtEQH66bAl5BMXNf
+	 KWaNBJi7v0y/m0la1so7RDIyf+YTvCiWx/IKIGjWn33gZexWHZyMjZ7N6daTRfIBZA
+	 IruqjWngaM/Xw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C318CA5FEC;
+	Sun,  4 Oct 2026 08:49:54 +0000 (UTC)
+From: Ben Kuo via B4 Relay <devnull+ben.kuo.tw.proton.me@kernel.org>
+Date: Sun, 04 Oct 2026 16:49:17 +0800
+Subject: [PATCH] man/man7/mount_namespaces.7: Add missing 'filesystemtype'
+ argument to mount(2)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [musl] [PATCH 2/2] man/man2/fork.2: Document glibc and musl
- relaxed fork->exec AS requirements
-To: Trevor Gross <tg@trevorgross.com>, Florian Weimer <fweimer@redhat.com>,
- Rich Felker <dalias@libc.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
- libc-alpha@sourceware.org, musl@lists.openwall.com
-References: <44aca4d502f6891df1587ed1c4c9b6a1@trevorgross.com>
- <20260923233818.25289-3-tg@trevorgross.com>
- <20260923234714.GB23438@brightrain.aerifal.cx>
- <lhuqzihxg1d.fsf@oldenburg.str.redhat.com>
- <DLU5IDY7FCX4.OWYMCXDOF2R5@trevorgross.com>
-Content-Language: en-US
-From: Gabriel Ravier <gabravier@gmail.com>
-In-Reply-To: <DLU5IDY7FCX4.OWYMCXDOF2R5@trevorgross.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261004-mount-ns-mount-args-v1-1-a344b18c0c22@proton.me>
+X-B4-Tracking: v=1; b=H4sIAAwTwmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDAwMT3dz80rwS3bxiKCOxKL1Y19LC0tIgLSUxyczSUgmos6AoNS2zAmx
+ qdGxtLQCarbFsZQAAAA==
+X-Change-ID: 20261004-mount-ns-mount-args-98990fdab699
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, Ben Kuo <ben.kuo.tw@proton.me>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791103793; l=1247;
+ i=ben.kuo.tw@proton.me; s=20261004; h=from:subject:message-id;
+ bh=0hTM8yyVZi7R4ypo1hfKJWwCiZ9rEiA1Wk0lIvHRdeY=;
+ b=jUYOYgGdNl3mLrxOG8sZfgNgw24FpfcqrKVh8wA86pxJMm0/Q9KhlbJx94BHtYdUBT1A6ksus
+ oZdRFmRjEizANa/BT6qLVcaoMbuSJvbO+cSz4ZlG2zCbekKMJE4z3Xk
+X-Developer-Key: i=ben.kuo.tw@proton.me; a=ed25519;
+ pk=gXi9Dh9ncDWJiQmei79Ms5wulBAOhOVhaWE+qzS5nXY=
+X-Endpoint-Received: by B4 Relay for ben.kuo.tw@proton.me/20261004 with
+ auth_id=1107
+X-Original-From: Ben Kuo <ben.kuo.tw@proton.me>
+Reply-To: ben.kuo.tw@proton.me
 
-On 10/2/26 8:50 AM, Trevor Gross wrote:
-> On Fri Sep 25, 2026 at 2:54 PM CDT, Florian Weimer wrote:
->> * Rich Felker:
->>
->>>> +On glibc and musl libc, this is relaxed;
->>>> +it is safe to call non-async-signal-safe functions in the time between
->>>> +.BR fork ()
->>>> +and
->>>> +.BR exec ()
->>>> +\&.
->>> While glibc has taken measures to make this mostly work, especially
->>> malloc-after-fork, I don't think glibc has an intentional model for
->>> ensuring that arbitrary libc functions work right in the child of a
->>> multithreaded fork. Before accepting such a man page patch, we should
->>> at least get an official position from glibc on whether they claim
->>> this property or at least aim for it.
->> Far from everything in glibc is fork-protected, so the statement is not
->> true today as far as glibc is concerned.  We try to maintain
->> compatibility with existing application requirements, but the precise
->> goals have not been written down.
-> Would the following be more accurate?
->
->      On glibc and musl libc, this is relaxed. With musl environments, it
->      is safe to call non-async-signal-safe functions in the time between
->      fork() and exec(). With glibc environments, some functions that are
->      not AS-safe may be called between fork() and exec() may be safe to
->      call; however, there is no exact list maintained.
+From: Ben Kuo <ben.kuo.tw@proton.me>
 
-At the very least, it shouldn't duplicate the "may be safe to call" 
-clause :p
+The example call omits the 'filesystemtype' argument, so it passes
+four arguments to mount(2), which takes five.  As written, it fails
+to compile:
 
->
-> Open to better wording as well, I'm not sure sure how best to express
-> the glibc case - if that's worth it at all.
->
-> Rich, is this reasonable to document for musl? It is a rather helpful
-> property even if not portable, but I'm not sure whether it is more of an
-> implementation detail for improved compatibility vs. something musl is
-> comfortable with users relying on.
->
-> - Trevor
+	error: too few arguments to function 'mount'
+
+Tested by compiling the corrected call with gcc 14.2.0 and running
+it after unshare(CLONE_NEWNS) on Linux 6.12 (Debian 13, arm64);
+findmnt(8) shows '/' with slave propagation.
+
+Fixes: a2fc45a9f (2019-10-07; "mount_namespaces.7: It may be desirable to disable propagation after creating a namespace")
+Signed-off-by: Ben Kuo <ben.kuo.tw@proton.me>
+---
+ man/man7/mount_namespaces.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man/man7/mount_namespaces.7 b/man/man7/mount_namespaces.7
+index 8ed43a34623310f5c0b6b2071815340b287415aa..8f9c8e6e147a42b85d9d2cc2c691037ef82395f5 100644
+--- a/man/man7/mount_namespaces.7
++++ b/man/man7/mount_namespaces.7
+@@ -1051,7 +1051,7 @@ using a call such as the following:
+ .P
+ .in +4n
+ .EX
+-mount(NULL, "/", MS_SLAVE | MS_REC, NULL);
++mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL);
+ .EE
+ .in
+ .P
+
+---
+base-commit: 31d36870d5f239d485772f1dbf17948bc35bee80
+change-id: 20261004-mount-ns-mount-args-98990fdab699
+
+Best regards,
+-- 
+Ben Kuo <ben.kuo.tw@proton.me>
 
 
