@@ -1,127 +1,113 @@
-Received: from sunucu.ihale.com.tr (unknown [95.173.178.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4900935C6A7
-	for <linux-man@vger.kernel.org>; Mon,  5 Oct 2026 06:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.173.178.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDFA4AE8B1
+	for <linux-man@vger.kernel.org>; Mon,  5 Oct 2026 15:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791182285; cv=none; b=nY+NX68p9Zz/LuCPCOLQZP1plLFuogYY8fjGGYtvnfq/5plfFgPFDtN5GVptelANr6Hnymfs6VFFxLzJ0t7C1ak9fEFYkudf/A/bjBTFR8Z8w6YhUNl9w0HAwFKBEbgadVRFTfOroRbVsKkkS0R+MlNxy6HwkCPBEphgsHOCr8w=
+	t=1791214286; cv=none; b=KQeQoT6DL6H3ar/7zYXkKpYnptR+hdS6PrX3R5NlPsdOQ9zqZleFefa3vGoSm4kZ4V1dLAlrq9C0aPEEbG0pQvvQFoQYxuytcaeYhhv/cyJ+JrVVjN5xtVn4CadZD0ujY3bNGODsRFaP58S5QcAD+Jx+HiY76sXyjs0WKudeI3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791182285; c=relaxed/simple;
-	bh=GCuqivoAUOuohjs7VuXXiIbk8atlNTAptE1Sgr60/eU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=STY+bQBH3Eao/Neu1bkYVZulPRuwpi3XythTP+cwWxxhAAKAQ3g8DGgXuLfBueSdstTjtogio6zDovyGqcBHNAf4AyZQjEdg6H1cQXla4isWpslGgKLGkC8QVRYhOS1tBzyOO7/Mq6w8Q4X2fqX0DV1KTXoiMIOCYSHuix30WOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=legendhomework.com; spf=pass smtp.mailfrom=legendhomework.com; dkim=pass (2048-bit key) header.d=legendhomework.com header.i=@legendhomework.com header.b=gSs80FmM; arc=none smtp.client-ip=95.173.178.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=legendhomework.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=legendhomework.com
+	s=arc-20240116; t=1791214286; c=relaxed/simple;
+	bh=oAmEBltFFrt3QUUWItTa1lh+gv0XL4CiGWKQtkncIAA=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Pe0sVleYtZlsM/mCwbgWCO5hJWdspmLyDp5BuDYp2pVJ+HJs8dt8D4T+5RDX8Z+uYutmMdGY9Lhl/cRYkkN1qnp30hyEfvfEt9b6emmCMeUUfV2Tv2Qhsh1mtw4Rx3I/tdh/+WzNV6Onss5cF2E7Z9v2ElbJ2Tm1lcTRw+sds3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAzW6k4W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=legendhomework.com header.i=@legendhomework.com header.b="gSs80FmM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=legendhomework.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5lmJJ0mEKCC15dQaupFmVY6/ZNMzkad8UFLiXk6+8uk=; b=gSs80FmMsOstpaRfG9UrjhFyPr
-	4e4uGD7BIY0BnbziRQEgWt0/x9NEpCxMsmvI+cCs9l//aOl/t2EA4u3CKTakVE+KO3tmEFJQvyVJT
-	PcXmnwgqDlGC3QvgmK/f7qFqSPPR0WtWvHXK/Og4DXoOXAEMimCl/Q/Hisf4xdseAPctYGiO7FYC9
-	yTZc9y/Bxa6asIrI89kkS0wU0q/I8tPg3XgTEX9zqHSo7P5ttJjWNj8PyTAdSHFVZn4YmGruz/phP
-	HhO7T5fDBDUrRnJ5bS15QoXcE8L4yxmJiCVN99ar12ETeTtndpaIYXW2F89njHuhHd5t4ktWKVjqr
-	KR1inZjA==;
-Received: from [154.120.97.226] (port=65216 helo=legendhomework.com)
-	by 95-173-178-186.cprapid.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <info-llhm@legendhomework.com>)
-	id 1xDcKe-0000000CPUu-0rSp
-	for linux-man@vger.kernel.org;
-	Mon, 05 Oct 2026 09:37:54 +0300
-Reply-To: perrymail@tutamail.com
-From: info-llhm@legendhomework.com
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAzW6k4W"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E654C4AF60
+	for <linux-man@vger.kernel.org>; Mon,  5 Oct 2026 15:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791214286;
+	bh=oAmEBltFFrt3QUUWItTa1lh+gv0XL4CiGWKQtkncIAA=;
+	h=From:To:Subject:Date:From;
+	b=EAzW6k4WQNdAhkLrqOuQqxCfuSKZf5d78Wk3zXgiPkHirBktJ9KCaxI2lArn6ziNy
+	 OlN3BO4Od03iX7dJyq0/DeuAe86jgKdpCVwN23tWYvUeDo6Eh6m2VFmRkVb5mVH2HG
+	 qIhO73Zmooa2yewU/elS3p22V72IIbIqygO1mITJQN/NMUEoEbLY+54saSSPwjeiof
+	 6Znp5IfexRKl1yxm5pdpAroZNiDH6YYwJyin+4K7guqTNVtN91EjVBJ4KNuflrLN02
+	 Nzhwctf7epTbfmlK8uWqqjwuYJ8bjBtzxe4BJim+lpdjKEUA1sBTMEzpR0AX1x5p17
+	 0AF3Q4yfguO9Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 0FD7EC53BC5; Mon,  5 Oct 2026 15:31:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
 To: linux-man@vger.kernel.org
-Subject: Your Consent
-Date: 04 Oct 2026 23:37:54 -0700
-Message-ID: <20261004233754.57BAF1F16FCD2C5C@legendhomework.com>
+Subject: [Bug 222094] New: sched_setattr: bug in `ERRORS` section w.r.t.
+ `attr.sched_flags contains a flag other than SCHED_FLAG_RESET_ON_FORK`
+Date: Mon, 05 Oct 2026 15:31:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: yaneurabeya@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-222094-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - 95-173-178-186.cprapid.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - legendhomework.com
-X-Get-Message-Sender-Via: 95-173-178-186.cprapid.com: authenticated_id: info-llhm@legendhomework.com
-X-Authenticated-Sender: 95-173-178-186.cprapid.com: info-llhm@legendhomework.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 
-Greetings,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222094
 
-My name is Dr. Innocent Bariate Barikor, Director-General of the=20
-National Environmental Standards and Regulations Enforcement=20
-Agency Nigeria - (NESREA).
+            Bug ID: 222094
+           Summary: sched_setattr: bug in `ERRORS` section w.r.t.
+                    `attr.sched_flags contains a flag other than
+                    SCHED_FLAG_RESET_ON_FORK`
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: yaneurabeya@gmail.com
+        Regression: No
 
-As part of my official responsibilities, I monitor environmental=20
-compliance and pollution associated with oil and gas exploration,=20
-drilling, and production activities in the Niger Delta and=20
-submits relevant findings to the Presidency.
+Per https://www.man7.org/linux/man-pages/man2/sched_getattr.2.html:
 
-In the course of carrying out these responsibilities, my=20
-investigations identified significant environmental compliance=20
-concerns involving four major oil-producing companies:
+This scenario documented in the manpage implies that `attr.sched_flags` mus=
+t be
+set to `SCHED_FLAG_RESET_ON_FORK`:
 
-1.      Shell Petroleum Development Company Limited
+>       EINVAL attr.sched_flags contains a flag other than
+>       SCHED_FLAG_RESET_ON_FORK.
 
-2.      Mobil Producing Nigeria Unlimited / Esso Exploration &=20
-Production Nigeria Limited
+The second scenario implies that `attr.sched_flags` is a bitmask which can
+contain `SCHED_FLAG_UTIL_CLAMP_MIN` or `SCHED_FLAG_UTIL_CLAMP_MAX`:
 
-3.      Chevron Nigeria Limited / Texaco Overseas
+>       EINVAL attr.sched_flags contains SCHED_FLAG_UTIL_CLAMP_MIN or
+>       SCHED_FLAG_UTIL_CLAMP_MAX, and attr.sched_util_min or
+>       attr.sched_util_max are out of bounds.
 
-4.      Elf Petroleum Limited / Total Exploration Limited.
+The first case contradicts the second case.
 
-The four companies were subsequently assessed penalties of=20
-US$1.2Billion, with the applicable sanctions providing for the=20
-potential revocation of their operating licenses in the event of=20
-non-compliance. Given the importance of their operating licenses=20
-to their continued activities in Nigeria, the four companies=20
-appealed for a reduction or waiver of the assessed penalties.=20
-Their requests were subsequently considered by the Federal=20
-Government, and the applicable fines were reduced to US$800=20
-Million.
+Doing some digging in the kernel source code [1], I couldn't find an obvious
+spot where the first scenario was actually implemented -> **I think the
+`SCHED_FLAG_RESET_ON_FORK ` scenario is a documentation bug.**
 
-The companies have since settled the revised penalties with the=20
-Ministry of Environment. They have also indicated their intention=20
-to provide a US$50,000,000.00 payment in recognition of my role=20
-in the process. However, as a senior public official, I am=20
-subject to the applicable Code of Conduct and therefore cannot=20
-maintain or operate a foreign bank account for the receipt of=20
-such funds. Consequently, I am unable to provide a foreign=20
-account for this purpose. In view of the foregoing, I am unable=20
-to personally receive or facilitate the transfer of any such=20
-payment because of the restrictions applicable to my position as=20
-a public official.
+1.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ker=
+nel/sched/syscalls.c?id=3D786244f70322e41c937e69f0f935bfd11a9611bf
 
-I therefore seek your assistance in identifying a resourceful and=20
-transparent mechanism through which the matter in relation to the=20
-gratification can be addressed without any traces to me=20
-considering the fact that I am still in active service. Any=20
-proposed arrangement should be properly documented and, where=20
-required, discussed with a financial facilitator locally without=20
-mentioning names; so that all parties are adequately protected=20
-and the transaction is handled through the proper channels.
+--=20
+You may reply to this email to add a comment.
 
-I would appreciate your guidance and cooperation in resolving=20
-this matter in a manner that is fully compliant with existing=20
-financial regulations.
-
-Best regards,
-
-Dr. Innocent Bariate Barikor
-Director General
-NESREA.
-Direct Phone/Whatsapp: +2349019779152
+You are receiving this mail because:
+You are watching the assignee of the bug.=
