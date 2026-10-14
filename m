@@ -1,71 +1,104 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920DA41A91E
-	for <linux-man@vger.kernel.org>; Wed, 14 Oct 2026 07:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23064E1C65;
+	Wed, 14 Oct 2026 09:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791962656; cv=none; b=pCEhbyPCn1Xjnpno8Xjw/0obIFAq2xwbnOuTSJ19AyNNaapGWM5u6R/pG2pZEtQRDK1GCBE5sJMic7wgchjg7sxPDPlJsUGfL5azTQ+cpdtXAac0GdDHNFqO+LF9HDElCfum0KDz7d8DeZnLyCHxuq8WzEAyn65BnBmRzZ6dMBo=
+	t=1791969255; cv=none; b=gMRy680K3ALSVDXj1I6xm1fvUR2PsvRlRHxpKL6hcPRu2gNqx5hgwB/OOJKgL53P/ZYmPsnqpT3nZh3+sGd/ya8md69BrfFQHFiTR5znNxg9peJzTq0DgVWPftid+ix1zpIYom7k0hXf56Ef3A4dwMi8dkcpSv/tsRrDByUhCTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791962656; c=relaxed/simple;
-	bh=AWy+evrnkKXb5wqToni9PuOVLeR23YxKhsQd/U23az8=;
-	h=Date:Message-Id:To:Cc:Subject:From:Mime-Version:Content-Type; b=TQyLL4Gm3zNDTA/JM8i7Fqluo/3roCAoPnbnOe82mp6JSnnoWAAn5EBgnK7JpcSk0gH6Ia3Z0VPCTftKGMp7ABn3lP+iiVa15hVDgf8WcziDo4pRt0rwWQ/NaAwyY2XMTsoN+g2InzdPhneu3zRMCnMNku+pp1lUjwHMAVyaAyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gnu.org; spf=pass smtp.mailfrom=posteo.de; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gnu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id A4AE3240103
-	for <linux-man@vger.kernel.org>; Wed, 14 Oct 2026 09:24:12 +0200 (CEST)
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4j4N4C6pgBz9rxB;
-	Wed, 14 Oct 2026 09:24:11 +0200 (CEST)
-Date: Wed, 14 Oct 2026 07:24:12 +0000
-Message-Id: <20261014.092406.765912014587965340.wl@gnu.org>
+	s=arc-20240116; t=1791969255; c=relaxed/simple;
+	bh=vfYCOs8X/g6ZctRXGJNqXciXeuGCnkehDk6z7zCOM6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hHSIrsiZwcU7/5jBzUvhTNgUT3eILpllTEZ8kEXaHBMgPj6lwD+4cbf21CDYNpUuwUtrqW0llgg2DIWSjzJPyzdokqvsdHEMcGLi9ODKt/CN5KAaSStAqKZhER0F7/doniwD7UtUkesxvrh7sw66NclNXZvqHRWt981fXKTiurg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IsQAHD6m; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IsQAHD6m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D0851F000FF;
+	Wed, 14 Oct 2026 09:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791969251;
+	bh=bfDoFgGNmpbVs/i5XFnC5dgbN3tgrr/cF1c9gGZBGzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IsQAHD6mvzBzXXLKxD4ASe6B3qfHlZrLeQ16IBV5fLtpsxSleR0+94BHqQkXiYAZb
+	 MgGNG/9vMH1ZewQHKraeZ+OgVTxRySVaBL85uJK7IV3hhLT5mYEWXG4ZaavwH7lFrP
+	 MJSspy2UWInkEbJ/cUJb3Fc6ieYlRpnxlSpUBoMfvVbpOR5OQh7p8m9cYGPHgnKFcZ
+	 aFzdYNpSouIjupPco4QsBjUxxVrJZt599YcJhXedSz1pK/vgGCIt/llMXjOgRoCiGt
+	 GOFQRRkotMAAL95XBXBi9at2ugwIRoGslPecMVrUux3E4D0BUgS4BefiyhgJ4xvRSn
+	 VlKHDk0NNOVbA==
+Date: Wed, 14 Oct 2026 11:14:07 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
 To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Subject: fix for ascii.7
-From: Werner LEMBERG <wl@gnu.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	djwong@kernel.org
+Subject: Re: [PATCH v5 2/3] man/man2: introduce man page for file_getattr(2)
+ syscall
+Message-ID: <as9EIPE2lLJs9ram@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260916115141.3500780-1-aalbersh@kernel.org>
+ <20260929130234.3547891-3-aalbersh@kernel.org>
+ <asvBPbDfCIVm71jg@debian>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asvBPbDfCIVm71jg@debian>
 
+On 2026-10-11 19:06:32, Alejandro Colomar wrote:
+> Hi Andrey,
+> 
+> > +As with
+> > +.BR openat (2),
+> > +if
+> > +.I path
+> > +is relative,
+> > +then it is interpreted relative to the directory
+> > +referred to by the file descriptor
+> > +.IR dirfd .
+> > +The special
+> > +.I dirfd
+> > +value
+> > +.B AT_FDCWD
+> > +can be used to refer to the current working directory of the calling process.
+> > +If
+> > +.I path
+> > +is absolute,
+> > +then
+> > +.I dirfd
+> > +is ignored.
+> 
+> Is there any difference with openat(2) regarding the handling of 'path'
+> and 'dirfd'?  If not, we could say:
+> 
+> 	The
+> 	.I dirfd
+> 	and
+> 	.I path
+> 	arguments behave in the same way as in
+> 	.BR openat (2).
+> 
+> Is there any small difference, or is it exactly as in openat(2)?
 
-[man-pages.git c6cefe27dd02beaf518bb654493e5f09e62b3225]
+The difference I found is that
+file_getattr(fd, NULL, ..., AT_EMPTY_PATH) succeeds but the
+openat(fd, NULL, O_EMPTYPATH) returns -EFAULT. openat() always wants
+an empty string while file_attr() can work with NULL.
 
+	The
+	.I dirfd
+	and
+	.I path
+	arguments behave in the same way as in
+	.BR openat (2),
+	with the divergence that
+	.I path
+	can be NULL meaning an empty string.
 
-The patch below prevents groff from converting two consecutive spaces
-to a single one after end-of-sentence characters in the ASCII
-character table if frenchspacing is active (this is the default for
-German, for example, thus affecting the German translation of
-`ascii.7`, where I noticed the problem).
+so maybe like this?
 
-Maybe other pseudo-tables (i.e., tables not generated by `tbl`) are
-affected in a similar way.
-
-
-    Werner
-
-
-======================================================================
-
-
---- ascii.7.old 2026-10-14 09:16:39.000000000 +0200
-+++ ascii.7     2026-10-14 09:18:09.563407415 +0200
-@@ -97,10 +97,10 @@
- 0:   0 @ P \` p     0:    (  2  <  F  P  Z  d   n   x
- 1: ! 1 A Q a q     1:    )  3  =  G  Q  [  e   o   y
- 2: " 2 B R b r     2:    *  4  >  H  R  \[rs]  f   p   z
--3: # 3 C S c s     3: !  +  5  ?  I  S  ]  g   q   {
-+3: # 3 C S c s     3: !\&  +  5  ?\&  I  S  ]  g   q   {
- 4: $ 4 D T d t     4: "  ,  6  @  J  T  \[ha]  h   r   |
- 5: % 5 E U e u     5: #  \-  7  A  K  U  _  i   s   }
--6: & 6 F V f v     6: $  .  8  B  L  V  \`  j   t   \[ti]
-+6: & 6 F V f v     6: $  .\&  8  B  L  V  \`  j   t   \[ti]
- 7: \[aq] 7 G W g w     7: %  /  9  C  M  W  a  k   u  DEL
- 8: ( 8 H X h x     8: &  0  :  D  N  X  b  l   v
- 9: ) 9 I Y i y     9: \[aq]  1  ;  E  O  Y  c  m   w
+-- 
+- Andrey
