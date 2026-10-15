@@ -1,115 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB094416841
-	for <linux-man@vger.kernel.org>; Thu, 15 Oct 2026 13:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07845221C2;
+	Thu, 15 Oct 2026 16:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792072149; cv=none; b=A0IIJF4hYsQ82QNQmuVfaAJJusPeFso22VgQSD13fBGvkvtgbhQQGxGj17MmqcscNHs2Qz1FG92U8fFiyi/C9w3MrWTpxCXJ9KNGHlMykIjhe5TP/hz95LmdWKMgosov441WeT/ZQwmBAh7ZJts8yElrz+AKwtu1ODYcS4NBpPg=
+	t=1792083276; cv=none; b=Ua0R7X+Nt8EnzI/VDVc0695MfGWoKWILVvSqI0lJ6xO4tECF0Wr3OJS4A7y1H0n4uZtIXRZWO8Oet+QtcVWFBSgHqjsAfu6xAu98fCzX2p4cfQbBF39aeZK3EPmmbVB5Lp6V0Y0XgCW7VH5aahpBfSivlzCsXPBysbgscb7feRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792072149; c=relaxed/simple;
-	bh=fhOZemyfg22Rg0TIFFRhlZjObiylUgRKjr4eWZjvz+I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iBWCRXdXW1yRnKdWc4buIeIZDaMc0R5N4NzvlT4OPdSfT5EKlT0r1XXiph8+k1MXstm/YygMXRXzZamyIJMFHsRHrVjrnYFF7zTbZpso4cXo1x/d4rTdmxJE4DQ2J+4BkmHNbGX7VWZzo8wBxXq/jhY8TLWsRjswLvwAjrI+qQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=db+DAmxy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792083276; c=relaxed/simple;
+	bh=ZBzVsGDuL3mQoCfk9ExKSNOkkj0UIJ+NHJSkM6ZMMV8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UXTouclzArcZeG1eCCsvb+lGlEBOwn0rtukCG0oOWGf7OdVsFbRojTnaABcWSn2Oit8q+5ywE739OksVyJdtrF3G2jJ5DXl6FodURkcJw8rJhvRQpfdO4172+FHeE2y6I9mjzZbI3KrxnmhOhzpTZUeW0RhYVJwSDhyscwasrFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5dIKf9a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="db+DAmxy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F61CC2BCC7;
-	Thu, 15 Oct 2026 13:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792072149;
-	bh=fhOZemyfg22Rg0TIFFRhlZjObiylUgRKjr4eWZjvz+I=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=db+DAmxyqZIdJVEx9OxDQtb79ycuJil1MKI3Bu7q/NZRkX8msCKZqMefUvwt9nBoc
-	 hY0fsBFz0+gw1p6bqvI4M9SSDrdBaVZq04y73MG5Vb5hid4lDRI46/Cmzuu77otE0b
-	 fmDzuwpQfYgV/PA3XbcOXZWaaJWh0vqB/AuF4RyC+p59wLOUPC5Mg4Om7cJYde9B0V
-	 9Ulp2XOqBSY85nUi9AYWyO9b1XV8kj8XUSuo3iJrSQ3NcjhyPJXp5dW6LOyM6T+fF4
-	 h3QMXG6+Djq3k/1hvbdIdY6a7RaVyomBKBXwmrhI7kG7gXeh8saQeFa8IXUUYvZ66N
-	 FcNDujycY//Wg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22193CC6B3A;
-	Thu, 15 Oct 2026 13:49:09 +0000 (UTC)
-From: Ben Kuo via B4 Relay <devnull+ben.kuo.tw.proton.me@kernel.org>
-Date: Thu, 15 Oct 2026 21:48:33 +0800
-Subject: [PATCH] man/man7/epoll.7: Note that an edge-triggered listener
- needs an accept loop
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5dIKf9a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3CD31F000C4;
+	Thu, 15 Oct 2026 16:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792083264;
+	bh=mpTV07E8j0GAxgYDxVjNqR5fZDQwtHygSNPwavCMd4o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=U5dIKf9aNOoqY4XMCBbrLJrsWESrplp2HdSaNXG4rLy5tHjoTUZnJaxrS7XMNnWd7
+	 oYfGXEe0+EMiKqsi/Prg8pLfxjpq/PlzLIUifoQSGmEt9/lOW7uUT+j8xFuBovEUbd
+	 6KNX8N579Xoggeq9du8iFcFVCExWsRwzBsDwNtT+D77NuJeBj1Pfp4wLNoLD9KgE01
+	 LOE+Vwq3lnW56jyHUUhilU8BqetvuDemdhP6c2UjhKS/PT2yrMTNdh332yaQyW5xO9
+	 U4jPwY/KIESZOI6HOzVEpH4idJPHZquYhO+gDi6l/bg1nsd2OhYy/VDpn5IdvANPUj
+	 LKhu99lAM8yew==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Alejandro Colomar <alx@kernel.org>, =?utf-8?Q?Dani=C3=ABl_H=C3=B6rchne?=
+ =?utf-8?Q?r?= <dbjh@gmx.net>,
+ linux-man@vger.kernel.org, Ingo Schwarze <schwarze@openbsd.org>
+Cc: victorm007@yahoo.com, t.piekarski@deloquencia.de,
+ linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: Suggestions for an improvement to the man page "iopl - change
+ I/O privilege level".
+In-Reply-To: <asvFcQvNlx6Oq9Gc@debian>
+References: <trinity-4d271f4c-4816-435f-b8c9-53eef0ff29c7-1786468770978@trinity-msg-rest-gmx-gmx-live-d7f776569-bpnnk>
+ <asvEtnxChV2-dELG@debian> <asvFcQvNlx6Oq9Gc@debian>
+Date: Thu, 15 Oct 2026 18:54:21 +0200
+Message-ID: <87ecdqewg2.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-epoll-et-listener-v1-1-2cc0027b658c@proton.me>
-X-B4-Tracking: v=1; b=H4sIALDZ0GoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDA0NT3dSC/Jwc3dQS3ZzM4pLUvNQi3WRLC3Pj5ORUM6OkZCWgvoKi1LT
- MCrCZ0bG1tQA35FmYYwAAAA==
-X-Change-ID: 20261015-epoll-et-listener-c9873cce62bc
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Ben Kuo <ben.kuo.tw@proton.me>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792072148; l=1792;
- i=ben.kuo.tw@proton.me; s=20261015; h=from:subject:message-id;
- bh=LJVki2WUPiCCjNBGmHpgB0vFA15C1Cs0d02BFrGChUw=;
- b=e+Hh17gIpIWqdM1/7kWgO+Ee0CqWlG3r/u9CQJDW8VLdyfg/DXs+gNi9/KwG3U0pO5sCJ03GJ
- 2VA8smHdI0fD1VC0bjiX/CHihxuQVyBzjrP0CgM8c9gUY6jfEghUz1O
-X-Developer-Key: i=ben.kuo.tw@proton.me; a=ed25519;
- pk=VCZ2SPSJe/Vhd2Lwi18Oi3ovxGkT+76oncbTcgGW5wI=
-X-Endpoint-Received: by B4 Relay for ben.kuo.tw@proton.me/20261015 with
- auth_id=1192
-X-Original-From: Ben Kuo <ben.kuo.tw@proton.me>
-Reply-To: ben.kuo.tw@proton.me
+Content-Type: text/plain
 
-From: Ben Kuo <ben.kuo.tw@proton.me>
+On Sun, Oct 11 2026 at 19:26, Alejandro Colomar wrote:
+>> > However, as far as I can tell, all mentioned BSDs have dropped
+>> > that functionality, but NetBSD and OpenBSD retained their version
+>> > of iopl(): i386_iopl(), x86_64_iopl() (NetBSD/x86_64) and
+>> > amd64_iopl() (OpenBSD/x86_64). FreeBSD and DragonFly BSD set the
+>> > IOPL of the relevant process to 3 in the kernel, when the process
+>> > successfully opens /dev/io.
+>> > In other words, the BSD projects all preferred to drop their
+>> > versions of ioperm() in favor of continuing to provide user
+>> > programs a way to change the IOPL. It is interesting and perhaps
+>> > noteworthy that the Linux project appears to head in the opposite
+>> > direction.
+>
+> Ingo, Thomas, do you have any comments from the OpenBSD and Linux sides?
 
-The example registers the listening socket as level-triggered and
-calls accept(2) once per event, but doesn't say that this only works
-for a level-triggered listener.  If a reader adds EPOLLET to the
-listening socket in the example, connections are left in the accept
-queue and the server stalls.
+The 'iopl() is slower' comment is just voodoo as it really does not
+matter whether a syscall at setup time takes a bit longer or not. But
+30+ years ago syscall performance bragging was part of the game :)
 
-Tested on Linux 6.12 (Debian 13, arm64) with an echo server whose
-listening socket is registered with EPOLLET, and a client that opens
-2000 connections at once.  With one accept4(2) call per listener
-event, the client never finishes: ss(8) shows 1420 connections left
-in the accept queue (Recv-Q), while the server stays blocked in
-epoll_wait(2).  With accept4(2) called in a loop until EAGAIN, all
-connections are echoed.
+Though the difference between iopl() and ioperm() is not only that
+ioperm() provides a more granular control than iopl() over the I/O ports
+which can be accessed.
 
-Link: <https://github.com/benkuotw/epoll-lab>
-Signed-off-by: Ben Kuo <ben.kuo.tw@proton.me>
----
- man/man7/epoll.7 | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Up to Linux 5.4 iopl() was implemented using the IOPL bits in
+EFLAGS. Setting them to '3' allows user space to access not only all I/O
+ports via IN/INS/OUT/OUTS, but also allows user space to use CLI/STI.
 
-diff --git a/man/man7/epoll.7 b/man/man7/epoll.7
-index 2628cbb168b499786e495cf3c614fc5e58217295..aff844a568a5cd6d8eb310ed833266a0ccfd0a4d 100644
---- a/man/man7/epoll.7
-+++ b/man/man7/epoll.7
-@@ -339,6 +339,16 @@ for (;;) {
- .EE
- .in
- .P
-+The listening socket in this example is level-triggered.
-+If it is registered with
-+.BR EPOLLET ,
-+.BR accept (2)
-+must be called in a loop until it fails with
-+.BR EAGAIN :
-+a single event may report several pending connections,
-+and no further event is reported for those still queued
-+until another connection arrives.
-+.P
- When used as an edge-triggered interface, for performance reasons, it is
- possible to add the file descriptor inside the
- .B epoll
+ioperm() was there first (as of Linux 0.96). It allows not only to have
+more granular control over the accessible IO ports but also avoids the
+CLI/STI enablement.
 
----
-base-commit: c6cefe27dd02beaf518bb654493e5f09e62b3225
-change-id: 20261015-epoll-et-listener-c9873cce62bc
+iopl() followed in 0.97 and was deprecated after we changed the iopl()
+implementation in 5.5 to utilize the IOPERM bitmap, which effectively
+prevents the usage of CLI/STI in user space. Ancient X-Servers used to
+utilize CLI/STI in user space for serialization, but that code has long
+reached the ugly code museum.
 
-Best regards,
--- 
-Ben Kuo <ben.kuo.tw@proton.me>
+Aside of the syscalls the permission bitmap can also be changed via
+X86 specific VT IOCTLs.
 
+In all cases the caller must have RAWIO capabilities. The syscalls and
+the IOCTLs can be disabled at compile time and the security framework
+can lock them down, i.e. disable them.
 
+So in pratice these syscalls and IOCTLs are ancient ballast and any
+modern distro should not need them anymore.
+
+Though at least in the enterprise world there have been binary only
+vendor "value add" programs which depended on them. At least that was the
+case seven years ago.
+
+But as kernels might have the syscalls disabled or security measures
+make them unacessible at runtime, these syscalls and IOCTLs might be
+indeed just nostalgia.
+
+My personal preference would be to just delete them, but if there is a
+legitimate use case then I prefer to have ioperm() as that allows at
+least fine granular permission checks via the syscall security controls
+instead of having the binary all or nothing iopl() mechanism.
+
+Thanks,
+
+        tglx
