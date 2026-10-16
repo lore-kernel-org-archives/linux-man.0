@@ -1,75 +1,73 @@
 Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4078B58B6CC
-	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0713598BED
+	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172022; cv=none; b=BuYG/1nwmtzm833Ps5oneXUv2rS06B4CVO3eDn7vo4vgsbCOrxKWzARfZgMLwhUrFcQU4mMQd+Vl3ti1Kid5jjvvWzhBafm+CC+xJLDJgd9S06a98/VYKk/Ga6H0ndeAgtu1DbH098FMb+rOVVEomZtcijTNax3DsFADLaJWDc0=
+	t=1792172025; cv=none; b=OEUbkfPbfZwp9X2cflBlHMSo6PtszZKovlZCm64h9XEJrUEFE9PFW3/weMG/gksiJ1nShQTKFxtrlIk7pkyOsgwuvRst8+AiWFRMAzxiUM4UF9j1oJFmKb2E22Guw9fSMEbaH6j6ulLxVGIhCXt/ppscRpfiyXTkUL8Rk4fK5WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172022; c=relaxed/simple;
-	bh=qOz0jgJnYXWy+GUhedP+NSDSyCfmiUdW3zcNso9uq9U=;
+	s=arc-20240116; t=1792172025; c=relaxed/simple;
+	bh=ClOY2RK7G9x8T0j6ZWVPcQCclEFCQlSb9tkRKN5fftk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XWFzjdBBXbjYOYNmk/GceL7RNkuKPleFf+FvN1kaZ3N0NcPyy6qyQN9TPhNSw83mq1pk2jPFqMGrzvbhRKdDCRmFI4FLRfdFNR6+PZxGbkn4VfcCHvwWTOFE1MQds8DjVb0CZsjM/Q+PPua+/3iuFfvz2Ej6EH4ZnqoaUcou4LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=leQ6farm; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version:Content-Type; b=djjRWRNMTe/aC/P6Tefesq67ipMSECoRqOE0BfUnCT3/D9Pf8MV4iEuGbmUhBJG/Xbs1mimdZTvaiMbjPX7mv3G7eihnd5lLHf0KXODiY66R2JTF9cVtPIzJCdVYgTZXulDXQHJJj4Lb1XV/R+lCfe4fZz8QPltdtL/hnCmPMy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjBitiM2; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="leQ6farm"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1d665a5efso2210445e9.3
-        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjBitiM2"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso1889905e9.0
+        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792172019; x=1792776819; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792172022; x=1792776822; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=cN53ORie/jt3MUOU6X5fNkz0npZqzRrBZMYQHNFBHRw=;
-        b=leQ6farmp+NLiWRCT7vUXcl0a87CYInY92wxfrjL4VCVC7hVET4VmBwseoU2G08l+C
-         519DbuiZDakTgXo6nk/VppeRQklOM/HDguba5jyHI9L4LLkRY/eKztp5ZzN+wtX2q4Hb
-         L1xGD4yX3cNu8i9c3JUn6pJxqlYUOOP3AyIYcHsOfnJb/OKwefqdOXw8ssgQZqLroCVf
-         KYO86wn9bvcizmjY0dKBgI1zCewEeZMWS7Kv6Ogn5RKoL46I85gDpPXDAQpDrZ1VHBcS
-         m0z1x2Bj/LbhsGLIlLdeZvb5WLtn92npyt+/X2b7CrPLf/6SC0Tn7X6ZXQ1/sHrzs7BU
-         4Ngw==
+        bh=Fyi5ByfM1ZYpjVMi1ILSgIUD8MTxXMX6sHbrlS2i8hU=;
+        b=KjBitiM28Uwcw0gwzjv8L/APcTN6s7PtEXvCv9moJjb4lqSCj+OWMMotYSw4ozbQQC
+         YzfiSZFRNXdtE6yrp7ZQHd+L+bShQof19CpisLP2oH1KxQSLy47mQaNTzZhMiw3dTpib
+         fg1DnQd+nfzL+jTVx6F1d9Oqbb71hnE9Qr0X0zoyhm2uPTIsjXOecKiaTpUPwzW5JkCb
+         RBoj97imwVuXGNQCb23Lrf9amYFj+8Sd2+gJIMUw/L3LP15Di5wNX/7XlFw0PGfOXGzo
+         aVo99nk2e+X9BlAY6i29f7J8hqUMj3oHijCaf5duTet0TtVVW4ZpGOth5MQhQNiykGpp
+         ZxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792172019; x=1792776819;
+        d=1e100.net; s=20260707; t=1792172022; x=1792776822;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cN53ORie/jt3MUOU6X5fNkz0npZqzRrBZMYQHNFBHRw=;
-        b=UiiIgk97CEA3zgDfETFlN6rnfiiOFfv7aY99r0eo37GA90llktIPWB+KMRzeTQj04I
-         Y5TNw3ZByyoWPfJz5ETZqI1d3vqZp6crb8YCjcxs7WBV0G+2wsMsIOrBURhP5McG8T/q
-         2pWQTYqNegxmEDucQRcAvbGEACUC0a5U/J5mapVMBKcaxBJL8LWf5SQIUds5KZFIqm5H
-         bzvVLET/vOjIyKZy7SnMt7AwEdad56sEvjhldOddQqJznzPqbn7iIEBxe24096QJ5ctC
-         sceQ48IIhWIMuIm1v//D+ITLGDjoCjpk8Zz4VcgBlAGUBbHHLfg0oqIulotwjVINkQ/M
-         HM/A==
-X-Gm-Message-State: AFq9FYI0I7Wku/ZbrAKmZR67jcfKAVRp6IkNrRDrdNmtuqn93lyLV7XO
-	C0ezBOLHnVPQtCOcD9e5Bah8Mo45Ufkga0s6JyI82JHlEEjTnxmP7yQp
-X-Gm-Gg: AYBFou1sJLleZ4PRWvW5uxqG6U6q4sF2Fz4hLFhaYkbsJ48mTMwlJnpSys8DywCHcwB
-	hSZnWyYNSou28lr5O4QoySo1r4caV9FWQbrdVmt4SnPee81/5/4BmqL8MjmkSvUcn5MP0mDxoE4
-	mgt/hGcPgLLB8FWcvBL7frFT8r0yAEsT8q+Zr5R8lEjXP7FWV+dKBieCoogKpwkxyqfZSLQGUbu
-	0wH7ZYU0aPozmrpz/6nHHWuLXLYCzIcrzDX1M7+hxAHeKbfHPNFpLQwGmpadr5qaPSIBV1gXOUh
-	NvKpzYb/UrCrOzj8bFGKrvjp5SNU4JmGMEk/84SCiE7MTrNIWKqKgxCL+Io4wKAiVZydHdTSXLO
-	mhD7yr0UAgIHTNdORHHvyz2HNWboz0EQAveJKbilwhN+YfOSOZSBjbXsHDE8XBkPNU7GOblLC36
-	vR/mJ3rq3V6SM1RvuCP6qRgV2urFwUsNglfvmD6pr6eMAS/TOsCMRGeQ/AleFdE1p/nA79XLrbf
-	Xtk6z9m71tY/ddVPSlK3OA=
-X-Received: by 2002:a05:600c:8b6f:b0:4a1:cef3:fb3a with SMTP id 5b1f17b1804b1-4a1d75f23e2mr10255605e9.9.1792172019346;
-        Fri, 16 Oct 2026 10:33:39 -0700 (PDT)
+        bh=Fyi5ByfM1ZYpjVMi1ILSgIUD8MTxXMX6sHbrlS2i8hU=;
+        b=S5veGJRjclF5mNeWuj0mVDB2TbPQPionr6cqQ5rihJjJL9sclqLq9aGmdN0biY5lHG
+         JKmKjuC66EGH0V4h+Agyjq/KBz42t9K/cU/bzoshOKHDPNDmuMwyCzFudLx2Ux9RPlsf
+         wg5K6KO+X9oxqsAMcV4eg6yE6jJsLfc2wSpv15QShx4XQ/HwWn4d0SyKJ9O+j0swU8lc
+         AHCJvRnXfYsHTs+bSqAYYMF6Cts9UJ19/2rh5106BgzO1XjRtfjOl4bmCC9MCqm5cWF2
+         pL1yjKbD26uqEfKeg5rYkdNvZiTfPUNWuM5odCs3CEBxPCa2aaPmW6ugKHFGol733pZs
+         G1Gg==
+X-Gm-Message-State: AFq9FYI0qVQ2hxwbHvrnV+IzC9y3tKQ7KxW+YVw+V9I1M+ffm2FJsZVL
+	oykJMiVGajZ2euhrpF77ZMbOx/jaMx5CL8YtI2WqPKR2ju8j7Ur4QZ38
+X-Gm-Gg: AYBFou3FDgqdAxalSuttbNtQSiW7UdJq7qHAaahO3kN2ZVkfTwNhYDnFHsw6UGgpnBJ
+	EQH/xn0S89Lmh/OvFToXUOA2RQUWMu9db5xiSe8oxddfq39XpnR+ztG5d856Z77fhj6EXRCecMo
+	acILZss5ikHS7kiltQlO0sp/mPRKxI8NRApq5rWdv1HzF4rLW/oM/cM2rV/n+dA75Pv+c34pcBZ
+	c4E+nOkBRvD7cIE9IyTGWh6cocTUDoBwZKjQy6yVXPbvN3SB04eq1+YtZ8psrD0DC97PcrTwLnF
+	RdzhmoJyj2jpHZ+AFdbIjQRDog1M6kIFFlX9w/6pyaN3MJTpUe+/xZ/AkhzzBXc/6ef1udSUpuU
+	udsU6TN9lYPsLZst1NSz+HZWlmVMGdN1P0CX84l09ERhgvCje8thVunTx9IU150lwwprgB/oluH
+	arOXg5I+C6MqcxK3DyfpavW6WIEiZzQr4SCDnC/gLo0sHfrIrQn7BbxGnu5JcsAOu0izsrLkzbr
+	WOx2kakhvN2GRnuHnRY578=
+X-Received: by 2002:a05:600c:19ca:b0:4a1:ac66:5ffe with SMTP id 5b1f17b1804b1-4a1d75fce82mr10936525e9.15.1792172021925;
+        Fri, 16 Oct 2026 10:33:41 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d30d778bsm40636285e9.9.2026.10.16.10.33.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1ce33ad3fsm55780955e9.5.2026.10.16.10.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 10:33:39 -0700 (PDT)
+        Fri, 16 Oct 2026 10:33:41 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Christian Brauner <brauner@kernel.org>,
 	Kuniyuki Iwashima <kuniyu@google.com>,
-	Eric Dumazet <edumazet@kernel.org>
-Subject: [PATCH 23/24] man/man7/unix.7: Document SO_PASSPIDFD, SO_PEERPIDFD, and SCM_PIDFD
-Date: Fri, 16 Oct 2026 19:31:38 +0200
-Message-ID: <20261016173139.13076-24-gnoack3000@gmail.com>
+	Willem de Bruijn <willemb@google.com>
+Subject: [PATCH 24/24] man/man7/unix.7: Document SO_PASSRIGHTS
+Date: Fri, 16 Oct 2026 19:31:39 +0200
+Message-ID: <20261016173139.13076-25-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261016173139.13076-1-gnoack3000@gmail.com>
 References: <20261016173139.13076-1-gnoack3000@gmail.com>
@@ -82,78 +80,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-These were added in linux.git 5e2ff6704a27 (2023-06-08; "scm: add
-SO_PASSPIDFD and SCM_PIDFD") and 7b26952a91cf (2023-06-08; "net: core:
-add getsockopt SO_PEERPIDFD"), both in Linux 6.5.  They are the PID
-file descriptor counterparts of SO_PASSCRED/SCM_CREDENTIALS and
-SO_PEERCRED.
+SO_PASSRIGHTS was added in linux.git 77cbe1a6d873 (2025-05-19;
+"af_unix: Introduce SO_PASSRIGHTS."), in Linux 6.16.  It lets a
+receiver refuse file descriptors passed with SCM_RIGHTS, so that an
+untrusted peer cannot leave it with file descriptors whose final
+close() blocks for a long time (for example, a file on a hung NFS
+mount or a FUSE-controlled file).
 
-SO_PASSPIDFD
-	sk_setsockopt() and sk_getsockopt() in net/core/sock.c handle it
-	as a boolean flag for AF_UNIX sockets (EOPNOTSUPP otherwise).
-	Like SO_PASSCRED, it triggers autobind, which was already
-	mentioned in "Autobind feature".
+The option is enabled by default (unix_create1()).  When the receiving
+socket has it disabled, unix_dgram_sendmsg(), unix_stream_sendmsg(),
+and queue_oob() fail with EPERM if the message carries file
+descriptors.  The check happens at send time, so messages that are
+already queued are unaffected.
 
-SCM_PIDFD
-	scm_pidfd_recv() in net/core/scm.c creates the PID file
-	descriptor from scm->pid, which is the PID given in the sender's
-	SCM_CREDENTIALS, or the sender's own PID by default.  The fd is
-	created with O_CLOEXEC by pidfd_prepare().  If pidfd_prepare()
-	fails, its negative error number is put into the cmsg data.
-	Sending SCM_PIDFD is rejected by __scm_send() (EINVAL).
+Also add the new EPERM case to ERRORS.
 
-	Since c679d17d3f2d (Linux 6.17; "af_unix: enable handing out
-	pidfds for reaped tasks in SCM_PIDFD"), PIDFD_STALE is passed,
-	so this also works for reaped processes.  Before that,
-	pidfd_prepare() returned -EINVAL for them.
-
-SO_PEERPIDFD
-	sk_getsockopt() returns a PID file descriptor for sk_peer_pid,
-	or fails with ENODATA if there is none.
-
-	Since 20b70e58961b (Linux 6.16; "net, pidfs: enable handing out
-	pidfds for reaped sk->sk_peer_pid"), this also works for reaped
-	processes on AF_UNIX sockets.  Before that, it failed with
-	EINVAL.
-
-Cc: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Cc: Christian Brauner <brauner@kernel.org>
+Link: <https://uapi-group.org/kernel-features/#disabling-reception-of-scm_rights-for-af_unix-sockets>
 Cc: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Eric Dumazet <edumazet@kernel.org>
+Cc: Willem de Bruijn <willemb@google.com>
 Assisted-by: LLM
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
- man/man7/unix.7 | 101 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
+ man/man7/unix.7 | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index bcb58336a1d8..6283d455ffa9 100644
+index 6283d455ffa9..fe3feaced07a 100644
 --- a/man/man7/unix.7
 +++ b/man/man7/unix.7
-@@ -316,6 +316,33 @@ and returned as the result of
+@@ -343,6 +343,35 @@ and returned as the result of
  .BR getsockopt (2)
  is an integer boolean flag.
  .TP
-+.BR SO_PASSPIDFD " (since Linux 6.5)"
-+.\" commit 5e2ff6704a275be009be8979af17c52361b79b89
-+Enabling this socket option causes receipt of a PID file descriptor
-+(see
-+.BR pidfd_open (2))
-+referring to the sending process in an
-+.B SCM_PIDFD
-+ancillary message in each subsequently received message
-+(see below).
-+.IP
-+As with
-+.BR SO_PASSCRED ,
-+when this option is set on a socket that is not bound to an address,
-+the socket is autobound to a unique name in the abstract namespace
-+when
-+.BR connect (2)
-+or
++.BR SO_PASSRIGHTS " (since Linux 6.16)"
++.\" commit 77cbe1a6d8730a07f99f9263c2d5f2304cf5e830
++This socket option controls whether the socket accepts
++file descriptors from its peers in
++.B SCM_RIGHTS
++ancillary messages (see below).
++It is enabled by default.
++When it is disabled,
 +.BR sendmsg (2)
-+is called on it;
-+see "Autobind feature", below.
++calls that pass file descriptors to this socket
++fail with the error
++.BR EPERM .
++The option is checked when the message is sent;
++disabling it does not affect messages
++that are already queued on the socket.
++.IP
++Processes that do not expect to receive file descriptors
++can disable this option.
++Once the file descriptors have been passed,
++closing them is the responsibility of the receiving process,
++and this may block for a long time,
++for example for a file on an unresponsive network file system.
 +.IP
 +The value given as an argument to
 +.BR setsockopt (2)
@@ -164,101 +144,21 @@ index bcb58336a1d8..6283d455ffa9 100644
  .B SO_PASSSEC
  Enables receiving of the security context of the peer socket
  in an ancillary message of type
-@@ -367,6 +394,43 @@ stream and sequenced-packet sockets, and for
- .B AF_UNIX
- socket pairs created using
- .BR socketpair (2).
-+.TP
-+.BR SO_PEERPIDFD " (since Linux 6.5)"
-+.\" commit 7b26952a91cf65ff1cc867a2382a8964d8c0ee7d
-+This read-only socket option returns a new PID file descriptor
-+(see
-+.BR pidfd_open (2))
-+referring to the peer process connected to this socket.
-+This is the process whose credentials are returned by
-+.BR SO_PEERCRED .
-+Unlike the PID returned by
-+.BR SO_PEERCRED ,
-+the PID file descriptor cannot come to refer to a different process
-+if the peer process terminates and its PID is reused.
-+.IP
-+The argument to
-+.BR getsockopt (2)
-+is a pointer to an
-+.IR int ,
-+in which the PID file descriptor is returned.
-+The close-on-exec flag
-+.RB ( FD_CLOEXEC )
-+is set on the new file descriptor.
-+.IP
-+If the socket has no peer process,
-+.BR getsockopt (2)
-+fails with the error
-+.BR ENODATA .
-+.IP
-+Since Linux 6.16,
-+.\" commit 20b70e58961b855e61f2c6a7a19a38a64ad1bed6
-+a PID file descriptor is returned
-+even if the peer process has already terminated and been reaped.
-+Before Linux 6.16,
-+.BR getsockopt (2)
-+failed with the error
-+.B EINVAL
-+in this case.
- .\"
- .SS Autobind feature
- If a
-@@ -535,6 +599,42 @@ message, the
- .B SO_PASSCRED
- option must be enabled on the socket.
+@@ -886,6 +915,14 @@ or
+ specified a datagram socket as the remote address,
+ but that socket is connected to a different socket.
  .TP
-+.BR SCM_PIDFD " (since Linux 6.5)"
-+.\" commit 5e2ff6704a275be009be8979af17c52361b79b89
-+Receive a PID file descriptor
-+(see
-+.BR pidfd_open (2))
-+referring to the sending process.
-+The data portion contains a single
-+.IR int .
-+The PID file descriptor refers to the process whose PID would be
-+received in an
-+.B SCM_CREDENTIALS
-+message;
-+if the sender specified
-+.B SCM_CREDENTIALS
-+ancillary data,
-+it refers to the process with the PID given there.
-+The close-on-exec flag
-+.RB ( FD_CLOEXEC )
-+is set on the new file descriptor.
-+.IP
-+If the PID file descriptor cannot be created,
-+the data portion contains a negative error number instead.
-+Since Linux 6.17,
-+.\" commit c679d17d3f2d895b34e660673141ad250889831f
-+a PID file descriptor is created
-+even if the sending process has already terminated and been reaped.
-+Before Linux 6.17,
-+.B \-EINVAL
-+was received in this case.
-+.IP
-+This message cannot be sent;
-+it is generated by the kernel.
-+To receive it, the
-+.B SO_PASSPIDFD
-+option must be enabled on the socket.
++.B EPERM
++The sender passed file descriptors in an
++.B SCM_RIGHTS
++ancillary message,
++but the receiving socket has the
++.B SO_PASSRIGHTS
++option disabled.
 +.TP
- .B SCM_SECURITY
- Receive the security context (the security label)
- of the peer socket,
-@@ -1264,6 +1364,7 @@ see
- and
- .BR seccomp_unotify (2).
- .SH SEE ALSO
-+.BR pidfd_open (2),
- .BR recvmsg (2),
- .BR sendmsg (2),
- .BR socket (2),
+ .B EPIPE
+ Remote socket was closed on a stream socket.
+ If enabled, a
 -- 
 2.56.0
 
