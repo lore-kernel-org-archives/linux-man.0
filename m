@@ -1,71 +1,71 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35107582B8A
-	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B5758B6CD
+	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172005; cv=none; b=lOcNMz62pLUz6byweLLZ3O+j+lib/Sdw4ECduzokHOsEFXTIqa1uRuEr2NG4ZybySJj4P86OsnCngGgU6JMaNa9sGqHkU3PKvJ2m7jENHVo5hibTlXEw66CsBn4f3ksZ3lvq8KucbPTtZOtYpK16lEjmkXdxq30j7qAjcC5TD6Y=
+	t=1792172008; cv=none; b=QtIjC5v0QJlO5adFzdGRB9EXy2U75mBaqlzwPQ2F9CEqs978nlNm3jnxn3dGX8Epb4cq5ABd8lkcGTiE3LioDB0u+DkdcoSLcM/IkzrEQ0YuIgAXsjr+GEEOrJYBJtDp6xyYO9VdBOG0A0rBcDa5nUuCGQXOfvQRSYpYVkQT7Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172005; c=relaxed/simple;
-	bh=pnAn9EuBGd6fk/heD5fTt61RaAXFQ70Jwstp28GZCNM=;
+	s=arc-20240116; t=1792172008; c=relaxed/simple;
+	bh=dmrxQM7BM9Bd4vguzjFvfgYJzx8XGoCM5b6iV5mLu8w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kGPISdIzM1b6IYGZRpHsciq/Cu/gK+/T0KkzSa1BL7jg/vzT23PNiSOK6uatPVF9Bgg9A6do65McHrobOq1TD0du1zPA2ZQUvSWUNux2RMaViQ028cNdKyEpWzVOQ4Zvnvg3rfeBQkHX7AZIh0eCAbQr1TagEFmbx8I1bSjo8dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AXhoqE8H; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=hHozwbXHBauMjPZGFxV6+p8XbCLg172Cu90V1frMOk+nquESlgfrGr8v3sWPAspF7bAK07Qcdm73mPvVMJd442GzPbVnGGwu3zBFw3AYJnm8Hs0CFbkYCUGpoMNzXxTghTW1ORTKHgub5AgYeVlmdF5xjEUUS14oU21Uhj8Sy8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzOhzieZ; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AXhoqE8H"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso1775565e9.1
-        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:33:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzOhzieZ"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48afcfc4bf5so68809f8f.1
+        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792172002; x=1792776802; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792172005; x=1792776805; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=uGUNTHou1oDfLS3BnuXjUcGAY3xUoCOEEO+6Y7yQKH4=;
-        b=AXhoqE8HXz7VqbOUeQY5nvkcZg6yb2uyNAeil/WeRvHLZZVbAzc024lCzP7C8uGGf2
-         5+ScTxJ5rqr0IXBEQ0SYDTcLC3VbyxaTvBVuIgbrV3FyJJgX/lhuGCZxzP/g5Yz1pnPP
-         bEeLV3Fipjj7w1cBy90zlK5saX/wuSriHLUJNCdJVUb/WX5CXKY49S4C2KIhY5x3in7d
-         QcH9AOV7Jn9mvJIu1vFDS0jLExw1XTM7mbLyg9atrda830nMqMx8d09wgk+iAA7SzA01
-         peToMHvOtKRyMK0/1LYdkaocsfMOKMMFs09QcLug6EHigAWfqkOgFPaMUd0uMuhiYUv0
-         xlTg==
+        bh=pcz01RnH2iOdU3rzxvvGuaDXi6K+MOtLfDV1KCE4q94=;
+        b=UzOhzieZhYvRDU6nx5mvyRQsC2li3SGlevS0xk5Kh4vrb7YBwPDECWGQXvtwmEE0pP
+         08/z2F9ouU2h0o90CqmIO2HQX4AaphWe6zAUKOXMZaHXMDYPdJlEPOx/Og/SB8vjQXEd
+         LehtjlgT3IcjJipEZufsZQZCCzgLnhiTNDz+TLvCNvtch0Dc+8S0x2qQubB2K34z9gN4
+         SxBx5nPSrIwkFFGHmPhZ7XlMsEYwuMlK/XF84Xo5fv6dYYugkfrXwXbpw0moxtC3t+qD
+         pdSqDSNr0xT4iXjPHJfOm3O6NaJoM9OrlKwBvEVmwhDQbLUM8wmoXkNNQL8gn+3Pne7R
+         GcNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792172002; x=1792776802;
+        d=1e100.net; s=20260707; t=1792172005; x=1792776805;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uGUNTHou1oDfLS3BnuXjUcGAY3xUoCOEEO+6Y7yQKH4=;
-        b=n6iTOy8wRFKIOs/dPlPLLtZeoxH8pAGn4ustCWd56TW5hdx6xQTPc0D/lhOLjX89RX
-         Kt43B4UoPyosa/LQYS+Ih6fTD0snRlAgKQ+6K2/4mEC922PrVBVrVB68nIzXS+eBS5RG
-         RLdTM3ojYYPPrumZS/xVvrp5fqLZAvMnqRCGRmMz1qdqiqQeM8zZzEssthXB/YtPRWKZ
-         PwSPe0tBgXUQbQZ13Al1F5h3NE2FHzi+7ZwIc8AsqTiA/24tP+5NsI5u9o7S/Qp78SVm
-         u5lRUeRU0KUvd6JNSPDCdk6/AAwMFZyR5P5asruF7gbmjOEUDeS5nq1ryhCyTEMQJ5tf
-         DwJA==
-X-Gm-Message-State: AFq9FYIP7RWmZjVSAam/ftnY3SkHgtRVNu6LfHj90O9OpC8kvHE9G3aX
-	M1+apDlHAf33P2sNKi1JZkVMfZyOqgoCCLBsO61cxJrUIuIZRVDJiN71
-X-Gm-Gg: AYBFou1CjicX26ZGuiIc7Btz8rb9xctMtQHUZJ5RRwROWAae8P4z2/opY9OfA72jOPI
-	KJ0uuuUsFEQz0MqoqHpeIY1MOQKK36h3Feheh/Y0L8bR+ABaG32B5lujgj472hSRxMZil33VdMj
-	Kf4mImWwUlTLJCM5onpLPxBnuGOWuN+YLM5dbCl56pGrB9wtM5g2rAWd9/io9sqmFIxcouaYkxS
-	QHRNVfCqtTWVMGzy4To/Uj/4aVP9b53c5lKd+lu00dfw+zr/3CCFfoKjkJHLgZBPIybGhgjRvpP
-	/vFQDrKFaznq5JXISFyyMfjj86NGq499rsz7d+f5I+q9X9ONgZExKsIQFAkNed/Di1Cqc157oB2
-	aFpfxDMyWCNVh2CeJFMZsMdAZxrTFU2bgBlRJNzv5icf4myxWQkoha+qYQJ5iItNS7RbqFestO1
-	7EM5xIaukngLNXA7IARiz0WVFjja3CXGZyUIgyLWDXlKS0RnjiosZszG7jPR8RQXOxRsGRgbcje
-	4AdoArb1RlnDCiT7LMLlfLHhB83viRy5w==
-X-Received: by 2002:a05:600c:3555:b0:4a1:d52e:c2d9 with SMTP id 5b1f17b1804b1-4a1d762c1bdmr10212765e9.23.1792172002411;
-        Fri, 16 Oct 2026 10:33:22 -0700 (PDT)
+        bh=pcz01RnH2iOdU3rzxvvGuaDXi6K+MOtLfDV1KCE4q94=;
+        b=1u0IQFK9JPel/+Gcnp1Z9a5ZvqMgWIBuGNBta2gk5k0/APoAifr43+k9qs0wjiRfGk
+         UTTrvFBSINL10JCwUiv0/YQOUH6tOrNCP+4OKcVFkV48QeZxrUMEFiIzR1iNCkNWZ2PW
+         5bHr56N5stJ0BmgMKSWRToCYfUjauzSfS8fnhgXgN6LlwPJeMIMDGHSN+5eGAdjhl+CH
+         5pr72YeVRELmpzZODbg+2yABQK0J7jWSi9MBMDL5fpL4pMHnMDnjdAB2wBgu3lRf0XTY
+         5s3fNu0IS1ObU1FV8EIWBdgOesfDnq65p5xETjBY/sWqp/KVUfBYLygMrDMDI5yRoTUY
+         rAxQ==
+X-Gm-Message-State: AFq9FYKgqqG+SiY+Isgh5k08/p2u/Vdm6KevXLBKAE5V3hC6C8TpmLr/
+	CwCqWLh5QDeAMe0vKaJb1hgmGJxW0d5PbU8AC46OhWD0OtuUbbj1DQ8P
+X-Gm-Gg: AYBFou0GaMLTR02k8BRtCNyNKUqsVLZzaAIl74Xjk87lEbfHXhXbWQ+91M4888THlPF
+	UyfFgkjtXkuGuXlinN0SOitRSfMNE82lrqu3g3JPvL8fQs7/7OWkaveHLHvvvN1OhxaHrRqnipu
+	EY3p0909FbbutPpxG+RhVnecJ+EBhcWOL8u2bs2N1AmjZHhH14N/eNChBwptghBYYmVKc/R4QMe
+	xwRVDjT8CD5AvFLDDbnKbNOxmc0iSx0KwepHeBcGXI/GA7MEqvSbfSn0RCsbUqmomqkXY+vRt4X
+	oTmQevTLpCRE8f17TnXuui8NMH9GNfhHHS9zqgnyt3vmWUNI34DeibdxnesyauAVCZj1gVRIW6I
+	WDpbPm8aHsJrBt6CXoI61s+2wJ68UgdPRqHyCVw9hVad8foStLF+3mCs+agviZ6JWBqFqVq99y4
+	SJtLUwPpHDzy/66UULQTn6sWXlgNPwdyjiw+S64cxxVjBq77XZZXhB3oWp6p2Y2VBqpYRuTqJag
+	doYP/D07bNG0Mk9YIPOzl4=
+X-Received: by 2002:a05:6000:400e:b0:48d:dfff:fe6b with SMTP id ffacd0b85a97d-48e07f9aba7mr583819f8f.34.1792172005267;
+        Fri, 16 Oct 2026 10:33:25 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d7659805sm11206575e9.7.2026.10.16.10.33.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f9c41sm6797068f8f.38.2026.10.16.10.33.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 10:33:21 -0700 (PDT)
+        Fri, 16 Oct 2026 10:33:24 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH 17/24] man/man7/unix.7: SOCK_RAW is accepted as an alias for SOCK_DGRAM
-Date: Fri, 16 Oct 2026 19:31:32 +0200
-Message-ID: <20261016173139.13076-18-gnoack3000@gmail.com>
+Subject: [PATCH 18/24] man/man7/unix.7: SCM_SECURITY: This is not specific to SELinux
+Date: Fri, 16 Oct 2026 19:31:33 +0200
+Message-ID: <20261016173139.13076-19-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261016173139.13076-1-gnoack3000@gmail.com>
 References: <20261016173139.13076-1-gnoack3000@gmail.com>
@@ -78,47 +78,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-unix_create() in linux.git net/unix/af_unix.c does:
+Reword the description of SCM_SECURITY to not be specific to SELinux.
 
-	case SOCK_RAW:
-		sock->type = SOCK_DGRAM;
-		fallthrough;
-	case SOCK_DGRAM:
+The security context is populated in scm_passec() in linux.git
+net/core/scm.c, through the security_secid_to_secctx() LSM hook, which
+is currently implemented by SELinux, Smack and AppArmor.
 
-so both socket(AF_UNIX, SOCK_RAW, 0) and the equivalent socketpair()
-invocation succeed and create datagram sockets.
+Also clarify the properties of the returned string:
+
+* There is no NAME_MAX limit on the length; SELinux contexts can be
+  longer than that.  If the control buffer is too small, put_cmsg()
+  truncates the data and sets MSG_CTRUNC.
+
+* Whether the string is null-terminated also depends on the LSM:
+  SELinux includes the null byte in the length, but smack_to_secctx()
+  in security/smack/smack_lsm.c uses strlen() and doesn't.
 
 Assisted-by: LLM
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    For completeness;
+    I reworded the LLM phrasing slightly and rewrote the commit message.
     
-    It is more complete to spell it out, but on the other hand, people
-    should not be passing the SOCK_RAW type when they really mean
-    SOCK_DGRAM.  I'm on the fence about whether this is useful.  If you
-    want to omit this one, it also feels reasonable.
+    I'm open for feedback about whether this is going into too much detail
+    about the properties of the returned string.  Linux does indeed not
+    guarantee that this terminates with a NUL byte, nor that NAME_MAX is
+    large enough to hold it.
 
- man/man7/unix.7 | 5 +++++
- 1 file changed, 5 insertions(+)
+ man/man7/unix.7 | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index e5cd2b888ca9..787a48baa97a 100644
+index 787a48baa97a..ff5a90863378 100644
 --- a/man/man7/unix.7
 +++ b/man/man7/unix.7
-@@ -39,6 +39,11 @@ and (since Linux 2.6.4)
- for a sequenced-packet socket that is connection-oriented,
- preserves message boundaries,
- and delivers messages in the order that they were sent.
-+On Linux,
-+.B SOCK_RAW
-+.\" unix_create() in net/unix/af_unix.c
-+is also accepted as an alias for
-+.BR SOCK_DGRAM .
- .P
- UNIX domain sockets support passing file descriptors or process credentials
- to other processes using ancillary data.
+@@ -307,7 +307,7 @@ and returned as the result of
+ is an integer boolean flag.
+ .TP
+ .B SO_PASSSEC
+-Enables receiving of the SELinux security label of the peer socket
++Enables receiving of the security label of the peer socket
+ in an ancillary message of type
+ .B SCM_SECURITY
+ (see below).
+@@ -534,13 +534,26 @@ message, the
+ option must be enabled on the socket.
+ .TP
+ .B SCM_SECURITY
+-Receive the SELinux security context (the security label)
+-of the peer socket.
+-The received ancillary data is a null-terminated string containing
++Receive the security context (the security label)
++of the peer socket,
++as provided by the active Linux Security Module (LSM),
++such as SELinux or Smack.
++The received ancillary data is a string containing
+ the security context.
+-The receiver should allocate at least
++Whether the string includes a terminating null byte
++depends on the LSM;
++the length of the data is given by the
++.I cmsg_len
++field.
++There is no fixed limit on the length of the security context;
++allocating
+ .B NAME_MAX
+-bytes in the data portion of the ancillary message for this data.
++bytes in the data portion of the ancillary message
++is usually enough.
++If the buffer is too small,
++the data is truncated and the
++.B MSG_CTRUNC
++flag is set (see below).
+ .IP
+ To receive the security context, the
+ .B SO_PASSSEC
 -- 
 2.56.0
 
