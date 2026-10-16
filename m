@@ -1,71 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEEE58E2D6
-	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E6757F73F
+	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792171966; cv=none; b=UqdI8Qlj9M+5M7jYcaA4BRai5SII9FKmEHYjlCO7TGjIx6PhrTaIZxZwdf72+feYayAtDe9+abFGlqae0saUYaqXnPM+3S5ABXDJ2EXx9nvVBAzasO0Rol0NvZJ9ANCtJlJGdNJbsi2dWZzNT/8aNjGK2dFH6dhvHJ1GdDdzROk=
+	t=1792171969; cv=none; b=YaE9Bh3oZlw7yL/H1HrKI1jWWx0O+OG0mM7y7dZvRiMsV2KdnXEaXlxwPTlzjBvVpK9lO/Tg0HD2Q0/6RAC8qD6irhoZ/FdAEQxVPkWdUxsjfZr5cSY5szOHvSSxK3pfLsTDtrfgudjCfQo5BvaBvtsRjNL3Wusph/veH4u9Ess=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792171966; c=relaxed/simple;
-	bh=SFkPF3WjMwPORUnYnmG8lfCnioH/m56RhqBV3FYwe0g=;
+	s=arc-20240116; t=1792171969; c=relaxed/simple;
+	bh=8V6QPm1x6EWs13ozRbqAngd3DbUDFUlzDuXvl+Nj/OE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UJQm1zynYGeO75LHjYXZrKroLVMxyhrwwfkYK2gL77ytl8hYGbopNrfAchnbbYRgYDWKyOBVsJClAoGenox7vUbTAV1oGwKX5fllsE6twnOH9oeR8Kj+R3wWbBjzDH2Wnm9G3KW3c+XFh+Z1oTlX2KdxLAgDS9yLmxFA4fWRbhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDnrUnhF; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=YotdujMlNoN9dZitS9jr+J0kgXNtkc6gJ37LBi1K6o1VR810ECFcr13y0spcSa5DsPcQwzDAVgf41+z9DXCdlbvILiH3ykSZ2iGZJrfUN3i5JF8Cc0iUoYZ9zBkED548tGp2WfxjBZ6LbBh+CeqZ3yuXIMKND6NFGtlkZ+Bic2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SJPj84UF; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDnrUnhF"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49fbb2acc90so2115125e9.2
-        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:32:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SJPj84UF"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49e73611928so8130175e9.1
+        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792171964; x=1792776764; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792171966; x=1792776766; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CE0KDIUDAWj++AajHeg9EXfkv4+706wJrSsd8YgUDEg=;
-        b=UDnrUnhFxmuqr6TGaxAVuq0BoIKn21f1cb6Dtwpv5eB7QbKwJf2KlN4ntWMkPfnQ9j
-         qMSJcr85gHBbbSe7g/DdMop48B3Yzhj4UBjzr/M0AFp5gcgSDSBri/ysbjjhw5re3mNs
-         PWRjuh+DxovlSz+5Hz8fl8OGAGV3/1uPM9qb6UEFsLV2Fa/lq2UfbZywpFvfq808yfcE
-         j5dYuq+wrK7E2/g0DL6wytoQh67l7oegNkvYyt/US+Yo+TtRT8nArChTtz4TXQNp4TW5
-         n9D9mRLY6FI6pE4dDVZTezs7/NDzlUutoZcXyv+1a7oyVWGevnPUaa3mHK92VhviqDNm
-         FdvA==
+        bh=KQpP9kJG6lUOvhqK+hfk7hFO2okE6TQsVjoYnSvhhu8=;
+        b=SJPj84UFxNsxciCw+rm0lXq/MsQOHr6+qa/frcnPlO6i2lZG2WJ7xwfMTSM+WxjJkk
+         Xw+ONcQs4xA8v6IzQRRSNSd19lZ5CbSfGAEew9rxnI3UIGynsTO5YZz1ZH4L7pCOoQd+
+         K89r39+re3vRWz7gAih7FfQyPUsc23Unwz+XEeOZajocfjCcEx3fpvhBQViJLuggwYHP
+         kB0lMAF0IblbzzVoxd7of3uEsB9aD9FBlGzDs4HntEZHL9Le+KuYIfdZY1yA923XDg8Y
+         vIOHYm+8HbRxk1yz6sE/EjIvf58GrYDlwq9NDC+XnaA8qMeLEBxDPLrH1NdCQcx8Ks0t
+         ZX4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792171964; x=1792776764;
+        d=1e100.net; s=20260707; t=1792171966; x=1792776766;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CE0KDIUDAWj++AajHeg9EXfkv4+706wJrSsd8YgUDEg=;
-        b=nUvMfYSPqD1jc03b6a5UoSElClqyjupiJD428H02Yn520wUNbsM6dgfmsVrjjrtVqk
-         iXaDFJz7xk7CChgGYfCHBPgWmUcjki9bUOvMkDo0SyBV5CIoJTgg942ZYUTtUUeJtgvf
-         jmP2G8+qRFyvrTBDtAQg5IdIkRJtjMs7Z9Omb9NucRFGyPMwrXxjAV8o9OZJ8Mi0QfG1
-         XXkB2auzfg256IX6nnWSA/rLtaeERhu1Xdx1DhGP1C+5EzQYa2P9zM5NNk+cS676xFA7
-         o4xTcMLPLgbhzxuI4JHnVvVBf+VwJYO+xhLWdVgRx3bu0ysN3WrxO2Wev9HY+npuftHZ
-         kPuw==
-X-Gm-Message-State: AFq9FYIAJAjj8j9VtCl6KpAJSRLevyYTTncdaTGja00zGtNK5AW8Pmm4
-	Q2bnfuJwFLfYCw/RYfUfCuqG/isS3mN4g6JURbyGgjiWpfenJI9lYDrQ
-X-Gm-Gg: AYBFou3Xr60zVvkMUr11LcdQMzoqs4i6/vzaJYJ2RvWcXYmXKqFaePqQqS5e2Zh8JxA
-	Qsqum+B7Fqcdj8oYl+1F5XAT/SBmJ7xhRorAIV7OelVb92gfEtP1X4367DBEgRBb4QeathV94nV
-	Xb6DjXdkiFdVogfbm39UbTL/O+Mp8zt0ivn8bQ1Vokortt1RtmdWTcLffCgF7nVWplCk+7FrL0s
-	YGDkJgWp+nB9fGOCnhZa8J28MNGm0eeyrOKrB+rpVZG17xnScOax+BEjxhA/KfmMvPmVQBR0/Lq
-	ei+ZtyMoI2QiDl25AhnaMQS5T0n2AWe5l/pGUfjYBUN38DUaMYubksDIPUqfaehSO9Er33+gVzn
-	cX6Caoez1hdx5IZh1jY8uTFm28G0Za1rPpt/Rf4s5lT5GIdEIOCBJgR+8jcZ0jjJmJHcZQMhVO6
-	vzPPSy+appRuPD0Q6+C6s5SJ/x7MON8tpviXKJXsMISPtGh5BkNa3BM9qIXNiGEPuBD8sx2yozh
-	LqTZ8rJpNipmb2JmmxIRcI=
-X-Received: by 2002:a05:600c:6298:b0:4a1:96cd:2f60 with SMTP id 5b1f17b1804b1-4a1d75ce285mr10490045e9.3.1792171963647;
-        Fri, 16 Oct 2026 10:32:43 -0700 (PDT)
+        bh=KQpP9kJG6lUOvhqK+hfk7hFO2okE6TQsVjoYnSvhhu8=;
+        b=KU+UQDSxVlJh1o4rFCr2926VqdrwGff/ZZPt+9a243G/9zEinHdljHLsA9vgsD5Ndn
+         QlPZ6Z1QYkoMhkWJ+HBNo3+wmJ3o4xEzPuLWeGpP6tGKMrL2iXTNApsk+RhJOprrYSgO
+         oiemR446HXpx+jqlNTVXZp216rqqYfI0dVTtVvdlQQcZ7/NCIZQLyg6oaLX9F4W6S80j
+         IjZSdv4vMbKdRHA4gHPg0rrPwA3UiFd7Aw+k+PmKPv+5apBxfaK9fPJ+FbuITHuhmJTR
+         Y0OMmhX0hBsvDdMtRZ6tQ/qaPmPMCAAH+nyns+ccd0fkGLlATyB0GaWQCfe18z1smaAr
+         dPkg==
+X-Gm-Message-State: AFq9FYKwERVpJsFQ0h/7uRZ1k4elMmUD7Q2vB2phYKdleyk9grvBT8Fe
+	KIhu1HTpE6Gu4RabyY6VZJTmUw0u+HTEeJaR0DnkCQhSeKRyhhTfZ581
+X-Gm-Gg: AYBFou1ZORwHR32GCPKTj7NCd+Wd4xVWm6FyTbX3MPwdmqNxdQg6WexgjCBrY4DYWv0
+	X8mXwJcrBK6TyUVSuRhPXcdwcOHM6OyHme89+EngUB5+xLEcAqQxnbNpmANgRB2KQtIFQj18NZg
+	PFswEVBEN/Yc8xODqCflHfZ/jKLis27sdu/i/AvjLNaP1EJ8P/8dhW0WMk+LLYzmczlI8vx37kS
+	+O1XSdR8Df3mk1CsQDKcbzCDLqj5uW+6s4ZPCHbB+iEUEuSm4dTmomDat9jnUsDz+O78AuezSHC
+	luVIQLE3Fnsw5VyCTbt2u4qQCG587LhMs3yaLUmq4l7ZI5Ra6e4WV2Z8T/0fDExVcbvm19Y2wS0
+	P2Zvlorp5LWWqKyfMe6q92L9F0mIG5hhQOYKHSyH8YIgUo3PMQypwjn5qjpq1RiFI4E9BjfYInI
+	9tCrmnGiAfyCSAGQhtRU3W2qqVhQepNgJg/KbMDVrL3uhMDNC65qfpwdyK2pUxGn9659X4a9x1L
+	B7RAvUSq0+YBz/va7vxY7M=
+X-Received: by 2002:a05:600c:3484:b0:4a0:34a:588c with SMTP id 5b1f17b1804b1-4a1d7605e04mr10905765e9.14.1792171966396;
+        Fri, 16 Oct 2026 10:32:46 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd510d60sm6021134f8f.58.2026.10.16.10.32.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9a88bbsm167419715e9.3.2026.10.16.10.32.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 10:32:43 -0700 (PDT)
+        Fri, 16 Oct 2026 10:32:46 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH 04/24] man/man7/sock_diag.7: Fix member order of struct unix_diag_vfs
-Date: Fri, 16 Oct 2026 19:31:19 +0200
-Message-ID: <20261016173139.13076-5-gnoack3000@gmail.com>
+Subject: [PATCH 05/24] man/man7/sock_diag.7: udiag_wqueue: This is memory in use, not memory available
+Date: Fri, 16 Oct 2026 19:31:20 +0200
+Message-ID: <20261016173139.13076-6-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261016173139.13076-1-gnoack3000@gmail.com>
 References: <20261016173139.13076-1-gnoack3000@gmail.com>
@@ -78,13 +78,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In the kernel's <linux/unix_diag.h>, udiag_vfs_ino comes before
-udiag_vfs_dev, and it has been that way since the structure was added
-in linux.git 5f7b0569460b ("unix_diag: Unix inode info NLA").  Both
-members are __u32, so code written after the manual page would silently
-mix up the inode and the device number.
-
-Also reorder the member descriptions to match.
+For non-listening sockets, sk_diag_show_rqlen() in linux.git
+net/unix/diag.c sets udiag_wqueue to unix_outq_len(), which returns
+sk_wmem_alloc_get(): the send-buffer memory currently charged to queued
+outgoing data.  The value grows as data is queued; it is not the amount
+of space remaining.
 
 Fixes: 4f6a0a4a (2016-12-07; "sock_diag.7: New page documenting NETLINK_SOCK_DIAG interface")
 Assisted-by: LLM
@@ -92,41 +90,28 @@ Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    Compared against unix_diag.h header,
-    where the struct field order is different.
+    Verified in kernel code; the udiag_wqueue field does indeed have these
+    different semantics -- it's the data already sent, which is still
+    stuck in the output queue, not the maximum size of the output queue.
 
- man/man7/sock_diag.7 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ man/man7/sock_diag.7 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/man/man7/sock_diag.7 b/man/man7/sock_diag.7
-index d4e78c46cc8d..35a6d5a80ffc 100644
+index 35a6d5a80ffc..8f8b28b4404d 100644
 --- a/man/man7/sock_diag.7
 +++ b/man/man7/sock_diag.7
-@@ -180,8 +180,8 @@ structure:
- .in +4n
- .EX
- struct unix_diag_vfs {
--    __u32 udiag_vfs_dev;
-     __u32 udiag_vfs_ino;
-+    __u32 udiag_vfs_dev;
- };
- .EE
- .in
-@@ -189,11 +189,11 @@ struct unix_diag_vfs {
- The fields of this structure are as follows:
- .RS
- .TP
--.I udiag_vfs_dev
--The device number of the corresponding on-disk socket inode.
--.TP
- .I udiag_vfs_ino
- The inode number of the corresponding on-disk socket inode.
-+.TP
-+.I udiag_vfs_dev
-+The device number of the corresponding on-disk socket inode.
+@@ -248,7 +248,9 @@ the backlog size which equals to the value passed as the second argument to
+ .BR listen (2).
+ .IP
+ For established sockets:
+-the amount of memory available for sending.
++the amount of memory currently allocated for data
++that was sent on this socket
++but has not yet been received by the peer.
  .RE
  .TP
- .B UDIAG_SHOW_PEER
+ .B UDIAG_SHOW_MEMINFO
 -- 
 2.56.0
 
