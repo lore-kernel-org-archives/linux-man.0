@@ -1,164 +1,134 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-server.nl (mail-server.nl [83.137.145.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0713598BED
-	for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 17:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30643DA7D4
+	for <linux-man@vger.kernel.org>; Sat, 17 Oct 2026 19:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.137.145.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172025; cv=none; b=OEUbkfPbfZwp9X2cflBlHMSo6PtszZKovlZCm64h9XEJrUEFE9PFW3/weMG/gksiJ1nShQTKFxtrlIk7pkyOsgwuvRst8+AiWFRMAzxiUM4UF9j1oJFmKb2E22Guw9fSMEbaH6j6ulLxVGIhCXt/ppscRpfiyXTkUL8Rk4fK5WI=
+	t=1792265113; cv=none; b=plhavsUyrnxMgy6tr+OlAULOkDSanWpki6lIBjMBVtR5WfJf8cWP36fpAi7TYQxZjKvQHYODD9DlBhwXMERlMneW9z50E5f0Pd4KJUiBvGh8BYqgTnEuzjxRCdpNiBl4MHL7YdpLGeKY40IlobVfOAThUyL18S0HD8X7i1IKU20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172025; c=relaxed/simple;
-	bh=ClOY2RK7G9x8T0j6ZWVPcQCclEFCQlSb9tkRKN5fftk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=djjRWRNMTe/aC/P6Tefesq67ipMSECoRqOE0BfUnCT3/D9Pf8MV4iEuGbmUhBJG/Xbs1mimdZTvaiMbjPX7mv3G7eihnd5lLHf0KXODiY66R2JTF9cVtPIzJCdVYgTZXulDXQHJJj4Lb1XV/R+lCfe4fZz8QPltdtL/hnCmPMy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjBitiM2; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792265113; c=relaxed/simple;
+	bh=bNxm9T0Pp4qpYpFHE5XkmBWbOb8sDqfW921HHun0Otw=;
+	h=Content-Type:Message-ID:Date:MIME-Version:To:Cc:From:Subject; b=KkKWE/chQaZ/Vcb07SrBFhHsNgSt0YPAd1exoQndAPsOLkwD3mEMdO1u2ovZatBRjVyeL6WgSyaneWNaRJv2POHqfYVjMrkEj505B++ixHFgrEO9ftSt+5Bg7sbiH0/OspYcm/PxJ7nADDgZp0BGP3AtRum148VM1E7e9GMdvgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buddelmeijer.nl; spf=pass smtp.mailfrom=buddelmeijer.nl; dkim=pass (1024-bit key) header.d=buddelmeijer.nl header.i=@buddelmeijer.nl header.b=XjRmQ1yZ; arc=none smtp.client-ip=83.137.145.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buddelmeijer.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buddelmeijer.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjBitiM2"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso1889905e9.0
-        for <linux-man@vger.kernel.org>; Fri, 16 Oct 2026 10:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792172022; x=1792776822; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Fyi5ByfM1ZYpjVMi1ILSgIUD8MTxXMX6sHbrlS2i8hU=;
-        b=KjBitiM28Uwcw0gwzjv8L/APcTN6s7PtEXvCv9moJjb4lqSCj+OWMMotYSw4ozbQQC
-         YzfiSZFRNXdtE6yrp7ZQHd+L+bShQof19CpisLP2oH1KxQSLy47mQaNTzZhMiw3dTpib
-         fg1DnQd+nfzL+jTVx6F1d9Oqbb71hnE9Qr0X0zoyhm2uPTIsjXOecKiaTpUPwzW5JkCb
-         RBoj97imwVuXGNQCb23Lrf9amYFj+8Sd2+gJIMUw/L3LP15Di5wNX/7XlFw0PGfOXGzo
-         aVo99nk2e+X9BlAY6i29f7J8hqUMj3oHijCaf5duTet0TtVVW4ZpGOth5MQhQNiykGpp
-         ZxbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792172022; x=1792776822;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Fyi5ByfM1ZYpjVMi1ILSgIUD8MTxXMX6sHbrlS2i8hU=;
-        b=S5veGJRjclF5mNeWuj0mVDB2TbPQPionr6cqQ5rihJjJL9sclqLq9aGmdN0biY5lHG
-         JKmKjuC66EGH0V4h+Agyjq/KBz42t9K/cU/bzoshOKHDPNDmuMwyCzFudLx2Ux9RPlsf
-         wg5K6KO+X9oxqsAMcV4eg6yE6jJsLfc2wSpv15QShx4XQ/HwWn4d0SyKJ9O+j0swU8lc
-         AHCJvRnXfYsHTs+bSqAYYMF6Cts9UJ19/2rh5106BgzO1XjRtfjOl4bmCC9MCqm5cWF2
-         pL1yjKbD26uqEfKeg5rYkdNvZiTfPUNWuM5odCs3CEBxPCa2aaPmW6ugKHFGol733pZs
-         G1Gg==
-X-Gm-Message-State: AFq9FYI0qVQ2hxwbHvrnV+IzC9y3tKQ7KxW+YVw+V9I1M+ffm2FJsZVL
-	oykJMiVGajZ2euhrpF77ZMbOx/jaMx5CL8YtI2WqPKR2ju8j7Ur4QZ38
-X-Gm-Gg: AYBFou3FDgqdAxalSuttbNtQSiW7UdJq7qHAaahO3kN2ZVkfTwNhYDnFHsw6UGgpnBJ
-	EQH/xn0S89Lmh/OvFToXUOA2RQUWMu9db5xiSe8oxddfq39XpnR+ztG5d856Z77fhj6EXRCecMo
-	acILZss5ikHS7kiltQlO0sp/mPRKxI8NRApq5rWdv1HzF4rLW/oM/cM2rV/n+dA75Pv+c34pcBZ
-	c4E+nOkBRvD7cIE9IyTGWh6cocTUDoBwZKjQy6yVXPbvN3SB04eq1+YtZ8psrD0DC97PcrTwLnF
-	RdzhmoJyj2jpHZ+AFdbIjQRDog1M6kIFFlX9w/6pyaN3MJTpUe+/xZ/AkhzzBXc/6ef1udSUpuU
-	udsU6TN9lYPsLZst1NSz+HZWlmVMGdN1P0CX84l09ERhgvCje8thVunTx9IU150lwwprgB/oluH
-	arOXg5I+C6MqcxK3DyfpavW6WIEiZzQr4SCDnC/gLo0sHfrIrQn7BbxGnu5JcsAOu0izsrLkzbr
-	WOx2kakhvN2GRnuHnRY578=
-X-Received: by 2002:a05:600c:19ca:b0:4a1:ac66:5ffe with SMTP id 5b1f17b1804b1-4a1d75fce82mr10936525e9.15.1792172021925;
-        Fri, 16 Oct 2026 10:33:41 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1ce33ad3fsm55780955e9.5.2026.10.16.10.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 10:33:41 -0700 (PDT)
-From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>
-Subject: [PATCH 24/24] man/man7/unix.7: Document SO_PASSRIGHTS
-Date: Fri, 16 Oct 2026 19:31:39 +0200
-Message-ID: <20261016173139.13076-25-gnoack3000@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261016173139.13076-1-gnoack3000@gmail.com>
-References: <20261016173139.13076-1-gnoack3000@gmail.com>
+	dkim=pass (1024-bit key) header.d=buddelmeijer.nl header.i=@buddelmeijer.nl header.b="XjRmQ1yZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=buddelmeijer.nl;
+	s=sslmailserver; t=1792264763;
+	bh=bNxm9T0Pp4qpYpFHE5XkmBWbOb8sDqfW921HHun0Otw=;
+	h=Date:To:Cc:From:Subject:From;
+	b=XjRmQ1yZFAOxDj8/JEEwCNZbmnvPHNG8+7qi+n/HiM5j6hPrl5PrmPo2Sk4ZsD8r4
+	 CvhhqeLtaqXP2svMX3Qavn18dlod2OG3ZKQNmxWQmqrvABmLfgwnAmSaHZt8727LiL
+	 yo216J8saZr9t5K5g5xzbsbjoxGfH6gEN+cPpbCI=
+Received: from [IPV6:2a10:3781:3611:1:1ac5:991:78ba:230d] (unknown [IPv6:2a10:3781:3611:1:1ac5:991:78ba:230d])
+	by mail-server.nl (Postfix) with ESMTPSA id A922E1BC;
+	Sat, 17 Oct 2026 21:19:23 +0200 (CEST)
+Content-Type: multipart/mixed; boundary="------------WfJUuWa83nmXusvzE10vjCrU"
+Message-ID: <448efb68-e2ff-41d8-a575-97da30e293ff@buddelmeijer.nl>
+Date: Sat, 17 Oct 2026 21:19:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Icedove Daily
+Content-Language: en-US, nl
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+From: Hugo Buddelmeijer <hugo@buddelmeijer.nl>
+Subject: `make -R check` fails due to futex_waitv.2 and console_codes.4 being
+ too wide
 
-SO_PASSRIGHTS was added in linux.git 77cbe1a6d873 (2025-05-19;
-"af_unix: Introduce SO_PASSRIGHTS."), in Linux 6.16.  It lets a
-receiver refuse file descriptors passed with SCM_RIGHTS, so that an
-untrusted peer cannot leave it with file descriptors whose final
-close() blocks for a long time (for example, a file on a hung NFS
-mount or a FUSE-controlled file).
+This is a multi-part message in MIME format.
+--------------WfJUuWa83nmXusvzE10vjCrU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The option is enabled by default (unix_create1()).  When the receiving
-socket has it disabled, unix_dgram_sendmsg(), unix_stream_sendmsg(),
-and queue_oob() fail with EPERM if the message carries file
-descriptors.  The check happens at send time, so messages that are
-already queued are unaffected.
+Hi Alejandro,
 
-Also add the new EPERM case to ERRORS.
+Running `make -R check` fails because the text in futex_waitv.2 and 
+console_codes.4 is too wide.
 
-Link: <https://uapi-group.org/kernel-features/#disabling-reception-of-scm_rights-for-af_unix-sockets>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Willem de Bruijn <willemb@google.com>
-Assisted-by: LLM
-Signed-off-by: Günther Noack <gnoack3000@gmail.com>
----
- man/man7/unix.7 | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+I noticed this when trying to enable the test phase when updating the 
+man-pages package in Guix; see https://codeberg.org/guix/guix/pulls/11893
 
-diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index 6283d455ffa9..fe3feaced07a 100644
---- a/man/man7/unix.7
-+++ b/man/man7/unix.7
-@@ -343,6 +343,35 @@ and returned as the result of
- .BR getsockopt (2)
- is an integer boolean flag.
- .TP
-+.BR SO_PASSRIGHTS " (since Linux 6.16)"
-+.\" commit 77cbe1a6d8730a07f99f9263c2d5f2304cf5e830
-+This socket option controls whether the socket accepts
-+file descriptors from its peers in
-+.B SCM_RIGHTS
-+ancillary messages (see below).
-+It is enabled by default.
-+When it is disabled,
-+.BR sendmsg (2)
-+calls that pass file descriptors to this socket
-+fail with the error
-+.BR EPERM .
-+The option is checked when the message is sent;
-+disabling it does not affect messages
-+that are already queued on the socket.
-+.IP
-+Processes that do not expect to receive file descriptors
-+can disable this option.
-+Once the file descriptors have been passed,
-+closing them is the responsibility of the receiving process,
-+and this may block for a long time,
-+for example for a file on an unresponsive network file system.
-+.IP
-+The value given as an argument to
-+.BR setsockopt (2)
-+and returned as the result of
-+.BR getsockopt (2)
-+is an integer boolean flag.
-+.TP
- .B SO_PASSSEC
- Enables receiving of the security context of the peer socket
- in an ancillary message of type
-@@ -886,6 +915,14 @@ or
- specified a datagram socket as the remote address,
- but that socket is connected to a different socket.
- .TP
-+.B EPERM
-+The sender passed file descriptors in an
-+.B SCM_RIGHTS
-+ancillary message,
-+but the receiving socket has the
-+.B SO_PASSRIGHTS
-+option disabled.
-+.TP
- .B EPIPE
- Remote socket was closed on a stream socket.
- If enabled, a
--- 
-2.56.0
+That Guix pull request contains a patch to fix the man-pages so `make 
+check` passes; said patch is attached.
 
+Maybe you could device a better patch though, in particular for 
+console_codes.  The affected table is much narrower than similar tables, 
+so some lines that have to be truncated, would easily fit in one of the 
+other tables.  But I couldn't easily figure out what determines the 
+column widths, so I didn't fix that.
+
+Also, the Changelog for 6.04 contains some instructions to touch certain 
+files to ensure the test suite passes.  I did not attempt to use that 
+workaround.
+
+Thanks for maintaining these man pages, they contain such a wealth of 
+information.  No need to credit me in case you fix these minor things.
+
+Hugo
+
+--------------WfJUuWa83nmXusvzE10vjCrU
+Content-Type: text/x-patch; charset=UTF-8;
+ name="man-pages-fix-make-check.patch"
+Content-Disposition: attachment; filename="man-pages-fix-make-check.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAxMzQ1ODc1ZDE0Yjk1MGU2ZTY0YjhmZDlhOGYzMzVlZmU3Y2U1YWUwIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIdWdvIEJ1ZGRlbG1laWplciA8aHVnb0BidWRkZWxt
+ZWlqZXIubmw+CkRhdGU6IFNhdCwgMTcgT2N0IDIwMjYgMTA6NDc6MDMgKzAyMDAKU3ViamVj
+dDogW1BBVENIXSBtYW4vbWFuMi9mdXRleF93YWl0di4yOiBGaXggYG1ha2UgY2hlY2tgLgog
+bWFuL21hbjQvY29uc29sZV9jb2Rlcy40OiBGaXggYG1ha2UgY2hlY2tgLgoKLS0tCiBtYW4v
+bWFuMi9mdXRleF93YWl0di4yICAgfCAgMyArKy0KIG1hbi9tYW40L2NvbnNvbGVfY29kZXMu
+NCB8IDIwICsrKysrKysrKysrKysrKy0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDE3IGluc2Vy
+dGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuL21hbjIvZnV0ZXhf
+d2FpdHYuMiBiL21hbi9tYW4yL2Z1dGV4X3dhaXR2LjIKaW5kZXggNDE1OGYyOTdkLi5hY2Fm
+ZDI4MjkgMTAwNjQ0Ci0tLSBhL21hbi9tYW4yL2Z1dGV4X3dhaXR2LjIKKysrIGIvbWFuL21h
+bjIvZnV0ZXhfd2FpdHYuMgpAQCAtMzg1LDcgKzM4NSw4IEBAIG1haW4odm9pZCkKIAkJY2xv
+Y2tfZ2V0dGltZShDTE9DS19NT05PVE9OSUMsICZ0aW1lb3V0KTsKIAkJdGltZW91dC50dl9z
+ZWMgKz0gMTsKIFwmCi0JCXdva2UgPSBteV9mdXRleF93YWl0dih3YWl0ZXJzLCBjb3VudG9m
+KGZ1dGV4ZXMpLCAwLCAmdGltZW91dCwgQ0xPQ0tfTU9OT1RPTklDKTsKKwkJd29rZSA9IG15
+X2Z1dGV4X3dhaXR2KHdhaXRlcnMsIGNvdW50b2YoZnV0ZXhlcyksIDAsCisJCSAgICAgICAg
+ICAgICAgICAgICAgICAmdGltZW91dCwgQ0xPQ0tfTU9OT1RPTklDKTsKIAkJaWYgKHdva2Ug
+PT0gXC0xICYmIChlcnJubyAhPSBFQUdBSU4gJiYgZXJybm8gIT0gRVdPVUxEQkxPQ0spKQog
+CQkJZXJyKEVYSVRfRkFJTFVSRSwgIm15X2Z1dGV4X3dhaXR2Iik7CiBcJgpkaWZmIC0tZ2l0
+IGEvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40IGIvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40
+CmluZGV4IGZhZjEyYTY2Yy4uOGNlMTgyZmFkIDEwMDY0NAotLS0gYS9tYW4vbWFuNC9jb25z
+b2xlX2NvZGVzLjQKKysrIGIvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40CkBAIC03NTUsMTMg
+Kzc1NSwyMyBAQCBFU0MgXSAxIDsgXGZbSV10eHRcZltdIFNUCVNldCBpY29uIG5hbWUgdG8g
+XGZbSV10eHRcZltdLgogRVNDIF0gMiA7IFxmW0lddHh0XGZbXSBTVAlTZXQgd2luZG93IHRp
+dGxlIHRvIFxmW0lddHh0XGZbXS4KIEVTQyBdIDQgOyBcZltJXW51bVxmW10gOyBcZltJXXR4
+dFxmW10gU1QJU2V0IGNvbG9yIFxmW0ldbnVtXGZbXSAoMC0yNTUpIHRvIFxmW0lddHh0XGZb
+XS4KIEVTQyBdIDUgOyAwIDsgXGZbSV10eHRcZltdIFNUCVNldCB0aGUgY29sb3IgZm9yIGJv
+bGQgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KLUVTQyBdIDUgOyAxIDsgXGZbSV10
+eHRcZltdIFNUCVNldCB0aGUgY29sb3IgZm9yIHVuZGVybGluZSBzdWJzdGl0dXRpb24gdG8g
+XGZbSV10eHRcZltdLgotRVNDIF0gNSA7IDIgOyBcZltJXXR4dFxmW10gU1QJU2V0IHRoZSBj
+b2xvciBmb3IgYmxpbmtpbmcgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KK0VTQyBd
+IDUgOyAxIDsgXGZbSV10eHRcZltdIFNUCVR7CitTZXQgdGhlIGNvbG9yIGZvciB1bmRlcmxp
+bmUgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KK1R9CitFU0MgXSA1IDsgMiA7IFxm
+W0lddHh0XGZbXSBTVAlUeworU2V0IHRoZSBjb2xvciBmb3IgYmxpbmtpbmcgc3Vic3RpdHV0
+aW9uIHRvIFxmW0lddHh0XGZbXS4KK1R9CiBFU0MgXSA1IDsgMyA7IFxmW0lddHh0XGZbXSBT
+VAlTZXQgdGhlIGNvbG9yIGZvciByZXZlcnNlIHN1YnN0aXR1dGlvbiB0byBcZltJXXR4dFxm
+W10uCiBFU0MgXSA1IDsgNCA7IFxmW0lddHh0XGZbXSBTVAlTZXQgdGhlIGNvbG9yIGZvciBp
+dGFsaWMgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KLUVTQyBdIDYgOyAwIDsgXGZb
+SV12YWxcZltdIFNUCVRvZ2dsZSBib2xkIHJlbmRpdGlvbjogMD1ib2xkLCAxPXN1YnN0aXR1
+dGUgYnkgY29sb3IuCi1FU0MgXSA2IDsgMSA7IFxmW0lddmFsXGZbXSBTVAlUb2dnbGUgdW5k
+ZXJzY29yZSByZW5kaXRpb246IDA9dW5kZXJzY29yZSwgMT1jb2xvci4KLUVTQyBdIDYgOyAy
+IDsgXGZbSV12YWxcZltdIFNUCVRvZ2dsZSBibGlua2luZyByZW5kaXRpb246IDA9Ymxpbmtp
+bmcsIDE9Y29sb3IuCitFU0MgXSA2IDsgMCA7IFxmW0lddmFsXGZbXSBTVAlUeworVG9nZ2xl
+IGJvbGQgcmVuZGl0aW9uOiAwPWJvbGQsIDE9c3Vic3RpdHV0ZSBieSBjb2xvci4KK1R9CitF
+U0MgXSA2IDsgMSA7IFxmW0lddmFsXGZbXSBTVAlUeworVG9nZ2xlIHVuZGVyc2NvcmUgcmVu
+ZGl0aW9uOiAwPXVuZGVyc2NvcmUsIDE9Y29sb3IuCitUfQorRVNDIF0gNiA7IDIgOyBcZltJ
+XXZhbFxmW10gU1QJVHsKK1RvZ2dsZSBibGlua2luZyByZW5kaXRpb246IDA9Ymxpbmtpbmcs
+IDE9Y29sb3IuCitUfQogRVNDIF0gNiA7IDMgOyBcZltJXXZhbFxmW10gU1QJVG9nZ2xlIHJl
+dmVyc2UgcmVuZGl0aW9uOiAwPXJldmVyc2UsIDE9Y29sb3IuCiBFU0MgXSA2IDsgNCA7IFxm
+W0lddmFsXGZbXSBTVAlUb2dnbGUgaXRhbGljIHJlbmRpdGlvbjogMD1pdGFsaWMsIDE9Y29s
+b3IuCiBFU0MgXSAxMCA7IFxmW0lddHh0XGZbXSBTVAlTZXQgdGhlIGZvcmVncm91bmQgdGV4
+dCBjb2xvciB0byBcZltJXXR4dFxmW10uCi0tIAoyLjU0LjAKCg==
+
+--------------WfJUuWa83nmXusvzE10vjCrU--
