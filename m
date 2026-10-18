@@ -1,73 +1,72 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3F3D88F2
-	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041673DA5B0
+	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792345051; cv=none; b=VwSBgKCCCftRViVgtCJYUJM9CH3nalU8exc+8ZQ8i4cMTy1Y9nyagXrMUFjC9FTZGln+/9scJhs2CcfLV0CTIKXgndlySGWFpRTYfV5djFCPN49M5I9OdKODUKezjfrgpr1Sz5Zp/5EV4Zz17laEgKtLT6rLL+KSpo+O7rwE4S8=
+	t=1792345053; cv=none; b=gWNwtkM0csUPGYOgCu3LIOsOuijrM3HRWcJkbe49Oq/pa5KUq2HwPVUSjOREd8KFqpjlJQT3cGgXtWuagwLSGSkNT/PKjknelqnfHm7YC/FANhDxsFW3PlEqOkrOHRoQ5KPXx3npffzvtdxzEEFs5NyJMzqmDiRa70ZFUDxhBfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792345051; c=relaxed/simple;
-	bh=tvcV0X/i3xUcKedYw0nB39zgYUVKKGfUjlPJrvp1fpw=;
+	s=arc-20240116; t=1792345053; c=relaxed/simple;
+	bh=ahGPuF1k2WQmfym/qCP/Rf5ulMexUkgquYG5H6RMcyI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gfmzFVJqnOZ3F/wBjppfhveEsaU4Tk31Oh8q4epRL7RvCRlPxiMT/lAnbfl3rD+heR85IMxZwVG56FtpOs5Dn8lk5aowkAMxc2C2PtzosbDwp/JdotgmwYLT9bEFFOHBqHp9TAoeT6Jcn6fPgKrdD9j98MkSBEtxDXLlKo5vJuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYvITSz3; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version:Content-Type; b=VSS5Y58lU4zmp489L7SiYOfyv7uEAfejSK/FN0zp18XcjbCQqEnnJXpZG4A+i+JNqmRrAL7u7Ow+b7pQ+cUaR1IHllwPzzryAkqwCfOfqHxjKrGBfbzzR/+KbrnylyTyKM44xudPY8UKlmKfug6eHdwyMCnBJLl4GkT2hEBycUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fVOeZAzb; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYvITSz3"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dfdd431dcso1209536f8f.1
-        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fVOeZAzb"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48de6a62a4cso1092882f8f.2
+        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792345048; x=1792949848; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792345050; x=1792949850; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=hS+Gxe8KmByaidVk22XG/BbpGqs7CaZMwyISgHMqIm0=;
-        b=mYvITSz30+6VLrokmBqkYmRqfrXp4ty+Wd/sHXW+XLVhm2vXm+2zi4+03oqSOXAxPj
-         b0DuiLZk/t9/ulsgJTJncLjfNClF2tN+EITXl5WryvDxPVIfHSjMM9FT8mVySFyimP6E
-         9IMqR0WxrN1jYhvF2ud/pudEDcgWrJVTlfioAgz89iKIwuoXra4CVAsKDOqFfkqxG/97
-         e8IXIxyRj1OlPtBtBDIQ/ZSAgk9rTzxfnx0p0PPBXKiASOvr9296g+ixgVZcqW95iW5V
-         Xf4NjXDgkcizYUYOs6zaeypXQbrPZUjMwpFsLiudjZg7oHOdSnNBHr9gYCmV2X+o6jm9
-         fcSg==
+        bh=92bRwauvWS1Wiep4S/svafinlQfXfVMdNwxbdBe3rZ8=;
+        b=fVOeZAzbtHV/GOxJ9egLlNxHHh5rdwlge9Fr2kAkirBS8RGjw3riP7j+8FCVQLLtYu
+         VSGUi71shmlkGHqE8B4CXgqQG3KkwPwQfe17QpZyJ/s8T2gy9VuZYEgXQriHny9tDtsN
+         HEmwI9sTAV0h1DRZl3kOn6GLpxFucfCyTQLUPWjSnRaHBCh/LWpIwbykW1xLXwh+lO9R
+         o8f84RS4ZBAQ4xuC1aCZS4LUoAK+BP5+18UcduUTCRCILwzp2fAmFbAuJAJ27eAW0x1C
+         W/DhrP5soG0btkLUHrvaWovs5GX0l2hc85IOWjzTv8aTG36mASiCwlBM22hv7UJWdxgp
+         24mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792345048; x=1792949848;
+        d=1e100.net; s=20260707; t=1792345050; x=1792949850;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hS+Gxe8KmByaidVk22XG/BbpGqs7CaZMwyISgHMqIm0=;
-        b=cztdSO8mO9Eylepz5i8vA9ZVTpI5+KDjZ8hyujSGmRmu9u2jvCzeAeEyKrPIuZTuby
-         0WAIMXTIKsjB6UBUf7dG2SP/6VQNM+xgA0X47HDs35gNNzUfr7GIzd+/IeZzTvX6z+b/
-         XuJfhdnATmy8sHlKIgSauPa61v6zwwzkB14NbiZX3Mu5OT3btieLEryY7453A2UzheSP
-         jJuniUtIE74loM0l/kl8lYCMR/rzJmHrXzc9NJUi2vdSJtO59pyaDLNKgFifv9q88w0J
-         Qe88undH40IbgvOXbq5WWan0+skNNGBu7L0q34dDlyEfvZTRRzkI8LaWTLPSHW0bTg53
-         WfYg==
-X-Gm-Message-State: AFq9FYL6YOEOJ5EmFb+y6m++Ij7WaDq35VBkTIQYpAJ5xsbsfbS9WB9d
-	9+sueyrzbc93qF4aSP0Tga0thKGWLxL3SdU5WsnOpHqlQi9PYjwZTC9T
-X-Gm-Gg: AYBFou09ouE3MCgOCY9EtI/jfOA2xcD+RkgD1lIxdGRWHxWvsCvJI/ILU1TQ0GKJWDw
-	Le1I/iI46eNccEfk+kfBc4NTXV0fmMxSIxaq/2msTz0eewnwkEpXiU95Gc9tOiG5EVL+yM25uME
-	79HtI3rJ1HqUQqz5NBpRzIh0lMJeZt2hoMRyl7g/BaZDp+IFijLqATA9dnCnnj+FhqAhb8VPulu
-	sEdnuTR+x9DLdalPMbt/g0Nr53uht677jgINHoYcRgO6w5FPvkdysoyvNJ5EXd27OgCUX3N4N81
-	9M47TldbRu5rynCAikFF8ObxRM3AT67dyTpr7zmRaTELxOF+TCZWpn0c3YKmeMiWJbOfvli/yL0
-	uMO5j0O1+YyuuvwRKTbS7r19jc9yl0Cq+oHm3i2Hhipz8/LLWevFJmge7RCOYjG7cKFmEYNR58n
-	X0RuON/xbSCdG/XLAqHD3Z/iyoFCZnDOhpSi34S9KyMgr2vlibX73p9jjceRsfqLdFA67nuUJaI
-	m/7leVViL1B1xRlbneKGsY=
-X-Received: by 2002:a05:600c:4f88:b0:4a1:9c71:9f17 with SMTP id 5b1f17b1804b1-4a1d75fe190mr112169995e9.9.1792345048269;
-        Sun, 18 Oct 2026 10:37:28 -0700 (PDT)
+        bh=92bRwauvWS1Wiep4S/svafinlQfXfVMdNwxbdBe3rZ8=;
+        b=0hv6e4ylYDmHL686O4v4kv8oUvo4iqg72/3XLnYLSDPEtG6gcIYfJKIAHIIBQU/m9O
+         Rtf65LUMnXG+rfYjFOZ8dAXoBmjgqgLwAIs2LfQk3F3/T0YHhdipiGipLiNSXuit6CIr
+         i9E5TW1NErgN2kylNaJmIqc9ci1O0XbyxDBYup9ecv9+Jp9gEpYu/s9GfNld5X97q6Dr
+         y+NnY3mXj8XKkdT/EvdnzdXHGWEBuAVvE05bdVrxZG5wX1x2hu+tE7d/paKXFnrf2AsN
+         A9Xhks2QaJk2RUEtbgDbpRgUO2Fkhg8f00FimKL35gkRCux9AIapXaONLBUNhBwukr5d
+         a94w==
+X-Gm-Message-State: AFq9FYIFSQPBwEH7TGoUWiyvtFP5wV7Zzdxtn86AjZ2+M2mvda7oTLEa
+	7YEnPd9iUV4XjCvM9X0KAZGivff2MTnWCdT9fhueU/BeWbB0LJ/j7FPy0jOO18W3
+X-Gm-Gg: AYBFou1OgzFomveVws6tmoQZiTcED4WJe4m0mx2GCljBhjsVBsxDlxl4gtVyGjbb8qF
+	DF2aVSbiQ6FWNCMo2r3U2kMLuxhggHucxJz6na9IQYithSE7dv0JFE/Ei2W+Danxw9aO+T+JKc1
+	1KwzrbOnTzIHcxOzriC3vGxKFoAWYEl/ww9pZSSkZeT8xbT1ZzIIXVaqMONokxzsy5ewZlHna3V
+	KUpYKgi/h1rEaRBB2O+h6Bcya7M++l6ULuuXGeAOumH1Diy/CddmbzoCccCs9tLKZC8to0coZgk
+	ru6WpAiGjwyidHDAQb+z/W6zBAuOcveEo818iSpxxAN12k+rLsRzFiqBTEmxTiG+iQwJPuO12Lo
+	FTEcEQtacxlPpI5XFzmDLveLVJThzzueTwTgkHq+Uzrm3pzF5MA+qxrOBk8bDOAIERmYpLFQjGZ
+	5ICsnxuS5drkyI0ZptRWsxUoOztoZFKnwIOGzhraNfmbvr6CY8mt3Rqc5PxnpUZl29bNA5dVsOw
+	JtvteIf7iOBbhRCH73P/xF7g1VUGKqcfA==
+X-Received: by 2002:a05:600c:1d10:b0:4a1:6992:f861 with SMTP id 5b1f17b1804b1-4a1d75ce2e7mr120537405e9.1.1792345050091;
+        Sun, 18 Oct 2026 10:37:30 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1df370381sm72707155e9.1.2026.10.18.10.37.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8ce32absm147754435e9.1.2026.10.18.10.37.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 10:37:28 -0700 (PDT)
+        Sun, 18 Oct 2026 10:37:29 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	Michael Kerrisk <mtk.manpages@gmail.com>,
-	Willy Tarreau <w@1wt.eu>
-Subject: [PATCH v2 07/24] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the conditions
-Date: Sun, 18 Oct 2026 19:36:55 +0200
-Message-ID: <20261018173712.27670-8-gnoack3000@gmail.com>
+	Jon Maloy <jmaloy@redhat.com>
+Subject: [PATCH v2 08/24] man/man7/socket.7: SO_PEEK_OFF: This option is no longer specific to unix(7)
+Date: Sun, 18 Oct 2026 19:36:56 +0200
+Message-ID: <20261018173712.27670-9-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261018173712.27670-1-gnoack3000@gmail.com>
 References: <20261018173712.27670-1-gnoack3000@gmail.com>
@@ -80,49 +79,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The ETOOMANYREFS error is detected in too_many_unix_fds() in
-net/unix/af_unix.c when the user's (not the processes') in-flight FDs
-exceed RLIMIT_NOFILE, and the process has neither CAP_SYS_RESOURCE nor
-CAP_SYS_ADMIN.
+The option is implemented through proto_ops->set_peek_off, which is
+nowadays also set for UDP and TCP sockets:
 
-The check was introduced in linux.git 712f4aad406b (2016-01-11; "unix:
-properly account for FDs passed over unix sockets").
+	linux.git 627d2d6b5500 (2016-04-05; "udp: enable MSG_PEEK at non-zero offset")
+		Linux 4.7, UDP over IPv4 and IPv6
+	linux.git 05ea491641d3 (2024-04-11; "tcp: add support for SO_PEEK_OFF socket option")
+		Linux 6.10, TCP over IPv4
+	linux.git be9a4fb831b8 (2024-08-29; "tcp: add SO_PEEK_OFF socket option tor TCPv6")
+		Linux 6.12, TCP over IPv6
 
-Fixes: dc4eea68b565 (2016-12-17; "unix.7: Document ETOOMANYREFS for SCM_RIGHTS send exceeding RLIMIT_NOFILE limit")
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Willy Tarreau <w@1wt.eu>
+Cc: Jon Maloy <jmaloy@redhat.com>
 Assisted-by: LLM
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    Double checked in code -- the condition under which this error is
-    returned was not fully spelled out.
+    Double checked in code -- this feature has been added to these other
+    protocols since that man page section was written; I made sure that we
+    have all relevant commits listed as comments in the man page source.
 
- man/man7/unix.7 | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ man/man7/socket.7 | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index 9df4d3b6f635..86e72d0f58d4 100644
---- a/man/man7/unix.7
-+++ b/man/man7/unix.7
-@@ -732,10 +732,14 @@ when sending a file descriptor as ancillary data over
- a UNIX domain socket (see the description of
- .BR SCM_RIGHTS ,
- above).
--It occurs if the number of "in-flight" file descriptors exceeds the
-+It occurs if the number of "in-flight" file descriptors
-+sent by processes of the caller's real user ID
-+exceeds the caller's
- .B RLIMIT_NOFILE
--resource limit and the caller does not have the
-+resource limit and the caller has neither the
- .B CAP_SYS_RESOURCE
-+nor the
-+.B CAP_SYS_ADMIN
- capability.
- An in-flight file descriptor is one that has been sent using
- .BR sendmsg (2)
+diff --git a/man/man7/socket.7 b/man/man7/socket.7
+index 96f6f173a40b..ebe0264d7ae4 100644
+--- a/man/man7/socket.7
++++ b/man/man7/socket.7
+@@ -662,14 +662,24 @@ For more information, see
+ .TP
+ .BR SO_PEEK_OFF " (since Linux 3.4)"
+ .\" commit ef64a54f6e558155b4f149bb10666b9e914b6c54
+-This option, which is currently supported only for
+-.BR unix (7)
+-sockets, sets the value of the "peek offset" for the
++This option sets the value of the "peek offset" for the
+ .BR recv (2)
+ system call when used with
+ .B MSG_PEEK
+ flag.
+ .IP
++This option is supported for
++.\" commit f55bb7f9cb82dec2f2e803d7bd0fc5929248e4d8
++.BR unix (7)
++sockets since Linux 3.4,
++.\" commit 627d2d6b550094d88f9e518e15967e7bf906ebbf
++for UDP sockets since Linux 4.7,
++and for TCP sockets since
++.\" commit 05ea491641d338422edbd87af3b311c16ea762f5
++Linux 6.10 (IPv4) and
++.\" commit be9a4fb831b8b6dc5724dd3e61973ea91b413ec1
++Linux 6.12 (IPv6).
++.IP
+ When this option is set to a negative value
+ (it is set to \-1 for all new sockets),
+ traditional behavior is provided:
 -- 
 2.56.0
 
