@@ -1,134 +1,144 @@
-Received: from mail-server.nl (mail-server.nl [83.137.145.47])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30643DA7D4
-	for <linux-man@vger.kernel.org>; Sat, 17 Oct 2026 19:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.137.145.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E1518D62A
+	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792265113; cv=none; b=plhavsUyrnxMgy6tr+OlAULOkDSanWpki6lIBjMBVtR5WfJf8cWP36fpAi7TYQxZjKvQHYODD9DlBhwXMERlMneW9z50E5f0Pd4KJUiBvGh8BYqgTnEuzjxRCdpNiBl4MHL7YdpLGeKY40IlobVfOAThUyL18S0HD8X7i1IKU20=
+	t=1792320412; cv=none; b=MjiDgxvQUlKZ2dEQZtXz2dkK6WJI7Rv7+XxusMo7kdnE5tHyAbosYGbxVCBbYkAkYll+Q37Yjsy7Jv2JE7/tUDJEK/U4LrVGUdMk9uzESO7Y0abuel0qvnNv+l8L3nRIwbWBOirQ5/XHkMW0iTSq3Y8VVuZrQExWYBXc70FLi/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792265113; c=relaxed/simple;
-	bh=bNxm9T0Pp4qpYpFHE5XkmBWbOb8sDqfW921HHun0Otw=;
-	h=Content-Type:Message-ID:Date:MIME-Version:To:Cc:From:Subject; b=KkKWE/chQaZ/Vcb07SrBFhHsNgSt0YPAd1exoQndAPsOLkwD3mEMdO1u2ovZatBRjVyeL6WgSyaneWNaRJv2POHqfYVjMrkEj505B++ixHFgrEO9ftSt+5Bg7sbiH0/OspYcm/PxJ7nADDgZp0BGP3AtRum148VM1E7e9GMdvgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buddelmeijer.nl; spf=pass smtp.mailfrom=buddelmeijer.nl; dkim=pass (1024-bit key) header.d=buddelmeijer.nl header.i=@buddelmeijer.nl header.b=XjRmQ1yZ; arc=none smtp.client-ip=83.137.145.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buddelmeijer.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buddelmeijer.nl
+	s=arc-20240116; t=1792320412; c=relaxed/simple;
+	bh=Q7I171tfZ0IEueuNpfZO8x/C0+fU2wR/abukwc6oErQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iqIUJkZVvcZItE2Nxj6KmcB6OIkfZXARUOxtIHklW6Vj9OFr4HTo+ljfHRx1pOsEgrBwu0usl98U2IXJaFrTxfoPyNsMkHupSW/XGVo0RToIylz1KaJW/KY2TpDTUeo1gIxfzUxnKa28Krsr+HUgcZFhXhso/4WjHv5oyguAuQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOG3mBbE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=buddelmeijer.nl header.i=@buddelmeijer.nl header.b="XjRmQ1yZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=buddelmeijer.nl;
-	s=sslmailserver; t=1792264763;
-	bh=bNxm9T0Pp4qpYpFHE5XkmBWbOb8sDqfW921HHun0Otw=;
-	h=Date:To:Cc:From:Subject:From;
-	b=XjRmQ1yZFAOxDj8/JEEwCNZbmnvPHNG8+7qi+n/HiM5j6hPrl5PrmPo2Sk4ZsD8r4
-	 CvhhqeLtaqXP2svMX3Qavn18dlod2OG3ZKQNmxWQmqrvABmLfgwnAmSaHZt8727LiL
-	 yo216J8saZr9t5K5g5xzbsbjoxGfH6gEN+cPpbCI=
-Received: from [IPV6:2a10:3781:3611:1:1ac5:991:78ba:230d] (unknown [IPv6:2a10:3781:3611:1:1ac5:991:78ba:230d])
-	by mail-server.nl (Postfix) with ESMTPSA id A922E1BC;
-	Sat, 17 Oct 2026 21:19:23 +0200 (CEST)
-Content-Type: multipart/mixed; boundary="------------WfJUuWa83nmXusvzE10vjCrU"
-Message-ID: <448efb68-e2ff-41d8-a575-97da30e293ff@buddelmeijer.nl>
-Date: Sat, 17 Oct 2026 21:19:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOG3mBbE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB5A1F000C4;
+	Sun, 18 Oct 2026 10:46:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792320410;
+	bh=RqRxSXIRRYgjBckCbSd6XP47GzJvT7jDUIQ+08AANls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GOG3mBbEE3G2IEm0fTvHIlL6/4w1GaTQls1Ob4S3+iqimki+4Jo/lLa1gBZIUR+BX
+	 18jN4BwGiGTr7kQKRWucZhPM1z52u49FFB86V+ZpAqPJ3gKw7AGQyI8XeMD7DcTOcs
+	 9GzG9JUk+LU0RHogDXs87lR5vddBFXXX5aVMS4ePXVzjXlsQqTMElKMKBEsbyn5kO8
+	 pa7+KXGC2JjrmFFFk2wCSSBIxwnlI4Nrb7ufNyPjoM4v9G0eIJXvH4gkftobVat7xh
+	 aqiMHMBttBh8YVQj40P0P8k/cipSQs0kmjqB5eZDxnMXRvhN4QLLiMgIiwktDQCraw
+	 h3TcclMUL3Psw==
+Date: Sun, 18 Oct 2026 12:46:17 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH 01/24] man/man7/unix.7: ERRORS: EINVAL: The address field
+ is sun_family, not sun_type
+Message-ID: <atSgok2UDdYB3f2P@debian>
+References: <20261016173139.13076-1-gnoack3000@gmail.com>
+ <20261016173139.13076-2-gnoack3000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Icedove Daily
-Content-Language: en-US, nl
-To: Alejandro Colomar <alx@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="btwaqiivtkucizbg"
+Content-Disposition: inline
+In-Reply-To: <20261016173139.13076-2-gnoack3000@gmail.com>
+
+
+--btwaqiivtkucizbg
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
 Cc: linux-man@vger.kernel.org
-From: Hugo Buddelmeijer <hugo@buddelmeijer.nl>
-Subject: `make -R check` fails due to futex_waitv.2 and console_codes.4 being
- too wide
+Subject: Re: [PATCH 01/24] man/man7/unix.7: ERRORS: EINVAL: The address field
+ is sun_family, not sun_type
+Message-ID: <atSgok2UDdYB3f2P@debian>
+References: <20261016173139.13076-1-gnoack3000@gmail.com>
+ <20261016173139.13076-2-gnoack3000@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20261016173139.13076-2-gnoack3000@gmail.com>
 
-This is a multi-part message in MIME format.
---------------WfJUuWa83nmXusvzE10vjCrU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi G=C3=BCnther!
 
-Hi Alejandro,
+> Date: 2026-10-16 19:31:16+0200
+> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
+>
+> struct sockaddr_un has no sun_type field; the address family is in
+> sun_family, as described in "Address format" above.  The check is done
+> by unix_validate_addr() in linux.git net/unix/af_unix.c.
+>=20
+> Assisted-by: LLM
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
 
-Running `make -R check` fails because the text in futex_waitv.2 and 
-console_codes.4 is too wide.
+I'd like to understand the reason why the bogus documentation existed at
+all.  For that, a 'Fixes:' tag would be necessary.  It'd also be
+interesting to know whether .sun_type was a human hallucination, or it
+existed at some point.
 
-I noticed this when trying to enable the test phase when updating the 
-man-pages package in Guix; see https://codeberg.org/guix/guix/pulls/11893
+In this specific case, it seems to be:
 
-That Guix pull request contains a patch to fix the man-pages so `make 
-check` passes; said patch is attached.
+	Fixes: 9d1fd1157306 (1999-06-15, 2022-12-19; "man-pages 1.24")
 
-Maybe you could device a better patch though, in particular for 
-console_codes.  The affected table is much narrower than similar tables, 
-so some lines that have to be truncated, would easily fit in one of the 
-other tables.  But I couldn't easily figure out what determines the 
-column widths, so I didn't fix that.
+> Notes:
+>     Fixes an obvious typo
 
-Also, the Changelog for 6.04 contains some instructions to touch certain 
-files to ensure the test suite passes.  I did not attempt to use that 
-workaround.
+Most likely; still worth having a Fixes:.  Since I don't see any
+occurences of sun_type in glibc's or Linux's source code, let's assume
+it is a typo.
 
-Thanks for maintaining these man pages, they contain such a wealth of 
-information.  No need to credit me in case you fix these minor things.
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
 
-Hugo
 
---------------WfJUuWa83nmXusvzE10vjCrU
-Content-Type: text/x-patch; charset=UTF-8;
- name="man-pages-fix-make-check.patch"
-Content-Disposition: attachment; filename="man-pages-fix-make-check.patch"
-Content-Transfer-Encoding: base64
+Have a lovely day!
+Alex
 
-RnJvbSAxMzQ1ODc1ZDE0Yjk1MGU2ZTY0YjhmZDlhOGYzMzVlZmU3Y2U1YWUwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIdWdvIEJ1ZGRlbG1laWplciA8aHVnb0BidWRkZWxt
-ZWlqZXIubmw+CkRhdGU6IFNhdCwgMTcgT2N0IDIwMjYgMTA6NDc6MDMgKzAyMDAKU3ViamVj
-dDogW1BBVENIXSBtYW4vbWFuMi9mdXRleF93YWl0di4yOiBGaXggYG1ha2UgY2hlY2tgLgog
-bWFuL21hbjQvY29uc29sZV9jb2Rlcy40OiBGaXggYG1ha2UgY2hlY2tgLgoKLS0tCiBtYW4v
-bWFuMi9mdXRleF93YWl0di4yICAgfCAgMyArKy0KIG1hbi9tYW40L2NvbnNvbGVfY29kZXMu
-NCB8IDIwICsrKysrKysrKysrKysrKy0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDE3IGluc2Vy
-dGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuL21hbjIvZnV0ZXhf
-d2FpdHYuMiBiL21hbi9tYW4yL2Z1dGV4X3dhaXR2LjIKaW5kZXggNDE1OGYyOTdkLi5hY2Fm
-ZDI4MjkgMTAwNjQ0Ci0tLSBhL21hbi9tYW4yL2Z1dGV4X3dhaXR2LjIKKysrIGIvbWFuL21h
-bjIvZnV0ZXhfd2FpdHYuMgpAQCAtMzg1LDcgKzM4NSw4IEBAIG1haW4odm9pZCkKIAkJY2xv
-Y2tfZ2V0dGltZShDTE9DS19NT05PVE9OSUMsICZ0aW1lb3V0KTsKIAkJdGltZW91dC50dl9z
-ZWMgKz0gMTsKIFwmCi0JCXdva2UgPSBteV9mdXRleF93YWl0dih3YWl0ZXJzLCBjb3VudG9m
-KGZ1dGV4ZXMpLCAwLCAmdGltZW91dCwgQ0xPQ0tfTU9OT1RPTklDKTsKKwkJd29rZSA9IG15
-X2Z1dGV4X3dhaXR2KHdhaXRlcnMsIGNvdW50b2YoZnV0ZXhlcyksIDAsCisJCSAgICAgICAg
-ICAgICAgICAgICAgICAmdGltZW91dCwgQ0xPQ0tfTU9OT1RPTklDKTsKIAkJaWYgKHdva2Ug
-PT0gXC0xICYmIChlcnJubyAhPSBFQUdBSU4gJiYgZXJybm8gIT0gRVdPVUxEQkxPQ0spKQog
-CQkJZXJyKEVYSVRfRkFJTFVSRSwgIm15X2Z1dGV4X3dhaXR2Iik7CiBcJgpkaWZmIC0tZ2l0
-IGEvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40IGIvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40
-CmluZGV4IGZhZjEyYTY2Yy4uOGNlMTgyZmFkIDEwMDY0NAotLS0gYS9tYW4vbWFuNC9jb25z
-b2xlX2NvZGVzLjQKKysrIGIvbWFuL21hbjQvY29uc29sZV9jb2Rlcy40CkBAIC03NTUsMTMg
-Kzc1NSwyMyBAQCBFU0MgXSAxIDsgXGZbSV10eHRcZltdIFNUCVNldCBpY29uIG5hbWUgdG8g
-XGZbSV10eHRcZltdLgogRVNDIF0gMiA7IFxmW0lddHh0XGZbXSBTVAlTZXQgd2luZG93IHRp
-dGxlIHRvIFxmW0lddHh0XGZbXS4KIEVTQyBdIDQgOyBcZltJXW51bVxmW10gOyBcZltJXXR4
-dFxmW10gU1QJU2V0IGNvbG9yIFxmW0ldbnVtXGZbXSAoMC0yNTUpIHRvIFxmW0lddHh0XGZb
-XS4KIEVTQyBdIDUgOyAwIDsgXGZbSV10eHRcZltdIFNUCVNldCB0aGUgY29sb3IgZm9yIGJv
-bGQgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KLUVTQyBdIDUgOyAxIDsgXGZbSV10
-eHRcZltdIFNUCVNldCB0aGUgY29sb3IgZm9yIHVuZGVybGluZSBzdWJzdGl0dXRpb24gdG8g
-XGZbSV10eHRcZltdLgotRVNDIF0gNSA7IDIgOyBcZltJXXR4dFxmW10gU1QJU2V0IHRoZSBj
-b2xvciBmb3IgYmxpbmtpbmcgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KK0VTQyBd
-IDUgOyAxIDsgXGZbSV10eHRcZltdIFNUCVR7CitTZXQgdGhlIGNvbG9yIGZvciB1bmRlcmxp
-bmUgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KK1R9CitFU0MgXSA1IDsgMiA7IFxm
-W0lddHh0XGZbXSBTVAlUeworU2V0IHRoZSBjb2xvciBmb3IgYmxpbmtpbmcgc3Vic3RpdHV0
-aW9uIHRvIFxmW0lddHh0XGZbXS4KK1R9CiBFU0MgXSA1IDsgMyA7IFxmW0lddHh0XGZbXSBT
-VAlTZXQgdGhlIGNvbG9yIGZvciByZXZlcnNlIHN1YnN0aXR1dGlvbiB0byBcZltJXXR4dFxm
-W10uCiBFU0MgXSA1IDsgNCA7IFxmW0lddHh0XGZbXSBTVAlTZXQgdGhlIGNvbG9yIGZvciBp
-dGFsaWMgc3Vic3RpdHV0aW9uIHRvIFxmW0lddHh0XGZbXS4KLUVTQyBdIDYgOyAwIDsgXGZb
-SV12YWxcZltdIFNUCVRvZ2dsZSBib2xkIHJlbmRpdGlvbjogMD1ib2xkLCAxPXN1YnN0aXR1
-dGUgYnkgY29sb3IuCi1FU0MgXSA2IDsgMSA7IFxmW0lddmFsXGZbXSBTVAlUb2dnbGUgdW5k
-ZXJzY29yZSByZW5kaXRpb246IDA9dW5kZXJzY29yZSwgMT1jb2xvci4KLUVTQyBdIDYgOyAy
-IDsgXGZbSV12YWxcZltdIFNUCVRvZ2dsZSBibGlua2luZyByZW5kaXRpb246IDA9Ymxpbmtp
-bmcsIDE9Y29sb3IuCitFU0MgXSA2IDsgMCA7IFxmW0lddmFsXGZbXSBTVAlUeworVG9nZ2xl
-IGJvbGQgcmVuZGl0aW9uOiAwPWJvbGQsIDE9c3Vic3RpdHV0ZSBieSBjb2xvci4KK1R9CitF
-U0MgXSA2IDsgMSA7IFxmW0lddmFsXGZbXSBTVAlUeworVG9nZ2xlIHVuZGVyc2NvcmUgcmVu
-ZGl0aW9uOiAwPXVuZGVyc2NvcmUsIDE9Y29sb3IuCitUfQorRVNDIF0gNiA7IDIgOyBcZltJ
-XXZhbFxmW10gU1QJVHsKK1RvZ2dsZSBibGlua2luZyByZW5kaXRpb246IDA9Ymxpbmtpbmcs
-IDE9Y29sb3IuCitUfQogRVNDIF0gNiA7IDMgOyBcZltJXXZhbFxmW10gU1QJVG9nZ2xlIHJl
-dmVyc2UgcmVuZGl0aW9uOiAwPXJldmVyc2UsIDE9Y29sb3IuCiBFU0MgXSA2IDsgNCA7IFxm
-W0lddmFsXGZbXSBTVAlUb2dnbGUgaXRhbGljIHJlbmRpdGlvbjogMD1pdGFsaWMsIDE9Y29s
-b3IuCiBFU0MgXSAxMCA7IFxmW0lddHh0XGZbXSBTVAlTZXQgdGhlIGZvcmVncm91bmQgdGV4
-dCBjb2xvciB0byBcZltJXXR4dFxmW10uCi0tIAoyLjU0LjAKCg==
+>=20
+>  man/man7/unix.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> index f9db05a71d93..75e125c61673 100644
+> --- a/man/man7/unix.7
+> +++ b/man/man7/unix.7
+> @@ -663,7 +663,7 @@ Invalid argument passed.
+>  A common cause is that the value
+>  .B AF_UNIX
+>  was not specified in the
+> -.I sun_type
+> +.I sun_family
+>  field of passed addresses, or the socket was in an
+>  invalid state for the applied operation.
+>  .TP
+> --=20
+> 2.56.0
+>=20
 
---------------WfJUuWa83nmXusvzE10vjCrU--
+--=20
+<https://www.alejandro-colomar.es>
+
+--btwaqiivtkucizbg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrUo3kACgkQ64mZXMKQ
+wqmqohAApkN5zBWl9/huH97yecFOwgnYM/sHGt86Bo7FEg57xRfjqRaTD7jNE3v5
+k07j1sTtz/6LMX8ZRZFs0yJEgO7c3aCB3idvn3rEJ3ArL7GFRysOrAhvrEJNk9QC
+qx20rH4yzq1sTBWI1G1bnjQx+nIS/s/e3L3AgrjgGjCTw9vDlbhJ9DYTEJHvuhFL
+gC2+U8IhYslPpa3+Yr8cR0q5VUAPc0/b3pleyUpytSSoqyY2sQH0+RKp1la/3jQK
+wHAly3OnOun2//2qAVgZvvvGhZCZ+cTcPVzSGFVerLdv/ak00AjCPcQDlk0R3/UP
+/b66HS0aNZV+sfoSJSmtd/ctWoEIam1c9aBDF/REz7x0cTPUju4GkLnRJonLnr1E
+kvHVMl/R5Bf4NjRxRrscV2NgZsT/bb4EpIxPGmc54o+Eym/oljCzKAQy0QWTZLfp
+A0Jtj4ctsIOLvYaeYxrvvP/kVcfVEg1hhTshRq9ttPnqY4x/1A/Q6Rxwy78GWT6u
+dblZevPOJlPjfej6GcEnKHbqYcQuyr56CbxTuMAzQhQ41T7H6hn4pxoKbnGwK2zy
+jPwsFEAYJ4JonUNu50TZnaGUm79L0R4lUSY30W8TNxSWStnx/isanAkoEs9vcZ3s
+FA1uGodQm9h0HSZIqHEyaf748amo3XEkxMuGTblll/I8ZrZGVog=
+=hJKV
+-----END PGP SIGNATURE-----
+
+--btwaqiivtkucizbg--
