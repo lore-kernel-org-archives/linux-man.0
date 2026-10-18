@@ -1,75 +1,71 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02D237DAAE
-	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787C63D88F2
+	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792345048; cv=none; b=uOs2AVThS6YWOrhx1BSzI6PFtdX23zv8dBn4Z4EfTFNoJ1NVid8QgDwrdct8Q7LzXDJCoEMuTDspMevi6TTM8cgv7TI3iWaBcmJPUBC5hXGb5SA1+v5S/R8EC93A8lcZc43MCqUDVmwCARj6GcKQOIEFTkQWMZH4WxeKZN0P0Ng=
+	t=1792345049; cv=none; b=fa8bVL0IMiprW+TpvS7OgfxasPJZsKu0ccxxMjOOG1CLe/uXwK8q+EhDrxA+1U2TyxxoE0vixZA6srE2VrrFUSJn+Gf7uNDLrUG4Hpi6POCSDd5qoJ1Bmrb778kaWRTy9JMcFsco9p1FDXq3VELVosjBJh/gC/e+e2vsEXEDOqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792345048; c=relaxed/simple;
-	bh=jyiHHwzL+5emPikY2icHShE14AyheuStA77CwJnf7rk=;
+	s=arc-20240116; t=1792345049; c=relaxed/simple;
+	bh=y846QOhH8qcEsNI5+dvuu53vR4P14ajFxWiRweNEuXE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IEYLv3h8xqkx7Z0p8uwI9s2uhOvwEjVf+S+XOuh/pQt0LNlU8egKzdB63PkDp9VeQPt3Z8qfVbSq8MJ8UTtKB5X4P/j3dFDASEjj3zQQuxYCS4vgFUaKK8y5kZsXwAoOzltHrCbNb/kJUprleZwdTMSwh0eiI6u7WhynxnPlrVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ws38Fk+Y; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version:Content-Type; b=sBuB3AkpTCBN3qwZMfH3JbVJgjIZkXkjRUIXbbhIShuGzHZCvuuPJ0XXtgIlrtsUW3f3pLHZy3NKlZCgQi1PvGtPVF/Wnj7lkMwpIt1dGs8X0ftGw3tq+cEQRzieTMWpKVoV1OX0KKRMtI9YxgsqsTaOqR/gQDBYdYJ4C1UoJlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=haOsHyZu; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ws38Fk+Y"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48dee593f18so941736f8f.3
-        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="haOsHyZu"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1df146015so5751255e9.0
+        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792345045; x=1792949845; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792345047; x=1792949847; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=1262nuMGYp0UJJFi2iDIACSyvWk50Ykvi3F/xRa21bA=;
-        b=Ws38Fk+YlCOdXO0N8HqEKCjTZc/HKzETDD+xx52FPcOMHxaQZ3hoHMzfkk9VGYiGfZ
-         4dN9FMdzD2cAqA1oc5Ok4wAcxOlix2S9la20CH9DvQMNgXy4oBwNQ68roeCs23zogDMh
-         WXz7wiUwY1/mbpDn8a8bov695+/YQrxtjwQfsOXnjE0Mn3j5VktZKttGnlVKoDPkOZD1
-         CJI0Q/HLUrSHB6j/g1fRHV+vxQEzyqf8weNS1TpkkoH0wcj8XyXrxhWGmRgWOIrr/Lwi
-         s2AeMtdMykihVFVP12A8eXPQfYKa4eCXNx4G20jWq5L8qrphwghif8v6zd2yuzodaqHd
-         9+pw==
+        bh=5Zf/5i0/9KCYnuiPyh+ozjWwPw17yiRchb/Aj95Gvek=;
+        b=haOsHyZuVoElmPBEM4vm6Qpvq+v7QeHI5+VxC62CtpXU0erpj8wdaHyhGwYtxv88Od
+         AD+upA8xB2j9ayQGfVIJgBNh4pNCawiz7Xb+Kio0w5C2YTkSCzZFQbca2D3qGssaOpMC
+         9eCmd1pVgw+ZcGPzhuGl/jmMOOIo8hXGJxyeRNxU6/Wb4SmHH6kYILAcvU2BzrXVWg+e
+         fWGpoLafvBEhoV+/Co+zn+qkGqzgciDqmJW8/w8H5SH9mWdHLMeQPElx7dLEjtwgwl99
+         k3H+51hv72xmRlvtspAso/kqrrSAdXdQLB0CFTAhknaGbQGujiG4IacGPbCMf5mPIy/+
+         QU+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792345045; x=1792949845;
+        d=1e100.net; s=20260707; t=1792345047; x=1792949847;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1262nuMGYp0UJJFi2iDIACSyvWk50Ykvi3F/xRa21bA=;
-        b=C8IHe8j6VynOAWHTbBBt2m69lRYc3TvcxVXT2Z4jEHScXtk9XkfD4P2698ybjXTT2y
-         D1ZVcdA5oDgvD1DeJF6Bsb2vy8XqheIdBk86tmoGjpxsj9X+ThmxqDRGTiL5orHG01sE
-         8Ec+ohU6XrifUCc/ZflpNZDHLrUAYQX9TIYt/06b1awuEGJTwNtikcWZK+kOow/ErsBG
-         GOqtwgdkfB+Xe0odzLIqu1q5CtnbKDMMcoBMoBifWCIA32sEBlMmfYwQWXXt/sXVR5Fq
-         3zMe6cX5iS07wvu110kuGwK3GWjtdPwIMmM+kZebNbJufHWaD4A6wZ+h3ioWkgbU6smy
-         jTAg==
-X-Gm-Message-State: AFq9FYJXuR6gaZ60JC4tKRJwsxpyJLRea0kUCzQI5ooZUh+FlgOHYG9d
-	+6scOiJoGcpgRPATjfzMRGdTu7yc0SgBlcN80jYgBBDPPfulzeLJ6zcN
-X-Gm-Gg: AYBFou1TTtoaSUe4XoKDvzjEjvlrZtvSDQDjhI/JHNRyx9Qh6sCyXlSOJx3+DQ89Tq4
-	/Comv6YD+cVhK0/bCBsuHB2ymeJvAbM7GA19483L3NOBI7Slr3a4DJxE1psoTVYdkDjoKslDNR9
-	uOEmTIOJmeZ7BjKcIcByEBrfBXySWq0+4tQwABVyy0cmGKfUcpTtcKLh6GzV0gXP+OPaUq+Gt1d
-	XqdkEwoBndzbj6qNDc27t/5A0mzhc6G50DVwcnyweLBYYEzWBeIrCrD5wCfvhZyqPF8TJEhO7/8
-	xsBeA5wYDZNJ++t9qaVLEkt6ylqz1Bm8X4bygVJHgpLf5TFA4eISvDIlAkVx4p2UEYbHPTPCX+v
-	GZ+SyB1RE4hyEJLP45oVuk1jyj1PmyQ+wTJ3hdcG0IIhmdj8zCAsfnMROe2kKAlhwrxuyaVfZHr
-	Rza9AiSxBPm9KaGnDb6uiFWlRixslVESQt5/N5cTCAIwjzLyQorMgN7ast7zC62TGPYgcie8mIh
-	u0VivghJhgW5KoYG/Dv6x8=
-X-Received: by 2002:a5d:4dc6:0:b0:487:1575:ebe2 with SMTP id ffacd0b85a97d-48e07fa9d89mr8009750f8f.44.1792345044936;
-        Sun, 18 Oct 2026 10:37:24 -0700 (PDT)
+        bh=5Zf/5i0/9KCYnuiPyh+ozjWwPw17yiRchb/Aj95Gvek=;
+        b=kyk9ZOW2ee55HSfr3P0Sr9J8ITSupgGsIKUoNsAR+SIDaJq7H+3N+MHtTBeoQJu6UJ
+         EMnX5ae8ojdSj/phlAS6/8ptAEC+MNZd1nEVIPJzbzphRMsDsinKrwl5EbNFVyWDC5Em
+         CS783tR8gAXGvbCzmJGjNifF4mZEg9ms/r2lUHCrAJIVLydD4t7jO34315AOcTmuTE3N
+         Q7+54ryZ4QEjm7nsCfD6rFoYlZggmwmZBkaH7uLrv4Y+9wOYEM7VDanDiZ/0HC7IUjkK
+         IbzysGv30JiYVKeeIwYuXgUrKNSNkT8QRn7jUkzdUBxVGhg/+nN8c8tUK6oQys8Y72p2
+         Kvfg==
+X-Gm-Message-State: AFq9FYLF5iRK/+CxFy3pJEZiTsJugoiEZAUnlZdntROfwS7/yPYmTsQi
+	NaqfOE1PRsvQq1hwHPr9hBkIzZuWpxx03ApJquYGLSQHoonfGawpKiQv+LFcKK04
+X-Gm-Gg: AYBFou0UAnNRsqJ7/5ko9R2RkP9gj2/ZcQiYxI/cies5lc/GGJ/QSEPwbovV8WgO1Cp
+	aKCv5NLuAv0bs1uTC1jpEL1q/qdl2goUiy7C2LlRiRPPs9T0rREjUklIGUwdkGD7Rir0QF9Sr0f
+	+LgJmEtxqtY7gL4KjLoAv5Ztj0G3QVqgAhrYr/x6e/WM4gG+c+ojPKSD05nSwAlvPIzIJmIt5yH
+	9B9OWW759NsUDy8NdHXUYj9lxHQrvVaz0xaVuI5HJbX4Yhr6moGChGCeRrbZzM5tu9P0mUjyKXu
+	g7KZ27mcVDNfjMaRAJ8dB2734DYCnYg/0b+SYWmilEFLWc+GkQzAFcblBxz96S9Tu9M7Kjsz8Re
+	8n2vcOLgg85WgwPOrOahTdc1RPQpIFErohF0oZWX4wp3r3nvZvobx5rNj0g0rebdbHrtC3XT90z
+	8CXKzAADCBZp+ImTrraWezh042+sgGnaeEPlMxmUMr+83WC0ksOXR/o7aO79RlxIoWyAiCVerNu
+	ce2wC6jEgiIsdvbLrvuoCU=
+X-Received: by 2002:a05:600c:4e14:b0:4a1:d307:b526 with SMTP id 5b1f17b1804b1-4a1d7464034mr115008385e9.0.1792345046598;
+        Sun, 18 Oct 2026 10:37:26 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4feb6bsm19313936f8f.41.2026.10.18.10.37.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503a0dsm18415710f8f.47.2026.10.18.10.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 10:37:24 -0700 (PDT)
+        Sun, 18 Oct 2026 10:37:26 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	Pavel Emelyanov <xemul@virtuozzo.com>,
-	"Dmitry V. Levin" <ldv@strace.io>,
-	Michael Kerrisk <mtk.manpages@gmail.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: [PATCH v2 05/24] man/man7/sock_diag.7: udiag_wqueue: This is memory in use, not memory available
-Date: Sun, 18 Oct 2026 19:36:53 +0200
-Message-ID: <20261018173712.27670-6-gnoack3000@gmail.com>
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
+Subject: [PATCH v2 06/24] man/man7/unix.7: ERRORS: EPROTONOSUPPORT: Protocol 0 is also accepted
+Date: Sun, 18 Oct 2026 19:36:54 +0200
+Message-ID: <20261018173712.27670-7-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261018173712.27670-1-gnoack3000@gmail.com>
 References: <20261018173712.27670-1-gnoack3000@gmail.com>
@@ -82,66 +78,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The reported value is equivalent to what SIOCINQ/SIOCOUTQ report, as
-also discussed in the commit message in linux.git c9da99e6475f
-(2011-12-30; "unix_diag: Fixup RQLEN extension report").  (Those are
-socket-flavoured synonyms of TIOCINQ(2const), TIOCOUTQ(2const))
+unix_create() in linux.git net/unix/af_unix.c starts with this check:
 
-In Linux code, the reasoning is as follows:
+	if (protocol && protocol != PF_UNIX)
+        	return -EPROTONOSUPPORT;
 
-* The udiag_wqueue field is set in sk_diag_show_rqlen() in linux.git
-  net/unix/diag.c, where for non-listening sockets, unix_outq_len() is
-  assigned.
-* unix_outq_len() in linux.git net/unix/af_unix.c returns
-  sk_wmem_alloc_get().
-* sk_wmem_alloc_get() in linux.git include/net/sock.h reads its return
-  value from refcount_read(&sk->sk_wmem_alloc) (with some technical
-  tweaks).
-* The field sk_wmem_alloc is documented in the same file as:
-  @sk_wmem_alloc: transmit queue bytes committed
+Therefore, not only AF_UNIX (a.k.a. PF_UNIX) is accepted as a protocol
+value in the unix(7) socket(2) invocation, but also 0.  0 is the usual
+value, and is also given as example in the SYNOPSIS at the top of
+unix(7).
 
-That this interpretation of sk_wmem_alloc is correct can also be seen
-in the places where the protocol-specific code adds to it.
-The UNIX sockets increment sk->sk_wmem_alloc as follows:
-
-* unix_dgram_sendmsg() and unix_stream_sendmsg() in net/unix/af_unix.c
-  invoke sock_alloc_send_pskb()
-* sock_alloc_send_pskb() in net/core/sock.c calls skb_set_owner_w()
-* skb_set_owner_w() in the same file increments the counter using
-  __refcount_add(skb->truesize, &sk->sk_wmem_alloc, &old_wmem);
-
-Fixes: 4f6a0a4a909e (2016-12-07; "sock_diag.7: New page documenting NETLINK_SOCK_DIAG interface")
-Cc: Pavel Emelyanov <xemul@virtuozzo.com>
-Cc: Dmitry V. Levin <ldv@strace.io>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>
+Fixes: 9d1fd1157306 (1999-06-15, 2022-12-19; "man-pages 1.24")
 Assisted-by: LLM
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    Verified in kernel code; the udiag_wqueue field does indeed have these
-    different semantics -- it's the data already sent, which is still
-    stuck in the output queue, not the maximum size of the output queue.
+    I double checked it in the code.
 
- man/man7/sock_diag.7 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ man/man7/unix.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man/man7/sock_diag.7 b/man/man7/sock_diag.7
-index 35a6d5a80ffc..8f8b28b4404d 100644
---- a/man/man7/sock_diag.7
-+++ b/man/man7/sock_diag.7
-@@ -248,7 +248,9 @@ the backlog size which equals to the value passed as the second argument to
- .BR listen (2).
- .IP
- For established sockets:
--the amount of memory available for sending.
-+the amount of memory currently allocated for data
-+that was sent on this socket
-+but has not yet been received by the peer.
- .RE
+diff --git a/man/man7/unix.7 b/man/man7/unix.7
+index 1054d7f52a30..9df4d3b6f635 100644
+--- a/man/man7/unix.7
++++ b/man/man7/unix.7
+@@ -708,7 +708,7 @@ or
+ .BR sendmsg (2).
  .TP
- .B UDIAG_SHOW_MEMINFO
+ .B EPROTONOSUPPORT
+-Passed protocol is not
++Passed protocol is neither 0 nor
+ .BR AF_UNIX .
+ .TP
+ .B EPROTOTYPE
 -- 
 2.56.0
 
