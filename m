@@ -1,71 +1,73 @@
 Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9953876A0
-	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1723876A0
+	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 17:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792345075; cv=none; b=Ax9pbxDQ/NvbviCTulS7j1QioRgYgGOrku/yDkg/O3DTky5K2uTuOobqnHpawEAV3LNCs/x5wdH6hxGXSH4yUFTvhIjvEbcv04GpcX3T2PfMgg9LccfgjCHvOhKHjT0DwJW083Bq4/3pPMhUqoRmMj0PRzmgh0PQVp6LsHDmFa8=
+	t=1792345077; cv=none; b=rpygYd9IbhZ8kxRxdcm5rfQoFzEDJpUHXYs7Kc+nixBAK+D9XxvWYFY15bDiTMu39XgSb4bf7EsS0dXwicaKsUw9s2YBiXGT2x8OMCHyPpUaNbmOgc271Oloh98TBb8tQ9fDBCFSEK3sHbttOTiXkf42XmaC/YooOrVHGv/c274=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792345075; c=relaxed/simple;
-	bh=63XVzORgwquECplTtRVQndQ7e0+VSOaZKUx2hNV+Wi8=;
+	s=arc-20240116; t=1792345077; c=relaxed/simple;
+	bh=z2An0RUzI8JFd73zjn6tldg2FL/tA9hBM/tcoH3/VxU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QsUyLVabPcsljCacrUPXr2Sn64odHf49DWY2fU0J9rxh8rq8jmAX37iQqjQF1Ej/0E4w9fRe0C+WNGdTUcEM7uHqWY04A66aRy+SnV3bx1RaqMQ1Bf8cn4o74hUQSY3HvsW0q4zTrykgJJENEkXjWt5yRJDUM5we8G23CXqAAHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XYk6wQ0W; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version:Content-Type; b=A6ShQiZq+NFRg773FrrivbqNKO1L5orSUblz65HOo+sUJLyTnBqYaIp+iSUqEFSEN5EojSnzea1dLTEKgc7CndoBYhmg9B5/h2LgcTdB32ZzjW2wvYOGE6bSy9hlOhMsfV6oAPbIBpZ1iByMAGS67D6DocmkBQk35loNfoguJzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k9wQKMAe; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XYk6wQ0W"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48e09aa5264so650621f8f.2
-        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9wQKMAe"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so852253f8f.1
+        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 10:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792345073; x=1792949873; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792345074; x=1792949874; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=C/NAs4UEQnBIr2HxH8q8R5oZC5JcrfxQIB5kFE6aIIE=;
-        b=XYk6wQ0WHi3ntwPrCYMbwhWKsqSjKS48fkOpwTuLqveUhznP+dj4kWbrY8K9Jw4+hw
-         nTzqzGUYhVMnR242yIiIlqg+FUgD9BgMzIPMSTBCx1IGmVNJGV4Le62p1tZGO7Kc3KtT
-         KqzpkTdQHOnwkFOB0iJ3NI0qF/MBlvOaenTM7FVCvcvXe/KboIOnSI74lZrSOz5yiK0Q
-         WLFMNw3dNL5zkQrOVh4a1pZr8f6yV5P5UzykIKmH4vkOweor5R3uTOb9VpCtdav7j7Qs
-         UZb+gllNe6WD1/gsMe7uUfI0rj2IQvpJQAwhBjaPvt7JcMVlGm8dAEWWWlAMzhfANEMT
-         SvFw==
+        bh=TAyez3cZY/cfcBUVOfh8Pzy9eS6VTbnlHOSBTEpubGU=;
+        b=k9wQKMAeKv+aqPmG8NSpafglxyjkzC6butuzlsYIRLnBcCmhnjmGt8EM6m0VeXHoZe
+         HwKRxtV57e1TZENu5OHPGA046SQnvzllFNgYUlr+qvejhKIHWZIuSU8A861AR34ChJTc
+         IgEfTnBOyg+zrcGII5FWkuIWcQulBHHQkjGlC7h9dnEnjcBG4ueaEUvtv6Velt4OIs9r
+         Iks6gx+ddrAkmEjaPewZZA386KSGE7jR378dV/iaTq65XodhUEzRLKzbjaaOIOlOTyFL
+         zNW+/6/R4pqUg+o2BMDe1cYReO/B6NHDcfa/ar2jTm64+yWVU8eA27OxoENgybKnjzM1
+         1RiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792345073; x=1792949873;
+        d=1e100.net; s=20260707; t=1792345074; x=1792949874;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=C/NAs4UEQnBIr2HxH8q8R5oZC5JcrfxQIB5kFE6aIIE=;
-        b=CtXaaK8N7VXeJhxON2ZWj8GP6cIX3FRJn2MYzBBGu12rNinLAQMXOOZQbQcehNhzKN
-         mrHm7/8ovMO2nLwMUAkEzLMo46s1ddXuz7+7itlid0sLLsbJzJlYiqwSsKRLsnsDZocz
-         ksmxhba6PNtVL0Ly7nk/PhLhFh23yVLs/kvEzituW6bQTysz1wE304+U9/SVKZtORj6W
-         qbuvLLe7sWEYfU+/KaEkHsEvu+O05v7EokI7jX1/D9gnebFFVK6ysdqpJ+ctuEdOK92r
-         F/6fJ6Dqft2WaB8elFPdg7lBYzsvvEcPLBcGfMLtZ0AV/FnweGDlaJNxycGtO1El9aOQ
-         YgcA==
-X-Gm-Message-State: AFq9FYJ1BCblkKZwiKddzFwjJTMDfHOACaXptht/tPTKIJoMf2B6j7+O
-	YOGCqo3AvJIZMWq6GGbIIkSlEEMEMuwAe2PLiNdqd0IFPSrHnC+3Yvs6IM6SWxRQ
-X-Gm-Gg: AYBFou14DEZasxtvANFNTRyKCYqIcDo+HEhioD/KL5+KF1F//OPxkJVcLy2qmpPDyIM
-	RCf9MhnYr4x9q39BI1ezruQ/5yimA8lTtlKTav5/jUgoXecy/p8culZhRjom1Ctjx1hxm6U29Qp
-	Kir5BHgtOHHTyQUYq2nt0axAn14U5SULW9UOesRXgqC6smAL7D+JgfXPRKaIS5E5hmezbV5tsY3
-	JweKkmtybaMNJ4cHRE4Z5KmUgW79v2vL5ReLyNklPz4gmVQhH98393pa/MO+C54Hvd4dDstsF0d
-	pjQ91FNT4PVB+YhCjznAXuW0ecxheEok+rxSYGGn7QypPvB46VS0ndNdioAY9nf/gkZh835DzgT
-	DNZLUa7gKZtqhAlIj+c2eDQF9tixg/0HsCh3KI2nRZp+/KnRFGJfUMNtty9Y60uxRAddkosW85W
-	/yDo80WH0QrwNBWi/K9rSyRg9+jz02+/6k3e/0qi9isPfM5NDTOR7u5/n9VxBgorb2Er8KzK82p
-	D+POEq3/MRPPV2EiUgh+SU=
-X-Received: by 2002:adf:e19a:0:b0:48e:6f:a9c1 with SMTP id ffacd0b85a97d-48e07fa6ffamr11142619f8f.54.1792345072618;
-        Sun, 18 Oct 2026 10:37:52 -0700 (PDT)
+        bh=TAyez3cZY/cfcBUVOfh8Pzy9eS6VTbnlHOSBTEpubGU=;
+        b=Sa/e/yHAVMPeo+Bzrm3gSlXw2N1DuWSCj4gjFoQx3uX/pHrpopMdywBIYzzgUhEJOa
+         HFxPU45AIzQs4OCJ9KeArISsBDQxz7ocPb28Hb6Pttr9X+J3FG1YY4Zez4druoWJAZpg
+         jGP+ArotspWYfPFasXe5fyUi6yIVDt2mLSfmMRj2lulbDl3iuUvBLVXSYvkjBU5cHPDB
+         xXMG1A3x0EfU6BU1aeyayj8rUXomuYlW7+ugU3DnHQX+oaapC1eBuEChME7fhJ7cQLm6
+         562IpNOwDJdJB1GsRJGDhkya8VcEQb/NVSzSelWnIzNylz6NNPrGU0fMmx9ax+pjlw7j
+         3aKw==
+X-Gm-Message-State: AFq9FYI6p2F78eUpeT4mi8b/NZfMvouGStFUtmuDL0j9QoE+Ie1hdH8c
+	KmtYt8dpGT4g8mDjkfh+P2P0YGdG4qKW3HYEP7+scAA1fyR7h11w3LEd
+X-Gm-Gg: AYBFou2CwD9K7xfT2SSPsf4Nxdik+muOpF0anemDdhjfst4ryNLct/oqmE94RE7dYlR
+	QdUW8jALbf7VkwTvMn3kl96cKRGCeFCGNrSwxoJnZwuPzyg7klCPRD8UNKrlo/5RnRH3Zk+7yyW
+	oARqQSskWa1A49yTaODg22JLU9TCYDiTgkd2nA1Y0QQcMhuvwBsgEmZVhnWovjIwuJAt8i92G1O
+	Fm0xKRsUzUuL4r03m/5F2CzROrLVMh1P7rXqzsfoTEo2NLn77C9R5LvXXk8PqWWTM+CjpEy5tK/
+	VntFSfARuNl4v1kV5Hqp3x1xqKm2z6wjtJ6r28ez5wspjln17EC2GmuVd4MajWmxENh9Jh13fnc
+	yvyG8jm0mx1J8Mn2vj8otyMc4xXi5NnbUrjiyAOQdzJysE7OTJ2p1JJLhG1HEGA30cS6V+sTV63
+	L/wSFhKAHDxsL7VhIdwKm8U57hGQZ4ObvX01Opb+XSgb3Sl089QKzymThL0G10Wjqt4TWLmR7Ll
+	CASLf4P1qrZ5lgaXnGGSjA=
+X-Received: by 2002:a05:6000:29ca:b0:48e:a9:9e2e with SMTP id ffacd0b85a97d-48e07bb315cmr7398964f8f.14.1792345074245;
+        Sun, 18 Oct 2026 10:37:54 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd50ae5esm19568721f8f.51.2026.10.18.10.37.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a72sm19709297f8f.4.2026.10.18.10.37.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 10:37:52 -0700 (PDT)
+        Sun, 18 Oct 2026 10:37:54 -0700 (PDT)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH v2 21/24] man/man7/unix.7: Abstract sockets are scoped to a network namespace
-Date: Sun, 18 Oct 2026 19:37:09 +0200
-Message-ID: <20261018173712.27670-22-gnoack3000@gmail.com>
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
+	Rao Shoaib <rao.shoaib@oracle.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: [PATCH v2 22/24] man/man7/unix.7: Remove mentions of unsupported out-of-band messaging
+Date: Sun, 18 Oct 2026 19:37:10 +0200
+Message-ID: <20261018173712.27670-23-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261018173712.27670-1-gnoack3000@gmail.com>
 References: <20261018173712.27670-1-gnoack3000@gmail.com>
@@ -78,44 +80,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Point out that abstract Unix Domain Sockets are visible within the
-current network namespace.
+Limited support for MSG_OOB was added in linux.git 314001f0bf92
+(2021-08-04; "af_unix: Add OOB support").
 
-Abstract addresses are looked up in the per-network-namespace hash table
-(unix_find_abstract() -> unix_find_socket_byname(net, ...) in linux.git
-net/unix/af_unix.c), as network_namespaces(7) already mentions.
+Its removal was discussed in [1] but has so far not happened.
 
-Assisted-by: LLM
+The support is conditional on the CONFIG_AF_UNIX_OOB kconfig option,
+so stating that it is supported would also be wrong.
+
+Link: [1] <https://lore.kernel.org/all/20240409225209.58102-1-kuniyu@amazon.com/>
+Cc: Rao Shoaib <rao.shoaib@oracle.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    Verified in code
+    This one is authored from scratch by hand; in the initial version, the
+    LLM spotted the inaccuracy and then proceeded to document the feature
+    in full glory -- I think it would be the wrong call to propagate the
+    use of a feature whose removal has been discussed already due to low
+    usage and security issues. (See cover letter as well)
 
- man/man7/unix.7 | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ man/man7/unix.7 | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index 47f09f16d024..8d1a53948f5b 100644
+index 8d1a53948f5b..bcb58336a1d8 100644
 --- a/man/man7/unix.7
 +++ b/man/man7/unix.7
-@@ -262,6 +262,16 @@ has no effect on the accessibility of the socket.
- Abstract sockets automatically disappear when all open references
- to the socket are closed.
+@@ -401,14 +401,6 @@ The change to 5 bytes came in Linux 2.3.15.)
+ The following paragraphs describe domain-specific details and
+ unsupported features of the sockets API for UNIX domain sockets on Linux.
  .P
-+Each network namespace has its own abstract socket namespace (see
-+.BR network_namespaces (7)):
-+a socket can connect or send to an abstract address
-+only if the socket bound to that address
-+is in the same network namespace.
-+In contrast,
-+pathname sockets are not confined to a network namespace;
-+they can be reached from any network namespace
-+in which the socket file is accessible.
-+.P
- The abstract socket namespace is a nonportable Linux extension.
+-UNIX domain sockets do not support the transmission of
+-out-of-band data (the
+-.B MSG_OOB
+-flag for
+-.BR send (2)
+-and
+-.BR recv (2)).
+-.P
+ The
+ .BR send (2)
+ .B MSG_MORE
+@@ -780,7 +772,8 @@ Socket operation needs a target address, but the socket is not connected.
+ .TP
+ .B EOPNOTSUPP
+ Stream operation called on non-stream oriented socket or tried to
+-use the out-of-band data option.
++use the out-of-band data option
++when it isn't supported.
+ .TP
+ .B EPERM
+ The sender passed invalid credentials in the
+@@ -883,8 +876,6 @@ at least one byte of nonancillary data in the same
+ or
+ .BR recvmsg (2)
+ call.
+-.P
+-UNIX domain stream sockets do not support the notion of out-of-band data.
  .\"
- .SS Socket options
+ .SH BUGS
+ When binding a socket to an address,
 -- 
 2.56.0
 
