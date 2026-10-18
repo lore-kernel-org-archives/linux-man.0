@@ -1,173 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF96F2E8DE3;
-	Sun, 18 Oct 2026 11:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A35495526
+	for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 12:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792322729; cv=none; b=OaBgJgmvg2DIIjmkCtvkYNTYBv5OAxfC08nBj87CXY6iQU6L/4a5Ol29DM9gBnlgbloaVIYJ8TxltgkzdzMlx166W8Iuvgu2AruQQqx6iJVS0qzrbVPVm7aaBXJtumEAEOX4cLwyR36KAocvyOQ7dNaY4ARULKHh7iodWV9pP/A=
+	t=1792327085; cv=none; b=sFDTIPG4/VmnFYRmMMKfrCICM/VgweXV1b0Qgxipt2e+Y88ijMQ3856nCTDZRKfEsX61TKTEqRTanSHc9FFFYTU0mJwseHEUAXsgV0sbr6xeMOPbZD6vORLACu/Oa5qBWPHXo+0hfiG5eaK/NAsW7L8zXNuwQfiLsj7MRacIPcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792322729; c=relaxed/simple;
-	bh=YXEbt7adFo+dexbod2va1AxkyH7DgF28ROcWNGv34Go=;
+	s=arc-20240116; t=1792327085; c=relaxed/simple;
+	bh=XKs9Y5y4wKjvFviXXX2Z+5cBrf/f3P82aOy5ELI67ZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qqjo0+maAZTCPY6IMfJpuuabkfUfZONmg5NddbCQEBuTar9TSb/xSXtxZIBpR+A8io5NmDW1bdz8aB5x9PhGCwMc4p29F8WfDFj7HXZn8JBDrn1R2GyxvksgEfoL0/MK1eRbjTupMrrX+dkGZ0F37ymxyMG8dsYoVVOBHi3w/9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpQFnsmb; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZCI6Nz+0yStlhRI/jbn8w/PxtfrVhItgXL7D+EQS7o4Y9TItLNzUIU7PDkYmWU769pcR92IQZ3J/93VJTq7LWoUglYAxoQuo7rmD6TAUEnEqmEPSRDdvhJmJQVFdYtMQcd6SMxaGe9FVWCMWjeSxOdLv0rknBdaGpI2B2VtAxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYhd6t8m; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpQFnsmb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E5E1F000C4;
-	Sun, 18 Oct 2026 11:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792322727;
-	bh=cixWUuqQ0NcxfW0CqKPoz4+R+nlMujR/LsShltuR9Hc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MpQFnsmb4CkmMj+Nu2FJHr4A1be2p2sXuJDBCH0Y1pM83XcMpV3WIusRfXg5k1lsm
-	 8wyN+A32d5HvtDfi0lItDUiLlgXx+SKfpjr3DvbBSSD2gm1N8BaPDw5sIEAqWx0AsH
-	 Dp5KD4Ky5bp8gCgD7MPz+4blAa/5z/ncEThUnvjDFM2KYkfsjkc7WTVLV6kEf11VCe
-	 dWcx5H01Ur2qfivQiCtfAXOCyu0vb4e+08K+n9e/Il4htCmY+IkfNXguCzKXdXA64o
-	 9EneQvaUr1+qHAVmmUGbNGUD4TtMKT2+H9GsYqp0Bcj0b3H58qB50I5YQpD10EzY8X
-	 wBB1nOd7yUALw==
-Date: Sun, 18 Oct 2026 13:25:17 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: =?utf-8?B?RGFuacOrbCBIw7ZyY2huZXI=?= <dbjh@gmx.net>, 
-	linux-man@vger.kernel.org, Ingo Schwarze <schwarze@openbsd.org>, victorm007@yahoo.com, 
-	t.piekarski@deloquencia.de, linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: Suggestions for an improvement to the man page "iopl - change
- I/O privilege level".
-Message-ID: <atSsS8Pw9Pzixb7g@debian>
-References: <trinity-4d271f4c-4816-435f-b8c9-53eef0ff29c7-1786468770978@trinity-msg-rest-gmx-gmx-live-d7f776569-bpnnk>
- <asvEtnxChV2-dELG@debian>
- <asvFcQvNlx6Oq9Gc@debian>
- <87ecdqewg2.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYhd6t8m"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a1e3b87ac5so2680145e9.1
+        for <linux-man@vger.kernel.org>; Sun, 18 Oct 2026 05:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792327078; x=1792931878; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TFX0pLH3vOnur12kPQIaqVbBIfiaptD9oJ6HPoc2SWQ=;
+        b=OYhd6t8mVxlz+L/S0wUFHiTHf+wPOAkMBY28p1c8iadqosXWXvm6GiiL6IBWlXAd0j
+         BJMmRCOuWmGnRy3TwYJLt9NjhnJ9unVbP7jo49vnB590Emr6JODQxjkQD1/xxh5aDd0w
+         1oM+agJSlVpthtGvy+4MvYd4PmKw6a1kN2NHO9XEUq2HDtNoMgNEKqVWDfohD+0TpDDi
+         AHtFpHmhWUUnSbMSSNdnyWxAL15wBeTEGh3Vdh6/vPvL5d4n+hUxve6mzCBic/KaOOnk
+         dXw2FLGxb3tYPdQsahKbNkfl4xEoKK+zZhFd9EiOOMyjfv3F9GCG98GC3Fcqcx4Jeakp
+         lRpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792327078; x=1792931878;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TFX0pLH3vOnur12kPQIaqVbBIfiaptD9oJ6HPoc2SWQ=;
+        b=ZIndjWX3W/10lPyI+SXuIverMXuQfypiMYF6zHEDUmhNhVa4992RUPSl1nUrB+y9p/
+         112kUGtvtc88oqRDSXvmrZPuT0HN4tDDaZK5tWd8iz8TbntLoO6jHhfPpf0TrwLOby6a
+         NWLyw1DtkSYXfaS4ABw7fhL3HSufM7WGvvEgtuA6e2Qw/ZwNvKTqiv1gn2Drm4XEaSiE
+         5k7nZbbZj8QOPB55lgWaKj8ncj/v4kOcR+4Qgj+NEE/pAeB6NTiwdTMeSjR3Vt4HLB4s
+         oa3+t1tdJH36UfClWif+GedMqvFt1X9irAXVesAkT6EFH45VR9HboavZ8rjTCrC1k1Vs
+         UP6g==
+X-Gm-Message-State: AFq9FYIWJUJPSJKf4D7YWZQPBl1AtRd5VgidrEXZ55Pt2X0uIcN6BeHZ
+	Lr2tCxe6GcjBPr8fJAtnoeytQn4WzkjHfHFAp/yL7cvodIeATeB3P/PGdeDcuoj6
+X-Gm-Gg: AYBFou17kQNxhhRefkeC4Ek0EPP8L/TkajMgrcaZofl3USf4IhSVoBL03QYsIsUvYdt
+	/mJFes/yQjg/0gmgKuntQ7peNT5Rmj53nVUWW9BUJt6aIZvYxbaOKwSIXxPF/I34+MwUvn91s4d
+	sOc4MhRnn3Zfv7DTou2Py/+b2Ld6lVFDsPLcslF6rbAiIISI/tFSet/QSpNm7e8m5XUzb+lLZ10
+	vGCMqp4kCdNVZn2nJkpius+34vX4RooA7vBAKMeSvaezX/CYtTzrD2wNt9WS6e6cPMgNVhiArgJ
+	OGfD29gv35U9ZYRmCU9iQZ/eEPgSb750CWLrRaWyTGFYxp7ot7GsVbF2NKBiKvR+gBfUHOw3djf
+	IJsPxPqY8Eof8S/O4wsEhV5kT6Bgxv1gcAy6h8WTEY/bG+JtIe6aSi0/uZcOiqXudhIwVgR7kwt
+	c3xSy7K7O1qey9ZxrIlH04OSc/BAA/7JI6eLXLJmVDS3USa77AIWq4znQetHeKVpBmVslov7e19
+	BHbqDwB0RgqOZo+7R0dT1APka2uy4OXeA==
+X-Received: by 2002:a05:600c:c16a:b0:4a1:acab:234c with SMTP id 5b1f17b1804b1-4a1d75f23a1mr100251535e9.10.1792327077641;
+        Sun, 18 Oct 2026 05:37:57 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d28b698asm193294385e9.11.2026.10.18.05.37.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 05:37:55 -0700 (PDT)
+Date: Sun, 18 Oct 2026 14:37:49 +0200
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH 06/24] man/man7/unix.7: ERRORS: EPROTONOSUPPORT: Protocol
+ 0 is also accepted
+Message-ID: <20261018.221f6e5361f0@gnoack.org>
+References: <20261016173139.13076-1-gnoack3000@gmail.com>
+ <20261016173139.13076-7-gnoack3000@gmail.com>
+ <atSqLSOUOfSB8lFn@debian>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tuzsc32fezsqfbzr"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87ecdqewg2.ffs@fw13>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <atSqLSOUOfSB8lFn@debian>
 
-
---tuzsc32fezsqfbzr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: =?utf-8?B?RGFuacOrbCBIw7ZyY2huZXI=?= <dbjh@gmx.net>, 
-	linux-man@vger.kernel.org, Ingo Schwarze <schwarze@openbsd.org>, victorm007@yahoo.com, 
-	t.piekarski@deloquencia.de, linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: Suggestions for an improvement to the man page "iopl - change
- I/O privilege level".
-Message-ID: <atSsS8Pw9Pzixb7g@debian>
-References: <trinity-4d271f4c-4816-435f-b8c9-53eef0ff29c7-1786468770978@trinity-msg-rest-gmx-gmx-live-d7f776569-bpnnk>
- <asvEtnxChV2-dELG@debian>
- <asvFcQvNlx6Oq9Gc@debian>
- <87ecdqewg2.ffs@fw13>
-MIME-Version: 1.0
-In-Reply-To: <87ecdqewg2.ffs@fw13>
-
-Hi Thomas,
-
-> Date: 2026-10-15 18:54:21+0200
-> From: Thomas Gleixner <tglx@kernel.org>
->
-> On Sun, Oct 11 2026 at 19:26, Alejandro Colomar wrote:
-> >> > However, as far as I can tell, all mentioned BSDs have dropped
-> >> > that functionality, but NetBSD and OpenBSD retained their version
-> >> > of iopl(): i386_iopl(), x86_64_iopl() (NetBSD/x86_64) and
-> >> > amd64_iopl() (OpenBSD/x86_64). FreeBSD and DragonFly BSD set the
-> >> > IOPL of the relevant process to 3 in the kernel, when the process
-> >> > successfully opens /dev/io.
-> >> > In other words, the BSD projects all preferred to drop their
-> >> > versions of ioperm() in favor of continuing to provide user
-> >> > programs a way to change the IOPL. It is interesting and perhaps
-> >> > noteworthy that the Linux project appears to head in the opposite
-> >> > direction.
+On Sun, Oct 18, 2026 at 01:19:34PM +0200, Alejandro Colomar wrote:
+> Hi,
+> 
+> > Date: 2026-10-16 19:31:21+0200
+> > From: Günther Noack <gnoack3000@gmail.com>
 > >
-> > Ingo, Thomas, do you have any comments from the OpenBSD and Linux sides?
->=20
-> The 'iopl() is slower' comment is just voodoo as it really does not
-> matter whether a syscall at setup time takes a bit longer or not. But
-> 30+ years ago syscall performance bragging was part of the game :)
->=20
-> Though the difference between iopl() and ioperm() is not only that
-> ioperm() provides a more granular control than iopl() over the I/O ports
-> which can be accessed.
->=20
-> Up to Linux 5.4 iopl() was implemented using the IOPL bits in
-> EFLAGS. Setting them to '3' allows user space to access not only all I/O
-> ports via IN/INS/OUT/OUTS, but also allows user space to use CLI/STI.
->=20
-> ioperm() was there first (as of Linux 0.96). It allows not only to have
-> more granular control over the accessible IO ports but also avoids the
-> CLI/STI enablement.
->=20
-> iopl() followed in 0.97 and was deprecated after we changed the iopl()
-> implementation in 5.5 to utilize the IOPERM bitmap, which effectively
-> prevents the usage of CLI/STI in user space. Ancient X-Servers used to
-> utilize CLI/STI in user space for serialization, but that code has long
-> reached the ugly code museum.
->=20
-> Aside of the syscalls the permission bitmap can also be changed via
-> X86 specific VT IOCTLs.
->=20
-> In all cases the caller must have RAWIO capabilities. The syscalls and
-> the IOCTLs can be disabled at compile time and the security framework
-> can lock them down, i.e. disable them.
->=20
-> So in pratice these syscalls and IOCTLs are ancient ballast and any
-> modern distro should not need them anymore.
+> > unix_create() in linux.git net/unix/af_unix.c only fails if
+> > 'protocol && protocol != PF_UNIX'.  0 is the usual value, and the one
+> > used in the SYNOPSIS.
+> 
+> The commit message seems bogus.  What does that 'only' intend to mean?
+> The actual diff seems better than the commit message, but I'm not taking
+> it.  This is an example of the nonsense produced by LLMs.  I'm NAKing
+> the remainders of the patch set; that is, for patches 06..24/24:
+> 
+> 	Nacked-by: Alejandro Colomar <alx@kernel.org>
+> 
+> The exception for LLM use is explicitly terminated.
 
-Thanks!  I'll keep the manual pages unchanged.
+The commit message may be short, but it is factually correct: The
+referenced unix_create() function starts with this guard at the
+beginning:
+
+  if (protocol && protocol != PF_UNIX)
+  	return -EPROTONOSUPPORT;
+
+It rejects the creation with EPROTONOSUPPORT (only) if the condition
+"protocol && protocol != PF_UNIX) is met.  That is, protocol must be
+either 0, or it must be PF_UNIX (a.k.a. AF_UNIX) to pass the check.
+
+The "protocol" value corresponds to the protocol value passed to
+socket(2), which is left at 0 in most common protocols, such as when
+invoked with socket(AF_UNIX, SOCK_STREAM, 0) or socket(AF_INET,
+SOCK_{STREAM,DGRAM}, 0).
+
+I can send you an updated version if you prefer more context in the
+commit message.
 
 
-Have a lovely day!
-Alex
+> The patches I've already reviewed seem okay, although please have
+> another look at them, especially at their commit messages, in case I
+> missed anything.  Please resend the patches that I've reviewed,
+> including my review tags and any other tags, and I'll apply them.
 
->=20
-> Though at least in the enterprise world there have been binary only
-> vendor "value add" programs which depended on them. At least that was the
-> case seven years ago.
->=20
-> But as kernels might have the syscalls disabled or security measures
-> make them unacessible at runtime, these syscalls and IOCTLs might be
-> indeed just nostalgia.
->=20
-> My personal preference would be to just delete them, but if there is a
-> legitimate use case then I prefer to have ioperm() as that allows at
-> least fine granular permission checks via the syscall security controls
-> instead of having the binary all or nothing iopl() mechanism.
->=20
-> Thanks,
->=20
->         tglx
->=20
+Fair, I'll update and resend the patchset with more information.
 
---=20
-<https://www.alejandro-colomar.es>
+I would like to point out two things though:
 
---tuzsc32fezsqfbzr
-Content-Type: application/pgp-signature; name="signature.asc"
+1. I have done a pretty tedious and manual review to verify and often
+   reword each single patch.  It's possible that a commit message with
+   a lower level of detail slipped through, but this is all fixable.
 
------BEGIN PGP SIGNATURE-----
+2. The fixes are largely independent of each other, and if you think
+   that patches within 1-5 are good, then you'll very likely find the
+   same for patches after that as well.
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrUrJ0ACgkQ64mZXMKQ
-wqkTEBAAl/7yzHfwnEjVwmG8mnlqpkWROWx37AxI6geSLBvGQwkm+/lTDyExf488
-3mG2Ti2rDGp0xDNJFxb4GFI+dtWijnJwTRymqRqbg8dX6L3/yait8PSw4d20eukW
-fU/vEAH8NIykKpJWOnaOqTdRuVEXxtUt1BkYX8kyPx+APQFyTc0k9dg+a0Zvo4uT
-HdzZUHWnT0goh9z/URIwDHKMErDEob408RLC0gZNWSDTzepi3UPb9/B4SbPckX5K
-ZpgtNLEOkPEQfmod03B0B39krXIM7qb2sDzh0KHh2a8+wk85PITyn1KDmql3s+u/
-J0fZn98ALxT4EaO38CjQt1NazHNVx5QOB0QOsovw8F1XB0pFtir4bf2H6TFvDbUx
-4Bh9ovc729Y3QxuZRPSXT3Pyzi3cai0gN+QtYPdGDyLAE3DXAg9SFN9Wd8TH2ekS
-qZ5+KuLbDW6uCKh00gXOKHpDnXnfoxqGfzGIf5VO/JSvh5oTfjXs0qLWG9cuDmZa
-7a0pDG5siNCkvDEKWrWuD2U73iEsw3hhd+3mSjGeKA6jam+rYNkrn5OhehnXKvOM
-w/Ofp3vq/HQfFFLYa9x4apEksFposfyf2mWtvhgLhPmY0fazp7Fc2hoC88ObuWt0
-C+IsyMk8vH0k8pqYQjzSmb5HyNg6FzXN/XV0CsO4bjk4m6cv+Nw=
-=584s
------END PGP SIGNATURE-----
+I'd encourage you to rethink your decision; I do think that these
+patches improve the documentation.
 
---tuzsc32fezsqfbzr--
+–Günther
