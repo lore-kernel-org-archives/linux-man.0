@@ -1,50 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792589788;
-	b=aCQS1lGJ/WwKDR4Fx88GXDGG/ga257vFFmY66Ci4AxJXi5R6g79FUqJmyKrTfxynXN1k
-	 WScBSRmz6G6Cs+bnGnhz9aaSoKTNCyVplYdY0PUM+RfxxnwdCxfwD0BMBqhKjyBspDGJg
-	 jX+r/SvQNzeGMpR612+qx5G13UvZCyM9M7ggcz6Sex179BolJFdTo5EUEZX+av80alEz3
-	 g+a83gt7ysZunZ37rTycvLs9WvUo2W8MwjGQL16f0/pCkez9zm3x+OqgQa7TK6A0pyxdP
-	 1T2Y9YUNcCYflBBUGDFZpKZheHNshwF6rPS7xi9vTYsJLBi5rXA7IDlF3XoJCS9JK7Q==
+	t=1792591851;
+	b=ievsPbAQoiPGHQrYqS1ddr4Ru8N8hQ9het+5H1m4tucbmLrB9cH+VJgqU/2P/hxsqJoI
+	 yfLfO1BpMAp0xJhwdrb+uso8bBp6MxtNPilIGqpz0wAZC6JRGTbLXJaKGUeTZTcH+60W/
+	 BoEGfoHAhI5t/IAxkiNauiyDE+LEfgfLPrxrDCEiBWwS0PPjA48qddfJSfzLnKUcliiLP
+	 qHJQ//ikB56/AKk1uKFfP3yYxnGYCF9tQLjX1q0kqv+SwZjTPYzWhay3Zdn1eZdbiY3LX
+	 OTghwPFt0ZT1yuvFaT0WFeu2qJMvPQyzqzyaoyg0TbpKKII47vo8M0Y1J1gvZXqPJOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792589788;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=hZq9Kthp8ipPqLrvtlrtHP3VINdl+d2/6W8RxuLZgQ0=;
-	b=Zlb4zSGi2KXwXrj108CK4hXju7IBfBFjoR9kobqe2J1oP74n3lDguefy1TXV6Z9NvtAT
-	 Ov8QkitSzcc67Y+rKP1u3yFrD6aJ55YUQmBMvTWPoosQWh27Rw1+K//6b4G6nahTsxO3q
-	 w2FzvrwgNNG5iWzbq0/Cab868AXdJIz4/bHFWPrY3NAsFGwOL/zNW22gRls8t8GPdzsng
-	 6e2sYbmRKvRIwQXl18sryej6fAJnteVcNQFfzuAfCkaEhnNNqS1VdQS3N6y3MAoRsU+18
-	 E3QA2NA7lKdccgnOGkaPXBzKv0M6swwuToBIG2OSOETRwRymZj9+wlsEOynsu8hAN4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792591851;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=MSABpqj1Ohy7ulNDCRgGEe/dwzVOLZgn3x/i5PrDtzk=;
+	b=RfguaPNgrMW7qNnkaeRnJ9VCTu7cheik7gnArxm5kFgnGrsddLvluNtZAMdvLoT3gSbg
+	 pbVEN8et/VNidFtYPtXdzuU5EvcLVddy3yVyI2PSxkZ1c9Rgq0LS3rWUX9x1F1HlSpsAf
+	 AJQLlizxvgDyU28Ij4V+58+CwQVD5HpJV/HgTlg3Xg2FkPNSNAIlcp1GVbfn3p3ko12i7
+	 Im4bKDHpM7WzxSA9o4LGtcGCsvlmVeOdUAD2A5gKZ6h517zLbke80onWzRu+9FWayflt0
+	 kUDo+7jLvvyhqXblV1namMyxER6pHwFraOwkLv7nZtw62uzo3QbCRwzIV3Vf5Pd1UMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z+2J68bb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isnTP4ZW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CD4606A319;
-	Wed, 21 Oct 2026 13:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C6F606A31B;
+	Wed, 21 Oct 2026 14:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z+2J68bb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038381F000C5;
-	Wed, 21 Oct 2026 13:36:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isnTP4ZW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06151F000C5;
+	Wed, 21 Oct 2026 14:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792589787;
-	bh=hZq9Kthp8ipPqLrvtlrtHP3VINdl+d2/6W8RxuLZgQ0=;
-	h=Date:From:To:Cc:Subject;
-	b=Z+2J68bbFYMpPjHblrdFxnkhweqI0G44lqlqiL5+r2MtoBOYkwsU366Y2ivmt/clD
-	 jZ1c8oy1v7fqF9E7smJV5ttfGDnYxg2LC59eNI4nS+G+Khz5WYMoAM/9v4aGTJd70R
-	 tqwFMPzYTmBXyAu8Of5Rr50giOSmRFCeeH85VN08vWTiCVdrrv3xIO16T8EL0asyOG
-	 OVQ26IzZVWTV7XPqBwkh0sxLLYUSjONjTY8xmFgNQCItGoYNvZSq290JoPotxzQOSz
-	 Hcc3kLqo2GvXux2YSwx/+3E+twqMcpNCcKJfLH4fm28VFKseTC788ZMIP8t70I9kVz
-	 wYjCXLso5wagg==
-Date: Wed, 21 Oct 2026 15:36:05 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, libc-alpha@sourceware.org
-Subject: man-pages-6.20 released
-Message-ID: <ati8omczZdbbd9jz@debian>
+	s=k20260515; t=1792591850;
+	bh=MSABpqj1Ohy7ulNDCRgGEe/dwzVOLZgn3x/i5PrDtzk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=isnTP4ZWCwcirc6tQ1FrMSB9yqT8ogrrTCdOqezD7xCzpSoqkO0+mSvFhGMtyVcG3
+	 AIGWCxyuGu0YINIFQng1a6ssPUbZ3yYSA0G64cBTsCRYYNLt91bko0eTHf0EGy9r6L
+	 IombRWYkHZfUPWmGlwC3fnKKmpVjffRZSnQeZIPigLHgH3QzDk1Qr26KE5Zq85s6iU
+	 ZEqkwSX+TIPQqWMwq8pCo5FnSruN4oVjhS/7WWGev0TCRcWiXN9UYQiWd1qBpBLex3
+	 rbrvSLMLFAR0dr0n7bn71cECmkWDv/CvfNduRAdy9n3bu31whtOUnFOO8N/JK6kVLQ
+	 iS0Is7iVs+k4w==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Alejandro Colomar <alx@kernel.org>,
+	linux-man@vger.kernel.org
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v6 1/2] man/man2: introduce man page for file_getattr(2) syscall
+Date: Wed, 21 Oct 2026 16:10:04 +0200
+Message-ID: <20261021141010.314835-2-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261021141010.314835-1-aalbersh@kernel.org>
+References: <20261021141010.314835-1-aalbersh@kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -54,201 +62,276 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b7fmjxjtnr7kbsqc"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+Add manual page for file_getattr().
 
---b7fmjxjtnr7kbsqc
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, libc-alpha@sourceware.org
-Subject: man-pages-6.20 released
-Message-ID: <ati8omczZdbbd9jz@debian>
-MIME-Version: 1.0
+Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org/
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
+Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+---
+ man/man2/file_getattr.2 | 252 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 252 insertions(+)
+ create mode 100644 man/man2/file_getattr.2
 
-Gidday!
+diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
+new file mode 100644
+index 000000000000..9963eeaa7caf
+--- /dev/null
++++ b/man/man2/file_getattr.2
+@@ -0,0 +1,252 @@
++.\" Copyright, the authors of the Linux man-pages project
++.\"
++.\" SPDX-License-Identifier: Linux-man-pages-copyleft
++.\"
++.TH file_getattr 2 (date) "Linux man-pages (unreleased)"
++.SH NAME
++file_getattr \- get filesystem file attributes
++.SH SYNOPSIS
++.nf
++.BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
++.BR "#include <linux/fs.h>" "         /* " FS_XFLAG_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* " SYS_* " constants */"
++.B #include <unistd.h>
++.P
++.B long syscall(SYS_file_getattr,
++.BI "               int " dirfd ", const char *" path ,
++.BI "               struct file_attr *" fattr ", size_t " size ,
++.BI "               unsigned int " flags );
++.fi
++.SH DESCRIPTION
++The
++.BR file_getattr ()
++system call retrieves filesystem file attributes
++of the file
++specified by path.
++.P
++The
++.I dirfd
++and
++.I path
++arguments behave in the same way as in
++.BR openat (2),
++with the difference that
++.I path
++can be NULL meaning an empty string.
++.P
++The
++.I fattr
++argument is a pointer to a
++.I file_attr
++structure.
++This structure will be filled with file attributes.
++This structure is described in
++.BR file_attr (2type).
++.P
++The
++.I size
++argument specifies the size of the structure pointed to by
++.IR fattr .
++The size indicates the version of the structure in use,
++and should always be specified as
++.IR sizeof(struct file_attr) .
++.P
++The
++.I flags
++argument contains a bitwise OR of zero or more of the following constants:
++.TP
++.B AT_EMPTY_PATH
++If
++.I path
++is an empty string,
++operate on the file referred to by
++.IR dirfd .
++In this case,
++.I dirfd
++can refer to any type of file,
++not just a directory.
++.TP
++.B AT_SYMLINK_NOFOLLOW
++If
++.I path
++is a symbolic link,
++do not dereference it;
++instead,
++get attributes of the symbolic link inode itself.
++.SH RETURN VALUE
++On success,
++zero is returned.
++On error,
++\-1 is returned,
++and
++.I errno
++is set to indicate the error.
++.SH ERRORS
++.TP
++.B E2BIG
++.I size
++is too big (larger than
++.BR PAGE_SIZE ).
++.TP
++.B EACCES
++Search permission is denied for one of the directories
++in the path prefix of
++.IR path .
++.TP
++.B EBADF
++.I path
++is relative but
++.I dirfd
++is neither
++.B AT_FDCWD
++nor a valid file descriptor.
++.TP
++.B EBADF
++.I path
++is an empty string,
++.B AT_EMPTY_PATH
++was specified,
++but
++.I dirfd
++is neither
++.B AT_FDCWD
++nor a valid file descriptor.
++.TP
++.B EFAULT
++.I path
++or
++.I fattr
++is an invalid pointer.
++.TP
++.B EINVAL
++Unknown flags specified in
++.IR flags .
++.TP
++.B EINVAL
++.I size
++is smaller than
++.BR FILE_ATTR_SIZE_VER0 .
++.TP
++.B ELOOP
++Too many symbolic links encountered while resolving
++.IR path .
++.TP
++.B ENAMETOOLONG
++.I path
++is too long.
++.TP
++.B ENOENT
++A component of
++.I path
++does not exist.
++.TP
++.B ENOENT
++.I path
++is an empty string and
++.B AT_EMPTY_PATH
++was not specified in
++.IR flags .
++.TP
++.B ENOMEM
++Insufficient kernel memory was available.
++.TP
++.B ENOTDIR
++A component of the path prefix of
++.I path
++is not a directory.
++.TP
++.B ENOTDIR
++.I path
++is relative and
++.I dirfd
++is a file descriptor referring to a file other than a directory.
++.TP
++.B EOPNOTSUPP
++The filesystem does not support getting attributes on this type of inode.
++.SH HISTORY
++Linux 6.17
++.SH NOTES
++This system call is designed to be extensible.
++The
++.I size
++argument allows user-space applications to indicate
++which version of the
++.I file_attr
++structure they are using,
++enabling the kernel to support both old and new versions
++of the structure simultaneously.
++.P
++If
++.I size
++is smaller than the structure size the kernel expects,
++only the fields that fit within
++.I size
++will be filled in.
++If
++.I size
++is larger than the kernel's structure size,
++the extra bytes are zeroed.
++.SH EXAMPLES
++The program below demonstrates the use of
++.BR file_getattr ()
++to retrieve and display file attributes.
++.P
++.in +4n
++.\" SRC BEGIN (file_getattr.c)
++.EX
++#define _GNU_SOURCE
++#include <fcntl.h>
++#include <linux/fs.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++\&
++#ifndef SYS_file_getattr
++#define SYS_file_getattr 467
++#endif
++\&
++int
++main(int argc, char *argv[])
++{
++    struct file_attr fa;
++    long ret;
++\&
++    if (argc != 2) {
++        fprintf(stderr, "Usage: %s <filename>\[rs]n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++\&
++    ret = syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa,
++                  sizeof(fa), 0);
++    if (ret == \-1) {
++        perror("file_getattr");
++        exit(EXIT_FAILURE);
++    }
++\&
++    printf("File attributes:\[rs]n");
++    printf("  xflags:     0x%w64x\[rs]n", fa.fa_xflags);
++    printf("  extsize:    %w32u\[rs]n", fa.fa_extsize);
++    printf("  nextents:   %w32u\[rs]n", fa.fa_nextents);
++    printf("  projid:     %w32u\[rs]n", fa.fa_projid);
++    printf("  cowextsize: %w32u\[rs]n", fa.fa_cowextsize);
++\&
++    /*
++     * Try setting NODUMP flag with chattr +d ./foo to see
++     * the difference.
++     */
++    if (fa.fa_xflags & FS_XFLAG_NODUMP)
++        printf("  NODUMP flag is set\[rs]n");
++\&
++    exit(EXIT_SUCCESS);
++}
++.EE
++.\" SRC END
++.in
++.SH SEE ALSO
++.BR file_setattr (2),
++.BR file_attr (2type),
++.BR ioctl (2),
++.BR ioctl_fs (2),
++.BR openat (2),
++.BR ioctl_xfs_fssetxattr (2)
+-- 
+2.56.0
 
-I'm proud to announce:
-
-	man-pages-6.20 - manual pages for GNU+Linux
-
-
-Tarball download:
-<https://www.kernel.org/pub/linux/docs/man-pages/>
-Git repository:
-<https://git.kernel.org/cgit/docs/man-pages/man-pages.git/>
-Online PDF book:
-<https://www.kernel.org/pub/linux/docs/man-pages/book/>
-
-Thanks to all the contributors to this release (in BCC)!
-And thanks to our sponsors!
-
-	$ sort --random-sort <SPONSORS=20
-	Hudson River Trading <https://www.hudsonrivertrading.com/>
-	Google               <https://opensource.google/>
-	Meta                 <https://www.meta.com/>
-
-
-You are receiving this message either because:
-
-        a)  (BCC) You contributed to this release.
-
-        b)  You are subscribed to <linux-man@vger.kernel.org>,
-            <linux-kernel@vger.kernel.org>, or
-            <libc-alpha@sourceware.org>.
-
-        c)  (BCC) I have information (possibly inaccurate) that you are
-            the maintainer of a translation of the manual pages, or are
-            the maintainer of the manual pages set in a particular
-            distribution, or have expressed interest in helping with
-            man-pages maintenance, or have otherwise expressed interest
-            in being notified about man-pages releases.
-            If you don't want to receive such messages from me, or you
-            know of some other translator or maintainer who may want to
-            receive such notifications, send me a message.
-            If you want to be added to this list (which I store
-            encrypted), send me a message.
-
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D NEWS =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-We have a new script which is installed as part of 'make install-bin':
-git-bisect-rebase(1).  A few people have already experimented with it,
-and they're all delighted.  It helps rebase very old branches over
-thousands of upstream commits without pain.
-
-I'm working to get it merged in the git.git project, and they seemed
-receptive to it, but for a while it will stay here, so that it becomes
-useful to users before it becomes part of git.git.
-
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Linux Software=
- Map =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-Begin4
-Title:          Linux man-pages
-Version:        6.20
-Entered-date:   2026-10-21
-Description:    Manual pages for GNU+Linux.  This package contains
-                manual pages for sections 2, 3, 4, 5, and 7, and
-                subsections of those.  Only a few pages are provided in
-                sections 1, 6, and 8, and none in 9.
-Keywords:       man pages
-Maintained-by:  Alejandro Colomar <alx@kernel.org>
-Primary-site:   http://www.kernel.org/pub/linux/docs/man-pages
-                2.7M  man-pages-6.20.tar.gz
-Copying-policy: several; the pages are all freely distributable as long as
-                nroff source is provided
-End
-
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in man=
--pages-6.20 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Released: 2026-10-21, Dongo
-
-New and rewritten pages
------------------------
-
-man1/
-	git-bisect-rebase.1
-
-man2type/
-	file_attr.2type
-
-man5/
-	proc_sys_fs_inotify.5			(split from proc_sys_fs(5))
-	sys_block.5				(previously, sysfs(5))
-	sys_bus.5				(previously, sysfs(5))
-	sys_class.5				(previously, sysfs(5))
-	sys_class_net.5				(previously, sysfs(5))
-	sys_dev.5				(previously, sysfs(5))
-	sys_devices.5				(previously, sysfs(5))
-	sys_firmware.5				(previously, sysfs(5))
-	sys_fs.5				(previously, sysfs(5))
-	sys_fs_cgroup.5				(previously, sysfs(5))
-	sys_fs_smackfs.5			(previously, sysfs(5))
-	sys_hypervisor.5			(previously, sysfs(5))
-	sys_kernel.5				(previously, sysfs(5))
-	sys_kernel_cgroup.5			(previously, sysfs(5))
-	sys_kernel_debug.5			(previously, sysfs(5))
-	sys_kernel_mm.5				(previously, sysfs(5))
-	sys_module.5				(previously, sysfs(5))
-	sys_power.5				(previously, sysfs(5))
-	sysfs.5					(split into many pages)
-
-
-Newly documented interfaces in existing pages
----------------------------------------------
-
-man1/
-	diffman-git.1
-		--
-
-man2/
-	fallocate.2
-		FALLOC_FL_WRITE_ZEROES
-
-man*/
-	landlock*.?
-		LANDLOCK_ADD_RULE_QUIET
-
-
-New and changed links
----------------------
-
-man5/
-	proc_pid_smaps_rollup.5			(proc_pid_smaps(5))
-
-
-Global changes
---------------
-
--  share/mk/
-   -  Improve portability to systems without gcc(1).
-   -  Allow printing the commands with make(1)'s --no-silent.
--  src/bin/
-   -  git-bisect-rebase: Add program.
-
-
-Changes to individual files
----------------------------
-
-The manual pages and other files in the repository have been improved
-beyond what this changelog covers.  To learn more about changes applied
-to individual pages, or the authors of changes, use git(1).
-
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---b7fmjxjtnr7kbsqc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrYv8UACgkQ64mZXMKQ
-wqnGIg/+Mydj/Utr/NZuDbMklIJ3z1hVesFPXvuLm1EeK0m72Yg1FbZvGg1O558F
-i0EeKu/dMzMv73pG4bxOxERNVbh3l6nwPBCyyEmORNIIZPgNWQuoC1Jq/03itMl8
-qRYo3SskHmMGRM+hfR4FRwanBgruaB+AVGC5cbGI863i/H2HpflHGHSgc2k8VHEv
-Xg9OzU5jiMD4bMX8+jM2bllCWPCb1Ut1wIj0ItFsj50yMN+UqRvwJkRmj+NbRBHX
-M28zi3axqXb4yQ/nCBG/IQewbqFiZlgmqpsWypK/90tu5FbmAyR/TsRQ8Mhmu6Cy
-eG8LDHWxYNbgqZxBvGR3v0wP3anE9r5zWb6+Zq9V5q9uc/iSHBq/eeQI5z7NLqr5
-ooS9eOaHdSSOQ2NMR53flN8jU0B1g4XQMeBfQeqo90E7Q/PZc8iw6CI6OyHtz5wa
-HjMfDX+PZBhF34xcS6yoW8IVGOvAOqrjHjQfSoB6qAHDmEhzVfUIe0KItC4a+y6w
-DVIvElphXUTA78Rpvi9zdit2yC4GzXwOMXek85tuusbaAlXzwznfTodCNogNhkmF
-j1fhoU4yh3ns+SWLY314S/unlGIQSlKgXOYEm+UWU3NOkAmqt94OYBPDuz9SmqMi
-NAzaTbdY7g9m1Db/yDYUbXyHeSltdWCjKYOdVL1U7LBDLQDHMIA=
-=oUDd
------END PGP SIGNATURE-----
-
---b7fmjxjtnr7kbsqc--
