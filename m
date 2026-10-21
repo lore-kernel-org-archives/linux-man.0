@@ -1,51 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792605591;
-	b=v7KgYRUQ8zLcFEJEhBPYEDhx2N0/my21L02a/MiPXxvlIiHCJdC7gnv4DJlhSka4j6s5
-	 y1X1GaTjbGgg4x5t1q/tAwFZfsmaAVrPOokRS0wCkqVolLeHJseUTodDPbI0mR7+Go8NV
-	 vX05lOxULiXDjaEpmpvNVc3ZEDwaKHBsieHJ0XF6rlw/7Xns9r92Xa+r2XHI2hZ81OMxw
-	 k+yAlZJfrxmWdG8+2tVp5B1Lcg6t74QpDiuD4bVGA3Y2OP0G4jrn08Zrj8GsI2A4Ck8HK
-	 uRYNsb58mVXRb0e0ctz+K9P1oN30LPeeW1qRziduWvDWe84rtIS7DgL07uyQxZuOLZw==
+	t=1792605680;
+	b=kT9K9zBU9AnApxOX+7LCx6iNpW0EfYe6Ap4ua/j3yRssmi8wI1SmmAse3ONfn3OS7a30
+	 zqSO/IxA//l8p9KxCKYnQcFtEPINbr2mFR7RWTWIqgfrVLgfqzV5Q7wFHcLEBInfkSCA/
+	 DN2nl1qTVQ17jCX8dkSF3n7jeYAkFfOFXzaP1M62fZ0WBA0M7fj77kW62VM9+Q4M3/tsn
+	 U/9zjX602V/WwlacVcbZuC6k59rQfky5oT6tjAbnaJQeRu3io56zVf4jRPNyY7SkRSJK4
+	 yjGq62Wfn9OuhJnSzih+0jvCz7fFtK/MDqIt727T57t+6hSpR2C0e8IGr4mRUdkj00A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792605591;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792605680;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=augWuYyQTHxF9k+mi521R7YmlXe3KP1jY4Sx8+s5AzI=;
-	b=ru/h2xufk2yEw8aiAW8OHY7Dse7n/+a9peI6okPyAJm51yJ032mGJSstZCrurWIYX24n
-	 crE9HWWsyj124fIilBrFZ+iRbFqMqwiqIxuoSKjoh85uZhFESLPkge1+fCJ1rovDPWsd/
-	 4NFLyikMH/StszB9OHr1ck8s5+xQsfLZ05ur3gvdtXEGYEI28XP1tHoUX+i5H7N2acLRm
-	 cb0Q/H4jFJ4kQP/LbBuwxSMOUSXWyF7SQnd/02hhPO059mIJn6yEcelY+7iziOcrWzV00
-	 wynCZqoDEKcoC/Bp4PaPClZlWE4Erx1EhH+V486csIS14L+BT6lRarMpY/2GY83LOCA==
+	bh=rNn+gD2JT+VkMQKNh3JkCeZ5/6F+VJUyBx3plqwq0yc=;
+	b=emy+KAaYN3XKzG8K74ltjAy6LiOMMED3sgmX0iTX6XfKplKmiU5tb/Yt0Llfn9Gw2yX6
+	 /TQRdiiRR3vC8xpsJXX+VcMlSk/g0XVHF5kTtmvA/YtEh4FgOLNDbovGPe8UqueUBblTI
+	 VQ/C/7mfUlqS14fdCFxcAegQJZvKiRN0G9VhJGLJZl2cR5LmwSvLPHfAPpXeIQIP3osfK
+	 MjZbTDolSuZmT3E04NbAjh1gKvnDhTiT6LcLaawqKEIpC1icOi46K7PrQlgQvTDcxYcCs
+	 CCC27yTv24MRRHWE2j9MAkedwYcOf4rK7l3WDjCx1FeA5CD9ebOexe5Xv98QBskpmqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZOphPDTD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eYSG8Mr+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF2E606A319
-	for <linux-man@vger.kernel.org>; Wed, 21 Oct 2026 17:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8A6606A31A
+	for <linux-man@vger.kernel.org>; Wed, 21 Oct 2026 18:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZOphPDTD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A1B1F000C1;
-	Wed, 21 Oct 2026 17:59:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eYSG8Mr+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE2D1F000C1;
+	Wed, 21 Oct 2026 18:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792605590;
-	bh=augWuYyQTHxF9k+mi521R7YmlXe3KP1jY4Sx8+s5AzI=;
+	s=k20260515; t=1792605680;
+	bh=rNn+gD2JT+VkMQKNh3JkCeZ5/6F+VJUyBx3plqwq0yc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZOphPDTD8sEsUVw4MIQCmL+IZ979tc5wSA//jO9HqZ5OBNAdqNr+4fQlp2IX71oNM
-	 NJtG7V/KTyVSV0d70WQHs1NvTrV+/tFqxGQ/WNjFQEN9gINY/OpDGhrC4zHDRKuHmn
-	 wzNkbDdadHFVMcFInA6S2OXzCP+bgzzuZ1KS64xI4qFwXw70EU52hj6KNjfPgWLNoT
-	 UaEqmt2B1nsVVMKKG03jHGSGj5UlXGpG4lUqDImLPGz+58F7Vj8RQ/3Nzeq2fkKNKb
-	 rVa0jyZh1iqbaKR43DLFdMavUbmzBQe3Y1p79ngWKtGaQqzBiDCTxnDrSWaHCkp08T
-	 xqLE7C2X21sug==
-Date: Wed, 21 Oct 2026 19:59:43 +0200
+	b=eYSG8Mr+OdV4eBPn3Bl+cAYnru9evYrV/MykZyOs42fs17v+PKa24MmdmglZtj+DC
+	 uDBSOOK5192OlPEvz0jkM05zBe0j2Ei5OJnlh1IIkFJ9YvTR0pXxl6XSrCcoJ07854
+	 5mmWGbTvendNZ0n6DcgBRgOGfw+3D8fkVo/4Nw5p71BYFkHGcgwZ3mQKY7PtT6Hpsd
+	 k2rGHfLXUlHvq+o35cEdfwNeaKTdhmCV5TxI/6ejIeEiXonPSBWN7pttaSQUeoqZcD
+	 dtXSrVPeLh9+6cptIddGN38y6D2MyA+tY0dryRdANt+pm7BxisPBxc8UQG1YygxSFe
+	 4hcKAS5U1Hmfg==
+Date: Wed, 21 Oct 2026 20:01:15 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Werner LEMBERG <wl@gnu.org>
+To: Jan Engelhardt <ej@inai.de>
 Cc: linux-man@vger.kernel.org
-Subject: Re: fix for ascii.7
-Message-ID: <atj9VY3mMbOac1v9@debian>
-References: <20261014.092406.765912014587965340.wl@gnu.org>
+Subject: Re: [PATCH] man/man3/getnameinfo.3: Mention behavior for AF_UNIX
+Message-ID: <atj9pv8lxtunlOiM@debian>
+References: <20261020115143.75371-1-jengelh@inai.de>
+ <atd04IuG4GBl6PxM@debian>
+ <q790883o-osno-6n75-230r-485465rpq4r7@vanv.qr>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -56,96 +58,152 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pghkakbjtjedlpu2"
+	protocol="application/pgp-signature"; boundary="pzn7zblf47jamynh"
 Content-Disposition: inline
-In-Reply-To: <20261014.092406.765912014587965340.wl@gnu.org>
+In-Reply-To: <q790883o-osno-6n75-230r-485465rpq4r7@vanv.qr>
 
 
---pghkakbjtjedlpu2
+--pzn7zblf47jamynh
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Werner LEMBERG <wl@gnu.org>
+To: Jan Engelhardt <ej@inai.de>
 Cc: linux-man@vger.kernel.org
-Subject: Re: fix for ascii.7
-Message-ID: <atj9VY3mMbOac1v9@debian>
-References: <20261014.092406.765912014587965340.wl@gnu.org>
+Subject: Re: [PATCH] man/man3/getnameinfo.3: Mention behavior for AF_UNIX
+Message-ID: <atj9pv8lxtunlOiM@debian>
+References: <20261020115143.75371-1-jengelh@inai.de>
+ <atd04IuG4GBl6PxM@debian>
+ <q790883o-osno-6n75-230r-485465rpq4r7@vanv.qr>
 MIME-Version: 1.0
-In-Reply-To: <20261014.092406.765912014587965340.wl@gnu.org>
+In-Reply-To: <q790883o-osno-6n75-230r-485465rpq4r7@vanv.qr>
 
-Hi Werner,
+Hi Jan,
 
-> Date: 2026-10-14 07:24:12+0000
-> From: Werner LEMBERG <wl@gnu.org>
+> Date: 2026-10-20 18:01:02+0200
+> From: Jan Engelhardt <ej@inai.de>
 >
 >=20
-> [man-pages.git c6cefe27dd02beaf518bb654493e5f09e62b3225]
+> On Tuesday 2026-10-20 16:27, Alejandro Colomar wrote:
+> >
+> >I'd rewrite a little bit:
+> >
+> >	.SH VERSIONS
+> >	POSIX only specifies the behavior for sockets of the
+> >	.B AF_INET
+> >	and
+> >	.B AF_INET6
+> >	address families.
+> >	Other address families are non-portable;
+> >	for example, for
+> >	.BR AF_UNIX ,
+> >	many libc implementations fail,
+> >	some succeed but provide zero-length strings in
+> >	.I host
+> >	and
+> >	.IR serv ,
+> >	and some fill these buffers with pseudo-values.
+> >
+> >BTW, out of curiosity, what do those pseudo-values look like?
 >=20
->=20
-> The patch below prevents groff from converting two consecutive spaces
-> to a single one after end-of-sentence characters in the ASCII
-> character table if frenchspacing is active (this is the default for
-> German, for example, thus affecting the German translation of
-> `ascii.7`, where I noticed the problem).
->=20
-> Maybe other pseudo-tables (i.e., tables not generated by `tbl`) are
-> affected in a similar way.
->=20
->=20
->     Werner
+> (Something must have gone wrong seeing zero-length output.
+> So I redid the test program and runs.)
 
-Thanks!  I've transformed this into a git patch, and applied it.
+Thanks!  It'd be very useful to have this test program in the commit
+message.  Would you mind sending v2 and incorporating it?  Please indent
+the program with one tab, so the #include lines are not removed by
+git(1).
 
 
 Have a lovely night!
 Alex
 
 >=20
+> getnameinfo:
 >=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * FreeBSD 15: fills host=3D"/path", serv=3D"", returns success(0).
+>=20
+> * glibc 2.44: fills host=3D<utsname> (flags=3D0) or host=3D"localhost"
+>   (flags=3DNI_NUMERICHOST), and serv=3D"/path", returns success(0).
+>=20
+> * OpenBSD 7.9: signals EAI_FAMILY. Upon seeing NI_NUMERICHOST,
+>   signals EAI_SYSTEM instead (odd).
+>=20
+> * OmniOS r151046 (Solaris): signals EAI_FAMILY.
+>=20
+> * musl-libc 1.2.6 (Alpine Linux): signals EAI_FAMILY.
+>=20
+> * cygwin 3.6.11: signals EAI_FAMILY.
+>=20
+> getaddrinfo:
+>=20
+> * FreeBSD: getaddrinfo("/the/socket/path", nullptr,
+>   hints_with_AF_UNIX, ...) succeeds.
+>=20
+> * the rest: signals EAI_FAMILY.
 >=20
 >=20
-> --- ascii.7.old 2026-10-14 09:16:39.000000000 +0200
-> +++ ascii.7     2026-10-14 09:18:09.563407415 +0200
-> @@ -97,10 +97,10 @@
->  0:   0 @ P \` p     0:    (  2  <  F  P  Z  d   n   x
->  1: ! 1 A Q a q     1:    )  3  =3D  G  Q  [  e   o   y
->  2: " 2 B R b r     2:    *  4  >  H  R  \[rs]  f   p   z
-> -3: # 3 C S c s     3: !  +  5  ?  I  S  ]  g   q   {
-> +3: # 3 C S c s     3: !\&  +  5  ?\&  I  S  ]  g   q   {
->  4: $ 4 D T d t     4: "  ,  6  @  J  T  \[ha]  h   r   |
->  5: % 5 E U e u     5: #  \-  7  A  K  U  _  i   s   }
-> -6: & 6 F V f v     6: $  .  8  B  L  V  \`  j   t   \[ti]
-> +6: & 6 F V f v     6: $  .\&  8  B  L  V  \`  j   t   \[ti]
->  7: \[aq] 7 G W g w     7: %  /  9  C  M  W  a  k   u  DEL
->  8: ( 8 H X h x     8: &  0  :  D  N  X  b  l   v
->  9: ) 9 I Y i y     9: \[aq]  1  ;  E  O  Y  c  m   w
+> ---
+> #include <sys/un.h>
+> #include <netdb.h>
+> #include <sys/socket.h>
+> #include <cstdio>
+> #include <cstring>
 >=20
+> int main()
+> {
+> 	struct sockaddr_un u{};
+> 	u.sun_family =3D AF_UNIX;
+> 	strcpy(u.sun_path, "/pa");
+> 	char host[320] =3D "!", serv[320] =3D "!";
+>=20
+> 	auto ret =3D getnameinfo(reinterpret_cast<struct sockaddr *>(&u),
+> 	           sizeof(u), host, sizeof(host), serv, sizeof(serv), 0);
+> 	printf("GNI %d %s\n", ret, gai_strerror(ret));
+> 	if (ret =3D=3D 0)
+> 		printf("GNI <%s> <%s>\n", host, serv);
+>=20
+> 	ret =3D getnameinfo(reinterpret_cast<struct sockaddr *>(&u),
+> 	      sizeof(u), host, sizeof(host), serv, sizeof(serv), NI_NUMERICHOST =
+| NI_NUMERICSERV);
+> 	printf("GNI %d %s\n", ret, gai_strerror(ret));
+> 	if (ret =3D=3D 0)
+> 		printf("GNI <%s> <%s>\n", host, serv);
+>=20
+> 	struct addrinfo hints{};
+> 	hints.ai_family =3D AF_UNIX;
+> 	hints.ai_socktype =3D 0;
+> 	struct addrinfo *res =3D nullptr;
+> 	ret =3D getaddrinfo(host, serv, &hints, &res);
+> 	printf("GAI %d %s\n", ret, gai_strerror(ret));
+> 	if (ret =3D=3D 0)
+> 		for (; res !=3D nullptr; res =3D res->ai_next)
+> 			printf("GAI fam %u %u %u\n", res->ai_family,
+> 				res->ai_socktype, res->ai_protocol);
+> 	return 0;
+> }
 
 --=20
 <https://www.alejandro-colomar.es>
 
---pghkakbjtjedlpu2
+--pzn7zblf47jamynh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrY/Y8ACgkQ64mZXMKQ
-wqksmRAAmZvpzb6/6dOeGecIOno9WgOPfJtYzCKlaEwhCg6C0AjfNpXhW32GeBK4
-LSg2WWLuiATATzpOSxinLMxE2XiaA6uL02D80W5M106Zxy9lzM9vuK8RPoyDCBQA
-zV0N2rnj+zzKsEmp+YWsr/b2Xu8Qfjv30Ee3PbucJgi4pYankvU8UW7/QIN5v+A2
-f8h2KNxkHNXlmw4b4WKb5WXUfiSsvojJVraaToNLTKBJSkCnVMKvssmVOtzBS+C+
-7n7ezVkf6s13aOIss/E9hCtB07hsNjqBc63I6lSjl/erfnIB5BE1FIyIE1673vdq
-ueMVw020URS3pmC+nrEm+Fh4Nka6ZWEqGzcDmcymsW7mf0eixEholD1QDEZe9ilw
-aFkC5hD/RoyQCiYfdoF0BPO0CPVDuOWUf2Ydlb9cmEFtqPxFcdZIgAGjBaEF+NSh
-lyFLXnqhZtVRlusgvMR03AqhsUX2qACxQNYE7p4gxYiP4VkfByrvndif/V3RBsiQ
-6z0N94nAg8P3rZtvEj0GJuajjodc+hVCTbbHggCzOjuLdttchQguQLyA+wwQrAcg
-PhM7qeaKcNibgpPEDWMaGFp4Ua51/XOG5c4SS0VBdOswk3H5hXZrUzCapijr6zEP
-qHE33oop/N3p9SlCWSfsE49H0gd4AWYB4s7IOUbz4KaRnuPY/Zw=
-=e9Aw
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrY/esACgkQ64mZXMKQ
+wqnRSA/+MCknw7KUQeSRRuO7v7o3r8iUWct5bZQuI3EKEr2t49BxYR9baqBJwv5T
+CUrvZO2pXADS6GEsZsyiy68wujdkvi6wBNUUmibYxB7rTkAjT5f/+1yuFSA1vXba
+nv+Nd0+JV+I5axIKpu5hShXcBlsw3K+KalsrYVz0dh/4eLa9ukwJgspjP8/+3v3b
+RRRei0l1TpDu1yJ3nQuhWSQqbwYzlLyZvL9/Od/1BiwFH6qP8sQH807bT82EN2UQ
+a8jjFtM++jm7PvRcfPGx2LAsQEhq7ZTk6eNe9LUybW5k/VEgTOMKTtiOvPRwwuo8
+LHqW/O5PyWZv2CQ4YX6vdDfwZYIoXoh54Jfr6gQ8Hwd5K3Qde775I9YhJrYnuVYf
+fsuxjuGA1cLTiqq8GRORXcmTTjfTpy5sAHSjlWLI04QsylU7gltMKHjd7CzwKgH3
+W0c49G6ij1tyjVtZjD1I83lmi7lGAwTQJFFExTv5WN2gbNWzJXHX9+fwnWJH1w8e
+xSeQYiPVVy/k9qet8sDDn8v/dao/seIQrO84aNEaXCKoxC84Jod7F1u3f1E7WAlI
+EAwkYkyc+idvgismWJNa+NVVktRVzFBwBUYzvQdyn+xgnxN7+SCPv8yFyluBNMGZ
+vpc1b+hM/Xcn7uWucu5FyI40puMUet0kLMcabddzvMCD/1f4G5c=
+=OaZS
 -----END PGP SIGNATURE-----
 
---pghkakbjtjedlpu2--
+--pzn7zblf47jamynh--
