@@ -1,56 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792700829;
-	b=de/CKVOeLBnm3Z9Z6qASCL8mGS6n8BNpu4GYE5bP0GI+IELb+ZR0foZKVom+l74ztVLN
-	 8CQTi/YD+ExFd1d0jzwOwuy3IwpvJrrFd5GfaUl3ap4IMO+tD+62vvhxGVxoHdqqD4Hkp
-	 KQcH81ist+9j16COtf5gtD99IkpOxUekfIljOKR2dffJe+4BZ+2QOXRdc+nd/x1nAPQxg
-	 wMuLU6gjBPH70JrzwWXRJZTuxRCgTgGoV5BH4Jgj5pigah08N6YUrD0skZn+GCrWdC6DL
-	 zivaagVMC67IEVMCWcU6FnM5vA95BmiEZshFOncddZdtaZ4/yB5jJi+PtvhnsWgRNmw==
+	t=1792703657;
+	b=0O6ZIuuL6XzLn9iYux5rxuiJmwOvbdPV++LdkZDkzZOGLupUDIyTvxMuxNri9bvUU6mA
+	 dNkA0+0Jkby3W/ln3htbXmiXwQHFVLFy+abWje8tDH3vCeowbGjCkFRGX4c641edUUcAz
+	 sfaZiEnOZgF3wQFbcHakxsFKd1GrvC2H4s5GoPJZ49gOXIyrErBkuBGcJ3vLMvwllx3bn
+	 yDRRezr9NKco4d3hHbhbKzG6Yp9eEgjlkBEGnWfq7BStBAWEZNz4eFcAq3Y7rJ4zmOSoo
+	 lnjwsx5PxLRU98M0BaLNUKtwx+/hD4ZWUpisuBW7kSNz7Vwoo0RR2lh8jhgUP988anw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792700829;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792703657;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jbQSsvxnd33xxQVOcdXpdX6m5Jtl6NzcaUhgfnPLReI=;
-	b=zS+zkOAKtRVgHpsKApuOEbhf9AtZ1EdKQsKYo1NbH4h/NMkIYqFxZhGOZLhO+6ja9xr0
-	 OEnCQ66hx187NPdh+nUU7E7pqGJsJQpehsBAyaW60/cXUgQ9O45OnS0P/ZD/4mMf3gHub
-	 I6//3jVTs9z2wiuaKDw5xLoBnqoI0j0EcKanfCrUwhDspCWi/KxfShmNHpqrgEvyI4lSN
-	 vdO5jLuPAVUa7sFsRCWPJv9EwkavH/rQ5xnI9eRpKwLw92G4NdDv/sqOesqvg9Js++eBv
-	 D3+4FWlQz0Hn7vhVJnMb7MliWUcsWHosLkFYydH5KVecAu/ZpxEhjCha2uTPpTTPqBw==
+	bh=2nvLUCNhtVUiSCwNaOpSqAlCFexYnahH1x6wtLyh+HA=;
+	b=yCJQBt7az+vAhVHCyS/OfsdV97M6FREj4zrShGBJriIPhUy2Cs9IhqReM6GEOcg+Jql1
+	 Gt6TTwII9vlP4mNmv+HbJ0WMI7/no5QkrHzBfERzImB9d2c+S9H6DMzAw2qXPYrh/QLlC
+	 p1e9e7k+2rrPmoZT+y57mfd9A/e4TB0OYfsKZdGkR5LwVH41Bsi4pWmcSzpFKU+iLlPvF
+	 kpERnJBXbNjf6+qjXRr8TLi3yuTh6PjjZcjo2kzWmpAv5mKgrFeUiyMrLtD7AYd25JY57
+	 /ClG98bOAJ4dbI8Ex8BUHGckdOEDFLLQmcaIH0KUfvEtaQEritTINz6M55mte1VIlWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gCPCOLZz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EA3aoY3V;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107B606A319
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 20:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C61606A319
+	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 21:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gCPCOLZz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBFAB1F01829;
-	Thu, 22 Oct 2026 20:27:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EA3aoY3V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6E21F01828;
+	Thu, 22 Oct 2026 21:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792700828;
-	bh=jbQSsvxnd33xxQVOcdXpdX6m5Jtl6NzcaUhgfnPLReI=;
+	s=k20260515; t=1792703656;
+	bh=2nvLUCNhtVUiSCwNaOpSqAlCFexYnahH1x6wtLyh+HA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gCPCOLZzlssabPP61woZZVwteQu879Kd7/kC0ZHgPCHbuz/zhKBDkoIIxVcgNKqAp
-	 wGXf3pzJVC6hdnzlhZ151zxOzo5rdG6dacqC5KUdzt1b/b6hlj4hs8YpaU8QsYXDNE
-	 PG0WX1HkEgXotHQYhl/h+iq46ZmyVdjdXdXyoaWPT+EIDz+qXZGbFa5sfDJNSnA1oW
-	 9ITAjOSNxxvoToeU/Gd4XMCOPdRq+zQlZTB4lRlSbsnD7ewZKOvbPRVfsswsIOaudB
-	 FJvUCIWAF3Piz37i0sL3UR00rXR9COIsC10Umcr5y3k3csJ5eEYkuthUqfoSxPZ/iU
-	 XKfRO64Tcq12g==
-Date: Thu, 22 Oct 2026 22:27:00 +0200
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Martin Uecker <uecker@tugraz.at>
+	b=EA3aoY3VvZIK5NAjFa+eyKvwWzYR0T+dDbbkeatppJ/YeYE5bzKn7URRnzv4nAjFe
+	 7bpQ/AiDE7h5Ecq4JYBjwVvGfMy3VnuDgsEiQBwdFMphmKEQ6rS8IwReUzoP0NkSuE
+	 /XCoC77/vamdFholZRki03zqmJa5yPb5sq7nnoAnuRAKVkUKykWGpqdOn+Fgi1tFnQ
+	 s5Pr0pW2E6bxygAeMd1nyhSUcj6dymQ1VuwUlae4h5am/mKaeWD9ehCRiBR21dG4fN
+	 YJkwPoyLRj+biEway6fKQJCx1wwPFZ3VRLaAMJXdoi+hbFWt+q5R6Pt5WwgdvF0mfs
+	 Y+EQTxP/2f2/A==
+Date: Thu, 22 Oct 2026 23:14:09 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
 Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Christopher Bazley <chris.bazley.wg14@gmail.com>, Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>
-Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
- parameters for lengths of array parameters
-Message-ID: <atpuEfs7NFU5gQvb@debian>
-References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
- <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
- <atpp6tUO5GfMFkcB@debian>
+	Willy Tarreau <w@1wt.eu>, Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH 1/7] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
+ conditions
+Message-ID: <atp8BcbYwm9iJiw3@debian>
+References: <20261021212256.27961-1-gnoack3000@gmail.com>
+ <20261021212256.27961-2-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -61,143 +59,129 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yg47ltba7ipswrto"
+	protocol="application/pgp-signature"; boundary="b5rfqubtqbheqc3q"
 Content-Disposition: inline
-In-Reply-To: <atpp6tUO5GfMFkcB@debian>
+In-Reply-To: <20261021212256.27961-2-gnoack3000@gmail.com>
 
 
---yg47ltba7ipswrto
+--b5rfqubtqbheqc3q
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Martin Uecker <uecker@tugraz.at>
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
 Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Christopher Bazley <chris.bazley.wg14@gmail.com>, Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>
-Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
- parameters for lengths of array parameters
-Message-ID: <atpuEfs7NFU5gQvb@debian>
-References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
- <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
- <atpp6tUO5GfMFkcB@debian>
+	Willy Tarreau <w@1wt.eu>, Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH 1/7] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
+ conditions
+Message-ID: <atp8BcbYwm9iJiw3@debian>
+References: <20261021212256.27961-1-gnoack3000@gmail.com>
+ <20261021212256.27961-2-gnoack3000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <atpp6tUO5GfMFkcB@debian>
+In-Reply-To: <20261021212256.27961-2-gnoack3000@gmail.com>
 
-Hi Martin,
+Hi G=C3=BCnther
 
-> Date: 2026-10-22 22:01:17+0200
-> From: Alejandro Colomar <alx+linux-man@kernel.org>
+> Date: 2026-10-21 23:22:50+0200
+> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
 >
-[...]
-> >  I still do not like it, as the fully developed form
-> > would be a major pain for most C compiler to implement, but
-> > I guess a restricted version would be ok.  Unfortunately, this
-> > syntax does not work today, so could be used in code only at
-> > some point in the future.=20
+> The ETOOMANYREFS error is detected in too_many_unix_fds() in
+> net/unix/af_unix.c when the user's (not the processes') in-flight FDs
+> exceed RLIMIT_NOFILE, and the process has neither CAP_SYS_RESOURCE nor
+> CAP_SYS_ADMIN.  The error is raised when all of the following
+> (simplified) conditions are true:
+>=20
+> * user->unix_inflight > task_rlimit(p, RLIMIT_NOFILE)
+> * !capable(CAP_SYS_RESOURCE)
+> * !capable(CAP_SYS_ADMIN)
+>=20
+> The check was introduced in linux.git 712f4aad406b (2016-01-11; "unix:
+> properly account for FDs passed over unix sockets").
+>=20
+> Fixes: dc4eea68b565 (2016-12-17; "unix.7: Document ETOOMANYREFS for SCM_R=
+IGHTS send exceeding RLIMIT_NOFILE limit")
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Willy Tarreau <w@1wt.eu>
+> Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> Assisted-by: LLM
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
 
-This syntax is useless for us.  We have several functions that need to
-write expressions in array lengths, and not just identifiers.  We even
-dereference some pointer types (see getsockopt(2), lfind(3), and
-lsearch(3)).
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
 
-It's also useless for me as a programmer, since I need to do non-trivial
-stuff in my array sizes.  Whatever we add to the language should work
-for arbitrary types and expressions.
+>=20
+> Notes:
+>     Double checked in code -- the condition under which this error is
+>     returned was not fully spelled out.
+>=20
+>  man/man7/unix.7 | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> index 79198445c581..0d2ea8bda2ae 100644
+> --- a/man/man7/unix.7
+> +++ b/man/man7/unix.7
+> @@ -785,10 +785,14 @@ when sending a file descriptor as ancillary data ov=
+er
 
-Here's a list of functions we have documented and which need a
-non-restricted feature.
+Would you mind having a look at CONTRIBUTING.d/git for improving the
+hunk context?
 
-     long get_mempolicy(unsigned long maxnode;
-                        int *mode,
-                        unsigned long nodemask[(maxnode + ULONG_WIDTH - 1)
-                                               / ULONG_WIDTH],
-                        unsigned long maxnode, void *addr,
-                        unsigned long flags);
+    git-diff(1), gitattributes(5)
+	To produce useful hunk contexts in manual pages, we need to hack
+	git(1)'s idea of a function name, and also to tell git what is a
+	manual page.
 
-     char *inet_net_ntop(int bits, size_t psize;
-                       int af,
-                       const void netp[(bits - CHAR_BIT + 1) / CHAR_BIT],
-                       int bits,
-                       char pres[psize], size_t psize);
-
-     int getsockopt(socklen_t *restrict optlen;
-                    int sockfd, int level, int optname,
-                    void optval[_Nullable restrict *optlen],
-                    socklen_t *restrict optlen);
-
-     void *bsearch(size_t n, size_t size;
-                   const void key[size], const void base[size * n],
-                   size_t n, size_t size,
-                   typeof(int (const void [size], const void [size]))
-                       *compar);
-
-     /* In SCO OpenServer */
-     void cfree(unsigned int n, unsigned int size;
-                char ptr[size * n], unsigned int n, unsigned int size);
-
-     /* In Solaris watchmalloc.so.1 */
-     void cfree(size_t n, size_t size;
-                void ptr[size * n], size_t n, size_t size);
-
-     size_t fread(size_t size, size_t n;
-                  void ptr[restrict size * n],
-                  size_t size, size_t n,
-                  FILE *restrict stream);
-     size_t fwrite(size_t size, size_t n;
-                  const void ptr[restrict size * n],
-                  size_t size, size_t n,
-                  FILE *restrict stream);
-
-     size_t fread_unlocked(size_t size, size_t n;
-                           void ptr[restrict size * n],
-                           size_t size, size_t n,
-                           FILE *restrict stream);
-     size_t fwrite_unlocked(size_t size, size_t n;
-                           const void ptr[restrict size * n],
-                           size_t size, size_t n,
-                           FILE *restrict stream);
-
-     void *lfind(size_t *n, size_t size;
-                 const void key[size],
-                 const void base[*n * size],
-                 size_t *n, size_t size,
-                 typeof(int (const void [size], const void [size]))
-                     *compar);
-     void *lsearch(size_t *n, size_t size;
-                 const void key[size],
-                 void base[*n * size],
-                 size_t *n, size_t size,
-                 typeof(int (const void [size], const void [size]))
-                     *compar);
-
-I might have missed some other functions; I think this isn't exhaustive.
+		$ git config --global diff.man.xfuncname '^\.S[SHsh] .*$';
+		$ mkdir -p ~/.config/git/;
+		$ echo '*.[0-9]* diff=3Dman' >>~/.config/git/attributes;
 
 
 Cheers,
 Alex
 
+>  a UNIX domain socket (see the description of
+>  .BR SCM_RIGHTS ,
+>  above).
+> -It occurs if the number of "in-flight" file descriptors exceeds the
+> +It occurs if the number of "in-flight" file descriptors
+> +sent by processes of the caller's real user ID
+> +exceeds the caller's
+>  .B RLIMIT_NOFILE
+> -resource limit and the caller does not have the
+> +resource limit and the caller has neither the
+>  .B CAP_SYS_RESOURCE
+> +nor the
+> +.B CAP_SYS_ADMIN
+>  capability.
+>  An in-flight file descriptor is one that has been sent using
+>  .BR sendmsg (2)
+> --=20
+> 2.56.0
+>=20
+>=20
+
 --=20
 <https://www.alejandro-colomar.es>
 
---yg47ltba7ipswrto
+--b5rfqubtqbheqc3q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmracYwACgkQ64mZXMKQ
-wqlXLQ/+LFJyRq5jJdKF55yuyPwPQolceU6fnOi5Ec3w8qdAX0zae3dxXowkD8I5
-Bdmsg1VZIU5NOHfDrTxgOXfsh6ONrjhWvT62Dw0dQb9GBPLQYpTRd7DnT5KiGWv+
-lGgXFqCf0VfMhzB7k1WbBeRPEmLrbSxSBsSuM86n9v+topBclqCXW775CpwA38NV
-dCoMjv4M7J1h0h3tCysmVh9tC8GehJ2UFuA0OoDjabMbgvH8Ndtzqhbw8Jzhz8bq
-YrTyI38y8yhWvOxt63Rre1eYAVzjDeSVZpfDanzq0AOZAWKRrCJzCHOwSS9vd7Og
-tnjDFZ7vdnbs+l1nqHRaNw+n+9OpxKOrvEBhUxgnEhhdkbcUuCwb1KOqAQ+6qzGK
-FIbTTS+OloYUz6Krcmt0g9ibiAsTrmIw0HZ2h43m6H8rNq34Uj8j4vkm4m89ZKzH
-6rkw4ON6dt3aHMpBnf45wZ1ahvFP6SMhgdVYh/3aJyf08cSVA0CVHQycXR8SLlbA
-Kwvzlo4ZMDhMwS6KBGkqqbKxBbBIw/NT942Ig/E30PMLVVb+BSbnIMnG4LzEsn43
-2z3Xl91fMPhSGN2iCwghNB5KCA0/zj1t7KdWLOsFTa3BMd4QxqOYg9i58eWGAYpk
-jAdtHRzJNtZPrP7cMCR0FPR+zPxQgH8VbgxgTYxHhIEVPiL6UQQ=
-=n/Ti
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrafJsACgkQ64mZXMKQ
+wqn4IA//WWqBK8UPNgAG60sh7TUdxrA+pc48wgInfu5LesybMmThnlNpBftVIIZg
+QhZy8vZkwckiUK4Uy2b2UGvenb5NgOwozXFbj+T2S0c/z/UdIURZstN/vi2FgQCc
+92lgkqY9Iw9cV5gSbdYDn1JOiyiKdXHZ4VUAKQvwTCaxMtq4DroOdFQJogtzYrd+
+GUnwTpzQ52j4K1PyByaYFm4nAbxCdBxtN2JfvsDodpd4K3OTIRyHVBZWfKH3CSmq
+Qa8g/k+DHI6Y0OsvcShm6oudCHs2epUt5w0OJBay3A+SoE7a3os8htFX6Ia2AOVx
+nXxRLsMSkrrnf3ZVRYwybbo271nWjvyl6Pu3h80fmAHEU7a95IYOFVN2h95L3nF4
+GH+ZKMpi8qa+s5GfsaOWjgH2zt8FoTGjkq2Nm3C9QunpkMP+0qizGXatDDpPs2Ai
+TUOjlss7Td5jVNdnCqiE4lb3pvQL6q4XVj02t2MT0tazE9rjsxr1jYSC7gMwHKbL
+MTFcAPBhHigUAQIwO+8k47124wmuAObdU4qZ2VFwKcTws7EsKXF10li7YMdbqXqm
+7dWE76E1aB9yT6G31yVI09COF4eluz7lOyVkNtO/Ib0LfqsvPkY7/cIfcX9DT+iV
+93M/16oKu3d6T21ATOJrF93xJ7pKrL9be8SzBbXAF0x9hnP8Msg=
+=241R
 -----END PGP SIGNATURE-----
 
---yg47ltba7ipswrto--
+--b5rfqubtqbheqc3q--
