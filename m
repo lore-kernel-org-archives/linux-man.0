@@ -1,65 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=129.27.2.202
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792689127;
-	b=stelKLBWExDQ9KHBxTF2Z3dPOeSfriZKOworptZv7SUaVABeSI3tpZ3E+pK9DhD/qIlT
-	 T9RXIoyYxzNZ56mGOlDyHROqWmqL7G1Fn+16MGcLSmabFCgj2vMHgS0ARximg7peQ2DFM
-	 nP8iwWMMaO0qVXqGM36Q6urj0h+rj34bxbYRNjbdCGzh78F1q0RTcEG+VNGJh5W6IUGGv
-	 pNMpr2ZXi304HTMnfjoODwfZvUK1nEX6E3eLozwuXPmIkMpA9s5Tp0hj6hwnhKelhA3CC
-	 IqG1ZMbsBJCDBuXF6oVYrHRJ1NzeS9asr8M+T5jBIkSWW+0vmU28oI3Cerd6aoAKz7w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792689127;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-TUG-Backscatter-control:X-Spam-Scanner:
-	 X-Spam-Score-relay:X-Scanned-By;
-	bh=9vGN8T6bshCbNqzDWccB3cKDLqxWsKRZjFqB0WfYoC8=;
-	b=oYy5Sop22Sethe25PYI/zXq1AhhDcdntn+EIcGvtJ43GEHV3jF+rOP3AVE7J6h+DKRUL
-	 /ycKNt3+NqPFmmhMVeujq4S6+PDbzFJGo5n7+J8uVx2vQFczeGSVi/lzMPJBGhBCtTNjB
-	 fXCI4L5kxImoGkkx1AnmDTHhNYQiV3ww1e9XeYNqCkCoIh3dp1MTxnsx5vNX982WSxUTc
-	 FrZ6r4JCZKjEW/Lf0y8LitMiMOhOvg5zv0dkqIQ8TIYlmiHxAwImLF8Lcy0CcARW2gifG
-	 BJ1/+iLaZa1R3cWaFmJsnx6aF3z3AhYNkjzT2+LZ0lukfBzccnrO3YFJ3Wm/8HtoORQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=tugraz.at;
-	spf=pass smtp.mailfrom=tugraz.at;
-	dkim=pass header.d=tugraz.at header.i=@tugraz.at header.a=rsa-sha256 header.s=mailrelay header.b=VVvpguMp;
-	arc=none smtp.remote-ip=129.27.2.202
-Received: from mailrelay.tugraz.at (mailrelay.tugraz.at [129.27.2.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792690650;
+	b=5ItBPEL51hZ3HXFU0srV59frFbW4Ekzz9Iu4eXkHLaTL1DHcc95nZm9O09N7yY6RoRer
+	 gWZNPjOIjDFeBHRwUbLX7BKO7JTCyRNuRbNSOYzN2qhkUlZL7l/zUZ87ld78Tps8tiVsl
+	 TMzlvZN8UwwJrkZ/u93eOTCQzpmZ2bK7/ZkG+rKSGGTOtom7jxA0uSe0vHufvc/t0LM4k
+	 i+ky/TgNJr8v6SYGM96EHcUStZIotjLCWIx394PtM1iTsE/9a4brwOcMEe7ijom4Guu4/
+	 ZRYMFNvIg+UqcJP5/hBSJ+3pWvoAbrgJjezEWKsICiHhi8oD1XEmTotMy/PykmDjd/A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792690650;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type;
+	bh=B6oFzNLEDlHtmXQIvfTro1DMRtP5cZpzQ3ZN0UgKjnY=;
+	b=rQQbq1NdCQXy1eVyYs027/FuxYBGm3FwFT7GaxiOUdaGSxngJP3+LyDke2sS1l6njfYx
+	 jhErw5DTzt4XPBkZCniIgIdDmDYh889uNfgOnhfO9IAbRqelZR5HmGjayuQzpyfenTPmB
+	 sfqOg8joVmwzSOzMYiUYVyOIIH77iV1EywYNuyW3S6OeLFCqOQ57RisocBmCIiYhSC4A5
+	 Va4zAiSWLCEA+THLzCfMmqGPJCCJUahQsB5yCOlaRxcpkeFD3Rb6kbXaAx4vjfvHbz8OA
+	 WRTcMQ2WAK/5y4G78ngpcOD/RDwVb5fGcSvLQPy2S4/hGTnq7TCt5JGqEmvQNsjhX0w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=agtP9j6l;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5467606A31A
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 17:12:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5467606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tugraz.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tugraz.at
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18540606A337
+	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 17:37:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18540606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=tugraz.at header.i=@tugraz.at header.a=rsa-sha256 header.s=mailrelay header.b=VVvpguMp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tugraz.at;
-	s=mailrelay; t=1792689103;
-	bh=9vGN8T6bshCbNqzDWccB3cKDLqxWsKRZjFqB0WfYoC8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=VVvpguMpLn/wLIbkyF8HK0Y4XlRnT89esVaT7ZBgGf9seVZ4iFvOy9zJb5UTdH8E9
-	 MgmJNGCuuXSi+UyQli5WrFSEJjzqOR9q9JS2ZogviEysOvYz0xbA8rAcmInn/Vp0MI
-	 pkR+XrOcXTCUOZqa+w3zg1xDcp9U2xNzhyVWsCNk=
-Received: from heim-032-120.raab-heim.uni-linz.ac.at (heim-032-120.raab-heim.uni-linz.ac.at [193.171.32.120])
-	by mailrelay.tugraz.at (Postfix) with ESMTPSA id 4j9XkQ1Lz0z9s0w;
-	Thu, 22 Oct 2026 19:11:41 +0200 (CEST)
-Message-ID: <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
-Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
- parameters for lengths of array parameters
-From: Martin Uecker <uecker@tugraz.at>
-To: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx+linux-man@kernel.org>, Michael Kerrisk	
- <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>,
-  Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, "Joseph
- S. Myers" <jsm28@cam.ac.uk>
-Date: Thu, 22 Oct 2026 19:11:41 +0200
-In-Reply-To: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
-References: 
-	<79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=agtP9j6l
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-35ef6b49813so109755eec.0
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 10:37:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792690649; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bzmKpBDgP9oYWzhmXE9DMw0Nr3GtHdmuyTOwa21RJ6GdURA6lGJAS6OnG9af66CQLx
+         /Cxlw9CpdVO5v6kRUvZrQkkbWrTkMngMOs494HrIbaBilvmHVety8nvJ7ARfJsU3gxmj
+         eXJnM6QNapaY42NFl0J/tk52FRHQ+C6udYq2lBjQyxBByY+zxKkgzkF+2XCA/zeGsOPP
+         dTb0OJlGSNIGlirC7xxYDzDHVrMtt49Kix+9dzeF70BiiQPMafb8/D4prnvU68ZyH0L8
+         hbVL3rs1LFoRQEdHiDnKrL8zlyi6smfLRODYg/XYo7Vw8gV8j7lbb+2zay8d6MKWclXO
+         DW7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=B6oFzNLEDlHtmXQIvfTro1DMRtP5cZpzQ3ZN0UgKjnY=;
+        fh=OclAtLKJTQTIvPXBcbgjquIcuF1L0TED2I15vb2Dds8=;
+        b=s61g/7lunkU7URMlSuoRzFT7WR5GQT4RlxWjmM28Cwntd3WIu8l1mtp+P/AEkMWwQO
+         oOYt9rFFcvU5rBoSXUIUqcdrWMgswvMZ+yEPA9IdDN7M4pJezjr5Ikp7iaNcjpOt8uhL
+         6J1PRonUZgWmuGeqiAGcX3yMPwWPpuujq1vkEtqjY2S4k34QV1CVlkmFExEuMGa3S7tX
+         +Vcmmk+QHqBrHstn7YCK0mancMu720X5uK+V1keY06BTEoLcZwd62wqbYMzdI40+q6pP
+         62jV8o9SJBxWOstEEDf8kGd4MXg6MSz4EzMg7ZFTtAH/jNjkrEE6bqZJqMz3LgscxRys
+         2YhA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792690649; x=1793295449; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B6oFzNLEDlHtmXQIvfTro1DMRtP5cZpzQ3ZN0UgKjnY=;
+        b=agtP9j6lRImwwxnRkhU67QFTcVuJyiH8Nmk9FstIeqZfR0aUpuRXexyiKGHx2QcpWW
+         MrQXpla7xx8uN1h0H9RPop1709Y+e9tT3x0PU1fdxUyjkwiAOGWXLIQQsOhzWLAXOtaA
+         jnzmTpyp1nLHB/m9mLZ+s95a49WFNXBOljdPS2dk9IuDu/MXir0kvFBuxvAGV7JWsz7s
+         LfrTnzLE9scPitVSLCeUc1kqQbUMkPNClJ4e++KVJGbNHH2y8eonp7A6VEMrnUf5JYBr
+         Q9aXnT8hLIMtnCjIi8mor43Cc61OUIyZjQBNmjxNB+YFtOgr/3jCJXm90pMvvSH9iJeo
+         SxxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792690649; x=1793295449;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B6oFzNLEDlHtmXQIvfTro1DMRtP5cZpzQ3ZN0UgKjnY=;
+        b=lxoShm6g2cts6Zx4fLB6n1LWOKakyT1T1291gGmlRpmoiKlqgt4y/nGhHzfs/mN8DU
+         /iABZ/mdrvM1VKCLp7M/Nr+bH81BOPIphL9vtfpMmdMzzFPY1QJDw7ZvWQZFonuqAhXa
+         p53aAnEBjR6HY477euTyo8tHRt40qHPh21QbOP9PQMk9eGzkVvRT9QrVryR1WFv/L00W
+         QLqiKtybmYPgS9/RY6rqzfeZ2qmB3bq2QXwG0JLp6y0uAJUSd9X2QTKD69zsiB6gNDjj
+         fkWbWQV0EswlyyVn6QMkawzMuWgvCMKQtOmLGVVIqm+1S7RtM+j+E/sBmlQP3XO/GhGe
+         t4OA==
+X-Gm-Message-State: AFq9FYLzXcFsHiiBxMJwLuQnxnwWcCXfK0i7prP93mzL+VmPq7SCWYjl
+	zVT/g0KeDLt8qfmZtFRhXrVS1yoAHrjl4BpAXBcAp66Obg55B8D3mqKaKeJejg3jroKs2Rcf+T2
+	AzdVjjYJlKvhb/9DcVb+uOmurwZGLnk4z4lVy
+X-Gm-Gg: AYBFou1xKcQrUaCEP6kyxQX/lezBRFvylfjVq8Z6kHFcAWjOyf7+Sd6mKbWdQRKqylN
+	S9LWloqJVTmBGacbB8MGQGFo62WkLsFw5A+weRyKXTlCjtzJ71DIDZTYjSBPyLL3WxckCpyUyBo
+	vU94VYO6U6uqNZIj6tsInUrtzE2/OOeOER1Y4xdEK03eig6cT3jnlkLG+N1m6rpxy9VEiN69Kdg
+	vfVToGxpVU+U65e/391ooNfn/tyIhAjzqqSibhWkSIW3OMLAT0TLzd/5tfHR2F2ORc2JVafbEIP
+	bTjlkpcaWjhksjHeW5TvLRlr/FsCu6EyBLb3XYXByfJh9j82xTGzbl2YZ/3mWQLogXnN9hu6MB+
+	x7UM0qPyrkn1+1tsr4WSUXADq2r2r+4e7683PfabJUTEu3xVkbCk6Kl2Kdxk8jaWUZE3FHhfK11
+	m8AZ+xqBHSonwww/s9gdgpvChKoSLFE3gaGB4SM5TGIg1z
+X-Received: by 2002:a05:7300:80d6:b0:35d:2c2b:215a with SMTP id
+ 5a478bee46e88-3674f11d996mr10652767eec.35.1792690648916; Thu, 22 Oct 2026
+ 10:37:28 -0700 (PDT)
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -69,89 +103,93 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-TUG-Backscatter-control: G/VXY7/6zeyuAY/PU2/0qw
-X-Spam-Scanner: SpamAssassin 3.003001 
-X-Spam-Score-relay: 0.0
-X-Scanned-By: MIMEDefang 2.74 on 129.27.10.117
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+In-Reply-To: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+From: Christopher Bazley <chris.bazley.wg14@gmail.com>
+Date: Thu, 22 Oct 2026 18:37:16 +0100
+X-Gm-Features: AclHuK9REBYnx3uWYz3JjuYSAfpiW_pmRBQ8Keklkf_jIzgWZp1kE8TiVqY43ww
+Message-ID: <CAEHU8x-d1aeRC8JgArpXs-4yJQ5XZY2U8OrcxAFnYcFEM3Xp+w@mail.gmail.com>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+To: linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Alejandro,
 
-Here are my 2 cents:
+On Thu, 22 Oct 2026 at 17:45, Alejandro Colomar <alx@kernel.org> wrote:
 
-The one big advantage of the forward declaration syntax is, that
-if one does use it, one can get real benefits in security already
-today in the forms of compiler warnings and when using object-size
-sanitizer.  In my opinion, it is real tragedy for the world that it
-is not more widely known and used (and that Clang does not want to
-implement it).=20
-
-On the other hand, we have now a counter proposal from Apple
-which would make the simpler syntax with retrospective scoping
-work.  I still do not like it, as the fully developed form
-would be a major pain for most C compiler to implement, but
-I guess a restricted version would be ok.  Unfortunately, this
-syntax does not work today, so could be used in code only at
-some point in the future.=20
-
-Still, my recommendation would be to wait until this issue is settled
-in WG14 and if Apple's proposal is accepted, use Apple's syntax
-in the man pages.
-
-Martin
-
-
-*) Also I hate giving in to bullies.  (not talking about
-the Apple engineers)
-
-
-Am Donnerstag, dem 22.10.2026 um 18:44 +0200 schrieb Alejandro Colomar:
 > From: Alejandro Colomar <alx+linux-man@kernel.org>
->=20
+>
 > From: Alejandro Colomar <alx@kernel.org>
->=20
+>
 > I'm not fully convinced of this patch.  But I'm open to being convinced.
 > I've written the patch, as Michael asked me to do, but am willing to
 > hear everyone's opinion before applying the patch.
->=20
+
+Why did Michael ask you to do this?  I think there is some context missing.
+
 > As Michael reminded me recently, and as I've defended in other cases, it
 > is true that the SYNOPSIS of the manual pages does not need to be
 > strictly valid C.  It only needs to be useful enough for readers to
 > understand the interface.  Thus, if using lengths without declaring them
 > would improve the usefulness of the documentation, even if becoming
 > invalid C, it would be okay.
->=20
+>
 > However, I still have doubts, because this change comes with risks:
->=20
+>
 > Programmers might think it is valid C to refer to parameters that have
 > not been declared yet, and use that in their code, and if they are
 > unlucky, it might compile for them, which might result in UB at some
 > point.
->=20
+>
+
+I think it is reasonable to assume that anything which resembles C source
+code will at some point be copied and pasted into a C program.
+
 > One valid point is that this is rather unlikely to happen, and most of
 > the time it will just result in a compiler error, because no global
 > variables with the name of the parameter exist.
->=20
+>
 > However, with local (nested) functions, this might be easier to happen,
 > as variables declared in the outer function are more likely to share a
 > name with a length parameter.  Given that the C Committee is working
 > hard to standardize local functions, it might be a very bad idea to have
 > this combination of events going on.
->=20
+>
+
+I agree with this concern in general, although I don.t quite see how it
+applies in the specific case of the functions that you are documenting.
+(Unless you are expecting those functions to be declared inside a function
+definition instead of by including the appropriate header - in which case
+the hazard already exists.)
+
+I guess you are really worried about people copying the style rather than
+the content.
+
 > Concerns that have been raised against using the GNU C syntax in the
 > manual pages:
->=20
+
+Parameter forward declarations are also supported by SDCC, albeit with more
+limitations. I would be interested to see whether your usage falls into the
+category of usage that would be supported by SDCC or not.
+
 > Very very few programmers know this syntax, and thus they are confused
 > when reading it for the first time.
->=20
+>
 > This is obviously true.  However, this is true of any innovative syntax.
 > We should consider whether the confusion is dangerous or not, and
 > whether programmers can learn it easily or not.
->=20
+>
+
+Can we still call it innovative, many decades after its invention?
+
+>
 > I believe once you've been exposed to this syntax, after some research,
 > or asking the right people, one would easily learn to read it, and then
 > we'd have overcome the issue.  I don't think the syntax is inherently
 > difficult to understand once you've seen the documentation and seen it
 > a few times.
->=20
+>
 > Also, this syntax is not very dangerous: a programmer thinking
 > that a forward declaration is actually a normal parameter will pass a
 > wrong number of arguments to the function, and thus will have compiler
@@ -165,181 +203,39 @@ Am Donnerstag, dem 22.10.2026 um 18:44 +0200 schrieb Alejandro Colomar:
 > have unused parameters, which would trigger diagnostics.  So, concerning
 > safety, this feature is not very dangerous, even if used by someone who
 > is very confused.
->=20
+>
 > Do we think programmers are unable to ever learn this new syntax?
+
+
+No, because programmers are clever and it is relatively simple. I wrote a
+paper that explored the drawbacks of the syntax and recommended
+standardising a subset (which I assume is what you are using). With a free
+hand, I might have been tempted to go further, but it is well-established
+and impossible to redefine.
+
+I still have not yet seen a proposal for anything easier to learn (that
+does not rely on forward-parsing).
+
+
 > Are we ready to accept the risks of using the dangerous invalid syntax,
 > but which is more intuitive to programmers?
->=20
+>
 > Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
 > Not-yet-Signed-off-by: Alejandro Colomar <alx@kernel.org>
 > ---
->=20
+>
 > I've cut the diff below to just a single page, because this is just for
 > discussion; the actual diff is huge and uninteresting.  It's just a
 > removal of all uses of fwd decls of parameters in the manual pages.
->=20
->=20
-> Have a lovely day!
-> Alex
->=20
->  man/man2/add_key.2                       |  2 +-
->  man/man2/alloc_hugepages.2               |  2 +-
->  man/man2/cacheflush.2                    |  2 +-
->  man/man2/epoll_wait.2                    |  6 +++---
->  man/man2/futex_waitv.2                   |  2 +-
->  man/man2/get_mempolicy.2                 |  2 +-
->  man/man2/getdents.2                      |  2 +-
->  man/man2/getdomainname.2                 |  4 ++--
->  man/man2/getrandom.2                     |  2 +-
->  man/man2/getsockopt.2                    |  4 ++--
->  man/man2/getunwind.2                     |  2 +-
->  man/man2/getxattr.2                      |  6 +++---
->  man/man2/init_module.2                   |  2 +-
->  man/man2/listmount.2                     |  2 +-
->  man/man2/lookup_dcookie.2                |  2 +-
->  man/man2/madvise.2                       |  2 +-
->  man/man2/mbind.2                         |  2 +-
->  man/man2/mincore.2                       |  2 +-
->  man/man2/mlock.2                         |  6 +++---
->  man/man2/mmap.2                          |  4 ++--
->  man/man2/modify_ldt.2                    |  2 +-
->  man/man2/mprotect.2                      |  4 ++--
->  man/man2/mremap.2                        |  2 +-
->  man/man2/msgop.2                         |  4 ++--
->  man/man2/msync.2                         |  2 +-
->  man/man2/outb.2                          | 12 ++++++------
->  man/man2/perfmonctl.2                    |  2 +-
->  man/man2/pread.2                         |  4 ++--
->  man/man2/query_module.2                  |  2 +-
->  man/man2/read.2                          |  2 +-
->  man/man2/readlink.2                      |  4 ++--
->  man/man2/recv.2                          |  4 ++--
->  man/man2/recvmmsg.2                      |  2 +-
->  man/man2/remap_file_pages.2              |  2 +-
->  man/man2/s390_pci_mmio_write.2           |  4 ++--
->  man/man2/send.2                          |  4 ++--
->  man/man2/sendmmsg.2                      |  2 +-
->  man/man2/setxattr.2                      |  6 +++---
->  man/man2/write.2                         |  2 +-
->  man/man2const/KEYCTL_DESCRIBE.2const     |  2 +-
->  man/man2const/KEYCTL_DH_COMPUTE.2const   |  2 +-
->  man/man2const/KEYCTL_GET_SECURITY.2const |  2 +-
->  man/man2const/KEYCTL_INSTANTIATE.2const  |  4 ++--
->  man/man2const/KEYCTL_READ.2const         |  2 +-
->  man/man2const/KEYCTL_UPDATE.2const       |  2 +-
->  man/man2const/PR_GET_AUXV.2const         |  2 +-
->  man/man3/aio_suspend.3                   |  2 +-
->  man/man3/arc4random.3                    |  2 +-
->  man/man3/backtrace.3                     |  6 +++---
->  man/man3/bcmp.3                          |  2 +-
->  man/man3/bcopy.3                         |  2 +-
->  man/man3/bsearch.3                       |  2 +-
->  man/man3/bzero.3                         |  2 +-
->  man/man3/cfree.3                         |  4 ++--
->  man/man3/confstr.3                       |  2 +-
->  man/man3/des_crypt.3                     |  4 ++--
->  man/man3/explicit_bzero.3                |  2 +-
->  man/man3/fgets.3                         |  2 +-
->  man/man3/fgetws.3                        |  2 +-
->  man/man3/fmemopen.3                      |  2 +-
->  man/man3/fread.3                         |  4 ++--
->  man/man3/getcwd.3                        |  2 +-
->  man/man3/getdirentries.3                 |  2 +-
->  man/man3/getentropy.3                    |  2 +-
->  man/man3/getgrent_r.3                    |  4 ++--
->  man/man3/getgrnam.3                      |  4 ++--
->  man/man3/gethostbyname.3                 | 10 +++++-----
->  man/man3/getipnodebyname.3               |  2 +-
->  man/man3/getlogin.3                      |  2 +-
->  man/man3/getmntent.3                     |  2 +-
->  man/man3/getnameinfo.3                   |  2 +-
->  man/man3/getnetent_r.3                   |  6 +++---
->  man/man3/getprotoent_r.3                 |  6 +++---
->  man/man3/getpwent_r.3                    |  4 ++--
->  man/man3/getpwnam.3                      |  4 ++--
->  man/man3/getrpcent_r.3                   |  6 +++---
->  man/man3/getservent_r.3                  |  6 +++---
->  man/man3/getspnam.3                      |  8 ++++----
->  man/man3/inet_net_pton.3                 |  4 ++--
->  man/man3/inet_ntop.3                     |  2 +-
->  man/man3/lio_listio.3                    |  2 +-
->  man/man3/lsearch.3                       |  4 ++--
->  man/man3/mblen.3                         |  2 +-
->  man/man3/mbrlen.3                        |  2 +-
->  man/man3/mbrtowc.3                       |  2 +-
->  man/man3/mbsnrtowcs.3                    |  2 +-
->  man/man3/mbsrtowcs.3                     |  2 +-
->  man/man3/mbstowcs.3                      |  2 +-
->  man/man3/mbtowc.3                        |  2 +-
->  man/man3/memccpy.3                       |  2 +-
->  man/man3/memchr.3                        |  2 +-
->  man/man3/memcmp.3                        |  2 +-
->  man/man3/memcpy.3                        |  2 +-
->  man/man3/memfrob.3                       |  2 +-
->  man/man3/memmem.3                        |  2 +-
->  man/man3/memmove.3                       |  2 +-
->  man/man3/mempcpy.3                       |  2 +-
->  man/man3/memrchr.3                       |  2 +-
->  man/man3/memset.3                        |  2 +-
->  man/man3/memset_explicit.3               |  2 +-
->  man/man3/mq_receive.3                    |  4 ++--
->  man/man3/mq_send.3                       |  4 ++--
->  man/man3/posix_madvise.3                 |  2 +-
->  man/man3/pthread_attr_setstack.3         |  2 +-
->  man/man3/pthread_setname_np.3            |  2 +-
->  man/man3/ptsname.3                       |  2 +-
->  man/man3/qsort.3                         |  4 ++--
->  man/man3/random.3                        |  2 +-
->  man/man3/regex.3                         |  2 +-
->  man/man3/resolver.3                      | 24 ++++++++++++------------
->  man/man3/setaliasent.3                   |  4 ++--
->  man/man3/setbuf.3                        |  4 ++--
->  man/man3/setnetgrent.3                   |  2 +-
->  man/man3/snprintf.3                      |  4 ++--
->  man/man3/stpncpy.3                       |  2 +-
->  man/man3/strerror.3                      |  4 ++--
->  man/man3/strfmon.3                       |  4 ++--
->  man/man3/strfromd.3                      |  6 +++---
->  man/man3/strftime.3                      |  4 ++--
->  man/man3/strlcpy.3                       |  4 ++--
->  man/man3/strncat.3                       |  2 +-
->  man/man3/strncpy.3                       |  2 +-
->  man/man3/strndup.3                       |  2 +-
->  man/man3/strndupa.3                      |  2 +-
->  man/man3/strxfrm.3                       |  2 +-
->  man/man3/swab.3                          |  2 +-
->  man/man3/ttyname.3                       |  2 +-
->  man/man3/unlocked_stdio.3                |  8 ++++----
->  man/man3/wcpncpy.3                       |  2 +-
->  man/man3/wcsncat.3                       |  2 +-
->  man/man3/wcsncpy.3                       |  2 +-
->  man/man3/wcsnrtombs.3                    |  2 +-
->  man/man3/wcsrtombs.3                     |  2 +-
->  man/man3/wcstombs.3                      |  2 +-
->  man/man3/wmemchr.3                       |  2 +-
->  man/man3/wmemcmp.3                       |  2 +-
->  man/man3/wmemcpy.3                       |  2 +-
->  man/man3/wmemmove.3                      |  2 +-
->  man/man3/wmempcpy.3                      |  2 +-
->  man/man3/wmemset.3                       |  2 +-
->  man/man3/wprintf.3                       |  4 ++--
->  man/man7/man-pages.7                     |  2 +-
->  man/man7/string_copying.7                | 16 ++++++++--------
->  man/man9/strscpy.9                       |  2 +-
->  144 files changed, 228 insertions(+), 228 deletions(-)
->=20
-> diff --git a/man/man2/add_key.2 b/man/man2/add_key.2
-> index 19bc5d40ae76..908c63a10fbb 100644
-> --- a/man/man2/add_key.2
-> +++ b/man/man2/add_key.2
-> @@ -14,7 +14,7 @@ .SH SYNOPSIS
->  .nf
->  .B #include <keyutils.h>
->  .P
-> -.BR key_serial_t\~add_key( size_t\~size;
-> +.B key_serial_t\~add_key(
->  .BI "                     const char *" type ", const char *" descriptio=
-n ,
->  .BI "                     const void " payload [ size "], size_t " size =
-,
->  .BI "                     key_serial_t " keyring ");"
+>
+
+I don't agree with the change, but the fact that there are no useful ISO C
+semantics for parameters of pointer type declared using array syntax
+weakens my concern. (If the parameters actually had variably-modified types
+then the change would be far worse, from my point of view, because the
+parameter types would no longer be expressed correctly.)
+
+You know your customers better than I do. If they expect GNU C semantics,
+then it seems reasonable to document those semantics using GNU C syntax.
+
+Christopher
