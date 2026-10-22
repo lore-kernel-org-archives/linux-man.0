@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792698849;
-	b=aI/Yakkw5eiqDPLq13v80/f4R/kQ+6gFFSAaCliC+PaPwBfZYAL65bJCPIBIvwogKLEy
-	 SuUNdoMVYMUHDYTkYJ0MWOxD8Jp1DWKR6VXdmZ6AQphM82DyKh90az8ZaclA7LZnD5Ai5
-	 +dOfc8XCq8DiN9eyvrvGRfnTJngJy3sY7c1Z1tUBY/hPc5jxpTQVvGQhQbwPGAn6WRD7c
-	 HgzPI40p+gvvE0W9NAgOrIeaRY5oJShqqxe+XDeuKUyL0DCPjRGNfBHhVtQ3Z4Rd7bpkW
-	 V0l/uYaBEmKNXe2vAw+YugjJokrG0q/Ry4GVRI/2+hBWBukYzw3CfPuXLz8BedtQ/ZA==
+	t=1792699277;
+	b=oII2iPTZGJUu2tebmNhw8pAudAVPvZ/sscyo7TWt+o6mFBV0LtnXqakbYhlJqzyF8TKB
+	 df9DQLEX3yngPRTnwn1b8b+Kija/yvH2ptioixb8epo42UzVM7lMvbNsoHjoX2j56RNfO
+	 U0ewgXWxIMiFCDsWttlgdZQ9prm7PKMO10OP3U+TJkmhXx/Rv02yEPifAYdpFyAia3rqJ
+	 tFfNfpgkig2Aguy1ppyHXYvJHgJiOb1HRymbVkY0xMYjFZjvL9jfGtYNFg74XMWFfZZaA
+	 QncPpOGTfKU2ZXdmZcLwNfTTlTF1xsUwHdk4EwGmZeUO0Hspc9xKwvYuz+oyNNVTLLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792698849;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792699277;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=eIT3+kQYMkP2olMDbpGcjV9JAXqxNhL63H79NnfrAkk=;
-	b=K2kK6IGg3gVkpEAHIehMbKgoVOwpB1rgTVpfyfR712lCao6oDZdslSUF1K2pc44gR6HU
-	 NiYPK+9cw8s5srfEI/tOcZjIrAXaZVHAPDiRSFOsIv7Bgy7LHKyhYP/TM9fX3PCdus3Xf
-	 uH+tNZTrCxfiLAdjar7iKgJngBLYkXyn1rVps3cacDy+DUjSK7YXgVsuU0cjPt0aKX8Uu
-	 zzd8FEHX0B+CPrNgbgDcwYFeqReLk5ltRkPhLCjWd5eU2hc50rX0HeaAIhaFxOfZtfr0t
-	 db6uSNkj6ULSWXzOD8Uknq/jTcnwIUlgd8z+2cpKFBfYzuIbWWouzpRIPyIiAUFhJhw==
+	bh=GIoCH8ZPd+mf7nUUH3q2EQqzypwsXfQmv5ieMkhzz3E=;
+	b=WGPemgdqkioUofxju/fgHe0grB/IrQTJJmLjQPfugPucHNjXYYkwNAvqJjAYa/W2FWGJ
+	 53QCY2kSOjE1/4pWsgVU5jE//ZMabKa2PGkJCmO5fkgbo4WIljFSBpE0AEfDfSvuJy79r
+	 iLklLV/FfyoLeh59IqUy2DnBAuoAkpR8XmC7JbDL184eVSIhT7E3q6Ijdv2AfZEqGvHuO
+	 gJCrhDGdPv/VctMjkuA/pcQerVhn0YGede77j3j+U1VNQYOgmf9+ETKGb4EevyKzPwxZv
+	 DI055kuRlTXFCTGd6ceN33S5LSVnHF54kFGZ0vQIb3Fo+YoF34DVbMBBc1kx33SPXZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrBuI2Jj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="N2plh/SQ";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AE5606A319
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 19:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5BA606A31A
+	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 20:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrBuI2Jj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576CA1F01828;
-	Thu, 22 Oct 2026 19:54:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N2plh/SQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608F61F01825;
+	Thu, 22 Oct 2026 20:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792698849;
-	bh=eIT3+kQYMkP2olMDbpGcjV9JAXqxNhL63H79NnfrAkk=;
+	s=k20260515; t=1792699277;
+	bh=GIoCH8ZPd+mf7nUUH3q2EQqzypwsXfQmv5ieMkhzz3E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IrBuI2Jjv+UxLbtxFRXsBnf0LkR1hQM2f2yCYkbPK3DnWZxAZxtGHInf+DQ1D7Pdj
-	 GG/H19yliSKYg7NPtKQxgLSQr5YQKZVgczD8s6SxPzxJHJ9rfPggJ5pKe7EjseWYa9
-	 2qli8rIL5u66tBfbalUc5I+pixcmjRoRNSQipD9yjf7glf5C3CWbGT7SgRSH2qoF/i
-	 wLnIPVeA/t+9L+II3EFK04up6gKgLyw9NczgT3iiPJL4FUHux3YfsIO9RcElOLP9qa
-	 MnFL17GVqeaylz8f5enEC46WEeFwJQh9Y8onFnCVRPsjXgbYy+FMbCyWT0794EZP0F
-	 Ig+wrUheEwsew==
-Date: Thu, 22 Oct 2026 21:54:01 +0200
+	b=N2plh/SQZlKzqSmIrk/1EHwF3LoN22JfXNWLIiGz3dOIYLP3nXNhLzJD1V2EsZUpp
+	 RTFDX1xvBLn8UYjSNjE+KLu6afWVKKormCtIgrutQhxcF31tC4nlq5bCPcrSFUE1/B
+	 4V9xIiNB7DI4sUDCehHmR2hM9vz6/3rhTIE0KsPOPBZED5eWtUEGCQd5BdA02Uqbsf
+	 6YDxpi905fKjbniMo7dkXH12W2wwGzeopTok2ETnveRVPnJAIbwdvFjzVL5m+Ds8lR
+	 qtXtVwIU+u0H/zhDYVA/dFhc+a7DfTaPNDMA36hr/IuyPyCQXPwVKlK8V2aXFbhOex
+	 cFTg+aMYwFDQA==
+Date: Thu, 22 Oct 2026 22:01:08 +0200
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Christopher Bazley <chris.bazley.wg14@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
+To: Martin Uecker <uecker@tugraz.at>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
 	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>
+	"Joseph S. Myers" <jsm28@cam.ac.uk>
 Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
  parameters for lengths of array parameters
-Message-ID: <atpnWiYQzs_HZ1Q7@debian>
+Message-ID: <atpp6tUO5GfMFkcB@debian>
 References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
- <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+ <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -60,231 +61,104 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yf6jcu55i7xchwky"
+	protocol="application/pgp-signature"; boundary="qsyzh3wa24azuhkt"
 Content-Disposition: inline
-In-Reply-To: <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+In-Reply-To: <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
 
 
---yf6jcu55i7xchwky
+--qsyzh3wa24azuhkt
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Christopher Bazley <chris.bazley.wg14@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
+To: Martin Uecker <uecker@tugraz.at>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
 	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>
+	"Joseph S. Myers" <jsm28@cam.ac.uk>
 Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
  parameters for lengths of array parameters
-Message-ID: <atpnWiYQzs_HZ1Q7@debian>
+Message-ID: <atpp6tUO5GfMFkcB@debian>
 References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
- <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+ <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
 MIME-Version: 1.0
-In-Reply-To: <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+In-Reply-To: <543dcd09540ba941c8d3ce86dd7581bc6425c367.camel@tugraz.at>
 
-Hi Chris,
+Hi Martin,
 
-> Date: 2026-10-22 18:29:31+0100
-> From: Christopher Bazley <chris.bazley.wg14@gmail.com>
+> Date: 2026-10-22 19:11:41+0200
+> From: Martin Uecker <uecker@tugraz.at>
 >
-> Hi Alejandro,
 >=20
-> On Thu, 22 Oct 2026 at 17:45, Alejandro Colomar <alx@kernel.org> wrote:
+> Here are my 2 cents:
 >=20
-> > From: Alejandro Colomar <alx+linux-man@kernel.org>
-> >
-> > From: Alejandro Colomar <alx@kernel.org>
-> >
-> > I'm not fully convinced of this patch.  But I'm open to being convinced.
-> > I've written the patch, as Michael asked me to do, but am willing to
-> > hear everyone's opinion before applying the patch.
+> The one big advantage of the forward declaration syntax is, that
+> if one does use it, one can get real benefits in security already
+> today in the forms of compiler warnings and when using object-size
+> sanitizer.  In my opinion, it is real tragedy for the world that it
+> is not more widely known and used (and that Clang does not want to
+> implement it).=20
+
+In this case, we're only concerned about documentation.  I fully agree
+that in source code, forward declarations are the way to go.  What we're
+trying to decide here is whether the same is true in documentation or
+whether there are reasons to do something else.
+
+> On the other hand, we have now a counter proposal from Apple
+> which would make the simpler syntax with retrospective scoping
+> work.
+
+I'm not sure about that.  There are concerns about it changing the
+meaning of existing code if the constraint is not added (and if it is
+added, of breaking code at a distance).  That proposal is not yet ready.
+
+And indeed, some of those concerns are related to the concerns I have in
+manual pages: if users take this syntax and start using it, they might
+have serious issues in their code.
+
+>  I still do not like it, as the fully developed form
+> would be a major pain for most C compiler to implement, but
+> I guess a restricted version would be ok.  Unfortunately, this
+> syntax does not work today, so could be used in code only at
+> some point in the future.=20
 >=20
->=20
-> Why did Michael ask you to do this?  I think there is some context missin=
-g.
+> Still, my recommendation would be to wait until this issue is settled
+> in WG14 and if Apple's proposal is accepted, use Apple's syntax
+> in the man pages.
 
-We have dozens of users having reported a bug in the documentation,
-as they believe the forward declarations are an accident/typo.
-Clearly, most readers don't know this syntax, and think it's some
-mistake.  I've been dealing with them nicely explaining them the
-existance and validity of the syntax, and they tend to understand it
-quickly.
+Yes, if Apple's syntax is accepted, we should probably change the
+documentation.  Michael thinks there are reasons to move earlier,
+though.  I'm not entirely convinced about his position.
 
-> > As Michael reminded me recently, and as I've defended in other cases, it
-> > is true that the SYNOPSIS of the manual pages does not need to be
-> > strictly valid C.  It only needs to be useful enough for readers to
-> > understand the interface.  Thus, if using lengths without declaring them
-> > would improve the usefulness of the documentation, even if becoming
-> > invalid C, it would be okay.
-> >
-> > However, I still have doubts, because this change comes with risks:
-> >
-> > Programmers might think it is valid C to refer to parameters that have
-> > not been declared yet, and use that in their code, and if they are
-> > unlucky, it might compile for them, which might result in UB at some
-> > point.
-> >
->=20
->=20
-> I think it is reasonable to assume that anything which resembles C source
-> code will at some point be copied and pasted into a C program.
-
-Indeed.
-
-> > One valid point is that this is rather unlikely to happen, and most of
-> > the time it will just result in a compiler error, because no global
-> > variables with the name of the parameter exist.
-> >
-> > However, with local (nested) functions, this might be easier to happen,
-> > as variables declared in the outer function are more likely to share a
-> > name with a length parameter.  Given that the C Committee is working
-> > hard to standardize local functions, it might be a very bad idea to have
-> > this combination of events going on.
-> >
->=20
-> I agree with this concern in general, although I don=E2=80=99t quite see =
-how it
-> applies in the specific case of the functions that you are documenting.
-> (Unless you are expecting those functions to be declared inside a function
-> definition instead of by including the appropriate header =E2=80=94 in wh=
-ich case
-> the hazard already exists.)
->=20
-> I guess you are really worried about people copying the style rather than
-> the content.
-
-Indeed, my worry is not that people will copy these declarations
-verbatim, but that they'll think it is valid, and write similar code for
-their own declarations.
-
-> > Concerns that have been raised against using the GNU C syntax in the
-> > manual pages:
->=20
->=20
-> Parameter forward declarations are also supported by SDCC, albeit with mo=
-re
-> limitations. I would be interested to see whether your usage falls into t=
-he
-> category of usage that would be supported by SDCC or not.
-
-Our users are mainly interested in POSIX compilers.  That is more or
-less GCC, Clang, TCC, PCC, and maybe something like Intel or IBM
-compilers.  The main two are GCC and Clang.
-
-> > Very very few programmers know this syntax, and thus they are confused
-> > when reading it for the first time.
-> >
-> > This is obviously true.  However, this is true of any innovative syntax.
-> > We should consider whether the confusion is dangerous or not, and
-> > whether programmers can learn it easily or not.
-> >
->=20
-> Can we still call it innovative, many decades after its invention?
-
-Maybe I should have used the term 'novel' rather than innovative.
-While it's clearly not new, being decades old, it is certainly a novelty
-to the programmers that have never seen it before.
-
-> > I believe once you've been exposed to this syntax, after some research,
-> > or asking the right people, one would easily learn to read it, and then
-> > we'd have overcome the issue.  I don't think the syntax is inherently
-> > difficult to understand once you've seen the documentation and seen it
-> > a few times.
-> >
-> > Also, this syntax is not very dangerous: a programmer thinking
-> > that a forward declaration is actually a normal parameter will pass a
-> > wrong number of arguments to the function, and thus will have compiler
-> > errors.  This syntax is quite robust, as it requires several bugs to
-> > happen in the same code to pass compilation silently.  If one replaces
-> > ';' with ',', the parameter will be declared twice, which is an error.
-> > If one renames a forward declaration, it will not match a parameter, and
-> > will result in a compiler error.  Only if both mistakes happen at once,
-> > the compilation would pass, but then the call sites would also have to
-> > match the bogus declaration.  And also, the function definition would
-> > have unused parameters, which would trigger diagnostics.  So, concerning
-> > safety, this feature is not very dangerous, even if used by someone who
-> > is very confused.
-> >
-> > Do we think programmers are unable to ever learn this new syntax?
->=20
->=20
-> No, because programmers are clever and it is relatively simple. I wrote a
-> paper that explored the drawbacks of the syntax and recommended
-> standardising a subset (which I assume is what you are using).
-[...]
-
-Agree.
-
-> I still have not yet seen a proposal for anything easier to learn (that
-> does not rely on forward-parsing).
-
-Agree.  But indeed the counter-proposal that I've received is to use
-retroactive scoping in the manual pages.
-
-> > Are we ready to accept the risks of using the dangerous invalid syntax,
-> > but which is more intuitive to programmers?
-> >
-> > Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
-> > Not-yet-Signed-off-by: Alejandro Colomar <alx@kernel.org>
-> > ---
-> >
-> > I've cut the diff below to just a single page, because this is just for
-> > discussion; the actual diff is huge and uninteresting.  It's just a
-> > removal of all uses of fwd decls of parameters in the manual pages.
-> >
->=20
-> I don=E2=80=99t agree with the change,
-
-Thanks!
-
-> but the fact that there are no useful ISO C
-> semantics for parameters of pointer type declared using array syntax
-> weakens my concern. (If the parameters actually had variably-modified typ=
-es
-> then the change would be far worse, from my point of view, because the
-> parameter types would no longer be expressed correctly.)
-
-We don't care about what ISO C says.  GNU C clearly assigns semantics to
-array parameters, and that means we have to be careful about them here.
-If this can result in sanitizers breaking code, it is something to be
-careful about.  Moreover, I hope ISO C eventually catches up.
-
-> You know your customers better than I do. If they expect GNU C semantics,
-> then it seems reasonable to document those semantics using GNU C syntax.
-
-Agree.
+I see that he's worried about users hitting a spike of confusion reading
+this GNU C syntax in manual pages.  I'm not convinced that this will
+last for long, though.
 
 
 Have a lovely night!
 Alex
 
-P.S.:  I see two emails from you; are they the same?  One has a smaller
-recipient list, but the contents seem visually the same.
-
->=20
-> Christopher
-
 --=20
 <https://www.alejandro-colomar.es>
 
---yf6jcu55i7xchwky
+--qsyzh3wa24azuhkt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmraadMACgkQ64mZXMKQ
-wqlNFg//ZmJgAKkX7kRXGzayIfVjqc7IatbV0Ym64F9QeMJOPIUbIta3aO/IdenY
-EX4HppedYSIJVQFY2EBz5+V6lmCLMve9Z07kkczlBVTRSN4slrDpMQIeMcDXM7XE
-plbSE0UrHF/taHp2N9uxEeP+lZBJe+N/a/Ueh9OaChS+gh0h8mmNw4ol9eeJDUsT
-iZot7hD44J/EXy4KM2TmNv6rIFWr2Y47n2AVVBxmR8iHf9H6Q97ZOsXgLQ8jkUvl
-NSt2laUxHtQunf0eV1kB1Hvtkz8t09MXuY2vwpfeQkxNV5Nx8u4o3fJ6N/tnGXYo
-1bUEl14fAnoXAzpBFdAfFVnUfzw5OSkReJw026TA7mP9g9PbahxnOvFyJ+3HxJhF
-ENL5T7xIZ/6Jhw2Ei6UDEAZm1VHkLVdHSw8+Gsm19mK1ZAcb9+s5ZPWaNcwLwnXa
-OZQH/33UvPpwnecCSnsrGSkB+lTwNGe158aI6VSEi/a/e7xMPW+9jwgcZTFNuoUX
-QrD53cE5U6CdhjQ0mIOpPhygqS7GGQMcReFAL2KZyfNN+xGPcfi3FjEoQoK8AeWp
-S/x51y/Q1mbWTFnTMwiTUPm0+y2YFc78s7Pd903Jt9uyALsJzn/umwo5jtFW6mVe
-ykGECwd2XM9yj80ElYvwO5MrHUPuE1L33p3pdut22eFEVYMIVus=
-=9pOU
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmraa4MACgkQ64mZXMKQ
+wqlDzBAAiein8mT3qy/5CIlKmhlzZYF/deChmdoIiOF+1TqVawQeyaqi9rflLW6F
+c6vACYZ/dgTFlpxFNMbeLJyoJW9puLNxudmtd7wnrrmQ+r41FjalDNtoQJE2Y9Sj
+lnsGFIQXhSU0MgciqrgvXQcriCTDnY9c/ryB+zEqQl0hDJLQikI1QHVlEl5fsdYQ
+e4cB3QyS4I+PKhILBAW0RJrmcWoRBqIMXpkV43dyx9LcCmFCbDRd03t5xDrJijI5
+Nz9GNs/nfXyIPSbPqsMPlOER0RDHVljnyeD09kfllA+1t9tjzXaze1r9bafF90l5
+gjyrquVzt8nH3Ikw9PdXGOXuu73qX3y9mkxVzD/5DBg/BoGhuTaF8KPy2A0g4OuM
+dc97TtbiiDtpQP7ix3spwHhzJco2sQVsSIehHWchh5uOD6ijpEZvf4ehMvOkrbQv
+jWZQwzif1sgnqwfFQXFecsaaHngcZYwYcf2FGoirOgcDoDzTKmy4oiUt7+sIbvNy
+N74TUt+HBi4Wa8BrsgzAuo6SS2s4R9qGhFL0KjgyomkJFUPBc4IlXg7/XK/PJHWI
+sQnDriMgxrHdTX28uP9lrQXTyue2BIecNkrdWdUA9JNq3kmdvextC9Iu7+lWYW4n
+iAwjuPvFnaS7nR4QFCuk2CpF5lNiWd0R0Kwp8N7gkMPCraaqWto=
+=Yl4K
 -----END PGP SIGNATURE-----
 
---yf6jcu55i7xchwky--
+--qsyzh3wa24azuhkt--
