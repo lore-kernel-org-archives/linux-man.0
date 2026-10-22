@@ -1,54 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792704500;
-	b=P9hk2uo1nwXRJqwZcvG6QdHRBchgf4camXefImiLyr6ewt/0eXS5VFJfqQPOXVPCWCce
-	 BYv6RsvFono37lOcSma9OWEch1Lw76934xj/LK6oZIdaQN6s6cSNDjiG6ZvgbJ/7UMv7D
-	 D4NMTDj17zQCd6/4T60yVgT/HgOc76F8ogS1Ywl/0I6qgJgmBz8t+nLfGlppas8yNjmao
-	 38BOwOslm3gXa+YxLoWLEa/wcnxlsaqcrc/FvB0rkg5OziLhx/r7FDACLQGc0GArgHGkb
-	 ni2oUVn5fomWGEtN463kBtj8OcPs452rJwAkx9P8YXceA7vSNlnVSpS4KJdRXnYos5Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792704500;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=6ON5EbuIbg5PcaktFiCtGVv2caUxkRnP5tgaG5srV0Q=;
-	b=Kw0+2tstDrbVezJMQVbUY8JLAnYzidh94kFVXTsRaiYpMJF8m5AHXjap4Vya4AZPqC+g
-	 w68BJ22e6sdpcS8ibJK8zb92yKIEGzT+aqqG7XWBi0OtDPEZDEXipastw9vUm1g8KdoXu
-	 ZMsucA+enw4qMNhhfGyiW4g0GyzYVg/R3fsFylNRwgOueJrRPc2tZxDZ0/AR0Q2+KMPgt
-	 hcWiWMAUDbOUmZzqLm+zWeauVacKbXQQ+kivQw6jY380LiPaaCkuLtwzF1S7nhs0Cs8gW
-	 N8imqZzk4lXkTIx1mFHN2imKVR9haURpuDMfhaqsilT6AIsDMRCiA0iFeP96OH8Tb5g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuKDltkx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792706630;
+	b=2upQn9cbuo9Z4oHgG8JWp+4NzpExEVGpm/dZOJnlujOG4f2ryFUGF19UniLbBtHMAiyR
+	 Fht0jwsPljE0Gl63h5T1aZKOvGE4qdobV6Jq+0XxeBObXgcWA34boP1YNsmhGYNcIt/ck
+	 0ZVePwddYi07kseYAfi5zVWQY23QfwneXC2UBOwPw8+69M+09zIlA+RolHFtiecAPZjS7
+	 U5FwYP1sJ3y4ioKYWn9wG359r8EliNN+LTRboMuLhk/rhF2lAuyrt1fb1MgQ18VQaq/eH
+	 2ngC1xwAF1n30rdOERyiu8pZb3krd427Uj76hTxztLG6SGlyDlqq1Q3z3SfrKbmpH6w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792706630;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
+	b=FSHTr5JfYe7a/quUjvz92PQlIxVvWXnlVI7vdYgN5aLb8MyIg4G7h1SoSRuRca/giV1/
+	 fX6RPe3acmnzodv/anf3pOuMWsWJkhwtJMyxwSzoaoVk+A+QZTh+MUiU54T0Sd6TnRF0n
+	 IB93uarw0/U0av89KADA3xyVCWFZsh9ElK5DgRLaE6nsFidhq+d5g+0FzaUIle95EQH0r
+	 Vo5v3Xacl8jj1MDp/h2bRJnjc4/H1KDXnLztxE6JZe+O7abM7v776w3r/RkSG1TWnO1jN
+	 9f60uONEGjK0AwXDHN7q6inX6kyilBSqvsr6JyMWDXs/b6XX3nSMyaC+Ky+WU9uzwWA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Y12Mwjr5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A764606A319
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 21:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB454606A31A
+	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 22:03:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB454606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuKDltkx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCD8D1F01825;
-	Thu, 22 Oct 2026 21:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792704500;
-	bh=6ON5EbuIbg5PcaktFiCtGVv2caUxkRnP5tgaG5srV0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TuKDltkxE3XRphrSs5rB5eoXSudzDhXfAy325GDAgWVWYbBJ6tT84s3q4+ats8v01
-	 8tDn7FucinAQ38+4AmvZ0ayW1mjWuhd54tsTU9Xj/A/IHF1EJuv9x0a4WvdutKp05S
-	 jKGaMu2v/uDYCJVDSArTIpWW4pnj+ls8E8aULSNt7OfE5lEJIfAu8KwHasokpYHDE9
-	 h/GryQw2MM/o30IU/ecygWMk0vvpxd7hKRh+wVFT7m1WnMM1urWfpJFRfxqEGRnOx0
-	 LaT/T++UhetC8Fotdlpf3ojWuBwqWF8TedrRFYlXlqF3P8aDD60HlzwDEAJCQZYaKC
-	 NPt42LOZvkiDg==
-Date: Thu, 22 Oct 2026 23:28:12 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 2/7] man/man7/unix.7: Multiple same-typed SCM_* messages
- may be sent in one message
-Message-ID: <atp-nJT72YOgvnw4@debian>
-References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-3-gnoack3000@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Y12Mwjr5
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-14fd9dafb0dso164169c88.0
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 15:03:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792706629; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kH5liulxKytn5WsB0hvvJfSOARHPOhPT5uwPjjcbXdfkHth//KteVj94mXcOyuOb0y
+         P2j1ma2oy3hN8tlF2yjzIUUtR9fpb/Nbf3H71i9LXvFsMyPd9XbswoGpb1wa4OWVIGle
+         9AWmwx1rSAr/rU7go7uoT5OC6zWXbEFUWrpIkgnL89q9wP85Bf82rS2HTZc7ycSF+ErG
+         U+Bt7Se91/kx7J+clO7ntfO6FdTOA+lbWBq5y/Dm3uSbtgj5yVvHO7ZaEiOSdSE3Yy7x
+         SqhnHjc3nL4pb5m/EWuFslSUJQeakjjQEXsk9WQVa8stDnG7QkL7GvL0I+3EjlMQgvq6
+         5uRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
+        fh=hSN0rkdHzxBOgJPk/LoCAWKtiUmozfxrsy9aZgGe2go=;
+        b=fb3MZU5cUWwl0eQz6uU2geVapK3R3Iu8Zstst7xBLYUEPWUXc1PKgo4/vgz+t7hLuP
+         as6ZmwmrsEo9q7RiGJZP5P6iTqpd30eFyAiZcOnXPoRkV4Or7h1o/FL+akr6oly52cBX
+         ygBIBVMDSOg/zgz6O/bk578vrDD+dicAi5EOV4IPei9l4E+od+5IjGQzh7HgKTf2X3Dc
+         KpMSNRlNMVgHCu6gLqrShrJ/XXZvhPJzStEKPb/h52r4Vl9T3NEjMSr7OkJul/X718fm
+         SesYQ7/DdpDZg7AfBdk7BPyy0kRBBLyH63Dvc41o0KhcKZFj56+uX9NfXK+MSDgT6nIH
+         DWOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792706629; x=1793311429; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
+        b=Y12Mwjr5fiLbRaY5fesBAk9+TJ+X2UGQ4Cg4plW43X80FMHaUbZBPaN32VEmnsFgZ5
+         f8xoQIdqRt8D7t5ozr1jPYu90BvgYqZzc8+LVKOmlp9/c6lYWyFyxK02HURxjrxbqi8C
+         uA+VW11Ueixfdj2/1+4A0rYOfpuzlaChYz8Q6g2/+VNbpryAJlbEYX548fVFIe3l+uCP
+         KQ6J6NstTdpTLXMq7gDP+rtFKokXMS7o049SHIxZfFeJjnCgC4mJafLNGXGQ0Ab98Yoq
+         oekTRTwWZv1EPitDs/rSOqSYKyp14ZvDbo+snk/S/t+0Gy17+VWwldSDiMQJ1jbOCGZ8
+         x/Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792706629; x=1793311429;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
+        b=oK79L+U8CA77CG3Xm8lKg3MVDLtR2iZ0uZEu3v1H0ojbipVcmEA2S6/7bE3UOImn7A
+         Vdc6wnYx6XJGYYGmuigns7gtRT81wpPNM+CwyY9gNlLQVBuEJdlyEe0FIg1ft2StuSx+
+         XDJs9SxNaYfV/MJcPZuny2C4iveybNZuAwWgNJWwsK2IuZvG/bwF+j8PUwe36htD1cw+
+         U7tFfPj8TIUqGQG7pRvOv2XjM5hPzkJnKA14NumMiaznAuj7IuhjM1yqGpVfp3cCKc/S
+         Ew4Nwy5wpExwWgDyooLBaV4yCrqmmFM06Bt4pRd+ptHFHKFLSi9IrpTk9mUZ3dJfen70
+         crlg==
+X-Gm-Message-State: AFq9FYKf9F40Z6B+GCYldM/+wNvu0TAq5mWDm4j61miPb0T3I5FdHKM9
+	+BdmUsr25paYNOI1NidPxMiEXTK6Cil+4ASi7bZhO//GCMFPnPPY+3ZIUKeyg17v6bCtvaHeAYP
+	+7XOAB9fdjTMCayTp5lPlAysIN5uWIWXUuVw7
+X-Gm-Gg: AYBFou2WqeRXiwjaGZJW8VOFKUbqD7HNyvk8JTGqC7vVRb9dv0zcbVxGnOvE14yRk0A
+	3UnQY4B0KyxQARwLl3Mt4QotXrsnBrzi+f7TvpQ9DvBER4QHR0dZjli5BLyu/823Onm3ydspWT+
+	Ny9e5o2jSE0qH1FMVonRC+QIcHJJWJdALxtgLZjE7hqSMVG0S05tXZTrU9MoJU7CFNv/OlwTid0
+	8n/lVzHgFhiGTfR9sBam44Zw1+c/SntsG/NOBnze3/OZyzWSUB1N7ew/DYzV3qQub0+BwGQWsOM
+	fodSJxdUUSiNs/y9am7cQ+rXYWEhewPjPbMmWPzJp7jhhgUJQWglPBPFBLVsUohRgDHZzDNsNHd
+	so+uRKBlZJRd1RqNB8JXY+jx8iLxxJtWvZq2JNbDW21GXpvAJZbywCfcJwRtr0voz26M=
+X-Received: by 2002:a05:7022:1302:b0:184:5f2e:aa52 with SMTP id
+ a92af1059eb24-1959eb781aamr866151c88.16.1792706628662; Thu, 22 Oct 2026
+ 15:03:48 -0700 (PDT)
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -58,157 +102,112 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zpxfj3fwsdx5iu45"
-Content-Disposition: inline
-In-Reply-To: <20261021212256.27961-3-gnoack3000@gmail.com>
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+In-Reply-To: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+From: Mark Harris <mark.hsj@gmail.com>
+Date: Thu, 22 Oct 2026 15:03:37 -0700
+X-Gm-Features: AclHuK_5NLfs0rDJ1zCX1rgY71IeRZpItGHKzQ2oT6KNhfnYH2Apjc-34lo5ioc
+Message-ID: <CAMdZqKEWzg6Z5oYp8N+S4rkOjUU7WT6jwbVDCAk3YN3ZdP7u+Q@mail.gmail.com>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, Alejandro Colomar <alx+linux-man@kernel.org>, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	Sam James <sam@gentoo.org>, "Carlos O'Donell" <carlos@redhat.com>, "Joseph S. Myers" <jsm28@cam.ac.uk>, 
+	Martin Uecker <uecker@tugraz.at>
+Content-Type: text/plain; charset="UTF-8"
 
-
---zpxfj3fwsdx5iu45
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 2/7] man/man7/unix.7: Multiple same-typed SCM_* messages
- may be sent in one message
-Message-ID: <atp-nJT72YOgvnw4@debian>
-References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-3-gnoack3000@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20261021212256.27961-3-gnoack3000@gmail.com>
-
-Hi G=C3=BCnther,
-
-> Date: 2026-10-21 23:22:51+0200
-> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
+Alejandro Colomar wrote:
 >
-> Verified in Linux kernel code:
-
-I think 'verified' in a commit message seems inappropriate.  It should
-describe, rather than verify, and the verification would come only from
-the review tags.  Maybe say something like "Relevant kernel code:".
-
-> __scm_send() in linux.git net/core/scm.c walks all control messages
-> in a loop like this:
->=20
-> 	for_each_cmsghdr(cmsg, msg) {
-> 		// ...
-> 		switch (cmsg->cmsg_type)
-> 		{
-> 		case SCM_RIGHTS:
-> 			// Append(!) file descriptors
-> 			// up to the SCM_MAX_FD limit
-> 			break;
-> 		case SCM_CREDENTIALS:
-> 			// Replace previously set credentials
-
-Since these are your comments, and not actual comments in the source
-code (are they yours, or from the LLM?), I'd format them clearly as
-such using invalid code rather than comments:
-
-			... replace previously set credentials ...
-
-> 			break;
-> 		default:
-> 			goto error;
-> 		}
-> 	}
->=20
-> So it is possible to pass multiple SCM_* messages -- they will compose
-> if possible and override the previous value if not.  Since their
-> contents are being conflated that way, they will appear as one message
-> again on the receiving side.
->=20
-> Keep the recommendation as portability advice, and describe the Linux
-> behavior.
->=20
-> Fixes: 5b5cb1958062 (2018-07-10; "unix.7: When sending ancillary data, on=
-ly one item of each type may be sent")
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> Assisted-by: LLM
-> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> From: Alejandro Colomar <alx+linux-man@kernel.org>
+>
+> From: Alejandro Colomar <alx@kernel.org>
+>
+> I'm not fully convinced of this patch.  But I'm open to being convinced.
+> I've written the patch, as Michael asked me to do, but am willing to
+> hear everyone's opinion before applying the patch.
+>
+> As Michael reminded me recently, and as I've defended in other cases, it
+> is true that the SYNOPSIS of the manual pages does not need to be
+> strictly valid C.  It only needs to be useful enough for readers to
+> understand the interface.  Thus, if using lengths without declaring them
+> would improve the usefulness of the documentation, even if becoming
+> invalid C, it would be okay.
+>
+> However, I still have doubts, because this change comes with risks:
+>
+> Programmers might think it is valid C to refer to parameters that have
+> not been declared yet, and use that in their code, and if they are
+> unlucky, it might compile for them, which might result in UB at some
+> point.
+>
+> One valid point is that this is rather unlikely to happen, and most of
+> the time it will just result in a compiler error, because no global
+> variables with the name of the parameter exist.
+>
+> However, with local (nested) functions, this might be easier to happen,
+> as variables declared in the outer function are more likely to share a
+> name with a length parameter.  Given that the C Committee is working
+> hard to standardize local functions, it might be a very bad idea to have
+> this combination of events going on.
+>
+> Concerns that have been raised against using the GNU C syntax in the
+> manual pages:
+>
+> Very very few programmers know this syntax, and thus they are confused
+> when reading it for the first time.
+>
+> This is obviously true.  However, this is true of any innovative syntax.
+> We should consider whether the confusion is dangerous or not, and
+> whether programmers can learn it easily or not.
+>
+> I believe once you've been exposed to this syntax, after some research,
+> or asking the right people, one would easily learn to read it, and then
+> we'd have overcome the issue.  I don't think the syntax is inherently
+> difficult to understand once you've seen the documentation and seen it
+> a few times.
+>
+> Also, this syntax is not very dangerous: a programmer thinking
+> that a forward declaration is actually a normal parameter will pass a
+> wrong number of arguments to the function, and thus will have compiler
+> errors.  This syntax is quite robust, as it requires several bugs to
+> happen in the same code to pass compilation silently.  If one replaces
+> ';' with ',', the parameter will be declared twice, which is an error.
+> If one renames a forward declaration, it will not match a parameter, and
+> will result in a compiler error.  Only if both mistakes happen at once,
+> the compilation would pass, but then the call sites would also have to
+> match the bogus declaration.  And also, the function definition would
+> have unused parameters, which would trigger diagnostics.  So, concerning
+> safety, this feature is not very dangerous, even if used by someone who
+> is very confused.
+>
+> Do we think programmers are unable to ever learn this new syntax?
+> Are we ready to accept the risks of using the dangerous invalid syntax,
+> but which is more intuitive to programmers?
+>
+> Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
+> Not-yet-Signed-off-by: Alejandro Colomar <alx@kernel.org>
 > ---
->=20
-> Notes:
->     The factual analysis in the commit message is correct.
->    =20
->     I kept the LLM phrasing; it did not seem overly wordy to me and the
->     style is in line with the paragraph after it, which also documents
->     Linux-only vs. portable APIs that way.
->=20
->  man/man7/unix.7 | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
->=20
-> diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> index 0d2ea8bda2ae..a1dce8c47246 100644
-> --- a/man/man7/unix.7
-> +++ b/man/man7/unix.7
-> @@ -543,7 +543,24 @@ option must be enabled on the socket (see above).
->  .P
->  When sending ancillary data with
->  .BR sendmsg (2),
-> -only one item of each of the above types may be included in the sent mes=
-sage.
-> +portable applications should include
-> +only one item of each of the above types in the sent message.
-> +On Linux,
-> +if several
-> +.B SCM_RIGHTS
-> +items are included,
-> +their file descriptors are combined into a single list,
-> +to which the
-> +.B SCM_MAX_FD
-> +limit applies as a whole,
-> +and the receiver gets them in a single
-> +.B SCM_RIGHTS
-> +item;
-> +if several
-> +.B SCM_CREDENTIALS
-> +items are included,
-> +each of them is checked,
-> +and the last one takes effect.
 
-Is 'takes effect' appropriate?  I think 'is sent' might be more
-appropriate, right?  There's nothing taking effect, I think (but I'm not
-an expert in SCM_* stuff).
+The man pages are frequently used when seeing a call to an unfamiliar
+function, to understand what the function expects and what it is doing
+with those arguments.  The arguments in the call are matched to the
+synopsis by order, not by name, so for example a person questioning
+the first argument would naturally be looking at the first thing after
+the "(" to find out what is expected there.
 
+A person that is reading the description, where it refers to the
+arguments by name, needs to convert that name to the argument number
+in order to match it to the arguments in the actual call.  The natural
+way to do that is to count the argument names in the synopsis (at
+least those not preceded by an unterminated bracket or comment) and
+stop when that name is found.  For example if that is the first
+argument name after the "(" in the synopsis then it would be natural
+to conclude that it matches the first argument to the call, and not
+continue scanning to see if there is another occurrence of the same
+argument name.
 
-Have a lovely night!
-Alex
+So I agree with Michael that this change is a good one to make the man
+pages less confusing.  Thanks for creating the change.
 
->  .P
->  At least one byte of real data should be sent when sending ancillary dat=
-a.
->  On Linux, this is required to successfully send ancillary data over
-> --=20
-> 2.56.0
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---zpxfj3fwsdx5iu45
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmraf+QACgkQ64mZXMKQ
-wql9/w//ViLtuI+N6Qi+xB2WomnhWXqLAM963DpWSh5gMixqnnSX/hDrAYafpnEO
-kjJZLa10hJh6Xh31AXSAkFkG/PCwodzsbvXB02KBR1kh366uYjgB6XAk9vToXFHU
-MESw85K1yijaGIznnDD1K4h0UhBQB1+LZO3SEYiHtkSj1jAnLOrJDxYtNxDVNeZd
-c/+DkoLF3+dsB6ygExa7zCJiPgIEbdPIoPHX2rkfmMMQdQcBhKDNCqjIx+KMqmX0
-YG7E5IOmAxYMWujWbD6eCpccxlwOeX3zxIViY0inNgcMsyAtJLmEE3qu6FDNveFM
-jn27PxysEjHejzh0rO+PtA6HmfXAP1UPoSPehB7uuFTNVDBoV3Mk62VrS7PIG5ZA
-HBWNYrD00Nqleyho0FwYPUKpbxoIOPXuzXm+2cMUluK9dOwb36JvnbH0RuoI5efW
-mTez0ads8yV138vUf8iesK8rPw0eHHlZF7hWdAOLxL7jTYbN+pdwkXM52XzbqBEq
-iDizrJrFlYwkti9GFQvUHqcsmzs9q4HMCrPgy9c60WXlsHKz8AMS+dNILkj0jDxQ
-iabu6S4EQvLaF+/6tCJuW5Npkx5JylTXUM6zglFWjU0r32zjh8gRcN5mlY1SpmvH
-NC+gjOeJc8CgUR2zAvsv935TpVtkEf2Tjq5trvpsxMsOsUHBuo8=
-=gbVf
------END PGP SIGNATURE-----
-
---zpxfj3fwsdx5iu45--
+ - Mark
