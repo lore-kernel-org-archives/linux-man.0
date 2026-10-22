@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792703657;
-	b=0O6ZIuuL6XzLn9iYux5rxuiJmwOvbdPV++LdkZDkzZOGLupUDIyTvxMuxNri9bvUU6mA
-	 dNkA0+0Jkby3W/ln3htbXmiXwQHFVLFy+abWje8tDH3vCeowbGjCkFRGX4c641edUUcAz
-	 sfaZiEnOZgF3wQFbcHakxsFKd1GrvC2H4s5GoPJZ49gOXIyrErBkuBGcJ3vLMvwllx3bn
-	 yDRRezr9NKco4d3hHbhbKzG6Yp9eEgjlkBEGnWfq7BStBAWEZNz4eFcAq3Y7rJ4zmOSoo
-	 lnjwsx5PxLRU98M0BaLNUKtwx+/hD4ZWUpisuBW7kSNz7Vwoo0RR2lh8jhgUP988anw==
+	t=1792704500;
+	b=P9hk2uo1nwXRJqwZcvG6QdHRBchgf4camXefImiLyr6ewt/0eXS5VFJfqQPOXVPCWCce
+	 BYv6RsvFono37lOcSma9OWEch1Lw76934xj/LK6oZIdaQN6s6cSNDjiG6ZvgbJ/7UMv7D
+	 D4NMTDj17zQCd6/4T60yVgT/HgOc76F8ogS1Ywl/0I6qgJgmBz8t+nLfGlppas8yNjmao
+	 38BOwOslm3gXa+YxLoWLEa/wcnxlsaqcrc/FvB0rkg5OziLhx/r7FDACLQGc0GArgHGkb
+	 ni2oUVn5fomWGEtN463kBtj8OcPs452rJwAkx9P8YXceA7vSNlnVSpS4KJdRXnYos5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792703657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792704500;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2nvLUCNhtVUiSCwNaOpSqAlCFexYnahH1x6wtLyh+HA=;
-	b=yCJQBt7az+vAhVHCyS/OfsdV97M6FREj4zrShGBJriIPhUy2Cs9IhqReM6GEOcg+Jql1
-	 Gt6TTwII9vlP4mNmv+HbJ0WMI7/no5QkrHzBfERzImB9d2c+S9H6DMzAw2qXPYrh/QLlC
-	 p1e9e7k+2rrPmoZT+y57mfd9A/e4TB0OYfsKZdGkR5LwVH41Bsi4pWmcSzpFKU+iLlPvF
-	 kpERnJBXbNjf6+qjXRr8TLi3yuTh6PjjZcjo2kzWmpAv5mKgrFeUiyMrLtD7AYd25JY57
-	 /ClG98bOAJ4dbI8Ex8BUHGckdOEDFLLQmcaIH0KUfvEtaQEritTINz6M55mte1VIlWw==
+	bh=6ON5EbuIbg5PcaktFiCtGVv2caUxkRnP5tgaG5srV0Q=;
+	b=Kw0+2tstDrbVezJMQVbUY8JLAnYzidh94kFVXTsRaiYpMJF8m5AHXjap4Vya4AZPqC+g
+	 w68BJ22e6sdpcS8ibJK8zb92yKIEGzT+aqqG7XWBi0OtDPEZDEXipastw9vUm1g8KdoXu
+	 ZMsucA+enw4qMNhhfGyiW4g0GyzYVg/R3fsFylNRwgOueJrRPc2tZxDZ0/AR0Q2+KMPgt
+	 hcWiWMAUDbOUmZzqLm+zWeauVacKbXQQ+kivQw6jY380LiPaaCkuLtwzF1S7nhs0Cs8gW
+	 N8imqZzk4lXkTIx1mFHN2imKVR9haURpuDMfhaqsilT6AIsDMRCiA0iFeP96OH8Tb5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EA3aoY3V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuKDltkx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C61606A319
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 21:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A764606A319
+	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 21:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EA3aoY3V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6E21F01828;
-	Thu, 22 Oct 2026 21:14:13 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuKDltkx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCD8D1F01825;
+	Thu, 22 Oct 2026 21:28:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792703656;
-	bh=2nvLUCNhtVUiSCwNaOpSqAlCFexYnahH1x6wtLyh+HA=;
+	s=k20260515; t=1792704500;
+	bh=6ON5EbuIbg5PcaktFiCtGVv2caUxkRnP5tgaG5srV0Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EA3aoY3VvZIK5NAjFa+eyKvwWzYR0T+dDbbkeatppJ/YeYE5bzKn7URRnzv4nAjFe
-	 7bpQ/AiDE7h5Ecq4JYBjwVvGfMy3VnuDgsEiQBwdFMphmKEQ6rS8IwReUzoP0NkSuE
-	 /XCoC77/vamdFholZRki03zqmJa5yPb5sq7nnoAnuRAKVkUKykWGpqdOn+Fgi1tFnQ
-	 s5Pr0pW2E6bxygAeMd1nyhSUcj6dymQ1VuwUlae4h5am/mKaeWD9ehCRiBR21dG4fN
-	 YJkwPoyLRj+biEway6fKQJCx1wwPFZ3VRLaAMJXdoi+hbFWt+q5R6Pt5WwgdvF0mfs
-	 Y+EQTxP/2f2/A==
-Date: Thu, 22 Oct 2026 23:14:09 +0200
+	b=TuKDltkxE3XRphrSs5rB5eoXSudzDhXfAy325GDAgWVWYbBJ6tT84s3q4+ats8v01
+	 8tDn7FucinAQ38+4AmvZ0ayW1mjWuhd54tsTU9Xj/A/IHF1EJuv9x0a4WvdutKp05S
+	 jKGaMu2v/uDYCJVDSArTIpWW4pnj+ls8E8aULSNt7OfE5lEJIfAu8KwHasokpYHDE9
+	 h/GryQw2MM/o30IU/ecygWMk0vvpxd7hKRh+wVFT7m1WnMM1urWfpJFRfxqEGRnOx0
+	 LaT/T++UhetC8Fotdlpf3ojWuBwqWF8TedrRFYlXlqF3P8aDD60HlzwDEAJCQZYaKC
+	 NPt42LOZvkiDg==
+Date: Thu, 22 Oct 2026 23:28:12 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
 Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Willy Tarreau <w@1wt.eu>, Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 1/7] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
- conditions
-Message-ID: <atp8BcbYwm9iJiw3@debian>
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH 2/7] man/man7/unix.7: Multiple same-typed SCM_* messages
+ may be sent in one message
+Message-ID: <atp-nJT72YOgvnw4@debian>
 References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-2-gnoack3000@gmail.com>
+ <20261021212256.27961-3-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -59,129 +59,156 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b5rfqubtqbheqc3q"
+	protocol="application/pgp-signature"; boundary="zpxfj3fwsdx5iu45"
 Content-Disposition: inline
-In-Reply-To: <20261021212256.27961-2-gnoack3000@gmail.com>
+In-Reply-To: <20261021212256.27961-3-gnoack3000@gmail.com>
 
 
---b5rfqubtqbheqc3q
+--zpxfj3fwsdx5iu45
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
 To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
 Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Willy Tarreau <w@1wt.eu>, Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 1/7] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
- conditions
-Message-ID: <atp8BcbYwm9iJiw3@debian>
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH 2/7] man/man7/unix.7: Multiple same-typed SCM_* messages
+ may be sent in one message
+Message-ID: <atp-nJT72YOgvnw4@debian>
 References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-2-gnoack3000@gmail.com>
+ <20261021212256.27961-3-gnoack3000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20261021212256.27961-2-gnoack3000@gmail.com>
+In-Reply-To: <20261021212256.27961-3-gnoack3000@gmail.com>
 
-Hi G=C3=BCnther
+Hi G=C3=BCnther,
 
-> Date: 2026-10-21 23:22:50+0200
+> Date: 2026-10-21 23:22:51+0200
 > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
 >
-> The ETOOMANYREFS error is detected in too_many_unix_fds() in
-> net/unix/af_unix.c when the user's (not the processes') in-flight FDs
-> exceed RLIMIT_NOFILE, and the process has neither CAP_SYS_RESOURCE nor
-> CAP_SYS_ADMIN.  The error is raised when all of the following
-> (simplified) conditions are true:
+> Verified in Linux kernel code:
+
+I think 'verified' in a commit message seems inappropriate.  It should
+describe, rather than verify, and the verification would come only from
+the review tags.  Maybe say something like "Relevant kernel code:".
+
+> __scm_send() in linux.git net/core/scm.c walks all control messages
+> in a loop like this:
 >=20
-> * user->unix_inflight > task_rlimit(p, RLIMIT_NOFILE)
-> * !capable(CAP_SYS_RESOURCE)
-> * !capable(CAP_SYS_ADMIN)
+> 	for_each_cmsghdr(cmsg, msg) {
+> 		// ...
+> 		switch (cmsg->cmsg_type)
+> 		{
+> 		case SCM_RIGHTS:
+> 			// Append(!) file descriptors
+> 			// up to the SCM_MAX_FD limit
+> 			break;
+> 		case SCM_CREDENTIALS:
+> 			// Replace previously set credentials
+
+Since these are your comments, and not actual comments in the source
+code (are they yours, or from the LLM?), I'd format them clearly as
+such using invalid code rather than comments:
+
+			... replace previously set credentials ...
+
+> 			break;
+> 		default:
+> 			goto error;
+> 		}
+> 	}
 >=20
-> The check was introduced in linux.git 712f4aad406b (2016-01-11; "unix:
-> properly account for FDs passed over unix sockets").
+> So it is possible to pass multiple SCM_* messages -- they will compose
+> if possible and override the previous value if not.  Since their
+> contents are being conflated that way, they will appear as one message
+> again on the receiving side.
 >=20
-> Fixes: dc4eea68b565 (2016-12-17; "unix.7: Document ETOOMANYREFS for SCM_R=
-IGHTS send exceeding RLIMIT_NOFILE limit")
+> Keep the recommendation as portability advice, and describe the Linux
+> behavior.
+>=20
+> Fixes: 5b5cb1958062 (2018-07-10; "unix.7: When sending ancillary data, on=
+ly one item of each type may be sent")
 > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Willy Tarreau <w@1wt.eu>
 > Cc: Kuniyuki Iwashima <kuniyu@google.com>
 > Assisted-by: LLM
 > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
 > ---
-
-Reviewed-by: Alejandro Colomar <alx@kernel.org>
-
 >=20
 > Notes:
->     Double checked in code -- the condition under which this error is
->     returned was not fully spelled out.
+>     The factual analysis in the commit message is correct.
+>    =20
+>     I kept the LLM phrasing; it did not seem overly wordy to me and the
+>     style is in line with the paragraph after it, which also documents
+>     Linux-only vs. portable APIs that way.
 >=20
->  man/man7/unix.7 | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  man/man7/unix.7 | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> index 79198445c581..0d2ea8bda2ae 100644
+> index 0d2ea8bda2ae..a1dce8c47246 100644
 > --- a/man/man7/unix.7
 > +++ b/man/man7/unix.7
-> @@ -785,10 +785,14 @@ when sending a file descriptor as ancillary data ov=
-er
+> @@ -543,7 +543,24 @@ option must be enabled on the socket (see above).
+>  .P
+>  When sending ancillary data with
+>  .BR sendmsg (2),
+> -only one item of each of the above types may be included in the sent mes=
+sage.
+> +portable applications should include
+> +only one item of each of the above types in the sent message.
+> +On Linux,
+> +if several
+> +.B SCM_RIGHTS
+> +items are included,
+> +their file descriptors are combined into a single list,
+> +to which the
+> +.B SCM_MAX_FD
+> +limit applies as a whole,
+> +and the receiver gets them in a single
+> +.B SCM_RIGHTS
+> +item;
+> +if several
+> +.B SCM_CREDENTIALS
+> +items are included,
+> +each of them is checked,
+> +and the last one takes effect.
 
-Would you mind having a look at CONTRIBUTING.d/git for improving the
-hunk context?
-
-    git-diff(1), gitattributes(5)
-	To produce useful hunk contexts in manual pages, we need to hack
-	git(1)'s idea of a function name, and also to tell git what is a
-	manual page.
-
-		$ git config --global diff.man.xfuncname '^\.S[SHsh] .*$';
-		$ mkdir -p ~/.config/git/;
-		$ echo '*.[0-9]* diff=3Dman' >>~/.config/git/attributes;
+Is 'takes effect' appropriate?  I think 'is sent' might be more
+appropriate, right?  There's nothing taking effect, I think (but I'm not
+an expert in SCM_* stuff).
 
 
-Cheers,
+Have a lovely night!
 Alex
 
->  a UNIX domain socket (see the description of
->  .BR SCM_RIGHTS ,
->  above).
-> -It occurs if the number of "in-flight" file descriptors exceeds the
-> +It occurs if the number of "in-flight" file descriptors
-> +sent by processes of the caller's real user ID
-> +exceeds the caller's
->  .B RLIMIT_NOFILE
-> -resource limit and the caller does not have the
-> +resource limit and the caller has neither the
->  .B CAP_SYS_RESOURCE
-> +nor the
-> +.B CAP_SYS_ADMIN
->  capability.
->  An in-flight file descriptor is one that has been sent using
->  .BR sendmsg (2)
+>  .P
+>  At least one byte of real data should be sent when sending ancillary dat=
+a.
+>  On Linux, this is required to successfully send ancillary data over
 > --=20
 > 2.56.0
->=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---b5rfqubtqbheqc3q
+--zpxfj3fwsdx5iu45
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrafJsACgkQ64mZXMKQ
-wqn4IA//WWqBK8UPNgAG60sh7TUdxrA+pc48wgInfu5LesybMmThnlNpBftVIIZg
-QhZy8vZkwckiUK4Uy2b2UGvenb5NgOwozXFbj+T2S0c/z/UdIURZstN/vi2FgQCc
-92lgkqY9Iw9cV5gSbdYDn1JOiyiKdXHZ4VUAKQvwTCaxMtq4DroOdFQJogtzYrd+
-GUnwTpzQ52j4K1PyByaYFm4nAbxCdBxtN2JfvsDodpd4K3OTIRyHVBZWfKH3CSmq
-Qa8g/k+DHI6Y0OsvcShm6oudCHs2epUt5w0OJBay3A+SoE7a3os8htFX6Ia2AOVx
-nXxRLsMSkrrnf3ZVRYwybbo271nWjvyl6Pu3h80fmAHEU7a95IYOFVN2h95L3nF4
-GH+ZKMpi8qa+s5GfsaOWjgH2zt8FoTGjkq2Nm3C9QunpkMP+0qizGXatDDpPs2Ai
-TUOjlss7Td5jVNdnCqiE4lb3pvQL6q4XVj02t2MT0tazE9rjsxr1jYSC7gMwHKbL
-MTFcAPBhHigUAQIwO+8k47124wmuAObdU4qZ2VFwKcTws7EsKXF10li7YMdbqXqm
-7dWE76E1aB9yT6G31yVI09COF4eluz7lOyVkNtO/Ib0LfqsvPkY7/cIfcX9DT+iV
-93M/16oKu3d6T21ATOJrF93xJ7pKrL9be8SzBbXAF0x9hnP8Msg=
-=241R
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmraf+QACgkQ64mZXMKQ
+wql9/w//ViLtuI+N6Qi+xB2WomnhWXqLAM963DpWSh5gMixqnnSX/hDrAYafpnEO
+kjJZLa10hJh6Xh31AXSAkFkG/PCwodzsbvXB02KBR1kh366uYjgB6XAk9vToXFHU
+MESw85K1yijaGIznnDD1K4h0UhBQB1+LZO3SEYiHtkSj1jAnLOrJDxYtNxDVNeZd
+c/+DkoLF3+dsB6ygExa7zCJiPgIEbdPIoPHX2rkfmMMQdQcBhKDNCqjIx+KMqmX0
+YG7E5IOmAxYMWujWbD6eCpccxlwOeX3zxIViY0inNgcMsyAtJLmEE3qu6FDNveFM
+jn27PxysEjHejzh0rO+PtA6HmfXAP1UPoSPehB7uuFTNVDBoV3Mk62VrS7PIG5ZA
+HBWNYrD00Nqleyho0FwYPUKpbxoIOPXuzXm+2cMUluK9dOwb36JvnbH0RuoI5efW
+mTez0ads8yV138vUf8iesK8rPw0eHHlZF7hWdAOLxL7jTYbN+pdwkXM52XzbqBEq
+iDizrJrFlYwkti9GFQvUHqcsmzs9q4HMCrPgy9c60WXlsHKz8AMS+dNILkj0jDxQ
+iabu6S4EQvLaF+/6tCJuW5Npkx5JylTXUM6zglFWjU0r32zjh8gRcN5mlY1SpmvH
+NC+gjOeJc8CgUR2zAvsv935TpVtkEf2Tjq5trvpsxMsOsUHBuo8=
+=gbVf
 -----END PGP SIGNATURE-----
 
---b5rfqubtqbheqc3q--
+--zpxfj3fwsdx5iu45--
