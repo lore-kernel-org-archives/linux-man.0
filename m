@@ -1,94 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792775372;
-	b=BYoNM8smpx4gWIea/QuPxeH8TnhB8dpXQZ9Ed5HlxpBOX0tr3p8CXiaglv4ELAZ0+1a2
-	 niPIKZ+/uWpvvpQ0w0PmD5O+iH1GvHbjeXbgZtIVHTqXzmIO38sEcj3+y9W+Vd8wXFUyq
-	 LUbG+blkliTngAkYDscCP2Nuhp+AN2UTvm3HvVMLNOscnIIddcgmeMpkViI5UjDNpYZPA
-	 0uvZyTtQWhGuBrLbl6nPzrZTKljiQkbXAwBDgrqSr6JnOOc+S1HQtK0yUAVBc/PSYiz5F
-	 xrs5vGXZ/2t9pkALfU2A+zyAFjTD4ER2XvzrukZF4HH8UAi8EZ/1mhwsUmHbJEf9i5g==
+	t=1792777244;
+	b=Vc+iIxYz7qOSaqWph7rAX2cs4Qv6Vxamh932yuIuBAVJf40ShK1CZtiFCc+EOcdJ/kZs
+	 9xuKxbMv0I+twq1I/ke9mkBN5lH1/o1uT1MjscH+asdpuexo3871gS8+r5awEF2cbPW/A
+	 Q2HLWl12VOppc1jbAiVr5Xvz5sncfHx2CRpm2XU8K7H84wykNRUlcoaqFNXxkb/0nPYlY
+	 akeoDN7dcd738VTXtMUpljLv+J3BvDqQGMUYg2jp6AY0uVYwxhtsnpmpXsjHJOapEWxfV
+	 acwLZ52g0XAWfP4Pi4Ev0/JKiT0rvKfHK2T3sF1NPKR4e81bXV60nfUM37F6+VDTBTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792775372;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=JXkqVELCS4iKLLiloXNq9xeAh8mcm8T9ORGOrA32j7Y=;
-	b=GBMJXKhe/HhKvrGJSDyS9yvMKx9LnMEZXeIHptrCT3MzKnF2JpJZFbnnwhXAnyyGCs6k
-	 b0vzJ5DEyShK/NeuEz0PkgVAQitpg50TlRppa6OeJd5Trn19EKDE5LKeBP68vR819B/6l
-	 vk0wToOAB+46awAFUh9DWCQFFddUR9LAJJEaNlblK39o2no4YN2AIDZVmPpu+5Nu3hxcP
-	 vfNe2SE33QKBRzDAaf2EYbWkNYJpunaEHctSKHfscRfMl08lCkygIAFgBtZLWXTl3/oN5
-	 MRavMtja/521ctoNELqxsFHEnm3r6BqVOayTwqMKjeSvbKifPG/v4EvKehvj3Pg3asg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792777244;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=XXxeck+ZchWgLVe2LO6Nz2Gb7M6JpqsKo6THhVTlwlM=;
+	b=FnSv6HUDSYLqz3I0/qRZiwd3/T+rLBt+POTgfG69RXY1XUj0NVMPlv1uCfHuryW7+fGj
+	 nxd2CeREEE1aHfgNhY2/RxT+G5kV9TMPDwLoDNy9Sft7yK7CA9oArIrejUldGKgW69L9x
+	 joo161s1E5Rvxwb5KkfbSM9QtfshZ8vgCwD62QFh7G+t29mwNEeb8wCWkjpvvo9TTffC7
+	 x8ZnIA6H4GGGtLeG1U9yzDJ/tV18akYYP0Gj9QqX2vImrU663YFC68ZkFdSL8xrtewEsW
+	 wkqVuZ59ROR74N3icEru5ZR7fo2Q26WnASh4v+j9130qKVD0TIB73q5O6AgI6u5pwFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="KM/e69hb";
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=baoyDKlA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980DB606A327
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 17:09:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 980DB606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C5C606A31A;
+	Fri, 23 Oct 2026 17:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KM/e69hb
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48dfaa3fa12so1631208f8f.0
-        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 10:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792775370; x=1793380170; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JXkqVELCS4iKLLiloXNq9xeAh8mcm8T9ORGOrA32j7Y=;
-        b=KM/e69hbgw+Yv8WkpwZGWj9dhvireaXxKiUL6Eib5HNuf2/ZCP4FWoB6LG6adWNWw4
-         xFC3eSpwDR03f3Y00QQz/tL1MnWpwKEliAwuC4UQ2kK66OZ/tOpwjtCvhE/cGa8xaZ2l
-         uyF/CwahCqlXJ2tDH1Z5Wa0wN4H9/L4FunuF76oHpyNMhF5/e+I/EkP5YZXk+2gwQWWD
-         A0XC3ZoXNIz2gPwNrjzJ65NvhzLI3rJrs48FfBw3GMt84c8Txwd/fYJGuBT6mdiwRql7
-         7nQLNwlTSx5c4bNcxUHcRvZCvPuIL3QT0g9eVmz+D1AJwzBsKTmPj3XxJXacwqDILaYI
-         FMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792775370; x=1793380170;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JXkqVELCS4iKLLiloXNq9xeAh8mcm8T9ORGOrA32j7Y=;
-        b=sm9+rYrgLHJhsBe05jgn36pkWAdDbPwi1kqA8G0oNOC+4fXlncsMQhGePpxGdD3v81
-         bonGeDX+Fe02w2yjpC1Jb1kFsOkAteVbd/A2haGp92G6CDGy7R2W0IPj6cGvDFGCVYgR
-         shgDpwvjBMR802U792mtYly06mHkv5+xIBz2dmP5Mbf8e3VJYkqEbOcmORZeDx+6s7+O
-         UTUKZJuhGkHqklOCOkWn63VEgryHDhLBeFw6CbjOtwejsAn7PbUtBaVjyg5gMdNzX+Ra
-         iebcteyLaG5CxercsTCyzm0PTMbRKojvXJznJZAVxOPul9vEvb2/aonpwSRY+fmJp4yx
-         J8/w==
-X-Gm-Message-State: AFq9FYIlqEtlEkg1S4hOwPEBYYdg4pQRJZ7K24/pXoQYLfkjb+Z6kyzM
-	NHyOU4o41CDbsvJQ1ieZdlrtzBu79qW1qVSP2Q9oUNRJ0ZNIBLA1vjUY
-X-Gm-Gg: AYBFou09r/yjsbK/ce4n+6tTpaAvfGzM7xxI6bCHEGV2c8BSGCTHuLhX9VmqiVjCRQw
-	WRH/9tAtODb8PjIrJtO0X8BZr4WSnY9oQMVE69wgzC54mpL8lxLhkGYSZRR51263Sr+xZComqyg
-	sF1nyM6AuZsfZ51XzuMnc9F8Dit7vw1tp8yUw8qvpFD2mDjrhRoZFzN+C17C1czB960FEmRvXQY
-	KozP4hriWm+beYQhd+qBWpFKxcZ5b3wPcDHNit77vA/dX2wVsleLl1AL44vTsDaiNEVbfhBHMy0
-	272akJJOiSl0acdpa3gs5B6CY2z2cADgtvvCD20eN0oL0jAEU2Yg+7r6o4ftSdxGMMP7UekKLu7
-	/VEcZQ9w+9l5Qj9MLp8VRYSiWDVRLWZNINqBgG3m8lIRrfRLTQcgHX/6+OHUPGlglm4+wWjwas8
-	eRnatUHbiIr6x9ACkKWFFqriMn7wcElpPiP8X9hxZD1s9jSb4UegcXxbc8EVZm2YjqVhpt9DuYX
-	6B1xNVtkSuZ32TkdTvaI8+j/ikE+kQtj5xZ56Q7a9N5eFnS/jxI3v/p3YIx74L1+Uq7iLnCJGbH
-	/XXcgcMYjpBm6ZRQau2ZBa/foA==
-X-Received: by 2002:a05:600c:5909:b0:49f:ffa2:1c72 with SMTP id 5b1f17b1804b1-4a211c78441mr37432405e9.11.1792775369557;
-        Fri, 23 Oct 2026 10:09:29 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a29cdb8401sm19586505e9.10.2026.10.23.10.09.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:09:28 -0700 (PDT)
-Date: Fri, 23 Oct 2026 19:09:26 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 2/7] man/man7/unix.7: Multiple same-typed SCM_* messages
- may be sent in one message
-Message-ID: <20261023.23c5bcea7fc6@gnoack.org>
-References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-3-gnoack3000@gmail.com>
- <atp-nJT72YOgvnw4@debian>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=baoyDKlA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D262F1F01825;
+	Fri, 23 Oct 2026 17:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792777244;
+	bh=XXxeck+ZchWgLVe2LO6Nz2Gb7M6JpqsKo6THhVTlwlM=;
+	h=Date:From:To:Cc:Subject;
+	b=baoyDKlAJKCKhMmqp0GMLJqdPFNf0xJBqblNYBWPtprczprOaY73toe2CBmesuZZz
+	 euja9GB11JejzLU4BPaZBD6c+y97Vh3j1n0dqyhIR4OLZQF7Uhno9dMNEwvLsu5bLi
+	 q6fIzA8F98G2sx99JoWwd3/i1eA+UvKCC/Iq5tNP8HHgsmDm6kjpx931QCIhG79Xbs
+	 Witm5q3Sfa193NCi1USgvINyWMVA102Xw3g7QsDY5VEEe54ExBYc+iYzPDYXkmP+9P
+	 DpoiF6P62CrwMvcU3Dy9I8tz/sIFkT/wx54mql21X7MToVR+Tkh5awR8upG6+SSRfz
+	 oe6iO/CP+3Q0A==
+Date: Fri, 23 Oct 2026 19:40:37 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, linux-api@vger.kernel.org, 
+	Andrey Albershteyn <aalbersh@kernel.org>
+Subject: [RFC v1] man/man2/at.2: Add page
+Message-ID: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -98,124 +56,253 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="llh3r6rczd32itqt"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <atp-nJT72YOgvnw4@debian>
-
-Hello Alejandro!
-
-On Thu, Oct 22, 2026 at 11:28:12PM +0200, Alejandro Colomar wrote:
-> > Date: 2026-10-21 23:22:51+0200
-> > From: Günther Noack <gnoack3000@gmail.com>
-> >
-> > Verified in Linux kernel code:
-> 
-> I think 'verified' in a commit message seems inappropriate.  It should
-> describe, rather than verify, and the verification would come only from
-> the review tags.  Maybe say something like "Relevant kernel code:".
-
-Good point, replaced.  I'll double check the other commits as well.
 
 
-> > __scm_send() in linux.git net/core/scm.c walks all control messages
-> > in a loop like this:
-> > 
-> > 	for_each_cmsghdr(cmsg, msg) {
-> > 		// ...
-> > 		switch (cmsg->cmsg_type)
-> > 		{
-> > 		case SCM_RIGHTS:
-> > 			// Append(!) file descriptors
-> > 			// up to the SCM_MAX_FD limit
-> > 			break;
-> > 		case SCM_CREDENTIALS:
-> > 			// Replace previously set credentials
-> 
-> Since these are your comments, and not actual comments in the source
-> code (are they yours, or from the LLM?), I'd format them clearly as
-> such using invalid code rather than comments:
-> 
-> 			... replace previously set credentials ...
+--llh3r6rczd32itqt
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, linux-api@vger.kernel.org, 
+	Andrey Albershteyn <aalbersh@kernel.org>
+Subject: [RFC v1] man/man2/at.2: Add page
+Message-ID: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
+MIME-Version: 1.0
 
-Done.
+This page documents conventions common to several system calls
+(most of them conventionally named ...at()).
 
-Yes, I transcribed the source code by hand here, including these
-comments.
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
 
-> > 			break;
-> > 		default:
-> > 			goto error;
-> > 		}
-> > 	}
-> > 
-> > So it is possible to pass multiple SCM_* messages -- they will compose
-> > if possible and override the previous value if not.  Since their
-> > contents are being conflated that way, they will appear as one message
-> > again on the receiving side.
-> > 
-> > Keep the recommendation as portability advice, and describe the Linux
-> > behavior.
-> > 
-> > Fixes: 5b5cb1958062 (2018-07-10; "unix.7: When sending ancillary data, only one item of each type may be sent")
-> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> > Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> > Assisted-by: LLM
-> > Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-> > ---
-> > 
-> > Notes:
-> >     The factual analysis in the commit message is correct.
-> >     
-> >     I kept the LLM phrasing; it did not seem overly wordy to me and the
-> >     style is in line with the paragraph after it, which also documents
-> >     Linux-only vs. portable APIs that way.
-> > 
-> >  man/man7/unix.7 | 19 ++++++++++++++++++-
-> >  1 file changed, 18 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> > index 0d2ea8bda2ae..a1dce8c47246 100644
-> > --- a/man/man7/unix.7
-> > +++ b/man/man7/unix.7
-> > @@ -543,7 +543,24 @@ option must be enabled on the socket (see above).
-> >  .P
-> >  When sending ancillary data with
-> >  .BR sendmsg (2),
-> > -only one item of each of the above types may be included in the sent message.
-> > +portable applications should include
-> > +only one item of each of the above types in the sent message.
-> > +On Linux,
-> > +if several
-> > +.B SCM_RIGHTS
-> > +items are included,
-> > +their file descriptors are combined into a single list,
-> > +to which the
-> > +.B SCM_MAX_FD
-> > +limit applies as a whole,
-> > +and the receiver gets them in a single
-> > +.B SCM_RIGHTS
-> > +item;
-> > +if several
-> > +.B SCM_CREDENTIALS
-> > +items are included,
-> > +each of them is checked,
-> > +and the last one takes effect.
-> 
-> Is 'takes effect' appropriate?  I think 'is sent' might be more
-> appropriate, right?  There's nothing taking effect, I think (but I'm not
-> an expert in SCM_* stuff).
+Hi!
 
-You are right, "takes effect" is maybe too much described from the
-angle of the implementation - I replaced it with "is sent".
+We have a lot of repeated documentation about these system calls, and
+each one has sligght differences, and some syscalls even have actual
+behavior differences (such as some accepting NULL, other not, and others
+documenting that not while they most likely accept NULL).
 
-What's happening is that the sender process specifies the "struct
-ucred", which contains a pid, uid and gid in the SCM_CREDENTIALS
-control message.  When the kernel deals with these, it *checks* that
-they are valid (they describe the sending process *OR* the sending
-process is privileged and can send what it wants).  Only the last of
-these SCM_CREDENTIALS messages survives that processing though and the
-receiving process then only sees that last one.
+This documentation aims to unify the behavior of as many at() syscalls
+as possible, and document the odd ones explicitly so that differences
+are known and justified.
 
-Thanks for the review!
-–Günther
+If you maintain or know of system calls that don't behave as specified
+in this page, I'm very interested in having a disussion about them.
+
+If you know some mistake in this page (for example, I have not yet
+documented anything about NULL, because I want to have a discussion
+about it), please also let me know.
+
+I'll reply to this email with a copy of the manual page as it looks when
+formatted, so you don't need to apply the patch to be able to read it.
+
+
+Have a lovely night!
+Alex
+
+ man/man2/at.2 | 166 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 166 insertions(+)
+ create mode 100644 man/man2/at.2
+
+diff --git a/man/man2/at.2 b/man/man2/at.2
+new file mode 100644
+index 000000000000..3d50e92420cd
+--- /dev/null
++++ b/man/man2/at.2
+@@ -0,0 +1,166 @@
++.\" Copyright, the authors of the Linux man-pages project
++.\"
++.\" SPDX-License-Identifier: Linux-man-pages-copyleft
++.\"
++.TH at 2 (date) "Linux man-pages (unreleased)"
++.SH NAME
++at \- identify a file at directory specified by file descriptor
++.SH SYNOPSIS
++.nf
++.BR "#include <fcntl.h>" "  /* Definition of " AT_* " constants */"
++.fi
++.P
++.nf
++.BI long\~...at(int\~ dirfd ", const\~char\~*" path ", ..., int\~" flags "=
+, ...);"
++.fi
++.SH DESCRIPTION
++The
++.BR \f[I]*\f[]at ()
++system calls perform an action on a file
++specified by the combination of
++.IR dirfd ,
++.IR path ,
++and
++.IR flags .
++.P
++If
++.I path
++is absolute,
++then
++.I dirfd
++is ignored.
++.P
++If
++.I path
++is relative,
++then it is interpreted relative to the directory
++referred to by the file descriptor
++.IR dirfd .
++.P
++If
++.I path
++is relative and
++.I dirfd
++is the special value
++.BR AT_FDCWD ,
++then
++.I path
++is interpreted relative to the current working directory
++of the calling process.
++.P
++The
++.I flags
++argument is a bit mask created by ORing together
++0 or more of the following values
++(some system calls may support more values).
++.TP
++.BR AT_EMPTY_PATH " (since Linux 2.6.39)"
++.\" commit 65cfc6722361570bfe255698d9cd4dccaf47570d
++If
++.I path
++is an empty string,
++operate on the file referred to by
++.I dirfd
++(which may have been obtained using the
++.BR open (2)
++.B O_PATH
++flag).
++In this case,
++.I dirfd
++can refer to any type of file,
++not just a directory.
++If
++.I dirfd
++is
++.BR AT_FDCWD ,
++the call operates on the current working directory.
++This flag is Linux-specific;
++define
++.B _GNU_SOURCE
++.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
++to obtain its definition.
++.TP
++.B AT_SYMLINK_NOFOLLOW
++If
++.I path
++is a symbolic link,
++do not dereference it:
++instead operate on the link itself.
++.SH ERRORS
++Some common errors for these system calls:
++.TP
++.B EACCES
++Search permission is denied on a component of the path prefix.
++(See also
++.BR path_resolution (7).)
++.TP
++.B EBADF
++.I path
++is relative but
++.I dirfd
++is neither
++.B AT_FDCWD
++nor a valid file descriptor.
++.TP
++.B EFAULT
++.I path
++points outside your accessible address space.
++.TP
++.B EINVAL
++Invalid flags specified in
++.IR flags .
++.TP
++.B ELOOP
++Too many symbolic links were encountered in resolving
++.IR path .
++.TP
++.B ENAMETOOLONG
++.I path
++is longer than
++.BR PATH_MAX .
++.TP
++.B ENOENT
++The file does not exist.
++.TP
++.B ENOENT
++.I path
++is an empty string,
++but
++.B AT_EMPTY_PATH
++is not specified in
++.IR flags .
++.TP
++.B ENOENT
++A component of the path prefix is a dangling symbolic link.
++.TP
++.B ENOTDIR
++A component of the path prefix is not a directory.
++.TP
++.B ENOTDIR
++.I path
++is relative and
++.I dirfd
++is a file descriptor referring to a file other than a directory.
++.SH VERSIONS
++On older kernels where
++these system calls are unavailable,
++the glibc wrapper functions emulate them.
++When
++.I path
++is relative,
++glibc constructs a pathname based on the symbolic link in
++.I /proc/self/fd
++that corresponds to the
++.I dirfd
++argument.
++.SH STANDARDS
++TODO.
++.SH HISTORY
++TODO.
++.SH CAVEATS
++Most of these system calls are named with an 'at' suffix,
++although some new system calls don't have this suffix.
++.SH SEE ALSO
++.BR openat (2),
++.BR path_resolution (7),
++.BR symlink (7)
+--=20
+2.55.0
+
+
+--llh3r6rczd32itqt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbnBUACgkQ64mZXMKQ
+wqmh8w//Y6X9UOCAO00E30MQnkWJjpp6NaUDDxBDkq1ZJY5q4smZ909s907es3MY
+FRIz6UHqbQNWaGcG261tSO9PGt4M2Nf00rfGGrjtwaQkuQeN/rYMQwcxGULwQiGD
+uinFagDVQ7wKtsgXVD+aY0YJWDPFpQXegKvGpls36ep1pm+U+IOfpDraz6RsZfsi
+o14UIwyzYBK5W8BQ2UzyRQbS+6fYzNq7PlFh4MDafIWAuRWDMw/vx8dJdabjqkMZ
+mNz9019C3iDFhJpjoC/Ev/sS5AlRu42spRtpEySqIMjDDfBZm5tzuI0O2pGtbru8
+vpi69pLUoEC/hkk2/TCEuPMuPgT1esoclqNY0HPFzYIoTwXwIxKI6poYdNtmVdG0
+A/3Np50rUCPxhulU4S+2voNL/2rRAYqoIX9JXCH+e+1Gs3PZ8hkQqbZNsVs4mx2Z
+5iMgoXWLgTi8h8rX1ZlTtVL3r9P868dgEPcMKjKOVjmXBdOA49N3eIinlPjtuRfV
+kPVw0n+bEQ7yl+/P9thaQTAQS7zP42/KBB4xCVJkf0B9pk8/OZ2fssC8dIACpjCw
+gpeuSwKKF+IDc2Wn18FI49ukaduaNmAFjJJfJSgsUBeRPneXoI5/ToZF+HPqvRQv
+P015OMp41Zyp87DVVqbjA7ucIvkJY26tzTWV8PkUh2/cnQHU34U=
+=rpME
+-----END PGP SIGNATURE-----
+
+--llh3r6rczd32itqt--
