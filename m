@@ -1,98 +1,155 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.2
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792706630;
-	b=2upQn9cbuo9Z4oHgG8JWp+4NzpExEVGpm/dZOJnlujOG4f2ryFUGF19UniLbBtHMAiyR
-	 Fht0jwsPljE0Gl63h5T1aZKOvGE4qdobV6Jq+0XxeBObXgcWA34boP1YNsmhGYNcIt/ck
-	 0ZVePwddYi07kseYAfi5zVWQY23QfwneXC2UBOwPw8+69M+09zIlA+RolHFtiecAPZjS7
-	 U5FwYP1sJ3y4ioKYWn9wG359r8EliNN+LTRboMuLhk/rhF2lAuyrt1fb1MgQ18VQaq/eH
-	 2ngC1xwAF1n30rdOERyiu8pZb3krd427Uj76hTxztLG6SGlyDlqq1Q3z3SfrKbmpH6w==
+	t=1792725547;
+	b=y2hrd+sVg68rejcyrxCfunY634JjPNK9VlG5n43NV+r9bA3IRZ86m3FP1A6fxYFULIL4
+	 QksegYtJiFzDMWZzGTeLKOdR9gzTSg9nbH9q6gXgHObGdvdkq5QLO6QpJdWwiOOP1MMWh
+	 J+wluAkzpmHvnHzZXsoWpEixauj3K0I8Ro/EAJSdvnishGRtQ2AD3EdgNxzgUNluzpAps
+	 eRXvHYcnKwQLKVV2ZocTRQF7a39dp1eN+AGo9mkmwdkVKuCsr6tLRH1V/+mLlc2dISt6Y
+	 5iooMiOZOQn0nt6PQGDFVIZoS5sKSUTYTC+9oPBQVfUGGcH29AxQJ4rHxwJrWAg/bLw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792706630;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
-	b=FSHTr5JfYe7a/quUjvz92PQlIxVvWXnlVI7vdYgN5aLb8MyIg4G7h1SoSRuRca/giV1/
-	 fX6RPe3acmnzodv/anf3pOuMWsWJkhwtJMyxwSzoaoVk+A+QZTh+MUiU54T0Sd6TnRF0n
-	 IB93uarw0/U0av89KADA3xyVCWFZsh9ElK5DgRLaE6nsFidhq+d5g+0FzaUIle95EQH0r
-	 Vo5v3Xacl8jj1MDp/h2bRJnjc4/H1KDXnLztxE6JZe+O7abM7v776w3r/RkSG1TWnO1jN
-	 9f60uONEGjK0AwXDHN7q6inX6kyilBSqvsr6JyMWDXs/b6XX3nSMyaC+Ky+WU9uzwWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792725547;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=0JCYanH8hcSS4tau1i+r2BdXAet9Ro6m2E5vuWlOwus=;
+	b=Hio7u7PgsKNYWnDiSOBxXXBJ9sn4VxcVTD+LHU85fEs1IhKLHL6HdxxxSsAvYk26fE2k
+	 yok2GcakylfvARHsnd7wuwqyAIrA4PoiYfD+9eMM8svjj+FUPbhgq2g7Gu/7p0jD0x92x
+	 UELdW6X3YQizNLgVPRcwDlYcpEsprJrNJPfda2sUb6y5fFhAPLjBTbDTvQE7uVFq+2TKD
+	 MD9QLcw33ZZWIcdVtFVKa3MHvoCAu/L5IERWpNvGMaWWPoRgMOlOgbL1frcLke3lP2g+q
+	 0nFXfMzDCwzmYGclFVBHxu42LMIo6e/adoT7HCa3kv0HrlJH9WLafnEmgXAxVLoUXEw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Y12Mwjr5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=M35hu6UN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.2
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azolkn19010002.outbound.protection.outlook.com [52.103.12.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB454606A31A
-	for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 22:03:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB454606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B434B606A33D;
+	Fri, 23 Oct 2026 03:19:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B434B606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Y12Mwjr5
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-14fd9dafb0dso164169c88.0
-        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2026 15:03:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792706629; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kH5liulxKytn5WsB0hvvJfSOARHPOhPT5uwPjjcbXdfkHth//KteVj94mXcOyuOb0y
-         P2j1ma2oy3hN8tlF2yjzIUUtR9fpb/Nbf3H71i9LXvFsMyPd9XbswoGpb1wa4OWVIGle
-         9AWmwx1rSAr/rU7go7uoT5OC6zWXbEFUWrpIkgnL89q9wP85Bf82rS2HTZc7ycSF+ErG
-         U+Bt7Se91/kx7J+clO7ntfO6FdTOA+lbWBq5y/Dm3uSbtgj5yVvHO7ZaEiOSdSE3Yy7x
-         SqhnHjc3nL4pb5m/EWuFslSUJQeakjjQEXsk9WQVa8stDnG7QkL7GvL0I+3EjlMQgvq6
-         5uRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
-        fh=hSN0rkdHzxBOgJPk/LoCAWKtiUmozfxrsy9aZgGe2go=;
-        b=fb3MZU5cUWwl0eQz6uU2geVapK3R3Iu8Zstst7xBLYUEPWUXc1PKgo4/vgz+t7hLuP
-         as6ZmwmrsEo9q7RiGJZP5P6iTqpd30eFyAiZcOnXPoRkV4Or7h1o/FL+akr6oly52cBX
-         ygBIBVMDSOg/zgz6O/bk578vrDD+dicAi5EOV4IPei9l4E+od+5IjGQzh7HgKTf2X3Dc
-         KpMSNRlNMVgHCu6gLqrShrJ/XXZvhPJzStEKPb/h52r4Vl9T3NEjMSr7OkJul/X718fm
-         SesYQ7/DdpDZg7AfBdk7BPyy0kRBBLyH63Dvc41o0KhcKZFj56+uX9NfXK+MSDgT6nIH
-         DWOw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792706629; x=1793311429; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
-        b=Y12Mwjr5fiLbRaY5fesBAk9+TJ+X2UGQ4Cg4plW43X80FMHaUbZBPaN32VEmnsFgZ5
-         f8xoQIdqRt8D7t5ozr1jPYu90BvgYqZzc8+LVKOmlp9/c6lYWyFyxK02HURxjrxbqi8C
-         uA+VW11Ueixfdj2/1+4A0rYOfpuzlaChYz8Q6g2/+VNbpryAJlbEYX548fVFIe3l+uCP
-         KQ6J6NstTdpTLXMq7gDP+rtFKokXMS7o049SHIxZfFeJjnCgC4mJafLNGXGQ0Ab98Yoq
-         oekTRTwWZv1EPitDs/rSOqSYKyp14ZvDbo+snk/S/t+0Gy17+VWwldSDiMQJ1jbOCGZ8
-         x/Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792706629; x=1793311429;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=S+BtLzYqJrni8hsBSgZVcEjqlLU6qt0m3MCxz2ke5nI=;
-        b=oK79L+U8CA77CG3Xm8lKg3MVDLtR2iZ0uZEu3v1H0ojbipVcmEA2S6/7bE3UOImn7A
-         Vdc6wnYx6XJGYYGmuigns7gtRT81wpPNM+CwyY9gNlLQVBuEJdlyEe0FIg1ft2StuSx+
-         XDJs9SxNaYfV/MJcPZuny2C4iveybNZuAwWgNJWwsK2IuZvG/bwF+j8PUwe36htD1cw+
-         U7tFfPj8TIUqGQG7pRvOv2XjM5hPzkJnKA14NumMiaznAuj7IuhjM1yqGpVfp3cCKc/S
-         Ew4Nwy5wpExwWgDyooLBaV4yCrqmmFM06Bt4pRd+ptHFHKFLSi9IrpTk9mUZ3dJfen70
-         crlg==
-X-Gm-Message-State: AFq9FYKf9F40Z6B+GCYldM/+wNvu0TAq5mWDm4j61miPb0T3I5FdHKM9
-	+BdmUsr25paYNOI1NidPxMiEXTK6Cil+4ASi7bZhO//GCMFPnPPY+3ZIUKeyg17v6bCtvaHeAYP
-	+7XOAB9fdjTMCayTp5lPlAysIN5uWIWXUuVw7
-X-Gm-Gg: AYBFou2WqeRXiwjaGZJW8VOFKUbqD7HNyvk8JTGqC7vVRb9dv0zcbVxGnOvE14yRk0A
-	3UnQY4B0KyxQARwLl3Mt4QotXrsnBrzi+f7TvpQ9DvBER4QHR0dZjli5BLyu/823Onm3ydspWT+
-	Ny9e5o2jSE0qH1FMVonRC+QIcHJJWJdALxtgLZjE7hqSMVG0S05tXZTrU9MoJU7CFNv/OlwTid0
-	8n/lVzHgFhiGTfR9sBam44Zw1+c/SntsG/NOBnze3/OZyzWSUB1N7ew/DYzV3qQub0+BwGQWsOM
-	fodSJxdUUSiNs/y9am7cQ+rXYWEhewPjPbMmWPzJp7jhhgUJQWglPBPFBLVsUohRgDHZzDNsNHd
-	so+uRKBlZJRd1RqNB8JXY+jx8iLxxJtWvZq2JNbDW21GXpvAJZbywCfcJwRtr0voz26M=
-X-Received: by 2002:a05:7022:1302:b0:184:5f2e:aa52 with SMTP id
- a92af1059eb24-1959eb781aamr866151c88.16.1792706628662; Thu, 22 Oct 2026
- 15:03:48 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=M35hu6UN
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G/+SFeCGzQ+oDuGlfX7oawBMTmdEGhjn27hnYdOfzd6FRODUVgbCmH+Iq27WI9d8xm/MsW4hwFBBg2O5JdRVjq4XVnme77zmjW/Iz4RNNKlHxB3GMXrovKIosUYpKFA1hYH7xW3xBW+zq5mvQvNWhh8aolmbvxyqp73ZTBwGTxjaf8sXhekJUJqF9lGjcw7dLnU3ERWZEqxVFyhZWvaqZlnXEjskpLtdrRt2CnkPPRsdzHKbW/+Iq1wxHsrsC0fMCXURjoTpxsYUlXXZVa6Zh1QH7AjOWG8j/0uCbVm532Zh3WRwXBKd9GenmVJZm1aBR5rS6S3DyC2qw6WtE2HOkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=0JCYanH8hcSS4tau1i+r2BdXAet9Ro6m2E5vuWlOwus=;
+ b=rnKuAFLmcRQzatzUd2f0Goi5op6Lzc0Gv3imM3TEZ6rgsTJ1k50VxvliUVDrZywzmLxy7WjANN9RnxroWHWMEqRbl614pUP3ATOwGAN0sOFeRcSUj4852NY95tfWvy1S85hALs+3d85UadKpXW1RGHiP9Uv4Ujab7ZaJeTCYr6R4jUeuWVaOg46do/IuOQV3JS1W2+Q1llcytrr89YnhY7PbxLMCrnGro67bdjrx3cIDfMZ6OhvvCtbjEpbtQAYxe7/z8xhWRs2UrSaLL3/P+Pnfea7lqy7SrfyXgD96A6w1RsNNdWiJRtOkraAILGdol8PffWmlcROVnzByY0Kk7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0JCYanH8hcSS4tau1i+r2BdXAet9Ro6m2E5vuWlOwus=;
+ b=M35hu6UN99yrRNdltxqOulOmbqitNRZYr2rN7tmxCXUOnhI7+jsfK9IA7F9rVZcqCG6pOuBecvJuCt5UkkeVYX1Soo8G1srhvlopzYFpKrYlQUDc5noqZlYydwe4rRSY/aV+5lf7htx9/0grAHv/27PdO6v2KS1HrO5uAvFDM0jg2xiDFfEPgGLSaqrazkz3S/pyrovjzxtuisMsrPthT/DV7SN/9NthJT0T+ZIc5cNHcBQEOjV7gCMa5CBMa2i58X/IzoYh7ajnbVY5sQo3yxibO/43UAMQnLstTmVshCXhyysXkDctX15R0i6j2wf2ZdoRt8O0RAmjfawq8a61DA==
+Received: from SA3PR05MB10385.namprd05.prod.outlook.com
+ (2603:10b6:806:39d::17) by DS1PR05MB10613.namprd05.prod.outlook.com
+ (2603:10b6:8:218::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.18; Fri, 23 Oct
+ 2026 03:19:05 +0000
+Received: from SA3PR05MB10385.namprd05.prod.outlook.com
+ ([fe80::e22f:a0f5:fcb0:9b0d]) by SA3PR05MB10385.namprd05.prod.outlook.com
+ ([fe80::e22f:a0f5:fcb0:9b0d%6]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
+ 03:19:05 +0000
+From: Yingjie Wang <x-professor@outlook.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Manfred Spraul
+	<manfred@colorfullife.com>, Alexey Gladkov <legion@kernel.org>, "Eric W .
+ Biederman" <ebiederm@xmission.com>
+CC: Yingjie Wang <x-professor@outlook.com>, Vasily Averin
+	<vasily.averin@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt
+	<shakeel.butt@linux.dev>, =?iso-8859-1?Q?Michal_Koutn=FD?=
+	<mkoutny@suse.com>, Michal Hocko <mhocko@suse.com>, Alejandro Colomar
+	<alx@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: [PATCH v2 3/3] ipc/sem: remove obsolete SEMOPM fragmentation warning
+Thread-Topic: [PATCH v2 3/3] ipc/sem: remove obsolete SEMOPM fragmentation
+ warning
+Thread-Index: AQHdYp1AORTj4pQi9U+RHJ+GlDT8vg==
+Date: Fri, 23 Oct 2026 03:19:02 +0000
+Message-ID:
+ <cbd5dc183943d2177e5564f6e8ec92499836c7e5.1792724953.git.x-professor@outlook.com>
+References: <cover.1792724953.git.x-professor@outlook.com>
+In-Reply-To: <cover.1792724953.git.x-professor@outlook.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR05MB10385:EE_|DS1PR05MB10613:EE_
+x-ms-office365-filtering-correlation-id: 280a61ae-98f2-4bf8-0776-08df30b464b0
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|22091999003|24121999003|15080799012|38102599003|31061999003|16051099003|24021099003|4140399003|19110799012|8062599012|8060799015|25010399006|52005399003|40105399003|26121999007|102099032|440099028|3412199025|1710799026;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?+EIy1WsC1GmahC+3b+LVOOQswnNhv+6DtESwfVho+vRCYPtKg0OUxLZAD2?=
+ =?iso-8859-1?Q?XVAkDZZ1bmw92zugSmW85mQVWp7gpkjtqkTaCYnva8JyCMsluStUAKi5Wg?=
+ =?iso-8859-1?Q?JAVldwslnTebQtMrQ3WbVKSmlmDS1v2KMu9mt+6wP88qCFxCoKpEU+WbK/?=
+ =?iso-8859-1?Q?1e62tXBM0bA+tvPpz3I49O5Vai40SvXj5FIoQL+5UIFNj498n1FYBYDNEh?=
+ =?iso-8859-1?Q?ZN7M0vSWr8p/SypIBnoccjysWDQDscrNhpoOTueVHjYy6nV0tT89LTbtB/?=
+ =?iso-8859-1?Q?6qXXmQlY58MPRkMvzX+2J7d6XazQgQA1Bzt6w8TeXySPIEr6Dzp2+KoeGj?=
+ =?iso-8859-1?Q?QL+L7O7+hII2lp36BnfCQy22+sPhGo06Z8d7tJwnf8k4fwqBdDP6u+iLtf?=
+ =?iso-8859-1?Q?fI9SlDaMhZyuFI+afFcXA8dWhr91hG5slGsWME/cgb+Ji1RY5ZRLyj/bdY?=
+ =?iso-8859-1?Q?u7Qawe9OykgD79tcpE2fChA+fIH8uSfvLL/xT4tpK8yzV3QCfTNMS9/Lb1?=
+ =?iso-8859-1?Q?EUdEjyE4ibQEcEmfwI1jIHVNxjvCc6hSuU51IdoHGX7Zi46NEBM5Fd60Ja?=
+ =?iso-8859-1?Q?cgtDmHa09APf/yP56cqevDpc1EiptC6hR8cd9RVkbsJnGCUnNajcp+en9O?=
+ =?iso-8859-1?Q?5b4eYPdNZM9lXTi6z55MLSDFkUEbLKcICYEPPpUna2C/G4bTliivAZQyz+?=
+ =?iso-8859-1?Q?PSjG/VZhGxM1jrp400v+wuCLeiiDxdLAlvWD79ofUhd/+biWV+9sWVz3o6?=
+ =?iso-8859-1?Q?BNJSAdU+Uh9nNKGaexBECras/fUQvM8Uv4x9j7lBEmNJzTVxKHVL1rDrxf?=
+ =?iso-8859-1?Q?eh489zCUf7oXZr38LkiQTMjIrKF10QUlGh+J3hDIWb8XuzaTu08bWmtZG2?=
+ =?iso-8859-1?Q?C0qMcjc7aUl5n3+F555EL6nOIfyAwoqbdv7oPzg/iskJB3XYpoRBtJ3aEB?=
+ =?iso-8859-1?Q?u9wFdQdJUH/qhN254GKzbdOu9ds3NbwqoeE15zdI2sZG3tJOiIPr8FK9Uq?=
+ =?iso-8859-1?Q?bDuc0p3bPMw0iCVQ5bo9EavzzF/C3f2qms8u1j+M7KjzCnKwIXWkvcJ/Oa?=
+ =?iso-8859-1?Q?ni/PY2tYmYPMr2CUAOJ/tM8xbKJN3X/lAfHtdoIH+DEsxWS06YkuxI/835?=
+ =?iso-8859-1?Q?WFrHnJ4T+6lYkAByGWPkXx5oXdyH2U6tCgkDY9aUP9nbkLyggi?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?hSLi5xRs8tXnI9/ZdFcNF5JveStganvXDWahGVmjb7t84LrG4ep5pWnkMR?=
+ =?iso-8859-1?Q?WnKzRokkUJK+Q7QFwvygL5MUZqVYt7nWlveQ2kFhyAgPqWLjjpMkF1SrjB?=
+ =?iso-8859-1?Q?+cpjQvMZX2y8b9bWLQvi6j+AZhwsc7uVgkrSSh6KxQ9svyRfTXQflxchAW?=
+ =?iso-8859-1?Q?Uqqp0JpQmodbaWoGPxkUIVhFFNcOVHEt1cQNaoK6kJQzMwgOdr2/7wd0QB?=
+ =?iso-8859-1?Q?mF/BaOdTHhxALqgHkO4uoJ1DW5D7Di/RQcMwjb885f+tx8x83F/2hdC44f?=
+ =?iso-8859-1?Q?hbuz8C/c4P53TjjbwC62YIIOjK8/9vw4k7RQMHlU7TsEhBlWGdsoJ4nXEs?=
+ =?iso-8859-1?Q?+njB/+UHAhWmbkxf8pjfAk4fvJwwLd7oxsompju3VIhMfVSwH0NnPW+0pg?=
+ =?iso-8859-1?Q?06+f9Rpa+THaj0VI2NVcvK1mFq/uVB2MHFLK0dThhKn97JokC7f1+25de8?=
+ =?iso-8859-1?Q?AUVzzX6/5AdfyvJljhbpwYzPywGHA8GILl9kcreTEprPyxluF32sBSgUFh?=
+ =?iso-8859-1?Q?F5UL+AZsy1ZNhSivQcQ7go0klmw29+sNBKAOoCiHHWbm5HxQPWLF51uQb9?=
+ =?iso-8859-1?Q?Ut8quJ2Gup9B4UrqX3KBv/zAhcBtmvJPO40eKCtvY6qrUUm2M7p2MO062P?=
+ =?iso-8859-1?Q?VOKKPC13TAeFZq1H/fdVBJqAcXFtWaZx/65M7LU2wWCq3gfsnP0gWu4epO?=
+ =?iso-8859-1?Q?HmqE9oyqD4Yu/RNc1h5IrRwfovVCLjEJqi87MlVgtiRFW+o3W6A/VPP26m?=
+ =?iso-8859-1?Q?hbDWFuqt4w3tc845pIjUKHrdFlwXSCJtVmHnsOfwDxFuguT7W4E7f9RIzA?=
+ =?iso-8859-1?Q?wei0j7JDdkirud5MlI0QdEhnPET1XY3IS8r7p9zYoHmd3b99hSqY0GSBTp?=
+ =?iso-8859-1?Q?olrvg30k1hMM9SHaJNjgFEBpbDpXlIV6OFIk5TrLig7NduiEJ11oVAQ7OX?=
+ =?iso-8859-1?Q?vM1OiacVfTgHp5mCLgtW5LvVF17nwurumd+QZ9JmrTJSoyBbfN7/Oueb44?=
+ =?iso-8859-1?Q?U3VQauMY56OKBzxIZoGDaeulmCVo8e/F3YVp41EP7RmplpuQivGxhFExSI?=
+ =?iso-8859-1?Q?CXTh8F1Y+HULALq1wWVw5Oae45ooe94ANJI0K2lWN6nP06YcjcfFgHn7Us?=
+ =?iso-8859-1?Q?y28FTJYZX7/Z67zNAksKkeinTlmS1ZxxGkrBQCndL3Q0l5uRGPUXBwq9vX?=
+ =?iso-8859-1?Q?1wBJpsVO2+TxvUiiPb7iNBlDQhufzWZfe1xblRGf3a5VNpS5TP2XLY+kCn?=
+ =?iso-8859-1?Q?A2WqK909DrTcFun2v994sXv8DilAMEXbMJs9WvtOGapZ4PW5xNAw+udUCG?=
+ =?iso-8859-1?Q?2BpttnFQLNj52SIF+M1dqdZkW3KT10p300kgRzBAUliQjYgT7gx6u14IBc?=
+ =?iso-8859-1?Q?QmuSGw8Kcd5jc9FDtpWViw+5Zxl68a8dNgFs1N3tElbcAOn3acDe17bRV1?=
+ =?iso-8859-1?Q?q/eK7BT3jUxrem1D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -102,112 +159,66 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
-In-Reply-To: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
-From: Mark Harris <mark.hsj@gmail.com>
-Date: Thu, 22 Oct 2026 15:03:37 -0700
-X-Gm-Features: AclHuK_5NLfs0rDJ1zCX1rgY71IeRZpItGHKzQ2oT6KNhfnYH2Apjc-34lo5ioc
-Message-ID: <CAMdZqKEWzg6Z5oYp8N+S4rkOjUU7WT6jwbVDCAk3YN3ZdP7u+Q@mail.gmail.com>
-Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
- parameters for lengths of array parameters
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Alejandro Colomar <alx+linux-man@kernel.org>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	Sam James <sam@gentoo.org>, "Carlos O'Donell" <carlos@redhat.com>, "Joseph S. Myers" <jsm28@cam.ac.uk>, 
-	Martin Uecker <uecker@tugraz.at>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR05MB10385.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 280a61ae-98f2-4bf8-0776-08df30b464b0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2026 03:19:02.0681
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR05MB10613
 
-Alejandro Colomar wrote:
->
-> From: Alejandro Colomar <alx+linux-man@kernel.org>
->
-> From: Alejandro Colomar <alx@kernel.org>
->
-> I'm not fully convinced of this patch.  But I'm open to being convinced.
-> I've written the patch, as Michael asked me to do, but am willing to
-> hear everyone's opinion before applying the patch.
->
-> As Michael reminded me recently, and as I've defended in other cases, it
-> is true that the SYNOPSIS of the manual pages does not need to be
-> strictly valid C.  It only needs to be useful enough for readers to
-> understand the interface.  Thus, if using lengths without declaring them
-> would improve the usefulness of the documentation, even if becoming
-> invalid C, it would be okay.
->
-> However, I still have doubts, because this change comes with risks:
->
-> Programmers might think it is valid C to refer to parameters that have
-> not been declared yet, and use that in their code, and if they are
-> unlucky, it might compile for them, which might result in UB at some
-> point.
->
-> One valid point is that this is rather unlikely to happen, and most of
-> the time it will just result in a compiler error, because no global
-> variables with the name of the parameter exist.
->
-> However, with local (nested) functions, this might be easier to happen,
-> as variables declared in the outer function are more likely to share a
-> name with a length parameter.  Given that the C Committee is working
-> hard to standardize local functions, it might be a very bad idea to have
-> this combination of events going on.
->
-> Concerns that have been raised against using the GNU C syntax in the
-> manual pages:
->
-> Very very few programmers know this syntax, and thus they are confused
-> when reading it for the first time.
->
-> This is obviously true.  However, this is true of any innovative syntax.
-> We should consider whether the confusion is dangerous or not, and
-> whether programmers can learn it easily or not.
->
-> I believe once you've been exposed to this syntax, after some research,
-> or asking the right people, one would easily learn to read it, and then
-> we'd have overcome the issue.  I don't think the syntax is inherently
-> difficult to understand once you've seen the documentation and seen it
-> a few times.
->
-> Also, this syntax is not very dangerous: a programmer thinking
-> that a forward declaration is actually a normal parameter will pass a
-> wrong number of arguments to the function, and thus will have compiler
-> errors.  This syntax is quite robust, as it requires several bugs to
-> happen in the same code to pass compilation silently.  If one replaces
-> ';' with ',', the parameter will be declared twice, which is an error.
-> If one renames a forward declaration, it will not match a parameter, and
-> will result in a compiler error.  Only if both mistakes happen at once,
-> the compilation would pass, but then the call sites would also have to
-> match the bogus declaration.  And also, the function definition would
-> have unused parameters, which would trigger diagnostics.  So, concerning
-> safety, this feature is not very dangerous, even if used by someone who
-> is very confused.
->
-> Do we think programmers are unable to ever learn this new syntax?
-> Are we ready to accept the risks of using the dangerous invalid syntax,
-> but which is more intuitive to programmers?
->
-> Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
-> Not-yet-Signed-off-by: Alejandro Colomar <alx@kernel.org>
-> ---
-
-The man pages are frequently used when seeing a call to an unfamiliar
-function, to understand what the function expects and what it is doing
-with those arguments.  The arguments in the call are matched to the
-synopsis by order, not by name, so for example a person questioning
-the first argument would naturally be looking at the first thing after
-the "(" to find out what is expected there.
-
-A person that is reading the description, where it refers to the
-arguments by name, needs to convert that name to the argument number
-in order to match it to the arguments in the actual call.  The natural
-way to do that is to count the argument names in the synopsis (at
-least those not preceded by an unterminated bracket or comment) and
-stop when that name is found.  For example if that is the first
-argument name after the "(" in the synopsis then it would be natural
-to conclude that it matches the first argument to the call, and not
-continue scanning to see if there is another occurrence of the same
-argument name.
-
-So I agree with Michael that this change is a good one to make the man
-pages less confusing.  Thanks for creating the change.
-
- - Mark
+The UAPI comment advises keeping SEMOPM at or below 1000 because a larger=
+=0A=
+operation array may fail due to physical memory fragmentation.=0A=
+=0A=
+Commit e4243b8062c1 ("ipc/sem: play nicer with large nsops allocations")=0A=
+changed the operation array to kvmalloc() specifically to support larger=0A=
+configured limits, with vmalloc fallback when a physically contiguous=0A=
+allocation is unavailable.=0A=
+=0A=
+Replace the obsolete warning with a description of the compiled-in=0A=
+default and the runtime sysctl.=0A=
+=0A=
+Signed-off-by: Yingjie Wang <x-professor@outlook.com>=0A=
+---=0A=
+ include/uapi/linux/sem.h | 7 +++----=0A=
+ 1 file changed, 3 insertions(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/include/uapi/linux/sem.h b/include/uapi/linux/sem.h=0A=
+index 75aa3b273cd99..cfd772f4c3396 100644=0A=
+--- a/include/uapi/linux/sem.h=0A=
++++ b/include/uapi/linux/sem.h=0A=
+@@ -71,16 +71,15 @@ struct  seminfo {=0A=
+  * The values has been chosen to be larger than necessary for any=0A=
+  * known configuration.=0A=
+  *=0A=
+- * SEMOPM should not be increased beyond 1000, otherwise there is the=0A=
+- * risk that semop()/semtimedop() fails due to kernel memory fragmentation=
+ when=0A=
+- * allocating the sop array.=0A=
++ * SEMOPM is the default maximum number of operations per semop() call. Th=
+e=0A=
++ * runtime limit can be changed through /proc/sys/kernel/sem.=0A=
+  */=0A=
+ =0A=
+ =0A=
+ #define SEMMNI  32000           /* <=3D IPCMNI  max # of semaphore identif=
+iers */=0A=
+ #define SEMMSL  32000           /* <=3D INT_MAX max num of semaphores per =
+id */=0A=
+ #define SEMMNS  (SEMMNI*SEMMSL) /* <=3D INT_MAX max # of semaphores in sys=
+tem */=0A=
+-#define SEMOPM  500	        /* <=3D 1 000 max num of ops per semop call */=
+=0A=
++#define SEMOPM  500	        /* default max num of ops per semop call */=0A=
+ #define SEMVMX  32767           /* <=3D 32767 semaphore maximum value */=
+=0A=
+ #define SEMAEM  SEMVMX          /* adjust on exit max value */=0A=
+ =0A=
+-- =0A=
+2.43.0=0A=
+=0A=
