@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792783982;
-	b=aSdKicUp4YH5nVaBClyi0qjg3dYupWIeTeRp7LYXPR+6GHfsQUWoCvc1DNM9/4QUuP99
-	 uM7OW2zdadIrYt1dM7HYrQ9xmCnrMJNZI2S0B91ioJTZ7ag5yVEDoxweAFIBOqn/mx/Of
-	 dMosmJAwVwn7HxLqZPe3EERLFmP8RSiuf5sF1NeQyDcHQyKRlEviHVMFS8N6EURw5/Amj
-	 JtUSBPfk/QjqDcKO5tukZtkzmjYrSILeSlrtEWZ2V3uNWaUDi7Rm3SxEnZYXSbcyWNxTN
-	 GvSfJiXzMLmgH/CtYL9Fi07oYhA8x57HISXGfxrIqsY/0vk8g0UB9ZQ7UTPoYD/9D6Q==
+	t=1792784267;
+	b=Bg+SmfoTG39mjD5IAfj3wd0ORQuinc+q9Jb6Py/Cp6jLkiDFRhUM9syTglIlxi6N+Sxs
+	 Z0oT8AB81fAVxrMbRzFyoqEErfmzQXDvukAdKYf1KUSZzyDUhdRebiZ9EzV0evn0mMzAr
+	 UIsNjmZM7l2D6UKaDmuuyxzUz6gEL82Oqaz0FF+VEgYJw8l8AYDGyeNw9S3RI3NtgcBXM
+	 743YC1DaCkGmAL0fysc+vfOlsCIUn0yGHt7PbRidvR8+KTND43O8LqQ0KHPkML9Um7Xxz
+	 iJGYcvCD92qFvMBNx7FnDcaIco0RVUhGPAd/kXogHiUvzxWSfd3EqdtCDccBz+5iHTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792783982;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792784267;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=DoKGKIS6/pTJ2We7jraoVFRWDf+84eTYwFF20FMgniU=;
-	b=F8BmyLhtTyFDgYvnnz1u9HJmy6ZELQCVU6ltHt8ZOtN9DJpguzSCBmo9otsFY3b3UApq
-	 2JWhRFzvJC9qkFL7m9H+RrJwkF/0bTnNJ8Ssc+V+U2VGc+mCiairRKDdkrVYn2otXP5qd
-	 nYFwx9FrXGUN+HkgfSnPL/flkcMaTVIJncYQBf3pf2RksGmKX3U4H2ptYq5MPvUaxeQGw
-	 nDMouw0oEUZm7l6dfk+wtjTDXsMxRUPSjkaifi55bb5VmHNOFCoeDf+YfMptqmGojwGzn
-	 lWLyc7rM8PflG1e3MZFpiFj0z+0Pg9VLsV0RYEyEScaE0wUar13JfUoy4R9BA8xDz1Q==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+DdL0Kx+r/wZYNrbRlMieEri6X7T3AbIc7xc8mfJJGA=;
+	b=WuMhkP9sj3Wzq4Ls6pOxe+reRR9JUQylO5YRvw851IQ7o0klAo8qhtK3cs1E6CeKwsVM
+	 rvNnIzT5HXMTrwgquhm+JMeebXHWbhiwYTBGgw5Mk7Lm2itpp57q1lsQ574pCCCxhb8zs
+	 vo+w4O7xMigKfCp65nxnHb9RtpmLsqFcYLgAm9jkxtxnyikuPWKmzyoyFEFKe0OYk/kX1
+	 qfVPAs0QK5M77SQbmmaTMMJG082Gv7ipLDyUozSXldSLHQHtAG/qiUkO1HLvjHqGVA4qn
+	 SVTth27yqRRwrd7TIxABCMsaxR0nX94VurDvjx+myVMsMnzxpIberJumfPq9vVBpD2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i+cbPG8f;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gacuAVj2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D710606A31A
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6AD606A31A
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i+cbPG8f
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798021F01825;
-	Fri, 23 Oct 2026 19:33:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gacuAVj2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2EA1F01825;
+	Fri, 23 Oct 2026 19:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792783982;
-	bh=DoKGKIS6/pTJ2We7jraoVFRWDf+84eTYwFF20FMgniU=;
-	h=Date:From:To:Cc:Subject;
-	b=i+cbPG8fXkeAp6l2Tu6GUwKxos8wwbCj8AF5821cgQY6Fm8176Qp80xPncKcHUFIV
-	 HkF/Mrm4tdKQt6KPguTUbGuY3C35VuHK8NwcPE2yvhWp8CYMNNBfm45juorAAeIW7N
-	 FjvyEMQUGIEI179HKNOBbSjOeM5E9bRrMvjWvwRFUQC0Sl6yEp7pgW0wkumNUAsxbF
-	 hmC7Ciaot2hpjFjly3AArcG/AAb+RLP6prsDFhvFUEQo3aWZUhMZi9mOATkoYZEgDd
-	 oWhITbCIm+lRN8IqEXj6di85/YMA0/ZjNDZMDTQ8IhsA3HgbyJPey1Z4cCNeeudspD
-	 ThsNTZ01L9H7A==
-Date: Fri, 23 Oct 2026 21:32:54 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: Enji Cooper <yaneurabeya@gmail.com>
-Subject: [alx@kernel.org: Re: [Bug 222094] sched_setattr: bug in `ERRORS`
- section w.r.t. `attr.sched_flags contains a flag other than
- SCHED_FLAG_RESET_ON_FORK`]
-Message-ID: <atu2ZjGrSZm8Nm9Z@debian>
+	s=k20260515; t=1792784267;
+	bh=+DdL0Kx+r/wZYNrbRlMieEri6X7T3AbIc7xc8mfJJGA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gacuAVj2ZeOAB01OWFslGz7J+BvXz3d6lOC1vMJf5SDyhL8/ZVFtGyJa661saac6T
+	 /P7CwaOiNB3ruDvrImmLEjCvi/dbUUWp3REY6H6fAdRNZD4EcfddDdGEWKus+efuU7
+	 qbjlSZ6lLYjyUxrfUCcRgIJ/n6fMbRJfYjHjYq9P07wEoMqpj6hIseTLtCBzKOc0wd
+	 i3lSu4goUIXs6kNOGDp4Q3U22euC2SOivmeiDd4x1sJPUtzHfe7TONCLhT/7nDXVQJ
+	 bd3RbuKiGyg5ctANylTIeEJ/4PXOpRu8FCXRzIwc4KqCjy/1JBZ74UY+WqJP1BGaRF
+	 +/pLTbM9tQABQ==
+Date: Fri, 23 Oct 2026 21:37:43 +0200
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: "Enji Cooper (yaneurabeya)" <yaneurabeya@gmail.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/sched_setattr.2: update `EINVAL` case with
+ `.sched_flags`
+Message-ID: <atu28R9-CdAtoz-V@debian>
+References: <A89056FB-15B8-454D-9C6F-9EEB75965302@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -57,150 +57,97 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="m0DoYDBMuKqJI5Oc"
+	protocol="application/pgp-signature"; boundary="c3onucmipvxslkue"
 Content-Disposition: inline
+In-Reply-To: <A89056FB-15B8-454D-9C6F-9EEB75965302@gmail.com>
 
---m0DoYDBMuKqJI5Oc
+
+--c3onucmipvxslkue
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 21:32:54 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-man@vger.kernel.org
-Cc: Enji Cooper <yaneurabeya@gmail.com>
-Subject: [alx@kernel.org: Re: [Bug 222094] sched_setattr: bug in `ERRORS`
- section w.r.t. `attr.sched_flags contains a flag other than
- SCHED_FLAG_RESET_ON_FORK`]
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: "Enji Cooper (yaneurabeya)" <yaneurabeya@gmail.com>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/sched_setattr.2: update `EINVAL` case with
+ `.sched_flags`
+Message-ID: <atu28R9-CdAtoz-V@debian>
+References: <A89056FB-15B8-454D-9C6F-9EEB75965302@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <A89056FB-15B8-454D-9C6F-9EEB75965302@gmail.com>
 
-Ouch!  I forgot to send it to the list.  :)
+Hi Enji,
 
-
-Cheers,
-Alex
-
------ Forwarded message from Alejandro Colomar <alx@kernel.org> -----
-
-Date: Fri, 23 Oct 2026 21:27:52 +0200
-=46rom: Alejandro Colomar <alx@kernel.org>
-To: bugzilla-daemon@kernel.org
-Cc: Enji Cooper <yaneurabeya@gmail.com>
-Subject: Re: [Bug 222094] sched_setattr: bug in `ERRORS` section w.r.t. `at=
-tr.sched_flags contains a flag other than
-	SCHED_FLAG_RESET_ON_FORK`
-Message-ID: <atu07uXukn8V_4YN@debian>
-References: <bug-222094-216477@https.bugzilla.kernel.org/> <bug-222094-2164=
-77-AkltlLpJO7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222094-216477-AkltlLpJO7@https.bugzilla.kernel.org/>
-
-Hi,
-
-> Date: 2026-10-23 18:47:22+0000
-> From: bugzilla-daemon@kernel.org
+> Date: 2026-10-23 11:58:57-0700
+> From: "Enji Cooper (yaneurabeya)" <yaneurabeya@gmail.com>
 >
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D222094
+> In more recent versions of the kernel, `.sched_flags` is a treated as a
+> bitmask that supports values like `SCHED_FLAG_UTIL_CLAMP_MIN`, etc.
 >=20
-> --- Comment #2 from Enji Cooper (yaneurabeya@gmail.com) ---
-> Created attachment 311258
->   --> https://bugzilla.kernel.org/attachment.cgi?id=3D311258&action=3Dedit
-> Patch
+> Account for the additional flags so the documentation is up to date with
+> the kernel implementation of `sched_setattr`.
 >=20
-> I've honestly never submitted a patch to the Linux mailing lists. There a=
-re a
-> lot of hoops to jump through in order to make a contribution... I'll try,=
- but
-> please bear with me (I'll probably get something wrong).
+> Ref: linux.git 480a6ca2dc6e ("sched/uclamp: Allow to reset a task uclamp =
+constraint value")
+>=20
+> Signed-off-by: Enji Cooper <yaneurabeya@gmail.com>
+> ---
+>  man/man2/sched_setattr.2 | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/man/man2/sched_setattr.2 b/man/man2/sched_setattr.2
+> index 80a0ac726dcf..64acdd88884f 100644
+> --- a/man/man2/sched_setattr.2
+> +++ b/man/man2/sched_setattr.2
+> @@ -417,7 +417,10 @@ .SH ERRORS
+>  .B EINVAL
+>  .I attr.sched_flags
+>  contains a flag other than
+> -.BR SCHED_FLAG_RESET_ON_FORK .
+> +.BR SCHED_FLAG_RESET_ON_FORK ,
+> +.BR SCHED_FLAG_UTIL_CLAMP_MIN ,
+> +or
+> +.BR SCHED_FLAG_UTIL_CLAMP_MAX .
 
-Sure!  You're welcome to try.  :-)
-
-I've forwarded your patch to the mailing list in this email.
+Why does this list not include flags such as SCHED_FLAG_RESET_ON_FORK?
+It is documented in the same manual page, so I expect it's valid here,
+right?
 
 
 Have a lovely night!
 Alex
 
---=20
-<https://www.alejandro-colomar.es>
-
-=46rom cfaef3da82a115fbce47dec58b458c6cfc439667 Mon Sep 17 00:00:00 2001
-Message-ID: <cfaef3da82a115fbce47dec58b458c6cfc439667.1792780609.git.yaneur=
-abeya@gmail.com>
-=46rom: Enji Cooper <yaneurabeya@gmail.com>
-Date: Fri, 23 Oct 2026 10:39:20 -0700
-Subject: [PATCH] man/man2/sched_setattr.2: update `EINVAL` case with
- `.sched_flags`
-To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: <linux-man@vger.kernel.org>
-
-In more recent versions of the kernel, `.sched_flags` is a treated as a
-bitmask that supports values like `SCHED_FLAG_UTIL_CLAMP_MIN`, etc.
-
-Account for the additional flags so the documentation is up to date with
-the kernel implementation of `sched_setattr`.
-
-Ref: linux.git 480a6ca2dc6e ("sched/uclamp: Allow to reset a task uclamp co=
-nstraint value")
-
-Signed-off-by: Enji Cooper <yaneurabeya@gmail.com>
----
- man/man2/sched_setattr.2 | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/man/man2/sched_setattr.2 b/man/man2/sched_setattr.2
-index 80a0ac726dcf..b163ba482390 100644
---- a/man/man2/sched_setattr.2
-+++ b/man/man2/sched_setattr.2
-@@ -411,13 +411,16 @@ .SH ERRORS
- .BR sched (7).
- .TP
- .B EINVAL
--.I attr.sched_policy
--is not one of the recognized policies.
--.TP
--.B EINVAL
- .I attr.sched_flags
- contains a flag other than
--.BR SCHED_FLAG_RESET_ON_FORK .
-+.BR SCHED_FLAG_RESET_ON_FORK ,
-+.BR SCHED_FLAG_UTIL_CLAMP_MIN ,
-+or
-+.BR SCHED_FLAG_UTIL_CLAMP_MAX .
-+.TP
-+.B EINVAL
-+.I attr.sched_policy
-+is not one of the recognized policies.
- .TP
- .B EINVAL
- .I attr.sched_priority
---=20
-2.50.1 (Apple Git-155)
+>  .TP
+>  .B EINVAL
+>  .I attr.sched_priority
+> --  2.50.1 (Apple Git-155)
+>=20
 
 
 
 
-
------ End forwarded message -----
 
 --=20
 <https://www.alejandro-colomar.es>
 
---m0DoYDBMuKqJI5Oc
-Content-Type: application/pgp-signature; name=signature.asc
+--c3onucmipvxslkue
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbtmYACgkQ64mZXMKQ
-wqmlpQ/+I3/y02VtJAntlyozd3CIr3w0t5vxQCkDzxc+fmDvwn/xU33y1ADlpPJA
-peVSrVzn+H9+X1VKhziN5+4KM4BmIZo1Tobu8I3Ffj9EwyxLJqVIcuDx33rr9z2P
-nzFbelQOOML+y3i1tfuscWrEePHHiL8ql2K1hML1yvk1xgCxqyKc1B3Qq9lWdzu6
-REj/QM0NByejRJoQAKWazK82bx9cQ6CqOPVUQH+S3eLrOSGTE72Dt8ivjszzlvuq
-5T/AA3r3/OspakzpU3uCgbKjCUNe9Ee3ZagLMa7jtKKCQGzAUMGu+qtdVxvTaeRs
-xhgsfXjBD6yyxISkhEfy0ubDgczjHxvTR2dCnd6PtgDNOP9SCvxeejuxPCQhZPVa
-s7hVd62sgj6rLvOzT2Tgcg8DOfvdktT0uNqo8gmm2A3tvRa+bIQbSUbeczs5vPp0
-n8E1SGhSfVcCz4JU3aZ/5G0PkqH+sNEZv4bD3k8vOAQC2rFFJOGWPkBUFKE2/Hn2
-+Hv1wB+i8oeT1ZkKOh2izxQZD+SLbTK/oc/hQGvPoFXR1SytEqCbsXmyP9M9dTZU
-0avb6oJUP4iLKXBWtr3k8yTNDw4DWorPFtF92vDfTsuLOuEHcXPtjKA2If6cOS+H
-p4ZWGo1Kt9cXOyrCd1kj6E3lbxlNlZuoS7KwFGgUidrYtXHhITQ=
-=u7mq
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbt4cACgkQ64mZXMKQ
+wqm7zw/+I2zMJ5XZs9STH4F0F4s5SKZlciDSZ3+RvE0hJlBYmNtgzzlCd+i6LTMS
+zpLpPUePifz+/ATUE3DvVtDdRbXRIQrnWQC7rZr7RwovQlRJX6fS51nMI/u/k2hT
+rDy1XJu1xwJcJOXe1K37jfNwJUImfiR+qsNCkFEqdvzbFlUsy6EEzzsScQg22L1+
+ROcNArQkkeI/cfkG9VRJ7al4S2OIIxILh7FgRXWBQshvfTjyEf+Zt851cZoE4MCu
+HF7M7jZKHVcemM/WLTFmdbgm/gejhjAquPN9MflLxE7HRgxSIr6RxNgAdDAKPCbS
+qDngTXVYULQ9hXjIDGF+2aNrn4SO8AYg8E9DvfKUnUfENJyF/45UWE+sVTmK9Dx6
+OgrZQ+ZKTdHIsjaanKH2zZk3fOh7O+t2iZcBSDF7PyczzSzxCvsUBmsKrofp+fq3
+dPVDdbyA+Bs+GLitJcTfiII8FOQb2IxnCrQcvkc4uJR1e3O7DfhZVW09zQtVDckD
+HNRdOpejhgPRqk0Jzw8OcZhwmadCOTA1YGWtG8jxBX62P61ImNcAnhYdZoVHJ8ao
+AnQ/c5qF2eXSGQ03G0LK/iRQHWELW++Px1UfaTQqoIekDYJU27YVnn+Hc6pFwS7W
+iRQ6tmpsNilcIIA/4BfWsRxvYUJA45yLRmLofu72s3FYCZIuRwk=
+=pfDc
 -----END PGP SIGNATURE-----
 
---m0DoYDBMuKqJI5Oc--
+--c3onucmipvxslkue--
