@@ -1,89 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792783950;
-	b=ELvBVoANH56p1S8ZSkKcBG1BzfSa2zcCcFbeAWVbbZ5WJHcm6VzsRDPhjaSTyT7DZ95d
-	 KXLetH9oLkH/MIaO1xN/JHaUPhAtYWiMP/pC2rojgMUceFm+gDD4FqGOgnofVGnjKNZRm
-	 L/2HmXlbkEks9H3GARQEniLoLVcIUh1Y3cKcbgV45Hgub0g5TrsCMqzTsQh3/nFKhXcBr
-	 kqY4dKCDS8gdFe+WsLuK9yQe5npgpap8dbBL+L2u/16JV4GQ9ETz+uwY4dd9CXDTUYuJl
-	 28deP2VXLOI9nATzR7enmsfftYA6ahedM/Kztev1UfY1G85DZ5e7/368w36we9Rz/aw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792783950;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.181
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792783970;
+	b=Y6/NLheKZP2yhD60yl+1KwsrgMmO2BumhKI4GbbN4RG/ObHyHeGw6QRuQWgSzj8eyv9g
+	 CdvwRsSSunTPeArPfPos1EaZS+GSWP5NKADmi3FjYNAikcMpFX5ao5JRCK0pVHi41ZBpC
+	 7rmQMjLMBZEnb0UK6NirUEgGHYZtYtYgZhomD2OQWcnKbTQOXpnJB8bNZK0ndZ0H9n8sB
+	 opUZwtGamYwruMtisIYnoswzCqTDeX236PNP5GwJLULY+WlVCb+tWe7IFyll1sbIuTelo
+	 FQL4F/wZ0OPigwLW14GBBH6U4yQ9tJSTO5nWuRye3WjtQ30ku12zQZPPcWp+qRiXcjQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792783970;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xQ0ZY845r5Du+UUOa8gVSKQGxBME1IJCKr0CS/df4CI=;
-	b=uWijepDFsfuLo29OpPxPKVNPuvN9tdU4zgpy4Vq4x80ZFnO9Fu2NCLndkFv0CfsAhxMD
-	 9Qp5W9w97JKORPoo2sncu8u7OqKGafZf8WHEgzglw3OgncWVpQW00hvH4naVsJdy9RMHK
-	 9ZLi8Oi2k0NMjh7OM3Oev6WUP1tAPs+vXw07WK/g31zUDboKX6ajeGiaNN0JVvHkWAGjp
-	 5nxGEjPkfSdl2cMoCn/KM6tSnkbb+SgfnhjFaKYoChV6Rg7Pj8p8wbsJ0GW0J6LpblLYY
-	 zkmYzxGKaX8T+B7XpZi3+Ep2ocKCZaHaM0aG8jmkjxU5L8Wa5e9E6G19w7+/nX4FWLA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=colorfullife.com;
-	spf=pass smtp.mailfrom=colorfullife.com;
-	dkim=pass header.d=colorfullife-com.20251104.gappssmtp.com header.i=@colorfullife-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=IJwkHIua;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=L8cHuY4yVn5rzpIOBMLGoSMxm1mBDl4FcKUY/nU6W6A=;
+	b=tFJ5IG0CfaOvOqoN4t+ir91w3cT2adtDtEPy/3wFJSC4IsGfXqNwiyc5odke3+CgoYxP
+	 aqooqjsngC5KR5x9MDQIPnk+nqT1bO8XHG4A52zySWJ9/mYpT5f4gwiKLZX0UbCUn/2EX
+	 ZUTo+n/OXiQpv0xXYvjgRzL64NWA/Bgl7j3lrHImcGsE4RfiM7s2vZm6f2QfPnGPbGhkc
+	 PB12R7D1iAYhNGTcfXEYq7fIRZpxbRBmaFRndq3XwolYRYpxzxVpJW5RZpn/CAwbFH3yZ
+	 Df8p8F36705PNiTVwsFcKktg7pKgBFvZqy8j1oMEyDrNxwXf23TsUhYid5ctHoeOWaQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SwdnLqfk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EDD606A31A
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:32:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13EDD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=colorfullife.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=colorfullife.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B2606A31B
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:32:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 317B2606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=colorfullife-com.20251104.gappssmtp.com header.i=@colorfullife-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=IJwkHIua
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a218ffa23dso4668565e9.0
-        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 12:32:28 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SwdnLqfk
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3514b90bb89so2829474eec.1
+        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 12:32:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792783969; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n34LXnw5hH8faU/JV0cjiN7siVWGYz0mxGEiUp5U+cpH/47pEP6WdUawer441ybkSC
+         BP1x7ddRo6ptJmMl2XFxN9kt5yttI9rA3EpCiDq6iWyBIFwHftL4oRDv10bTlrOyCs/Q
+         yM8XpbFVxYUg8a0TpCqKzTeKBWi7E3oPovApfqLBcpmtVUxu+GG0A4nSUJIPozjRz3Lk
+         pb7/1GHuBDvWMs+Y3DMRKGjPgcNKO23ttLWWBhHD3MEXuIcEb6QDDDjmLM3doHYJq6F8
+         Q+mOaJY1u1ZZk6cGvuehxCnaazTvepEzV7Akjmf+C28CSqwwjGKA0MFg436y3MhkJFat
+         NvWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=L8cHuY4yVn5rzpIOBMLGoSMxm1mBDl4FcKUY/nU6W6A=;
+        fh=dJgLC+R1TL0747mfjs3eI6CWn708OPjXvW/O9Hvyb/Q=;
+        b=CxXLxi6B8KWvve86x3mnsL+7Mdaa03KuESPGnRDQF8ZMzGHFMxoRhQQix9YmL3ByeK
+         6QdWxzv+d1voHMNwosy1WHBvSYWTD7xJ0Ymfl8Rb5wPyAVO8EjFykssDsfnaSzD3Gqp9
+         f69nucsjUuE9Qnq6J9vgsy4OhvGVp4jyuin76hLwkXgUGyQmpM4Bsp+di4YBhrnE3B35
+         WLFUbVze7b0R1FrzzfvgCeZ/6fh04WyEcoNiAhzsaJeraDqtlciAGp7VfwTD2/zH2YOu
+         w0U9bXVsYrH6HFFz9MBU5h25oo+aNbfvMurqtDztsqL7YvwzQI3vCnCeIPnYYi223qnN
+         XUCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20251104.gappssmtp.com; s=20251104; t=1792783947; x=1793388747; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792783969; x=1793388769; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xQ0ZY845r5Du+UUOa8gVSKQGxBME1IJCKr0CS/df4CI=;
-        b=IJwkHIuahlX2XmMgrR2c4biFHA3eskauE3h6uVTKAANKlsfhz+huia0jeSfgkqD9te
-         yCHvIxkXbcIe6zPAb07HORwwUJqgaZefo4YbLOzzVt0oVupxczkq2SHcd4b0OcoBOvWM
-         3hYL93P/HIN94qL9lwUvUC5EkzVD/PRGBVNzmk9ednVd+fxpxY4wdyYivid1PyYPuR/U
-         KkvmryC9htmaxcQkhC7Z5wj+PycuqCkkBhTg8wlkegLM9BKUZbGxxiOAeLS/Slj03CW7
-         kfgNpCvh5LL/du8svsYwsDWWot+MJSqiMqNUbx4EnApPLuFlFacpkDj3CP8OGcXutRx6
-         WbOA==
+        bh=L8cHuY4yVn5rzpIOBMLGoSMxm1mBDl4FcKUY/nU6W6A=;
+        b=SwdnLqfkX7Ddm8Chrhq6h4iT1adsRClhW8x3111Uq/9/Ni5lJdKftb1UbJ4q9GSJ+d
+         myWMdx+nd8dzQz6JZCi843OTfOf7WDY+Utx5W14wNjabzGEkoeAjv4ypZ331DFaXqXUz
+         vSpo56hTdt0Ph5O5pvhxf9AF56Zln3Ev1z8IbLLDGvlO4IgVvyasspmqKNha+b862Cf2
+         7cVrKuGqhLUUw6ocPmXBcMHP6eOF2r763tPGGMHz1+Nk2RHuM9pzC9rv6eETpL87B0KR
+         M0dmaQkCNlt77Jbb2AmSAwFctdGXBkrOdb69St/qKJqTxQ1f4Gt6cnWB4B6r8WIMagfc
+         IRPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792783947; x=1793388747;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xQ0ZY845r5Du+UUOa8gVSKQGxBME1IJCKr0CS/df4CI=;
-        b=rlFU3KC0N4rEa7SCRpd8LKX3wpbB9Y4FgNezjnRr89PUq/Ub7Yk13EdrkKK8rOKdu+
-         Hn88PCrDoKbw7X9ZyA+YN9hIKrjxbrG498ZoMncjdoe/eXnzJ3YiqVrotM/mU0qNgmsk
-         V4lLX1CDczmE9/iyk4i3ztQE3advlT7zhV54/8JGbr4YjDgtx3qh5KTDNITKrw2H5ByT
-         mmCU/pD/wNUppHtnPjuNuqH7fMLdRi1c0JEGz2S1h8hBDc5I59zuZ8txG3z7eNKuH+1j
-         Yrf89IarA+BdOPLXL1O3oKd3RUgiYSDW1wXkHwZLjw76QNrsy4El4JeC9PxHd/1ImXkM
-         ymTQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwRC17i5C/3uPVHlE9vss0EqZZ2+ZHGhjyhcigUuzUjKnaYOZGP8WOpsDUkOw9egQK5vk+rMY/nzw8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKiSP3tnf9s1F4oxqShglj+DhmEPNN4isyb2GR1lmaqq1vams+m
-	XYohfibtW6tp5hfDfj1jkJzLVEUCLB921YUbbgqmDfG8SNvW4eExie9tQbZCxf/nfA==
-X-Gm-Gg: AYBFou34Nu6qrawl09eC57i9zJt8Y+NTf00/U8NUV351D5xXxOsuiCf0BXCgAGfxLhR
-	tHZQ4X5eNKlhya4QSYM+rePMfoPPUn+//6Zu5WJ+cqPJWFQk58+qgtZfEsNyakIfyLzXhiHjEK3
-	SmrDWsS2Ot6r5Z8pY2uMnM9Rp7DoPqNItbdsfKtdy83Jle7uQmOaGGrRreN2fnqpMxun5hM+eJY
-	t2PLANcPAGq7OCjS7DEgiJf2SAdDfUMSf9y7Mw6IJNn+Qo/tBLlj/Xar9uC/8C1rLeJBKgvEbBB
-	mpDSY7RWicuF4YPJSExLWCc+GW9ztYLHPjloCGefX9twCZ6IWI7y50zUWACmfgSORuNfTVL1dV2
-	1Iz03t/XetHm41Cq1NNTx2P4Nco6zyU93Y2V2+Ib2HiJGspsPp9+iGtYS8xbyjFzAmgUPZjLHrb
-	2MRDgi5UJ7D5Zq2XX2zegDH+vFlEL6Mgzjgv/ZnHMmgA9mUJOH/T2PHQlpxWz+Z6tHHEqywq70W
-	tcfiTOYEFWo8LSS/QiBAj4WcKkTgshjYcNLuGs5RvRRtoG8YE7PuH12cyCbGXlpGk/ENrxgNrxy
-	38WYwbrBOXZK4QPUtsvOfGQAyXWsvQ2xJS+0kNDVvMRZrWavXJABSCoM0MxWA0b/SDaPc4KlNDC
-	E9e7DU9if/O4DJT8=
-X-Received: by 2002:a05:600c:630c:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4a211c64f9emr57232995e9.4.1792783947346;
-        Fri, 23 Oct 2026 12:32:27 -0700 (PDT)
-Received: from ?IPV6:2003:d9:9707:8b00:3fa:3a3e:198d:ab69? (p200300d997078b0003fa3a3e198dab69.dip0.t-ipconnect.de. [2003:d9:9707:8b00:3fa:3a3e:198d:ab69])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a359fb08d5sm14180055e9.1.2026.10.23.12.32.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2026 12:32:26 -0700 (PDT)
-Message-ID: <9a3aa73c-7b62-4f1e-983d-cf22d45ad86b@colorfullife.com>
-Date: Fri, 23 Oct 2026 21:32:25 +0200
+        d=1e100.net; s=20260707; t=1792783969; x=1793388769;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=L8cHuY4yVn5rzpIOBMLGoSMxm1mBDl4FcKUY/nU6W6A=;
+        b=I0vIzy6Uo9LaffVbxgDsVLSMxSGuVgzt1Gw6Bc70g/qVBMoLyIPV4CJFmVbKPyj0oY
+         QGfOUfGZmCAb5azE6diB0EN8K+jjpEzfN7cteeLrKZTfSSYII9y7RxBUq5bC0hHospFI
+         N91UwLjqtza429fWxHDsr2xECyppNMqv7yt+c2lc3DijKy0QjsJ8ugAnNmwvfRdP2w5J
+         lu4lvCXkoQST21Z5YTil7vvTljUKLgTDwhwT+K8IfI70L9GkZacRlqClQTl6XO6AkkLv
+         9UDXXiuyoBXmZX1wF5VntpSahZNezosOWA+PSzCLPxdH5HKxWag4QI8TJyirSjvZhu4V
+         kCCw==
+X-Gm-Message-State: AFq9FYIjzUgQRYd/xQf3Fe4U3j38eixX/UXIUgQb2a5yOOCYn0zC0zLj
+	xU2Dwlc+K4qw3d9aKjmy45KDbrhEcxibg/o6ib70BA+/3TPNPWXB5+lJwbTJfuIj2Zz6XxpG6EF
+	bY5yuZbpZBoot9z6bAcCjRIgxPyjGqgk=
+X-Gm-Gg: AYBFou2prBU60Eq3WxHgHFCgyE+9X5HlpR2im2ROpIprxYR3VEkzvxzB1tXJUk+53OE
+	AvAPVjx48Ayrj0bsYu9UVWHB46BYv17hbOMx76zKB6zQUVrPb4w0CXeGxEyk7w0afrGh7tzrUan
+	avyXTWChEMb+v9D+D+nGJBcZ1FuU5SXncGxRg3QubkgYLBiEFAR2vhr6XWwnLg7BTYEnmEowBqD
+	sMss0stYwue8xi8NcFxOCMSvXZ7K1iLGz5VHUfV9hf4cD6Qe4GDiM+KwHSSnsGOZhf419+15czr
+	WFV2E//C1PK8mLDdyoXH8miDO2MKXlVADsRNWQLT0iqqDLVqL0XRqWjHE6l5hQsbAqNqnipODCL
+	6YeEJNlRVFQQrR4pJRI5TUNkbsGWiyewT/cZZAXsDO4yjEXgyz7LpL0vqvb+0MwDtdRw=
+X-Received: by 2002:a05:693c:42d0:b0:361:167c:2364 with SMTP id
+ 5a478bee46e88-369e845a30emr342835eec.8.1792783969012; Fri, 23 Oct 2026
+ 12:32:49 -0700 (PDT)
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -93,103 +102,110 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] ipc/sem: remove obsolete SEMOPM fragmentation
- warning
-To: Yingjie Wang <x-professor@outlook.com>,
- Andrew Morton <akpm@linux-foundation.org>, Alexey Gladkov
- <legion@kernel.org>, "Eric W . Biederman" <ebiederm@xmission.com>
-Cc: Vasily Averin <vasily.averin@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt <shakeel.butt@linux.dev>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Michal Hocko <mhocko@suse.com>, Alejandro Colomar <alx@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-References: <cover.1792724953.git.x-professor@outlook.com>
- <cbd5dc183943d2177e5564f6e8ec92499836c7e5.1792724953.git.x-professor@outlook.com>
-Content-Language: en-US
-From: Manfred Spraul <manfred@colorfullife.com>
-In-Reply-To: <cbd5dc183943d2177e5564f6e8ec92499836c7e5.1792724953.git.x-professor@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+ <CAMdZqKEWzg6Z5oYp8N+S4rkOjUU7WT6jwbVDCAk3YN3ZdP7u+Q@mail.gmail.com> <atsrNyzuYebABZjH@debian>
+In-Reply-To: <atsrNyzuYebABZjH@debian>
+From: Mark Harris <mark.hsj@gmail.com>
+Date: Fri, 23 Oct 2026 12:32:37 -0700
+X-Gm-Features: AclHuK-drSngfQBjqKTSjynqFGlDS3ETiT-1AmaSWpf7YxDqofdMoDf5qwfcWfc
+Message-ID: <CAMdZqKH=pJUf4kvHNKaPMzdznajxS6EWTn2cXnTqT2ttjithbw@mail.gmail.com>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+To: Alejandro Colomar <alx+linux-man@kernel.org>
+Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
+	Christopher Bazley <chris.bazley.wg14@gmail.com>, Sam James <sam@gentoo.org>, 
+	"Carlos O'Donell" <carlos@redhat.com>, "Joseph S. Myers" <josmyers@redhat.com>, 
+	Martin Uecker <uecker@tugraz.at>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Yingjie,
-
-On 10/23/26 5:19 AM, Yingjie Wang wrote:
-> The UAPI comment advises keeping SEMOPM at or below 1000 because a larger
-> operation array may fail due to physical memory fragmentation.
+Alejandro Colomar wrote:
 >
-> Commit e4243b8062c1 ("ipc/sem: play nicer with large nsops allocations")
-> changed the operation array to kvmalloc() specifically to support larger
-> configured limits, with vmalloc fallback when a physically contiguous
-> allocation is unavailable.
+> Hi Mark,
 >
-> Replace the obsolete warning with a description of the compiled-in
-> default and the runtime sysctl.
+> > Date: 2026-10-22 15:03:37-0700
+> > From: Mark Harris <mark.hsj@gmail.com>
+> >
+> [...]
+> >
+> > The man pages are frequently used when seeing a call to an unfamiliar
+> > function, to understand what the function expects and what it is doing
+> > with those arguments.  The arguments in the call are matched to the
+> > synopsis by order, not by name, so for example a person questioning
+> > the first argument would naturally be looking at the first thing after
+> > the "(" to find out what is expected there.
+> >
+> > A person that is reading the description, where it refers to the
+> > arguments by name, needs to convert that name to the argument number
+> > in order to match it to the arguments in the actual call.  The natural
+> > way to do that is to count the argument names in the synopsis (at
+> > least those not preceded by an unterminated bracket or comment) and
+> > stop when that name is found.  For example if that is the first
+> > argument name after the "(" in the synopsis then it would be natural
+> > to conclude that it matches the first argument to the call, and not
+> > continue scanning to see if there is another occurrence of the same
+> > argument name.
 >
-> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
-> ---
->   include/uapi/linux/sem.h | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+> That's a valid concern, but most often the first argument will be of
+> a different and incompatible type (they tend to be pointers, which is
+> the reason we need the forward declaration in the first place), and thus
+> such a mistake in the understanding of the order of arguments will
+> result in a compiler error, which is a relatively mild problem.
+
+I am not talking about someone writing new code that they will then
+try to compile at some point, I am talking about someone trying to
+understand or debug existing code.
+
+For example, they may be looking for all code that writes to some
+particular data or performs some particular operation on it.  They see
+that a pointer to the data is passed to various functions, and then
+for any unfamiliar function they may quickly check the man page to
+determine whether they can rule out this call as unrelated.  Because C
+function calls use positional syntax but the man pages describe the
+function of the arguments using argument names, they will have to
+count the arguments in the synopsis, which will give them an argument
+name, and then they can search for the argument name in the
+description to find out what the function does with that argument.  If
+the counting is complicated they may end up with the wrong argument
+name and determine that the function does not perform any action of
+interest on this argument, resulting in failure to complete the task.
+Even long-time C users may be foiled by the forward declaration, but
+it is possible that the person does not even know C; perhaps they are
+calling into this C library from another language binding and are
+trying to debug what is happening.  The man pages should do what it
+can to help them, not throw monkey wrenches in their path.
+
 >
-> diff --git a/include/uapi/linux/sem.h b/include/uapi/linux/sem.h
-> index 75aa3b273cd99..cfd772f4c3396 100644
-> --- a/include/uapi/linux/sem.h
-> +++ b/include/uapi/linux/sem.h
-> @@ -71,16 +71,15 @@ struct  seminfo {
->    * The values has been chosen to be larger than necessary for any
->    * known configuration.
->    *
-> - * SEMOPM should not be increased beyond 1000, otherwise there is the
-> - * risk that semop()/semtimedop() fails due to kernel memory fragmentation when
-> - * allocating the sop array.
-> + * SEMOPM is the default maximum number of operations per semop() call. The
-> + * runtime limit can be changed through /proc/sys/kernel/sem.
->    */
->   
->   
->   #define SEMMNI  32000           /* <= IPCMNI  max # of semaphore identifiers */
->   #define SEMMSL  32000           /* <= INT_MAX max num of semaphores per id */
->   #define SEMMNS  (SEMMNI*SEMMSL) /* <= INT_MAX max # of semaphores in system */
-> -#define SEMOPM  500	        /* <= 1 000 max num of ops per semop call */
-> +#define SEMOPM  500	        /* default max num of ops per semop call */
->   #define SEMVMX  32767           /* <= 32767 semaphore maximum value */
->   #define SEMAEM  SEMVMX          /* adjust on exit max value */
->   
+> You didn't take into account my other concerns, though.  I'd like to
+> hear your opinion about the concerns that letting users think that is
+> valid C might lead to them writing code that has UB (or logic errors).
 
-I think there is a conceptual issue, but perhaps it is today not 
-relevant anymore:
+An error in thinking that this is valid C syntax doesn't impact anyone
+trying to understand existing code, so I don't see the concerns as
+comparable.
 
-The values in uapi/linux/{sem,shm,msg}.h can be adapted as needed: Just 
-change the values to what you need, compile a new kernel and you have a 
-suitable system, even without sysctl compiled in.
+If someone adds this in their own C code, and it has not been adopted
+as valid ISO C or as a compiler extension, then it is extremely likely
+to result in a compiler error.  If a likely compiler error was good
+enough for you when someone writes the arguments in the wrong order in
+their code due to confusion over the syntax, then I don't see why it
+wouldn't be satisfactory in this case where a compiler error is even
+more likely.  In both cases there is a chance that it will be accepted
+and do the wrong thing.
 
-Your change breaks this: SEMOPM is both the compiled in value, and the 
-implied limit when _ACCOUNT is used. If someone increases SEMOPM in the 
-header file - suddenly more unaccounted memory can be allocated.
-Perhaps there should be two defines: SEMOPM and e.g. SEMOPM_NOACCOUNT?
+ - Mark
 
-SEPMOPM_NOACCOUNT defined in ipc/sem.c, perhaps 500 or 1000.
-
-And SEMOPM remains in the uapi header file.
-
-Minor point: So far, the format of all limits is identical. Could we 
-keep this?
-
-#define VALUE 1234 /* <= 4321, due to whatever reason */
-
-Perhaps something like:
-
-> -#define SEMOPM  500            /* <= 1 000 max num of ops per semop 
-> call */
-> +#define SEMOPM  500            /* <= INT_MAX max num of ops per semop 
-> call */
 >
-Reviewed-By: Manfred Spraul <manfred@colorfullife.com>
---
-
-     Manfred
-
+> > So I agree with Michael that this change is a good one to make the man
+> > pages less confusing.  Thanks for creating the change.
+>
+> Thanks for your feedback!
+>
+> >
+> >  - Mark
+>
+>
+> Have a lovely day!
+> Alex
+>
+> --
+> <https://www.alejandro-colomar.es>
