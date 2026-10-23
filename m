@@ -1,54 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792779614;
-	b=tC9aetHlaXIZhX8Y089DpiML8M3CYxRRFn0mdxCY84/jZlV6X91bZ2c/KB/8p76GB5sw
-	 xO6vjT4zxlYs59lBOiGdM7WUSGalNLR9/ZWTR8TtbKVg2c3wGdaV/pFqAT2QpkP0BIsie
-	 /Fjc1vkfbaCbKgwio4qTYtqFtibZ43fFyGKeAn9TdO5gnvihsx6ciPQyrcrlCUoBUdLvs
-	 LyBz28o4lLqkP30tDQAWQWbdGjTnYTl4h4+oYu552d8RtXxoSmHnW9oIvEkLAns86t85N
-	 OUE1770qKRoXsHCL1JF19CLcb7+Cx/cSPx6BPL9+5XhBhOAe4nxP+eGCzpeV/1cj53Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792779614;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+LGdUUmT2RZIM9hZ0OG4oWjyardU5EWbZ5sdZyjD5PU=;
-	b=5lUNv/POa7BVpq9SZblDaQ66pvKwHmLK884w9qZs/0rWqSFmoES0g4lMrekG7BJpL9Qc
-	 pm6dG5rFJiD/B4UhnZtVeY7kmQhmP7u81lERuM3Vp8PzfHtawv23xnvUrlsa5bIF0NK8r
-	 2XeMiwqa0zJ+ft+e1XKNVOU6NuAi3bhUGb5r4aKCyKsxmoVHyOjpQctDeLM6trrccu47r
-	 tIJCeZRYGSMxSYDPvzA6eblF1rPD+Kp/xo3emb1K6jtHtdrdd7DYqtNoFi/K2gWrWQ+MO
-	 CLXRydLsdYbw69qaYNvbUX9JJGOyLAy4L1OTzWemb/iBOAkHsnjQZKkG/be2HiiseEg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AwfE1TF9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E379606A32A
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 18:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792781244;
+	b=XwItFoiHI6wxOPEbnbKpBMlhT6eGLMQF+9iwrNdz7yfwmUekJuo/p+niPLvQ6iukrHWg
+	 QQStfcZRkRA6V4xFX26+siu7MjxC6ei5Zdj99Ml8+c3DqZ5I5FTNVmt6qL8yfzNfhQAg6
+	 MMp345DCGrMt1R1Ykm+aoia/3GMrSagrv1tWlBrWfaI0VqWPuPyZMfl/9xnYpZHDgCsXk
+	 +gRLXQEI6/JfyMufHrfQUt30ifaCvnVEqodFMto2pcl81LSo55A04eKBVLMI8hFMkJ2U+
+	 L3tzoBzdOdtgSB2Qo4dOyVCPAs+Ag4/XLziXSMQU7qFwi7FWeciIg8+Jvfp74fdU28g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792781244;
+	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=lSd5p3Lrck0yXKOheKyRbzQXrCoEk02iPW8QK5ANw3o=;
+	b=H91d7v4lsEeuYQkEqUXcF29bIuuk9D7TTt9dpd/+eMODsPJf4HJj+3QLZtoc/9GUz1HI
+	 bpA+VZyHvdNpRKxJo82pPSuU6CpTDLYR9V74aX3Bpkv3skUlNWtKo36XvqkSJkVHaActI
+	 7a4wzlKpyYUYMLSMSr2b5GTD72kvt6vPQNX3aLDmhSwRRL4Tm61O8xffusGHR2hVk3ao8
+	 Xf4+kTAiJprMEK3YQCQK+LTUgRBiEHxVSmT/21nF4zeAilHN2UyyX2iZ0DzBXlgXwzwIT
+	 Q8d746N3ZCURnZVRwmWGtsk9Z9WcJQi4OpYvDRp+zUxmNROr7TcaSEVuKQnLI6wnJWQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b="diqAueB/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16482606A31A
+	for <linux-man.vger.kernel.org@localhost.mlmmj>; Fri, 23 Oct 2026 18:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AwfE1TF9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0EBD1F01825;
-	Fri, 23 Oct 2026 18:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792779613;
-	bh=+LGdUUmT2RZIM9hZ0OG4oWjyardU5EWbZ5sdZyjD5PU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AwfE1TF99jSV4vMdo1nJvVgahtkaDXZAlzyBbzjQyTFnLaktO/Fm1DF5fthmNnqU+
-	 6GNgkIJuj3y8A3a/z1KK9GIoq4wMJqpnEyyc/vIxzJea7t4DLZc/LJKR1y0O15cGPW
-	 XUNb5VqT3I+CrMs26qZV0FnHRIxZ6xGrQ9AQmDY4yXvE6pWT9xxlzL9W+FKcRamX0q
-	 MBqL1gT2/MhQeWCZbVOrBXEqGgiPxw3O/IW945LagjVDFfA83K3VIWNV5pdYAbLwX4
-	 LFP5ROzlFrHzyEoqGnSYDzThFxenRTqtO1Mn7N793/tLDj0So1Qr21bPPHuyeeSh4r
-	 Ej9jVxm+nffYw==
-Date: Fri, 23 Oct 2026 20:20:06 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>, 
-	samanthakumar <samanthakumar@google.com>, Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 1/8] man/man7/socket.7: SO_PEEK_OFF: This option is no
- longer specific to unix(7)
-Message-ID: <atulJkR7fAgyKhPP@debian>
-References: <20261021210800.27338-2-gnoack3000@gmail.com>
- <20261021210800.27338-3-gnoack3000@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=diqAueB/
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E127925771
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 18:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792781244; cv=none; b=JQ+ZHa5CQdCCNMQ4c5HpVTaFRBFYGwE8OmtxqeQMD++PDg5u10DZwkyI8VWAxdtM1CAabIbCR5x+3vzdtJbaiiGVuYNtkMJXXtta93oJLap6KFzgHiVyqSAG4OCH22F7ikNODrSxEeBn2aNKfy/AU7lA4JXK9FIBfwgGmi2mrts=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792781244; c=relaxed/simple;
+	bh=MhIID3X12y1+IOHp/7gDcYQLryOTsAfVALFHgCpCUgY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h/iE6OASKMVry3uwbY3/D5r+fIQLp9zzHdw8EbEf/jn0uMtS+kJClQybt1iIadWJNs1G3FdE5TBOBAKIyDtCkr8nSLX2GJzH75XAZIbrBSnr7smxAULF8byq90b1ZkjdZbuAQgrNELh+AfXnDcC19qqmh821/k6pdzK9Nv2p5BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=diqAueB/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 54980C2BCFA
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 18:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792781243;
+	bh=MhIID3X12y1+IOHp/7gDcYQLryOTsAfVALFHgCpCUgY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=diqAueB/QlrdUThIlrf5OoXEcL9DT2HMHmNfWKwhvCYV0aevJG37JKVYXNLoztd5R
+	 GX+zSfktPRgV2Mv6lx5FG1qJhq7H4cJgwiqA2gvmUBNQ7MPnIoMDTCro289fcwHMyY
+	 liH0WoyysqswpiCGK0DzRXAYdV7qRSGMG6H1N2OmfAkplFzfvpxY1J58wIK4B9kv9y
+	 /ETvEGQ1ELgcme4mHC7IrqJ0qdGD+K9YI11oWUlj3mb4dnl50EFXkwGmmUFaFcAOGz
+	 B3LXH5C/82av396Dmj7ySaU8UIyjpNN2Uy4rrOaMDCyE9opxY+tvIYIZVM0o4e3npN
+	 N5vlF6GzLKjOQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 35AE6C53BC7; Fri, 23 Oct 2026 18:47:23 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-man@vger.kernel.org
+Subject: [Bug 222094] sched_setattr: bug in `ERRORS` section w.r.t.
+ `attr.sched_flags contains a flag other than SCHED_FLAG_RESET_ON_FORK`
+Date: Fri, 23 Oct 2026 18:47:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: yaneurabeya@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-222094-11311-UQpYJ7FgQM@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222094-11311@https.bugzilla.kernel.org/>
+References: <bug-222094-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -58,130 +95,22 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3skh3jwfaojyitjc"
-Content-Disposition: inline
-In-Reply-To: <20261021210800.27338-3-gnoack3000@gmail.com>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222094
 
---3skh3jwfaojyitjc
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>, 
-	samanthakumar <samanthakumar@google.com>, Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH 1/8] man/man7/socket.7: SO_PEEK_OFF: This option is no
- longer specific to unix(7)
-Message-ID: <atulJkR7fAgyKhPP@debian>
-References: <20261021210800.27338-2-gnoack3000@gmail.com>
- <20261021210800.27338-3-gnoack3000@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20261021210800.27338-3-gnoack3000@gmail.com>
+--- Comment #2 from Enji Cooper (yaneurabeya@gmail.com) ---
+Created attachment 311258
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311258&action=3Dedit
+Patch
 
-Hi,
-
-> Date: 2026-10-21 23:07:53+0200
-> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
->
-> The option is implemented through proto_ops->set_peek_off, which is
-> nowadays also set for UDP and TCP sockets:
->=20
-> 	linux.git 627d2d6b5500 (2016-04-05; "udp: enable MSG_PEEK at non-zero of=
-fset")
-> 		Linux 4.7, UDP over IPv4 and IPv6
-> 	linux.git 05ea491641d3 (2024-04-11; "tcp: add support for SO_PEEK_OFF so=
-cket option")
-> 		Linux 6.10, TCP over IPv4
-> 	linux.git be9a4fb831b8 (2024-08-29; "tcp: add SO_PEEK_OFF socket option =
-tor TCPv6")
-> 		Linux 6.12, TCP over IPv6
->=20
-> Cc: Jon Maloy <jmaloy@redhat.com>
-> Cc: samanthakumar <samanthakumar@google.com>
-> Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> Assisted-by: LLM
-> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
-
-Reviewed-by: Alejandro Colomar <alx@kernel.org>
-
-> ---
->=20
-> Notes:
->     Double checked in code -- this feature has been added to these other
->     protocols since that man page section was written; I made sure that we
->     have all relevant commits listed as comments in the man page source.
-
-Actually, I prefer them in the commit message.  These days of git(1),
-the comments in the source code are less useful and more noise.
-
-
-Cheers,
-Alex
-
->=20
->  man/man7/socket.7 | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
->=20
-> diff --git a/man/man7/socket.7 b/man/man7/socket.7
-> index 96f6f173a40b..ebe0264d7ae4 100644
-> --- a/man/man7/socket.7
-> +++ b/man/man7/socket.7
-> @@ -662,14 +662,24 @@ For more information, see
->  .TP
->  .BR SO_PEEK_OFF " (since Linux 3.4)"
->  .\" commit ef64a54f6e558155b4f149bb10666b9e914b6c54
-> -This option, which is currently supported only for
-> -.BR unix (7)
-> -sockets, sets the value of the "peek offset" for the
-> +This option sets the value of the "peek offset" for the
->  .BR recv (2)
->  system call when used with
->  .B MSG_PEEK
->  flag.
->  .IP
-> +This option is supported for
-> +.\" commit f55bb7f9cb82dec2f2e803d7bd0fc5929248e4d8
-> +.BR unix (7)
-> +sockets since Linux 3.4,
-> +.\" commit 627d2d6b550094d88f9e518e15967e7bf906ebbf
-> +for UDP sockets since Linux 4.7,
-> +and for TCP sockets since
-> +.\" commit 05ea491641d338422edbd87af3b311c16ea762f5
-> +Linux 6.10 (IPv4) and
-> +.\" commit be9a4fb831b8b6dc5724dd3e61973ea91b413ec1
-> +Linux 6.12 (IPv6).
-> +.IP
->  When this option is set to a negative value
->  (it is set to \-1 for all new sockets),
->  traditional behavior is provided:
-> --=20
-> 2.56.0
->=20
->=20
+I've honestly never submitted a patch to the Linux mailing lists. There are=
+ a
+lot of hoops to jump through in order to make a contribution... I'll try, b=
+ut
+please bear with me (I'll probably get something wrong).
 
 --=20
-<https://www.alejandro-colomar.es>
+You may reply to this email to add a comment.
 
---3skh3jwfaojyitjc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbpVUACgkQ64mZXMKQ
-wqmRFBAAu2rPOrssCgnwr1HHu0ogYxkDYSh/mvJ/euM46fxTmvhroVG4VMSB2WoT
-LpuECfzP7Kp56wIXgqB4ocy9VKy57xYsHDxZORvMyMSLqt0+AsO3zvTTPEnGRSEB
-QXA357LTcF6J11puDvUnrdqIIjpGvUHtt+lRXpHzk3kdzYObBdvIABK2Akv2Lmhp
-+XpNh0cHKmMTLQoq4d4jODn8kMs5UW7i5frbAMgdKtKYWszRLqGAAacS5KKoVXXy
-WJZsGjtnO0c2RDdPIDiSMf/jiOhx59n2kZmlRogiCOs39H2ztUuuUCXij8tANMar
-c7ZKBm69tnzqxdbzYqwOogXDz8a1if/U1FLZAzW0NpsPzL3HxpVMHqhIjfvDmYoW
-6nt7EBdc9qylbmR5jTmSkILaXPygbGjq8DtDdZLxJso6nhSpZuTj1lWk3UuDPXOk
-NX99o0UTm7Ip/yBN0iejFPLzkN++HIjHqlPyDf1/Z2d9wrrJ+NkRPrp2WqTVVGu/
-1utmPDJCxf4grz8JBw0IrBJjjverjq2R+byLlF5pZCLhqcsANMIQwcGCvfiPRJFr
-A+EroPYByl1YBlXldL88Y5IrH+XdTZuRXxZKRHmPB7BvfPRqvCWa8Axz4uNwkpC9
-c84beh7dUWLbOftQ0cypZo4Q06CXgLQCt9Jou01yYBlqMbTBQQ4=
-=z0jT
------END PGP SIGNATURE-----
-
---3skh3jwfaojyitjc--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
