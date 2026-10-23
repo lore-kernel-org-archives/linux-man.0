@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790219;
-	b=orJQMBEfOCAk2+AN6IGkhxn5BzQAwoywkccQ0JshcWlgAj7A2x1Mh64auCmM6QT2i9u6
-	 XGF4oscdwFLGZvi9cglqRhYyroJQQE25R8CPKi8bZYsRN+ri+fLiHxSF/IXA+1O6wzaoX
-	 K0tYLY/s5kX/Z4o41pdglN7Ek9msy6nNw59Fkm3oGLRKa4qvxjo5qN9tMJiqh+ziY0Ee6
-	 8SB+LLy9H8+PoiyecKX0rQ0K6PjfGcalRg1c/ImyaRDnVZywICvOScJQ0HC77x4aWArmc
-	 zjFF+ktZayoI9dokQI9FjqGnqoB9mGEURa4BN/FqldTee6IVJNVO6IgtHb8+slIaFBg==
+	t=1792791256;
+	b=2Ez6P0Y3ccpJiO0APMGI+tugiVSdaBwrxqLUmbJsb/Jd9S8jddZvkU54iWmv5ZQdmIvQ
+	 1iIC52pqRCJI5aMbu2FYCiF67npeF515jQLYqSLgHf5F5T6jF0Oyev98njiTAcr5NtplQ
+	 K/0fy7rtU0jFAGyd7rrRyBk1YTS8aeGMy+SyDW+nKFgNJlc/H/Y/rN3Ps9qjzSPZN6vei
+	 Xzk3hqPWeRVpmXS5VMxauUDH1a4sEJVSkmGj5m8EQdVWU9SqQviRzY5fhqB6oQ9iX+p28
+	 zvYBKJSkyAGNbAQM/1wtQ7gDccJH7Bavfhegzyk8uZjQyNVAvjo72ljVgZ5S4c1I3Ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792791256;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fxXldqq+GWPD91f081UvhpgeNpUWDrVZUmJK4bdOOtQ=;
-	b=lpcnNwDFFBCi9oRwdjgsI4HhFKpDZ8zrNUubEob3bZBOgkciqb6i0g5RPwAQ0Q2IY6O+
-	 nOuhlc6xAzO1Ya4xlhbgo8ggtL+IQcK87uh+2/bs+stbeGnYNJcm2E5MK4CuY9RwzGufx
-	 L1OhTOCGLS7BB2o2jvIsd5wuw7i2jptCWRGZdWMi6qyOnBlkyqPIMySOCzj4WRU8CBJcP
-	 vsPpMBvH1fNchIG6xQ7d3h4POz0oZpwHUnNZLWCpIXkaHeiIXofbAOr1HdyoOxsAUWSuq
-	 WL9TmyEpP1SL8YypduTi3TmDqFyGikqelHisOBMqFM+s2oOr1XleTdPVxnzV0DUTInA==
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=6LioklxZeABrQAXf3kbgcx1kuNvup4gzzJznQaY1png=;
+	b=dGdg/7Le/qv/ak/OrU61hAes/+Ac24pm0PobZToJq/J1vBh8rZ7WSB5SAnmA4oVGOKzS
+	 DiLGCPgh3wcnRMRb0NtoP/Svfo1w7bRbNMRqxk9bSZVyxSRJRL3ncZGEqFwJxGvLlGj5c
+	 UM6leARfIkliwynhbORzN+J2dai+x4Qr5ZEE4Xj0L/eF1JTXyhUmTPpybahprtOho74vN
+	 n1I7P6hPGk9mBqEYZ7xAfu+XRFX9ZSRLthhKj4xFbvjrJBDxaq/t31rE64MqJQkcha3FT
+	 VskBzV00dSQDpOVphTMgHb18PkrkELrThKDm9Ogcq1QO5HNnT8sYVhSnwU9LSOu6vBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fT5RaOzr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z3QfEoWK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88DD606A31B
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 21:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC06606A31A
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 21:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fT5RaOzr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B269E1F01825;
-	Fri, 23 Oct 2026 21:16:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z3QfEoWK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5A91F01828;
+	Fri, 23 Oct 2026 21:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792790218;
-	bh=fxXldqq+GWPD91f081UvhpgeNpUWDrVZUmJK4bdOOtQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fT5RaOzrqEhMMwLgqVw/i+RXchtEF+VbL6H4t46AkrC3CQjbtf3lNn+dUfM2lLUdj
-	 12qTZkyFQQ2S1i1yN33rzJVMpV8I6h+/TwFc2H06/ep/DsswVe2LuqAm38NHKan62b
-	 1mRU0leip7UNr9LiOX7Q4q/NBaR3+qFkJ+Cbyv5b03J26DUehANuM62UNgg9oGygKK
-	 I/XRupkXA36zgYxkZILqrYefHpKXipfW76XsmcNgsK3gOB7arRHYwgOJNiMdp9+pgm
-	 uEMp3QnqphpQX25xM20hDrlsxquKL3//BsaD6gtsCzLDdVM2V/h1gCa8B8KGGFaleP
-	 h/KiRy926S52Q==
-Date: Fri, 23 Oct 2026 23:16:51 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Hugo Buddelmeijer <hugo@buddelmeijer.nl>, linux-man@vger.kernel.org
-Subject: Re: table layout in console_codes.4 (was: `make -R check` fails due
- to futex_waitv.2 and console_codes.4 being too wide)
-Message-ID: <atvMKTY2CzXxDiGY@debian>
-References: <atZJ7QGljZ4K50wD@debian>
- <1e4d35e5-f8af-402b-9cdb-46a70f793b96@buddelmeijer.nl>
- <20261019224145.aovalqyh2fpcdzdk@illithid>
- <atugtpm0SfMnnTYj@debian>
- <20261023203216.mfhfyadcesawur55@illithid>
+	s=k20260515; t=1792791255;
+	bh=6LioklxZeABrQAXf3kbgcx1kuNvup4gzzJznQaY1png=;
+	h=Date:From:To:Cc:Subject;
+	b=Z3QfEoWKcPQGcT0HujZAkBOaiv3IxTEvKnyOy869aiPV0Sb+XqL1P0Ihq1L+SRxQO
+	 58Ej4xCQRdAexgDQzKnl4c0X5k8oqaC+LtC3B8BHl/NwBMgSaKLcNwHFLVXJGXE2rV
+	 uHyI55LrezqQ0ar9JneDisO1XdQL8irzkIodlAFo2AIrFcyLm1YYv4jf91Of5ZYj3N
+	 JqtcQBOP6jLgBUs37Vl8IH1I35npisXivuRw3z8RrCdnVLXsZM+XZXT59mkcQGTpQR
+	 om3SFSdHaPHcY7WJqn70e2QLpvvhxJyoRLgnpE+nYC7VKJIKCZJtxLjfftpYNo8nz6
+	 1lopmkT9zr5tg==
+Date: Fri, 23 Oct 2026 23:34:03 +0200
+From: Alejandro Colomar <alx+gcc@kernel.org>
+To: gcc@gcc.gnu.org
+Cc: Mark Harris <mark.hsj@gmail.com>, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
+	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, linux-man@vger.kernel.org
+Subject: -Wshadow=retroactive-parameter
+Message-ID: <atvQDqWEqDAERpY5@debian>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -61,308 +61,101 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6e3cl3q3wny5ll6k"
+	protocol="application/pgp-signature"; boundary="t3whwoicy3bbveju"
 Content-Disposition: inline
-In-Reply-To: <20261023203216.mfhfyadcesawur55@illithid>
 
 
---6e3cl3q3wny5ll6k
+--t3whwoicy3bbveju
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Hugo Buddelmeijer <hugo@buddelmeijer.nl>, linux-man@vger.kernel.org
-Subject: Re: table layout in console_codes.4 (was: `make -R check` fails due
- to futex_waitv.2 and console_codes.4 being too wide)
-Message-ID: <atvMKTY2CzXxDiGY@debian>
-References: <atZJ7QGljZ4K50wD@debian>
- <1e4d35e5-f8af-402b-9cdb-46a70f793b96@buddelmeijer.nl>
- <20261019224145.aovalqyh2fpcdzdk@illithid>
- <atugtpm0SfMnnTYj@debian>
- <20261023203216.mfhfyadcesawur55@illithid>
+From: Alejandro Colomar <alx+gcc@kernel.org>
+To: gcc@gcc.gnu.org
+Cc: Mark Harris <mark.hsj@gmail.com>, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
+	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, linux-man@vger.kernel.org
+Subject: -Wshadow=retroactive-parameter
+Message-ID: <atvQDqWEqDAERpY5@debian>
 MIME-Version: 1.0
-In-Reply-To: <20261023203216.mfhfyadcesawur55@illithid>
 
-Hi Branden,
+Hi!
 
-> Date: 2026-10-23 15:32:16-0500
-> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
->
-[...]
->=20
-> > > > I'd love a formal patch, especially with a good commit message.
-> > > > :)
-> > >=20
-> > > I'm sure.  But I'm dealing with yet another late-release-cycle fire
-> > > drill in groff right now, unfortunately.
-> >=20
-> > I'm patient.  MR.sed made me learn.  :p
->=20
-> I learned from it too.
->=20
-> Some news on that front.  Would you be willing to stage the roll-out
-> of this transition?
+I'm worried about some proposal going on in the C Committee at the
+moment, and which I've also received for the manual pages.
 
-Certainly!  One major problem from your script was that it was huge and
-difficult to understand.  Partial scripts will be significantly simpler.
+Some people would like manual pages to use retroactive declarations of
+parameters.  I fear that would cause all kinds of bugs if programmers
+see that syntax and believe it's valid and has the intuitive meaning,
+but then compile it and get behavior that might not be what they want.
 
->  The syscalls(2) page is what broke us before--you
-> wanted extensive annotations to my sed scripts.
+In particular, I'm worried that this might happen rather often in the
+near future:
 
-Actually, I would have preferred a pipeline of one-liner commands,
-without having to be a sed(1) expert to understand it.  Something like
-the implementation of sortman(1) would be great.
+	alx@debian:~/tmp$ cat param.c=20
+	int
+	main(void)
+	{
+		int n =3D 42;
 
->  (Not unreasonable, but
-> demanding of further effort on my part.)  The rest seemed easy.  Maybe
-> if we can migrate:
->=20
-> 1.  everything but syscalls(2) first; then
+		int f(char a[n], int n)
+		{
+			return _Countof(a);
+		}
 
-Sure; as long as the commit message says something like "we're leaving
-syscalls(2) --and only syscalls(2)-- out of this transition, because
-it's way more complex than the rest", I'd take it.
+		char s[] =3D "foo";
 
-> 2.  migrate syscalls(2) in multiple passes, each of 1 sed script, each
->     showing no change in the formatting of rendered text.
+		return f(s, _Countof(s));
+	}
+	alx@debian:~/tmp$ /opt/local/gnu/gcc/cap/bin/gcc -Wall -Wextra param.c=20
+	param.c: In function =E2=80=98f=E2=80=99:
+	param.c:6:30: warning: unused parameter =E2=80=98n=E2=80=99 [-Wunused-para=
+meter]
+	    6 |         int f(char a[n], int n)
+	      |                          ~~~~^
+	alx@debian:~/tmp$ ./a.out; echo $?
+	42
 
-Yup.
+I would be interested in having a new subflag
+-Wshadow=3Dretroactive-parameter, which triggers when a parameter is
+shadowing a previous variable and that variable has been used previously
+in the same parameter declaration list in which the shadowing parameter
+is being declared (but before the shadowing occurs).
 
-> I think users and readers will enjoy (and could have been enjoying) a
-> major benefit to their man page browsing experience even with only step
-> 1 done.  Now that GNU less has its own OSC 8 interpreter and
-> appropriately equipped versions are making it into distributions, the
-> power of man page hyperlinking is easy to see.  Literally, even, with
-> even more recent changes to apply underlining to hyperlinked character
-> cells.  The latest version of less, v712, released this past week, even
-> defaults to "less -R".[0]  A future I dreamed of in 2018 is finally
-> arriving.
->=20
-> In other news, Oracle finally did a thing I once thought they had done
-> in Solaris 11, then had to correct my understanding about, and then had
-> to re-correct myself again.
->=20
-> About 2=C2=BD years ago, in SRU66 (a kind of service pack), an update to
-> Solaris 11.4, Oracle completely discarded their AT&T System V troff.
-> It's _gone_.  What replaced it?  groff 1.23.0--which supports groff
-> man's `MR` macro.[1]
+This should be part of -Wextra (at least), as it's rather dangerous, and
+shouldn't break any existing code (if it triggers, the code is likely
+bad).
 
-Wow!  :-)
-
->=20
-> They kept some auxiliary stuff like checkeq(1) and checkmm(1) (neither
-> of which GNU eqn or groff mm need, since they internally implement more
-> generous diagnostics than their AT&T implementations).  And they
-> implemented a bunch of wrappers to force preconv(1) into execution
-> pipelines.
->=20
-> So between groff >=3D 1.23.0 and, well, the _next_ release of mandoc(1)--
-> any day now, it's to be hoped--support for `MR` will be nearly
-> universal.
-
-Very please CC Ingo in that patch.  :)
-
-> I didn't ever expect mandoc's release cadence to become slower than
-> groff's!
-
-Heh!
-
-> > > And on second thought it occurs to me that you may not want that
-> > > column in the table after all, since they are all *roff comments
-> > > intended (I think) only for inspection by the document maintainer,
-> > > not by the reader.  In that case what you want to do is not add a
-> > > column, but stop supplying excess table entries--in other words,
-> > > discard the tab character before the `\"` comment escape sequence.
-> >=20
-> > Yes, and no.
-> >=20
-> > > diff --git a/man/man3/matherr.3 b/man/man3/matherr.3
-> > > index 2e179e358..8711ee3cd 100644
-> > > --- a/man/man3/matherr.3
-> > > +++ b/man/man3/matherr.3
-> > > @@ -200,9 +200,9 @@ .SS Math functions that employ matherr()
-> > >  acos(|x|>1)    DOMAIN  HUGE    y       EDOM
-> > >  asin(|x|>1)    DOMAIN  HUGE    y       EDOM
-> > >  atan2(0,0)     DOMAIN  HUGE    y       EDOM
-> > > -acosh(x<1)     DOMAIN  NAN     y       EDOM    \" retval is 0.0/0.0
-> > > -atanh(|x|>1)   DOMAIN  NAN     y       EDOM    \" retval is 0.0/0.0
-> > > -atanh(|x|=3D=3D1)  SING    (x>0.0)?        y       EDOM    \" retval=
- is x/0.0
-> > > +acosh(x<1)     DOMAIN  NAN     y       EDOM\" retval is 0.0/0.0
-> > > +atanh(|x|>1)   DOMAIN  NAN     y       EDOM\" retval is 0.0/0.0
-> > > +atanh(|x|=3D=3D1)  SING    (x>0.0)?        y       EDOM\" retval is =
-x/0.0
-> >=20
-> > It was certainly more readable with the tab.  Would a couple of spaces
-> > be okay?  Or will they produce spurious space too that might fail?
->=20
-> The problem is that you'll still have a comment escape sequence in a
-> table entry.  Since groff 1.24.0, GNU tbl warns about that (unless the
-> comment escape sequence occurs in a text block, where these escape
-> sequenced don't cause problems).  Unfortunately groff 1.24.x produce an
-> extra warning diagnostic in this case that is not helpful.  I just
-> discovered that while composing this email and have scheduled a fix for
-> groff 1.25.0.[2]
-
-We can wait for 1.25.0.
-
-> $ ./build/test-groff -tz -W style -m an -T utf8 ../man-pages/man3/matherr=
-=2E3
-> tbl:../man-pages/man3/matherr.3:240: warning: comment escape sequence '\"=
-' in entry "EDOM\" different from log()"
-> tbl:../man-pages/man3/matherr.3:241: warning: comment escape sequence '\"=
-' in entry "EDOM\" different from log()"
-> tbl:../man-pages/man3/matherr.3:248: warning: comment escape sequence '\"=
-' in entry "EDOM\" +0 and -0"
-> troff:../man-pages/man3/matherr.3:203: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:204: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:205: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:240: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:241: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:248: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> troff:../man-pages/man3/matherr.3:256: warning: missing closing delimiter=
- in width computation escape sequence; expected special character or class =
-'tbl', got a newline [-w delim]
-> ../man-pages/man3/matherr.3:199: warning: table wider than line length mi=
-nus indentation
->=20
-> The riot of delimiter warnings is the havoc that use of a comment escape
-> sequence in a (non-text-block) table entry creates.
->=20
-> I added that warning in groff 1.24.0 because without it, a user is
-> unlikely to comprehend what is supposed to be wrong with their table.
->=20
-> Or they would have been uncomprehending, had they enabled warnings in
-> category "delim", which were not on by default.  In groff 1.25.0, they
-> will be.
-
-I trust you to send me your best patch, because I don't know what to do
-with it.  If you think the best thing is to juts remove the tabs, I
-guess I could live with it.
-
->=20
-> > [...]
-> > >=20
-> > > (Also attached.)
-> > >=20
-> > > If the foregoing looks ugly, bear in mind that you're wandering a
-> > > bit off the path with these comments.
-> > >=20
-> > > tbl(1):
-> > > Limitations
-> > >      Within a tbl region (except in text blocks or on roff control
-> > >      lines), avoid escape sequences that read the rest of the input
-> > >      line, as \" and \! do.
-> >=20
-> > Hmmm.
->=20
-> This is a consequence of how tbl works.  It generates *roff `\w` escape
-> sequences bracketing the table entry contents so that the formatter can
-> compute their rendered widths.  Without font metrics, tbl cannot do that
-> itself.
->=20
-> My recommendation is to move these "inline" comments to precede what
-> they document.
->=20
-> -acosh(x<1)     DOMAIN  NAN     y       EDOM    \" retval is 0.0/0.0
-> +.\" retval is 0.0/0.0
-> +acosh(x<1)     DOMAIN  NAN     y       EDOM
-
-Not a fan of this.  Maybe just remove the tabs.  Or maybe we want to
-print these in the table as a new column?
-
-> > > > > I was able to get a complete, successful check with the
-> > > > > following command.
-> > > > >=20
-> > > > > $ make -R check NROFF_LINE_LENGTH=3D80 NROFFFLAGS=3D-Wstyle
-> > > >=20
-> > > > Thanks!  Would you mind sending a formal patch set?  =3D)
-> > >=20
-> > > I'll need a reminder when I feel less swamped (after groff 1.25.0,
-> > > likely), or someone else can steal my fixes.  :)
-> >=20
-> > Okay.  Do you have an estimate of when I should poke you?  As in maybe
-> > one month or two?
->=20
-> Say, two weeks after groff 1.25.0 final, which I'll announce here as
-> usual.  By then I should know if the release was a triumph, a disaster
-> (and therefore will be keeping me busy), or met with the usual stony
-> indifference.
-
-Ok.
-
-> > > Yeah, I wouldn't want to fool with it before it lands in an official
-> > > release, either.  But this _does_ mean that the Linux man-pages
-> > > documents will appear to "regress" suddenly when the host system
-> > > upgrades to groff 1.25.0, because you use `-ww` to turn on all
-> > > warnings.
-> >=20
-> > If you're willing to spend some time on helping me address the
-> > diagnostics by improving the pages, that's fine.  :)
->=20
-> I don't doubt it.  I have a lot of irons in man page fires!
-
-:-)
+This would remove my concerns about it.
 
 
 Have a lovely night!
 Alex
 
->=20
-> Regards,
-> Branden
->=20
-> [0] https://github.com/gwsw/less/commit/7f46e9ff46216f3e560cd1f41ddf3b36b=
-11eec0e
-> [1] https://blogs.oracle.com/solaris/whats-new-in-oracle-solaris-114-sru-=
-66
->=20
->     That blog entry doesn't make any _note_ of this change, but it's
->     there.  I have been able to examine it at cfarm.net.
->=20
->     Also, there's this evidence:
->=20
->     http://pkg.oracle.com/solaris/release/en/search.shtml?token=3Dgroff&a=
-ction=3DSearch
->=20
-> [2] https://savannah.gnu.org/bugs/?68825
-
-
-
 --=20
 <https://www.alejandro-colomar.es>
 
---6e3cl3q3wny5ll6k
+--t3whwoicy3bbveju
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbzr0ACgkQ64mZXMKQ
-wqnxQxAArka6UjZCl8P7+bBKvlKoJSdP3FDmZ5VbBdWWVFsnHNvRr5jN376FIk1/
-Xf8bf29sns1lJLd5kh421pX8i5OTmurX02381xsM444OGtkl4mvzfFDwduEe2WSH
-fnpCPGXhD6O9w8tDVtLHaL15SDGV1VzTfCkc/wmvDXCL8vKPGn5FUHZ39Tiumm1Q
-69O7QEiYfWqBy0/YzlHyw3mM1ypd03Z7iYI75eKL2vgcgYrxaTBw6y1g9ABQ7Y5U
-/Sp0hHGQw9Ld+nMn3dUeCF9ylsNwBnuvbpkQUAZps9IsQDmBOBbS70HWt+po7NYZ
-8+SHDORCmmyhvsIRtfzD9iWVBVDIlAFMcFIWOnixA/+k2JOJKuVUSdzQVZmcgJk+
-uitGqMzOq5PP3+Unl8Sw8FWOmMHg+WaER+tXMhtEzHkrudm0b0XL+QhHU/ygk6NI
-1W4ahg5aKvH167YsGyK4FhSRdsTuLjexOGhPflIZcewQzdUbiImCmROMAIgWbjDl
-OR0ZsuxhcdtfrjlR1kxjJ7A2OH35stvdKQntA7abUE4LXqyixvQy5Oo+0JABY8/6
-rFTztwsXwwyUUZt73ECd+wS/5aX1YaNWQX4CvbA63xkhF5r9WIcEUBK53SPM77+S
-sgitBW5I1deF6zgyd3LgRh3CUe9TbkLxV4PZEthLeGhNAnhBI08=
-=vHLe
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrb0sQACgkQ64mZXMKQ
+wqn3AQ//RYpIh5eUGLkTTkzDX6bbfNpl9k81LKQUB5ukOVSvaYCdS8W4yWQbCNfd
+tjqiZm7h0UQ8iuEmhzswgCg6qTmsCehYiXQ8kQNri+0IsST+lfOWuw60e1xl+YhP
+KgXTTfsw4gleEbr1i6g8jjL6lcT5aBROzc7EFrCj9OZtE+d5E6gBGFnYAl8pgyHz
+kZ2/VxIcY18EU4kA7j9Txx1RHodARSQxaA80vjS2upBSCi/xcbkWJh+AWIJ9kfVW
+1qkTrG2t4gTchbgJaRE8jSfq4/45xjci2uN/iOA7WFUJ9cavqXjtRekb5zDIxeZv
+FA5VxE4fKeoZBlYTSc3/Ks/dWiesIwrxa5h60+b2C83tmTAeeEVxG+JYM4RIonZu
+3QNqcToydc9w9LPaL3ep2UwvcxgvHlbJBHLutOWTmWhX1oNTrqcU3D7yj333nzWr
+Te0vOKTyBQzBWBEneraab42fej+1L/84+2M4eoWf79b/i40aY0k/FkRziJjHiWQE
+23jm88+vczGaxKlDTeaVxn6G2re6U+eOp9h3zUfDxqrMsFsl3MIBn19gZbcVObHP
+HUuG5ggjNWA8vJ7O9ZHhOyqT+mvXaSu/242uyBmSXCl5MxUo1Ncz0f4bRJk5PpSw
+/zf/KqAAZ2f9m7FupY5Z9fua3qOzIKc72+6Q+n/ad05XUwPXJS4=
+=3g6O
 -----END PGP SIGNATURE-----
 
---6e3cl3q3wny5ll6k--
+--t3whwoicy3bbveju--
