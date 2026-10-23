@@ -1,88 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792768338;
-	b=FdQ1qaoHhIupDQ0x/2P1EUwWq+Cd4syXtvrvmun0dzwR5vdA54mnxYnBDsoOq7I1rJ8X
-	 Yol3xUnHXxNt6o373Aq3LbZrxL4BLCHDgmfpDNlUjn6s+0uk+HifLjyvqGzOEG0AKA4CL
-	 fIobklH9zyZOaR6GTgFcJIj/XwoUOWahsd+/MVte9Vw4Gf/zb1Yvfi3xIBgS/467w6KUU
-	 N9aBoC2RL/I7SuMTK9yMA2xHwz7tasfSjum4KOQq6/pwZ620RV5QTu66lMBZ8AYJ832sS
-	 HIq+KA+mh34AhOgTZLx5aEvggOvEtU95IlNFkLZOTwpeqMEXilH4qCr7RtE1mWCZgGw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792768338;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792770719;
+	b=Ur6I0V4NzZOAjVmVCDxuRQgtm10KSRgEbrEH01t0LwhDkIvzMQusf2nUd3cJRHGDc9bm
+	 bNHhIVolG+XjmmOtuhsvcZqcOpngyRODhFA34+nkNQ5D1c82f4Gs0lk77SWwxvhZk8h7+
+	 fLg9V/AeBQYXL0iVAnu0wU9YoTxx6V7ch/6/x8T85mi5IMxlV7s8gd904JlgHDxkzkjrf
+	 vTcC4jZ6crokpM8+G1tijqsOrVznts5j7qo/DrAfztUxXcIU08Gl0eOvMPZaZNO+yrC8c
+	 TadJAeSncPmhErYpeMgNqE6p6fyDyq/uRKcFrvSX/sZnB7BVn3/6OTDgFx8oJGO0NqQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792770719;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Content-Type:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:In-Reply-To;
-	bh=/nChdOq/b/gyYFhyjIipIGWStlUHbMLmpH6JMhnlOpM=;
-	b=bDd4jOpxa6UBzn0MNc3hPDZ+WC5dO2n18mCOH1bD1nleB5QzUhQTNBEfGbyrXz6X7I8t
-	 uENSWK9Djvn+3PK2LCaGT/b+auYhX+3Ybkvs3ThnbhFZcIypmzRvTSh1RM7F6tf8cbVJ4
-	 gf/ckyrwmmBiD+EIGAu4TmvkypNYs+NCkqSzGei5+/6uD+V5JTcMZQiPbm/IBXLc87TOK
-	 DGQSOoWKK7f9FFzXcjmxIZnOqMGAFi4gmoV+K0SilnlEBY5aapAtv3la7fU/AoztR46bv
-	 6SIfO8UtkBN9oXGwxydxXUr3XmCLakwm6LYRY3UxFmEgL47W5LTvECpZ5Jc9MEme+Dg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=colorfullife.com;
-	spf=pass smtp.mailfrom=colorfullife.com;
-	dkim=pass header.d=colorfullife-com.20251104.gappssmtp.com header.i=@colorfullife-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=XFQA8qEt;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=BVELYFhUkQg6E+aLDDF2h1iCF+DMetiL5pwlMqqw4pM=;
+	b=c/PvR9ffN9fZSVovhgDisy100tyQdS8/0H1TBNSk7iDne7vYyyaEJdHI8QYPqudR5vZN
+	 Eo/Zam2e8tblTbA1COtMk6AP7SZBiMbLizolPF8/9g491/YX9TTrYVgYLROLjcn6NWHfl
+	 /R8rmlAAPrUiRlkD9cll8LKkPmH9bX+yRmfdL2jRTJPDRo2JdtqBhAN2GYBMrCSnOyV+3
+	 ngCmCBQlQAu0ghmJ3eJTN9LE8znkQA4OUy3WC8JA8PAnnM60Cmrelhqkwh0iJTkW2iYse
+	 EEyd7t8yaIs2fuUKfWKorfBr94MSeykbyJxQL1Lx4FQ/8DjcH0wqXInSZYMsW0V6DHg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PKWOfr4t;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CC7606A321
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 15:12:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1CC7606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=colorfullife.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=colorfullife.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E65606A31A
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 15:51:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4E65606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=colorfullife-com.20251104.gappssmtp.com header.i=@colorfullife-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=XFQA8qEt
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48b060ec084so668077f8f.0
-        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 08:12:17 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PKWOfr4t
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-35f1f76ea84so1654925eec.1
+        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 08:51:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792770718; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qU2Nv8sP+FwdCOjRHDVck2F2l6/tsOjAGNGCntrHjqbozNkzblOVvpAv7uWtPXYocC
+         C7YMf/j/fZ2NntZsKAeL9scSTNXhmwcekgw80jX1ImMP9yAkLFwKKMHbnXvkHyVbapWH
+         kGWSsD5mlTf8qsOxOd1GWxGzWiWIXAUXUt3IcEEW0lGSfumO9QEA/WaRyRi3s3NMdClq
+         N6cXoDVyb2HlMUNZWWuahbe1lCtvEQO91POkYG67pYvUCkrCQCyMlauPg0ArDNIoGAcS
+         4ecQ3rJI7QTR2Ahewel3WzArtGzIxCUhUhvv9cAGmM5FV1N+/PJjNwiwP1b5UoJm7c3H
+         +paw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BVELYFhUkQg6E+aLDDF2h1iCF+DMetiL5pwlMqqw4pM=;
+        fh=fwBIJRhdiScjxrPLIqxBOwyGAuI4fvJCJ1qkMiM1IeE=;
+        b=I7JNxXT6tW7BUouMiLrtJ08TkTC8II/W263dItJyYQlME68H6UulR34Gsu4FWV039G
+         ybrptlSKkXX4ovr7N1E5BK71RtXZ9995H4Mpiq+ny8vkhwE077B2JQNoazLxHgKYBxco
+         qPgIVf65bGoauGssDY2uCEmphh8XVOGqhqsnEOMeDDoArNpK95ZcM5meEogiQX+9HU9H
+         qktEXRd22GW45kYlfw5LeZOWJ1XTPx6bIXONc+e+WKO5pLdoAF9F5vHh2e4wmA13+t+Q
+         vl36lPVA49EEXT8fpvOwBB+T6sw6EE6nNnxFpIqGbcvKg491o5+H6RyAXBEve16rGt3Y
+         BTVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20251104.gappssmtp.com; s=20251104; t=1792768336; x=1793373136; darn=vger.kernel.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:content-type:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/nChdOq/b/gyYFhyjIipIGWStlUHbMLmpH6JMhnlOpM=;
-        b=XFQA8qEt8ByaOAUvLyzpvHxIa/ul77IfVhjb2qRrhv6hPJfnctOAaGmlbxG2CB0PCa
-         fUfkOOTjioqvqox19/Nmul6Q9oh+UoeJ1SsS+FeG7p4HrlUINaHpNFbQ8uTdLJg4Hxmr
-         +YRJNwDcT1cysDyftwq3afmdfTgF3Xi9cu9EGFob1/kLFHg9FkwiSPVqm6R6XfUacYDm
-         37lLFxo3296LMftonjo60A6SFn6/XD5Hsy2gkf7L7YrqkTnZwNoRksCyAcAEo/Tq0ba2
-         ezDx7sXqT5r5STLAtGXSU30mQPSV+Tt2YBkDr8ZUsW8dZzqxsgzrDyV4LnNK69cvB3fb
-         ivtA==
+        d=gmail.com; s=20251104; t=1792770718; x=1793375518; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BVELYFhUkQg6E+aLDDF2h1iCF+DMetiL5pwlMqqw4pM=;
+        b=PKWOfr4tjtlbxHtEeoltpYziJyproO/Li6O9GdCLJFr9aWBHas1vi2mMIYYMxCxZx7
+         2qwul+JG72XQ8pjSsXAbYs6XKoFEOoSU/vjDdb7T6IaQ8Qigiu7to1s19hiA2cOR9Aw5
+         AnyHD6bH+h/eSatAsguZqTE5HTPGNxcBD887NB4mB88HARz9hmYM4Jlp66N7loDOK4Ht
+         OC0GoWAyY4TMQUA5+vZY11zJtmOT3mxCDiscu+0YCwVEsVDKKJ4YNTco+3d9OY3QULYw
+         WszyAiBaEcPv7nLzr53bPihOZXEkaD9RsqRnZD5zkB4CyJ+b9peEYCeVu9YGtN5reSgT
+         OcMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792768336; x=1793373136;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:content-type:x-gm-gg
+        d=1e100.net; s=20260707; t=1792770718; x=1793375518;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/nChdOq/b/gyYFhyjIipIGWStlUHbMLmpH6JMhnlOpM=;
-        b=u/mn2Ka//45dpgGdt3hyWgB6advQfKgzyoVVCyA9e3awYwJMYJGM1irvJGt3jCpJRy
-         5Yj/hfK3Vj3BpKSh7Zu1ZDe19SaeaQCAxvekzRuTte7X4TfNjnLUJ/BXXTuqlpnTH7ek
-         y7Nkii+otD6wTcMp09Y1tJFl1KGdh13M7ll45XSM+d94Ak5eqaXwLI5CNX22vpSVfZi3
-         yqiy/D2jxy0A3O1rBhnPqMrvZrf0BOKwaivObNyeiPFZL3RV7ZsaRLuuLBb86pOU8kB9
-         4P22bAI2EciAlUrArsPLXdO6cO+ntwfCqmM77wU0yHE8yNvN6/HPF4WGmV6zaD4XAbVi
-         mRmw==
-X-Forwarded-Encrypted: i=1; AKwUvBx2qh5+RDfAPmYQWYl9co84O8eUIKFNkYsybGGOf9q1u1YLt8X9A+CAAFBGgXvovLcVslECIQzNoZA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJFYIuqr2scmZHCdU+MVTW9j1rsJCnoiFoKIBDYWkNODRX41xj+
-	PJ8/9ltGdwm3EAJmQXe42MZNG5R0mQqxa9rw3SULfjrIVKpTefcOb/+8LebLD842ig==
-X-Gm-Gg: AYBFou0BgX6xuPMdcinWqIy/WrtHiYAxtAsLa8jHLayw6vfqL43PBgS4Y0U76lbO3ba
-	UOOETuFngUgNr9BU6oLZPoILBHNoExC1JNKGKbTxUlimHknnRIx5aMTWv5bhDDdJ8HAPr6dqkgv
-	UKy4HerdcQlovApEoXEDa9GB2h0alEdphbnpqvvazcaUD47eiy9810eVMjEEAYpIxhRDQXNeh7x
-	qHakejndNlnBQxd8mHDv2JwuQna/NLox8l9a11Rn9Rr5zGqhDEaHANd2yseNfibJ8BegCwc9rQF
-	3j9gS0RWyZFtnEhLEaV9N0uC+9OlZyiKaMlvFjQCT5FZEPfvBJkWxWmw7FoI81SiHQKNYKt15xA
-	6J0alcnjFv46PPSRYAFerSLc5bVhSt1mM+iIAJI2dzWKdJa+CiTXb9VX15pwHItFmOEojtNIOu7
-	8eYCBHfXkvlWpdXEzjI60rKO0CLoPm0UBQZCzR/XACTJcyE6+4xPSUfHlWzjWsEvFsR+F8dPcrw
-	3avOdNpqO7+aah8TOd3CVASN+0vcR/RBCw4fy2iB2TKWAm4CJiTY453Sj04+nrzMTr+yHtntwKD
-	F9uMKDzREAg5rNo9hQiuVkWhGsyB4RJnGbqqcHtG3e9d1BPsbf1vF824DZanZLaJPttwN2/BZEF
-	cDP2he18710GOgvo=
-X-Received: by 2002:adf:f308:0:b0:48d:b650:69aa with SMTP id ffacd0b85a97d-48e387ea74emr3047183f8f.50.1792768335827;
-        Fri, 23 Oct 2026 08:12:15 -0700 (PDT)
-Received: from ?IPV6:2003:d9:9707:8b00:3fa:3a3e:198d:ab69? (p200300d997078b0003fa3a3e198dab69.dip0.t-ipconnect.de. [2003:d9:9707:8b00:3fa:3a3e:198d:ab69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d40e830sm347543f8f.35.2026.10.23.08.12.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2026 08:12:14 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="------------lWpYfqxAIT1R3O0UqvedLtQH"
-Message-ID: <24afe3f2-8cf3-4182-a5ba-951e3b574f12@colorfullife.com>
-Date: Fri, 23 Oct 2026 17:12:11 +0200
+        bh=BVELYFhUkQg6E+aLDDF2h1iCF+DMetiL5pwlMqqw4pM=;
+        b=t4wtyoN4jwCIJqKP1+Qj2//UdOPGBqtck+vY5oqf4+bq6mX0cBixHe41/N9gLNMhAP
+         y7+8wGtSioj3rSeq6yXzozCx7NtrecHiOHEFgEe3YKxNfvRGro0we+UJwghplmbY9eOY
+         rzCEqFolAHw9wNAv7YCUhkxyeeTpDhIlFbL5Bb+iwaG+iA83q6sc82rEr/2Mv8Kgvbar
+         UtPd4aL/gyYIxHS05OKwq/JW6jZ5gcMiLWtqSMXIEl7pJ2EE1e4IRl/h/Mcq0hsKiBu0
+         ao8tkt22MwsQRs6pcZ4CDnDTrxNwYLcoLxLRdM2zXQfW2WpcBBZ2mmkZONJRtFBaOU1q
+         //DA==
+X-Forwarded-Encrypted: i=1; AKwUvBxGOGbN5+rzwcV0b7IMoczNxmUv/pz3FMkqlRlm2N5yAbsK1d0pm9XCc3RgjDNUe14r9aXLQ5fpE6Q=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLpi7dSfBrcMyHksevxJAfl3LOlHbI4qwDQ5ncKGNsLIE6ECinb
+	z71mrEWs0tkaoladkZ0c/4k6sas2SwSdK4mD2o6KWeeGDuQ7PBmiW2w5K87JHUo328Zpjytee7W
+	FC1cgkJNfhg2mKt2dgEANCrhXB8TCGNE=
+X-Gm-Gg: AYBFou3veAaG9Io+XloPr6JOCo2ntKW5xBU5Yc8jf+qPrTBExy1QgkIcaxKOWEX90xr
+	nlQxG313txYfC6IcSAVzmFMAX0PNkbdUK6edCyqP6YLue7QfnNm9NAz+QLICSvOxN9OYK6SK0AX
+	uIwxBdnizWpvNoTNPTEdXhwWgK0AI6VcAxqvMXNnDiSl9huHuxvVA/AZNSU5aG2M1sseizZvQXM
+	MiuWaHDsbMeFv6D42IjQ338izcUjt+M/VcqHqkwHz+qAkWi+1Bdx2Kh/ZQQAsjZ1vxx/LFsOPpk
+	eS3Tw90RbPFqfcQBA+Nn5JfTmgZVGMsQWlU7k1EeTgrURXNaGBx2zA0A2jMg3oPxHu866saYt5S
+	dMc6G49rqav1HHhvBicvN7twA7y2yW9X+bsnaCIdOc/l4epHEmuogfP5Nn0Vi+RUHDFTOa+d9Yc
+	bbJQHgpsxp8/q1uZ284XpRkDc=
+X-Received: by 2002:a05:7301:6189:20b0:34c:d1f2:b552 with SMTP id
+ 5a478bee46e88-369d90e3513mr3288744eec.4.1792770717671; Fri, 23 Oct 2026
+ 08:51:57 -0700 (PDT)
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -92,89 +105,67 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] ipc/sem: reject negative SEMOPM values
-To: Yingjie Wang <x-professor@outlook.com>,
- Andrew Morton <akpm@linux-foundation.org>, Alexey Gladkov
- <legion@kernel.org>, "Eric W . Biederman" <ebiederm@xmission.com>
-Cc: Vasily Averin <vasily.averin@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt <shakeel.butt@linux.dev>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Michal Hocko <mhocko@suse.com>, Alejandro Colomar <alx@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <cover.1792724953.git.x-professor@outlook.com>
- <4fc7f5cb6bea186c5266415fcadb7e26c7738a85.1792724953.git.x-professor@outlook.com>
-Content-Language: en-US
-From: Manfred Spraul <manfred@colorfullife.com>
-In-Reply-To: <4fc7f5cb6bea186c5266415fcadb7e26c7738a85.1792724953.git.x-professor@outlook.com>
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+ <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+ <atpnWiYQzs_HZ1Q7@debian> <CAFs=pgZZeOg7vmkyTjwZdnafYFxn+Yogd9usEzX9Bmv87Z-P4A@mail.gmail.com>
+In-Reply-To: <CAFs=pgZZeOg7vmkyTjwZdnafYFxn+Yogd9usEzX9Bmv87Z-P4A@mail.gmail.com>
+From: Christopher Bazley <chris.bazley.wg14@gmail.com>
+Date: Fri, 23 Oct 2026 16:51:45 +0100
+X-Gm-Features: AclHuK-y_QRAicXPp4Szf-4ZHkf3L9I1uDgT4lxGvxb6I-ks2qTkoau0wN52udw
+Message-ID: <CAEHU8x-Zs8E=e5qoJYRB2ecunpcZWoazsj9Pnxq5bn6bS4ndMQ@mail.gmail.com>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+To: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+Cc: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Sam James <sam@gentoo.org>, 
+	"Carlos O'Donell" <carlos@redhat.com>, "Joseph S. Myers" <josmyers@redhat.com>, 
+	Martin Uecker <uecker@tugraz.at>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is a multi-part message in MIME format.
---------------lWpYfqxAIT1R3O0UqvedLtQH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Michael,
 
-Hi Yingjie,
+On Fri, Oct 23, 2026 at 12:54=E2=80=AFPM Michael Kerrisk (man7.org)
+<mtk@man7.org> wrote:
+>
+> Hello,
+>
+> On Thu, 22 Oct 2026 at 16:54, Alejandro Colomar
+> <alx+linux-man@kernel.org> wrote:
+> >
+> > Hi Chris,
+> >
+> > > Date: 2026-10-22 18:29:31+0100
+> > > From: Christopher Bazley <chris.bazley.wg14@gmail.com>
+...
+> > > You know your customers better than I do. If they expect GNU C semant=
+ics,
+> > > then it seems reasonable to document those semantics using GNU C synt=
+ax.
+>
+> The customers clearly do NOT expect GNU C syntax.
+>
+> My preference would be the earlier status quo: standard C syntax, with
+> an explanation in the manual page text that explains the relationship
+> between the arguments. The current proposed patch is a compromise: it
+> has the disadvantage of being nonstandard C, but does at least clearly
+> hint at the relationship between the arguments.
 
-On 10/23/26 5:19 AM, Yingjie Wang wrote:
->   
-> diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-> index d038d944257f6..2a542f838a530 100644
-> --- a/ipc/ipc_sysctl.c
-> +++ b/ipc/ipc_sysctl.c
-[...]
-> +
-> +	if (sem_ctls[2] < 0) {
-> +		ret = -ERANGE;
-> +		goto out_unlock;
-> +	}
-> +
-> +	ret = sem_check_semmni(sem_ctls[3]);
-> +	if (ret)
-> +		goto out_unlock;
-> +
+I am curious to know what your attitude would be to lesser-known
+standard C syntax.
 
-The mixture of an inline sem_check_semmni() function and inline logic 
-for semopm looks strange.
+For example:
 
-I would remove sem_check_semmni().
+int pipe(int pipefd[static 2]);
 
+is standard C syntax, and requires the caller to pass a pointer to the
+first of at least 2 array elements, unlike
 
-Reviewed-By: Manfred Spraul <manfred@colorfullife.com>
+int pipe(int pipefd[2]);
 
+which has the same semantics in ISO C as
 
---------------lWpYfqxAIT1R3O0UqvedLtQH
-Content-Type: text/plain; charset=UTF-8; name="all-inline.txt"
-Content-Disposition: attachment; filename="all-inline.txt"
-Content-Transfer-Encoding: base64
+int pipe(int *pipefd);
 
-ZGlmZiAtLWdpdCBhL2lwYy9pcGNfc3lzY3RsLmMgYi9pcGMvaXBjX3N5c2N0bC5jCmluZGV4
-IDJhNTQyZjgzOGE1My4uNmJmYzY4ZjA0MzUzIDEwMDY0NAotLS0gYS9pcGMvaXBjX3N5c2N0
-bC5jCisrKyBiL2lwYy9pcGNfc3lzY3RsLmMKQEAgLTcyLDE1ICs3MiwxNyBAQCBzdGF0aWMg
-aW50IHByb2NfaXBjX3NlbV9kb2ludHZlYyhjb25zdCBzdHJ1Y3QgY3RsX3RhYmxlICp0YWJs
-ZSwgaW50IHdyaXRlLAogCWlmIChyZXQpCiAJCWdvdG8gb3V0X3VubG9jazsKIAotCWlmIChz
-ZW1fY3Rsc1syXSA8IDApIHsKLQkJcmV0ID0gLUVSQU5HRTsKKwlyZXQgPSAtRVJBTkdFOwor
-CS8vIENoZWNrIHNlbW9wbSByYW5nZSBbMCwgSU5UX01BWF0KKwlpZiAoc2VtX2N0bHNbMl0g
-PCAwKQogCQlnb3RvIG91dF91bmxvY2s7Ci0JfQogCi0JcmV0ID0gc2VtX2NoZWNrX3NlbW1u
-aShzZW1fY3Rsc1szXSk7Ci0JaWYgKHJldCkKKwkvLyBDaGVjayBzZW1tbmkgcmFuZ2UgWzAs
-IGlwY19tbmldCisJaWYgKHNlbV9jdGxzWzNdIDwgMCB8fCBzZW1fY3Rsc1szXSA+IGlwY19t
-bmkpCiAJCWdvdG8gb3V0X3VubG9jazsKIAorCS8vIFRoZSB2YWx1ZXMgYXJlIHZhbGlkLiBB
-cHBseSB0aGUgY2hhbmdlcy4KKwlyZXQ9MDsKIAlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0la
-RShzZW1fY3Rscyk7IGkrKykKIAkJV1JJVEVfT05DRShucy0+c2VtX2N0bHNbaV0sIHNlbV9j
-dGxzW2ldKTsKIApkaWZmIC0tZ2l0IGEvaXBjL3V0aWwuaCBiL2lwYy91dGlsLmgKaW5kZXgg
-YjE0OGI1ZTE1ZmM2Li41MWI0ZWZhM2Q2ZGIgMTAwNjQ0Ci0tLSBhL2lwYy91dGlsLmgKKysr
-IGIvaXBjL3V0aWwuaApAQCAtMjQ1LDE0ICsyNDUsNiBAQCBpbnQgaXBjZ2V0KHN0cnVjdCBp
-cGNfbmFtZXNwYWNlICpucywgc3RydWN0IGlwY19pZHMgKmlkcywKIHZvaWQgZnJlZV9pcGNz
-KHN0cnVjdCBpcGNfbmFtZXNwYWNlICpucywgc3RydWN0IGlwY19pZHMgKmlkcywKIAkJdm9p
-ZCAoKmZyZWUpKHN0cnVjdCBpcGNfbmFtZXNwYWNlICosIHN0cnVjdCBrZXJuX2lwY19wZXJt
-ICopKTsKIAotc3RhdGljIGlubGluZSBpbnQgc2VtX2NoZWNrX3NlbW1uaShpbnQgc2VtbW5p
-KQotewotCS8qCi0JICogQ2hlY2sgc2VtbW5pIHJhbmdlIFswLCBpcGNfbW5pXQotCSAqLwot
-CXJldHVybiBzZW1tbmkgPCAwIHx8IHNlbW1uaSA+IGlwY19tbmkgPyAtRVJBTkdFIDogMDsK
-LX0KLQogI2lmZGVmIENPTkZJR19DT01QQVQKICNpbmNsdWRlIDxsaW51eC9jb21wYXQuaD4K
-IHN0cnVjdCBjb21wYXRfaXBjX3Blcm0gewo=
-
---------------lWpYfqxAIT1R3O0UqvedLtQH--
+Thanks,
+Christopher
