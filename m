@@ -1,91 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792783675;
-	b=M867k9LMlhpqLiaFNZVCwz+NIjmB63h/fYXeplxkzDUqMe5kRMuvLbXtYRIpujM8Cz1Q
-	 VZs74cwfW45r6H9xOX2fRfSkZ2GMnwPyAdG4O+l2IG0YAXxspPMQjHcmUztSDiu+I90ZE
-	 0vL9udBGpExL09zzencFGrLLEGvbRS37KwfFnEs6kj8K/n+GwzBuhNv71rutDPL0le9h8
-	 qNg4S/Fcoio4TGWZoFmCio5rdC455cpyDOOtRlC2Ml++oiIVcxe2WET7q4wQVOiNUA5Xr
-	 zeinDnbk3Er1vV5E6eTmaLR2XDEbWVt4KW3RvrNgeH7hKJuTV7dA2o5SL1Lm6O6Luig==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792783675;
-	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=DuxV/pFF+E21GVL6TCGTkthwcmBlRzElV5jVLtgQQ1I=;
-	b=iiAbmPYILlSpgU9uD1hCg4EwA1OWjPPQ+saeMuXbDJq9GR4idmJWjJOOxS+XchPgfL3k
-	 IVTu2uvYFRwGfuiuicWmN0XEW+dbTjc/yRs/ovI1cDKx8pi3RZYsLW8rLpXnv5/WXcN04
-	 0LjDQxD4VHhY2W8IBPcY21ZcAtFlg4n7MDCMVZyJ6UxI0v11Ghvs3aVyBV3DWmDTBEnBr
-	 W2IyYy7bNVoEJzK6SGvyByih31weEr3O4wWgFddCPq+X0V/QFm8D8gUoW6LdGSxkRJ5E8
-	 xz1+FYPPTV13Cf7nsveUw3O6IHj6ZXYrxfnFkvD/HgdH65+n8SNCPwZvp9+icWO9IPA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=itb5wcPy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0122C606A31D
-	for <linux-man.vger.kernel.org@localhost.mlmmj>; Fri, 23 Oct 2026 19:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=itb5wcPy
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792783884;
+	b=C74jIyEpY5AJF9NZGCal97J2gQZR7a8YyoLHxLvXEtbl6zyagZjV6rJMnTJXUqXDJPpL
+	 SffynSflhHLOP9zYbvXhYZZHWKcnvdDWwrvVUDjoTaOC7Jq0ssxwIpe7lhUc8Y/aM8+al
+	 9dTE6MtMHad9sPCiUMOABEe+XmY6EDDnoBgDXBVsTzcP5XJMjX0a7dc7AARgWkntsr26z
+	 VoqM9B/6fZbvhYd3+/uQeC7LcUcEBivD1U1lyK8+ZsbJF9wQig6djrM7IvIH/2eNkTgmd
+	 koKnunTunKOw0Pc6TUV/sE/4bowQOulGb70KinBCi9ls1PN7+OHBukxL3RDJadySAmg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792783884;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=16PhuI0Jw4dYF9nRYLtMqbTsx8HHB5JgXnDZ1sf/0ms=;
+	b=gUSGB9VA50KgimTSLuZpWJSBAfgbKMWDvzJbm414FmGDNrZK2Ul/+fhY9BgUHCcdaA76
+	 yHs6oLr8pSfJFrUBetmGJYdZa3G1GHNaS8g1fis4Tk1z8n4Dd7hWAvx5nd2QJ2nBOAdhO
+	 hwwfgv/Yf9+IespxLUync7NG8Z97vdIH2oihQPY/6tMRNoHk6TK2h9uW0eyem8GTpgujU
+	 qJGEJWDoWohbpnJ7Nrp09Tv0LK14Mst3f+X8IM1+FJmL9JuFxcd84FmZ0bz701XDv+Llf
+	 bzOneapx12Vi2sgY5RWygSkjotSA2jBawy2k133xThKgZyrWKdivAzoEameyvoVdIVw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l1tBBJb6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A556513C0
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792783674; cv=none; b=D0UFObPl0jhF3goynSRl/hh5ToCRAZ6S9Kgn1gSIeSPlXEEp9FrxrjZvchVLZFeCnzKuv+nTOYls5KG+M9yqIzspW4KAC1maE4FBzztPkJYRe48ymAaU+CfJhO8vZ1F94W1aGbqSGqHXVtlJsohYDu56fcvTfoKG8ElXCaI7p1A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792783674; c=relaxed/simple;
-	bh=rSY9+nWuXD0Td+AHnXkYSiwWwDEP/iKFYT15A0joF2w=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QSaOz3AsV3srcA1waHUSgXR0i5qRYdCzjMeKLv53IQ2Yd4mKKRDkQRCjHrbrYMy3QBUN00E/HxWguk34mkz8nY+9HCnL1ATmZcz7Ie8KqKZ932pfGfoa2XtnOIxBDpXFKbbhBuWu/ERSLUiG8K/wsDkjMZd0y0RiGQf5zBDN6wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itb5wcPy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4251C2BCC7
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792783674;
-	bh=rSY9+nWuXD0Td+AHnXkYSiwWwDEP/iKFYT15A0joF2w=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=itb5wcPyfvlA+uZ60qQx/cBhhicWhun6CPNLzEMkw51acEGBPXmC5KOQznU9H9MY2
-	 lr+QA4hzZh7xArV5nKpfvNRZBbjMxlYuY+8nFzNVf/DzAnkeMqqqiG/X0t2WvhjphV
-	 CayiJItWebNpusjB524G/w61R14ts2zu9zTBF2kiCQYN2AuBfsto2iGDsOjE2Z5pLV
-	 GfFIiORQPExj5QnvMT1A6kgxLxT9V7H3t87SkQl8E6Wnovcm/MWo3cemrozSUb3QbM
-	 NZjmANyW+FnQZI+nL3Gcp4Axg5BPIWjW2pUs+iumhpnn0Jqi2eG+MS6OC0IDkNLNGt
-	 03PgaY9jh9yOQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 9404EC53BC5; Fri, 23 Oct 2026 19:27:54 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B662A606A323
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 19:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l1tBBJb6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2ACF1F01828;
+	Fri, 23 Oct 2026 19:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792783883;
+	bh=16PhuI0Jw4dYF9nRYLtMqbTsx8HHB5JgXnDZ1sf/0ms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l1tBBJb6JB8Vykc/JV2Hez1lEZ0rtkYxnNKiuwfW/L1KAjynd6VPVKvHsZbketGGu
+	 AMTj5LM4o/L8nUvby6NN8WtBAbjnHLQUitE2rxjHbhTqsj98qC8wfy5zBs2Y9Fi0uj
+	 1C2dr+jAsfoT8ekSEf41yiLNj6pjoAVQk2W1x2V/806DGTrTum+lx08Xw4mOw6DVNS
+	 2LnovBnyR0UHjZONVHPL5clZ5Rm71JWQdTGs9Q/8CTw5p79tiJnmtHdmIX6gKcRkNu
+	 lFV6oHuO5HZLMOgLnRBXgr9yIAHPH5EWFXqTTcZGcX0MWHU2p0zU0RYTEIL+7W8j6B
+	 ipctDk8Ql29HQ==
+Date: Fri, 23 Oct 2026 21:31:17 +0200
+From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
-Subject: [Bug 222094] sched_setattr: bug in `ERRORS` section w.r.t.
+Cc: Enji Cooper <yaneurabeya@gmail.com>
+Subject: Re: [Bug 222094] sched_setattr: bug in `ERRORS` section w.r.t.
  `attr.sched_flags contains a flag other than SCHED_FLAG_RESET_ON_FORK`
-Date: Fri, 23 Oct 2026 19:27:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alx@kernel.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-222094-11311-4TyrfjdLFq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222094-11311@https.bugzilla.kernel.org/>
-References: <bug-222094-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Message-ID: <atu2BZy0EYMaoTk-@debian>
+References: <bug-222094-216477@https.bugzilla.kernel.org/>
+ <bug-222094-216477-AkltlLpJO7@https.bugzilla.kernel.org/>
+ <atu07uXukn8V_4YN@debian>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -95,16 +58,145 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OxIHtRu9wrNmvI0Q"
+Content-Disposition: inline
+In-Reply-To: <atu07uXukn8V_4YN@debian>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222094
+--OxIHtRu9wrNmvI0Q
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 21:31:17 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Enji Cooper <yaneurabeya@gmail.com>
+Subject: Re: [Bug 222094] sched_setattr: bug in `ERRORS` section w.r.t.
+ `attr.sched_flags contains a flag other than SCHED_FLAG_RESET_ON_FORK`
 
---- Comment #4 from Alejandro Colomar (alx@kernel.org) ---
-Created attachment 311260
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311260&action=3Dedit
-signature.asc
+[moving discussion to the mailing list]
+
+Hi Enji,
+
+> Date: 2026-10-23 21:27:52+0200
+> From: Alejandro Colomar <alx@kernel.org>
+>
+> Hi,
+>=20
+> > Date: 2026-10-23 18:47:22+0000
+> > From: bugzilla-daemon@kernel.org
+> >
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D222094
+> >=20
+> > --- Comment #2 from Enji Cooper (yaneurabeya@gmail.com) ---
+> > Created attachment 311258
+> >   --> https://bugzilla.kernel.org/attachment.cgi?id=3D311258&action=3De=
+dit
+> > Patch
+> >=20
+> > I've honestly never submitted a patch to the Linux mailing lists. There=
+ are a
+> > lot of hoops to jump through in order to make a contribution... I'll tr=
+y, but
+> > please bear with me (I'll probably get something wrong).
+>=20
+> Sure!  You're welcome to try.  :-)
+>=20
+> I've forwarded your patch to the mailing list in this email.
+>=20
+>=20
+> Have a lovely night!
+> Alex
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
+
+> From cfaef3da82a115fbce47dec58b458c6cfc439667 Mon Sep 17 00:00:00 2001
+> Message-ID: <cfaef3da82a115fbce47dec58b458c6cfc439667.1792780609.git.yane=
+urabeya@gmail.com>
+> From: Enji Cooper <yaneurabeya@gmail.com>
+> Date: Fri, 23 Oct 2026 10:39:20 -0700
+> Subject: [PATCH] man/man2/sched_setattr.2: update `EINVAL` case with
+>  `.sched_flags`
+> To: Alejandro Colomar <alx+linux-man@kernel.org>
+> Cc: <linux-man@vger.kernel.org>
+>=20
+> In more recent versions of the kernel, `.sched_flags` is a treated as a
+> bitmask that supports values like `SCHED_FLAG_UTIL_CLAMP_MIN`, etc.
+>=20
+> Account for the additional flags so the documentation is up to date with
+> the kernel implementation of `sched_setattr`.
+>=20
+> Ref: linux.git 480a6ca2dc6e ("sched/uclamp: Allow to reset a task uclamp =
+constraint value")
+>=20
+> Signed-off-by: Enji Cooper <yaneurabeya@gmail.com>
+> ---
+>  man/man2/sched_setattr.2 | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/man/man2/sched_setattr.2 b/man/man2/sched_setattr.2
+> index 80a0ac726dcf..b163ba482390 100644
+> --- a/man/man2/sched_setattr.2
+> +++ b/man/man2/sched_setattr.2
+> @@ -411,13 +411,16 @@ .SH ERRORS
+>  .BR sched (7).
+>  .TP
+>  .B EINVAL
+> -.I attr.sched_policy
+> -is not one of the recognized policies.
+> -.TP
+> -.B EINVAL
+>  .I attr.sched_flags
+>  contains a flag other than
+> -.BR SCHED_FLAG_RESET_ON_FORK .
+> +.BR SCHED_FLAG_RESET_ON_FORK ,
+> +.BR SCHED_FLAG_UTIL_CLAMP_MIN ,
+> +or
+> +.BR SCHED_FLAG_UTIL_CLAMP_MAX .
+> +.TP
+> +.B EINVAL
+> +.I attr.sched_policy
+> +is not one of the recognized policies.
+
+I wonder why you moved this paragraph.  It doesn't seem to be necessary,
+right?
+
+
+Cheers,
+Alex
+
+>  .TP
+>  .B EINVAL
+>  .I attr.sched_priority
+> --=20
+> 2.50.1 (Apple Git-155)
+>=20
+
+
+
 
 --=20
-You may reply to this email to add a comment.
+<https://www.alejandro-colomar.es>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--OxIHtRu9wrNmvI0Q
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrbtgUACgkQ64mZXMKQ
+wqmOsxAAvPwTrIUzjg+KO2GQKFiVFcRfvvvHBNtxSAIGGc7bN3RA8I8OjcAl60Xf
+azpSwDtNhwsZmmJWVaKru0ZaUDjmvCOXb26XL5jqYqR4OGt1BuWHvp3qZqJWtnI4
+IjcJdEc/r1s5hgMiz0jeTRg1q8J86kWSJfXDcrIz1dB5/HWaAN0yJBMu0MXLNP3Q
+o5WnN4g+2QU5d7bNcP3Xo3DyYyfVJW1bZswbar/Q7vW0Zczd2S1z2TouiLby9aOV
+H4estkWv7RHcuMKzx//K35FBE4bljyVaMFbt1Fi33iTTaf+YkH2qHpZJs0i57f8N
+B9ANEUwtaZHy7LK/zUAL8kAo75cx+1lpRcTqfugYRlWAAzfyW7yfnfvLmcgjcY4E
+YCR9Wp0OIq/IGy72IUuvHlSeEF/jzKDaoo5XSwVgfqBqPpFSR004N/9tksEiNJL5
+25K9X1P+36gImtv2JPqZS6c9Jzatjfpa2SWgEkXdKeAueLB4wdxq+RrFjADUfTBg
+rOitfCh20/nnwqkcYuuC35HuFKQ8Whn0UDJ/fzBgxOol98EzUtWUvrVxYR5Y+6Px
+BQdO+zv1c8igkf6Qyn7t99KPt+M7RG0uQ929Qm2JvqiPb8t2aMiJyqsgudYwG4e+
+l1JsxHsqX45BOmxo+tbQOzHc3WpxHoUKyXfQJlRpHyRkSPvcEYc=
+=nhlg
+-----END PGP SIGNATURE-----
+
+--OxIHtRu9wrNmvI0Q--
