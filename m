@@ -1,56 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792791256;
-	b=2Ez6P0Y3ccpJiO0APMGI+tugiVSdaBwrxqLUmbJsb/Jd9S8jddZvkU54iWmv5ZQdmIvQ
-	 1iIC52pqRCJI5aMbu2FYCiF67npeF515jQLYqSLgHf5F5T6jF0Oyev98njiTAcr5NtplQ
-	 K/0fy7rtU0jFAGyd7rrRyBk1YTS8aeGMy+SyDW+nKFgNJlc/H/Y/rN3Ps9qjzSPZN6vei
-	 Xzk3hqPWeRVpmXS5VMxauUDH1a4sEJVSkmGj5m8EQdVWU9SqQviRzY5fhqB6oQ9iX+p28
-	 zvYBKJSkyAGNbAQM/1wtQ7gDccJH7Bavfhegzyk8uZjQyNVAvjo72ljVgZ5S4c1I3Ew==
+	t=1792799829;
+	b=LC+8okleKAfQIlvULfkhOpiUTo65UskAQpx1Ai8OgLY0C7F5caN9Q05bKqo2aGbZfrAD
+	 2+3NSZdUFt7gWLonIL1piK/66V++T1CHR+PHpJjSNUd7YOyc35YbcsrrsHFeCM0jcLh1C
+	 hjokNc9zF8bYXQxA1d6bofZl4T/C+1iuvPQ2FMMrDqcQqEuaFnv0b5cY+bbLgHTGc3FXz
+	 QmIIZYyB4nN7L8HqnigPupTPcxORDaFnCZqZ6Vf4CvIaBXG/jc07DHgfMAsTcnmDMWemJ
+	 27P3aXClXbz0DF/lvSMNAvnHyRCPx81EM2N0JP6dHlZfUjQHkNBhClZmGV7OyTshctg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792791256;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=6LioklxZeABrQAXf3kbgcx1kuNvup4gzzJznQaY1png=;
-	b=dGdg/7Le/qv/ak/OrU61hAes/+Ac24pm0PobZToJq/J1vBh8rZ7WSB5SAnmA4oVGOKzS
-	 DiLGCPgh3wcnRMRb0NtoP/Svfo1w7bRbNMRqxk9bSZVyxSRJRL3ncZGEqFwJxGvLlGj5c
-	 UM6leARfIkliwynhbORzN+J2dai+x4Qr5ZEE4Xj0L/eF1JTXyhUmTPpybahprtOho74vN
-	 n1I7P6hPGk9mBqEYZ7xAfu+XRFX9ZSRLthhKj4xFbvjrJBDxaq/t31rE64MqJQkcha3FT
-	 VskBzV00dSQDpOVphTMgHb18PkrkELrThKDm9Ogcq1QO5HNnT8sYVhSnwU9LSOu6vBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792799829;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Content-Type:
+	 Mime-Version:Subject:From:In-Reply-To:Date:Cc:Message-Id:References:
+	 To:X-Mailer;
+	bh=ewF8np0cdFf9QOJVLcsIJsVGpOVBiFnxB8OOVWJgHPo=;
+	b=IcVaMVd38qDhc3BD2xCGmWW5DCIZSsxujJMx9MfS4mqgLQ8u0vnfpiCtidhpzRX8n8Zw
+	 Aniodsh21JlRzkqGKLWxo/v8mtsJFgXkQBtboE+Fcz/a8J/keDKYgwtJSbnGiKngSATcS
+	 XEWBKXuJ1f0bqsslzy/XHIzRCxQR1Eoxe547/R5klJnaNoLeTInZ1KWhoyF6F1dCYicJ/
+	 /SNrWQHMmb27lCoL5QyyNgyBZPyNkzXeuZ+MQj5wt8LA+kY05GSzar5VIZp3aTiy9GEvm
+	 1Y95rZzxGdIK+2wl987Ioj4zLhaWvEUuKUEB40YgIPTIAp91g28hcnXVKInFxGqkgqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z3QfEoWK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=iLhArgCc;
+	arc=none smtp.remote-ip=209.85.214.180
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC06606A31A
-	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 21:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4419F606A334
+	for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 23:57:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4419F606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z3QfEoWK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5A91F01828;
-	Fri, 23 Oct 2026 21:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792791255;
-	bh=6LioklxZeABrQAXf3kbgcx1kuNvup4gzzJznQaY1png=;
-	h=Date:From:To:Cc:Subject;
-	b=Z3QfEoWKcPQGcT0HujZAkBOaiv3IxTEvKnyOy869aiPV0Sb+XqL1P0Ihq1L+SRxQO
-	 58Ej4xCQRdAexgDQzKnl4c0X5k8oqaC+LtC3B8BHl/NwBMgSaKLcNwHFLVXJGXE2rV
-	 uHyI55LrezqQ0ar9JneDisO1XdQL8irzkIodlAFo2AIrFcyLm1YYv4jf91Of5ZYj3N
-	 JqtcQBOP6jLgBUs37Vl8IH1I35npisXivuRw3z8RrCdnVLXsZM+XZXT59mkcQGTpQR
-	 om3SFSdHaPHcY7WJqn70e2QLpvvhxJyoRLgnpE+nYC7VKJIKCZJtxLjfftpYNo8nz6
-	 1lopmkT9zr5tg==
-Date: Fri, 23 Oct 2026 23:34:03 +0200
-From: Alejandro Colomar <alx+gcc@kernel.org>
-To: gcc@gcc.gnu.org
-Cc: Mark Harris <mark.hsj@gmail.com>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
-	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
-	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, linux-man@vger.kernel.org
-Subject: -Wshadow=retroactive-parameter
-Message-ID: <atvQDqWEqDAERpY5@debian>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=iLhArgCc
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e9d1114320so10242955ad.3
+        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 16:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792799828; x=1793404628; darn=vger.kernel.org;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:content-type:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ewF8np0cdFf9QOJVLcsIJsVGpOVBiFnxB8OOVWJgHPo=;
+        b=iLhArgCcZIUqtQMwX1DFWR9u226FzdIYQFwzhzLKV4y4inkBx3ukgLS0rtpR/cUsZg
+         cNLmPHQbO9oG2UDNWMTqpMmHL4Jk0J3r1ArP80Xe0R2+fULOreoyTzfOG9c5HTyGQrw+
+         oFOaMGycl/cUyShpP2LM+K7+RsLWxUmBApEeHg7LdNGSizgIIGpLsREw+y78cqf0yhQm
+         /0ns9UlULyMME13eViARw6XwYEg+QoBSHiKuC/4J27qwe63LgmmX8WFYmt713c7oRGUb
+         B9M6Xcti/XcVSX4iNvLYyxjWtA5A3AZa2Lax+ka4jYUDHx3iigdmyXHykoOms6GTxFk2
+         FRDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792799828; x=1793404628;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:content-type:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ewF8np0cdFf9QOJVLcsIJsVGpOVBiFnxB8OOVWJgHPo=;
+        b=ZkTC2wdCdBPdwk9wMuWCFHVjaEMrBEeKs0zJykXO+4L4D6VSCxNlJ5PFRZCiXeWpBB
+         8UzGoP/TxIN5+jK6LUKK++l5fQvkm9YJLmtVjIuGb49wbb6txEPTsFvOGWy2t/FQ1vaI
+         GtMTEOqFHtCRB9CKt/jkSMhgP6TjaTTo7x1QMe9A5lfMXptCzhEOSc4W+yP814PEcPW5
+         xOazBPVZme7kwg0FeLVmj97lsR4ynK57lp3CYmLrfXsNsuK/qsZnqBYGNpnUPNruvryl
+         /MIpXe6QiZvlsL1H0ZQCOR8RyeuAA5tpA77f0Xch3fYL0fjXSHKtQqjRny4HQsBd+OMc
+         uemQ==
+X-Gm-Message-State: AFq9FYIjDn8kAR5DMKg49SeHjBshldukZmN43Mr1kMGR/X63oYu2m0O2
+	Z3Xhv65Rsr9vf9yd7s0XPFtxXkyLMzDWo512moM99hm+v01PSHhIpPX7VLbnum+jTAU=
+X-Gm-Gg: AYBFou2YpKpkCgPwOJjxPKe92EdFNi5EjF4tUCroBa40bUKtB4O1XXxyQCYCe2DqApN
+	xQFszBeKaIgi13QpOkYy3Q4y9B7dg5wUamlijZYztU9qA8uR1JgWsyG8s7IdLLFIESiR+sIsvdr
+	jK4Wt+zmba3rHTYJFOXmXzs8YdDZhE/xuxf8yE4V3ux8oNnFFUqZd+XHSb1/k+oKCE/YxLFV8Y1
+	QWP7APH3XIyen+mn+6ZHbg43SZ8YVBemepGepKwj6I14jhdJn2iVqmvBkZumLClACFn8zGh904L
+	oeIOik2z+8HcWb6u5dTsP05kCICDoJfwPNRMxPMDxWWe4+SIf8JYcvBlTjDB0IvyAJJTch1Q+Ek
+	UVskse2+N+GpOgL7XbviED9DgFFILccZofz7NTRuFmoosyp3Ad0vPIwbYoaghp3YWT78rVAUyOT
+	o9YPOiLHXYf1UoUVdeEi0dH1DdBxfxlXuO9RevI4+5wpT2f1ZO0K7PZKPs0dO68JVCTq/8ftJaZ
+	GcWnComoYGRo+IPA3OrXm8gXZZPh1Q2XmdtRI1ohhTdaFpiC3M6Vn2/M/8bPmc67RczH2uT+j+T
+	WsrHyA0GfNv0GrrXDE8H9Yiu
+X-Received: by 2002:a17:902:c94d:b0:2e9:6333:fbb7 with SMTP id d9443c01a7336-2ea9c810218mr4771625ad.51.1792799828402;
+        Fri, 23 Oct 2026 16:57:08 -0700 (PDT)
+Received: from smtpclient.apple ([187.15.154.229])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b1214a3sm1541345ad.21.2026.10.23.16.57.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 23 Oct 2026 16:57:07 -0700 (PDT)
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_65789254-CFBF-4CAD-8565-A1D900366014";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha256
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -59,103 +89,104 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t3whwoicy3bbveju"
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.3\))
+Subject: Re: [PATCH] man/man2/sched_setattr.2: update `EINVAL` case with
+ `.sched_flags`
+From: "Enji Cooper (yaneurabeya)" <yaneurabeya@gmail.com>
+In-Reply-To: <atu28R9-CdAtoz-V@debian>
+Date: Fri, 23 Oct 2026 16:56:51 -0700
+Cc: linux-man@vger.kernel.org
+Message-Id: <737C7FD6-E204-4C90-B811-26BEECE7D7FC@gmail.com>
+References: <A89056FB-15B8-454D-9C6F-9EEB75965302@gmail.com>
+ <atu28R9-CdAtoz-V@debian>
+To: Alejandro Colomar <alx+linux-man@kernel.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.3)
 
 
---t3whwoicy3bbveju
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+--Apple-Mail=_65789254-CFBF-4CAD-8565-A1D900366014
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+gcc@kernel.org>
-To: gcc@gcc.gnu.org
-Cc: Mark Harris <mark.hsj@gmail.com>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
-	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
-	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
-	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, linux-man@vger.kernel.org
-Subject: -Wshadow=retroactive-parameter
-Message-ID: <atvQDqWEqDAERpY5@debian>
-MIME-Version: 1.0
+Content-Type: text/plain;
+	charset=utf-8
 
-Hi!
+Hi Alex!
 
-I'm worried about some proposal going on in the C Committee at the
-moment, and which I've also received for the manual pages.
+> On Oct 23, 2026, at 12:37=E2=80=AFPM, Alejandro Colomar =
+<alx+linux-man@kernel.org> wrote:
+>=20
+> Hi Enji,
+>=20
+>> Date: 2026-10-23 11:58:57-0700
+>> From: "Enji Cooper (yaneurabeya)" <yaneurabeya@gmail.com>
+>>=20
+>> In more recent versions of the kernel, `.sched_flags` is a treated as =
+a
+>> bitmask that supports values like `SCHED_FLAG_UTIL_CLAMP_MIN`, etc.
+>>=20
+>> Account for the additional flags so the documentation is up to date =
+with
+>> the kernel implementation of `sched_setattr`.
+>>=20
+>> Ref: linux.git 480a6ca2dc6e ("sched/uclamp: Allow to reset a task =
+uclamp constraint value")
+>>=20
+>> Signed-off-by: Enji Cooper <yaneurabeya@gmail.com>
+>> ---
+>> man/man2/sched_setattr.2 | 5 ++++-
+>> 1 file changed, 4 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/man/man2/sched_setattr.2 b/man/man2/sched_setattr.2
+>> index 80a0ac726dcf..64acdd88884f 100644
+>> --- a/man/man2/sched_setattr.2
+>> +++ b/man/man2/sched_setattr.2
+>> @@ -417,7 +417,10 @@ .SH ERRORS
+>> .B EINVAL
+>> .I attr.sched_flags
+>> contains a flag other than
+>> -.BR SCHED_FLAG_RESET_ON_FORK .
+>> +.BR SCHED_FLAG_RESET_ON_FORK ,
+>> +.BR SCHED_FLAG_UTIL_CLAMP_MIN ,
+>> +or
+>> +.BR SCHED_FLAG_UTIL_CLAMP_MAX .
+>=20
+> Why does this list not include flags such as SCHED_FLAG_RESET_ON_FORK?
+> It is documented in the same manual page, so I expect it's valid here,
+> right?
 
-Some people would like manual pages to use retroactive declarations of
-parameters.  I fear that would cause all kinds of bugs if programmers
-see that syntax and believe it's valid and has the intuitive meaning,
-but then compile it and get behavior that might not be what they want.
+I actually added the `SCHED_FLAG_UTIL_CLAMP_MIN` and =
+`SCHED_FLAG_UTIL_CLAMP_MAX` flags to the list of valid flags, in =
+addition to `SCHED_FLAG_RESET_ON_FORK`.
 
-In particular, I'm worried that this might happen rather often in the
-near future:
+I=E2=80=99m kind of on the the fence with how I worded it though =E2=80=94=
+ it=E2=80=99s kind of wordy and not really futureproof. I=E2=80=99ll =
+take a look at some of the other manpages to see if there=E2=80=99s a =
+better way to word it.
 
-	alx@debian:~/tmp$ cat param.c=20
-	int
-	main(void)
-	{
-		int n =3D 42;
+Cheers!
+-Enji=
 
-		int f(char a[n], int n)
-		{
-			return _Countof(a);
-		}
-
-		char s[] =3D "foo";
-
-		return f(s, _Countof(s));
-	}
-	alx@debian:~/tmp$ /opt/local/gnu/gcc/cap/bin/gcc -Wall -Wextra param.c=20
-	param.c: In function =E2=80=98f=E2=80=99:
-	param.c:6:30: warning: unused parameter =E2=80=98n=E2=80=99 [-Wunused-para=
-meter]
-	    6 |         int f(char a[n], int n)
-	      |                          ~~~~^
-	alx@debian:~/tmp$ ./a.out; echo $?
-	42
-
-I would be interested in having a new subflag
--Wshadow=3Dretroactive-parameter, which triggers when a parameter is
-shadowing a previous variable and that variable has been used previously
-in the same parameter declaration list in which the shadowing parameter
-is being declared (but before the shadowing occurs).
-
-This should be part of -Wextra (at least), as it's rather dangerous, and
-shouldn't break any existing code (if it triggers, the code is likely
-bad).
-
-This would remove my concerns about it.
-
-
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---t3whwoicy3bbveju
-Content-Type: application/pgp-signature; name="signature.asc"
+--Apple-Mail=_65789254-CFBF-4CAD-8565-A1D900366014
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrb0sQACgkQ64mZXMKQ
-wqn3AQ//RYpIh5eUGLkTTkzDX6bbfNpl9k81LKQUB5ukOVSvaYCdS8W4yWQbCNfd
-tjqiZm7h0UQ8iuEmhzswgCg6qTmsCehYiXQ8kQNri+0IsST+lfOWuw60e1xl+YhP
-KgXTTfsw4gleEbr1i6g8jjL6lcT5aBROzc7EFrCj9OZtE+d5E6gBGFnYAl8pgyHz
-kZ2/VxIcY18EU4kA7j9Txx1RHodARSQxaA80vjS2upBSCi/xcbkWJh+AWIJ9kfVW
-1qkTrG2t4gTchbgJaRE8jSfq4/45xjci2uN/iOA7WFUJ9cavqXjtRekb5zDIxeZv
-FA5VxE4fKeoZBlYTSc3/Ks/dWiesIwrxa5h60+b2C83tmTAeeEVxG+JYM4RIonZu
-3QNqcToydc9w9LPaL3ep2UwvcxgvHlbJBHLutOWTmWhX1oNTrqcU3D7yj333nzWr
-Te0vOKTyBQzBWBEneraab42fej+1L/84+2M4eoWf79b/i40aY0k/FkRziJjHiWQE
-23jm88+vczGaxKlDTeaVxn6G2re6U+eOp9h3zUfDxqrMsFsl3MIBn19gZbcVObHP
-HUuG5ggjNWA8vJ7O9ZHhOyqT+mvXaSu/242uyBmSXCl5MxUo1Ncz0f4bRJk5PpSw
-/zf/KqAAZ2f9m7FupY5Z9fua3qOzIKc72+6Q+n/ad05XUwPXJS4=
-=3g6O
+iQIzBAEBCAAdFiEEkHfexGRJ3gYRdA2gGpE5DjPsNJgFAmrb9EMACgkQGpE5DjPs
+NJi1vA//Vfnecm4P39Xx9vYBElchpqpGhZdjf8uyY97/wKGCfAzeqM1XeHhlbpk/
+XCJfRSLKBOjY6MDPuakoiRZjVn/WPM5zsB/v0OVryjBtnz00rjb86Avdx3hZdV44
++YC0vhXRLeKQExPlNL/hOTvwSl3Np62AgO4WLMa+3D5o+4Y+aGFb5JJbFvorGJYo
+uK2uoGBo8Wnf8G+KYTadKF+cuHCi2FK9EsCx+9pzgyEaWvccndQ3fkh3RXqgkkKv
+khanVkIIs+Eo7Phj3uXhDwZ9tM9Gv8LzEnHTuopbFkFqw3k9QAb4PrzWCvZF82UW
+oX7dJJQ+enPS52YRRCPI420RalJVrhUxM0rHRh+3SKGsFECRtWi4lo9U1gXHtDvk
+JPFz6jqOO8rinNZYwkJ7TAKwRMSJMRzhh+xRlhuUdqatg4Ihvs9OxXcvcsACgn5K
+ldVqwnnV7xaDgZbfrjCd6AacpNUYIO99dGZOyXYzWVx0Dy9vIAMeeRfdvLD0HzyW
+dg7dNEvpbd2MzmgvdFKWnp8zJFXizoQNhRNB/ByB6EQI/repS+NJi5dIxFBoj+73
+BUSFvHQzV7XyKpk0tFnjLVbGaDMJrgwhpmGWeZ1QhTdPrcoZcC0Nd60CnAx3QLp6
+KSoKdQ1xQoR/NX46fKZT+OuNslNo0UfsrdWDqELBfPZrPrgTjLE=
+=jVBS
 -----END PGP SIGNATURE-----
 
---t3whwoicy3bbveju--
+--Apple-Mail=_65789254-CFBF-4CAD-8565-A1D900366014--
