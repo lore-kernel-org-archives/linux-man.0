@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792821491;
-	b=cZg5nFHzctzBOmoJrwmutBshPpfiTRv36P8zN2yvl2vwSNoqT35ScOvldeRpl+7ohPGv
-	 chGVchlvJUJi30V/NwuE8m/A+T0nheYyN7/L7GA6y47GUJOky25Sbcbj2oN6xqx3bBO1C
-	 E9mQR5EVB/4X8rrKJB40Crw5AzgqiyTD0xAf1gc3EugYlKKz1mIpvEUn/nJS9DMimKdx2
-	 7BO3YPehWsTm4Pr4QYRZUTLdQNh/uEJwm3EmPsgoJ/f4dlzvcrvhDLfCgd2UhZ3Tx1K6k
-	 SeCk5Wd66K5BHVNQm33ECrPxRzOUREf4FpBCruO53g46JydnZk1CnKHVQP3dKvY9p4g==
+	t=1792821784;
+	b=FctHCAjMieOLNbY3W3UwZUllHwRNz+M01c5ftL+HJydRXcYoK3ZMI680KnnQkWua3dlo
+	 35c6ppH6jQPWNfnStHaflgHyomgwfiBbBXARGU1z3fF7H6eW4kCdKVB5YAhmWdJx271Ja
+	 qAaNGtKqkk3el7IIfqfgLoEMGNd/jqF40o4GG7NhOzxOF+6N+WOuUevivaJ2rS4l37faK
+	 CC0wLaSCX39wL6KyoAEcl2zZQwIpMlhQx4v1z+DkMhz2esf5sYOJHeq1ToVRgP0npn3Bw
+	 YS0c/1/ELkpCsoPkBpa99F/xHiWnsdtHKbQW9K9ufeQKU+sI/nhwc26U6ZY9MEgSuGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792821491;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792821784;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=UO7PgwfU49f9ZRPhbucVPaTqv2L9+1a8EfKDAkuwkgk=;
-	b=Vv55OGumH1g/oTnd5QWUcbI0acHHUROFwp/9rJpfqcnH+S4HiDd3gZ45hnrLqMzLVhGa
-	 6vy9euEuRWFjbBQnL+Cy8thklXe/R3V4mO7sabiJfrM+X65+bzuzo9KOVLzLJpynOOl5l
-	 HXrBeubCQoXII7QwVqa30VrIe2Q7P/fAE5jkemTsRwtOxXf1fDm1YXwnpOuWE/AUL/B87
-	 tpg4qvOi1PCHRx142NlL52/UlJn4Hiwy28nbQiTuNSNvFmvNWyQyPh4iuuLVY0WTG8c1+
-	 8/nt5O2hqQvaOymysTitIVY/aLdqvW3vy864eZsHxQ19946N4Hd4jZ9zwLZ18tcdqlQ==
+	bh=VhbYsJarJPTP5l8FOm/SigJP3nPw0f94ienSofZt5tg=;
+	b=cgVAqDP34TDTIgDFbh2vOLsSc4wsTSIUVUEEp8ZcYNS2rNdkSAwzC4wV9sUtQZypQQk9
+	 1odkWwaPkL+ytlTBZoUOD2O3P2IvX4msi71o+J/4JG8APFQj+QfAZtY0KNqabVLpLrjdm
+	 t1C+tLQwIIrfo5XcroqhI8WM3jmN1lFYjXuXLusgTZP+vcPLaPUd0N8T2uI6Iq+doBMww
+	 6XzN/lTcDF1Rps/S1OsJV/GowcIhcWHxiKoAEjKNtRxHGJ09aeZ8pFU2SRxmcFCqVOwWf
+	 ihO+P0bur2MzRVrLe6DpSG34Ftox5g0Anr9B7hbbdn4WLGAhDOOj9qnT4hwoTETxjYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=DWRs5BTM;
-	arc=none smtp.remote-ip=209.85.215.199
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="Lkrhg/QQ";
+	arc=none smtp.remote-ip=209.85.216.71
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDE7606A31A
-	for <linux-man@vger.kernel.org>; Sat, 24 Oct 2026 05:58:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CDE7606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4374A606A31A
+	for <linux-man@vger.kernel.org>; Sat, 24 Oct 2026 06:03:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4374A606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=DWRs5BTM
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc1ca15334cso1901837a12.1
-        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 22:58:11 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Lkrhg/QQ
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ac77c3ff6aso2286782a91.0
+        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 23:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792821491; x=1793426291; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1792821783; x=1793426583; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=UO7PgwfU49f9ZRPhbucVPaTqv2L9+1a8EfKDAkuwkgk=;
-        b=DWRs5BTM6KkVfsMxQ0P+VKJy33NrXBCsXnawiFYxGu1ZrVtEjL2Ag4b+lhNF/bmTIz
-         WB45GlBqkLQiQXyk0lWDa2LEWzF5ThZ+4PrEyFljObfa/CB6Uc+JS+PakWnTyJg7icEp
-         mloRQQ52jeggHZSvVFNU2tLFi2JB6B3rygHtqTk3gfH3ttXF7qvN0EvtzFbXulUlvn+V
-         S2d/S4Jyf4ZmP2fwQjdKrreDVtHtxROQeNeeXMWZT3jhkBlbNAyRMhv7LZqotNKxKTIk
-         yc+hQrm7QbsV/xQcjv7wH3aP4YF3PuxChPPaO+wfPlcj48GjMhlTlunfzcTOqUTeRKrB
-         cIOA==
+        bh=VhbYsJarJPTP5l8FOm/SigJP3nPw0f94ienSofZt5tg=;
+        b=Lkrhg/QQOWslMu21hkxmR5kk/5v3T8JG7Jv5/Aecl8NOthRnmLw/5viKNewHZ9w62U
+         eOGJH80zyeuJPU/aHX66pNJk1Mad+Dz9r14OUDOAGSmJ/8U2RiaqyBouHJ36KPmpVqVU
+         6ZclcWgZjpwcj1BNKqiysusW5dgcKGkpuF4WOaAp+MV96/qGGqiH7N6VIKeluNWgg0kp
+         yPiduGRsoh0OH+VSHmvHrWM2ImyL7I+T92JtFZl8dQTuabA7XZVqWj+Y6GzM6geu83DM
+         HJ2UToJltGyEc3kc+aSB7KmU5CXFEB+HD5BoL4D04qJcHbaLneYmMlNtevqavfT8Ikib
+         ayjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792821491; x=1793426291;
+        d=1e100.net; s=20260707; t=1792821783; x=1793426583;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UO7PgwfU49f9ZRPhbucVPaTqv2L9+1a8EfKDAkuwkgk=;
-        b=sJ5JtFNgg2p3NOqGOlVHdZCZzNxnmRQh3r+vrsyiwzYUCrlIL/W3mPc3DhTgbg2to7
-         wN/cUiPxBGDfYBQQ7kXtxd+Jk/eXac6pYiJ1l32nO+jRgE59EmgEQHfVuSJDxLKdn2O8
-         tI9mFVf2pDW8mn7khNVNR34dUZ9HBOwsWlRotTtXOMrZa3Iw+N9zM2Lldy3Jzz4nUJHB
-         mCkwvWTgJgi0XRYenQRL+GEBnNXGibiy372wjnyiKSu0nkmPSIYMZIVEDonXVK5kgMjl
-         s20kGhQPQfMBIOS+9B5Zdqx+Ph/Gj6tzFrgs+LxwS/YwWzFItl7Kq5OUZP6meFYss8Uu
-         D8jw==
-X-Forwarded-Encrypted: i=1; AKwUvBzoSuDOnAm2fojA17BjQY9p9egi+pcMOQcnPgpoXRsUJrWvvH3c0qHFz8ud7MUOUWxCLUiXs9FRE24=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKawTz2fEjpcZ8C1ulNskPxWEdw7K0izsmRs7FgsVcNidtUNAhy
-	TjIBJCXdruaNeMTkjKb6Y1wcvkbcU8uaDcy8BeGQ4/vb+0eHZUK0m2Zd1ewPzGLet5XkePCULn8
-	JVxKTOQ==
-X-Received: from plblg15.prod.google.com ([2002:a17:902:fb8f:b0:2e5:712c:5c7])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ec86:b0:2e9:322e:1f94
- with SMTP id d9443c01a7336-2ea9c62041dmr9635255ad.20.1792821490736; Fri, 23
- Oct 2026 22:58:10 -0700 (PDT)
-Date: Sat, 24 Oct 2026 05:58:10 +0000
-In-Reply-To: <atxIngnsKw1c7ngn@google.com>
+        bh=VhbYsJarJPTP5l8FOm/SigJP3nPw0f94ienSofZt5tg=;
+        b=Lauaw+mpBIIvP+y8qPHjHgd9gPxl+rmmpuozhThKJ6mQl3g3n7G4oTIgnyQP7k0c8U
+         zyPCV8SJuG6DAqvFIIUmtBH6tIiKoztEAU05MPUSLtV/GItS8QvhknX3aTLUq32lE52a
+         2NDNjR1T+fbFOgiqcpRKjt3Zxw44Z5X3OkWiOYPV9bC/iD/YBfeDUSfHWrKE3neE6a4c
+         kf/DSygOy34OOfhF87bzaYPmD3Vbq3hvPtbpk56/gh4Gy2huVg8JGUZDRQkoPOSs0t9U
+         Az4Yq5E+H5TwEDPMEtUOM0vqY/kYAal1WTB6qwEDqwNnJTwCjKvNyI52wafmpDGaWc33
+         Wxvg==
+X-Forwarded-Encrypted: i=1; AKwUvBy8yVE+iENciLZBRFW67Rx0o48zwWdxa7F/zLSvsVI9FJibifMLWrsSvr2IJRvRfRhzB4bRtj4nqJg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYId+mtREOZPUeJBCCukVH4Q8LEcuEOlQLJD2uDpVyWr1Dev1T3K
+	uSJ7Ka1x3OaKT+OZwrbj6r0uihr8KkY1zgAE0AsYuCmpdIUAJUQ40LG/tL60Jx+QsCNRbDkcdyT
+	q3LeeJw==
+X-Received: from pjbin16.prod.google.com ([2002:a17:90b:4390:b0:3ab:5803:73a5])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5746:b0:3ac:8897:7b92
+ with SMTP id 98e67ed59e1d1-3adeafd647bmr1126568a91.57.1792821783225; Fri, 23
+ Oct 2026 23:03:03 -0700 (PDT)
+Date: Sat, 24 Oct 2026 06:03:02 +0000
+In-Reply-To: <20261021210800.27338-10-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -80,31 +80,146 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-References: <20261021210800.27338-2-gnoack3000@gmail.com> <20261021210800.27338-9-gnoack3000@gmail.com>
- <atxIngnsKw1c7ngn@google.com>
-Message-ID: <atxI3quJcWK4dYXE@google.com>
-Subject: Re: [PATCH 7/8] man/man2/bind.2: ERRORS: EACCES: Write permission on
- the directory is required
+References: <20261021210800.27338-2-gnoack3000@gmail.com> <20261021210800.27338-10-gnoack3000@gmail.com>
+Message-ID: <atxJNMgN8oadDlDZ@google.com>
+Subject: Re: [PATCH 8/8] man/man7/unix.7: ERRORS: Document EACCES, EAGAIN,
+ EMSGSIZE, ENOSPC, and EPERM
 From: Kuniyuki Iwashima <kuniyu@google.com>
 To: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
 Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 24 Oct 2026 05:56:53 +0000, Kuniyuki Iwashima wrote:
-> On Wed, 21 Oct 2026 23:07:59 +0200, G=C3=BCnther Noack wrote:
-> > In addition to the search permission, binding a named UNIX domain
-
-nit: s/named/pathname/
-
-> > socket requires write permission on the parent directory.  Bring the
-> > wording in line with similar documentation for EACCES on other
-> > syscalls such as mkdir(2), mknod(2), connect(2), link(2) and
-> > rename(2).
-> >=20
-> > Fixes: 9d1fd1157306 (1999-06-15, 2022-12-19; "man-pages 1.24")
-> > Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> > Assisted-by: LLM
-> > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+On Wed, 21 Oct 2026 23:08:00 +0200, G=C3=BCnther Noack wrote:
+> These are all returned directly from linux.git net/unix/af_unix.c:
 >=20
-> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+> EACCES
+> 	unix_find_bsd() checks path_permission(&path, MAY_WRITE) on the
+> 	socket file of the remote address.  The rule was already described
+> 	in prose, but the error was not listed.
+>=20
+> EAGAIN
+> 	unix_stream_connect() returns -EAGAIN when the listener's backlog
+> 	is full and the socket is nonblocking (there is no EINPROGRESS for
+> 	AF_UNIX).  unix_dgram_sendmsg() returns -EAGAIN when the receiver's
+> 	queue is full and the send would block.
+>=20
+> EMSGSIZE
+> 	unix_dgram_sendmsg() fails if 'len > sk->sk_sndbuf - 32'.  This is
+> 	the limit described in "Sockets API".
+>=20
+> ENOSPC
+> 	unix_autobind() fails when all 2^20 autobind names are taken.
+>=20
+> EPERM
+> 	unix_dgram_connect() and unix_dgram_sendmsg() fail if
+> 	!unix_may_send(), that is, if the target datagram socket is
+> 	connected to a socket other than the caller's.
+>=20
+> 	This is not something that the remote end normally does,
+> 	but it's a possible corner case.
+>=20
+> Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> Assisted-by: LLM
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
+>=20
+> Notes:
+>     Verified in code.  Kept LLM wording, which seemed OK.
+>    =20
+>     Remark:
+>    =20
+>     The case where the remote end is connected to a different socket is
+>     obscure, but still possible with Unix Domain Sockets, when a program
+>     first bind(2)s to a name, and then connect(2)s to another name.  Then
+>     that socket can be discovered by another process through the bound
+>     name, but sending a dgram fails if the sender is not the one that tha=
+t
+>     socket has connected to.
+>=20
+>  man/man7/unix.7 | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>=20
+> diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> index 054f1af75dd5..79198445c581 100644
+> --- a/man/man7/unix.7
+> +++ b/man/man7/unix.7
+> @@ -655,10 +655,25 @@ defined in
+>  .\" and it may well change, probably best not to document this now.
+>  .SH ERRORS
+>  .TP
+> +.B EACCES
+> +The caller does not have write permission on the socket file
+
+If we align with other doc, "write permission is denied..."
+
+> +specified as the remote address to
+> +.BR connect (2)
+> +or
+> +.BR sendto (2)
+> +(see "Pathname socket ownership and permissions", above).
+> +.TP
+>  .B EADDRINUSE
+>  The specified local address is already in use or the filesystem socket
+>  object already exists.
+
+s/filesystem socket object/file/
+
+Two sockets can have the same address once one's file
+is removed even without closing the socket.
+
+
+>  .TP
+> +.B EAGAIN
+> +The socket is nonblocking, and either
+> +.BR connect (2)
+> +was called on a stream or sequenced-packet socket
+> +and the backlog of the listening socket is full,
+> +or a datagram was sent to a socket whose receive queue is full.
+> +.TP
+>  .B EBADF
+>  This error can occur for
+>  .BR sendmsg (2)
+> @@ -694,6 +709,11 @@ invalid state for the applied operation.
+>  called on an already connected socket or a target address was
+>  specified on a connected socket.
+>  .TP
+> +.B EMSGSIZE
+> +The datagram to be sent is larger than the limit imposed by the
+> +.B SO_SNDBUF
+> +socket option (see "Sockets API", above).
+> +.TP
+>  .B ENFILE
+>  The system-wide limit on the total number of open files has been reached=
+.
+>  .TP
+> @@ -705,6 +725,11 @@ did not exist.
+>  .B ENOMEM
+>  Out of memory.
+>  .TP
+> +.B ENOSPC
+> +The socket was to be autobound,
+> +but all autobind addresses are in use
+> +(see "Autobind feature", above).
+> +.TP
+>  .B ENOTCONN
+>  Socket operation needs a target address, but the socket is not connected=
+.
+>  .TP
+> @@ -716,6 +741,13 @@ use the out-of-band data option.
+>  The sender passed invalid credentials in the
+>  .IR "struct ucred" .
+>  .TP
+> +.B EPERM
+> +.BR connect (2)
+> +or
+> +.BR sendto (2)
+> +specified a datagram socket as the remote address,
+> +but that socket is connected to a different socket.
+> +.TP
+>  .B EPIPE
+>  Remote socket was closed on a stream socket.
+>  If enabled, a
+> --=20
+> 2.56.0
+>=20
