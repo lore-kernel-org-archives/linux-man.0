@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792817879;
-	b=f8dOWmQdUA8TD45EiZc3mbTM7VNUoymXHMDv/alIIY7+zvXHLe3EtYCIn6VJMEzPLlYO
-	 sRcG02SuQw+8Rg97w2wyoAGcoPtEqq4TkVUkxoC+e3cdQ+AEpqashecCVURxdoiboWbWf
-	 8HbhnJseakHq5QBjnOoI2hOWNKuw5/eeIB4rHFF3tzoENhG8Pknli37AXIQUW7xhljhEZ
-	 4UeAm4fuvi94827gxWigQ4ytH2g20xQ0XVtOa7fTpKzFGtVsD3jGYArHiigvb9pzsqOfE
-	 dV/raR8WBRtWXmMpSIRC4apqhQBUvJwLzxmC5plTlDUc7O0Oqo8uFponqzKi3QA5+2g==
+	t=1792818128;
+	b=o6oNLsWcfibnRZxs1UChvKkz4hS1tGBh6BGbBbBGgQaN/iQ/KIaQg+KUHSitd9npacAz
+	 tSRjuNmjYpruoE5HjtS4khATHVj8oI9jIbC/e2upeJK+0S5aOjRNDGUx24uv4xej/66Fr
+	 OqceAhl4J6I0yEApvYw12eJc/82DIUW1TwK9Ln75t7Say8LsvMERLsULQLUAmj/638zQJ
+	 stUiFQT5UkOTRWGS32OBi9WbSxzTJRJPQkwPhtjDFr0THAkxYdUqFHsas4xRcQu3BNMeM
+	 EDAyYluoPwdQ0ExMUsc94PlSTty3BQ8HiapdeG2tWSKwLfPsKlvvLM5qQoDkccmjz7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792817879;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792818128;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=O90QMP932WQtln0v3chKpRHRm9E/6vbMwefbqYhynMg=;
-	b=lEF+HoRjXgUx8wx2T7tiRPV/zaPE84kZFBW4TZlzM8yQwzChXa8LBBvdzsFJxHRtx1xu
-	 3t7m+CT5qEbOYLVDr4pUwj1KPpicT/atrTVwrNTjTVv/YBNRXzB7OprqEr5jOtqu70vuX
-	 1tNNOXbAJQWAN3R+Yb0zatcXIXNylSztVUfu87OC5cV5ZNo1w5JmnMf/R+QAUJON5jLbB
-	 U/TsuPHskWp5uBq+K6FaShjoxcbKgaMd3v5uvbqROQt1k6EQsBRJsQDLhwn8A8C+RHXdG
-	 hAA/V5y+IU2gzfvwZtBxHHd9cTwiCpN9hWL7Dy4nmYsPuQmAF36WNyjGCp8wqgtlkjQ==
+	bh=AlFWiu2Wi3zSVJOtObnRlLyBe3s6f6iAcelz1u33Rag=;
+	b=TcbZVHmS2vSCgPcnA/0hfa5h824wBXtxxwJSmq9yof0447VJ4fFmIL6Az0PX/J4lGaj1
+	 GaWx4fip8ZV1roOioSBvurDFkDlLJiSkguyUghZYZ15yMFK3j8qaX5rhYx3NGYKaCf9z2
+	 mxh0n5IcntPKH0uqLd2FQRYgugEZZcaRRWJp2TLWTUw1JMWrQ2NgHK+oxM3y4OuzzdIhV
+	 /xlizteE7/DBuh6BBEYrb0jXINjkwrguKkZ7spJAW0mvtYyCfio1KSlaFuc3PI7toVbx+
+	 s2eFpojZVuHf88KjFtPLZSw4Gss68fNk/p5hT19oIazAyof8MvVzb8RC8tl6iXKfhTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="p/F/+M/Z";
-	arc=none smtp.remote-ip=209.85.216.70
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=WTczXitg;
+	arc=none smtp.remote-ip=209.85.216.72
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621F0606A31A
-	for <linux-man@vger.kernel.org>; Sat, 24 Oct 2026 04:57:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 621F0606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05C9606A31B
+	for <linux-man@vger.kernel.org>; Sat, 24 Oct 2026 05:02:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C05C9606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=p/F/+M/Z
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3ad98380ccfso2259158a91.1
-        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 21:57:59 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=WTczXitg
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3acc98e3b3cso1298728a91.3
+        for <linux-man@vger.kernel.org>; Fri, 23 Oct 2026 22:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792817879; x=1793422679; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1792818127; x=1793422927; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=O90QMP932WQtln0v3chKpRHRm9E/6vbMwefbqYhynMg=;
-        b=p/F/+M/Zlm7wPDEJEc5d6U+NaCtnlZl4+8ZYup+0z1CV01VEGmn9IpDRog0KQZ0jBw
-         50eNbCOShsFlHtseSM0XrclxaYhgnP0oeo7ju5V0D4IrwP+6ZPFA8H6erKR1Cq7b7NQq
-         g+KpCgKGkJbbyKiwpaJcz+Aftx9HHKU1ggdYs62vcfA0RwRJdmvrATU9RqEN1utF7BoN
-         DEoJolMpXucm/HwGTOsLcGzrGOYHsy7zLUdPKx2pvA2VV1tDBNOJMaj6MCMBFrVGNsZb
-         e6hXmVpUwDY94U6SPa/003IPzYEetyG5DjHGT47j/ZH78/DqDJXKtqo6GZsJkTn9slQ3
-         +2+A==
+        bh=AlFWiu2Wi3zSVJOtObnRlLyBe3s6f6iAcelz1u33Rag=;
+        b=WTczXitgxg+MnRboH8uWa/q2D+b5g+d5OiPfoKmN0vRdy6hjlXH1pmHN0MjFr6c/4V
+         3647FgPsAEXw+Vh+UWT5rK/JMi3wEVCvuPrHee64P3EUKQknsS+Oao1oVCPNV3AsUIj8
+         pFPFTsBE+3mjfiOFC+Hd1lNNBH+HPOsJdzFoElUJsB8+EI/niDe+XzNjyTIyOtzIwQXL
+         9hIU3LRhIJb0BPZd6J6FiCX14CZnaPheGRD3gyQsNGG2PhJjyGqR77D9XPXmK1WvS/Dp
+         GCVThYPS6CHmzjuEdKHLLEdyfPkjb16ucNgla5CM7TIHO4mDGrzaW2jjos3vju2bfiWk
+         +Ifw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792817879; x=1793422679;
+        d=1e100.net; s=20260707; t=1792818127; x=1793422927;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=O90QMP932WQtln0v3chKpRHRm9E/6vbMwefbqYhynMg=;
-        b=HYZnlWSdmEdnKGji5qRd/Kz6sKgNgypNTZwRGPC3B6nI841rMKMDT6w8U34HbrHjU8
-         0NZmLmf/ya8L5ISweJwwJc7ULhSAnstHFEtUlzQ1IZ+rpk1uueJS/h2PROummGMLH0JE
-         wc/rRvhzU6juUoDmRNx1DbFXJTnTdmvhpbM12mpAJdM0XzHrMNgVqozIF9emNGFXgrzF
-         s69t9ATL7dXPXcV+Gkq1w49+ok70IC3QMXgNnkMeflc1hENdyvsFsxXxqlle/gvWTW4M
-         vjqnM0kvARZ7qDhjXrhZ4W+HEdwn3Nby82afq6m4pduIY186SXOBMf41Yw/MUJty4HBy
-         yN3A==
-X-Forwarded-Encrypted: i=1; AKwUvBxExnaKvAfCPE2ZdMojHN7lzh1zWMQIA9L4YDizNlNrpBhvxJScs95wIRvzdPE6tnLNA5mma4gUw28=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI+nlbpb41irR/C2D6caH6KKB0qcINqsVHg/i3u1I97aJrkdpov
-	RsmoafrLfmX2ipd5NItm4xK+yOHROiupruMyW90ujbSlCRUpOORpc1wIVuB9uyY0L/wH98flXgm
-	idDzHMg==
-X-Received: from pjbsb7.prod.google.com ([2002:a17:90b:50c7:b0:3ac:6795:2cbd])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3812:b0:3ab:27f0:c90b
- with SMTP id 98e67ed59e1d1-3adeafc470cmr1180278a91.53.1792817878450; Fri, 23
- Oct 2026 21:57:58 -0700 (PDT)
-Date: Sat, 24 Oct 2026 04:57:58 +0000
-In-Reply-To: <20261021212256.27961-4-gnoack3000@gmail.com>
+        bh=AlFWiu2Wi3zSVJOtObnRlLyBe3s6f6iAcelz1u33Rag=;
+        b=Fl+0nNlsPUlvXZJS4q9EtHOOMCMfESUlFaA7Iukh3hVQ+sQGF311/JrAgj8y0i95kt
+         XEFGt+Opezc5l4DXhYE6gxUiDD+myJqpj7yHjm0/B2JPVCGn3zeVdQG82enlw5TQTmvk
+         MRtDdJqFu7A4/S7aSskgLeIBlCsoDu3C3XTf8Z3/yEbgdlymZqEUFfu1QE/QF+LgrwOZ
+         K70pZMYebQKMgZ0H9l9JgQbFgPYpNnyyk37F6lBIKTlX1dEK5Kgwj8V8NSGJ28rS7r+v
+         IBx35KelW4YivwLJUPpadIXJbEJB+S0GVbSfP2z2Ctqjh6bRErxzk1C9GT3ZECO74W9L
+         kUcw==
+X-Forwarded-Encrypted: i=1; AKwUvBwLMj9tdHNExV1q8YgJ/5VEu2d2KA/j2+zS3jp6OakflZkrqDQE2QwKn4PUUqGkcSLAsqD5RRujJ70=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLUOmKyqGcrE6oYOmeku67Lwf4PFLXshbR8DfHXxUdt/qhkjqXA
+	Gl9eFziqRQPcK+s6Wt1YyDg0KnoED0UuVvfqw48C41mwTc1+2P8CoiSkOWpHm5uXqOB6MTlAJej
+	rk90ExQ==
+X-Received: from pjbqd6.prod.google.com ([2002:a17:90b:3cc6:b0:3ab:147a:52a])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1c8f:b0:3a8:699f:959d
+ with SMTP id 98e67ed59e1d1-3adeabe535bmr1184894a91.31.1792818126877; Fri, 23
+ Oct 2026 22:02:06 -0700 (PDT)
+Date: Sat, 24 Oct 2026 05:02:06 +0000
+In-Reply-To: <20261021212256.27961-6-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -80,113 +80,42 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-References: <20261021212256.27961-1-gnoack3000@gmail.com> <20261021212256.27961-4-gnoack3000@gmail.com>
-Message-ID: <atw5fW54s8R-5a-G@google.com>
-Subject: Re: [PATCH 3/7] man/man7/unix.7: Autobind: Clarify when it happens,
- and mention SO_PASSPIDFD
+References: <20261021212256.27961-1-gnoack3000@gmail.com> <20261021212256.27961-6-gnoack3000@gmail.com>
+Message-ID: <atw7vbZdVk2RJWw6@google.com>
+Subject: Re: [PATCH 5/7] man/man7/unix.7: SO_PASSSEC: wfix
 From: Kuniyuki Iwashima <kuniyu@google.com>
 To: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 21 Oct 2026 23:22:52 +0200, G=C3=BCnther Noack wrote:
-> Autobind happens if either one of SO_PASSCRED/SO_PASSPIDFD is set and
-> either connect() or sendmsg() happens.  Mention SO_PASSPIDFD and
-> clarify that autobind does not happen immediately when setting these
-> socket options.
+On Wed, 21 Oct 2026 23:22:54 +0200, G=C3=BCnther Noack wrote:
+> Use "security context", as in the description of SCM_SECURITY.
 >=20
-> In linux.git net/unix/af_unix.c, unix_autobind() is called by
-> unix_dgram_connect(), unix_stream_connect() and unix_dgram_sendmsg(),
-> if the socket has no address and unix_may_passcred() is true.
->=20
-> unix_may_passcred() is also true when SO_PASSPIDFD is set, which was
-> added in linux.git 5e2ff6704a27 (2023-06-12; "scm: add SO_PASSPIDFD and
-> SCM_PIDFD"), Linux 6.5.
->=20
-> Also, the old text said "not yet connected", but the condition is
-> about the socket not being bound.
->=20
-> Fixes: 9d1fd1157306 (1999-06-15, 2022-12-19; "man-pages 1.24")
-> Fixes: 0cf2caa41ea6 (2010-10-10; "unix.7: Document the autobind feature")
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Alexander Mikhalitsyn <alexander@mihalicyn.com>
 > Cc: Kuniyuki Iwashima <kuniyu@google.com>
 > Assisted-by: LLM
 > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
 > ---
->=20
-> Notes:
->     Rephrased the LLM-generated text so that the canonical description is
->     in the "Autobind feature" section and the other place just refers to
->     it.
->    =20
->     SO_PASSPIDFD is unfortunately not documented yet at this point in
->     time, but it's still correct to mention it here.
->=20
->  man/man7/unix.7 | 25 ++++++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
+>  man/man7/unix.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
 > diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> index a1dce8c47246..ded82768322b 100644
+> index 4abd216d19c7..67dd10cc146f 100644
 > --- a/man/man7/unix.7
 > +++ b/man/man7/unix.7
-> @@ -301,8 +301,14 @@ if the sender did not specify
->  .B SCM_CREDENTIALS
->  ancillary data.
->  .IP
-> -When this option is set and the socket is not yet connected,
-> -a unique name in the abstract namespace will be generated automatically.
-> +When this option is set on a socket that is not bound to an address,
-> +the socket is autobound to a unique name in the abstract namespace
-> +when
-> +.BR connect (2)
-> +or
-> +.BR sendmsg (2)
-> +is called on it;
-> +see "Autobind feature", below.
->  .IP
->  The value given as an argument to
->  .BR setsockopt (2)
-> @@ -370,10 +376,19 @@ call specifies
->  as
->  .IR sizeof(sa_family_t) ,
->  .\" i.e., sizeof(short)
-> -or the
-> +or if
-> +.BR connect (2)
-> +or
-> +.BR sendmsg (2)
-> +is called on a socket that was
-> +not explicitly bound to an address
-> +and that has the
->  .B SO_PASSCRED
-> -socket option was specified for a socket that was
-> -not explicitly bound to an address,
-> +or
-> +.\" commit 5e2ff6704a275be009be8979af17c52361b79b89
+> @@ -317,7 +317,7 @@ and returned as the result of
+>  is an integer boolean flag.
+>  .TP
+>  .B SO_PASSSEC
+> -Enables receiving of the security label of the peer socket
+> +Enables receiving of the security context of the peer socket
 
-Do we really need this SHA1 here ?
+Patch 4 touches here, why not squash ?
 
 
-> +.B SO_PASSPIDFD
-> +(since Linux 6.5)
-> +socket option enabled,
-
-You will need to update here with SO_PASSPIDFD_THREAD,
-https://lore.kernel.org/netdev/20261005-work-unix-passpidfd-v4-3-350183b6e0=
-2a@amutable.com/
-
-but I'm not sure to what extent you want to clarify things.
-
-For example, is "the socket is autobound when it passes
-credentials or pidfd but is not yet bound." too vague ?
-
-
->  then the socket is autobound to an abstract address.
->  The address consists of a null byte
->  followed by 5 bytes in the character set
+>  in an ancillary message of type
+>  .B SCM_SECURITY
+>  (see below).
 > --=20
 > 2.56.0
 >=20
