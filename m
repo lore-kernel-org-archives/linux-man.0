@@ -1,97 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051753;
-	b=GA+Y6oYvXBtoYhTnHmrO+DssVT/EDHhmpcjCWwAnAI1XhisoZ/Lqh+So7m9Tebn8NQYU
-	 tzsrfoXNwvUA4+0cIEPubVWQUVBT4yR/mHWefmlCVdLHlK7ZVCcm09XhUP2owuNgFOXms
-	 Uf5+p0fsPZg2Y5Vp3Jk7TKGqZQuRhrtxcrAS231SWcSvXxQSAHRYQaQ3ULvH1s0f4aA6v
-	 S5+gPsrWra7n45THv+MVDKfBuFWzek2fJn8Esg/YWuEPDCdLGPXRtGJTdFcJRZ5vbYaYF
-	 vxNiNSS0hf+Gs1wpqZtJsfS60EebzGfqx2CGfeui+rm8CvIlz6BQ8U+Gwot2jkghFlQ==
+	t=1793054477;
+	b=Fw4YbPRd98imeposyKqEoJgId1NicXXfRape9cuJPxqImj2xX217YND8rQxSz4YZJ8Pi
+	 RfXuF78aGXg+ns3KsqouRWHZVpFixU9HIc9c8rc5zdlcVbfrOV7g4SakH0EgAFWBFNOT/
+	 ClBf7MTnf7LtW4MejMizOy7XMKKEjjXRiHtFfyH/ArmlhuK+ySIBtKIMNAG9TD5TPbXcr
+	 /TX54lTaIt5S+sdOMwASg5oEuMMAVWDPrkNWAHBT1rmjclGd3+Rf7H6n4DOoGVds9sdP4
+	 I7s78HXwFDRPlHJrke27eRaK+fIX3a1+UnC4XGEuF4jVuFz/pwY/zyUXvvpmCsKIrCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051753;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793054477;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=H+fHCsIsBMzXytr2xZX4AHsSw0qM8WvZob/oLbDp+PU=;
-	b=taesgvmVGL7udlV0dGHT2PRXkrtEhZvhoAWWbRXz0S/BXi9gpQYcGRAKnfjjT75IpGC4
-	 PD2csr7Z6mxTm8z7ek2lb1exVjtAK3FuUktWpBxzgltW0wX7RdIr3O39H0wiGksqTxEnJ
-	 XaDSxZOYwv3Wt3xYjrcyaRUpCyx4sKs44qFWj85QRpaP+yG/pz55QQqRpkXNLP7hC18rR
-	 E1q7bBmnhkdEMj9UB868Yf3TadPjfuicoeIWBAM5FXKqcSKkzdiQTwSoRttTH8NU+gLIX
-	 0B9Z3v9zCpVH1RBao0CP77MDxRRV8A3p5V60N5RufCu8tnR75KLHiFXlMTkFoVSKULg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=nFrJWvBdgFTPW1K2yN0oMSYF15BGhSl8do1MVRTtUUQ=;
+	b=MdZpM6F2y83e0DY57Vf311IGJ/qG1tEOGpsVij9xOTLs9HSyTEGtGjgUZujJpp6wVWZK
+	 UPTWzfYHApTi6zTTktp1cTXt9qBAE6Uien8Vs+oWN+PN9idOf42/h1VAjWMaeoo4YdkYG
+	 Hk4T4cXYj/t7jCN+bVLwbTQqnrpXgk3anFqmmSxkegss7FNZh9FQK6uuVzfP4v+NS7JDq
+	 eC9zNaYXIl73UEQ433nYy/bXVmusDCcaOTZ82Z7zPKv2D4T0YyUh4kMBijWlozGwwOKvK
+	 h6K8A6UghjG/bc1wizlRE2dpaBfkgBhAdXUkG7muZOUkHR0BmYST30+2/AzhvqYKZZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YO5KLJLV;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sOMYoIaV;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560EC606A31F
-	for <linux-man@vger.kernel.org>; Mon, 26 Oct 2026 21:55:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 560EC606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3AA606A333
+	for <linux-man@vger.kernel.org>; Mon, 26 Oct 2026 22:41:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E3AA606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YO5KLJLV
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e00eee27dso2226132f8f.0
-        for <linux-man@vger.kernel.org>; Mon, 26 Oct 2026 14:55:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sOMYoIaV
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso21886075e9.0
+        for <linux-man@vger.kernel.org>; Mon, 26 Oct 2026 15:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793051752; x=1793656552; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1793054476; x=1793659276; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H+fHCsIsBMzXytr2xZX4AHsSw0qM8WvZob/oLbDp+PU=;
-        b=YO5KLJLVgVgTiv2Er/qfoHF29Stc/BVjAi5SELDu8/4n97fdH4eOCvntpS8jyYnMyT
-         PrLZbEN8uvTclGLPrWs8Na+9kYUW36sivTyIaAxxo5kXedylcTlPV2ZK8+bNTJtoCqU5
-         EYwHZu0qBLvSVKXylICR1QV3uT+TZsxbwe8mRedBlJqQ0q+YeoZq/9+X+gv1VzTRBamX
-         UJKrjUXtETRCAke/4CCqA9Q1Ab3jCegeq8qm2KKYcbhcMPA9YDTSX0t0t1WsOvbciFV9
-         qlSj07VuSXTfTO/8BQ5tL69KIE/ZE1IyWTF4QXc6M8nWn4yhAqujL95dzKW244d2Z1LQ
-         aNmQ==
+        bh=nFrJWvBdgFTPW1K2yN0oMSYF15BGhSl8do1MVRTtUUQ=;
+        b=sOMYoIaVEHxzsvJbCmQu1C/NusKe1t9bfXZ/tVzSmNfSegbG0C3ZeYrYINEFU2wcWP
+         s+Z01ZxP/oFZByAfyWioClUoz+NV7vmY5VgkX5SkNxBXsQd6GOvZp26ys2xSsTosbb34
+         bIF0D+0Zv42ac8kXCJ/YKNWMPpKs22LTIwxnZIrAVIiqDbOunawxINwvIIkPtijSuFXd
+         OZD6piSlYirfIZT6nn0F8JrYLsppgcX756o6wPYuwRka2S6h+FvYsbcWj/SUQDRm12SQ
+         vNJZXn9kthL4BKxms4D9L9oSBgfQvTzlel1IokiMFJuZuBQO0zWCVlaLuG2+lv+ocW8W
+         oc0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051752; x=1793656552;
+        d=1e100.net; s=20260707; t=1793054476; x=1793659276;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=H+fHCsIsBMzXytr2xZX4AHsSw0qM8WvZob/oLbDp+PU=;
-        b=sdYivEO8BIGf45JC/Sq+zAlCKfGHt5qkns3sTgV8URJYkB/VE57nrLrUcPbOvRad1L
-         ROLjKsvF4NFVYJPDOYYWU4hWFkv1xNE9thGe8JZHWBihPCynwd3Bm/iBkQhjJbakopgv
-         dArg26qp4vSRWOHfHdrCKjkbDufv59UZOMrXI9XhmD541O0vBszX0z1lSZHbnwjYcX6q
-         deOrkA7tB51sJJ8G2zvlYwCbCbbNORQvXneKrsI0ijbpNDK4RcqjRLtDKO7yuypEfEez
-         Kd8prg5D3qrYi1imaDzzA1XAguXhJ7rCZjKqF5gO9l6gLuW4AHiCkSuDzP8LYlokd5eL
-         R5wQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw8CaNmcmsw8v/mNBta74pHEibJWtYoA7T0ZQ2N6Wu+3ShufjnQiKOVbf9kLK5W26Qzf6A9R3KoTUc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4S48Da3T3yHKrU/8DUc2WpEFbiwrNWn3SfooPUPAvJf0YMFSn
-	eRsNtpAYU5XxQOOh2/wrbJ0D59nBm/qgAg/PZQW48j4DvEunVOOCswCH
-X-Gm-Gg: AYBFou2qpqPFiYcwzuoEir1I9+5R5Q154qVkB1PnZ8uGS/pwzMTOjk1S/pk/HY7ERQd
-	rUrvDVFlqV1uDir2jf9Wi7cDA3yQGqwYqeTUb28nunPsRyIwJJB0tIFUBN7vXfAvvDYTUr8JL/z
-	VOiM0Ytk7wHAWVdHiZU6eMCt1sCac/JEAumef4EsMN6YSvlx0h57Ay1VEjwkyi/XPtIku9iGVcE
-	Dn1STW6UipiqANAWfXGcUQ5yKhP7dqkGy8TrYa9ZakLrL6DJILrTxCBaMePBcMP38lV+fmMcccy
-	DjhK6d9xH2O6RLb36lUKur+MpXVxPDtH7nQ+hdxpQR6VSIBu1DxaN0xODgJjIJNql1x5kEp3Gav
-	xGDrR9Sx9c0f4n4KEntoK+oI04rYYFJkxJZNZecJZgwQxTML9t32riOZd8EZbVPOB8Qoemc/Z0l
-	zw24Tu32wiGNnpX+RHLby3PSORo0eyF2dVO7sYpNjcPO3tLYY6quI2/4tc536ntEhg6eCdayj8z
-	xt9Q8YIWhqte46N9OfI8QSKIkU/HCsoSnwXpNH6KVoHthLkdq5HlGrKxmDZObv4XuOyOwy0dtJ8
-	BJh6
-X-Received: by 2002:a05:6000:188b:b0:48d:f6d2:9c8d with SMTP id ffacd0b85a97d-48e3eba1212mr16202593f8f.46.1793051751417;
-        Mon, 26 Oct 2026 14:55:51 -0700 (PDT)
+        bh=nFrJWvBdgFTPW1K2yN0oMSYF15BGhSl8do1MVRTtUUQ=;
+        b=laG3/eoUpoloqAVHP78eqBhcB6lG4VogQRP/doswYr1+I5LbSA7YJlIUKZ5MeAD4y6
+         C4lKCNHGgZ1mJDB/BxjgXwKcWg4WOoMLp5zL9zG9DotAhMhmbEHpswlvvzSo4kVt9jXA
+         YxX/C8OOrMxPlYSaews404oMmnyZPQ49m5Qnjc6SkPSq4mBNh2TmPmrCNNJ2Ca53Fcgl
+         +co48OJKVFvSq3BlYW+EjOjtf5lE2FbPicOB7HGSbJqr4qHocFFHKQeAn+L/r+NeHyGC
+         OBpEis0x5xfEIXVcCYn6MXznsSjgEwXlKs5zOT+LQcIJqhPRJPFrl5njTQ1E5aIBi80g
+         InxA==
+X-Gm-Message-State: AFq9FYK13vmAAFn26+NlRkoI/XaeeBSMVhzPg03t2isF77aSh1kNX5si
+	kbhxxnbxR/7kI/a/1R/f+KmXsWrbgQ7nJyka1EjRVoqtXicU1NEoq4WJ
+X-Gm-Gg: AYBFou1y60Hvo6WzfjCdlpqFTw0YcWk0MZQkkB/9Tm6SCkaWIwPL8o76R5LMrGwT3pW
+	LfAK/mXXR8fBuw4Rl88YfNnJbxCJ3+Bf7/dfhWH962VVevWlPvKXAiE+19d3t9TR838zGDi92cv
+	KSNMuRRNj7XG/d4L/BXOAs/QvrILyNltTDQm0mkyL4DvhZDabVEm6BqMFwch3KlNQEjRphlMSuS
+	7S3IrfpxcYse11cKNjOZO2eE4baRxsHyaD7rsQFFaMVbR3I/LhvUUHAsbrCZxOD2/m1sA7ga0os
+	Vc2ZXEP6hV8ehGTdiJfQh9fFJe3zi7CeM/HAd1f4MezW8DGKOuvUbuOlhXfvaEzBcVtkee4a46N
+	EwKbICpE0kzorFXnW1kpnzx/S5G/9HZqpmEMmfunMgM4FqJs4U9GS7iTG0xaZ2kN38g8/DMMKn4
+	Ho5jj5SgGcj91sbERaa1ph6SfFYXJNHUQNurHdBZJgn+D7CiMIMijF9eLtIdHKRHR1/AvDaSCKt
+	cULRlysQ79+ukt8NMJAtPwAaQsMhaMXTvqm+0zyXpANd247kjRtgSJPAGQUky2jKlw5g3rJYeol
+	Yo5w
+X-Received: by 2002:a05:600c:530e:b0:4a1:811c:8078 with SMTP id 5b1f17b1804b1-4a35acbee85mr151238105e9.26.1793054475551;
+        Mon, 26 Oct 2026 15:41:15 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8ddasm20774747f8f.48.2026.10.26.14.55.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a0bae01sm273835265e9.7.2026.10.26.15.41.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 14:55:51 -0700 (PDT)
-Date: Mon, 26 Oct 2026 22:55:49 +0100
+        Mon, 26 Oct 2026 15:41:15 -0700 (PDT)
+Date: Mon, 26 Oct 2026 23:41:13 +0100
 From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	Michael Kerrisk <mtk.manpages@gmail.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Subject: Re: [PATCH 3/7] man/man7/unix.7: Autobind: Clarify when it happens,
- and mention SO_PASSPIDFD
-Message-ID: <20261026.92f659908546@gnoack.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: [PATCH 4/7] man/man7/unix.7: SCM_SECURITY: Generalize to other
+ LSMs, not just SELinux
+Message-ID: <20261026.f6d2e191a08e@gnoack.org>
 References: <20261021212256.27961-1-gnoack3000@gmail.com>
- <20261021212256.27961-4-gnoack3000@gmail.com>
- <atw5fW54s8R-5a-G@google.com>
+ <20261021212256.27961-5-gnoack3000@gmail.com>
+ <atsufiZwUg3d-cKs@debian>
+ <20261023.63aab80a9e86@gnoack.org>
+ <atuiuCDEpf7H7I7J@debian>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -104,116 +104,223 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <atw5fW54s8R-5a-G@google.com>
+In-Reply-To: <atuiuCDEpf7H7I7J@debian>
 
-On Sat, Oct 24, 2026 at 04:57:58AM +0000, Kuniyuki Iwashima wrote:
-> On Wed, 21 Oct 2026 23:22:52 +0200, Günther Noack wrote:
-> > Autobind happens if either one of SO_PASSCRED/SO_PASSPIDFD is set and
-> > either connect() or sendmsg() happens.  Mention SO_PASSPIDFD and
-> > clarify that autobind does not happen immediately when setting these
-> > socket options.
+Hello Alejandro, Casey!
+
+On Fri, Oct 23, 2026 at 08:13:22PM +0200, Alejandro Colomar wrote:
+> > Date: 2026-10-23 19:57:16+0200
+> > From: Günther Noack <gnoack3000@gmail.com>
+> > On Fri, Oct 23, 2026 at 11:57:41AM +0200, Alejandro Colomar wrote:
+> > > > Date: 2026-10-21 23:22:53+0200
+> > > > From: Günther Noack <gnoack3000@gmail.com>
+> > > >
+> > > > Reword the description of SCM_SECURITY to not be specific to SELinux.
+> > > > 
+> > > > The security context is populated in scm_passec() in linux.git
+> > > > net/core/scm.c, through the security_secid_to_secctx() LSM hook, which
+> > > > is currently implemented by SELinux, Smack and AppArmor.
+> > > > 
+> > > > Also clarify the properties of the returned string:
+> > > > 
+> > > > * There is no NAME_MAX limit on the length; SELinux contexts can be
+> > > >   longer than that.  If the control buffer is too small, put_cmsg()
+> > > >   truncates the data and sets MSG_CTRUNC.
+> > > > 
+> > > > * Whether the string is null-terminated also depends on the LSM:
+> > > >   SELinux includes the null byte in the length, but smack_to_secctx()
+> > > >   in security/smack/smack_lsm.c uses strlen() and doesn't.
+> > > 
+> > > ...
 > > 
-> > In linux.git net/unix/af_unix.c, unix_autobind() is called by
-> > unix_dgram_connect(), unix_stream_connect() and unix_dgram_sendmsg(),
-> > if the socket has no address and unix_may_passcred() is true.
+> > Ah, I can see that this is confusing; let me reformulate that without
+> > mentioning this strlen() implementation detail.  Smack returns a
+> > buffer with a given size *without* including the null byte, roughly
+> > like this (simplified):
 > > 
-> > unix_may_passcred() is also true when SO_PASSPIDFD is set, which was
-> > added in linux.git 5e2ff6704a27 (2023-06-12; "scm: add SO_PASSPIDFD and
-> > SCM_PIDFD"), Linux 6.5.
+> >   int len = strlen(skp->smk_known);
+> >   /* populate */
+> >   cp->context = skp->smk_known;
+> >   cp->len = len;    <-- does not span the null byte
 > > 
-> > Also, the old text said "not yet connected", but the condition is
-> > about the socket not being bound.
+> > Reformulating to:
 > > 
-> > Fixes: 9d1fd1157306 (1999-06-15, 2022-12-19; "man-pages 1.24")
-> > Fixes: 0cf2caa41ea6 (2010-10-10; "unix.7: Document the autobind feature")
-> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> > Cc: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-> > Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> > Assisted-by: LLM
-> > Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> >   ...but smack_to_secctx() in security/smack/smack_lsm.c sends a
+> >   security context that does not end in a null byte.
+> > 
+> > > > Fixes: ffad6a017f91 (2018-07-28; "unix.7: Document SCM_SECURITY ancillary data")
+> > > > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> > > > Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> > > > Assisted-by: LLM
+> > > > Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> > > > ---
+> > > > 
+> > > > Notes:
+> > > >     This feature is also available in other LSMs.  Unfortunately, they
+> > > >     implemented it inconsistently and that complicates the description of
+> > > >     how string boundaries are handled.  Linux does indeed neither
+> > > >     guarantee that this terminates with a NUL byte, nor that NAME_MAX is
+> > > >     large enough to hold it.
+> > > 
+> > > ...
+> > > 
+> > > >     
+> > > >     This is the verbose variant, but I am open for suggestions regarding
+> > > >     what level of detail is appropriate here.
+> > > > 
+> > > >  man/man7/unix.7 | 25 +++++++++++++++++++------
+> > > >  1 file changed, 19 insertions(+), 6 deletions(-)
+> > > > 
+> > > > diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> > > > index ded82768322b..4abd216d19c7 100644
+> > > > --- a/man/man7/unix.7
+> > > > +++ b/man/man7/unix.7
+> > > > @@ -317,7 +317,7 @@ and returned as the result of
+> > > >  is an integer boolean flag.
+> > > >  .TP
+> > > >  .B SO_PASSSEC
+> > > > -Enables receiving of the SELinux security label of the peer socket
+> > > > +Enables receiving of the security label of the peer socket
+> > > >  in an ancillary message of type
+> > > >  .B SCM_SECURITY
+> > > >  (see below).
+> > > > @@ -544,13 +544,26 @@ message, the
+> > > >  option must be enabled on the socket.
+> > > >  .TP
+> > > >  .B SCM_SECURITY
+> > > > -Receive the SELinux security context (the security label)
+> > > > -of the peer socket.
+> > > > -The received ancillary data is a null-terminated string containing
+> > > > +Receive the security context (the security label)
+> > > > +of the peer socket,
+> > > > +as provided by the active Linux Security Module (LSM),
+> > > > +such as SELinux or Smack.
+> > > > +The received ancillary data is a string containing
+> > > >  the security context.
+> > > > -The receiver should allocate at least
+> > > > +Whether the string includes a terminating null byte
+> > > > +depends on the LSM;
+> > > 
+> > > This seems to contradict the commit message.  The commit message says
+> > > that the string is terminated, but that the reported length might or
+> > > might not be off-by-one (i.e., not count or count the '\0').
+> > >
+> > > This text, however, is saying that in some cases there might not be
+> > > a '\0' at all.
+> > 
+> > The TL;DR is that the byte after the returned buffer's declared length
+> > can't be trusted to be 0 - it is undefined and can be clobbered.
+> 
+> Huh!  This is to me a bug.  Would you mind reporting them this as a bug
+> and CCing me?  I'd rather get this fixed in the kernel than documented
+> as broken.
+> 
+> Especially, if they use strlen(3) internally, this sounds very much like
+> a kernel bug, but even if not, it is clearly a kernel bug.
+> 
+> In any case, if we were to document this bug, we should not use the term
+> string, because anything not containing a '\0' is not a string, by
+> definition.
+
+Casey, would you be able to confirm whether this constitutes a Smack
+bug or is intentional?
+
+The TL;DR is that we came across the function smack_to_secctx() in
+smack_lsm.c, which passes a Smack label string in a buffer without a
+terminating null byte.  This is inconsistent with what SELinux and
+AppArmor do.
+
+Before we start explaining so many corner cases in the man pages, I
+wanted to check -- is this something that Smack should fix, by
+including the zero byte?
+
+I tried to double check the Smack userspace utilities but couldn't
+find any use of SCM_SECURITY there.  (Is the feature unused?)
+
+
+> > I have not read the full kernel implementation now, but it can already
+> > be seen in userspace that that adjacent byte can belong to a different
+> > data structue:
+> > 
+> > 
+> > ## How control messages are represented
+> > 
+> > The security context is returned to user space as a cmsghdr structure,
+> > as described in cmsg(3), where it is returned as a buffer of length
+> > cmsg_len:
+> > 
+> > struct cmsghdr {
+> > 	size_t cmsg_len;  /* data byte count including header */
+> >         /* some other fields */
+> > 
+> > 	/* followed by
+> >            unsigned char cmsg_data[]; */
+> > };
+> > 
+> > Reading beyond the declared cmsg_len is undefined, and callers don't
+> > get any guarantees about the byte following the csmg_data[] buffer.
+> > 
+> > 
+> > ## Iterating from userspace through multiple control messages
+> > 
+> > Iterating through the cmsgs is done with the API described in cmsg(3),
+> > CMSG_NXTHDR().  This is implemented as an inlined function in
+> > /usr/include/bits/socket.h.  The function does a bunch of validation
+> > logic and then ends in this rather simple advancement logic:
+> > 
+> >   __cmsg = (struct cmsghdr *) ((unsigned char *) __cmsg
+> >                                + CMSG_ALIGN (__cmsg->cmsg_len));
+> >   return __cmsg;
+> > 
+> > So, the cmsgs with their cmsg_data[] buffers are next to each other in
+> > memory.  They are aligned, but that still means that the byte after
+> > cmsg_data[] might be part of the next cmsg header or beyond the list
+> > of control messages.
+> > 
 > > ---
 > > 
-> > Notes:
-> >     Rephrased the LLM-generated text so that the canonical description is
-> >     in the "Autobind feature" section and the other place just refers to
-> >     it.
-> >     
-> >     SO_PASSPIDFD is unfortunately not documented yet at this point in
-> >     time, but it's still correct to mention it here.
 > > 
-> >  man/man7/unix.7 | 25 ++++++++++++++++++++-----
-> >  1 file changed, 20 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> > index a1dce8c47246..ded82768322b 100644
-> > --- a/man/man7/unix.7
-> > +++ b/man/man7/unix.7
-> > @@ -301,8 +301,14 @@ if the sender did not specify
-> >  .B SCM_CREDENTIALS
-> >  ancillary data.
-> >  .IP
-> > -When this option is set and the socket is not yet connected,
-> > -a unique name in the abstract namespace will be generated automatically.
-> > +When this option is set on a socket that is not bound to an address,
-> > +the socket is autobound to a unique name in the abstract namespace
-> > +when
-> > +.BR connect (2)
-> > +or
-> > +.BR sendmsg (2)
-> > +is called on it;
-> > +see "Autobind feature", below.
-> >  .IP
-> >  The value given as an argument to
-> >  .BR setsockopt (2)
-> > @@ -370,10 +376,19 @@ call specifies
-> >  as
-> >  .IR sizeof(sa_family_t) ,
-> >  .\" i.e., sizeof(short)
-> > -or the
-> > +or if
-> > +.BR connect (2)
-> > +or
-> > +.BR sendmsg (2)
-> > +is called on a socket that was
-> > +not explicitly bound to an address
-> > +and that has the
-> >  .B SO_PASSCRED
-> > -socket option was specified for a socket that was
-> > -not explicitly bound to an address,
-> > +or
-> > +.\" commit 5e2ff6704a275be009be8979af17c52361b79b89
+> > The more I think about this, the more unsure I am that this is even
+> > worth documenting.  In the end, anyone reading and interpreting this
+> > data probably needs to read the corresponding LSM anyway, and trailing
+> > null bytes are probably the least of their worries...?
 > 
-> Do we really need this SHA1 here ?
+> Not only that it's worth documenting, but this might be a vulnerability.
 
-I'll drop it, since it's already pointed out in the commit message.
-It seemed like the convention in these man pages, but apparently it's
-not needed any more, as Alejandro also remarked in [1].
-
-[1] https://lore.kernel.org/all/atulJkR7fAgyKhPP@debian/
-
-
-> > +.B SO_PASSPIDFD
-> > +(since Linux 6.5)
-> > +socket option enabled,
+> > Maybe it would be better to just say something like "The format of the
+> > security context is determined by the LSM responsible for it".  WDYT?
 > 
-> You will need to update here with SO_PASSPIDFD_THREAD,
-> https://lore.kernel.org/netdev/20261005-work-unix-passpidfd-v4-3-350183b6e02a@amutable.com/
+> I'm unwilling to accept a nonstring as a valid format, unless very good
+> reasons are stated.  And if those reasons are stated as "that ship
+> sailed long ago", the way to document this might very well be BUGS.
 
-SO_PASSPIDFD_THREAD did not make it into Linux 7.3, and man pages
-document stable features only, so it will have to go separately at a
-later point in time.
+Point taken and agreed that it would be better to call it a "buffer"
+rather than a "string" when it does not have the null terminator.
+
+It does seem that this is used also outside of UNIX Domain Sockets:
+IP_PASSSEC(2const) says:
+
+  The security context returned in the SCM_SECURITY ancillary message
+  is of the same format as the one described in SO_PEERSEC(2const).
+
+And looking this format up in SO_PEERSEC(2const), we find:
+
+  The security context string may include a terminating null character
+  in the returned length, but is not guaranteed to do so: a security
+  context "foo" might be represented as either {'f','o','o'} of length
+  3 or {'f','o','o','\0'} of length 4, which are considered to be
+  interchangeable.  The string is printable, does not contain non-
+  terminating null characters, and is in an unspecified encoding (in
+  particular, it is not guaranteed to be ASCII or UTF-8).
+
+So it seems that these "buffer" (not "string") semantics exist there
+as well.  Maybe it is intentional then that it is treated as a buffer
+rather than a string?
 
 
-> but I'm not sure to what extent you want to clarify things.
-> 
-> For example, is "the socket is autobound when it passes
-> credentials or pidfd but is not yet bound." too vague ?
-
-In my ears, "passing credentials" might as well mean that the current
-credentials are being *sent* over the socket, rather than received.
-We could maybe say "when it is configured to receive credentials or
-pidfd"?  (But at that point, it's similarly long and less precise than
-just listing the socket options.)  I'd keep it as is for now, if
-that's OK.
+I'm still leaning towards documenting it as a buffer with
+implementation-defined contents which are provided by a LSM.  How
+these buffer contents are interpreted is depending on the LSM in use
+anyway.
 
 –Günther
