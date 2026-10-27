@@ -1,62 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=172.104.147.125
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793061497;
-	b=bAYJ1wHob+chmvZCZF6X6uRY9Uw0kJh+3sdGGXDzrPb83TtAB8na7wwSY85+sABhHzHz
-	 +NyCY5R+HrkwaUbfmcgo/gGw37vWCZBQuO2dPNuAJbJYx7bL1sxy2PVcY+qtWx2K4mjgP
-	 gI149CSb7l7uLyiZ0sMwxRMvcTmSpdLOgTtxKfqOzHxjgVk+PKsdEqku9kF7nRCgxS/GU
-	 NfRW9O6x0TCsLXsym7k1AIj5hXJroZeOL/F71aiVPw1ZvJi3i1Uj3FSprmQ2Sa7k9PfbR
-	 RZbSDRSQINZhtp6kvxEjcVld9zYKQL9pDmp+l2VivzakkQ31VUmQLYVW7n/m+6jFqyA==
+	t=1793061502;
+	b=CGEfESQBPqib1LroXE96wVrHvqleoOjwH/KqYwA4aBenKwt68LER5KQ+wK0QGA3+KZPj
+	 +jJiZcgNNwIcjS59nzvSNNYUNhJufmHpxtVpDgii6QLZ15HaP+nCrpf4n5n5z1vr6dHtg
+	 WUkcvuY/fQ7FTiGmtCVdffhZ5oyJ3BRsMgE/rVxDxFMT40yqeFYasrh/9kjUHKaBqegnv
+	 TXWSHusyvtX28SVQU2xX3CFLg+AKpPn38Wk0Jiw1aNwAU21B22D6m50bheaud7QVl3y6K
+	 czdoRmIGaz02pebj+JUdKd/HgyBOb8TG7Ued6Auj21ltTQQUbne9xIu6f2jw5KjC1UA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793061497;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793061502;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=BMXJ8LFa3vnujh6Wvpp1EbYtwrWMURzu3+dPtAjZel8=;
-	b=O/o4G6/hlZLMcUnepDryasrEOSjwwqiwKaGcIzXUDe0iK5qsjwyNI5BhF3+5SBqTl/DW
-	 asxogbFmW1CCsJHCh5zR3tuMSdkDJckMGcRLXbE6FJq+NZO1BH8wEnNEoAFiRlfFl4KuZ
-	 un1jkGtix57yl0MHF93kSeOfbXu0Nk7Z173l17uYX3v9ZgFzp+0hR6Gb7NoTlTd/ZIvoh
-	 atcgb0PDIf+4+7MsLdO49qcTEwj8H9Zi5qp/DMNYEjqx2vNzvH178h173OXAv2g7fMJ+s
-	 B88+cL+L78erHGBTtC9UrROF/F3NJ0mLJGFhpMoeTA70VMkY8UL0bWgqXQiSYWI4WGQ==
+	bh=7in1cAa+fflmZixAsOwkuGNJeQE0tVxyfFc2f0Q9i24=;
+	b=pOQxW5g+dDNCTzw1IfSBgaOXANbHS3Jm1c5sP+Ppb2XoA5ZJBUesDwwfcbLTHaSNpEGG
+	 r/KiFozxRa4VHJNQiPdrBBI4Tg7LvFAsis2rdxom71E/eOji1Ga5JLM5++BmZNffBUqmy
+	 BZstJN/oow0hloMAvd9CYp7pIp2dcjII70HUiMRQX2Xr2fDHKrxftmU8hUzcDRqOnlA8/
+	 vAmRhHF1qlw8GoQsuwE7AJsmFv+wVKP/CUYwTKlaMssiNg+CNZ38udXj5NmAUrCHLfnDc
+	 EDPA4k9Hb71WyxKjJmY4idh8AD6jRFVouS3KpzYp7+c884Ll1dekZb5A8P6Koi/azCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gms.tf;
 	spf=pass smtp.mailfrom=gms.tf;
-	dkim=pass header.d=gms.tf header.i=@gms.tf header.a=rsa-sha256 header.s=2023100216 header.b="0IAv8+/n";
+	dkim=pass header.d=gms.tf header.i=@gms.tf header.a=rsa-sha256 header.s=2023100216 header.b=J7ZDOseV;
 	arc=none smtp.remote-ip=172.104.147.125
 Received: from goedel.lru.li (goedel.lru.li [172.104.147.125])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF27606A31A
-	for <linux-man@vger.kernel.org>; Tue, 27 Oct 2026 00:38:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FF27606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F71606A31A
+	for <linux-man@vger.kernel.org>; Tue, 27 Oct 2026 00:38:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51F71606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gms.tf
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gms.tf
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=gms.tf header.i=@gms.tf header.a=rsa-sha256 header.s=2023100216 header.b=0IAv8+/n
+	dkim=pass (1024-bit key, unprotected) header.d=gms.tf header.i=@gms.tf header.a=rsa-sha256 header.s=2023100216 header.b=J7ZDOseV
 Received: from framework.lru.li (unknown [IPv6:2001:1a80:303a:0:d79e:ed35:3024:7b6b])
 	(Authenticated sender: georg)
-	by goedel.lru.li (Postfix) with ESMTPSA id 8E75F634C2EE;
-	Tue, 27 Oct 2026 00:38:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 goedel.lru.li 8E75F634C2EE
+	by goedel.lru.li (Postfix) with ESMTPSA id E8402634C2FD;
+	Tue, 27 Oct 2026 00:38:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 goedel.lru.li E8402634C2FD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gms.tf;
-	s=2023100216; t=1793061488;
-	bh=BMXJ8LFa3vnujh6Wvpp1EbYtwrWMURzu3+dPtAjZel8=;
+	s=2023100216; t=1793061500;
+	bh=7in1cAa+fflmZixAsOwkuGNJeQE0tVxyfFc2f0Q9i24=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=0IAv8+/nKf/6kwjjd9XvURGZW/UHk1BkXcp5ytI6WKbu1WXN0SnBbfQUeOYJfx2Rg
-	 Lz2/+net6547gNw/HEJRf5MPQQhFfu+s5++CJTOKnL1pQD1A2C4dZcKj3qbLl6FY/X
-	 LNQdtaEaurW4AuoG/x+T/4HShxvSYjjY2Nbw049k=
+	b=J7ZDOseVT+N7g3dH8gldVyBRNj1TZKLn4ajJOD7gsnkOmo1X6LqI78IHRwwMgsh8V
+	 tgEQnSu5Ule/KNy1n4NEfNerKTiVD9oYY6Ckl4PZT8pW1hZ0h097lxB7o4jxllnTml
+	 ShpUAsJVzO1V2qqK9G1cAm3q8WZDp/JM5V1jKlns=
 Received: by framework.lru.li (Postfix, from userid 1000)
-	id C533DBABFF6; Tue, 27 Oct 2026 01:38:07 +0100 (CET)
+	id AA7FBBABFF9; Tue, 27 Oct 2026 01:38:20 +0100 (CET)
 From: Georg Sauthoff <mail@gms.tf>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org,
 	Georg Sauthoff <mail@gms.tf>
-Subject: [PATCH v2 0/2] man/man2/adjtimex.2: Fix include+add error
-Date: Tue, 27 Oct 2026 01:37:10 +0100
-Message-ID: <20261027003712.905789-1-mail@gms.tf>
+Subject: [PATCH v2 1/2] man/man2/adjtimex.2: Add include and macro for clock_adjtime
+Date: Tue, 27 Oct 2026 01:37:11 +0100
+Message-ID: <20261027003712.905789-2-mail@gms.tf>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261025125656.877530-1-mail@gms.tf>
+In-Reply-To: <20261027003712.905789-1-mail@gms.tf>
 References: <20261025125656.877530-1-mail@gms.tf>
+ <20261027003712.905789-1-mail@gms.tf>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -68,87 +69,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello,
+GNU libc declares clock_adjtime() when including time.h, and not when
+just sys/timex.h is included, iff support for GNU features is requested.
 
-this series fixes the include instructions for clock_adjtime() 
-and documents another error its invocation may yield.
+Verification:
 
-Changes v1 -> v2:
-- split patch into series
-- use define-style feature macro instead of extra section
-- fix font style macro usage
+    $ for i in BLAH _GNU_SOURCE; do for j in sys/timex.h time.h; do echo -n "Testing $i and $j ... "; echo -e '#define '"$i"'\n#include <'"$j"'>\nvoid f(){clock_adjtime;}' | gcc  -xc - -o /dev/null -c 2>/dev/null && echo OK || echo FAIL; done; done
+    Testing BLAH and sys/timex.h ... FAIL
+    Testing BLAH and time.h ... FAIL
+    Testing _GNU_SOURCE and sys/timex.h ... FAIL
+    Testing _GNU_SOURCE and time.h ... OK
 
-Best regards,
-Georg
+(Test output is from a Fedora 43 system)
 
-Georg Sauthoff (2):
-  man/man2/adjtimex.2: Add include and macro for clock_adjtime
-  man/man2/adjtimex.2: Add error for clock_adjtime
+Signed-off-by: Georg Sauthoff <mail@gms.tf>
+---
+ man/man2/adjtimex.2 | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- man/man2/adjtimex.2 | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-Range-diff against v1:
-1:  ddd4886f0 ! 1:  1f6278005 man/man2/adjtimex.2: Add include, macro and error for clock_adjtime
-    @@ Metadata
-     Author: Georg Sauthoff <mail@gms.tf>
-     
-      ## Commit message ##
-    -    man/man2/adjtimex.2: Add include, macro and error for clock_adjtime
-    +    man/man2/adjtimex.2: Add include and macro for clock_adjtime
-     
-         GNU libc declares clock_adjtime() when including time.h, and not when
-         just sys/timex.h is included, iff support for GNU features is requested.
-    @@ Commit message
-     
-         (Test output is from a Fedora 43 system)
-     
-    -    The ERANGE error can be verified either via trying to adjust the
-    -    frequency of a PHC by a value that is outside of [-X,X],
-    -    where X=`cat /sys/class/ptp/ptpX/max_adjustment`,
-    -    or via checking the kernel source code:
-    -
-    -    <https://elixir.bootlin.com/linux/v7.2.2/source/drivers/ptp/ptp_clock.c#L164>
-    -
-      ## man/man2/adjtimex.2 ##
-     @@ man/man2/adjtimex.2: .SH SYNOPSIS
-      .P
-    @@ man/man2/adjtimex.2: .SH SYNOPSIS
-     -.P
-      .BI "int ntp_adjtime(struct timex *" buf );
-     +.P
-    -+.BR #include <time.h>
-    ++.BR #define\~_GNU_SOURCE "  // See feature_test_macros(7)"
-    ++.B #include <time.h>
-     +.P
-     +.BI "int clock_adjtime(clockid_t " clk_id, " struct timex *" "buf" );
-    -+.fi
-    -+.P
-    -+.RS -4
-    -+Feature Test Macro Requirements for glibc (see
-    -+.BR feature_test_macros (7)):
-    -+.RE
-    -+.P
-    -+.BR clock_adjtime ():
-    -+.nf
-    -+    _GNU_SOURCE
-      .fi
-      .SH DESCRIPTION
-      Linux uses David L.\& Mills' clock adjustment algorithm (see RFC\ 5905).
-    -@@ man/man2/adjtimex.2: .SH ERRORS
-    - Under Linux, the
-    - .B CAP_SYS_TIME
-    - capability is required.
-    -+.TP
-    -+.B ERANGE
-    -+The frequency offset supplied with
-    -+.BR clock_adjtime ()
-    -+is outside of the range clock clk_id supports.
-    -+See also /sys/class/ptp/ptpX/max_adjustment when adjusting a PTP hardware clock.
-    - .SH ATTRIBUTES
-    - For an explanation of the terms used in this section, see
-    - .BR attributes (7).
--:  --------- > 2:  578a02146 man/man2/adjtimex.2: Add error for clock_adjtime
+diff --git a/man/man2/adjtimex.2 b/man/man2/adjtimex.2
+index f12d9413e..5b9a0667b 100644
+--- a/man/man2/adjtimex.2
++++ b/man/man2/adjtimex.2
+@@ -17,9 +17,12 @@ .SH SYNOPSIS
+ .P
+ .BI "int adjtimex(struct timex *" "buf" );
+ .P
+-.BI "int clock_adjtime(clockid_t " clk_id, " struct timex *" "buf" );
+-.P
+ .BI "int ntp_adjtime(struct timex *" buf );
++.P
++.BR #define\~_GNU_SOURCE "  // See feature_test_macros(7)"
++.B #include <time.h>
++.P
++.BI "int clock_adjtime(clockid_t " clk_id, " struct timex *" "buf" );
+ .fi
+ .SH DESCRIPTION
+ Linux uses David L.\& Mills' clock adjustment algorithm (see RFC\ 5905).
 -- 
 2.55.0
 
