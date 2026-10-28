@@ -1,62 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793191516;
-	b=UB4mFzexi2SAe8rW+q0Mcjlh7d7/0fUn7ns7GcDzAGyksuJMY5Jw+479z2DdUF+/UEe1
-	 Ddo/Ro+qXWFHli6dD4nJcDRr13/38igPt4kcv6v4UkQ6/LrFFFrPA2N7kGaKmZFlyuLth
-	 Rb+9njoJTTKsVUyhHgwvEa2GhaLH1ICaLZw9srfkzK3VcxQdIoPeXqktv+uZ2dWL11J6p
-	 NR9MlP9RR058z6cc98Dn0f1UzyzSNp88jqY3drefAb6ISHeBQWNaWBB5py9avteltrlHn
-	 TrZsxJApsXxfLY6lc72ojJPvGcOLleRn2EnlH1qFzyUhwuKOyITHqZvNd9DsE6Mfiaw==
+	t=1793191734;
+	b=1MOXsXOyAKaCvCby/u4a48FRTFdf08nodwh71IYzl6ZYtqVsCpnmjJFrIhPHMSSW/7um
+	 TW+/x7O8cAwIbyzOrtcxJwFA+Z2B2OncVTNjP97JflY2DJfNokuRhgRleVJYbBDv8f6TI
+	 VggevKzalQjptru4GbLMTXShgpRS05wIVgUVEAFylF0KAqZEf1kMZ95l9h2eqrlU4TSog
+	 da6XQYJ4jJp1rmn0WU923De+M3rGWfTkzSUajO27nqWJ4Karc+8FGOphNdZHnF/sV0YMM
+	 rhDvzO1FrV1g7WCBXqsNQq8wm4C6oUfJjH1mZyxU/Smqcxgf8lsWpcz7snY+sqyPzIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793191516;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=EpDZwhyCMGhGYSCInaq7+V/Ib3cfd6gsOtJ+LRdz1yY=;
-	b=UTLAbEWqRb/uR6IM8yiQA1XjvU6inBXTduE3/9g5HHjJBFQtOH5LLpGzMJpLq3yIEwqw
-	 CEu9BMNWQ0LrkzN2LIHL+J8g591hv5RZs/Pwg99SeA2jhNkJVcSotyZojiq1TIY29bxd7
-	 P0tbJsghTQiWAdQ6DmK4PmEqc39TdedfKbfYRq6Nh0PQqLZJHE+uyNxfhjRNWXC2RXI3B
-	 twKj359g6T9mxy4/YSv1pUT8rPWlMz1dBbQvAXSU1JFMwQy9zTAXaxITdSxZau2wb7PtT
-	 sTyudgL9g0AVTTsh8MJJOoFumEfPK6yIgEZ36ybmZPgWIZeRLS3ZU+qLQnR3y/iB5vg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793191734;
+	h=Received:DKIM-Signature:Date:From:To:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=QRwRFAaXBHfSE6oHkNKPGSJ+BCe2TjNz3LUE8uqy4d0=;
+	b=r02tg0LQPVXV3z2Icbn/rgktD+xiiuP772BHsZg/4m2kQhQQywBPclWuSMe882kRLmte
+	 PPyKPM3K83Ss4MhY5c89fSKqLgO2T4i6PfnEH+wyIsr0n1gGL81/ECIcpMnJU80t9s6II
+	 994TvQ342h6jhg7PZHWvoRlNB/MNqW+1KIQZRhlAoCuDezUXMgF1de0eN3vQ4jW3RSbpO
+	 UBUMp7/tKX8oQcPla2xGiwfopjxI17pj9KojXOcxB2ig0ElUXf4T9GeuAw1hZ7Tidhgxc
+	 QlPsksu1ELZeV7EVd9+kSXeNEYdkAR04aefKKEm0dLj2TX3bpFJmEZn6xfIANq23Qog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpj27uCm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=liu2BzHe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A26606A334
-	for <linux-man@vger.kernel.org>; Wed, 28 Oct 2026 12:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48809606A31C
+	for <linux-man@vger.kernel.org>; Wed, 28 Oct 2026 12:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpj27uCm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227701F031E1;
-	Wed, 28 Oct 2026 12:45:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=liu2BzHe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED6E1F01825
+	for <linux-man@vger.kernel.org>; Wed, 28 Oct 2026 12:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793191516;
-	bh=EpDZwhyCMGhGYSCInaq7+V/Ib3cfd6gsOtJ+LRdz1yY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cpj27uCmJqf92lJ9JPIKPpyoT+ATKXXIy8bpvq52Odf5Hv2zIxVAYokqMqKIYefMA
-	 iVYt0agB+hoiHQhrMjg/cpKcLHr8sKha7OeQ9U0bLxzL89Xc8Zg03KHXctd1pAHpOZ
-	 CCUwMsbRVTlcejhoxUZbg6yBGJSUwjh6oGt6LnjxQFK3IKBAKcqLz3cNOkmrQMEJcg
-	 VulqJf0jD3DAnGRZNG/EoKxD29C31JVQ3+u4LWsAh4rLCJXD70MJYlcGfLCSi+FGGw
-	 TO6GMAhyuQyOSA5WHMA20+krl/9xO/AkgIOx/5KH20fI0a2UNwZrUHOSObBCFGd9f3
-	 nMtEFeGl6KKMA==
-Date: Wed, 28 Oct 2026 13:45:11 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: [PATCH 4/7] man/man7/unix.7: SCM_SECURITY: Generalize to other
- LSMs, not just SELinux
-Message-ID: <auHs_2Ev5gQ55SnV@devuan>
-References: <20261021212256.27961-5-gnoack3000@gmail.com>
- <atsufiZwUg3d-cKs@debian>
- <20261023.63aab80a9e86@gnoack.org>
- <atuiuCDEpf7H7I7J@debian>
- <20261026.f6d2e191a08e@gnoack.org>
- <20261027.4df00f962b98@gnoack.org>
- <auEa_2LQFAD023tR@devuan>
- <20261027.421170835581@gnoack.org>
- <auEr3XGMrHXiVZjs@devuan>
- <20261028.e5b1e67d24b5@gnoack.org>
+	s=k20260515; t=1793191734;
+	bh=QRwRFAaXBHfSE6oHkNKPGSJ+BCe2TjNz3LUE8uqy4d0=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=liu2BzHeioV+QoxEsw3QcPD42jnTtCA6CvGUFB3ePaZiQEKGgUjzlgD6lRacUYwra
+	 bkCr71s9+eV4ZOP+yyd7PwC4y7K9224lWjsIG3V1Pb1oE9pbRq5F4Lcfr8J1GerDvj
+	 Z5sfPAPCzKlcEOSF/EFbhYywoX5GNRLbbkZoGmInUcZDBrfq72XJtHmRpZAWTY3uh8
+	 WLuzXg9N1HYjAN2WIbSZtsvgoa2gxTK/OSnaOUdOyyAsGJgvsj1W5uLDrbhht2VrPH
+	 C8f8jyX8QZH1Og1m7CcuDtBCZLqF9EQOeB6AqXWACi83n5Ux62WBzXTK6R/lSysBoT
+	 YqlTP+SrOBuOw==
+Date: Wed, 28 Oct 2026 13:48:51 +0100
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: linux-man@vger.kernel.org
+Subject: Re: Serbia
+Message-ID: <auHu-XoGs3jufdhY@devuan>
+References: <auFA7dfNv4jk3R9e@devuan>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -67,193 +55,157 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w2xtfozdwbwh5q73"
+	protocol="application/pgp-signature"; boundary="qlcqyduexswdtu2j"
 Content-Disposition: inline
-In-Reply-To: <20261028.e5b1e67d24b5@gnoack.org>
+In-Reply-To: <auFA7dfNv4jk3R9e@devuan>
 
 
---w2xtfozdwbwh5q73
+--qlcqyduexswdtu2j
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: [PATCH 4/7] man/man7/unix.7: SCM_SECURITY: Generalize to other
- LSMs, not just SELinux
-Message-ID: <auHs_2Ev5gQ55SnV@devuan>
-References: <20261021212256.27961-5-gnoack3000@gmail.com>
- <atsufiZwUg3d-cKs@debian>
- <20261023.63aab80a9e86@gnoack.org>
- <atuiuCDEpf7H7I7J@debian>
- <20261026.f6d2e191a08e@gnoack.org>
- <20261027.4df00f962b98@gnoack.org>
- <auEa_2LQFAD023tR@devuan>
- <20261027.421170835581@gnoack.org>
- <auEr3XGMrHXiVZjs@devuan>
- <20261028.e5b1e67d24b5@gnoack.org>
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: linux-man@vger.kernel.org
+Subject: Re: Serbia
+Message-ID: <auHu-XoGs3jufdhY@devuan>
+References: <auFA7dfNv4jk3R9e@devuan>
 MIME-Version: 1.0
-In-Reply-To: <20261028.e5b1e67d24b5@gnoack.org>
+In-Reply-To: <auFA7dfNv4jk3R9e@devuan>
 
-Hi G=C3=BCnther,
-
-> Date: 2026-10-28 07:19:28+0100
-> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
->
-> Hello Alejandro!
->=20
-> On Tue, Oct 27, 2026 at 11:59:15PM +0100, Alejandro Colomar wrote:
-> > > Date: 2026-10-27 23:30:59+0100
-> > > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> > > On Tue, Oct 27, 2026 at 10:46:14PM +0100, Alejandro Colomar wrote:
-> > > > > Date: 2026-10-27 09:54:51+0100
-> > > > > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> > > > >
-> > > > > On Mon, Oct 26, 2026 at 11:41:13PM +0100, G=C3=BCnther Noack wrot=
-e:
-> > > > > > I'm still leaning towards documenting it as a buffer with
-> > > > > > implementation-defined contents which are provided by a LSM.  H=
-ow
-> > > > > > these buffer contents are interpreted is depending on the LSM i=
-n use
-> > > > > > anyway.
-> > > > >=20
-> > > > > To make a more concrete and constructive wording proposal:
-> > > > >=20
-> > > > >=20
-> > > > > SCM_SECURITY
-> > > > >=20
-> > > > >   Receive the security context (the security label) of the peer
-> > > > >   socket, as provided by the active Linux Security Module (LSM). =
- The
-> > > > >   received ancillary data is a byte buffer.
-> > > > >=20
-> > > > >   The exact format of the security context buffer is defined by t=
-he
-> > > > >   active major LSM.  For example, SELinux returns a SELinux label=
- as a
-> > > > >   string (including a terminating null byte).
-> > > >=20
-> > > > Let's pause the discussion of the specific text for now.
-> > > >=20
-> > > > I have questions about the exact format used by each LSM.  For exam=
-ple,
-> > > > you say that SELinux guarantees a string.  Does it count the '\0' as
-> > > > part of the data size?  Or is it guaranteed to exist but not counte=
-d?
-> > > >=20
-> > > > Same question for the other LSMs.
-> > >=20
-> > > Yes, SELinux counts the '\0' as part of the buffer size for the
-> > > SCM_SECURITY security context.
-> >=20
-> > Ok.
-> >=20
-> > >=20
-> > > Examples:
-> > > * If the label is "foo", it'll return {'f', 'o', 'o', '\0'} with payl=
-oad size 4.
-> > > * If the reader calls recvmsg() but preallocates too little space in
-> > >   the msg_control buffer, this can get truncated though, and then it
-> > >   won't end with '\0':
-> > >   {'e', 'x', 'a', 'm', 'p'} with payload size 5 (truncated)
-> >=20
-> > Ouch!  So, no string guarantees here either, actually.
->=20
-> Correct.  Callers have to deal with the possibility of truncation,
-> which strips away the null byte.
-
-Is this true for every LSM?  Do any LSMs guarantee a string even under
-truncation?
-
-> > > Other LSMs:
-> > >=20
-> > > * Smack excludes the null byte for SCM_SECURITY (smack_to_secctx())
-> > >   (but irritatingly it does count the null byte when a label is
-> > >   returned through SO_PEERSEC (smack_socket_getpeersec_stream()).
-> > >   Both functions are in security/smack/smack_lsm.c.
-> >=20
-> > And as we've seen, no string guarantees, IIUC.
->=20
-> Correct.
->=20
-> > >=20
-> > > * AppArmor excludes the null byte for SCM_SECURITY as well.
-> > >   Implementation is in apparmor_label_to_secctx(), where it populates
-> > >   the struct lsm_context *cp using:
-> > >=20
-> > >     len =3D aa_label_asxprint(&cp->context...)
-> > >=20
-> > >   and then sets
-> > >=20
-> > >     cp->len =3D len;
-> > >=20
-> > >   The function aa_label_asxprint() returns the length without trailing
-> > >   null byte, as can be seen in its implementation.
-> >=20
-> > How does it behave if there's not enough space?  Does AppArmor guarantee
-> > a string?
->=20
-> The truncation case always strips off the null byte at the end of the
-> buffer.  This is handled **independent of the LSM** in the common
-> net/core/scm.c layer one level above - it *always* kicks in when
-> truncation happens.
-
-Hmmmm.  I believe that layer should guarantee a null byte when it
-truncates the data.  It should be like strscpy(), which guarantees
-a correct string even on truncation.
-
-This seems to be another bug.
-
-> To sum it all up in a table: The only case where the null byte is
-> included in the buffer is in SELinux, when the generic SCM layer does
-> not need to do truncation:
->=20
->                 normal case                truncation case
->   --------------------------------------------------------------
->   SELinux       has trailing null byte     no trailing null byte
->   AppArmor      no trailing null byte      no trailing null byte
->   Smack         no trailing null byte      no trailing null byte
->=20
->   (other LSMs don't have the feature at all)
-
-Thanks for the table!  This seems to me to be 3 bugs: one in AppArmor,
-the same one in Smack, and one in the upper layer which corrupts the
-string when truncating.  I wonder if we can do better in the truncation
-case, or if it's too late for that.
-
-Would you mind CCing the maintainers of the upper layer in
-net/core/scm.c?
+BTW, I keep the hacked phone, turned off, just in case Google or anyone
+else wants to have their hands on it to learn how they hacked it, in
+case this helps improve the security of Android phones.
 
 
-Have a lovely day!
+Cheers,
 Alex
 
+> Date: 2026-10-28 02:15:52+0100
+> From: Alejandro Colomar <alx+linux-man@kernel.org>
+>
+> Hi all,
 >=20
-> =E2=80=93G=C3=BCnther
+>=20
+> I travelled through many countries in Europe earlier this month, after
+> attending a few conferences in Paris and Prague, using an interrail
+> ticket.
+>=20
+> One of the countries I visited is Serbia.  Because the interrail ticket
+> covered Serbia, I thought it would be a regular European country, but
+> it isn't.
+>=20
+> While inflating my bicycle in a gas station, a police car stopped me,
+> and the only reason I can imagin for them to stop me is that I have a
+> dark skin and hair.  I wasn't doing anything wrong.
+>=20
+> After they stopped me, they searched me and all of my stuff, for at
+> least half an hour in the street.  Even the boss of the police station
+> came to the place.  They claimed there was a problem with my passport
+> and had to bring me to the police station.  They also looked at my
+> phone; they asked me to show them the pictures, but I didn't have any
+> recent ones.
+>=20
+> Once in the police station, they searched me again even deeper, and
+> after some more time, some new people came to the police station.  These
+> seemed spies (intelligence agents would be the technical term, but they
+> lacked intelligence, so let's just call them spies), and took an SD card
+> with my keyring (made me questions about it), took my laptop, and also
+> took my phone, and ordered me to give them the PIN.  I gave it to them,
+> since I don't keep any personal information on the phone, precisely
+> because I expected this to eventually happen.  The few contacts I keep
+> on my phone have one or two letter names, so they can't get much from
+> that.  And the laptop and SD card were fully encrypted, so they couldn't
+> do much with them.
+>=20
+> After around 3 hours with the laptop, SD card, and the phone, they
+> returned it all to me, saying "oh, btw, the phone turned off" (lol!).
+>=20
+> Of course, they had hacked the phone.  The fact that they handled it off
+> already hits that they've been playing with the bootloader.  But I did
+> see evidence of hacked apps "calling home" to their servers after that.
+> I won't tell exactly how I discovered it, since it might help them
+> improve their hacking.  (I will tell details if you ask me in person, or
+> through encrypted mail.)
+>=20
+> At first, I distrusted all of the hardware they took, so I didn't use
+> the laptop for a few days.  However, after seeing how simple their
+> attack on the phone was, and after looking at the laptop inside to see
+> if there was any obvious chip that shouldn't be there, I came to the
+> conclusion that they haven't done anything to it.  After booting, I also
+> didn't notice anything wrong in the software.  They could have tampered
+> with the bootloader or the kernel, or perhaps the hardware, but at least
+> it wasn't obvious.  Since the quality of the attack on the phone was
+> really childish, and they seem to do it often (so they should be good at
+> it by now; they're even using Israeli technology), I very much doubt
+> they could have done anything to the laptop without me noticing, so I
+> started using it again.
+>=20
+> So, now the Serbian authorities have probably cloned my SSD drive, my
+> PGP and SSH keyrings, and my .password-store/.  I doubt they have the
+> ability to break the layers of encryption that protect them, so I won't
+> revoke my keys for now.  Maybe in 10 years or so I should.  I assume
+> these might end up in the hands of other countries with more interest in
+> breaking them.
+>=20
+> After all this, they set me free, and in fact, one of the spies seemed
+> to be interested in me going out to the street.  They probably wanted to
+> follow where I was going, since they had my phone hijacked.
+>=20
+> Near the border with Hungary, another policeman in the street saw me,
+> and quickly moved his hand to his gun, just in case, and it remained
+> them until well after I crossed past him.  It seems Serbian policemen
+> have a problem with people with dark skin, hair, and beard.
+>=20
+> After crossing the border with Hungary, I told this experience to the
+> border patrol in Hungary, and they laughed between them and said this is
+> usual in Serbia.  It seems the country is deeply corrupt.
+>=20
+> I'm leaving quite a few details out of this report, since I don't want
+> some information to reach them, in case it's useful to them.  But I'll
+> happily share the full story in person.  :-)
+>=20
+> I had been curious for a long time of how indetectable these attacks
+> with Israeli technology on phones really are.  After this 1st person
+> experience, I can say that if your phone is ever hacked, you'll most
+> likely notice.  It was an interesting experience; it probably gave me
+> more information about them, than to them about me, after all.
+>=20
+> I've updated my threat model and protections after this, to be even more
+> strict on not having anything on the phone.  I've bought a new cheap
+> phone, and this time I'm being even more strict on my policy of having
+> no names, no pictures, and no PI at all in it.  Just CoMaps, weather,
+> offline translation, and a few one-to-three letter contacts.
+>=20
+>=20
+> Have a lovely night!
+> Alex
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
+
+
 
 --=20
 <https://www.alejandro-colomar.es>
 
---w2xtfozdwbwh5q73
+--qlcqyduexswdtu2j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrh7lEACgkQ64mZXMKQ
-wqmLmA//VnwGZuCkWxNMHjKtrxmzz/UWmMG1lUvTNZmxitm6VQ5SbFrraunq4oZ3
-k1uHHqMm2dv6pfcs5SJPglvvCi4cNBcPCS2Wtv1bkThR4S9IdfwcJf0YJeTu+11F
-8xnUUl1FLBZ461UjRCW7y89B+dVeBtH3JO2XqRFyB59pVH+0iQ7GLOuK4WmqB0Yb
-lSSYQfA55+/X5wVzMdpJsv4fiMBsqzvdTMopqFeqiLW02pbap+STpSAuShqfurcc
-3fVqlefZ0GLLE7qKz30w1knao1BJqKKo9uhevtk544ucSMwoP7HU0RVan1iF6SI1
-RZcJvKRtfH3/lezIjE4CV19jGOmAfaALdMGdi23A9bkpCQ1tUSBVUJ0Psqt/agVZ
-MmMUrQRv5ARyN6V1DuUiWXz+WSTHevns23SGg7dwceZ4wgiImWujPPpKY2lOuMqG
-kwXAl+TfFP98kp4vpNvfXl2PgCNZfKJWw2HchA9V7pM5thpTaHom8L320F2s0GDd
-1BYuCAONyAKIIt7F0WWXug7g3qqi5/wLNkYlmGdZPnuP6IH0EdHgjS+4UR+Mssvx
-/hJeg//oNN0yf5S5lNFjiG8FRLrMTmkOiW99U3IRZR4QjaLMLKsUFQeUVx1pwCWV
-gPVisOGBR/ODTpoec2ftPF3yXR4On2WGLUjdwSfs7/hPLcIdOjU=
-=bRTN
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrh7zMACgkQ64mZXMKQ
+wqn5Mw//Vp8GVcICPxDcJwnAphz1ePyM5vPg/CMpTOl+yKmeyqLEUH/W/4lAnZCO
+T8cRVraChGdW2QiuydQ72Mgyq66QmD/eRGxjFFJw8zFXYNomLqj09ZVY3p3ZQx8T
+4uw//qjAid/8GLuhtFwWv2c4BdwG3/SiQgVO9JqKDl7Ok17333W9RsS4Opoqiq8T
+MvpmzfDAu7jD4Xmc1acDpKWA4wwbjUrxlPwKdlrGR4e2g95VwW4Og0FWRT/zUWL8
+/a3aCi5MxCgCDB2hXLD4whCZrdPgdU32UBsPrjDst/W50q9rKBcvGBossCbQ7ZpW
+3Psr7ia4x/TUyp+IpFUnhQ8AL/aH3fEMWtFkiyJKxbws5Eqw+054OjffWR1IF55t
+25J1Jrchj5AFolHpNltr8yXtm6g7RgqGvJc87r9siitkaiUyjc/HA5WGjk/QJZar
+KVVmC1NIwi7/vvRzZ+5kDQ3g5CXBwp8BatbMxWDHjTRZNxcviLUVHUbKtWN4jWLA
+LZDDlb+jQGVBl4GvXZ5HQBI/TCQnHmK/DeIsfZLJg8XXQYgyl4Iu/jCXKn9QuCaD
+26o/bI4D+bDCZkOYn0KApDAuIAYF96LB0fgt7Th5/bHus7WXo2qCVt5fqwM3x1zd
+srMGgJI0HhZeBxA3o/p87kDGy54w+6XDSpA2GWwvJJglVLUy3Pg=
+=qaSG
 -----END PGP SIGNATURE-----
 
---w2xtfozdwbwh5q73--
+--qlcqyduexswdtu2j--
