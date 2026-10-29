@@ -1,53 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793312878;
-	b=BPzmfZ8R5ElF+B8SCZfyBPSxFa+/so0RmoXJ3SEkG7R4DFFEMGboJQyJx+/HFdzh0xLY
-	 1Z2QQw2Aa6smntnNCTUH6TqqWbv4nUMiyHaB7zgo8hiu7VnTETUeM6hZNdIn5bBHGHo15
-	 QzGRmMwZ0rLFeTXxs9aztf5B/IlupyKQJnGUxdzqAK0NRrWObgXshn9LEgFlsbN+ohJ2z
-	 srbpr4zPOGNhSvNEXIBTTO8iE47lnHLzH/TxPS6+RhOToAtznrEZmc5RDJBdC78Ix1uH3
-	 82REvbar83MFJ0TFbAqgSe93iEWsvLuYk51RET1kOwBZxywT+m9AmFlgWXCjy1Gm1uA==
+	t=1793314634;
+	b=RRbt9TCz8mED+kAYVNDns+4oXUagfSXFIcasQPUeKp7RQXWuu0TQVgbA8FhlEWj1j1Et
+	 Zus7O562R3Gu1VNcAvnUiqFJr+reWt4tJf25km3Qed6xD9EDWT+jFwCMEHmFwtAU2MYxw
+	 KsD4yKtzvxu6xJyMjxNp8LSCmNTcQ7eEOKGPaoBF+YvcLyzmmBcE5H1BZE5Nz4g4Tia02
+	 q0+vnzdAW0eiR5Oszji26lYmpLxLxwsoEDczzUwe9y5iMrd2Wc2SS5UxA4QGCTtoq42ep
+	 2W+DKR84SkIegWuTtrOpccUu5ZdkUNJqdhhgE8LW3r4eYK5FcmzjMc1IUZtw0T4YUWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793312878;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793314634;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=pGtW9ptIdnM9RBBQP7C0poKrxh7hvZdQARusDoTXktc=;
-	b=X8GozPZKP5yfPGQHMQPam+7e8PEudZS6Ab6+jkscWMIzoHBg15rn4tfRVNhRvN8lbLV2
-	 rhS1Tjesm7G2WwhiuvRaHWsZMxeJuBPh1Hqa8uKEtV1EflqcYgtpvEhWAMiGDrDnen4kR
-	 LydoIKJHOLJSRIouKdPuR79CxUbtthpYpSzZ62tJCFdOwL2JdZe8NyzJMWKcvV3Yj1zyr
-	 tsakwJi/hqJRRlsJgiAWlVVeNASN+syU5Fhg5iV4OssqoO1kvn22QmPGLNkwZka68czcB
-	 4zwbVzUr/KFjD3xtytDF9AQdOQK8G2haa7J4NcX4VmTJtM8mGgvVufKyQLZ8njoN1Pw==
+	bh=Vo7PboUnAX7sPKPJ6xvO5hNz7Bzf+FVAsgEz9BVk9Ag=;
+	b=JWfxJFnYGRJqvuEC3hoJ4/Lps54SOt8Olop2oTo77f/u4A7PP/UXzeHrw3JRe1jLL7TE
+	 7vY6Xsyu+FjDUqW4y3UjCVeM4QYFKtEXLc4vVcTOCgjE5atG5NKup+VX5X8N9ehwaWg6Z
+	 8PaItb4PNGFy451Va6xhcTYSrlxOc/VZVUM4As5r2fMU5PtBczABPVsaqYQ3kDnxAh05/
+	 oMT5jfrY1fd7kDDQxB/4+8VTWWoB6bK4XLslYCaQAy8RTUPrEIKGppmod9lacuWRTlQik
+	 VQIGVICcDYC7h6W5d0jgxRtb+fC3IliHMMWdM/dC7kOkx07L90IjPQpPkUY9Oynf/yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AsZnhmgV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lec5Z6ow;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4EB606A31D
-	for <linux-man@vger.kernel.org>; Thu, 29 Oct 2026 22:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156B4606A31A
+	for <linux-man@vger.kernel.org>; Thu, 29 Oct 2026 22:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AsZnhmgV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475C01F01824;
-	Thu, 29 Oct 2026 22:27:57 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lec5Z6ow
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08CB71F01816;
+	Thu, 29 Oct 2026 22:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793312877;
-	bh=pGtW9ptIdnM9RBBQP7C0poKrxh7hvZdQARusDoTXktc=;
+	s=k20260515; t=1793314633;
+	bh=Vo7PboUnAX7sPKPJ6xvO5hNz7Bzf+FVAsgEz9BVk9Ag=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AsZnhmgVzSmAazahXYhbNes2uzlKmBIg0t1PRF70/us1y9E4UpQ9KbK3ySMu3orFg
-	 2E6ybbgqfYQpzHpETm5VV6qEoGQK7ybnwqCEvtl63YCNHh4E+OVKfH4lsBCLAP7dYz
-	 J939i8oLuR+hJ00wrg1v09Fa/+o5j8aS+EvoXQhXNWYfon9nGBXQjSglrogsuiZSKW
-	 9OOHXOusTOfsPwA5vrsuZGjyyiw+ToJmIZQ7Ef14w63STs4BgANRQqITfBXnIGEVex
-	 hU1fW8F0+t58hHcrXt6BAmvl7AjuzXhy+YXquNT07loSGWsx8zdyw1yCv3uOrUsobz
-	 ALssihwnvebeQ==
-Date: Thu, 29 Oct 2026 23:27:52 +0100
+	b=Lec5Z6ow7yU8czC9j/wp5wGPy1CwJqQpcJy8ck1n7Hh5YODcsIZk7Y0UEsRagqyqU
+	 apvtISjfTK3VCm1KbtdALbAvem8F+uDHUO8iQGy/3EpQ0/hf6nnTaHXz5vvlS2cavO
+	 1M4UjrO5XMMHUElxqfvO398DtOlhf+t1HkG7MamPnO9x7ElsSGmLmhJ0QsI7wcrhZB
+	 RhsiynGYI/rMxrmOEFO2ez5gRLJ6e/QnFexsuyERikhjRp9/9VAgBw7b/9HNrk07Rc
+	 BS6mJJCpYsDc4LWRUQyQLOJ3tOClprGQrIw9MJNY9uRs5QZyhub8u85noh67C5k6+c
+	 pHSDMOFepbieQ==
+Date: Thu, 29 Oct 2026 23:57:10 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Stefan Puiu <stefan.puiu@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Serbia
-Message-ID: <auPFMcZfChP7YxMq@devuan>
-References: <auFA7dfNv4jk3R9e@devuan>
- <auHu-XoGs3jufdhY@devuan>
- <CACKs7VCkdNRyfsPZU-859vjPzfeHTPo14gj3Ezgu3JYEGLyiZw@mail.gmail.com>
+To: Christopher Bazley <chris.bazley.wg14@gmail.com>
+Cc: Martin Uecker <uecker@tugraz.at>, 
+	"Michael Kerrisk (man7.org)" <mtk@man7.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, corbet@lwn.net
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+Message-ID: <auPMgtCvcPOooOYU@devuan>
+References: <CAFs=pga6UWmH6FJZcf0wRi2S3PdbrJWNFeVbkQVVmncB3Ni=-g@mail.gmail.com>
+ <atyxz7Uj4rue8HjP@debian>
+ <CAEHU8x9P3PLFAMpJ7wfYapvJkEt4b09KR9sypjUuONRniAQT3w@mail.gmail.com>
+ <atzcMTC3Hl4GPD39@debian>
+ <fbd4d03cbaf3e0b3a978ca3ff3902103ed954a87.camel@tugraz.at>
+ <at2l_NpU28j3n6L0@debian>
+ <dd9ca27e6b4c227c08cd707aab9b0b5d495c203c.camel@tugraz.at>
+ <at2vv1isjbPZ6-34@debian>
+ <76bff7cc342961bf81acc4a2d60e8c3d01918433.camel@tugraz.at>
+ <CAEHU8x_+Lyf=K+pNzG0SWPRkQrb5AtqjYdkehV-fwX3ahsPrQQ@mail.gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -58,110 +69,154 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nmx6oqnqkqhquwt6"
+	protocol="application/pgp-signature"; boundary="6fuvvsafsonnmthf"
 Content-Disposition: inline
-In-Reply-To: <CACKs7VCkdNRyfsPZU-859vjPzfeHTPo14gj3Ezgu3JYEGLyiZw@mail.gmail.com>
+In-Reply-To: <CAEHU8x_+Lyf=K+pNzG0SWPRkQrb5AtqjYdkehV-fwX3ahsPrQQ@mail.gmail.com>
 
 
---nmx6oqnqkqhquwt6
+--6fuvvsafsonnmthf
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Stefan Puiu <stefan.puiu@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: Serbia
-Message-ID: <auPFMcZfChP7YxMq@devuan>
-References: <auFA7dfNv4jk3R9e@devuan>
- <auHu-XoGs3jufdhY@devuan>
- <CACKs7VCkdNRyfsPZU-859vjPzfeHTPo14gj3Ezgu3JYEGLyiZw@mail.gmail.com>
+To: Christopher Bazley <chris.bazley.wg14@gmail.com>
+Cc: Martin Uecker <uecker@tugraz.at>, 
+	"Michael Kerrisk (man7.org)" <mtk@man7.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, corbet@lwn.net
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+Message-ID: <auPMgtCvcPOooOYU@devuan>
+References: <CAFs=pga6UWmH6FJZcf0wRi2S3PdbrJWNFeVbkQVVmncB3Ni=-g@mail.gmail.com>
+ <atyxz7Uj4rue8HjP@debian>
+ <CAEHU8x9P3PLFAMpJ7wfYapvJkEt4b09KR9sypjUuONRniAQT3w@mail.gmail.com>
+ <atzcMTC3Hl4GPD39@debian>
+ <fbd4d03cbaf3e0b3a978ca3ff3902103ed954a87.camel@tugraz.at>
+ <at2l_NpU28j3n6L0@debian>
+ <dd9ca27e6b4c227c08cd707aab9b0b5d495c203c.camel@tugraz.at>
+ <at2vv1isjbPZ6-34@debian>
+ <76bff7cc342961bf81acc4a2d60e8c3d01918433.camel@tugraz.at>
+ <CAEHU8x_+Lyf=K+pNzG0SWPRkQrb5AtqjYdkehV-fwX3ahsPrQQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CACKs7VCkdNRyfsPZU-859vjPzfeHTPo14gj3Ezgu3JYEGLyiZw@mail.gmail.com>
+In-Reply-To: <CAEHU8x_+Lyf=K+pNzG0SWPRkQrb5AtqjYdkehV-fwX3ahsPrQQ@mail.gmail.com>
 
-Hi Stefan,
+Hi Chris,
 
-> Date: 2026-10-29 20:49:06+0200
-> From: Stefan Puiu <stefan.puiu@gmail.com>
+> Date: 2026-10-29 21:24:14+0000
+> From: Christopher Bazley <chris.bazley.wg14@gmail.com>
 >
-> Hi Alex,
->=20
-> Sorry to hear about your Serbian "experience".
-
-Thanks!
-
 [...]
+> I don't want anything like this (fictitious) syntax:
 >=20
-> I'm from a country neighbouring Serbia - Romania. I've been there a
-> few times, though it's been a while - in 2007, 2011 and 2012 (the
-> latter two for the Exit Festival, which was quite nice). In 2007 a
-> police car stopped us and started checking our papers, and were a bit
-> aggressive verbally, but eventually they let us go, they did not find
-> anything wrong. They only spoke Serbian, which I don't understand,
-> luckily we had a guy who could translate with us.
+> bool ObjEditSelection_for_each_changed(ObjEditSelection const *a,
+>   ObjEditSelection const *b,
+>   _Optional MapArea const *map_area,
+>   void callback[static](MapPoint, void *), void *cb_arg);
 
-The cop that stopped me was actually quite nice.  Other than the evident
-discomfort of being retained for so many hours, I must say he was nice
-verbally, and he was very transparent when searching my bad so that I
-saw he didn't take any money (or anything else) from it.  And he spoke
-good English.
+Indeed, me neither.  Just to clarify, this will still be disallowed by
+my paper.
 
-His boss also offered some soap when I went to his bathroom (which was
-quite dirty).
+> What C actually needs is a standard extension to the direct declarator
+> syntax to allow pointers to functions of qualified type.  Even
+> disregarding _Optional, SDCC's __reentrant and __banked keywords would
+> benefit from such standard syntax. SDCC currently has inconsistencies
+> in this area, for example https://sourceforge.net/p/sdcc/bugs/3989/
+> and https://sourceforge.net/p/sdcc/bugs/4027/
 
-And they didn't hand-cuff me at any time.
+Also agree.  In fact, I believe [[reproducible]] should actually be a
+_Reproducible function qualifier (actually, an anti-qualifier).  I plan
+to work on a paper for that, but I need several things to happen first:
 
-> Also, they had a
-> system where foreigners had to tell the police when they were staying
-> somewhere in Serbia; they were a bit pissed off in 2007 when we did
-> not have the paper from the police when crossing the border back to
-> Romania. My impression was that they still had the old police state
-> behavior from communist times, and also suspicion towards foreigners
-> of any kind. Were you there before the elections? Maybe there was some
-> paranoia in the mix as well, who knows... Ceau=C8=99escu was quite parano=
-id
-> before his overthrow, he was suspecting all kinds of foreign
-> interference, who knows, maybe Vucic took a page from our guy's
-> manual.
+-  Non-access qualifiers to be standardized.  Several function
+   qualifiers, to avoid annotating most functions, should be
+   anti-qualifiers.
 
-Hmmmm, I entered the country on 2026-10-14, the incident happened on
-2026-10-15, and I left the country on 2026-10-16.  It seems I was there
-10 days before the election (I only learnt about that election yesterday
-night, after writing the email).  That probably made them suspect of
-foreign interference, indeed.
+   I believe the paper about address-space qualifiers will help in this
+   regard.
 
-> Anyway, I hope you are OK now.
+-  Type variance.  This is essential for backwards compatiblity.
 
-Yup!  Thanks!  :-)
+> Although the keywords __reentrant and __banked appear syntactically in
+> the position of a C23 attribute, I consider them type qualifiers
+> rather than attributes because ignoring them can change the calling
+> convention and make calls incorrect. They also participate in type
+> checking:
+>=20
+> int reentrant(int *) __reentrant;
+> int banked(int *) __banked;
+> int plain(int *);
+>=20
+> int main(void)
+> {
+>     int (*r)(int *) __reentrant =3D reentrant;
+>     r =3D plain; // how is this safe?
+>     r =3D banked; // error
+>=20
+>     int (*b)(int *) __banked =3D banked;
+>     b =3D plain; // error
+>     b =3D reentrant; // error
+>=20
+>     int (*p)(int *) =3D plain;
+>     p =3D reentrant;
+>     p =3D banked; // error
+>=20
+>     return 0;
+> }
+> https://godbolt.org/z/hPsxWe6Ga
+>=20
+> I increasingly think this is also the right position for the qualifier
+> in a declaration of a pointer to
+> an optional function, e.g.
+>=20
+> int (*o)(int *) _Optional =3D fn;
+>=20
+> as a possible alternative to
+>=20
+> _Optional typeof(int (int *)) *o =3D fn;
+
+Also agree.  My idea was to have this:
+
+	size_t strlen(const char *s) _Reproducible;
+
+and collapse both attributes into a single qualifier.  We don't need
+a tri-state, IMO.
 
 
 Have a lovely night!
 Alex
 
+> Currently, type-qualifier-list appears after
+> attribute-specifier-sequence in both alternatives for 'pointer'
+> but not elsewhere it would be needed, such as after
+> function-declarator in one of the alternatives for direct-declarator,
+> nor after function-abstract-declarator in one of the alternatives for
+> direct-abstract-declarator (which is where it would need to be
+> permitted to allow qualified function type names to appear in casts).
 >=20
-> Regards,
-> Stefan.
+> Best regards,
+> Christopher
 
 --=20
 <https://www.alejandro-colomar.es>
 
---nmx6oqnqkqhquwt6
+--6fuvvsafsonnmthf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrjyGIACgkQ64mZXMKQ
-wqlTaRAAtZgV+9PXoDykL3S7lpmkLuaTI7mjVxC7fGsxfyoii7QGU/98KyYCGe2w
-2SCpzd+Xssyn7OAWbL3ZNZmNcIdfSnECpBhEdbYRh2EkpgcY95XiJejkTX+SnA1D
-5BduRcIUjL14WNmWTuWYw6TGwl96wm/rKTKEguHWc8mkI3kVhkXjUbmG7lPRygQd
-GpV+9TvgNQ72nT0quWPDNdGV74c4D735s1aaLhHXPlP8aCvfd1DFMscFrvzAcLFR
-Iv9cMa9BIlA5cnl/nkRgyJ7p2nn80CqtykvTwLwNLP/gZoEErxSGqNNOHs4rjv80
-swYYqVYZofJmvlO9qW83mlzQYcKPBz7zYLdDBZ2snQYeynq4xaqPxbjxXf+djW+y
-3g/gMIu+hl56Bz9ypO1nIx5x7sZI/+Npq5uqgPcXFS/+sCUPlVNbH9maV0uxUfLZ
-6eGZrO+WM947dqubyU58nnbBq8lus4I6OEnSFrFt0BkL243/FOSzkvJCqYGfBtG6
-eG1IeuB0GfA0tInuk5c3u0pXA4UsFx3Utm14PAhyJCJpMmnotSlI/HxO5MRIz6ng
-3HXgs3iAzU96nNS2n5IKoxQvfSLSiYRaFj6ObSkKROZhE+UuPbVnzntjjivoE6B4
-MI23C8cgp0triwes0tM7pJIvhrO4vQDIchGV2LRkZjIqNO+AeBk=
-=JY2m
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrjz0AACgkQ64mZXMKQ
+wqm1HQ/9EtlAs8/w30EO4GjMiCf8cuI116bsWHFSRHRMG6KkOblYX45D/yWGV/aH
+m1WRla0MzpgSUGKi42eEWiAE2L9FYDRAKIshh0IF07YbcUy9Dn6VqwV3mVcEMGSM
+Hc5+N4VkPPvEbiiCNQ6XVhT7AJkWngm2TIciWzj7Cp3dqlZZWY5moOEMTe0S7hND
+uRepkLub0XT0iQrIHyJFj1R+q8Y/uv/T8Mqho/gz13wnhIJhv5IC1PXW5GJ3y7UG
+gFjx8oUUOUowUMLvVfhJMc8YQqJUxYLM4diOV+lOQ54ke7xMne3/LGRVe20dwISM
+z0EALKVOrBQ8jxLE9QgRFHcjY9UwwXUMfo/GM3RiHvXXJ/o8X4DEaiaTgbWWs4JT
+v7KFGSdr1QVcDFm5muxqy2RL6FChsuKSdJLT49FqPRBl2kSuhqyyyJ7LUd05rkxO
+nfCkpUFOFTTMdb8BBVnckSOqEC0Go2KVIldsGYYcgn/bOIbb9N8gmdRiCWdVzwrb
+hxELlKhJpcQGmrEV9+WUq1lboRPQd6H74cj78jAJEgn1DKyfhrzqdR++LWNMlB7L
+NO6zDUDuqMnNHKSOkefOFgoSt+OeXonJ8du5DHTmWc+8MsDlR19DhZNCVb/DusG0
+PgHdjghQrHg4ZjKC2Q7z2UdjqcW9UWQAEZru294VqnUhALvElj8=
+=sdNR
 -----END PGP SIGNATURE-----
 
---nmx6oqnqkqhquwt6--
+--6fuvvsafsonnmthf--
