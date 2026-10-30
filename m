@@ -1,52 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793367272;
-	b=Ag5OPLqAjcmgq9Ue4kdij4pMo8dtHf1PK4HZYK5MfIsO5xOkN87z87ahW/7qJLB+KKlP
-	 aNiWn+oYpBa0ZqBy8VRfWAr1RAykkd7WfVKU/4h5bEJMscmECZpmQvgYq11tn0wl1BsqW
-	 7lzGtbwKY/0c+GTBxeJqZ72I4DBzZmJhCU9AhmeYg3kVQbrnKFGU9/B2cvr+XM7yegxra
-	 GXjdPJYsVCy5FNa9iMy6a1j2UmhhaSK+Tyh8RaQqlRhnM68TWxAn7Fc47rvcK/8MEA7Uh
-	 +fHH8o7yOuSVBKQTjayfEvrcyM0O4uul6FnZm9II1Baj3TMDQy1O6tHsphbAyEpJ/xw==
+	t=1793388281;
+	b=Z85xtjTXkjpjv97TEIW7tmUcDrPQpGDE2rE5e9H6W/WL+DcaNV1crHPyZWNilyZOtPvX
+	 WSfpjvKui15h17k04lFMPzU0KAILn43hd5rhDn4/LpeqiwZ455HI2xPsxQ9ugOY9D+3Aq
+	 vw81iaobcap+IBL6VW9SbmYejmbqpFDQfSx7if9kwsgkfpgvhAareTJJs4ArGB6LXmn3H
+	 5FTFY3DIkmXvhgb5RD6v2yeeSTcQiKRdtmLwwDKas5zuI4/2KYFl6AcRrGFCKwVyGFZQ7
+	 ez/Vf5ad0uFPK7DEFo9UgHG9AT/G/oM9z4L45YnWwLatwD+rXb/mofVH7p6GaRqVuMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793367272;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=lXgNYfuFvSNDrfV/ZuLgjw5xZjRVYQdNyyhtYjujhPw=;
-	b=NHGA9qdcjw94W619e8R3ch6sHyjUMuZuiNOHIio2JttzBhXsuUMAOCu3FBYRcMXQvejF
-	 C4N9p5Zs49pwOemezWoFBwh7crkvy/2EI0swMi7eFkHtVijr7cTze4qwIY5yvg64tQZUb
-	 uu2c1MvcjC/M97NcKMftCQdP3l07BgiNtlgpkKbgFGXQfWpZM1qzjaoQkPAljro9Z8qsS
-	 cE91leSjaqltnzp6tQl1IPY+0hFEM16BSfmyc09poO0ro8ScwR4HD1RorEhXuN0hT0sBH
-	 U/GEYP86RgXHpvbZhRZAEftX5t85uCrWncp+oIeDgbPC28b4IZDVgpnL/BVfUX50njg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793388281;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=6kTPVE/Rd/P3+/RZkdjdUkdrgOGCsrf3uEvF28og59c=;
+	b=PZoTeVlm10swTcjU5vL5HDKrFE4EezCwjnOIOEDlQpg/hS/Xwu4DDWfN75pYEBDFgRVX
+	 y8HCCsR/8rGs0Zta9nx+gqMklOFsx7MaCE73THV1QJT4s9JyHSvBH4kVktVRgcFXRy4qs
+	 UXVw+IRCeDDFauaUfE++aSQS8sthisnK0Vo7D9fdUa8K1zcaicrFtKJtqEnQn1RRajWja
+	 D0n8EaGSNH3NkUrUzyMPlX/3tR34CS1RR7Np+kksP+Kv7YixmgVXBWoLzfWyjSyHorBEr
+	 dfhsv63YNuGiOsu/sBEC7TCwU3v5d4mfFHyu2ho/pZ/ns2z8se7/3uSIq163Qab9hZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lv1SLl8P;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTxIxpeC;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CEE606A31D
-	for <linux-man@vger.kernel.org>; Fri, 30 Oct 2026 13:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8678606A323
+	for <linux-man@vger.kernel.org>; Fri, 30 Oct 2026 19:24:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8678606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lv1SLl8P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9BE61F000C1;
-	Fri, 30 Oct 2026 13:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793367271;
-	bh=lXgNYfuFvSNDrfV/ZuLgjw5xZjRVYQdNyyhtYjujhPw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lv1SLl8P406RJTNtsm3r6uZEE6VWpnyLytgvo15YDs47/wx/wQO2lNCtZ4QnkjyhO
-	 Bl4hP6FSTxgVWz6FDeR1SNqDgVP8t9PD45qnso6wtf8BPDpV2IFt4ITto5UzWUw++8
-	 j7b1jtwOhBmg+4A+H+S++Adw6RsUbGhv6jcuwRs6j9WejHvGIofhCnNES67Z1mqIhi
-	 8BzhbaJCVBCBqsvor4IuiEsCdz6TsE03jCBUsC2QJhb6MVnjXSSjqm+lpK0OfOpaRS
-	 P3C+HTxFmWGwuIQ2ZT0qNbEa8MiP0DLboi9BYhcK7GPcqdmmAAjxlsIYM2wyahjcqW
-	 Xq1X8ghYmuYAw==
-Date: Fri, 30 Oct 2026 14:34:27 +0100
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Chan Lee <chanlee031012@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man3/strncpy.3: Document lack of terminating null
- byte
-Message-ID: <auSb0eBwb1W8sDX2@devuan>
-References: <20261030025927.37758-1-chanlee031012@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTxIxpeC
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so926119f8f.1
+        for <linux-man@vger.kernel.org>; Fri, 30 Oct 2026 12:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793388279; x=1793993079; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6kTPVE/Rd/P3+/RZkdjdUkdrgOGCsrf3uEvF28og59c=;
+        b=fTxIxpeC3h479pCGUeYtaT4o4ysvUhl9V0mWukSLBS0/0FAnLPX71wAXPXx7hSZ0hK
+         SpGCoZlqPZt6Uyh/pxoXxt9se5hCqjYT/fwVAUa92uEJOkbd6KDGMx9hZjpiUriZy7oB
+         G9uEhQ08VwLGOdgv1PGGarpaUODOoMaTdBfFNhvlMDZV6A08udyUpBlENAo37P4GTN3n
+         ucCOpaknnMGxEa4gyesi3dNNaR5arjQTAYQrnuxjT7JVYw5rVuqKIQ9YaySpa2tVEJTe
+         3+jVRzenOBIkgWi4I+bkO6v+k+taU3pSU9uo+ro7c3zk21sPTlExznlHqqUdjs48tsrg
+         Rl8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793388279; x=1793993079;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6kTPVE/Rd/P3+/RZkdjdUkdrgOGCsrf3uEvF28og59c=;
+        b=hByUlnkOhQzbG8ak63r4jjlDCyrdqipKE/Qp/0AGt8McPUrtLHv+qIMYSiiBskuoeD
+         D3Tv6SWhpPRvAoFN4BoJpKDq46Z8v19qFuARqJdyOqBgy0/l9LUW9FaWG0b+Gmw1RKJj
+         4RazHSsivyJJe77lYGOVt3p5nbRg532cKsBnC6ORuVyWcJ25Iu/BCzbWlh5AHHMbS8LM
+         vEBYvhJLuEcJ4Rx8lK7ppa86lP2sMshJSIXDGYv1oy/mLOhTPL01ieDP17doytsuDxqy
+         1Uoa/Dz1j9CmmrsXIfm20IjOY8ADVli0sZGU4Xhtjvqz+BPGNt0dSxctTgv7VPdnz3yp
+         TDRA==
+X-Forwarded-Encrypted: i=1; AKwUvBz5AH8CAPUcLmCnftwwzeNxGCtR54B0bMZY9BkyjDAsnnuPLHkvOw0UyspC/7Q+LkZqk9DcTKgrfDA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKcU2esFclhrclD+OAJP4VryIWFjY3eXbIcmtbpgTgR/KMJxQR
+	hW5vVVXUVL9GBg8seGhW2D9TYMdfZiVIpk7jc5Kz4DNcecoWb4Y1dMJH
+X-Gm-Gg: AYBFou0vCCYNGCsJ/nHhA22PMRfAKxknQAj/dJlcPWB0wtHqGvbAyPib7Sd5pkho2il
+	QgBUinYJd/Zcm8g0uBfiHuGd2en7kCtXx8hPiTOJNSIFH361uqyaBzFwiYObUKzQvh+5rODoFv3
+	nM05v+gRbtvN887TzXVtGK4PBoeSYFN3Z1sZ6YfcmlJK5lWE2TA7wus8Nl4dj1CZczbYB2/xIVY
+	P0Fyw8W0aiIp6swupSvFDRgcriE1Jd/rl52dIR5RT6s+lQ9nXjrsQPO8ETj4dwyIWOXcz/2t5yU
+	9AlRBmRvsUhuFwxJrFa8Zry831b1NidzA9CHxbRL1gSTPCVehQwV2G2i7T8M/VR1NuyYNpfPdR5
+	VXnqePdbt8ZpIP1Nvrt+2ZPWdgikcyStcKOgXdjkKMrhmlrsxhPY1LrGjBYI8Aui+ya82+GM7fd
+	AfUfyha7da+zygxk0xMNwP0jahrawNuvSsWjyZIo4LbymLOGrt/KAKUtkywgbgvS74KB6bPWEuy
+	X/Oy7w/4svkC+fI/+OqZGcKVkO0WKzNXh46BK/hzwyazIC0NMG/xJTVcoUF/BCtvoXScHkhwQ0K
+	H57LCSv/tlfI6ejsO9C0TA+47Zp65vm0vd6KctrPFyYJm0e4YTsCJw==
+X-Received: by 2002:a05:6000:2dc4:b0:48e:3b53:e100 with SMTP id ffacd0b85a97d-48e6e535ca9mr7842846f8f.56.1793388278841;
+        Fri, 30 Oct 2026 12:24:38 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71ba24f6sm4560126f8f.51.2026.10.30.12.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 12:24:38 -0700 (PDT)
+Date: Fri, 30 Oct 2026 20:24:33 +0100
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: Matthieu Buffet <matthieu@buffet.re>
+Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add Landlock UDP support documentation
+Message-ID: <20261030.5b8905e593ff@gnoack.org>
+References: <20260917075853.10231-1-matthieu@buffet.re>
+ <20260929.phoohohs5Hoo@digikod.net>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -56,127 +98,31 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="35tv6mlpffc4fuhh"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261030025927.37758-1-chanlee031012@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260929.phoohohs5Hoo@digikod.net>
 
+On Tue, Sep 29, 2026 at 09:02:34PM +0200, Mickaël Salaün wrote:
+> On Thu, Sep 17, 2026 at 09:58:49AM +0200, Matthieu Buffet wrote:
+> > Hi Alejandro, Mickaël, Günther,
+> > 
+> > Here is a small update to landlock.7 and landlock_add_rule.2 to add
+> > missing TCP info, and add UDP specifics introduced in kernels 7.2+.
+> > With the benefit of hindsight, re-reading UAPI header changes, I
+> > actually did a bit more than copy-pasting from them (see patch 3/3):
+> > - explicitly state in the access right description that sending
+> >   datagrams without a destination does not require any access right
+> > - more importantly: clarify the description of the most non-trivial
+> >   behaviour (auto-bind denials when emitting, which can occur even if
+> >   CONNECT_SEND_UDP is not handled)
+> 
+> Thanks for the patches!
 
---35tv6mlpffc4fuhh
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Chan Lee <chanlee031012@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man3/strncpy.3: Document lack of terminating null
- byte
-Message-ID: <auSb0eBwb1W8sDX2@devuan>
-References: <20261030025927.37758-1-chanlee031012@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20261030025927.37758-1-chanlee031012@gmail.com>
+Hello Matthieu!
 
-Hi Chan,
+Friendly ping on this, to make sure we don't forget it -- do you think
+you could find the time to send a small follow-up to this?
 
-> Date: 2026-10-29 22:59:27-0400
-> From: Chan Lee <chanlee031012@gmail.com>
->
-> The lack of a terminating null byte is already shown by the examples in
-> CAVEATS, but DESCRIPTION does not explain the condition under which it
-> happens.  A reader who only reads DESCRIPTION may miss this behavior.
->=20
-> This patch makes this behavior easier to discover by stating explicitly
-> that no terminating null byte is written when the source has dsize or
-> more non-null bytes.
->=20
-> Signed-off-by: Chan Lee <chanlee031012@gmail.com>
-> ---
->  man/man3/strncpy.3 | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/man/man3/strncpy.3 b/man/man3/strncpy.3
-> index 9c476acb4..89da260fe 100644
-> --- a/man/man3/strncpy.3
-> +++ b/man/man3/strncpy.3
-> @@ -26,6 +26,10 @@ into the array pointed to by
->  .IR dst .
->  If the source has too few non-null bytes to fill the destination,
->  it pads the destination with trailing null bytes.
-> +If the source has
-> +.I dsize
-> +or more non-null bytes,
-> +no terminating null byte is written to the destination.
-
-Actually, this function never writes a *terminating* null byte.
-
-It writes padding null bytes in some cases, but those should not be used
-for terminating a string.
-
-The wording of the page is written so that users are discouraged from
-using this as a function for handling strings at all.
-
-	NAME
-	     strncpy - nonstring copy
-
-	...
-
-	DESCRIPTION
-	     This  function  copies non=E2=80=90null characters from the string
-	     pointed to by src into the array pointed to  by  dst.   If
-	     the source has too few non=E2=80=90null bytes to fill the destina=E2=
-=80=90
-	     tion,  it  pads  the destination with trailing null bytes.
-
-	...
-
-	CAVEATS
-	     The name of this function  is  confusing.   This  function
-	     produces  a  null=E2=80=90padded  character sequence, not a string
-	     (see string_copying(7)).  For example:
-
-
-The lack of a terminating null byte is implicit in the fact that the
-page never says it produces a string, and it says it copies non-null
-bytes (plus optional padding).  The CAVEATS even explicitly say it
-doesn't produce a string.
-
-I think the proposed patch would be negative, in that it would confuse
-readers to believe this function is appropriate for producing strings
-under some conditions, while it is never appropriate for that.
-
-
-Have a lovely day!
-Alex
-
->  If the destination buffer,
->  limited by its size,
->  isn't large enough to hold the copy,
-> --=20
-> 2.50.1 (Apple Git-155)
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---35tv6mlpffc4fuhh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrknN4ACgkQ64mZXMKQ
-wqlgkA//RJArMokBTS+e4G1bqpEuhLpzUQuDDd5I0THhAy3rUfLNnz3QgIF1v6/r
-u+aoRZAzNaSIgZRYbQ3hwggzE742oqXH95GIguWWfOcbUhLQKWfehCOouU63OqIU
-vf90/fd/fl2qUgv9kEKO3g/C6ReIqYLbRr+CCNYQoDJ9+QXj0iRgt5ikolICsQol
-EJ+jLxEiTWrVoA1aToZJRmAoahYozG5pFO1sBKb2JDKbCp/al1BDDzzXCeB+zotx
-zq0b3tWETq7Iz/n7CKw9m/ol1611oU0jp1ZOJHy1OABgDLCogVcC6n1SUsH1Z5/N
-pu1HAnbShgVAOt8qesiqmABA/lJlf+eIb9Q9ehg6t88vXLmsH/2zEi3YsM4HgMaA
-XPYWu1bPvoE8VzDsAs8MMfFE9rBgoKQciigt47dwcYznZEciNJrKSs6t0M67MwrW
-oiX+DeSTKsCD7acXPN6HwwZmDP5CFjlxyCgPA76QjF2LGmFMroYNkZDYhOoV89fK
-h2jS5PzWu6V2gBe1xmX2jLco4Zel/GnvbmcTyU5Pa0LAAj+Lc7ARa2Doj0YH4yUp
-8/8MBbmbsp7m4O6+H4s4/2RDfiXaOVvmFe3Bcn6mH9tO8VHWzBbFldStDyawvbRG
-pRsvT3/OFkwomeVw4p/wtn3/c+XcWLHQZ0PN6nRGC7ZqnN7WPSU=
-=SAFG
------END PGP SIGNATURE-----
-
---35tv6mlpffc4fuhh--
+Thanks,
+–Günther
