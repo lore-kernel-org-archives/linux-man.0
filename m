@@ -1,52 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793538534;
-	b=tB5h4+Ny9AMDE9knAvGhh8regeEeGS74Df6lhOa6EmHFP8vgpkS903YyD+AqNWkpFIvz
-	 W0rVssX/uqiOaJe7f7V9xx2h0ZOfYzdAOUZXxYr2t7gM+eqO6VpIAUSIfB6U/aO5Y6Cdn
-	 gXz5y8Rp7ZtsB4xjjf9s+7mXDoSyGvMkxHZRn1mdklRegR/1C1PnMuk4MFISpslml2y3k
-	 Bz96UUjAgWutsPfCObJsoVDFpsD0O/m+fhckrOE01daNpv4ptlojNfPDBdFQjyHIUvWlu
-	 vSdGbk+pp8CVR4urt9ROHB6tBJFLE9gpAxEt5FnDntxA7lJBjDTe1+1yJKI+X8ZXNpA==
+	t=1793605459;
+	b=urhKYaMDmKEkcT8tSKl0TZA/fhdOebHBocpn5jJR8iZh6ZHRIMWKtUl42NUZK1DDaLle
+	 qso5zdushleOEXsFn9TnSfthWPGZs/7RhNAv1idQ6hFVEmf9LAUuKeVPiI1gIk097XkNu
+	 oTB28Ea+I5h7Ld6Luu0QuC5rcPA3uu4QQBfxQeJmfsB6BU1Yt3RKGl8W3AxgffRW4mEZj
+	 JDi8vaJwtc/mIO5p1EzCAKRPMqkvL4d+D53bKYjLQ9cSKQw3tdXXztgm5zNVUGIptXtMg
+	 XtwXcbjaF+ezKKh2S/KywP6RQHcGJybN/7OWftlvygNb/pzdy2CVkl3ebHb6eyYYbQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793538534;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WkVZZ07LuXNslu50KOWtXPho//VGbNf2V30rYYVn9No=;
-	b=pjcc+XABXpNsWzBUzCS1vLm5j5QOL8B4r8Cv+wAKGRHME61frzVaRgZvE+84BV+JHJci
-	 Advut72mnvfUG2SJ1gZyyJ5haTAQHQcWBzFCAeaVEiwM+bZ3qEj4+Dk6wy9DLry5oyN1p
-	 zIyE5wEcN6SaTvUMJWXmnLfld3VbfTGdWMDvso4GxXdv4CWjeN0SDkCyYS9Ukgelc3EpX
-	 AWiVGooGE0R8q+u88Uw83FRq2pq8cZtQtmX7qmsXEG6t76Ble7dGK+Q/MiRCP9tVDCU8P
-	 TJwG5jc/aRsiP4Xx49GVn+P4WfwV3v0wykw8z27ndRYWmrG2x1VqFwkpi23CRVyE1Fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793605459;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GMp9mcTTKC9DHoWvLxRWF3MR+m0EkCxt9LMLL8huxSQ=;
+	b=WoxP6kNRSLIYQPcA255ub96elK4HKJPwVc9iqYgU+41gYk5+P+UXSAS9+koJ/GeKpnQw
+	 zJTaVfPR3PZkkHmeq4DKO0WpqgaoitfqFba/fFnIul5hZmu2W6ECStVYTC7qCKC5R4Mdk
+	 0/r8eKcrKMBCLetc1SwbyFCLv7ART+xZLyH0fHUA6+mPMTq7SjTuFc6U+/xeNOhmjhNKJ
+	 UqoU+6msHwK8WXf0/SHciJt4ku26eKwK5H/YW8rDLWAzol0xDrNjMLVEkXArIxMil+b3u
+	 tjfz8J3KMqVgExjnsgAUXE7ggVuhFP1bnhkn4jtta4HlXZB4IzXQfUfVtoh8mBxc33g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnMhoCev;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OYjCNJ4Y;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80A1606A324
-	for <linux-man@vger.kernel.org>; Sun,  1 Nov 2026 13:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4F0606A326
+	for <linux-man@vger.kernel.org>; Mon,  2 Nov 2026 07:44:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B4F0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnMhoCev
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCAB81F000C1;
-	Sun,  1 Nov 2026 13:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793538533;
-	bh=WkVZZ07LuXNslu50KOWtXPho//VGbNf2V30rYYVn9No=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nnMhoCevCLE0VbarjRtvbbKOvoFwHAtEEnIa56Run5g8+ZvSx1iji6UHbEme+6oDD
-	 Aflb7Pt7BDm+JPuIJcuIUuvQQXON0IBO7Cb7sq447Qdr1Q7LaCqrTT1PrlQSAF3Cno
-	 9P1VRgVX2GE3g+SU2VMLjp+aGPPg2zh3MoPk+XJQS7V6tEGGr0tLtTYtr06Qb5YTkj
-	 A3uHda4Q92PlBjUvKkzivGvwuqQ8iU+LxMKRO2L6Btw2TqhYC5kksLccElhRhAOEWZ
-	 pCAunHvpeZ0qVR7IX3MLZ8E3pU3krlVWs1jp3Hmy8i3GOJhw01lu0Ol0c2XNRMc7eZ
-	 2lZU42yRfKTAw==
-Date: Sun, 1 Nov 2026 14:08:50 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: ben.kuo.tw@proton.me
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man7/epoll.7: Note that an edge-triggered listener
- needs an accept loop
-Message-ID: <auc5xI6XmdOUN0QA@devuan>
-References: <20261015-epoll-et-listener-v1-1-2cc0027b658c@proton.me>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OYjCNJ4Y
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso1802176f8f.1
+        for <linux-man@vger.kernel.org>; Sun, 01 Nov 2026 23:44:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793605458; x=1794210258; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GMp9mcTTKC9DHoWvLxRWF3MR+m0EkCxt9LMLL8huxSQ=;
+        b=OYjCNJ4YGN418aOh4vtw14+7AbwL7A3Ew1CDtb+YSuxsqDbyN3W3NuNSwtJa2wrcK+
+         /0DbK6/gccivSLcebaEXKX+PuviBnQdEZl5rWvIUJE0+unubt6dYmDsFeZl5JUyTPfJA
+         eb5cfsbZTdDxFpV9Z2S2YwoHdgZgDyswjQ9g1w13yyKdN9fbW7JBUGkDsTW8DY8T4vrO
+         vxyyS3wp/hibMOyq4jZ+uN+QFFFQYYKjWb/9TtDlU0VZ5kIriHuMnnVNtNup9Q+7OoJQ
+         uGL5ABBYMspVQzy6ukvZB69Smvf1uU8UokxPfb3jSB6aTAWGnHCzZPdyzW+aWE7smNI9
+         qv4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793605458; x=1794210258;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GMp9mcTTKC9DHoWvLxRWF3MR+m0EkCxt9LMLL8huxSQ=;
+        b=qcdmqIINw2aVxg2mMy1geZgV2K9/w/C4cRx/K80I3VxUHowSMr2QGhuhwmXLlFgcMp
+         oxZWIkqB7AMgPedP5aqiaPxtNty7fMi12ISzD51YgOWcdw1NXFbqc1JZ7LR56CAbkmb0
+         0c9kK1xUz0cJ5+2/myXmAqqu7R5QcC/tL6LUE9M+rsgCcq4lPM/z1cwpSnF105LOJziP
+         QgFC4kLRXl8npa0UdZSX1eyIxgzuMUZms5nYHQEESVoMivkIP76qy3HOonNL/m3OYDIL
+         stRV92OEjWleTKoJAIXTK/JAwuMnRdl0mAfRysDuGZKxmf6PNV+hCUJ1rM2XCcjlzIuX
+         7T5w==
+X-Forwarded-Encrypted: i=1; AKwUvBxyPp8NCerY4UL/lMtV8FnK/iSDarzN6UhFT0wht6ZSSWZLVbJCrOJlnJMOr20rJNYOj3MSPlIIkXQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z86KaeWNOXfid+e6uWq3+3argZhRmL/EfCu6KBDR3Cw6zpZykrl
+	nSprKoePDF1r92TqPirACWyhhg3zvag0qYcQiSOQEW1JmToKQuGVa+O5
+X-Gm-Gg: AYBFou2Sc8JWkTdGxl+7kkrj1IiyllZE16694oPoTzXwRkv1CrbBsdsoN1i2sOM2U1/
+	AlzjsCTAg8Y1bKepfkntyCtKz399COBYWsyV5XQ7e/dQjCqCCxI3xIaztkiR+MJQi34lUR7AecX
+	axt4UNIv2wpN1g9IAVRpQBdid8dgV71DMm6QSaX/TXMBUksaYZuvzU+aNpHDw7aoIing1e/sKMh
+	nV78PtlWSHYgbCxQRQwGYA5bxnLrQktAkqwJETITjaAVfIk+zuT7h2QBSersim9+979apDz9B1k
+	im01Rbr/3k3dJ721mAeTg+0YlxQnEh0XCzWjfPOZENSNNZ1La+COlJ4dx7i6WW5pR6D4r3iWnhs
+	UoMjVKVC3SjPAdjc/kOaoB6eRJldDo6WwmrOD3Dez8GPXZrf6zmKODLQI0l7QvBZ74EO8BbtJ9G
+	XQmFfC7z8VoMs64746cZwANT6xL2fr0ujDzToo/vLUfpseeh27KyhLR+JssVsxthrHijWj9QJBg
+	OTyFxNzfT7lTcJApQKcYcB962SfuIp+K6FFvITbPu2hV2Wd8UFleIZgzRFFnwIWqEv1Y6r2KuQE
+	Lr5MHzbaeEfxFw==
+X-Received: by 2002:a05:6000:2387:b0:48e:20f9:8d75 with SMTP id ffacd0b85a97d-48e6e50b79cmr21195080f8f.48.1793605457581;
+        Sun, 01 Nov 2026 23:44:17 -0800 (PST)
+Received: from nobara ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b81c74sm18050374f8f.36.2026.11.01.23.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 23:44:16 -0800 (PST)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	ts930@dgu.ac.kr,
+	alx@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org,
+	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Subject: [PATCH RESEND 0/3] mm/mlock: make zero length requests a no-op and reject wrapping ranges
+Date: Mon,  2 Nov 2026 08:43:58 +0100
+Message-ID: <20261102074412.189554-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -56,115 +110,54 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u7v6rlddpgyvg6z6"
-Content-Disposition: inline
-In-Reply-To: <20261015-epoll-et-listener-v1-1-2cc0027b658c@proton.me>
+Content-Transfer-Encoding: 8bit
+
+No changes, rebased on mm-new, Cc fixed.
+
+Follow-up to Park Tae-sun's patch [1], which was dropped. David asked
+which of the cases it raised can actually be triggered, and for selftests
+that show them. Two can.
+
+Patch 1 makes a zero length mlock()/munlock() a no-op before the address
+is rounded. Today mlock(addr + 5, 0) locks a page and munlock(addr + 5, 0)
+unlocks one.
+
+Patch 2 rejects ranges where start + len overflows, or where the end
+overflows when rounded to a page. Today these get a silent success, act
+on a single page, or get -ENOMEM/-EINVAL depending on CAP_IPC_LOCK.
+
+Patch 3 adds both cases to mlock2-tests.
+
+I could not find the commit that introduced either behaviour in the git
+history. Both are already present in the earliest history I could find,
+so they may predate the imported git history. There is therefore no
+commit to use for a Fixes tag. I have not added Cc: stable since these
+changes intentionally alter UAPI-visible behaviour.
+
+The mlock-random-test failure CI reported on [1] came from that patch,
+not the test: it assigned 0 to do_mlock()'s error, which has to stay
+-ENOMEM for the over-limit case, so mlock() over RLIMIT_MEMLOCK without
+CAP_IPC_LOCK returned 0 without locking anything. With [1] applied the
+test fails 40 runs out of 40; with error set back to -ENOMEM after the
+check_mlock_range() call it passes all 40, as it does with this series.
+
+Tested on x86_64 (KASAN, lockdep) in QEMU: mlock2-tests 31/31 as root and
+as nobody, 24/31 and 23/31 on mm-unstable; mlock-random-test and
+on-fault-limit pass.
+
+[1] https://lore.kernel.org/all/179066531783.50175.13377521828379196177@dgu.ac.kr/
+
+Jose A. Perez de Azpillaga (3):
+  mm/mlock: make a zero length request a no-op whatever the alignment
+  mm/mlock: reject ranges that cannot be represented
+  selftests/mm: test mlock() and munlock() range normalisation
+
+ mm/mlock.c                                |  29 +++-
+ tools/testing/selftests/mm/mlock2-tests.c | 191 +++++++++++++++++++++-
+ 2 files changed, 215 insertions(+), 5 deletions(-)
 
 
---u7v6rlddpgyvg6z6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: ben.kuo.tw@proton.me
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man7/epoll.7: Note that an edge-triggered listener
- needs an accept loop
-Message-ID: <auc5xI6XmdOUN0QA@devuan>
-References: <20261015-epoll-et-listener-v1-1-2cc0027b658c@proton.me>
-MIME-Version: 1.0
-In-Reply-To: <20261015-epoll-et-listener-v1-1-2cc0027b658c@proton.me>
+base-commit: afb4eea28037fa55c4560313ecbd8a1e1da8369a
+-- 
+2.56.0
 
-Hi Ben,
-
-> Date: 2026-10-15 21:48:33+0800
-> From: Ben Kuo via B4 Relay <devnull+ben.kuo.tw.proton.me@kernel.org>
->
-> From: Ben Kuo <ben.kuo.tw@proton.me>
->=20
-> The example registers the listening socket as level-triggered and
-> calls accept(2) once per event, but doesn't say that this only works
-> for a level-triggered listener.  If a reader adds EPOLLET to the
-> listening socket in the example, connections are left in the accept
-> queue and the server stalls.
->=20
-> Tested on Linux 6.12 (Debian 13, arm64) with an echo server whose
-> listening socket is registered with EPOLLET, and a client that opens
-> 2000 connections at once.  With one accept4(2) call per listener
-> event, the client never finishes: ss(8) shows 1420 connections left
-> in the accept queue (Recv-Q), while the server stays blocked in
-> epoll_wait(2).  With accept4(2) called in a loop until EAGAIN, all
-> connections are echoed.
->=20
-> Link: <https://github.com/benkuotw/epoll-lab>
-> Signed-off-by: Ben Kuo <ben.kuo.tw@proton.me>
-> ---
-
-Thanks!  I've applied the patch.
-
-
-Have a lovely day!
-Alex
-
->  man/man7/epoll.7 | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/man/man7/epoll.7 b/man/man7/epoll.7
-> index 2628cbb168b499786e495cf3c614fc5e58217295..aff844a568a5cd6d8eb310ed8=
-33266a0ccfd0a4d 100644
-> --- a/man/man7/epoll.7
-> +++ b/man/man7/epoll.7
-> @@ -339,6 +339,16 @@ for (;;) {
->  .EE
->  .in
->  .P
-> +The listening socket in this example is level-triggered.
-> +If it is registered with
-> +.BR EPOLLET ,
-> +.BR accept (2)
-> +must be called in a loop until it fails with
-> +.BR EAGAIN :
-> +a single event may report several pending connections,
-> +and no further event is reported for those still queued
-> +until another connection arrives.
-> +.P
->  When used as an edge-triggered interface, for performance reasons, it is
->  possible to add the file descriptor inside the
->  .B epoll
->=20
-> ---
-> base-commit: c6cefe27dd02beaf518bb654493e5f09e62b3225
-> change-id: 20261015-epoll-et-listener-c9873cce62bc
->=20
-> Best regards,
-> --=20
-> Ben Kuo <ben.kuo.tw@proton.me>
->=20
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---u7v6rlddpgyvg6z6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrnOdYACgkQ64mZXMKQ
-wql4Dg//XEaMYuRKyMK/uHY2enNZ384sGkcZASFQ0HoyOIbDHNZth++WLZ4A7AuV
-8EexmjWKnAJ9YEum75hvScq8PtZdmQR97TkskM9fNXU0thZb4+fdZ+uH8G01SlXI
-9bT7kGC9PMT3ZFazypk6gZ3zsnVHp/H06pgP8MiTEhpkznAcRWV76H1tZDl3dnMJ
-fPr3s3bI7lLhsNdB2vUB1NGwMDbnoO1tXMwRa1faHNxKGKF8X+k+2gQyQUkhvFmK
-O1sF+UoWHEcBwPKDGBBFkTT9DQZ7UbY4n0ubk/11Jy13tnS11eXCVWOTn9LvbZa3
-xL57AWa/exsbZTmOgL6KVMmLKZ5KVvlV9JcT8ErKgYVqb3KmuxylA7yhWZveDUSh
-ceAkieuDxdvYo/lMKLGrwSDkWkAt7kBmpzlC8IyTTKmxhrcN+KwGo6z9A7EkvOGZ
-90+Ec77Mwk2cfF4wXzvT1lxCMKdzj4SLB133KB/k/XpGrsKYCux+BoTZd7b6biVl
-rHD18SXTJASz4QlDyCmVhM+oimNe1yJJagQ9q26KnROm/LQLlpzMpd/5lwkBahqe
-bU8xsR/jvfaXMz+f/5aAeM3ZM9MFsLQdW4cyVkbHXqaNf+4nOhGlEnhOjR8M3toW
-LOmUKmZZXUWs6XyGtC2r9uSH/s+JBHONkHMnIZVSF/hz4a7TmBc=
-=Y65H
------END PGP SIGNATURE-----
-
---u7v6rlddpgyvg6z6--
