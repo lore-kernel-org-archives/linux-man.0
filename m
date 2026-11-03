@@ -1,96 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793737318;
-	b=m3oARU0cKoazixwE6MNF+1+llRy3C2tOqA29tCgMFu2y4KOd0aB04U8CehNIVpHR0NbP
-	 NuHTOXlCBU1dl4LMu2742hFdKCl2YAKkq9sn5ElKehSuSJGDzBYjYHlRfQdpWZEeOPPYn
-	 uKlcVPgcD9tpU319ITn6XAIERWViHINp+T4FYg69SXHjqjYf44iy2CfjTtj4IL6peOPFm
-	 vBUszotz3yAt9zsBGqsJZPwltnxvUWUpAyTaKTNVXxNB+cacW+98eQRR0VkexqZ1OiJNR
-	 G8aukBSdtDgGqc+8rYPTf28DO/WsZ1OEtCQLFL2Tjyvkb18tkNeTlrhworOiYT1CsHg==
+	t=1793737319;
+	b=Dbdv59MlAp6lJmDE1g0jP+ZNXlFC6tOCLj8X4/cG1bEVUhj5W/9kn4otf25PlMvC2yv0
+	 MBxWHoqzyh7XlqJFwKNeesYlaOmTlOmuk/QkSLcMu3yeSJCctlzA3lBAulYKUHtLH4RoT
+	 juXI4GnAMtfe9aQUPzHqQD31VRV7RLqyBilFrqjqnABf5txe8K0KVhGRf5k2VJUVEk2kP
+	 3/QdY5guaFd0Ct71nP+m65baliGl4qfwC0Eo57p4AL3qO8CJXbwrdHibZzrFrbWyZihOw
+	 b3vywpq25/u7YsKTpdm88f97ewWBDijgmtHEd3lCJIGpICmsorTTojr3WKKX5N8Q6Nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793737318;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793737319;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=AuJhcvWPM35u7pgKjYXsni2NbhG6LIuTkt5cG102mHY=;
-	b=JbcrM4/8xWLrHLrI/lTrmM7Yy6T+a5J9JzqhAQIbFcyVKSJViDgBVpNED8F5Bh6hSvlw
-	 88HBgwu+0fSYCHeSUbxmb9z4/E5BriHLM6OsE2ZkJfm4i8HA34Cgo6iUdBO/3gml2WcRq
-	 VMgD96JBU5hP03pJjAZudhbdkuHicbogfxIXQmfckgBDep8XE9ltPhCWQhGzNQp6yeOYg
-	 z5Yzdd2YWIyIWZPjVfSWwlBBDrWx4RjfKXRXrFVkkvv1qCvw9T6SqLy9lJzvOLxDjcuDY
-	 /zWTmMLNeEyXJLWoOJFrw4gLgsdngv55WT5tWxT8AlEcfAnPfy3p0EJrLPiO2/Yjkjw==
+	bh=GtSEiWAJO/Jb9xSEbdp+FXjmXbKwGcE0wXPgh3UZ5PQ=;
+	b=4ZRvahbUZYgcGGElmZwiO8lCCk8NXjSEsJah8RTJKOLtkRd8/EkangFGCizW2XdYGgyd
+	 JNNEYzxvvEozfWz8kgGZsCRay+fGzoBfqRrq1WzCv13nc6/eh9wwsYPAWc1qH9ijV9EPk
+	 kI8vaiZnONvx0DSK+hFeEVcVN1WOG1jeoZkFcmPoD63Y+b9k289EmmrlWo/QxCLHxgB91
+	 btpmzTB0i4IReCPxLBjmWJNMJ71UThF0Pi0btieNPIDOYmB2fhvEt37KoExx3ngy9F+0n
+	 yHrXSDpsnl1CWYINTqcKqPAXHIyXdW/5e5s7FbQMAMpTECxpYzBdF6qrZklxGq5cxug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rilMYXzU;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="n+DAY/Jq";
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EE8606A31B
-	for <linux-man@vger.kernel.org>; Tue,  3 Nov 2026 20:21:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88EE8606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBCE606A328
+	for <linux-man@vger.kernel.org>; Tue,  3 Nov 2026 20:21:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DBCE606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rilMYXzU
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so29659765e9.2
-        for <linux-man@vger.kernel.org>; Tue, 03 Nov 2026 12:21:57 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n+DAY/Jq
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso46267545e9.3
+        for <linux-man@vger.kernel.org>; Tue, 03 Nov 2026 12:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793737316; x=1794342116; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793737318; x=1794342118; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=AuJhcvWPM35u7pgKjYXsni2NbhG6LIuTkt5cG102mHY=;
-        b=rilMYXzU6pH1klXi2TR+6Tc0hKRsGqycbV5Lg+gWy0qFnN0IpZqjm1iksB1m3IrrTp
-         EYaTFJndv9jv1qJaJbFesqE1LpxfYMEcgPxTbpB4sDNCh/BHmxTcbd9qdg6V8zFPM384
-         VGsX8ev/P3gtsDGFtLKzgLmzozs00eWnhTUWNz+d4zUsEdR5Kg9auFsYYidwE1DMEBOm
-         /v0jrB7smLOS+M/G/iFk3NjSO4lVuCM+pQjuzv0aq7wG/RtrT9Bj8pEwcClkqU7oLasR
-         pYt3q+l8G/Q1+7PDvoOQY96ykjCLPiikVMCFxtCZOdcCWWPmnVD+hk0hsV4qLP6n1mMx
-         JcBg==
+        bh=GtSEiWAJO/Jb9xSEbdp+FXjmXbKwGcE0wXPgh3UZ5PQ=;
+        b=n+DAY/JqyX072UcsUU46qoYxCahpN0Fz8+klstcE4T9Q+iQ25Su8Q7Y5rG7j8SbagD
+         abzgK/mPWKZQusoNbxFlqWxgE/d7By4dCZM6FowU3JD17xcfjRYqgaleklmEtdEzaUSZ
+         Gv69pWbUicLvROzBW3en+F8n1XrijKbUPBQPLAYXBK7j7c362X2Jrxo8CLNjQmT5sF+I
+         LwM/qfaAvMm83FiPfyG9cbIGyzaFhTE/yt73lpUWcK6spccRmL8OuGNv0UffEe9UkjBv
+         cg7EDEf4H82KfQmfmiJQOZDYpEdLmeH0ooqd7Ci/HdOZfsKuKl9/YikbVBha37opR+6i
+         Cy+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793737316; x=1794342116;
+        d=1e100.net; s=20260707; t=1793737318; x=1794342118;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AuJhcvWPM35u7pgKjYXsni2NbhG6LIuTkt5cG102mHY=;
-        b=uFgcPcbgt5varYWv5+HhtI+GBpVa2sGNCZ4Ybjh9f4O3WIcEO6graYLEEOd3rTaXp3
-         o5sY28WGldmcPYbykyw+jGc3CRRdoTpcCrXSCDDS0GknlEdw27DA53fJQV9uj4+g3oOo
-         Ttr0zgMYvvtBnxrLTNFQBLHpR5f+FOi/k8bsDypjR4tCgShIo0oRjH7g7OfhtUFiK3Lv
-         h+jjnLn2VHRERchKFRL7T27ZhIPLnsRtS2q1B8CKsyrjI+HcHxJEUJ/Sx4VygkMq64jM
-         BllP3I7vn1YNo8TYVQWfuDRDaq/kHOE+TXCEvTT+QObbRQBHPZZJ9p9KmPYf5zAeD6p7
-         GqsA==
-X-Forwarded-Encrypted: i=1; AKwUvBw5TqEeq8kQefJ0wlmmBBonIgoI3t+qkBrAaa1LXQ5EePtMDFUUdYqyGAuYEtRLH3U+VlpDXI7leOw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+4HHgNsvrlnsfo7T6PGS6HdmPD8137qXkCAmj5uU5OvWFgtFmP
-	YcZmR6s8oPxu271OFovnBqKnqdIrUJ4EXT7YI/NI5+W7D03De5CQe57Y
-X-Gm-Gg: AYBFou3twX2n+63HSbK98M83W/I4PzWMJvdXgib2x1TlJXMOn6jHHc8AYJHXPN85QSn
-	ayiMQV1yFDk99niEUlicoe1RTt5kHlr/sqKGziasT/CNwapx41xlJ7SPTHy2/QET4HHiuG3ItLc
-	84UTDTkpV05fRdeveURUuLJySIzFnOEsJkZqA3waPds0ke9E5J6Z3Wui/Rn8OAZEYvP3xnesVEK
-	T+H69drizeRVFggqvbQA0bo4fIPuyodi6/Rw3jUnazt1B98IkzCD0Ts4WC7OqOGAtQ4lS+UB21W
-	+zAnUrDIsnOFW4MGjYfDVqIdMN6NW6iPcV8o0w3IjrCjanjBYiE9Zzoxom+REfugnzIr8TrP2Gh
-	a0vKuF5fCSIRbGAnX/Bupjxz8rweeWn+yp/HA/DKRBsKOat1BuD3FIXV4A2CWIme7B3mpkvEKP1
-	ZTY0/9lx6nh8Y+BVr4zphf5L91gfSaLOGdo3R0l+3yBq8R47z3otFdwURK5AfnijYegUlPnkRSu
-	vFz6TyjETD5ITADIbQGoC8F34Q8uh2J1PW7sWkuPGSxJUITtLuH/T/4o97Tdzc2i9xplJo7faxy
-	nvlQjqm/S9VzEAASv7LkUpiHUWNncmqPxWakhLUayAp4zUtguOh4VjcTUcge44T5sS04TmK7Szs
-	=
-X-Received: by 2002:a05:600c:a00d:b0:4a5:e6fd:65e5 with SMTP id 5b1f17b1804b1-4ac19705d57mr318307935e9.31.1793737315646;
-        Tue, 03 Nov 2026 12:21:55 -0800 (PST)
+        bh=GtSEiWAJO/Jb9xSEbdp+FXjmXbKwGcE0wXPgh3UZ5PQ=;
+        b=LnWhDcpQ+HZza6xMGtd7RH92q3/IxNd04nJJCkClwAzaF69jQTvGh5a26ux6DK6xvp
+         M76fciE4JfoGvneK8F+8CXP0Ibi8c8902C+7IeAuLsJWSpsvgcEVS/5nvQYSqh3hljoa
+         wtu2hWUcKNk4n0iJMtOMh+qk1XQcClqcy8s2GFqh42QfP2Ixf+x3DV2mVICQk9wXGLVg
+         5MSxys/yvLwm2LyG0MErNvlpToZNY/iI7UhcxoYNts1Xe7tH4nQ0eONJ4RTASqIZMH+4
+         BfOh3+950f9TtvWKLSXMju/jZc89I/eHZYT6Wsqi9BaNPCE8d1ptCU7hQdSPNJizSS4P
+         VfdA==
+X-Forwarded-Encrypted: i=1; AKwUvBw1gfHA4xRvQQKdyLh/ZYstlNpU22ogia/9nt922EIsLXICbHvcuV6y/8U+PozMq0IySU4LNUpmc0E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Fkh5p9AL/kFB/oqPccxPEOdV5Ovdk/cDH7n7UrstSPL/hPGn0
+	7eNAkeBpaWfR27D6WSyrHVbe1eCHZNVg5M+Os+9CweSl0fRyTu/x5u5p
+X-Gm-Gg: AYBFou0LCkoKzBlrr2b1eglvptdvgGmBQxIzZMjPzw6y6Bo/q8qyUgHrYL5PPRxfpXP
+	SEc508YVwbLxTgA66nmJOdLvnCNZuRV4iG7d87gHA+2+jlopn2PCjlHrRJCATVOEtoO4rMzj6fj
+	Bb+TO+ACAkNcaNtp6SH3kqFGOd9Ihb4xn6hVMLhJKaiaFqp5QzWW+rNL+4wqjrQCZnYcjfHV5/U
+	zm0lgEF5KfV7/pL81kqbiCmLx1GwFU0hjj9TL9hK2VoHTpJg4NZ12LaZB+0bNWfHCL+mKiAmVgX
+	MMMRNo7eBR+UTkABYM0ksy30Cu/oGgcLars88KspNBxRk4ZvNHsf0CByXudAT56HOVhVQ2Y5k2E
+	4rOsDCgu/sD5I+nkRNOwwIxA+h4gVVYFFjeYJKU/UUwsjSpchM93BBqWPSWrfeOwc0qDFLUCAKX
+	CKTE8lH7GB9WHMLsqF2z4tLkIKa6xzSnl7t4syED8l1BMQL0wS6AYXvK4qa74iGFcRwDjx878es
+	enWwv2eJsqcbMDS9ZEIds68Y+G+BnglbBR8De0Tr52phZYAgbjG74cUCRIQ31dPyxWQiswfXykH
+	FoX9fBW3U0zCjtetk1x/NGM3Hqj9MzbUUP6EQ7a/RSpjVa3XziDwHQ==
+X-Received: by 2002:a05:600c:4e48:b0:4a2:150f:1610 with SMTP id 5b1f17b1804b1-4ac183d16eemr309299185e9.23.1793737317637;
+        Tue, 03 Nov 2026 12:21:57 -0800 (PST)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a82cebc1sm120955805e9.1.2026.11.03.12.21.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2aaa4b91esm77290865e9.11.2026.11.03.12.21.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 12:21:55 -0800 (PST)
+        Tue, 03 Nov 2026 12:21:57 -0800 (PST)
 From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx+linux-man@kernel.org>
 Cc: Kuniyuki Iwashima <kuniyu@google.com>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
 	linux-man@vger.kernel.org,
-	Jon Maloy <jmaloy@redhat.com>,
-	samanthakumar <samanthakumar@google.com>,
-	Alejandro Colomar <alx@kernel.org>
-Subject: [PATCH v2 1/6] man/man7/socket.7: SO_PEEK_OFF: This option is no longer specific to unix(7)
-Date: Tue,  3 Nov 2026 21:21:31 +0100
-Message-ID: <20261103202136.13574-2-gnoack3000@gmail.com>
+	Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: [PATCH v2 2/6] man/man7/unix.7: SO_PEERCRED: Also works for SOCK_SEQPACKET
+Date: Tue,  3 Nov 2026 21:21:32 +0100
+Message-ID: <20261103202136.13574-3-gnoack3000@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261103202136.13574-1-gnoack3000@gmail.com>
 References: <20261103202136.13574-1-gnoack3000@gmail.com>
@@ -106,69 +103,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The option is implemented through proto_ops->set_peek_off, which is
-nowadays also set for UDP and TCP sockets:
+SOCK_SEQPACKET sockets use unix_stream_connect() as their connect
+operation (as defined in the ops structure unix_seqpacket_ops in
+linux.git net/unix/af_unix.c).  That function records the peer
+credentials for both ends for later lookup.
 
-	linux.git 627d2d6b5500 (2016-04-05; "udp: enable MSG_PEEK at non-zero offset")
-		Linux 4.7, UDP over IPv4 and IPv6
-	linux.git 05ea491641d3 (2024-04-11; "tcp: add support for SO_PEEK_OFF socket option")
-		Linux 6.10, TCP over IPv4
-	linux.git be9a4fb831b8 (2024-08-29; "tcp: add SO_PEEK_OFF socket option tor TCPv6")
-		Linux 6.12, TCP over IPv6
+unix_socketpair() records them for socket pairs of every type.
 
-Previously, it was only available for UNIX Domain Sockets:
+Connected SOCK_DGRAM sockets (unix_dgram_connect()) still don't record
+peer credentials, so those remain excluded.
 
-	linux.git f55bb7f9cb82 (2012-02-21; "unix: Support peeking offset for datagram and seqpacket sockets")
-        linux.git ef64a54f6e55 (2012-02-21; "sock: Introduce the SO_PEEK_OFF sock option")
+In the code, the function that initializes the peercred is
+init_peercred()/update_peercred().
 
-Cc: Jon Maloy <jmaloy@redhat.com>
-Cc: samanthakumar <samanthakumar@google.com>
+Fixes: 73b3a5686084 (2005-08-16; "Clarified details of use of SO_PEERCRED.")
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
 Cc: Kuniyuki Iwashima <kuniyu@google.com>
 Assisted-by: LLM
 Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
-Reviewed-by: Alejandro Colomar <alx@kernel.org>
 Signed-off-by: Günther Noack <gnoack3000@gmail.com>
 ---
 
 Notes:
-    Double checked in code -- this feature has been added to these other
-    protocols since that man page section was written.
+    Double checked in code.
     
-    The commits that introduced them are only listed in the commit
-    message, not in the source, per Alejandro's request in [1].
-    
-    [1] https://lore.kernel.org/all/atulJkR7fAgyKhPP@debian/
+    The unix(7) SOCK_SEQPACKET socket type is also connection-oriented and
+    shares the "connect" logic with SOCK_STREAM sockets.
 
- man/man7/socket.7 | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ man/man7/unix.7 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man/man7/socket.7 b/man/man7/socket.7
-index 96f6f173a40b..60133b4712eb 100644
---- a/man/man7/socket.7
-+++ b/man/man7/socket.7
-@@ -662,14 +662,19 @@ .SS Socket options
- .TP
- .BR SO_PEEK_OFF " (since Linux 3.4)"
- .\" commit ef64a54f6e558155b4f149bb10666b9e914b6c54
--This option, which is currently supported only for
--.BR unix (7)
--sockets, sets the value of the "peek offset" for the
-+This option sets the value of the "peek offset" for the
- .BR recv (2)
- system call when used with
- .B MSG_PEEK
- flag.
+diff --git a/man/man7/unix.7 b/man/man7/unix.7
+index 1054d7f52a30..d0c1765dfd79 100644
+--- a/man/man7/unix.7
++++ b/man/man7/unix.7
+@@ -342,9 +342,9 @@ .SS Socket options
  .IP
-+This option is supported for
-+.BR unix (7)
-+sockets since Linux 3.4,
-+for UDP sockets since Linux 4.7,
-+and for TCP sockets since
-+Linux 6.10 (IPv4) and Linux 6.12 (IPv6).
-+.IP
- When this option is set to a negative value
- (it is set to \-1 for all new sockets),
- traditional behavior is provided:
+ The use of this option is possible only for connected
+ .B AF_UNIX
+-stream sockets and for
++stream and sequenced-packet sockets, and for
+ .B AF_UNIX
+-stream and datagram socket pairs created using
++socket pairs created using
+ .BR socketpair (2).
+ .\"
+ .SS Autobind feature
 -- 
 2.56.0
 
