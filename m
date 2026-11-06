@@ -1,52 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969648;
-	b=ewObbbCBDAsZe9BeoUi/KmMwWyJ03ap5/PYelXsO53n8cpH7eYw1XrnW62NHCT3S+xvw
-	 es8cBPsXeYYEkuaybQ951TFJG4YM1aK/l/12qk9H5f5C/NxVOIqAfFICf1rpRJedHWJUB
-	 DYK2T/oMnMOqH/QtB0evnGy4uF+gopZC4msPQZeUBj5eWZ+3I1jvqXK4BXzYP8kGEvjgj
-	 6dZMCcHcsYbJ/XdF/1gG0Kt9zab5K8TCqkyFiJTn08iigdY7B0AJSMJ0clj8sT6ZgDL+1
-	 pKgF1nqw0O3gIoYBQFcH3ObM2WPciXgrehQ7exeSSOkD/LobOm9u4upw0ajwDbaz3VQ==
+	t=1793970051;
+	b=LfcNc6Z/W5LDz2UiQHrQ5/I76jvpVpyvEaBVHp+YdZnDpV39It9t/YoOYMKdhtvskkBi
+	 HLq8bPFBjobh6oCQ7CS43Pqxy85Hx87vyBU/KrGyPZryFVKr+mGuaaDeuP1Vwy+3sbuyy
+	 BtzgrL8uR4fO6+V7/4ld26+fHevmX4S7OnETNAha0xm+2dP81I4fytZ6rSWYU4lHTNwwP
+	 OJHTtZaOlrnwNBV/NAPcZtVoL/knuYR01caXotWlq8PO6HGen8AxehJUFaIi48Yi8JZ4N
+	 Pt/+qB/5znlx9yskdEbKNULbh62a7eEjeyv10jnf04m4/DuIVN8YyXrC0Bs3bg4XPqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969648;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970051;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=d8/YY2LcB875sumV63053IaPLgeOTCPMyO5MqkjCLgM=;
-	b=ThktO8vRxudqCvqg4SUTc8+MfZslpoQoH173y8xGlSByqtqAEMbAa1gr0NNXasVyPSNP
-	 GMpx5lyKDwh/WWzX1liJBnxl07R3/tIWtT39sZyZzsh1e92yyLlRZAz35atbwVsDuTENu
-	 efBSHzOS+3WwTM726A1XTD25shvQWWa3JsQxd1q0nafcStV8ctmChR30VGqtrVVYz/gjV
-	 G0fcvL9YkXbJRyoOVd8HxY5BYkprIRJ78pFVtEAF8wD6GoNWe5utqU2mzx3nl89Kp0Vsp
-	 9Z4QvpV1AbW5aHafG9St6xVh7jgEixgNNMPp7iiJCC0AHztMpk+04PpZnqr+qL9YYNw==
+	bh=pDY3mGTrB5iChDQV7Nf7cAy+ZWhYD3xMEJqGjGPSZx4=;
+	b=dYhy9kIcf4t7CJbEw5OYMNB29zsB4xa4Zhkb4OT6E/vFGGlDtrc21lPtECHVttXhLhMF
+	 j20DPTpP48cpTGL7bzyTGPgmc8v8Cf0VWAiyszXFDn786D8HqX90iCKLifdQhRJ4GKeUO
+	 1FBO9oYA4fZ2QIAOd8xWKV6HnBLDW/GLKy0Widfzy4NJiK/QnpDtyWEvtHs+HirkIDu1U
+	 vUx4hd966JLpRy202lrsD357qcIYjAhL3iNNWMr7Maw+4UfttAp2Luf7MAjqjYmXKPUBn
+	 j3R5lezlWf3r/ZspWPDRVHQ8d4QwhcIzUobSL2KxzfJhkQifMqsbdS+2gDtcAsIkMNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSilCOct;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rd7wQaPA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580DE606A326
-	for <linux-man@vger.kernel.org>; Fri,  6 Nov 2026 12:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9AE606A326
+	for <linux-man@vger.kernel.org>; Fri,  6 Nov 2026 13:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSilCOct
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634181F0089F;
-	Fri,  6 Nov 2026 12:54:07 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rd7wQaPA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4961F0089F;
+	Fri,  6 Nov 2026 13:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969648;
-	bh=d8/YY2LcB875sumV63053IaPLgeOTCPMyO5MqkjCLgM=;
+	s=k20260515; t=1793970051;
+	bh=pDY3mGTrB5iChDQV7Nf7cAy+ZWhYD3xMEJqGjGPSZx4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZSilCOctL/j5/xP1nGY0N3dYmh3DQvr+N+/clOWN93cKY1aoWt61fZEkTDzeQQB+e
-	 EqbbNbV4fr8gBSn+UQykB10hmQcI4MX+iTNJdwUveIgFcKDix0z2INUkUeixFkPQkv
-	 or43Apn7Bnq4T7j+K3Pt4Vsm5ARXu+Jfvol3n+HfoxXwENX0veOfVPA8Cy7RV5z4C3
-	 mHzvu4gMTicyixGFjpeFnk1gbi+twApLyANDJuwMu/ugBTo+IQMjy3IzKTy1wSUFbE
-	 WCb9joLj+2d70uD5sJlBcyC/cp32t0JQgd/R1u1wyEVYwGQwhRCY1cOriECwdX43AR
-	 t1rp7VX/zYXYQ==
-Date: Fri, 6 Nov 2026 13:54:04 +0100
+	b=Rd7wQaPAsYPPNclCvPiR7ai7sOycDT2IUhSbFJpghMGgxQ5Sy1XV9JNMF4tCF5po1
+	 UgrxuhCo0MudURCuyA/glZCdcv1Zrw4ADX/6xkAjRset6D9rBXKXgQODyxSVvqpFkc
+	 bJqp0ZQs28dB2MdAUxjtD1QslSgEB4BmB1BKtH52xtSUt3P5Z3dS+aihLCcfY/hsrp
+	 xEZiFxLpLnai9u3ZNX/vJYYpC69Rgl9rnYgaR4rNQg/gA+U4+MDAPFF+mEqLJjRqWF
+	 pNnpRhA6HX0T5ZWKWWlI1Utm2qpCh18cERDOYP9EzsgeV1Wq6hQYwHw/P1V65vlBNJ
+	 dYIGKk+kPKytQ==
+Date: Fri, 6 Nov 2026 14:00:47 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
 To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] {unix,socket,bind}.7: General Unix Domain Socket
- fixes
-Message-ID: <au3Np8P5kn1EOFMc@devuan>
-References: <20261103202136.13574-1-gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Willy Tarreau <w@1wt.eu>, Alejandro Colomar <alx@kernel.org>
+Subject: Re: [PATCH v2 1/8] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
+ conditions
+Message-ID: <au3PaAVf051LxmaT@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
+ <20261103202211.13820-2-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -57,72 +59,117 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iqu3bzrfcirg5ho2"
+	protocol="application/pgp-signature"; boundary="ftzmhn4b2u5qxbfg"
 Content-Disposition: inline
-In-Reply-To: <20261103202136.13574-1-gnoack3000@gmail.com>
+In-Reply-To: <20261103202211.13820-2-gnoack3000@gmail.com>
 
 
---iqu3bzrfcirg5ho2
+--ftzmhn4b2u5qxbfg
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
 To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] {unix,socket,bind}.7: General Unix Domain Socket
- fixes
-Message-ID: <au3Np8P5kn1EOFMc@devuan>
-References: <20261103202136.13574-1-gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Willy Tarreau <w@1wt.eu>, Alejandro Colomar <alx@kernel.org>
+Subject: Re: [PATCH v2 1/8] man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the
+ conditions
+Message-ID: <au3PaAVf051LxmaT@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
+ <20261103202211.13820-2-gnoack3000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20261103202136.13574-1-gnoack3000@gmail.com>
+In-Reply-To: <20261103202211.13820-2-gnoack3000@gmail.com>
 
-Hi!
+Hi G=C3=BCnther,
 
-> Date: 2026-11-03 21:21:30+0100
+> Date: 2026-11-03 21:22:03+0100
 > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
 >
-[...]
+> The ETOOMANYREFS error is detected in too_many_unix_fds() in
+> net/unix/af_unix.c when the user's (not the processes') in-flight FDs
+> exceed RLIMIT_NOFILE, and the process has neither CAP_SYS_RESOURCE nor
+> CAP_SYS_ADMIN.  The error is raised when all of the following
+> (simplified) conditions are true:
 >=20
+> * user->unix_inflight > task_rlimit(p, RLIMIT_NOFILE)
+> * !capable(CAP_SYS_RESOURCE)
+> * !capable(CAP_SYS_ADMIN)
 >=20
-> G=C3=BCnther Noack (6):
->   man/man7/socket.7: SO_PEEK_OFF: This option is no longer specific to
->     unix(7)
->   man/man7/unix.7: SO_PEERCRED: Also works for SOCK_SEQPACKET
->   man/man7/unix.7: SIOCINQ: Document behavior for SOCK_SEQPACKET
->   man/man7/unix.7: Explain Abstract UDS scoping to the network namespace
->   man/man2/bind.2: ERRORS: EACCES: Write permission on the directory is
->     required
->   man/man7/unix.7: ERRORS: Document EACCES, EAGAIN, EMSGSIZE, ENOSPC,
->     and EPERM
+> The check was introduced in linux.git 712f4aad406b (2016-01-11; "unix:
+> properly account for FDs passed over unix sockets").
 >=20
+> Fixes: dc4eea68b565 (2016-12-17; "unix.7: Document ETOOMANYREFS for SCM_R=
+IGHTS send exceeding RLIMIT_NOFILE limit")
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Willy Tarreau <w@1wt.eu>
+> Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> Assisted-by: LLM
+> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+> Reviewed-by: Alejandro Colomar <alx@kernel.org>
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
 
-I've applied the patches reviewed by Kuniyuki.  Those are: 1, 2, and 5.
+I've applied this patch.  Thanks!
 
 
-Have a lovely day!
+Cheers,
 Alex
+
+>=20
+> Notes:
+>     Double checked in code -- the condition under which this error is
+>     returned was not fully spelled out.
+>=20
+>  man/man7/unix.7 | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> index 2163a91514b9..94b9e82af3c0 100644
+> --- a/man/man7/unix.7
+> +++ b/man/man7/unix.7
+> @@ -775,10 +775,14 @@ .SH ERRORS
+>  a UNIX domain socket (see the description of
+>  .BR SCM_RIGHTS ,
+>  above).
+> -It occurs if the number of "in-flight" file descriptors exceeds the
+> +It occurs if the number of "in-flight" file descriptors
+> +sent by processes of the caller's real user ID
+> +exceeds the caller's
+>  .B RLIMIT_NOFILE
+> -resource limit and the caller does not have the
+> +resource limit and the caller has neither the
+>  .B CAP_SYS_RESOURCE
+> +nor the
+> +.B CAP_SYS_ADMIN
+>  capability.
+>  An in-flight file descriptor is one that has been sent using
+>  .BR sendmsg (2)
+> --=20
+> 2.56.0
+>=20
+>=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---iqu3bzrfcirg5ho2
+--ftzmhn4b2u5qxbfg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrtzewACgkQ64mZXMKQ
-wqlGbw/8D2CpBDKn4q06e/GG10mQE+jxnI6hUL3y/FS0NeiZkf4Jcpj3rPghE2St
-iQPByjIHWuQowJhvIsLVS4r0TYYRILC9daJaF4mlIhNUwoe3O9yvEooMq6lzeSdb
-hvaStyka2TYQwzfGVObp8vpnjmlcGe8KePY4jajgb38tk6abH/tsEdfidejm3n7w
-4c3cTAveZFloROT7IMy8EKFDriipz2BE4nu4gIaYjpRvT6aj7F8K5lFxNboatZv8
-XywgP67YIy1cN2Npxpi+pJPPe8oCUWmX2cZjlSqkQtDGqMo7sWcWTMK4VydVGrE0
-K/L6zb4BnGLc/HIwRaoicDRidTkcadE8ucegKbL3JOMhyTGBhcX3ItYWjAigXv2c
-1R8QoEQenbLSTvdy8ecpOsv3oc7g70vzXTVdvmDC1yyXzNrQnEjjq/klyfpUGKxZ
-oagQDTMfyaqUw6RHtHdpl0uOWMsQBAOt6s/M611yuC0Zpe1FFLlAlLjTyl05xnYU
-NOrpNWFNR9Io/QVj3vMvDEaJ/QN9JJQ5uyzE/cAu8p2k1vaWUGixQBN8H+VIoUeb
-qpP3YbAkMr2rbzgFfjXjMZiDBoij+nbBHJo1gUOffT+YbKIHFQj0D0e+VX9EDRlQ
-a/NMM40wLLjETlZp9K7tOVBY7Nukxj7p5hSxiVvZgudrEe2AmI8=
-=Mr+Q
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrtz38ACgkQ64mZXMKQ
+wqlN/g//bybTf3MUl7k1HmyAIbsnovsnhHXHPaQa7QFyVmrGN0v0tjh624wO3OGG
+NEIElwYN/Wz+39IMLNA7RCgPLgf/9ZS20kMM2/dkb9S0LZ8NzLuSXk49XyguEjVo
+W0+jM+JHKZjRWC2VzPCFwjxcawrPLf5fuBH0qAvLeysrN4UdLsT3k4hhvWb35Mgy
+MkXgwDnEsIGnyT5i2gQkpJYcbvR941N6I+0kHR6kHTm4OK7GFkzQuhSDNhfaltOw
+YtXvP5JYJPeD9Xu9pYHpvgyIYSBF0Hsp2lRl2duTP7zJmzwBbWyvt8AJlPgd9OD4
+oKIUwBuTrL481MwXWOG7Qec2pX8/BfB7vy4hoqXxlonDGGs3dfLyU8JW56uC2AT4
+nmShG8du5sZ77HHHyUw/9eqSMTTBfKxXWMGy2FaxPu6LVyWsFa9Bh4Q2D9x5myyi
+xnIv3rm31g2FNvtIz85sOjtkFVmoJf2h2tKhLSvLItmnC/kxPRj/VXn2m/GlbnxL
+6t0+WFv7wwbAMXvhz4q00OC8/O7TxtjxJ3g/pOv53yY8Ijo2SnHOsPpu32kfBJYt
+/lThTpCjwOQKHkoYRq3ZFQEHD/W2VGXUIR7MeOCO+SFQiapswnUODFr4sbjRpaKG
+HV2T/x4c38Sgl0wmBOO/ChS6oi1VncVJyuCX057ed54PwQ0QtAo=
+=RKwh
 -----END PGP SIGNATURE-----
 
---iqu3bzrfcirg5ho2--
+--ftzmhn4b2u5qxbfg--
