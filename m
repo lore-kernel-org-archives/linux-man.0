@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794055681;
-	b=oVbq1XcCIVfK+HMlschS6Nsu7uCVl7Cu8x00SQOh//lUKX0pb9LXbYpdfj34VGWCjdcx
-	 /YxsgSNIP5GjRD5sKq3MCG7ffzDK4AB830lmcL+12uS+fq6apZPhUU9qJNch4din6trND
-	 KmqCbOF/qGi0sl2t5M3k8SQArRFv3z0zKaqdsOunpEJudY2Eajq9yNRuGvOEw4+oPB4Dh
-	 JCa5uf8qJU4R8tRWFooRP4D+fklctyBWckb6zV6xt2gUa7jOe8VkQIOyI3QtYHUyXlmhw
-	 Bv6Ur3IRHdpal4LP/JgTs+Yg/REmw6NZk6XVl02AwJzVmKcrWaB571v9fvOJWH1FemA==
+	t=1794055672;
+	b=b2Jxwx7+R98hePslgIN4N3fZpR6f3glf43glY2+niHSIs9P6iSR1b/2REfIxjt7YzCAB
+	 pqr4JlBoj5jl94wMz5PZIhUie0Cowda5qBzsx9RQtkKF0bVee1H4griuy+lzIHqu5FESP
+	 6YZOw0+Y7VsmmfQOhWP2ECFquCsR5bWHmpJMI7aLPdUHzWJiaNoN++Nu9wEZXk2tUQqKH
+	 QXj9TgWnj5bvwUuG5aril19OJWftge8BFl72tUtKjHmZAKjknIr7u8rWK0peUshmAy7+b
+	 0FJoiqgi234NA70snGy58in8iwMBpiMCX3Wgihx3LOyF+ggT7RUiaEWyRP5xNrsZ1Tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794055681;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794055672;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=J15WhdM9xEcg/4ACTurm0aUs7PmVruKvUfYbtq4f+KI=;
-	b=BfxSRt3o6M0rtEOAXJW/gzPiuGWWkvKSDP0IhtJz2Zz4DUq5edrpox37DCmzKVbeh9Tj
-	 V9+fl8n9Ta1rSoq8I7nEbnYRe3OlC2upsoSE1Irox2XT7FlnG1RCOHw2rTfltvX17zH34
-	 /IHXbNbVFNvXP5c+Jh2V70IaWn7B8xpUrbnJe5x/WWkBX/c6zXQkZYu/HPpkC1sBha/Sv
-	 ryElJK3jZ0JlFXGvpMy4s4gamg1vHmwuMvmwUDiytWuyFhbc38EWUi95NvxBcY3fISatB
-	 PhJBMkgfwKpvgBiEf8xXcl88LQzppSIQBsGH/DlNTvVvPpuul4MRAti/7l7fmzdzmQQ==
+	bh=viJ6WPY2ML5NDRODIrXDFQDCbaKTa3gq00ek7dDrbxM=;
+	b=iGJU6GG/9QT1AEE3Q11OR7pPulRXkzTa/kzKjMLrcZ3J8Fupbe2WwRzzgsqCLkTuwrAt
+	 jqJtlbNRhLJuJu6KsMMf4MCkBfyEZA37ksZndCtZ7AFGGs+p+4kYQNAR5V+IjNmiwNlcM
+	 GFXCwNBTwSOJl//J6VWRVq3byehbx423r52jBHinLchSb4Z4pBvEayTdd3jIhotznSCXW
+	 OY1yVE0gfr+Viu0Bw1GuZIYv3mEhQpXu1eJ9GVLzqccuzCirQGz0fO10poTtMcYrVu9H9
+	 VO9z8Z6vvpAGgTmm2Rh9fwVzKKkbDB8cO9MGi4R/sc98ppOhec/tYG+y9iz405BCfwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQT3YdyH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A1OCHnQG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800C4606A339;
-	Sat,  7 Nov 2026 12:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD942606A326;
+	Sat,  7 Nov 2026 12:47:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQT3YdyH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A29381F008BF;
-	Sat,  7 Nov 2026 12:47:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A1OCHnQG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE7E11F0089F;
+	Sat,  7 Nov 2026 12:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794055681;
-	bh=J15WhdM9xEcg/4ACTurm0aUs7PmVruKvUfYbtq4f+KI=;
+	s=k20260515; t=1794055671;
+	bh=viJ6WPY2ML5NDRODIrXDFQDCbaKTa3gq00ek7dDrbxM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DQT3YdyHx09KjeOxApssp9EGSWVZNhLGA6fykE01jzJr5JiStpZA2b8nTq4j90+gf
-	 1Nm33tLfOU8mlaiua/K5+3zc+wRqR4iGDET06HuPzFZ3Uv5nvOcf7/d9AsD86rP26i
-	 Fpw9nDaT1fh80nN8h1NM/OWY9dHV9nf4y8KJeSw+xNtKOwhOku/wXYX8coTUZpchJP
-	 RBZeY73BFRgrTE5wDRbhzd7w0uINeXTXzVBpyChVa+6v9jfD9DeFf8pCKH92TCRiZw
-	 whebllFlSLpYLLeBaejaK9y1I/q7PQgOJfy9uxazJJdsA9MACKwQ5P3Tegf8qY8FUH
-	 oNn5Pgz1+O8AQ==
-Date: Sat, 7 Nov 2026 13:47:57 +0100
+	b=A1OCHnQGucB+TRcT/wnGu6RA08fqXJCcjSX9yAx73Mxoucgkxeu1cbQWBCsfRNYg8
+	 G88WInOZJF6fb56dHMIFjsIrlJvPeB7nU0zP4IxBPhEPq5iaKvOTvKrrzXLb5JFyWg
+	 fwtEJCG+lbsTnvaYuPIaycUAHjmmfkn7G1zHvYyJLUqwBznBf56AZLlWIfiYPBkKI0
+	 Xsk4y7OZl8RNPPFbFIm6359N/rhWcQCejM9MGEehKlUU5t0+uiHtv/u0HPm5P+OGpa
+	 uN/udHOdSXy2KLsXpPta2ugc3JWAczw3fN8WgqHaRQfSAoEFsAVVwBuUB88fnTpkko
+	 azVoZ2gVFNepA==
+Date: Sat, 7 Nov 2026 13:47:45 +0100
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 3/8] man/man2/chown.2: Refer to at(2)
-Message-ID: <7fdc286a682a46b94fac99bfb70f581d111c2921.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 1/8] man/man3const/_ATFILE_SOURCE.3const: Add page
+Message-ID: <39bf4d24176a09a5f9b53b402df4becf1263729c.1794055492.git.alx@kernel.org>
 X-Mailer: git-send-email 2.55.0
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
@@ -59,12 +59,12 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s63r2rhcib3bfhwg"
+	protocol="application/pgp-signature"; boundary="3zc4g3oy7ueaz47m"
 Content-Disposition: inline
 In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
 
---s63r2rhcib3bfhwg
+--3zc4g3oy7ueaz47m
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -72,205 +72,220 @@ From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 3/8] man/man2/chown.2: Refer to at(2)
-Message-ID: <7fdc286a682a46b94fac99bfb70f581d111c2921.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 1/8] man/man3const/_ATFILE_SOURCE.3const: Add page
+Message-ID: <39bf4d24176a09a5f9b53b402df4becf1263729c.1794055492.git.alx@kernel.org>
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
 MIME-Version: 1.0
 In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
+This page documents conventions common to several system calls
+(most of them conventionally named ...at()).
+
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man/man2/chown.2 | 114 ++++-------------------------------------------
- 1 file changed, 8 insertions(+), 106 deletions(-)
+ man/man3const/_ATFILE_SOURCE.3const | 168 ++++++++++++++++++++++++++++
+ 1 file changed, 168 insertions(+)
+ create mode 100644 man/man3const/_ATFILE_SOURCE.3const
 
-diff --git a/man/man2/chown.2 b/man/man2/chown.2
-index b346e0adb029..ce62312538b4 100644
---- a/man/man2/chown.2
-+++ b/man/man2/chown.2
-@@ -18,10 +18,6 @@ .SH SYNOPSIS
- .BI "int chown(const char *" path ", uid_t " owner ", gid_t " group );
- .BI "int fchown(int " fd ", uid_t " owner ", gid_t " group );
- .BI "int lchown(const char *" path ", uid_t " owner ", gid_t " group );
--.P
--.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
--.B #include <unistd.h>
--.P
- .BI "int fchownat(int " dirfd ", const char *" path ,
- .BI "             uid_t " owner ", gid_t " group ", int " flags );
- .fi
-@@ -116,73 +112,12 @@ .SS fchownat()
- .BR chown (),
- except for the differences described here.
- .P
--If
--.I path
--is relative, then it is interpreted relative to the directory
--referred to by the file descriptor
--.I dirfd
--(rather than relative to the current working directory of
--the calling process, as is done by
--.BR chown ()
--for a relative pathname).
--.P
--If
--.I path
--is relative and
--.I dirfd
--is the special value
--.BR AT_FDCWD ,
--then
--.I path
--is interpreted relative to the current working
--directory of the calling process (like
--.BR chown ()).
--.P
--If
--.I path
--is absolute, then
--.I dirfd
--is ignored.
--.P
--The
-+.IR path ,
-+.IR dirfd ,
-+and
- .I flags
--argument is a bit mask created by ORing together
--0 or more of the following values;
--.TP
--.BR AT_EMPTY_PATH " (since Linux 2.6.39)"
--.\" commit 65cfc6722361570bfe255698d9cd4dccaf47570d
--If
--.I path
--is an empty string, operate on the file referred to by
--.I dirfd
--(which may have been obtained using the
--.BR open (2)
--.B O_PATH
--flag).
--In this case,
--.I dirfd
--can refer to any type of file, not just a directory.
--If
--.I dirfd
--is
--.BR AT_FDCWD ,
--the call operates on the current working directory.
--This flag is Linux-specific;
--define
--.B _GNU_SOURCE
--.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
--to obtain its definition.
--.TP
--.B AT_SYMLINK_NOFOLLOW
--If
--.I path
--is a symbolic link, do not dereference it:
--instead operate on the link itself, like
--.BR lchown ().
--(By default,
--.BR fchownat ()
--dereferences symbolic links, like
--.BR chown ().)
-+are interpreted as specified in
-+.BR at (2).
- .P
- See
- .BR openat (2)
-@@ -194,6 +129,9 @@ .SH RETURN VALUE
- .I errno
- is set to indicate the error.
- .SH ERRORS
-+See
-+.BR at (2).
+diff --git a/man/man3const/_ATFILE_SOURCE.3const b/man/man3const/_ATFILE_SO=
+URCE.3const
+new file mode 100644
+index 000000000000..d88adf5892c9
+--- /dev/null
++++ b/man/man3const/_ATFILE_SOURCE.3const
+@@ -0,0 +1,168 @@
++.\" Copyright, the authors of the Linux man-pages project
++.\"
++.\" SPDX-License-Identifier: Linux-man-pages-copyleft
++.\"
++.TH _ATFILE_SOURCE 3const (date) "Linux man-pages (unreleased)"
++.SH NAME
++_ATFILE_SOURCE \- act on a file at a directory
++.SH SYNOPSIS
++.nf
++.B #define _ATFILE_SOURCE
++.BR "#include <fcntl.h>" "  /* Definition of " AT_* " constants */"
++.fi
 +.P
- Depending on the filesystem,
- errors other than those listed below can be returned.
- .P
-@@ -211,24 +149,10 @@ .SH ERRORS
- .I fd
- is not a valid open file descriptor.
- .TP
--.B EBADF
--.RB ( fchownat ())
--.I path
--is relative but
--.I dirfd
--is neither
--.B AT_FDCWD
--nor a valid file descriptor.
--.TP
- .B EFAULT
- .I path
- points outside your accessible address space.
- .TP
--.B EINVAL
--.RB ( fchownat ())
--Invalid flag specified in
--.IR flags .
--.TP
- .B EIO
- .RB ( fchown ())
- A low-level I/O error occurred while modifying the inode.
-@@ -250,13 +174,6 @@ .SH ERRORS
- .B ENOTDIR
- A component of the path prefix is not a directory.
- .TP
--.B ENOTDIR
--.RB ( fchownat ())
--.I path
--is relative and
--.I dirfd
--is a file descriptor referring to a file other than a directory.
--.TP
- .B EPERM
- The calling process did not have the required permissions
- (see above) to change owner and/or group.
-@@ -353,21 +270,6 @@ .SS Ownership of new files
- Filesystems that don't support these mount options follow the
- .B \-o\ nogrpid
- rules.
--.SS glibc notes
--On older kernels where
--.BR fchownat ()
--is unavailable, the glibc wrapper function falls back to the use of
--.BR chown ()
--and
--.BR lchown ().
--When
--.I path
--is relative,
--glibc constructs a pathname based on the symbolic link in
--.I /proc/self/fd
--that corresponds to the
--.I dirfd
--argument.
- .SS NFS
- The
- .BR chown ()
++.nf
++.BI long\~...at(int\~ dirfd ", const\~char\~*" path ", ..., int\~" flags "=
+, ...);"
++.fi
++.SH DESCRIPTION
++The
++.BR \f[I]*\f[]at ()
++system calls perform an action on a file
++specified by the combination of
++.IR dirfd ,
++.IR path ,
++and
++.IR flags .
++.P
++If
++.I path
++is absolute,
++then
++.I dirfd
++is ignored.
++.P
++If
++.I path
++is relative,
++then it is interpreted relative to the directory
++referred to by the file descriptor
++.IR dirfd .
++.P
++If
++.I path
++is relative and
++.I dirfd
++is the special value
++.BR AT_FDCWD ,
++then
++.I path
++is interpreted relative to the current working directory
++of the calling process.
++.P
++The
++.I flags
++argument is a bit mask created by ORing together
++0 or more of the following values
++(some system calls may support more values).
++.TP
++.BR AT_EMPTY_PATH " (since Linux 2.6.39)"
++.\" commit 65cfc6722361570bfe255698d9cd4dccaf47570d
++If
++.I path
++is an empty string,
++operate on the file referred to by
++.I dirfd
++(which may have been obtained using the
++.BR open (2)
++.B O_PATH
++flag).
++In this case,
++.I dirfd
++can refer to any type of file,
++not just a directory.
++If
++.I dirfd
++is
++.BR AT_FDCWD ,
++the call operates on the current working directory.
++This flag is Linux-specific;
++define
++.B _GNU_SOURCE
++.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
++to obtain its definition.
++.TP
++.B AT_SYMLINK_NOFOLLOW
++If
++.I path
++is a symbolic link,
++do not dereference it:
++instead operate on the link itself.
++.SH ERRORS
++Some common errors for these system calls:
++.TP
++.B EACCES
++Search permission is denied on a component of the path prefix.
++(See also
++.BR path_resolution (7).)
++.TP
++.B EBADF
++.I path
++is relative but
++.I dirfd
++is neither
++.B AT_FDCWD
++nor a valid file descriptor.
++.TP
++.B EFAULT
++.I path
++points outside your accessible address space.
++.TP
++.B EINVAL
++Invalid flags specified in
++.IR flags .
++.TP
++.B ELOOP
++Too many symbolic links were encountered in resolving
++.IR path .
++.TP
++.B ENAMETOOLONG
++.I path
++is longer than
++.BR PATH_MAX .
++.TP
++.B ENOENT
++The file does not exist.
++.TP
++.B ENOENT
++.I path
++is an empty string,
++but
++.B AT_EMPTY_PATH
++is not specified in
++.IR flags .
++.TP
++.B ENOENT
++A component of the path prefix is a dangling symbolic link.
++.TP
++.B ENOTDIR
++A component of the path prefix is not a directory.
++.TP
++.B ENOTDIR
++.I path
++is relative and
++.I dirfd
++is a file descriptor referring to a file other than a directory.
++.SH VERSIONS
++On older kernels where
++these system calls are unavailable,
++the glibc wrapper functions emulate them.
++When
++.I path
++is relative,
++glibc constructs a pathname based on the symbolic link in
++.I /proc/self/fd
++that corresponds to the
++.I dirfd
++argument.
++.SH STANDARDS
++TODO.
++.SH HISTORY
++TODO.
++.SH CAVEATS
++Most of these system calls are named with an 'at' suffix,
++although some new system calls don't have this suffix.
++.SH SEE ALSO
++.BR openat (2),
++.BR feature_test_macros (7),
++.BR path_resolution (7),
++.BR symlink (7)
 --=20
 2.55.0
 
 
---s63r2rhcib3bfhwg
+--3zc4g3oy7ueaz47m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHf0ACgkQ64mZXMKQ
-wqlQ0g//ReUB+eiRwuJN8837YjU8S2zMm8nIjNJfC2Ckdais6LFE3h1XVp5qBYTs
-fesDDfPAem9r964woni5D2+XvIcdnrdRhQXtFDzeSNHNBO/pJGEDJUDcMILNjx3E
-S2Ujfiq6ZJeGDmuL3VQeOq+dPEqOczGYxZgxDreUrOeEU8+r0k9abTNxDTN0ix6Z
-7K0mcn3e+E8iCAQX3/NWhwtS6eozqH+Linn/6Q7HNEPnxYf7O6iRdbH9aH5ec32q
-BjXCkZdkbpXG1ophKTcV02WNNmweAoQsTwSNmB8yUZTDZUE0USiKbBn7RQa70bSN
-Au3cOUZWomFXLA5gqHlRYnaDEJ3E19WrwPSNPrnC28NfftVyd7O69fE0ZF3aZqRp
-EwqRNxoey8JPzTf47Efi0jzc/Wo3f9ethI6pTlsBn12mGKosP9f0RxLqkCLu6CIP
-K4hflwlD4K8UAzov1LqHKkIQBdRiI/r7fbcycOklItdwuFS94KrtLC5XU4cL4GLQ
-uojpC79/wK5Jx9THlhf0buhOalFOIAJNAzizMXpq+87ljYVSBnuV9h7jbSIVJV2m
-357M85Ueryk+J4qDVKyM5ot7Zxc46VOUdIkuFQ79dZg6Pov009NDJZGZde5VrT5a
-f0Yfo/BNjWaXrHYdGqzG3lRL6vNLHnGJIEzdQJKp+BDkFc0MezI=
-=c+gC
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHfEACgkQ64mZXMKQ
+wqmEghAArUlSP/YXbj8SuNV70kdBpvBSMo86/MSdGsTJ7opN3ynveMKy50L8hZkJ
+dHhr24XfDx7o4vnf6K9ylnC2h6tef/ixWFEZg7SKzOpTwmWGibbGU3RUp0nGwi7X
+fcQlnIHn2uSWJybhv9qatanpgeWM8igAGhkopjUMVAJAzOFxz6ffijOUoCxOpfLF
+Bj9kZn4gQxwkcuVL5V6CQ83vTY3Z0hyEle9QltLO7Iv0puYxZHHnIo7SHTMThHZn
+TXM4QhG6iSTjoaekyLObBTuCthwyLfs6cXLg4639pKOhAn4VX6n9FJgtO0XlXv2a
+w43/CTF6bo/Umb7qvQfWdm3l+oO285AseZMpM/R65pXJqwZBgVO64GI/MKc9swzp
+dOFbxMx6AgLaP46ZOLTnLXdsxjdtB6fi41zqJQpn2mTRntyypX1zv/s397yXs1iK
+pJooCpVkIT+j719cxZp1Tb6HASBQVAv5BCf6lPeBkf3YyT7k875G8bC7jgJcL5Ao
+YFGHiNXA2XVANEwTF+w6u4Cn5+LfmxRgeOLgYJiKKU/MuISHsJmXyd1HcnXDMDpx
+AiegdcNT3lqm5PUzOidTZUVup/y3t+r5/KtROxi+ARpJwDhiO4VEuuO4Nl2SRXgQ
+HKd/yhloMGL7GKmnhj/8w2mIK2VBkzefmY2mwhjBh8guJQCg3cM=
+=b2xK
 -----END PGP SIGNATURE-----
 
---s63r2rhcib3bfhwg--
+--3zc4g3oy7ueaz47m--
