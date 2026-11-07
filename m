@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794055686;
-	b=FXHue+moWM1YWOXYiJFdcA39nKq+yAZr54dk2PL1BE58+s4BUsQDjxbC/dA1p4VKM2Xx
-	 G9+SocEngyYlkcn+xRjSL8Qu3ia7abfQoqD1shZAFa6IuW0jX/N6eykwTpNXL3YDr4qvi
-	 QH97y2twM2d2SUW2XOGFd4a+7AOFJVRReK8I2QV8XIgSSwfB0UOr/LIERVjQ1E/H94xlk
-	 Y9MpXE92YOxaUSn12SuGrHUzdHqd45VsuqkrNayliz7h5WpBwJArP2gPrRB3Nf6Vs2niC
-	 /KnIU0G49s1rzwGTd0WJFBIIy1b/ayM0rfhK7kMTsgQrejpCpTigBPDuryQjweh/0og==
+	t=1794055677;
+	b=l75I2nO6sn3QtFcVMlFkf64iX1JzoaZLxVIdYlu7NEYPLnlYAjG+0t7xA+n6OWbO5o9v
+	 wfrwEY48pLPqxp1eZjFTI51O5XPFoeLxkMfBGdDZ1Fun5oooMfPjHNZIFz00t54TzbRZX
+	 UZx+mSoCOlb/08iXa/X/WSRv0lHbRdyB9NmfcUcL1Bq5LTasBN+7gcsKN5kE+6lTHQksU
+	 FR4klCZiKflUHApqFL14kvhUrO2EDm4UwznLXpKCAxmIrUqJwK0ZVrx/bNpggg6qsoKxk
+	 +PBwa3ubLv87zVdAU3OaTe8ZAh/3l0giVoUZMKHeBSdONGLed+Dg1uu6nacAjQx50lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794055686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794055677;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=koz8IWFrXeUOBv9T1fHadWyJiyrh52XWngAo25wlMU4=;
-	b=ekokwf4H8FqjnFtyhm4wd37g/GPXrPASeZTOw9+jh1zGqdZtG8/isQyeUBhJwpICCfIs
-	 2c3PWDHs3OQyJ0P3qod4KdSFOWRcmx+BF2OzkGvJ7Uo+YCj31jQxNQHeCyjbncgqhLjID
-	 M46M4dPFmWc5S3KaY6RPrl/QNGYyHBK1+7r63Bbo1ZypgOXwNCE1+SfjWmRbvufWJ2mny
-	 08S1PIijiXbc+vxYS510Z9jCSwJCVhhXMHAXMKD/uMl8OR84iMWlm+M7cSVrAMfxa9Ess
-	 0Uhzxu4ax5Y3C3H3ic9tHl3p+4/DugxCk3DEXHaq9do57iga1iCP5ZgxxlZ1XswlQGQ==
+	bh=oSV566ORFc/5vSee52C2AvM+tcJ5Ti0lHrXLg1VTLfs=;
+	b=SqdII3c50k5InRsuBrPbx6Ka9UE2l5wOoG6J30cdK779oAgpw/jXJ1Eo72G67ZfbvR7D
+	 t2tswzKHxdvUO+v6+xmtpzrIHGla3mRYy5zr3kW+S0dQWNzqjw1jtY5BSdCXtcLZWTRsU
+	 f/vGFReJnLMXXLOg81vlEL5COI9bUHIv1C0iiHxcys2kKry57nO7Nil5P/zQtTmSyWVF1
+	 ZlpxeYM4uVNf22rDoyLqggLw0uEUuEiH3cxtALY5HwCzGwj28P1YtebFYY8hIm/xAPp1x
+	 /S4gCkTF9sFlZoIkgbCQgFO9WOv7Db5WhX6rrDsFEiqkwwxecm3BQeUAxxAO9hTyn8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BxoxicOc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ylhv7Q4K;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167C606A326;
-	Sat,  7 Nov 2026 12:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A8606A32C;
+	Sat,  7 Nov 2026 12:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BxoxicOc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3BDB1F008A5;
-	Sat,  7 Nov 2026 12:48:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ylhv7Q4K
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54061F0089F;
+	Sat,  7 Nov 2026 12:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794055685;
-	bh=koz8IWFrXeUOBv9T1fHadWyJiyrh52XWngAo25wlMU4=;
+	s=k20260515; t=1794055677;
+	bh=oSV566ORFc/5vSee52C2AvM+tcJ5Ti0lHrXLg1VTLfs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BxoxicOch3ebYiHUb9ln6umWgLB4oM4wHmN6eKSF2D2G2e9qyny9iWgy+SX9uRqYc
-	 qXSaL2UMMDN03obV7IthRyiJMM0mnTb19b2qMuNag0qRffGnxqWz8jIVMK0R5Gfhf2
-	 Ilt46nZXoUko8YQpEKGdoZrvOnuOGx0DsAQqz+g4P6Tfw2SBVklCthlr3ZwozYZ68y
-	 7BFelqv3bxB/AMNi54qjd2DBKBTHVutZpVHm8WNBTC4VK7w/9NpmEHXTvAHdRU3MDN
-	 LzwNj3fy2amN0HRCWvBNyYu6hGY64Xq/A9fDsXl5tb0LlNPVLtUAxNqL/6jY5C4wvO
-	 cTyKhjL3PBL/w==
-Date: Sat, 7 Nov 2026 13:48:02 +0100
+	b=Ylhv7Q4KPFXnj/vUeqaG66eK/4LYghpb2taJJP5F269vSnWOAYWocsfCC2UJnQOIr
+	 +S+aM0+zo9EKLuDVwgm57Gem4r456RLqCkWMDS72VSdsoQvXgsiUbYQist4DXXWJoR
+	 XEu8/38FoPYaGgLsO77t7JRnz+woK3Z42KyifJCeulZy/FTJQUG/rB6tDgCuYzth9/
+	 d6JqLKrGMRfDPZqLvI5+h3GrFVlIHmLnqXCrgZC6PpFZJauo3cDfN2MGWWoXWRsW+Z
+	 EylfuGZNAozfWAwC6VGHs/zgvFyfrwOc5kgMlQlC0piHJC130Yx4COWq1jJhZdQ+rU
+	 /5dewBMkvLTFA==
+Date: Sat, 7 Nov 2026 13:47:52 +0100
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 4/8] man/man2/mount_setattr.2: Refer to at(2)
-Message-ID: <c206656df1610948d850c51caae22d61f2c3e47d.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 2/8] man/man2/at.2: Add link page
+Message-ID: <56086d43dbe49932c2e466f7ac6846431c3814f8.1794055492.git.alx@kernel.org>
 X-Mailer: git-send-email 2.55.0
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
@@ -59,12 +59,12 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vj766bnwjuocf3z2"
+	protocol="application/pgp-signature"; boundary="v3avyowgr74w4p4m"
 Content-Disposition: inline
 In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
 
---vj766bnwjuocf3z2
+--v3avyowgr74w4p4m
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -72,8 +72,8 @@ From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 4/8] man/man2/mount_setattr.2: Refer to at(2)
-Message-ID: <c206656df1610948d850c51caae22d61f2c3e47d.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 2/8] man/man2/at.2: Add link page
+Message-ID: <56086d43dbe49932c2e466f7ac6846431c3814f8.1794055492.git.alx@kernel.org>
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
 MIME-Version: 1.0
@@ -81,134 +81,39 @@ In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man/man2/mount_setattr.2 | 66 +++++++++-------------------------------
- 1 file changed, 15 insertions(+), 51 deletions(-)
+ man/man2/at.2 | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 man/man2/at.2
 
-diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-index 0f4b619d8f38..809fa582e1ad 100644
---- a/man/man2/mount_setattr.2
-+++ b/man/man2/mount_setattr.2
-@@ -25,34 +25,16 @@ .SH DESCRIPTION
- .P
- .BR mount_setattr ()
- changes the mount properties of a mount or an entire mount tree.
--If
--.I path
--is relative,
--then it is interpreted relative to
--the directory referred to by the file descriptor
--.IR dirfd .
--If
--.I dirfd
--is the special value
--.BR AT_FDCWD ,
--then
--.I path
--is interpreted relative to
--the current working directory of the calling process.
--If
--.I path
--is the empty string and
--.B AT_EMPTY_PATH
--is specified in
--.IR flags ,
--then the mount properties of the mount identified by
--.I dirfd
--are changed.
--(See
--.BR openat (2)
--for an explanation of why the
--.I dirfd
--argument is useful.)
-+.P
-+.IR dirfd ,
-+.IR path ,
-+and
-+.I flags
-+are interpreted as specified in
-+.BR at (2),
-+but
-+.I flags
-+accepts some more values (see below).
- .P
- The
- .BR mount_setattr ()
-@@ -96,22 +78,14 @@ .SH DESCRIPTION
- The
- .I flags
- argument can be used to alter the pathname resolution behavior.
-+Apart from the values specified in
-+.BR at (2),
-+the following values are supported:
- The supported values are:
- .TP
--.B AT_EMPTY_PATH
--If
--.I path
--is the empty string,
--change the mount properties on
--.I dirfd
--itself.
--.TP
- .B AT_RECURSIVE
- Change the mount properties of the entire mount tree.
- .TP
--.B AT_SYMLINK_NOFOLLOW
--Don't follow trailing symbolic links.
--.TP
- .B AT_NO_AUTOMOUNT
- Don't trigger automounts.
- .P
-@@ -383,14 +357,8 @@ .SH RETURN VALUE
- .I errno
- is set to indicate the error.
- .SH ERRORS
--.TP
--.B EBADF
--.I path
--is relative but
--.I dirfd
--is neither
--.B AT_FDCWD
--nor a valid file descriptor.
-+See
-+.BR at (2).
- .TP
- .B EBADF
- .I userns_fd
-@@ -418,10 +386,6 @@ .SH ERRORS
- isn't a mount point.
- .TP
- .B EINVAL
--An unsupported value was set in
--.IR flags .
--.TP
--.B EINVAL
- An unsupported value was specified in the
- .I attr_set
- field of
+diff --git a/man/man2/at.2 b/man/man2/at.2
+new file mode 100644
+index 000000000000..e8ec02f7324c
+--- /dev/null
++++ b/man/man2/at.2
+@@ -0,0 +1 @@
++.so man3const/_ATFILE_SOURCE.3const
 --=20
 2.55.0
 
 
---vj766bnwjuocf3z2
+--v3avyowgr74w4p4m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHgEACgkQ64mZXMKQ
-wqnccQ/9Ed1EciyqbfOWwen/BA8QEgBhaoRWPGxkSLH9wtKBB/uIktiPx7xlCVEm
-eLS/3TqNiAmihJyVvhDnTS/z9K+0hjazrdwirUpe4zUvvvMLsiShwuPraze9O+wP
-VD7u4LxWwChQbkk4mU2QXYdMXzo6lawdqS42oSGFkeYEGb/7wbsNhOhkO6qPz3mI
-gQmbSqGTjwDEDl6sEsHe3ZNxr4c4kUmkoKSx2fiEqsYfFjdVLwMzTF/y4js422lx
-29IZaoo0ZttiCAs5Oa6Ap6UzBkyYu4bquZSPZC0vLZK8jXeOMa1VWsYPXyLZ7vvl
-o288aMcXt5ZBz7larzFHWPQg5yOW2ed/aTlrcCvW1rRy3v5tjUMa+YipjbBhlil/
-0VBDtjqpqVaP+M8FkcfYCTXdZZFxENllKwCeJ16WaJEDn6PgKwKSv9nJg/0yYdfb
-SGTlPMxi0ymGWXYSlXolwIZJ2KSmhLa9FGK3Z9l60K46cKuhI8MjfcVd1IZW32Z6
-tzG4FzyqI3lT+ik0II1q+qTMSXnihn+/jdWVD9Q+eKX274E+eJ3K/adsskYh/iLM
-yyIa171iEqDUvef0NZX0iKpEoQN6O/v2MfCwjCb6fENxcmQ8I5SMTW0e2Q3u/nen
-7gCcWfLTjB9im2OV6sGvULLkE3WpIiAhKFIYNbNI51IzqUzmUdc=
-=xbSz
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHfcACgkQ64mZXMKQ
+wqkrJg/+IZggV8aA2LBAGysfp1Wwi6L1aGZaiRK5ojpw8GEHTWQ+5vIGUJ4bw/+6
+Xoy9SwyL8jBQ0w/BodDiHyubfBJsNOnWXZ2CIste3qmG4uqpEP3lkxlZe+A059Rr
+NaRZcznom0683exnSHgu6w8lHkD1MDPOkcK/tPfGYoIgHK32coGo7sm3cHS7HQ18
+cnU8uOwFfkBp4b6sXEvKodQBbsPhIplhEV+SnoMULLpx3anDEXshQDjiXk0J2ZHw
+txgL2zli6cTIowKV1flihmXro8C6f09/hDes+KpxHkY6fENCqXzOlgxGUMo9ef8E
+GZTDoprP11uYn84ZecNSkeCubbDwN4jm9eUtb+BgbvVhSoc9hSRmFaOjij4U2+vE
+VshmtRahbSYb0+BJE0bCfaM6ZHZ0ZROFbR0/mGbnGsFySdEo+notCfhUYZC7yHF/
+SwRFnFrUUm8fEfzO1waXJo1II3XDzovG9KandyaMifC/rwuXtbhonyEzPzxZKr/T
+OWEbuGqg3tgqX0ezWj9uiWgynIVCxAbDZGe6dsJKk48m7ksJ7oE/L5hKsnQDllqw
+cgniLMwJVoCjP33WIm6/+uI0NyorweDqPWSu5W1krRJa1XAHLm2Jzo6FyW9kPz9P
+hiT4WAEVNXhNcFAr2/ZcrwdKxmk6eCXKkENPaDNNoLB8iqxXl6g=
+=O85l
 -----END PGP SIGNATURE-----
 
---vj766bnwjuocf3z2--
+--v3avyowgr74w4p4m--
