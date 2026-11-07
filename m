@@ -1,53 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794054188;
-	b=Li6kfVfZVvdI8+Nb7It9VHScG8Fa8Z6V1Ja/Z9qVZRd19npQcc+KHodRgwa4HAd3fpSz
-	 GgxFyD88KpIRYTWcSmISQ/3ATdKMYvsndzOJktczW/UPsLaYDeQKCly5DC362qx6SWQXv
-	 W94RknkWeSzSbBX0is0M1qBI18R7t2ShGBM6X8STAoG+LEpR1b0qtec5VG5qqDHirHZMZ
-	 eETVyX4pNtqfEtmax7g9iJMIylpGsxSR8/d/37bNiIZHiFRnVY1KcV1igUbaEWA6SY+eO
-	 JT59H17KCrkNbiTC8n7tknx2h0oYYrCdQLX21fVEz4E1KKeFMvj2MMkAZF0u43v+f/g==
+	t=1794054618;
+	b=ko7wyIixsEAFUf+Jye+dhW2WgiT97GNw5/CwOAAmjkmj45Bv2wJSXSr9V9wXTxD+J/Vv
+	 r1EiSSADxktHTBc/Iyk3fXJl1F+mRmAOJ3G3L5+rLbPvDVL+iXqdQAF/C7DxLrxBfX3QE
+	 +8NEzLLgnf+IS5vOb7EoVFC6V6SHtnZYGjE+OB9rUXxZwND554bXmUmbbpmeOEG8kYpjV
+	 Y+4SjtDBUPPa8/n8sYWCo7XA4xZ5eWHTKnBPSBnJoBgyouWqRjE9gHkNJYgmi0wi6leuY
+	 qKiWzrkaYPCm9NVefa6nUgxcm1Q8KvJyFCL4WcRT3/OktFyX035VSX9IssZErCyBugQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794054188;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Ch+GpNnjs+auXp+VAPNViG9XzOKkVHHqg0qV13URXsM=;
-	b=RPsGgayHCKJZxmocVZf9KRGIO7yCX8d/ua8icbupANGws559GP2K3QsVherjF/Y01rNa
-	 Qy9s1vOl+iSOq8WlDAttFDRiasrxh91AuFkPJn/slva7uNFv6Kpc1k9tLL6HvHdWZfEWC
-	 CX1Iga8xDf4xSZfBm2TxcWl/3ov/v4nmL8DkktHxtdzoNdS8o9vzGO+Aid4hcd93TnaFW
-	 /jlFieNzLOZzi3gayA32/Sih2NnQ6DvTML3nwur6C+U/Ld5MKRtNNJFCaPISqNLoCFYf4
-	 L8H9Fl6iJyLm6ktsZrVdGgHKKB91z3gBobxd4OttkM+ujY3T7uT1FNGveTj3o+mtKdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794054618;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=KLHc+glsikIBqqEZcpjoAlxXZU22l7NToVG7wCkXV1s=;
+	b=rhfP6ZcGGkdxGRQZTQHj05TWCN0lJYTPKoobHvA04fJ/CZJl3smFUUqihk8/zCd3Biul
+	 I9jP6yHyN/zS1RYE9xXnS95MqHXbYD3vqGm+hKfEmzxDDOdpEkDFgTHeeGe/JFZaQL9uu
+	 9sIPLC2At5a2uZPbY3ZzMV+MsUVp0T7OFsXF0o5geeBFlt4SvfSyU9mi1Aoh+EWq+8act
+	 +H98QzgfMWKSDxdQMQLHWw2mmYUYD7JERpSXcKmu7QQhtAKQ3oQ9nYzCtyWIyU7Ng8xE6
+	 soExWXD7TTNVWxZDfd8UogcZ2biaIVo/7zX7xer7FAyofF/hpvfa4gFG8RCMqaJBrxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i69Th05m;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G9q+hLFK;
+	arc=none smtp.remote-ip=74.125.224.41
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B6F606A32E
-	for <linux-man@vger.kernel.org>; Sat,  7 Nov 2026 12:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F90C606A32C
+	for <linux-man@vger.kernel.org>; Sat,  7 Nov 2026 12:30:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F90C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i69Th05m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561D31F008A1;
-	Sat,  7 Nov 2026 12:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794054188;
-	bh=Ch+GpNnjs+auXp+VAPNViG9XzOKkVHHqg0qV13URXsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i69Th05mkYRLIYCN6rgN5FN/6i3b5nlILub490zv9/+QsCiKxtBXVIYwmhSACBhBB
-	 MyMi8wBERp8fxu+4y5SiKaPw6Iw0JOM4YPoT0/8mkzxNOHYUaws0iIYfMzP/vxRuz2
-	 DATlR+gRisE7n9fkxeHBP9ag6ijAm6Yt4MgckmVyYq226JIO37kLKYhraoTrqY/Ak/
-	 akqO01p6P6Aulo0ETGpyRf4ArYwnbMlhn4NNZwJRnzIl+UhCZmyg+AkG9/1uyqgH/V
-	 ZgimMkhbRrxdY/hVJQ7UGqgP+gBlKhkXYgF512i88vqLO8MbD3ce+QMpv2WiiNoIC1
-	 mzuCTNpPhOBSg==
-Date: Sat, 7 Nov 2026 13:23:01 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man2/rename.2: Remove CAP_MKNOD remark about
- whiteout creation
-Message-ID: <au8YEwtmpAMwwcmr@debian>
-References: <20261009143656.4884-1-gnoack3000@gmail.com>
- <ask-80Zlt0ygw0pk@debian>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G9q+hLFK
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67be6030c9fso1099417d50.3
+        for <linux-man@vger.kernel.org>; Sat, 07 Nov 2026 04:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794054617; x=1794659417; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KLHc+glsikIBqqEZcpjoAlxXZU22l7NToVG7wCkXV1s=;
+        b=G9q+hLFKDDvWDZvtswXfdpYQRMFVFX6jHWxrhA65IXIIJWTtxN5WKt9Aqr551RgAJm
+         UWODOTenN9Khyw5WeGCwqKtQjK3cLPd2fqjEWgVWL0wwv4EYSwXZeKdWLWeovENLc5C4
+         6J8Hwk5DNeLjI3Q57GHH898Wq0XjAjrrIQbI7xIAyU0vaK1gc4vM6TNUGefY46ztF04d
+         fRh2P9CLa4It9k9EbJ/uu9X2bwyVeLYXjczdE25JSNnurd0aHr/yFExp9pmOck1hqILp
+         cH2mhLHoeLHcfXtVSJlZN2jcxdtc1FJy898i70RgPtc4wkG87FEncGRewQRiaC1kACml
+         NEIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794054617; x=1794659417;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KLHc+glsikIBqqEZcpjoAlxXZU22l7NToVG7wCkXV1s=;
+        b=jNstkj1OxtdFsmhDD69cpOE0awK04yh7VTI9QFoTydU7f8sX/ns2EJbw0DIdHsZugW
+         Xe4T1DncyyFJ20srbsUdVs5B90arjaLnVugTMy0ui1EXzlop6CIG8qVcmk7qezDwgJxS
+         srxXhwBFr1s3+1DdAJEWXkkHEoiJwFUCd/R1Wf9n/9xMhj6daeoH6bo33cnpsijm91sa
+         3iN5lO0q5i67rNsJgDvD0n5irUql1vN8HcvIFsQwQ2g9hFpo26hlZckpJ88HjPDDQahQ
+         eky4UWOYaFK7fbAhxvjvLoMb4KBU0TTBcfHKuOhKx9UHGWd+fFjmsgDv9ajxXCXSWzPi
+         nqtQ==
+X-Forwarded-Encrypted: i=1; AL+hErHsCFmQ2TPWkzRiSwBaLJURnokpp8r85uA7sjAL3OWgTDD0qgV/67l6Z0IZsuV6MSNCT8JkGgVMsLE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/e7oFILE8hJDB4Oy1RRmNrvxU8LF4+jdP35beNgWFHv7BHkd38
+	U/LxvE+A+j3NyxVUWaXWQf7udZ4lEZmX+VOGYECxIg1C5vgnckSjOk3UA/R05g==
+X-Gm-Gg: AYBFou3BvrXu4/a5/KC8aqusYRcHeBcVOwzx3NeKKMT2HlLRfDKF1sXAa8sW6b6pa2q
+	/p8uhXlc63ZZPvAqy1DVM9lroMm2tN6yx3a8L/8UlYDxIqX7FH9c5woNMu6+PWAQe0+GEUslC93
+	MaASBM+0BDh5PqU0w17P9d5yjnvxWXI1+8s58PahBmibYqpjizFuiK/nhGmjR4DIhGXlwh2EMuO
+	jBj7pVKMBxdb75cWnXtctYrrBfIOgFYw2xjdgr4CjukVevfRnNVwrJ3/2TKXtu5OP1E7GdMSEoK
+	0E2lNpA9FosFXRFeMHW/C2WyjVH35mm8LmdH8aHpvNFHBK+WzfuYBX3orX5q4/YdP4CYy87LL8x
+	d8sm1WZAc8jQEGCmtLXCsk11gwX7QXg2de/gh9eowNDfuP2Xy6dhfQORVni3sOJLHmELR7I9KYa
+	P5fATc6MybY3TIJ5creAw+Nui1pb2poJ7PkvGEFSVEcu/HIVomzdQ6B63DuQEGTpro2bIIdFn3H
+	Bj7ExbusdQuJnWurTW/n4QvPHNuOR0xDwuKUtx4IdXi5OapaEJQiFI6RbkXXQBaXviUfDmexz7D
+	o0RS5pnWs47IYoWO
+X-Received: by 2002:a53:e00a:0:b0:67c:1f7:ac6a with SMTP id 956f58d0204a3-67c1468eebemr2282106d50.103.1794054617379;
+        Sat, 07 Nov 2026 04:30:17 -0800 (PST)
+Received: from illithid ([2600:1702:7cd0:e980::48])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c135e8d5esm3880735d50.19.2026.11.07.04.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 04:30:15 -0800 (PST)
+Date: Sat, 7 Nov 2026 06:30:12 -0600
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To: =?utf-8?B?Tmd1eeG7hW4=?= Gia Phong <cnx@loang.net>
+Cc: platform-testers@gnu.org, groff@gnu.org, linux-man@vger.kernel.org
+Subject: Re: groff 1.25.0.rc4 available for evaluation
+Message-ID: <20261107123012.nz3taywmsxbfwhop@illithid>
+References: <20261029232813.aqji7n3bznufkpua@illithid>
+ <DMNRZBG2DIZW.3EFUTZS9WX48K@loang.net>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -57,114 +96,80 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="be54cgnuz5ypvqnx"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ghorv2rzq5n4mquw"
 Content-Disposition: inline
-In-Reply-To: <ask-80Zlt0ygw0pk@debian>
+In-Reply-To: <DMNRZBG2DIZW.3EFUTZS9WX48K@loang.net>
 
 
---be54cgnuz5ypvqnx
+--ghorv2rzq5n4mquw
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man2/rename.2: Remove CAP_MKNOD remark about
- whiteout creation
-Message-ID: <au8YEwtmpAMwwcmr@debian>
-References: <20261009143656.4884-1-gnoack3000@gmail.com>
- <ask-80Zlt0ygw0pk@debian>
+Subject: Re: groff 1.25.0.rc4 available for evaluation
 MIME-Version: 1.0
-In-Reply-To: <ask-80Zlt0ygw0pk@debian>
 
-Hi,
+Hi Phong,
 
-> Date: 2026-10-09 21:27:05+0200
-> From: Alejandro Colomar <alx@kernel.org>
->
-> Hi G=C3=BCnther,
+At 2026-11-06T11:34:12+0900, Nguy=E1=BB=85n Gia Phong wrote:
+> On 2026-10-29 at 18:28-05:00, G. Branden Robinson wrote:
+> > groff 1.25.0 release candidate 4, 1.25.0.rc4, is now available from
+> > GNU's alpha site.  You may download the distribution archive from
+> > there.
 >=20
-> > Date: 2026-10-09 16:36:56+0200
-> > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> >
-> > Whiteout objects do not count as device files and do not require
-> > CAP_MKNOD since linux.git a3c751a50fe6 (2020-05-14; "vfs: allow
-> > unprivileged whiteout creation").
->=20
-> Thanks!  I checked the referenced commit, and it seems correct.
->=20
-> Reviewed-by: Alejandro Colomar <alx@kernel.org>
->=20
-> (I'm not taking the patch yet, in case Miklos wants to comment, but
->  I will take it eventually.)
+> Hi, there's a typo in src/roff/groff/tests/soquiet-request-works.sh
+> that caused the test to fail since its refactoring in 111c42a69abc;
+> s/doc/input/ should fix it.
 
-I've applied the patch.  Thanks!
+Thanks for the report.  I agree.  The test is pretty thin stuff.  I
+think I originally wrote it (back in 2021) only to make sure I didn't
+corrupt the state of the interpreter.  Nowadays I understand the
+formatter's internals a bit better, but I also hope to turn `soquiet`
+into a macro, so I didn't expend any effort making the test more
+sensitive.
 
+On the same today I introduced the error you found, I added a new test
+script that _is_ more sensitive, so improving the one above would be
+redundant.
 
-Cheers,
-Alex
+commit 2eb2d11cedc3edcb755c7a00273e9533e9f8957d
+Author: G. Branden Robinson <g.branden.robinson@gmail.com>
+Date:   Fri Oct 16 16:44:34 2026 -0500
 
->=20
-> > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
->=20
-> You forgot to CC the list.  :)
->=20
->=20
-> Have a lovely night!
-> Alex
->=20
->=20
-> > ---
-> >  man/man2/rename.2 | 5 -----
-> >  1 file changed, 5 deletions(-)
-> >=20
-> > diff --git a/man/man2/rename.2 b/man/man2/rename.2
-> > index 14be6b20d3c9..7e5c02797230 100644
-> > --- a/man/man2/rename.2
-> > +++ b/man/man2/rename.2
-> > @@ -250,11 +250,6 @@ is ignored by the kernel's whiteout support code,
-> >  as of Linux 4.19, at least.)
-> >  .IP
-> >  .B RENAME_WHITEOUT
-> > -requires the same privileges as creating a device node (i.e., the
-> > -.B CAP_MKNOD
-> > -capability).
-> > -.IP
-> > -.B RENAME_WHITEOUT
-> >  can't be employed together with
-> >  .BR RENAME_EXCHANGE .
-> >  .IP
-> > --=20
-> > 2.56.0
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
+    [groff]: Unit-test `so` request.
 
+    * src/roff/groff/tests/so-request-works.sh: Do it.
 
+    * src/roff/groff/tests/artifacts/sourced-file: New file.
 
---=20
-<https://www.alejandro-colomar.es>
+    * src/roff/groff/groff.am: Update `groff_TESTS` to run test.  Update
+      `EXTRA_DIST` to ship new artifact file.
 
---be54cgnuz5ypvqnx
+> Otherwise, I'm happy to report that this RC builds fine on Guix.
+
+Excellent news!  Thanks!
+
+Regards,
+Branden
+
+--ghorv2rzq5n4mquw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvGCQACgkQ64mZXMKQ
-wqmXwQ//TvHP2+5O3FonS9CjMTUrn34Am/kmaVWHfGbqhBOMYnBm+kEFTkHuHa6C
-CPhfbS5KkqLPSJ0DTrLcxlxYQX7sqVbQ2aj46T8pIukjGa9QICm/IkDsW8eSuBwe
-QxWmnLS9nqun601AvpfABCZN07FhzSEftbC1x7Al01JMacjQu68dVHBAfvHfAO++
-eT+UP+X3dwXCBiRoAJtsEXi7n5B0Eq+fdAhQDLDAdYwFXbgEn015uo758qlLFdD4
-/XXqTPC88TY3EGXf/or30zS8/dMRFYqD5UeUhS64LY0z8uOUd+oxRCQx87NfrHN3
-ht12Yz0jNTFwYovCKL4KgfIobb/kt2KaahP2cBrA3SHBMhVoUhHl4yqN8Xpi78X3
-fIgO1NHtGtMPXGlZ5zjbPdKlIXSlOX09x9I+SyW6FgLCgM4cQXClz+KcpCwCM5cN
-ThIIgeB/IjqKSULJD4doLUT4t0nz+USyJdDqt9pNgxRVe0i+S9ofBEH2DzlqUBxA
-/GGKP2l5tC1GvGek5gZ+zSxL5ejxVKQuH0257+FHk4LvxuYRfqmsSUD3DFL9r/Nc
-ARGuz0UJG2d8QEnqPntm7jNcZPlqchZ+ZcJ6yanPoax8kLPtIESgKoV1wGyI5upW
-M2ltgk8239xiLZWhaDUP0bE19XvUpPXtoByHBEmLS+wGsow8I64=
-=hpOY
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmrvGb0ACgkQ0Z6cfXEm
+bc6BrA//eXe6qz2c/QJNkwTLH339+kSBaSlWoF8EW706Utl9cAlFzzlitffuNtSB
+6pyxdA4Aq2eaq9H6j4B5QmRoquCvuifBpKwIRidTghIiKywksuoxGBKoMF0WkQrV
+Qf7AjIKXY1E/Qr+3nz1TvYRWfK23LF/c1oopsWGK2J9gtfQftjmJMbTk5jQ58oI1
+Q/i4ZlqYufVztRqroLwm9YoxHwhq4iZNdlSpFZCSy6tVHO0kRhMCIBBU5ItFMuXZ
+O8See5673Wm5NYfUbYMvfzM0uxhhKadqXLa69AGrNdVTfhLt79S52RjdKQ2f7Rlx
+AhXtQii3v8doeO/JLyFaS88tlAtYrKGIHzS93wOMSWyMwlLszEAMScgAj5YCKOtt
+qi7ctYB9CnLmpvpOUuQcmmotKamfNJdpl7XVZvOCJWMXDO8S7pULM+rn4W7XoU5C
+7sbfQPPm8EfPpIJxNfzvvQsyYe5Kzc2KwLQxPDq84Cv2XxupiiosWbSJz5z6GW5X
+pI5Y96NXfLcw4jr/ZVC0ECcictgyYSwyOgpDyJ3428sqU2ip5XYIf+1ORnQwpdiJ
+Kj4WYVJKthGSYWg1JSvcxgfAYslCzRA6USGVQOdmHHSFp2RDwNSen3aY9UO+PX/4
+bRIV88TO5GTxDYwt05VYU2DQ5OIlhhConXKatme5b+inRg6TMDY=
+=bkjZ
 -----END PGP SIGNATURE-----
 
---be54cgnuz5ypvqnx--
+--ghorv2rzq5n4mquw--
