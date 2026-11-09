@@ -1,108 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794260565;
-	b=XXNPcb2aOd4fP/1qyy1GGBB4kMN7xQEMzJ08ObhGRcJN5GIsj2X13jcXxZjWFoEnuuAW
-	 WYEG484YILlcMf1h6ZH+yTLIP+KGRnCB80mn2vR18AMGoUgFntx76vJCJNY38tkG28bOT
-	 lVYBbB4tVVkjZ9Ih86/ax0FWXqmUydwPNeCQDtoaSDV5SWa21o49CIz8MnOSLa5Bk5Ws2
-	 lPOo+5jnl8Ehg2jE1/1toa1VgUrmnuwxJi9eKPVWNcbaYg1Cp6Zk3XZMLw8GS4yz2gI3Y
-	 rxAEGtfDSaCj7iVhmlXQjDwl1nOULGhW3vtVHGoJ8c31CtLNx4rUkRRmTC2YxH42YSw==
+	t=1794268730;
+	b=4TGigm1jmd0xvB0YnwR9RjGsr2DPX6dbawegE2gHczoZSYSljiq6rzAr7s4jbCxUSzML
+	 Ld83q8i6txbqgJK3+ukBAnt6Qe/LalnTKeTzHa5AbS64YblrTOh3e4x9A0IqAG6yro4KO
+	 QaA6yuP7sJzhYXvnjfRl3Z/Cx7ZFxWM1XKOO/E2af3ZHKz/TO4Yq+Pxp2R4rMfvVvu8xk
+	 hndJiuHljf0WmZYL+aTfv4JSrK92C4VbkpcQMGtL4bA9FRSLPPcKKLLI9iJAZzq6DEpQZ
+	 I7IskqhMidY7QDTV12u0807AbOJWOP39Fw8bVJXWKJxsfOMMRNG3wu7fy1krjwT1xEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794260565;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
-	 To:Cc:References:Content-Language:From:Autocrypt:Organization:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=7qt7i6PtGTNQKFi9/31I8QyTa1jE1ZkqnSFv7KhMFLg=;
-	b=F3MamrYqC1eLvS3X9x07yy9HHG3lZcZEYH9Qp6s4Zp13v7hKUIqDr+CBhc4DJNLwfcYd
-	 c92VJjiyIUnUIWCKyjoex6AuN7RQPhM2jvpOiMKAfhkMx83vfBC3dRUZx+SByRKTZcM7A
-	 VcJ1OfgrtaJl0ZNxP8pw8U0bU+nAMSjVO+5C4jAGTFeZtUai/8mtIA8GONckPofDuiZio
-	 uFu0/sl/Ely35uVXjg1O7HjfaXBX2AmqVhry880zmm1n1Oa/R4Y4Ec66OC1QLmn/OiUcP
-	 JhkxH16bkSSRW7GQtRySe2YXz17dH3zyoxR6NWNZBPPrd5Cd9Kq9TJ2Jkkt5MA03PLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794268730;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=ppfkqcQYSy0IR2+uLEbvO1LX11azhCs4mRDG8TwRTiY=;
+	b=1r9ndUWMTQvu+NNtasFH7Bo5UXqxO9W7uAyCE3dG5ekcEGdM9Hro/Ws+2aZSGYG532iW
+	 pcrgUMHvaolfuqAizG3KXczmRXElTZQp1/4WvY0J5AD7ewFMi6y49S4Hp06RHjkobdbMt
+	 03TfIfR+41engb6H9IJtb03TrBEDxmUtkLORQ5H80jpwgA/kApNGHkLm4sQzE11Jnm4YC
+	 8naHdxYPS21lZmYPGVJcfekfrOQlet2qoeIPPCCA4PhYlqY9e54a9dcVkB29fFE/KpOjP
+	 JHiDxnmyaTM6xxMGxEOlFkQjkwrtGUswtNoBgJGjFiBalMaTh5PN7cu2/awXbSooeoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="ZqhhU/BL";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eNFpVAS9;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RFAbVubb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48141606A31C
-	for <linux-man@vger.kernel.org>; Mon,  9 Nov 2026 21:42:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48141606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B627E606A31C
+	for <linux-man@vger.kernel.org>; Mon,  9 Nov 2026 23:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqhhU/BL;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eNFpVAS9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794260564;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7qt7i6PtGTNQKFi9/31I8QyTa1jE1ZkqnSFv7KhMFLg=;
-	b=ZqhhU/BLf1gi31+km5w6gQJ2ELOwNt/TCE6l9Pu1JIh1FtznhGLR2HkPOaqqexgYwZgZ3D
-	OWGJuYke5px5ABNawrutHr7qXVCUuS1cirsJkEnSEns0UHF9cmP7KVBu1oJcmGGm6h/Q5G
-	dgaM+rwgwBHRVv59FJA4PkZZXkiePlc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-302-fVfwDCygOEeCLxjVXUkUmw-1; Mon, 09 Nov 2026 16:42:42 -0500
-X-MC-Unique: fVfwDCygOEeCLxjVXUkUmw-1
-X-Mimecast-MFC-AGG-ID: fVfwDCygOEeCLxjVXUkUmw_1794260562
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-91e98b67c0fso27507826d6.3
-        for <linux-man@vger.kernel.org>; Mon, 09 Nov 2026 13:42:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794260562; x=1794865362; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:organization
-         :autocrypt:from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7qt7i6PtGTNQKFi9/31I8QyTa1jE1ZkqnSFv7KhMFLg=;
-        b=eNFpVAS9cS6bzw97vh6BAIG3novSNxr/vwSMWAA/2guuydZHxTZ4nNEGHCEqvrV7el
-         kp6bJLh8SmlkDeBaDGYuxs5h5KS0q//1AGPa4HraZYJmx2d4B5Ga2glfN5oOswuRqgWW
-         WILB8fl9mlTmqMgghNzTvjvkzxo+RAR01AOuP2wra0HCbQcBFWAkX+Dd4S7Kvve1IPM+
-         R9Rgdmkrd7PCyOQ9Ms8B9sNsvWeYBQM16T3NeJhtYZK9aCqlQ9oAaY/ZjWW0fw6FKyuU
-         8g+Z9r1Zg806/YyUzd4TuyR2biWpw9xtxv3vbNzoZxkw8QwVtkV7re9subcoGYmTnhF2
-         eBPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794260562; x=1794865362;
-        h=content-transfer-encoding:content-type:in-reply-to:organization
-         :autocrypt:from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=7qt7i6PtGTNQKFi9/31I8QyTa1jE1ZkqnSFv7KhMFLg=;
-        b=N3ofxWruMr4fRsl9fCZ/ug9pyOjzWz+xdc9XvGEzVhhEwMKG+hmjnzRd94jeAuqMbR
-         CC8zXDX3zB5PxwiKnJ+cfTBXdSFdn1qY++wBNCocwh/vt+agvmEelXC1KHoyevV3QZ7i
-         WRAd6XkgsuUqQW5oh245X60YZB21V61BRrPXBxq4deJCFCGOKNwUVzDvncO5UlYVbMfq
-         WIdfVHQR5vuhQ99KedxbIbXTmWGh3VfC+cJz527eHTyQkCerQ1RwXsql3mJlKmF2byWQ
-         f8OGAUoB33PTIwPde6YZ+8O9JHK33a6RJy6yM1IOnqp62Cj5zuwWT3tJ+K+D/1cGXyBQ
-         QCnA==
-X-Forwarded-Encrypted: i=1; AL+hErF589swoGYGecCEcBoDJxU7iKzyBFn1AfUzu3OxGJUp3+vMMWyN/4lMFziiX8prHzWfyx2e2jRu3GU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+AZPqWvLe4ITaqPFyDha+OrA/J98Ll9fbtP8TZNvCme9IKycPi
-	8tASfLRDwa20W8+9I+u2kQTOonPsMcbZpq9P2ugfxqyWO4SzX98bjoPqY6GvIOkzfYeNzDiQBW0
-	KnatAl3s8OgAwi+evbi8m7uxN9hv2i72ve/M1gyJFw1yyAfjszZP53LxJI089xg==
-X-Gm-Gg: AYBFou0et4STtkgfSXnAq50h8Fe6S+BB2aLmG8aag47ScH2Hqofb0U9QOZ6QjFkVRkt
-	N1HPp5DDyXHlE2sKCtL4d3q8Al8D6/lKzQHMDZxLT/ZhDSGMwLk0HnXG9L5TbyO6Wc5hPzo8i8D
-	JCpw96VWX1tgNW4/3ovmgjNzPUQelTju1klzJ3yqDHheq6u3VrC31KNZS3zEUnETpsm/eBPYsT1
-	JYGOsMef4mmknfkcDoH4UGA02tqRarDuhXGHT5Ou33FALEDMG9FmPDFJde987uNjhq+r/1kzGCI
-	JCFRc/iOKBI9w+3HHWg5gyNbZDwxnK4DRxDewENf30Y5r/g0QSYZ8mQchHeAZObovG/CdRajM4G
-	CeMzzJDTNWnrKzNbURsREu4nf50YMxx7xMN7OBSilaN8lpVYPT2wCVoy0baKV0ZLQykEMNqyI0u
-	/+bGz1hvuPJ63jtZ4oQLhjXiG+Qm8x/y68g+2nrYWPk1AoHlY=
-X-Received: by 2002:ad4:5c68:0:b0:91e:b488:5e30 with SMTP id 6a1803df08f44-91eef8a14acmr13718356d6.58.1794260562098;
-        Mon, 09 Nov 2026 13:42:42 -0800 (PST)
-X-Received: by 2002:ad4:5c68:0:b0:91e:b488:5e30 with SMTP id 6a1803df08f44-91eef8a14acmr13718036d6.58.1794260561451;
-        Mon, 09 Nov 2026 13:42:41 -0800 (PST)
-Received: from [192.168.0.116] ([198.48.244.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef04ceadcsm5783616d6.19.2026.11.09.13.42.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 13:42:40 -0800 (PST)
-Message-ID: <e2835e4f-3cb4-4b39-9a1d-a6b222e8bbb4@redhat.com>
-Date: Mon, 9 Nov 2026 16:42:39 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RFAbVubb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1551F008A1;
+	Mon,  9 Nov 2026 23:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794268729;
+	bh=ppfkqcQYSy0IR2+uLEbvO1LX11azhCs4mRDG8TwRTiY=;
+	h=Date:From:To:Cc:Subject;
+	b=RFAbVubbeec5r/oJAYK2L70/RjBXp5nX8CRwDu9NgwDRhbbRqaLEYSr0hnXneQEVC
+	 wi7RVxkD1/XW6I4gpYXLHKe33GSfCplKmiyVAqtgTLrRFT1h3hukvNmqGDBt9u3+j1
+	 hsyLYu/nU0WLtjuJS2bzfZoN4tj3oH1YghgWRJ10kyFyTQCklNACiIP3YHlqcmVc/1
+	 qd6Wi2pQAwbLpMTOzNQ3hco8hDqwlbA7zOi7Cu3QtBf80TsiciwP+VJrQ34YFN/m3n
+	 2t2is/twmS1Tec2wFmJO9xCrGCziMeOTncES6eNUmXy8Js+378LOamSUAJdn7OLYeJ
+	 xOWB0m9nVn9WQ==
+Date: Tue, 10 Nov 2026 00:58:45 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org, 
+	Walter Harms <wharms@bfs.de>, Rich Felker <dalias@libc.org>, ~hallyn/shadow@lists.sr.ht, 
+	musl@lists.openwall.com
+Subject: [PATCH v1] man/man3/crypt.3: These functions accept many algorithms,
+ not only DES
+Message-ID: <313da4c4e217a58e49e981f62d16bd15c97352bf.1794268615.git.alx@kernel.org>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -112,93 +58,193 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Two copyright notices missing in 6.20?
-To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, Xavier Leroy <Xavier.Leroy@inria.fr>,
- linux-man <linux-man@vger.kernel.org>, Michal Schorm <mschorm@redhat.com>
-References: <9d4eec62-bfab-4cf9-ac48-c77dd57b60ac@redhat.com>
- <aukT75oZFuvhwiEd@devuan> <0b9233b7-3c3f-4209-9d01-a1c94aaa8439@redhat.com>
- <aun6mEuYKQG-1IKv@devuan> <40697762-75d5-4d08-9740-4e68b379d80b@redhat.com>
- <au0J1MGwWEwdnUSK@devuan>
-Content-Language: en-US
-From: Carlos O'Donell <carlos@redhat.com>
-Autocrypt: addr=carlos@redhat.com; keydata=
- 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
- hsfHTTi7JQ==
-Organization: Red Hat, LLC.
-In-Reply-To: <au0J1MGwWEwdnUSK@devuan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mcspwejeprvjtxot"
+Content-Disposition: inline
 
-On 11/5/26 6:06 PM, Alejandro Colomar wrote:
-> Actually, I've looked at memcpy(3), and the text I thought might have
-> come from glibc is not present in the glibc manual, so I guess it's
-> from this project only.  The text from glibc might have been replaced
-> entirely over time.
 
-Agreed.
+--mcspwejeprvjtxot
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org, 
+	Walter Harms <wharms@bfs.de>, Rich Felker <dalias@libc.org>, ~hallyn/shadow@lists.sr.ht, 
+	musl@lists.openwall.com
+Subject: [PATCH v1] man/man3/crypt.3: These functions accept many algorithms,
+ not only DES
+Message-ID: <313da4c4e217a58e49e981f62d16bd15c97352bf.1794268615.git.alx@kernel.org>
+MIME-Version: 1.0
 
-> Now we have a Ship of Theseus problem here.  The page doesn't seem to
-> contain any copyrighted text, but are we allowed to just drop that
-> license notice?  Any suggestions about memcpy(3)?
-I think at this point the interface is so well understood and the text
-sufficiently simple that we can keep memcpy.3 as-is for 6.20+.
+This page was written as if DES was the only portable algorithm, and
+glibc was a weird one supporting other algorithms.  These days (and
+since a long time ago), DES has been long deprecated, and crypt(3)
+supports many algorithms in all systems.
 
-However, signbit.3 clearly says "Based on glibc infopages, copyright Free Software Foundation"
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
 
-Likewise "heavily based on glibc infopages, copyright Free Software Foundation"
+Hi!
 
-Both of these should be rewritten from scratch IMO if we're going to ship
-something that is legally permissible without being GFDL.
+The patch for documenting the detail about "*" will come later.
+This was a cleanup that seemed necessary before doing that.
+Let me know what you think about it.  I'll reply with a copy of the
+formatted page, so you don't need to apply the patch to review it.
 
-I can't write these since I'm involved in reviewing artih.texi updates
-for glibc.
 
-I think anyone else could probably write them.
+Have a lovely night!
+Alex
 
--- 
-Cheers,
-Carlos.
+ man/man3/crypt.3 | 84 ++++--------------------------------------------
+ 1 file changed, 6 insertions(+), 78 deletions(-)
 
+diff --git a/man/man3/crypt.3 b/man/man3/crypt.3
+index 7c9a50a534b7..6c0511240898 100644
+--- a/man/man3/crypt.3
++++ b/man/man3/crypt.3
+@@ -47,56 +47,21 @@ .SH SYNOPSIS
+ .SH DESCRIPTION
+ .BR crypt ()
+ is the password hashing function.
+-It is based on the Data Encryption
+-Standard algorithm with variations intended (among other things) to
+-discourage use of hardware implementations of a key search.
+ .P
+ .I key
+ is a user's typed password.
+ .P
+ .I salt
+-is a two-character string chosen from the set
+-.RB [ a\-zA\-Z0\-9./ ].
+-This string is used to
+-perturb the algorithm in one of 4096 different ways.
++is a string
++used for determining the hasing algorithm
++(possibly including parameters).
++It is also used to perturb the algorithm.
+ .P
+-By taking the lowest 7 bits of each of the first eight characters of the
+-.IR key ,
+-a 56-bit key is obtained.
+-This 56-bit key is used to encrypt repeatedly a
+-constant string (usually a string consisting of all zeros).
+ The returned
+-value points to the hashed password, a series of 13 printable ASCII
+-characters (the first two characters represent the salt itself).
++value points to the hashed password.
+ The return value points to static data whose content is
+ overwritten by each call.
+ .P
+-Warning: the key space consists of
+-.if t 2\s-2\u56\s0\d
+-.if n 2**56
+-equal 7.2e16 possible values.
+-Exhaustive searches of this key space are
+-possible using massively parallel computers.
+-Software, such as
+-.BR crack (1),
+-is available which will search the portion of this key space that is
+-generally used by humans for passwords.
+-Hence, password selection should,
+-at minimum, avoid common words and names.
+-The use of a
+-.BR passwd (1)
+-program that checks for crackable passwords during the selection process is
+-recommended.
+-.P
+-The DES algorithm itself has a few quirks which make the use of the
+-.BR crypt ()
+-interface a very poor choice for anything other than password
+-authentication.
+-If you are planning on using the
+-.BR crypt ()
+-interface for a cryptography project, don't do it: get a good book on
+-encryption and one of the widely available DES libraries.
+-.P
+ .BR crypt_r ()
+ is a reentrant version of
+ .BR crypt ().
+@@ -122,40 +87,6 @@ .SH ERRORS
+ .BR crypt ()
+ function was not implemented,
+ probably because of U.S.A.\& export restrictions.
+-.\" The following level of detail is not necessary in this man page.
+-.\" .P
+-.\" When encrypting a plain text P using DES with the key K results in the
+-.\" encrypted text C, then the complementary plain text P' being encrypted
+-.\" using the complementary key K' will result in the complementary encryp=
+ted
+-.\" text C'.
+-.\" .P
+-.\" Weak keys are keys which stay invariant under the DES key transformati=
+on.
+-.\" The four known weak keys 0101010101010101, fefefefefefefefe,
+-.\" 1f1f1f1f0e0e0e0e and e0e0e0e0f1f1f1f1 must be avoided.
+-.\" .P
+-.\" There are six known half weak key pairs, which keys lead to the same
+-.\" encrypted data.  Keys which are part of such key clusters should be
+-.\" avoided.
+-.\" Sorry, I could not find out what they are.
+-.\""
+-.\" .P
+-.\" Heavily redundant data causes trouble with DES encryption, when used i=
+n the
+-.\" .I codebook
+-.\" mode that
+-.\" .BR crypt ()
+-.\" implements.  The
+-.\" .BR crypt ()
+-.\" interface should be used only for its intended purpose of password
+-.\" verification, and should not be used as part of a data encryption tool.
+-.\" .P
+-.\" The first and last three output bits of the fourth S-box can be
+-.\" represented as function of their input bits.  Empiric studies have
+-.\" shown that S-boxes partially compute the same output for similar input.
+-.\" It is suspected that this may contain a back door which could allow the
+-.\" NSA to decrypt DES encrypted data.
+-.\" .P
+-.\" Making encrypted data computed using crypt() publicly available has
+-.\" to be considered insecure for the given reasons.
+ .TP
+ .B EPERM
+ .I /proc/sys/crypto/fips_enabled
+@@ -217,10 +148,7 @@ .SS Availability in glibc
+ .I libxcrypt
+ is an ABI-compatible drop-in replacement.
+ .SH NOTES
+-.SS Features in glibc
+-The glibc version of this function supports additional
+-hashing algorithms.
+-.P
++.SS salt
+ If
+ .I salt
+ is a character string starting with the characters
+
+base-commit: b951aa8a5356e12f635650d0136abed715e0d607
+--=20
+2.55.0
+
+
+--mcspwejeprvjtxot
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmryXjUACgkQ64mZXMKQ
+wqms9BAAmTCfOjlAvujzL+686zbs1yUuDJzOzt96X9YjcgsMlkw45/F+nux29SVb
+X+sRvlHka+o+frKxlMT7CrH/X56oFE8XemBucwpjk6LCBwuYyKubC+e+XTVE/gQE
+LptFwQAC3fOBuOlGeN22eS/3XJItuGoJ9SsdENWVJ4qqfFx8ZZ/Y98Cd/RaBmd6n
+xNgd+HP3OnSuc4SO53gXSUxRIPSpYWysMiVoedfGRMfEubwDva0dSeJsS0T1psSy
+5P3wq6IJIayNrTldartnxcdvBKzcpjo0oSRooyOWA8bUVThAqQP7Kz4Wp0l/MZ4p
+vrBeuKhvI79wc+SnEa3j8ade88lc4k6pYHrRZYIToAg7H14emhBUIEsDEQijMi7W
+Vx95KTv5GzG0NH8ivo93TDsnJkdE0wvLwS6K6jPv5bcrMhN7D4al65/zF7rpF2VQ
+aPZxwuWkT+oAn1Ul50SN6+3B8MM3RCneS1g90aZ4I0QmW4mkLxCMUaRF+Z4z7I3M
+HBT7fwXEvd0W4atpTM9f4bnQzZuaZthc+6uqLkPo/kNBX44kG4Vgz1ARyCaGnJLz
+4dI6YwJ+2Jm6GHHv++IfABLGPlUCVR3/oikZ28V1Fszfvc2ja3F+ZxMh2G8cDFyX
+IcUAJufy831FckoIBb8CmDZ3uPu/stlPlsx/VBf2Prvjq8GMI7o=
+=GZIn
+-----END PGP SIGNATURE-----
+
+--mcspwejeprvjtxot--
