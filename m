@@ -1,55 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=104.156.224.86
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794223458;
-	b=utLUIFq9j+XeyETvmlhPrVunQ2qZmtbah/jg1HnoqpvsJOw721ja/TcjWi/vYF9/B7fo
-	 LxVS43pqHBXHwnCVedV2XhOD4UjlXsKfGB/T3JAgp0GX40akUH4YlgGdv2nh6hjXWUQRR
-	 qt7ky/3vBM5qGF+cDREIItbPNMZFSqN+1Lb9Yy41miKmO59QMUYnpC1XuPmKlpxLW2EXb
-	 zFpTbrnfeY2TZo4Qtu73l/9ypUSA0AIqh28Ktwsl5Y0t+1a3/uKDSSI5OmmdKM48peeXP
-	 xIF7bIe20F9xa1Z+Q1aVVOGXlE3QLFi7XYQ7a+MKZ3bnUih33dsm/K4SbYYvg4pq3nA==
+	t=1794232619;
+	b=a9YCUqHf9+YBbiH8nsK/qG/o5xEh3nnxgoHUpo1p/lp5ZfUPi+UVHu161Q3xWjrnw6mW
+	 wS+R7dKdv/i8en5IXGvPCZPeqsRjARzkgsEEeclOFYNxxYR4PniA0Pn54u4NrBOl6Jqsu
+	 MbpgPguYZybd/ZerbLa2AoxA5/0EU6c8ck+ck7Vvy9/KiFpA4/Q5rMbgcQyCOyu7lzljU
+	 qk3xg6daDFPC9rgGl0pdFBg9B19wbjcboJcYi35/lXTgqR2WAEaLlO2eyboZMC5fmn+KY
+	 BeJPeqzr6D5E8xjpDi/rOKp6J/RC5iaCv3if4L7aSeHWG4cMReE68pCiMcW16dCVzDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794223458;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:Organization:
-	 References:User-Agent:Date:Message-ID:MIME-Version:Content-Type;
-	bh=K6tPkD1R2j5vchQwc6G0V73sZ6HdfUeHdMhovh7KydE=;
-	b=bRnSZu/hO8DJATAab6f5CTAu/QCyFqWAvR01qhv6uNqIZbMdnVLaF0aVDWg3v0WMgRyM
-	 NxqzLmTJuD5UvzaJIWr6V1x8MMSjgXVzUA7efvCFVamFVtAy5YgD6Dq7HjYa7DH2dlPly
-	 93At9axztRGEaC5zRbeMUcdQ/QxxJjUsiiTetnkVtZ71OGIS/koGiGCp6HoiV2E2sr5ZT
-	 gf8xRgkY5a5iDpoaJkbkdydOCjgMfQX+D9V0R2j67xguAmZKsXw6ru1yuF5aTOXd+Nqdp
-	 INxii6fp6juEV6NPGEeeYVBoZ6lAEf4vfseAt6SCb+heVNNrsF5V4pBDYKMGXz1mXDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794232619;
+	h=DMARC-Filter:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=I2MeqqOA8WY6y0Pz5pWQ/3JQjsVozKCc6mRkbDbVIok=;
+	b=afoxJa6nvCHFdKHG5jSMyCObs/x1yqnjJnKebxfJfGEtPBRJcmPwkH/+j1ndQWn5hhRl
+	 WH9ei6U2Qv7ErlEhg7eyCx9WqV91Hygvi/4h0Y7ME8WwQd8xpZHgVXugtbIgHyVxQCZof
+	 PbYS6NyfQIVo4XXrGnw7pEdUqbWFRT8MjUyFIwRqFeIWFEcaf+P/La4GAfIsCh8xumA9V
+	 6oO6iFbeSC/yI8HIw4cavSkUgAQ7chdEzLraDSENMT+udtc5R/e27gMu16cD0XJwngqa5
+	 g6MpTw2Lp2q0bAmgO4mm74xhxfVZqHrr6766wmvpZ1had4asMIof4U21yrAPyFUg+8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gentoo.org;
-	spf=pass smtp.mailfrom=gentoo.org;
-	arc=none smtp.remote-ip=140.211.166.183
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=fail header.from=libc.org;
+	spf=pass smtp.mailfrom=aerifal.cx;
+	arc=none smtp.remote-ip=104.156.224.86
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BF5606A321
-	for <linux-man@vger.kernel.org>; Mon,  9 Nov 2026 11:24:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91BF5606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from mop.sam.mop (unknown [IPv6:2001:8b0:19dc:dc5a::a1c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id A2125343212;
-	Mon, 09 Nov 2026 11:24:15 +0000 (UTC)
-From: Sam James <sam@gentoo.org>
-To: Andreas Schwab <schwab@suse.de>
-Cc: Alejandro Colomar <alx+linux-man@kernel.org>,  Walter Harms
- <wharms@bfs.de>,  "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-  Rich Felker <dalias@libc.org>,  libc-alpha@sourceware.org,
-  musl@lists.openwall.com,  ~hallyn/shadow@lists.sr.ht
-Subject: Re: RFC: how to document musl-crypt failure ?
-In-Reply-To: <mvmqzgugv6q.fsf@suse.de>
-Organization: Gentoo
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EA4606A31C
+	for <linux-man@vger.kernel.org>; Mon,  9 Nov 2026 13:56:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9EA4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
+Date: Mon, 9 Nov 2026 08:56:50 -0500
+From: Rich Felker <dalias@libc.org>
+To: Alejandro Colomar <alx+linux-man@kernel.org>
+Cc: Walter Harms <wharms@bfs.de>,
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+	libc-alpha@sourceware.org, musl@lists.openwall.com,
+	~hallyn/shadow@lists.sr.ht
+Subject: Re: [musl] Re: RFC: how to document musl-crypt failure ?
+Message-ID: <20261109131732.GM23438@brightrain.aerifal.cx>
 References: <ad592d57700043c181886d95b2564e6b@bfs.de>
-	<avGP3ZsVvX1mOirn@debian> <mvmqzgugv6q.fsf@suse.de>
-User-Agent: mu4e 1.14.4; emacs 31.1
-Date: Mon, 09 Nov 2026 11:24:10 +0000
-Message-ID: <87zevii6xx.fsf@gentoo.org>
+ <avGP3ZsVvX1mOirn@debian>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -59,46 +48,73 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avGP3ZsVvX1mOirn@debian>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 
---=-=-=
-Content-Type: text/plain
+On Mon, Nov 09, 2026 at 11:10:56AM +0100, Alejandro Colomar wrote:
+> Hi Walter,
+> 
+> > Date: 2026-11-09 08:59:19+0000
+> > From: Walter Harms <wharms@bfs.de>
+> >
+> > Hello list,
+> > in case someone missed it: musl crypt() had an documented but
+> > unexpected behavier that caused a lot of trouble.  See:
+> > <https://news.ycombinator.com/item?id=50377221>   SSHHole.com  CVE-2026-123158
+> 
+> Indeed, I also wondered if we should change something in the
+> documentation after it happened.  Unfortunately, the bug has been
+> treated with some secrecy in the first days (reasonable), so I couldn't
+> really understand what went wrong.
+> 
+> I've CCed Rich and also musl and glibc, since they probably want to
+> comment.  I've also CCd shadow-utils.
+> 
+> > Normaly i would step over it but in this special case ... it would
+> > like to start a discussion if we should mention that in a note to
+> > crypt().
+> 
+> Thanks!
+> 
+> > Perhaps recommending an additional check for '*' ?  I am not sure but
+> > this is a very special case ...
+> 
+> Rich, now that some time has passed and I guess everyone has a patched
+> SSH, would you mind clarifying what happened, and what should be
+> documented about it?
 
-Andreas Schwab <schwab@suse.de> writes:
+Have you seen my full analysis on the musl list?
 
-> On Nov 09 2026, Alejandro Colomar wrote:
->
->> I've CCed Rich and also musl and glibc, since they probably want to
->> comment.  I've also CCd shadow-utils.
->
-> libcrypt is no longer part of glibc, it is now provided by libxcrypt.
+https://www.openwall.com/lists/musl/2026/11/06/7
 
-Indeed. But while we're here..
+The correct usage of crypt for password authentication is asserting
+that, if P is the candidate password and H is the account password
+"hash", strcmp(crypt(P,H),H)==0. Allowing the user in without checking
+that is potentially a password-authentication-bypass bug.
 
-For libxcypt, it's determined by the configure option:
---disable-error-tokens. By default, error tokens are enabled.
+I put "hash" in quotation marks because it might not be an actual
+hash; it can be a string chosen by the tooling or a user manually
+editing the passwd/shadow files to produce something unmatchable. So
+an application should not be making assumptions about its form.
 
-I've switched Gentoo to use --disable-*. Fedora already did many years
-ago so package failures should be smoked out by now:
-* https://src.fedoraproject.org/rpms/libxcrypt/c/853ed305cd53c67bb2827dce78b889c8d187e1e0?branch=rawhide
-* https://bugzilla.redhat.com/show_bug.cgi?id=1611784
+Through at least 1.2.6, musl uses failure tokens "*" and "x" for cases
+where the password should never match. These include unsupported
+password length (for hash types that need to restrict it) and
+unsupported or invalid setting/salt strings.
 
-Debian uses the libxcrypt default. I didn't check other distros yet.
+It isn't decided yet, but 1.2.7 will probably switch to using failure
+tokens matching libxcrypt's ("*0" and "*1") which are slightly safer
+against some forms of misuse by the caller. Future versions may drop
+failure tokens entirely and switch to treating these conditions as
+errors (returning null).
 
-sam
+I would not document future behavior, and would document existing
+behavior only as an implementation detail, not an application-facing
+contract. The only contract with the application is that crypt(P,H)
+will never return a string identical to H except on valid password (in
+the absence of theoretical hash collisions) regardless of the validity
+of P and H.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmrxrVobFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
-Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
-QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkBs3
-AP0QW8qSIsvdwyqPsN9fyKVm8p7JxKObnBYVanS61ZNcYQEA5E5twmISjRuAMsUC
-D+sbCLe/30q3mq11hBuaGm9fyAc=
-=MRUA
------END PGP SIGNATURE-----
---=-=-=--
+Rich
