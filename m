@@ -1,56 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=155.133.131.76
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=104.156.224.86
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448351;
-	b=SfyCuEUV0lJflMj7TEoiUO0S6GW5GT8Z7HQao9JKEPWVTF5LdERbull9MUt3LnCYdutt
-	 foHnoar28GqCZPnIBTk1OR+Wm7j1C14jwcw9G4twXAxpRN6VECZXgB8ZCIrbGAPdO6ifW
-	 3C28Y+JvB7UwRE5uAyrIEgu+BzSiWO3xn2oIRHUBUljVd6B+eFS0yCDLGzHNZrhaVUq7h
-	 UxnoJmh/VxFopaM+ssWkT5o/l7ksi1rCK1jUJlBRay/7VT79ltq5nEyzNQvNjHyj1C4fz
-	 EKPQczFJGMx1VvFwY35jhKIW/T3/AlFq7UqjuAUtibakY46AMLM6sswS6GjCN825Kew==
+	t=1794452022;
+	b=v6hjAEPSJNYYSdxLJDRuVc9ddhJknRHu5p8RXiG5V+EYe8YXSg1TdhYLT0cWC0zRMFPj
+	 A/F1h3EKx93f7naIPaDhLT2rioLaGEbJaHpn/qmLdU6x5Y+UnF4icj2+VwiyhM/QCHYan
+	 /fYI2CLQ01DbV4cJju74m3F/Z46G6iHU6bJ1mNfP7pFyKqub3D8JiWQXyro1yLwmUxims
+	 5SWZhJf35Nr0DpX85TGE9vIqniOuHZPZYixAv9iDK7bIB+v7oc+9AEsdbLAkM2k1dB77C
+	 6f+qudv3WiBmZ51WlLowPSkHXe2yXVBsITc1Z3/ZUrTT4SyoRtHEIYyvjsTrCUaWpuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448351;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Mailer-Info:User-Agent;
-	bh=dLF/eyEg2EoDVky33GYugkyuqo4R99N761OKaK7Lz8s=;
-	b=hJMFEgWCWVnRaXPxHEgpF17FT2zPIiEcY6YW41f/LHRckEvMByoEa6ObLVw42EeuxKX9
-	 VRej6oUP8x/n3ZsMpRJxSG/EFuM2BD9zmzSsb38JaXAkjXUlj1DJKmSTdN5ATX8C1it12
-	 GJzH3wmN7k1jhYO8vCS0JrsB70/ck6FIKMXHITzHP6v+kSUCu0tLAzdV5vf4NDGxmHmNv
-	 tH/i0qStDjTG2BDmeOEkJZ+A2UK81Ci5XYPIVFw0/R3wAEE/NKs5iTu20gtEaAt+L4iNM
-	 HJdm5R9ia9prxQWf+pOXfQba8WkuAWko2oT0J81FLL7FOcnbVorKZPsh0yg5DPFJtGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794452022;
+	h=DMARC-Filter:Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To:User-Agent;
+	bh=LlKHrxU3kh1DGYewiB69DQtfW/HcBQSHbueWlCkTQNk=;
+	b=biIPXUU2c8+pbMednJG5z9pF8EdBebobzKWKooU92Ep3fS4l5kK6Bz2IjDquxy2Nxmsm
+	 grXvALWsDmUmXmzy8YBK/HhoCu8s9HJnx6ZZIJB/E1xUd5rVwPMATszrJ5UQM8Sa/zewo
+	 6/fxeGRJSiYtTUNpixtm6vifUddlvF0DQ5BQoTIMLxp03BrMBWqh19KIQCVFr3VNBupxJ
+	 nnv2DoKo49jeeH//u9TyuegOznVSuNpPLeF4U60bXiZrxtMlfgBCZLQ4QcCteziUgKHB1
+	 h404VlXWJxGxLEhWzdnnu3FnK92l5tkmp5TNHF7Bg2NYCMnwoY9xW3mtlWXVPUvKPIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=vinc17.net;
-	spf=pass smtp.mailfrom=vinc17.net;
-	arc=none smtp.remote-ip=155.133.131.76
-Received: from joooj.vinc17.net (joooj.vinc17.net [155.133.131.76])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=fail header.from=libc.org;
+	spf=pass smtp.mailfrom=aerifal.cx;
+	arc=none smtp.remote-ip=104.156.224.86
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42F8606A323
-	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 01:52:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C42F8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vinc17.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinc17.net
-Received: by joooj.vinc17.net (Postfix, from userid 1000)
-	id 51AAB487; Thu, 12 Nov 2026 02:52:23 +0100 (CET)
-Date: Thu, 12 Nov 2026 02:52:23 +0100
-From: Vincent Lefevre <vincent@vinc17.net>
-To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	libc-alpha@sourceware.org, Walter Harms <wharms@bfs.de>,
-	Rich Felker <dalias@libc.org>, ~hallyn/shadow@lists.sr.ht,
-	musl@lists.openwall.com
-Subject: Re: [PATCH v1] man/man3/crypt.3: These functions accept many
- algorithms, not only DES
-Message-ID: <20261112015223.GA242717@joooj.vinc17.net>
-Mail-Followup-To: Vincent Lefevre <vincent@vinc17.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606EE606A321
+	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 02:53:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 606EE606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
+Date: Wed, 11 Nov 2026 21:53:39 -0500
+From: Rich Felker <dalias@libc.org>
+To: Vincent Lefevre <vincent@vinc17.net>,
 	Alejandro Colomar <alx+linux-man@kernel.org>,
 	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
 	libc-alpha@sourceware.org, Walter Harms <wharms@bfs.de>,
-	Rich Felker <dalias@libc.org>, ~hallyn/shadow@lists.sr.ht,
-	musl@lists.openwall.com
+	~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
+Subject: Re: [PATCH v1] man/man3/crypt.3: These functions accept many
+ algorithms, not only DES
+Message-ID: <20261112025339.GM26138@brightrain.aerifal.cx>
 References: <313da4c4e217a58e49e981f62d16bd15c97352bf.1794268615.git.alx@kernel.org>
  <avJeq6_q5rpqoGlW@devuan>
+ <20261112015223.GA242717@joooj.vinc17.net>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -63,45 +54,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <avJeq6_q5rpqoGlW@devuan>
-X-Mailer-Info: https://www.vinc17.net/mutt/
-User-Agent: Mutt/2.4.3+59 (844fcfe7) vl-188789 (2026-10-10)
+In-Reply-To: <20261112015223.GA242717@joooj.vinc17.net>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 
-Hi,
+On Thu, Nov 12, 2026 at 02:52:23AM +0100, Vincent Lefevre wrote:
+> Hi,
+> 
+> On 2026-11-10 01:01:19 +0100, Alejandro Colomar wrote:
+> > $ MANWIDTH=64 diffman-git -U99 HEAD
+> > --- HEAD^:man/man3/crypt.3
+> > +++ HEAD:man/man3/crypt.3
+> [...]
+> >  STANDARDS
+> >       crypt()
+> >              POSIX.1‐2008.
+> [...]
+> >  NOTES
+> > -   Features in glibc
+> > -     The glibc version of this function supports additional
+> > -     hashing algorithms.
+> > -
+> > +   salt
+> >       If salt is a character string starting with the characters
+> >       "$id$" followed by a string optionally terminated by "$",
+> >       then the result has the form:
+> >  
+> >              $id$salt$hashed
+> [...]
+> 
+> The "$" character is disallowed by POSIX (in 2008 and still in the
+> current edition) in the salt argument:
+> 
+>   https://pubs.opengroup.org/onlinepubs/9699919799.2008edition/functions/crypt.html
+>   https://pubs.opengroup.org/onlinepubs/9799919799/functions/crypt.html
+> 
+> (this breaks a "shall").
+> 
+> I think that something should be said about that.
 
-On 2026-11-10 01:01:19 +0100, Alejandro Colomar wrote:
-> $ MANWIDTH=64 diffman-git -U99 HEAD
-> --- HEAD^:man/man3/crypt.3
-> +++ HEAD:man/man3/crypt.3
-[...]
->  STANDARDS
->       crypt()
->              POSIX.1‐2008.
-[...]
->  NOTES
-> -   Features in glibc
-> -     The glibc version of this function supports additional
-> -     hashing algorithms.
-> -
-> +   salt
->       If salt is a character string starting with the characters
->       "$id$" followed by a string optionally terminated by "$",
->       then the result has the form:
->  
->              $id$salt$hashed
-[...]
+That's the whole reason '$' was chosen: POSIX doesn't define the
+behavior (since a "shall" is violated) so the implementation is free
+to define a behavior here. The behaviors for the portable base64
+character set documented in POSIX uses only 2 characters as salt
+(insufficient) and the common agreed-upon definition for how they are
+used is as salt for the classic DES-based password hash.
 
-The "$" character is disallowed by POSIX (in 2008 and still in the
-current edition) in the salt argument:
-
-  https://pubs.opengroup.org/onlinepubs/9699919799.2008edition/functions/crypt.html
-  https://pubs.opengroup.org/onlinepubs/9799919799/functions/crypt.html
-
-(this breaks a "shall").
-
-I think that something should be said about that.
-
--- 
-Vincent Lefèvre <vincent@vinc17.net> - Web: <https://www.vinc17.net/>
-100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
-Work: CR INRIA - computer arithmetic / Pascaline project (LIP, ENS-Lyon)
+Rich
