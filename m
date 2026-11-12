@@ -1,56 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=140.77.12.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=104.156.224.86
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794491119;
-	b=ApZCU/ApXrhD4Y1NseyLBAYw1LCTAFrw2Rg6sJ+jXAmMYZ2oxI/KXUXEmUjilg+YAq1w
-	 AGCiBqNRpRZNQJoAcvKZ/b3B+py51JnZOQb6rZWk/mW6z0oGmZm9rVdJ+0lSc0vyCis7z
-	 n087r+KsDClNwclTOdCkpTU8hANIrbQejjNDwEa/oFW17AR3iRFBypsSNgwf2FHapKQ2a
-	 N/tbXPut0cvjq/zBmxRmtwP+yxZuJX2ySqj+MtWh3ZgyHA8rNAIlVhpUY067lRDFU9lzZ
-	 08Ag3V5NHKqBpuTHxAMLxoS9s8c45mORlTFL5mAgmTxXOwOP6AsdKnZX1eA4H7mYnJw==
+	t=1794491705;
+	b=ApkFbSvtVg574DQagPhnAl0u4CiLfNgnL+P4zkXwOJDJBdMMCsfqYLtz6vFvGhQjoCZ+
+	 dinCm9z22yQK/ou6IWxDVIUG0Gx6B1o9FGMiDa0NCrEgUdnpXlv/RidwKTjCJr80om/cJ
+	 al6Hi5KgqO7P6qs6K8PzQCLtE5XtZNakLKI6yUuA0awm6ELtEvi8C+Z20aEZ327C1+hgO
+	 QnCO8H8IiuL0It+h3E/eFqdzoIOXDG1FtPEE5ksCYNCUUSPaIOdUHMcsttVvRKgRWf5bs
+	 auiiHofUKUOb/A5bchm7vclhMwlyAT/wHVibVvRAj7eNbqUP23ANpIxsQ4tq+XTw8iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794491119;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Mailer-Info:User-Agent;
-	bh=FRXXutuu9fd23a/+a9GpdI4J3PsyaWf88V0evenYV4A=;
-	b=B7Esvyl8t4WRAqSe//5LGzHUK3OsMwPtsak6YrdjmZmidyQWAb2+9O6ae47dWOkJvVZO
-	 GTP66sFlx1KOaOT9/GVEgalHjTc7O9UNrSELpo4KpQ6viQVOc0awq5hFZVUnbxwwQn9/q
-	 mi+IZbyPxKK2CFQtynMdYFMVvMscE/qqb6kpR62bZgNjTmwUylgecHB7fk6TLtsgzbAqc
-	 P05dfdgiuyAeKNlNlaopdt33YkbBBcfiTSaSX7g4xhJh5bGyRIIsnYWdqo9sMvgKAL4On
-	 Z9PkZe2b4zoh//gP1hOIWIe1D1W/LXI/7ECwgPmCrZ2/mtfAy2yqla1JmZZqxTsCnUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491705;
+	h=DMARC-Filter:Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=ZZdSWqmFUBOswlKKPOU06UIyTy6CmWOqROmf/AsqhyI=;
+	b=PoylFVm5tTaocVdDzV56TXcRUBhQq4oQwV0r3wcBShtPtC0Tw0Yn5LHHk0P17vVDPEJL
+	 JrZpCGReUVHiFdlEcqpt5/RdJqUot3XYPb9UHZH1vKP89C0BPNQXd80TYrVHDqP5xLTHS
+	 QQSJsd0Q12Tq8302OMScg7rPzel+KIv73MP/pzU7VQoZ0xxQsBs1jnMCoI1WQe6Rgye43
+	 OxuAV7hMsSwHYs/o054p6HrJvgbDh0avGYDYC+CdcKCagwuJ8iosSL8ZAPf6KyVmnuiLF
+	 CbQh1nA04wnyfs0vQ0oeTcba2SqzvQ1PwWxNhGZm7a0uv6kQJLj18Ce6gAPqqBlT1uA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=vinc17.net;
-	spf=pass smtp.mailfrom=vinc17.net;
-	arc=none smtp.remote-ip=140.77.12.53
-Received: from disset.lip.ens-lyon.fr (disset.lip.ens-lyon.fr [140.77.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=libc.org;
+	spf=pass smtp.mailfrom=aerifal.cx;
+	arc=none smtp.remote-ip=104.156.224.86
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB84606A32D
-	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 13:45:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBB84606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vinc17.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinc17.net
-Received: by disset.lip.ens-lyon.fr (Postfix, from userid 1000)
-	id DC99F21200B9; Thu, 12 Nov 2026 14:45:16 +0100 (CET)
-Date: Thu, 12 Nov 2026 14:45:16 +0100
-From: Vincent Lefevre <vincent@vinc17.net>
-To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: Rich Felker <dalias@libc.org>, Alejandro Colomar <alx@kernel.org>,
-	linux-man@vger.kernel.org, libc-alpha@sourceware.org,
-	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht,
-	musl@lists.openwall.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726CB606A31C
+	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 13:55:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 726CB606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
+Date: Thu, 12 Nov 2026 08:55:01 -0500
+From: Rich Felker <dalias@libc.org>
+To: Vincent Lefevre <vincent@vinc17.net>,
+	Alejandro Colomar <alx+linux-man@kernel.org>,
+	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
+	libc-alpha@sourceware.org, Walter Harms <wharms@bfs.de>,
+	~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
 Subject: Re: [musl] Re: [PATCH v1] man/man3/crypt.3: These functions accept
  many algorithms, not only DES
-Message-ID: <20261112134516.GD1951@disset.lip.ens-lyon.fr>
-Mail-Followup-To: Vincent Lefevre <vincent@vinc17.net>,
-	Alejandro Colomar <alx+linux-man@kernel.org>,
-	Rich Felker <dalias@libc.org>, Alejandro Colomar <alx@kernel.org>,
-	linux-man@vger.kernel.org, libc-alpha@sourceware.org,
-	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht,
-	musl@lists.openwall.com
-References: <avJeq6_q5rpqoGlW@devuan>
- <20261112015223.GA242717@joooj.vinc17.net>
+Message-ID: <20261112135501.GI5716@brightrain.aerifal.cx>
+References: <20261112015223.GA242717@joooj.vinc17.net>
  <20261112025339.GM26138@brightrain.aerifal.cx>
  <20261112032929.GB160897@qaa.vinc17.org>
  <20261112033742.GG5716@brightrain.aerifal.cx>
@@ -59,6 +47,7 @@ References: <avJeq6_q5rpqoGlW@devuan>
  <avWwXGpq1OLtNDSV@devuan>
  <20261112131737.GB1951@disset.lip.ens-lyon.fr>
  <avW9PMcZ6Hm26hl3@devuan>
+ <20261112134516.GD1951@disset.lip.ens-lyon.fr>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -68,26 +57,37 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <avW9PMcZ6Hm26hl3@devuan>
-X-Mailer-Info: https://www.vinc17.net/mutt/
-User-Agent: Mutt/2.4.3+67 (b2844dd7) vl-188789 (2026-11-11)
+In-Reply-To: <20261112134516.GD1951@disset.lip.ens-lyon.fr>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 
-On 2026-11-12 14:23:08 +0100, Alejandro Colomar wrote:
-> Hmm, yeah, I didn't intend to say POSIX is bad; I just wanted to let
-> people know that POSIX is irrelevant about crypt(3) these days (as Rich
-> said).  Perhaps:
+On Thu, Nov 12, 2026 at 02:45:16PM +0100, Vincent Lefevre wrote:
+> On 2026-11-12 14:23:08 +0100, Alejandro Colomar wrote:
+> > Hmm, yeah, I didn't intend to say POSIX is bad; I just wanted to let
+> > people know that POSIX is irrelevant about crypt(3) these days (as Rich
+> > said).  Perhaps:
+> > 
+> > 	The POSIX specification is significantly outdated,
+> > 	and all systems extend it significantly.
+> > 
+> > What do you think?
 > 
-> 	The POSIX specification is significantly outdated,
-> 	and all systems extend it significantly.
-> 
-> What do you think?
+> OK for me.
 
-OK for me.
+It's not "outdated". It just does not mandate particular algorithms
+but leaves these choices up to the implementation. As usual the scope
+of POSIX is what applications need to know to interface with the
+system, not administrative policy. This is why POSIX doesn't define
+things like mount, how init works, etc. either. They are in the scope
+of things that applications generally don't have to care about; only
+system components do.
 
--- 
-Vincent Lefèvre <vincent@vinc17.net> - Web: <https://www.vinc17.net/>
-100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
-Work: CR INRIA - computer arithmetic / Pascaline project (LIP, ENS-Lyon)
+I do think there are changes to the POSIX crypt spec that could make
+it better, like defining more errors and specifying explicitly that
+salts beginning with '$' and '_' select additional
+implementation-defined algorithms and settings, etc. But overall the
+issue here is just a difference in expectation, not anything
+inherently bad.
+
+Rich
