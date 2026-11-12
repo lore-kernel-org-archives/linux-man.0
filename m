@@ -1,59 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=140.77.13.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794479305;
-	b=DwWUhmK9HQvGbOiemQMUZ9HgExy67vSZFLYSA3uGz8507C4OJCxZV8LxsnPvXcQZ8rMq
-	 HkN+a6VopH7N7WCAERjnE+F07mUhgSh/MkjyRAYKOR9bx0S8KmpmrKpouypXh+FpRX1JM
-	 jiZdODnCNiXyZVL3Geoqj/mUVLQuKMBkbsaTPPRELClyHmPMirUHh0ZXXyN5+ekQ7al+k
-	 qNSZNDY6dr08dyax8sM94FRAq9/AAOJt96mgfyg63j38VK1TyoipXLgoo3enE3xaVjqfT
-	 a4R/Qf1iZ4k6EJ/GvSRxok5mZnyY75z5kYR0YHViFBi6X5hSD51/uH+QeY3kmjI0TRg==
+	t=1794483644;
+	b=ZoZeVqdd5nLe/rM++8IR+/c56l7GL/IJJbRTGmlbfeRWKPZveix5yJ/TCxPp0gVtfdja
+	 JXHFp/L43HWU/Q8euefPK0Sxq3HFWHqIC0RZ+XiQjvf5V9+8Y5k21zAXi26ipPBjo0G1+
+	 L6XlhUopv4wfIRG6LxsQFeoC1jIzF6oc9XkXoR8KIHSr7efjhtAwXF1MBPVKJIQMR2FPE
+	 Ti1BEjf28XErixMiUKUBEvKYdG2Ob2x4UAv9IsdOt9tk/ZHwyruCufGf4FC35JzJOF3N4
+	 /COL0AzbEPLaeUjyetFshtE7GkX3hlog/vw401CIDE12gVuQArT4L6HLea8Rp8Lk/Ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794479305;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=9uzRsGZ12ohu9U3vnVIUZc9z8Qip7n89kQGKKyvUVrQ=;
-	b=YAyuEdZ3zpP6vjWsfPbgYeXE4aNqzZWXJYY47z9WyDk/cx1vSjCOrULFfRi4P75T2joW
-	 YC9v89lEPkth2uI5xQ1MyWSn26/u/RfpQhJQXsO0IYZBXGP5K2ChB9avy3hGqhBsq+7Lc
-	 pbxHXKdLf7mp1UWWtd48giKJvS/eURMuPSguHzZwRySGMQNdCkABxKcb7lrw9a2V9oJ5H
-	 FvlURIHkKY1oOQyB5OWbG0O8+vIXgAx/YKYn/VH6wLLiQTm0yPGk8L3cD/mLrOAcphuj6
-	 EpUo0Y5eUOZyfrHr3MoKdjErn11V+yKGCs12cQFpU/1HRuo8OJSF6AEAitfKpHjiuew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794483644;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Mail-Followup-To:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Mailer-Info:User-Agent;
+	bh=Rl5fWEcHjBrunqki76JRdffVUGEFmz2IhYbK6nRP92A=;
+	b=nyufZ9X6xCxPuKD3CTQ0NCe+nxcAr1Fy9EBsNhsKj9XJEaOCi117jKR+SJ+ctvcYrMf2
+	 eLxtdI13koTdkoINvvr4kRzOCFP2aGOgFL0Lbhlqw6e9D1NhFrFDHg5oOLcgpw5DbdNjk
+	 SQyRYyp0wWgdXH9TF+XAyz05U0XlnQyKmkVDbPZiqfPPvMYG7qDwz32TzWbiJQwrlM6mo
+	 kadnhi44U1J/sAm/NWFN/39M2gOalKRA+z0p/mXOmwjPa1rU3MlkZNDPMNeFvyJkhU+FV
+	 ltQWS+4DulERBILC4e5+rfKeb8uWu/StU6MdFp410LNWhhDocXsITRJvrIIg+8CkbCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUTwyLQl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=vinc17.net;
+	spf=pass smtp.mailfrom=vinc17.net;
+	arc=none smtp.remote-ip=140.77.13.17
+Received: from cventin.lip.ens-lyon.fr (cventin.lip.ens-lyon.fr [140.77.13.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D2E606A31C
-	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 10:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUTwyLQl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB0F1F00A05;
-	Thu, 12 Nov 2026 10:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794479305;
-	bh=9uzRsGZ12ohu9U3vnVIUZc9z8Qip7n89kQGKKyvUVrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oUTwyLQlJ2uCPdY6s0plfPokO9lkEq8347NjRu47FzTOlPaS2Pq3EqzfvZtbJMYC4
-	 hEcE7tb8NJv1insOz8zy2WEMsVh1YmgAhPgIpvXXDwqgVmeDrNRXzkWnf7p89Cu+YG
-	 eKGauwhbnD65FvYMv8pZQ+32TbSV1QMIKbJ/V6l8z3kNMuAFthpGrUVgXQztinDMti
-	 UXTL7Z66A+DjXQakh4F9O032VjX8czza/BSQ1elQzbyHmNCxIaa01pRJMUFPYSLJNf
-	 sjielHUVsGMaXWgvj3gIvd5M7+u+2ebXliUxCHa7F5FpLychxITaPIXr/WyEeggKmE
-	 rWxJzXAZpIVvg==
-Date: Thu, 12 Nov 2026 11:28:20 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Rich Felker <dalias@libc.org>
-Cc: Vincent Lefevre <vincent@vinc17.net>, 
-	Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
-	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DA7606A89E
+	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 11:40:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39DA7606A89E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vinc17.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinc17.net
+Received: from vlefevre by cventin.lip.ens-lyon.fr with local (Exim 4.100.1)
+	(envelope-from <vincent@vinc17.net>)
+	id 1xRTAP-00000000u7V-2RCb;
+	Thu, 12 Nov 2026 12:40:33 +0100
+Date: Thu, 12 Nov 2026 12:40:33 +0100
+From: Vincent Lefevre <vincent@vinc17.net>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Rich Felker <dalias@libc.org>,
+	Alejandro Colomar <alx+linux-man@kernel.org>,
+	linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht,
+	musl@lists.openwall.com
 Subject: Re: [musl] Re: [PATCH v1] man/man3/crypt.3: These functions accept
  many algorithms, not only DES
-Message-ID: <avWT2aQCFY2GIwLp@devuan>
+Message-ID: <20261112114033.GA167321@cventin.lip.ens-lyon.fr>
+Mail-Followup-To: Vincent Lefevre <vincent@vinc17.net>,
+	Alejandro Colomar <alx@kernel.org>, Rich Felker <dalias@libc.org>,
+	Alejandro Colomar <alx+linux-man@kernel.org>,
+	linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht,
+	musl@lists.openwall.com
 References: <313da4c4e217a58e49e981f62d16bd15c97352bf.1794268615.git.alx@kernel.org>
  <avJeq6_q5rpqoGlW@devuan>
  <20261112015223.GA242717@joooj.vinc17.net>
  <20261112025339.GM26138@brightrain.aerifal.cx>
  <20261112032929.GB160897@qaa.vinc17.org>
  <20261112033742.GG5716@brightrain.aerifal.cx>
+ <avWT2aQCFY2GIwLp@devuan>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -63,96 +68,57 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2wheha2t7w3srgvv"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261112033742.GG5716@brightrain.aerifal.cx>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <avWT2aQCFY2GIwLp@devuan>
+X-Mailer-Info: https://www.vinc17.net/mutt/
+User-Agent: Mutt/2.4.3+67 (b2844dd7) vl-188789 (2026-11-11)
 
+On 2026-11-12 11:28:20 +0100, Alejandro Colomar wrote:
+> Yeah, I think it'd be okay to document that this is an extension to
+> POSIX.  Perhaps, we could add this:
+> 
+> 	@@ -111,6 +111,9 @@ .SH ATTRIBUTES
+> 	 .BR crypt_r ()
+> 	 T}     Thread safety   MT-Safe
+> 	 .TE
+> 	+.SH VERSIONS
+> 	+While POSIX only specifies the DES algorithms for these functions,
+> 	+all systems implement several other algorithms.
 
---2wheha2t7w3srgvv
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Rich Felker <dalias@libc.org>
-Cc: Vincent Lefevre <vincent@vinc17.net>, 
-	Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
-	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
-Subject: Re: [musl] Re: [PATCH v1] man/man3/crypt.3: These functions accept
- many algorithms, not only DES
-Message-ID: <avWT2aQCFY2GIwLp@devuan>
-References: <313da4c4e217a58e49e981f62d16bd15c97352bf.1794268615.git.alx@kernel.org>
- <avJeq6_q5rpqoGlW@devuan>
- <20261112015223.GA242717@joooj.vinc17.net>
- <20261112025339.GM26138@brightrain.aerifal.cx>
- <20261112032929.GB160897@qaa.vinc17.org>
- <20261112033742.GG5716@brightrain.aerifal.cx>
-MIME-Version: 1.0
-In-Reply-To: <20261112033742.GG5716@brightrain.aerifal.cx>
+No, POSIX just says: "The algorithm is implementation-defined."
+No mention of DES algorithms at all.
 
-Hi Rich, Vincent,
+And note that only ENOSYS is specified as a case of failure,
+which could explain why some applications do not check whether
+the returned value is a null pointer (i.e. they assume that if
+crypt() succeeds in usual cases, then an ENOSYS error is not
+possible and crypt() never fails).
 
-> Date: 2026-11-11 22:37:42-0500
-> From: Rich Felker <dalias@libc.org>
->
-> On Thu, Nov 12, 2026 at 04:29:29AM +0100, Vincent Lefevre wrote:
-> > On 2026-11-11 21:53:39 -0500, Rich Felker wrote:
-> > > That's the whole reason '$' was chosen: POSIX doesn't define the
-> > > behavior (since a "shall" is violated) so the implementation is free
-> > > to define a behavior here. The behaviors for the portable base64
-> > > character set documented in POSIX uses only 2 characters as salt
-> > > (insufficient) and the common agreed-upon definition for how they are
-> > > used is as salt for the classic DES-based password hash.
-> >=20
-> > But the behavior is completely out of scope of POSIX.
->=20
-> Yes. And that's allowed because POSIX does not define the behavior but
-> leaves it undefined. I'm not sure if you're objecting to something
-> here or questioning how it should be documented or something else..?
+But my point was that POSIX disallows the "$" character in salt:
 
-Yeah, I think it'd be okay to document that this is an extension to
-POSIX.  Perhaps, we could add this:
+  [...] The salt argument shall be a string of at least two bytes
+  in length not including the null character chosen from the set:
 
-	@@ -111,6 +111,9 @@ .SH ATTRIBUTES
-	 .BR crypt_r ()
-	 T}     Thread safety   MT-Safe
-	 .TE
-	+.SH VERSIONS
-	+While POSIX only specifies the DES algorithms for these functions,
-	+all systems implement several other algorithms.
-	 .SH STANDARDS
-	 .TP
-	 .BR crypt ()
+  a b c d e f g h i j k l m n o p q r s t u v w x y z
+  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+  0 1 2 3 4 5 6 7 8 9 . /
 
+This means that when "$" is supported by some implementation,
+the interpretation of the return value may be different from
+what POSIX specifies.
 
+Various people said that the choice of returning "*" in case of
+failure as done by musl was a violation of POSIX. But this is
+not true for 2 reasons:
+  * the use of the "$" character in salt by the application;
+  * the fact that POSIX does not give any requirement on the
+    hash (so the use of a hash that could be interpreted as
+    being invalid on the system for unsupported passwords is
+    a valid behavior).
 
-Have a lovely day!
-Alex
-
->=20
-> Rich
-
---=20
-<https://www.alejandro-colomar.es>
-
---2wheha2t7w3srgvv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr1lMMACgkQ64mZXMKQ
-wqmJXhAAnJZj4z35MZleOO4RJjkoCgdUc5qQj+jTMTJETxLD85a9jwXoYthwwvB+
-TTKXZEWKEO3mNmeiotGgQC6p25CEHrUzR0XNlt9pEPMW4ZdD8zbI1cTEf26TXPKH
-+WyUeEDplL64xDsoWuCbqvFcY48chQS3tEyWJaTUMW+tavbbro7xQWCFch/5VjdN
-nxz6vTQKJRz7Uas7TXiGE8jecP5sWoW/1ZPsRBQ3W8X5seT0TovAQV7C9EZqXTLb
-7OOS6nv9uJKI8d7/UCOKpB46fgnUjkvvRNN/W/NBIPx5FYAb7cpxqLrP3cHDxDts
-WuwNGRd5G7eKWGMVtuZr9VqamDT/FlBaufFs3mUpEsuXMe1KLICvv/CE4rWt2Y3C
-cs0Qx1uSrwFfU6e8SnHvakI/FiGrY0vgHwMX+QZRERK5uizf5OrMA+nfjrTjNgYQ
-InOiugSzvznZjnXPRgyLoPXQEqzGLFJEBwcn80p6g3PJfxiDsnM1eyIqxzyYzZXx
-WsbhrTC77i9+n68Hnq/etd/f0JgpQU56lCepyAh1jS7Q4RmrSLjtoBFi26Y4u7q4
-g5DGIdLmA8wXWlDovp3y6/s/pIRVBmPlpPjUOPNKjidIE5Lj9kqyy0i2TVBhBGWu
-tIrzDwF4jKXrdA//iByn4BpWrIUHBYTpWuv/s3MSemFxfWzDnxg=
-=Rpc8
------END PGP SIGNATURE-----
-
---2wheha2t7w3srgvv--
+-- 
+Vincent Lefèvre <vincent@vinc17.net> - Web: <https://www.vinc17.net/>
+100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
+Work: CR INRIA - computer arithmetic / Pascaline project (LIP, ENS-Lyon)
