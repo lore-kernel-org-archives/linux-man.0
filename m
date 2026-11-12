@@ -1,47 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494755;
-	b=2Bw+dDbVUOzhFgmNEhLdfPcSQ1/MB+YMH3oBhckGHhTtkkhUQilyPWlamATJB9xlXATd
-	 rO9qhgsbPIUNSzCVgyxuYue3p71XbOA1O5Yb/4tJ9FFxyAqlGdfVf4IpywyUeNDAe//x1
-	 8ll6PFXiu6c79A0TzL/pNumkztFrf90EnnJVbR+ShQ++1qvYGihPSANHJNg1xknDnqDFM
-	 6DHApwwiw7XhOxJVZrrp/+UQhFCFqZIiZkVjBMQlEWIajKeb+/BI70MwvgWZLq5tNszdX
-	 wnDotd3dcfN6ofjvHG4bsVUCeyG5LZSlC0dU+8BhdmWLDLj8gUFFuIflGnDiR4pJKCQ==
+	t=1794495514;
+	b=SjUMGgRwuy286VM6pCyvefF4bvN/94wOPKbsKDbkF7SRUAlRTxClEYDIQg56+tzCWAtv
+	 /0n3vX7+83WPeY/RjmhgQCshKGAkHfgNMhxLBHnru6fxk5lpHtogfSCSgrw0pwzZpAGyV
+	 jq23yvqFVrSDXT6FqM4B9bTJ97ScbeIuhT/b0mz67jPzsge48qeFInPtakcS+3z6xmdYN
+	 9NVYJfjYvm0oq68nvT9bJtZKpXnfKqJFHsmvoPOLahBrR9uRODEcqS+3gzD3cAazm+f4m
+	 6r8Ll0aUTW85+HfwxXobdPgDmiDvUSV043nEqe/PDKUpejCB/tkP4iV+dgc+gyMCVNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494755;
-	h=DMARC-Filter:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=UUMXjddw9kgEgqzyM65B7PKgeni2Lydz3caNAj9nA28=;
-	b=IPxmc6o2Z6Kgk3Ggl6gY/no61SL8YCSPDHGi3MMYjr+Eac/DC6RPx1/5j55OCkluXP9B
-	 kLwym4Iyllmmu/S0wcFmqnTYqjYj1tDE80Bdy41LSaaK5QiWzPIdhXPxoqdNnjooL6/Ma
-	 V4el1o4n+AFMP+OHyD6KPJVxSRxQEYUeoaa4BBZGg9p2K3lycg7XXaVEqw3SS2+kEoLUt
-	 Vj5GRjxZBP2ajN95ZNkmFPRqIsPNypJjb34+Pd7xaFxpXEa7YAdJF9NBDodFZGJB8tB40
-	 6gpdnLrTRGO6YZjk9nfyCeGaacodWuiW7ew8KUbkBCgcGssIzBFzxMVA02pwHgh5Acw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495514;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NFS24CojZoXvriDnshZcuZIuyfRMFoysdAd13a4HACY=;
+	b=EuNzVXyLKL+zq9rg7X1y13oIRqZdxYL2uSvlipkZomZyTMT7lhM8IGRV9MpZheyevLRT
+	 Egj8QEe8EAGFyaOJwgvfkum9bfO6J7/eQl99FenrEMV4U6A4Q9PN+NsjTnEr2nwIS6zkL
+	 bfFT5FKQ+OG+4Wja1HtmH9Jdp1H5ZemH6sgT3wSHl1RWkieYfa3qYf9my49Hm0Izfrh96
+	 Inq30DEsVr+mY4S1UUo/pAJikEQa4jjXa4BORjsFLA9QUok2Cr9DoswLqQ+6/K0YruvGq
+	 wgTqhssX8JLEfyXFiiwWE3xIbcVqshBlNv65A04Hs7KOB8/pA8naQb5ET7rK8XmucGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=libc.org;
-	spf=pass smtp.mailfrom=aerifal.cx;
-	arc=none smtp.remote-ip=104.156.224.86
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-CHACHA20-POLY1305 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oVqGvis+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F17606A31C
-	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 14:45:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4F17606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=libc.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
-Date: Thu, 12 Nov 2026 09:45:53 -0500
-From: Rich Felker <dalias@libc.org>
-To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: Walter Harms <wharms@bfs.de>,
-	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-	libc-alpha@sourceware.org, musl@lists.openwall.com,
-	~hallyn/shadow@lists.sr.ht
-Subject: Re: [musl] Re: RFC: how to document musl-crypt failure ?
-Message-ID: <20261112144550.GJ5716@brightrain.aerifal.cx>
-References: <ad592d57700043c181886d95b2564e6b@bfs.de>
- <avGP3ZsVvX1mOirn@debian>
- <20261109131732.GM23438@brightrain.aerifal.cx>
- <avHqKtsxQQDkZX90@devuan>
- <avXOTLv8xJqyy5qh@devuan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4563606A321
+	for <linux-man@vger.kernel.org>; Thu, 12 Nov 2026 14:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oVqGvis+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F831F00A05;
+	Thu, 12 Nov 2026 14:58:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794495514;
+	bh=NFS24CojZoXvriDnshZcuZIuyfRMFoysdAd13a4HACY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oVqGvis+FoCnrwB2NiAhN441GCwCph0FoICYlbB6nCqx5plCBmqf2k4DEsSHhCWJ2
+	 ebr29PJOt0H7oxy1h7tF7/t5/mBXyKbDp4WOCji640jrVqGR4e8Udz7DReZoOvi0ao
+	 OeSHf+RAnAoD78Q5+G7vpBk7yFJHXp0dMzvI2SYMNCfyDFhO4xjudua3o7qikh+XMR
+	 jSyUxGmaok53tvzUD1Gdh0zTwLmUtgGpNDk5Su/aVYjPaWsAZUKCRQj+yOe6iAHFlJ
+	 uQ+kgh04CmY7hfA8+Ddq/N7VailRiEB1qeUVwuhVzuSKQugTNJnvLl8Y65aCsxE86v
+	 y1ofYPyAyOJuA==
+Date: Thu, 12 Nov 2026 15:58:30 +0100
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: Rich Felker <dalias@libc.org>
+Cc: Vincent Lefevre <vincent@vinc17.net>, 
+	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
+	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
+Subject: Re: [musl] Re: [PATCH v1] man/man3/crypt.3: These functions accept
+ many algorithms, not only DES
+Message-ID: <avXSmj4FXqnwZTwK@devuan>
+References: <20261112033742.GG5716@brightrain.aerifal.cx>
+ <avWT2aQCFY2GIwLp@devuan>
+ <20261112120831.GH5716@brightrain.aerifal.cx>
+ <avWwXGpq1OLtNDSV@devuan>
+ <20261112131737.GB1951@disset.lip.ens-lyon.fr>
+ <avW9PMcZ6Hm26hl3@devuan>
+ <20261112134516.GD1951@disset.lip.ens-lyon.fr>
+ <20261112135501.GI5716@brightrain.aerifal.cx>
+ <avXFw_RUi0C4Ta1V@devuan>
+ <20261112144349.GO26138@brightrain.aerifal.cx>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -51,88 +67,110 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="24vjyvpl2oevxtwz"
 Content-Disposition: inline
-In-Reply-To: <avXOTLv8xJqyy5qh@devuan>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <20261112144349.GO26138@brightrain.aerifal.cx>
 
-On Thu, Nov 12, 2026 at 03:37:11PM +0100, Alejandro Colomar wrote:
-> Hi Rich,
-> 
-> > Date: 2026-11-09 16:51:02+0100
-> > From: Alejandro Colomar <alx+linux-man@kernel.org>
-> >
-> [...]
-> > > I would not document future behavior, and would document existing
-> > > behavior only as an implementation detail, not an application-facing
-> > > contract. The only contract with the application is that crypt(P,H)
-> > > will never return a string identical to H except on valid password (in
-> > > the absence of theoretical hash collisions) regardless of the validity
-> > > of P and H.
-> > 
-> > Okay.  Thank you very much!  I'll work on a patch, and CC you when it's
-> > ready.
-> 
-> What do you think of this?
-> 
-> 	diff --git i/man/man3/crypt.3 w/man/man3/crypt.3
-> 	index e0a74b955b3e..4a75fac2f627 100644
-> 	--- i/man/man3/crypt.3
-> 	+++ w/man/man3/crypt.3
-> 	@@ -259,6 +259,28 @@ .SS salt
-> 	 is equal to
-> 	 .I xxx
-> 	 otherwise.
-> 	+.SH EXAMPLES
-> 	+When comparing a password against an existing hash,
-> 	+that hash (and no other) must be passed as
-> 	+.IR salt .
-> 	+If and only if
-> 	+.I salt
-> 	+compares equal
-> 	+(see
-> 	+.BR streq (3))
-> 	+to the returned string,
-> 	+the password matches the existing hash specified by
-> 	+.IR salt .
-> 	+.P
-> 	+.in +4n
-> 	+.EX
-> 	+if (streq(H, crypt(P, H))) {
-> 	+       // good password
-> 	+} else {
-> 	+       // bad password
-> 	+}
-> 	+.EE
-> 	+.in
-> 	 .SH SEE ALSO
-> 	 .BR login (1),
-> 	 .BR passwd (1),
-> 
-> which reads as:
-> 
-> 	--- HEAD:man/man3/crypt.3
-> 	+++ ./man/man3/crypt.3
-> 	@@ -152,6 +152,19 @@ NOTES
-> 	      than 1000, 999999999 if xxx is greater than 999999999, and
-> 	      is equal to xxx otherwise.
-> 	 
-> 	+EXAMPLES
-> 	+     When comparing a password against an existing hash, that
-> 	+     hash (and no other) must be passed as salt.  If and only
-> 	+     if salt compares equal (see streq(3)) to the returned
-> 	+     string, the password matches the existing hash specified
-> 	+     by salt.
-> 	+
-> 	+         if (streq(H, crypt(P, H))) {
-> 	+              // good password
-> 	+         } else {
-> 	+              // bad password
-> 	+         }
-> 	+
-> 	 SEE ALSO
-> 	      login(1), passwd(1), encrypt(3), getpass(3), passwd(5)
 
-Missing null return check.
+--24vjyvpl2oevxtwz
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: Rich Felker <dalias@libc.org>
+Cc: Vincent Lefevre <vincent@vinc17.net>, 
+	Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
+	Walter Harms <wharms@bfs.de>, ~hallyn/shadow@lists.sr.ht, musl@lists.openwall.com
+Subject: Re: [musl] Re: [PATCH v1] man/man3/crypt.3: These functions accept
+ many algorithms, not only DES
+Message-ID: <avXSmj4FXqnwZTwK@devuan>
+References: <20261112033742.GG5716@brightrain.aerifal.cx>
+ <avWT2aQCFY2GIwLp@devuan>
+ <20261112120831.GH5716@brightrain.aerifal.cx>
+ <avWwXGpq1OLtNDSV@devuan>
+ <20261112131737.GB1951@disset.lip.ens-lyon.fr>
+ <avW9PMcZ6Hm26hl3@devuan>
+ <20261112134516.GD1951@disset.lip.ens-lyon.fr>
+ <20261112135501.GI5716@brightrain.aerifal.cx>
+ <avXFw_RUi0C4Ta1V@devuan>
+ <20261112144349.GO26138@brightrain.aerifal.cx>
+MIME-Version: 1.0
+In-Reply-To: <20261112144349.GO26138@brightrain.aerifal.cx>
 
-Rich
+Hi Rich,
+
+> Date: 2026-11-12 09:43:49-0500
+> From: Rich Felker <dalias@libc.org>
+>
+[...]
+> > But is the POSIX specification really useful for applications?
+>=20
+> Yes. It tells you enough to validate a password for authentication
+> purposes:
+>=20
+> 	const char *result =3D crypt(password, hash);
+> 	if (result && strcmp(result, hash)=3D=3D0) {
+> 		/* password validated */
+> 	}
+
+Is this really specified by POSIX?
+
+Unless I'm missing something, I only see something about it in EXAMPLES,
+which is non-normative, and it doesn't even explain that this is the
+only way to do it correctly, but rather as a possible example.  Notably,
+I don't find any text that says that passing a different hash as salt
+could potentially result in a hash that matches the stored hash.
+
+That is, I don't see any text (normative or non-normative) in the POSIX
+specification that implies this:
+
+            When comparing a password against an existing hash, that
+            hash (and no other) must be passed as salt.  If and only
+            if salt compares equal (see streq(3)) to the returned
+            string, the password matches the existing hash specified
+            by salt.
+
+The example is useful, but I'd say it's not enough.  I think the example
+should contain wording like that one above (which we're discussing in
+the other thread for the manual page).
+
+
+Cheers,
+alex
+
+[...]
+>=20
+> > An application should not rely on the specified return value either.
+>=20
+> It can rely on it for validating passwords against existing hashes.
+> That is the more usual application need. Setting new passwords is
+> usually an administrative task, except for non-system uses like making
+> .htaccess files.
+>=20
+> Rich
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--24vjyvpl2oevxtwz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr11AwACgkQ64mZXMKQ
+wqlTmA//e14Rh3KrFduVpEl36JFcoXrmPafV+ygFRMkSIWmHz0CUy6eHGZSrdQTP
+JsypkOByBsXqlS72dhR5BFALCBDm4iEf1YkZnFAq5zuLpFdXOtEEixmfPk7UKYks
+bsN7Hhc+tR9IN/k5LJFK5TNpXTcizaOy0k+e5WYTxMx8JrzUbOlyE5x4T1v+txm+
+BMRTNuNNKBW0eeF+IfQS/yC8sCvbMJFe6AZYPoWMicFWDIUcoUEYeEWIw+jGmgRd
+PTTbMylDDoY7US061nrmJMuwzHsDszOlMKnT9CwvE8ndKYvPZaeC2+HmaVaOn0Cr
+nEFBfw2zWcfcL4sxj2C5Hr3U3R+mo5zXAEQsPaq4esGcYqtxgTGYfzrgSQ6ZkeEE
+30LbwxI1ULIv8uKabcggoYSgNwzbkjP1wPz2jMU94jCNXJFJAZ5PFj7XDXlbWEG+
+18ycwHdHWW1FA0Hgu5Swd4RCKbXvPmDojc6rdLPDaIArdCeVEFjY+aN95UvXEMQ7
+1NTV+VvyphVORyxmpubM5NI64WeOZm2Ig5L1teJn7Qs9GkGJJB5xICi4iQpMGZlE
+M/NYK94BeOmeXuD6+eT8yZjrHAbZM8Uo2A49oGUBjDQ4Wv8uXjiJzbpmaj7m0MBg
+e0g16XHgrCHIAIR2NoB+Ku1NTGMW3tyYBkPlbwzcDr0lXQ5q31U=
+=iXnM
+-----END PGP SIGNATURE-----
+
+--24vjyvpl2oevxtwz--
