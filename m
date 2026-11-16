@@ -1,68 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794845453;
-	b=dIMyWe6IT6yrFiDF3YeVJcD3nJA0Fhvz6byc2CfXl/lqZ8BVamprd+foKIieO32R++tv
-	 TszRURg90ha9mfK4Ju0smyUcqwMJMwFTvoVmldPCZ8G7F8qkfIcaKpR5/UOL1n98ru0tN
-	 CGwFkb6xgvR1onJoF7ml9j7frp8qZEHTr+i/YomGRpXsvTkdFKdO4H3Mz5kinpGTwjGKx
-	 vkf2I38X4DrEppf1uPNExOvpBRYfTca0At4b+QB2yitNNLsfvxfjzG7dw6kSXc0K8Km5f
-	 UDcAMRNQEpK84lFoKyy6hMByfCOp0quD9C2krN0XFmZEF5t8HfUgfCC8fUzWcr0Y0iw==
+	t=1794873233;
+	b=Yp/HrXDPCCCJHcrD+hOkCeHJmXIU87mr11u/ENGNRaJVWIHWGDKK79/+83LqMPHefDyW
+	 hCe/kpUCY0wXOoc5SFw6jKaoagvtKP75klC+g/IwQHd/fOkcDobZIIojE2uTxC0lfghp6
+	 wsXHr1TReNaIclIX+TbCrLw2ZxDOlHPPmn6RST7Hgr77AHtHVrp6KXCiBePiKciTzyrvF
+	 +SA4xu/zg+A46g5TO1vL1hFgMCdHOTfmgTI6zOIyQNRP55maCofs0zXIrzlqrrwJnphMl
+	 Fy5nPQomYkmi8ASIbWuNNK51hTC/fP1XfhF1D9wk8U8X7pXqQgm+/rfFBhp237/5SgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794845453;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794873233;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Oadzkl3ORJ3wQkyJMXU/6qO7rxNx4uwgoabiDJ+Xsug=;
-	b=zW3gvOR2Ca0GVUaRpU5yzOueBXLdf7kiRCgbBz2hKydjHAVskGV423vSnfmxyCw+1Rgz
-	 ssotmOFmASBCtL2N/N7AYvblnvIqgz1CAjEcoPwTPwFAzm2CHgHsv8TctaBrstK982TBC
-	 H2fLH+bRL1FRrs8WdEfiZNXvUOq8NR0v2NeMiF1ximbly+iLS+nXQXs74YXOel8sYKmnj
-	 BdUTpOsBVWN21XOUjHR4NVQ5LCUw7za8w2d0YG6wzS9efI+r5TElJPKSTspOpkQNrOcrp
-	 kiWSeV6/ic0xC1FAaQZNWU4jweS7iCdRjCextfYoyUrzBzPRIrr02nav/mAPCWk/GUw==
+	bh=4B+VWyl+b2jPN5fsty2fLi1L5Kv2g30BXDi8aG9PsCA=;
+	b=deReztLFEapgGsGeKLf/NMBuVshSzfOrOre08tJhC6sVS93q2NrnBUcQSS+mj/Q4D/sw
+	 hbRRJtYLFrK8BlouRnWsqH/4h9pWSn6nQj7peP6F/BT4AXcmqBPx+DBaJFF/ZTBm4wyUZ
+	 rzUHChkAR8iZkjpp5mch65yKlsWaVWgEQnNMDKK8HJC4iLFoVa2FOq6ydJzs5J081wDPH
+	 c2oOigVnuCUcRl+5Cns9uZZu0ksWKeVxAhO4zyC3GedbR06QK3hxARU/OihNBP1mfvbIb
+	 JTXKV5sb+RplTPsMsxSyX4gluDw3P4PJ2ks6p3XmvNip4yLBLEgcD/pN/2kjbjCvVKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ONwX6dMP;
-	arc=none smtp.remote-ip=91.218.175.152
-Received: from mta0.migadu.com (out-152.mta0.migadu.com [91.218.175.152])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UIhDdFd3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AE7606A322
-	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 16:10:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03AE7606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B52606A323
+	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 23:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ONwX6dMP
-X-Envelope-To: linux-man@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=eCHYxBdwWeLQPnYgT+I0HAdi9TUCI4ucB5iF6HP0g60=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794845450; v=1; x=1795450250;
- b=ONwX6dMPf46nLT1v53fiElgDkjxy9Owao356TieVrST08i8VwXFPRKMbeA2jfCAdv22a0uCo
- HZs3SrUe13JBeeGk6yiGy/d40N5YXu58i2CVaYLnCZT3dUlP+VJgB9vfayu5ArHuQa1HRCNxIJ7
- +wnOkVEEOeLoApKlRanXhfho=
-X-Envelope-To: linux-man@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 266450e47dd57905;
-	Mon, 16 Nov 2026 16:10:46 +0000
-X-Mizu-Trace-ID: 266450e47dd57905
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 16 Nov 2026 08:10:45 -0800
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Yingjie Wang <x-professor@outlook.com>
-Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	Manfred Spraul <manfred@colorfullife.com>, Alexey Gladkov <legion@kernel.org>, 
-	"Eric W . Biederman" <ebiederm@xmission.com>, Vasily Averin <vasily.averin@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Michal Hocko <mhocko@suse.com>, Alejandro Colomar <alx@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
-	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, 
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v5 1/3] ipc/sem: account dynamically allocated sops
- arrays to memcg
-Message-ID: <avsq7s-CVIFiB8y-@linux.dev>
-References: <cover.1793250194.git.x-professor@outlook.com>
- <07d9034ec1fb5b6fd5eed2cf60ef3c84d5149e51.1793250194.git.x-professor@outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UIhDdFd3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE47C1F000C5;
+	Mon, 16 Nov 2026 23:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794873232;
+	bh=4B+VWyl+b2jPN5fsty2fLi1L5Kv2g30BXDi8aG9PsCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UIhDdFd3frffalLswYscklmgFn9forEH+41Ui7BqpsY19l5rXb5C/STveyYvKUaW+
+	 qnmS1pi0EhTUtJq+gbjSmeaoaCBN4SvQwecJ5rzCzbXuFO6fTEFhaQmqMOAFqIRRlv
+	 sm84K9JpirqEUwtSj2X7G+JvzsBaUfSyefnr5NMPhiuX3qPLgccuNx+qSYL//Lvxoj
+	 rbZb6lqQYYuizZNE8uKxgdaKHAuB3ErCi6v314x0Ce+Qbr4wnrR8KKoEQm2AeXIyaC
+	 tcE+2xa/VpcDP5Tvna2Wyo0zcZCDjMAq4MyLuxLlbjgwEuVxz+sOEf3gYVmdCi6XEw
+	 VyEFjaDKy4CCw==
+Date: Tue, 17 Nov 2026 00:53:49 +0100
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] man/man7/unix.7: ERRORS: Document EACCES, EAGAIN,
+ EMSGSIZE, ENOSPC, and EPERM
+Message-ID: <avuXcN72JjJ7n23S@devuan>
+References: <20261103202136.13574-1-gnoack3000@gmail.com>
+ <20261103202136.13574-7-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -72,38 +57,182 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tdxzhyyue7oy42ea"
 Content-Disposition: inline
-In-Reply-To: <07d9034ec1fb5b6fd5eed2cf60ef3c84d5149e51.1793250194.git.x-professor@outlook.com>
+In-Reply-To: <20261103202136.13574-7-gnoack3000@gmail.com>
 
-On Thu, Oct 29, 2026 at 05:03:25AM +0000, Yingjie Wang wrote:
-> Commit 6a4746ba0619 ("ipc: remove memcg accounting for sops objects in
-> do_semtimedop()") removed accounting based on the assumption that sops
-> arrays would remain small, describing a maximum cost of two pages.
-> 
-> SEMOPM is a UAPI default that can be changed at build time and through
-> the per-namespace sysctl. Commit 50ec499b9a43 ("sysctl: allow change
-> system v ipc sysctls inside ipc namespace") made that limit tunable by
-> IPC namespace owners without capabilities in the initial user namespace.
-> 
-> do_semtimedop() keeps up to SEMOPM_FAST operations on the stack. Charge
-> every larger, dynamically allocated operation array to the caller's memory
-> cgroup. This avoids a second size threshold and prevents a configured
-> SEMOPM limit from expanding an unaccounted heap-allocation range.
-> 
-> In a 4-vCPU KVM guest, with the benchmark pinned to one vCPU in a leaf
-> memory cgroup, accounting raised the median time per successful semop()
-> call by 2.3% to 3.2% for 65, 500 and 1000 operations, compared with
-> unaccounted allocation. An invalid semid, which allocates and copies the
-> array before returning EINVAL, rose by 5.6% to 11.9%. The 64-operation
-> stack path changed by at most 0.9%, and successful calls in the root
-> cgroup by at most 2.3%. Each result used 21 samples from three boots.
-> 
-> Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Link: https://lore.kernel.org/r/20261016152609.2528805-1-x-professor@outlook.com
-> Fixes: 6a4746ba0619 ("ipc: remove memcg accounting for sops objects in do_semtimedop()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
 
-Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
+--tdxzhyyue7oy42ea
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] man/man7/unix.7: ERRORS: Document EACCES, EAGAIN,
+ EMSGSIZE, ENOSPC, and EPERM
+Message-ID: <avuXcN72JjJ7n23S@devuan>
+References: <20261103202136.13574-1-gnoack3000@gmail.com>
+ <20261103202136.13574-7-gnoack3000@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20261103202136.13574-7-gnoack3000@gmail.com>
 
+Hi G=C3=BCnther,
+
+> Date: 2026-11-03 21:21:36+0100
+> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
+>
+> These are all returned directly from linux.git net/unix/af_unix.c:
+>=20
+> EACCES
+> 	unix_find_bsd() checks path_permission(&path, MAY_WRITE) on the
+> 	socket file of the remote address.  The rule was already described
+> 	in prose, but the error was not listed.
+>=20
+> EAGAIN
+> 	unix_stream_connect() returns -EAGAIN when the listener's backlog
+> 	is full and the socket is nonblocking (there is no EINPROGRESS for
+> 	AF_UNIX).  unix_dgram_sendmsg() returns -EAGAIN when the receiver's
+> 	queue is full and the send would block.
+>=20
+> EMSGSIZE
+> 	unix_dgram_sendmsg() fails if 'len > sk->sk_sndbuf - 32'.  This is
+> 	the limit described in "Sockets API".
+>=20
+> ENOSPC
+> 	unix_autobind() fails when all 2^20 autobind names are taken.
+>=20
+> EPERM
+> 	unix_dgram_connect() and unix_dgram_sendmsg() fail if
+> 	!unix_may_send(), that is, if the target datagram socket is
+> 	connected to a socket other than the caller's.
+>=20
+> 	This is not something that the remote end normally does,
+> 	but it's a possible corner case.
+>=20
+> Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> Assisted-by: LLM
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
+>=20
+> Notes:
+>     Verified in code.  Kept LLM wording, which seemed OK.
+>    =20
+>     Remark:
+>    =20
+>     The case where the remote end is connected to a different socket is
+>     obscure, but still possible with Unix Domain Sockets, when a program
+>     first bind(2)s to a name, and then connect(2)s to another name.  Then
+>     that socket can be discovered by another process through the bound
+>     name, but sending a dgram fails if the sender is not the one that that
+>     socket has connected to.
+>=20
+>  man/man7/unix.7 | 36 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 34 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> index 762bf0d1fe08..2163a91514b9 100644
+> --- a/man/man7/unix.7
+> +++ b/man/man7/unix.7
+> @@ -645,9 +645,24 @@ .SS Ioctls
+>  .\" and it may well change, probably best not to document this now.
+>  .SH ERRORS
+>  .TP
+> +.B EACCES
+> +Write permission is denied on the socket file
+> +specified as the remote address to
+> +.BR connect (2)
+> +or
+> +.BR sendto (2)
+> +(see "Pathname socket ownership and permissions", above).
+> +.TP
+>  .B EADDRINUSE
+
+Changes to EADDRINUSE are not documented in the commit message.
+
+
+Have a lovely night!
+Alex
+
+> -The specified local address is already in use or the filesystem socket
+> -object already exists.
+> +The specified local address is already in use
+> +or the file already exists.
+> +.TP
+> +.B EAGAIN
+> +The socket is nonblocking, and either
+> +.BR connect (2)
+> +was called on a stream or sequenced-packet socket
+> +and the backlog of the listening socket is full,
+> +or a datagram was sent to a socket whose receive queue is full.
+>  .TP
+>  .B EBADF
+>  This error can occur for
+> @@ -684,6 +699,11 @@ .SH ERRORS
+>  called on an already connected socket or a target address was
+>  specified on a connected socket.
+>  .TP
+> +.B EMSGSIZE
+> +The datagram to be sent is larger than the limit imposed by the
+> +.B SO_SNDBUF
+> +socket option (see "Sockets API", above).
+> +.TP
+>  .B ENFILE
+>  The system-wide limit on the total number of open files has been reached.
+>  .TP
+> @@ -695,6 +715,11 @@ .SH ERRORS
+>  .B ENOMEM
+>  Out of memory.
+>  .TP
+> +.B ENOSPC
+> +The socket was to be autobound,
+> +but all autobind addresses are in use
+> +(see "Autobind feature", above).
+> +.TP
+>  .B ENOTCONN
+>  Socket operation needs a target address, but the socket is not connected.
+>  .TP
+> @@ -706,6 +731,13 @@ .SH ERRORS
+>  The sender passed invalid credentials in the
+>  .IR "struct ucred" .
+>  .TP
+> +.B EPERM
+> +.BR connect (2)
+> +or
+> +.BR sendto (2)
+> +specified a datagram socket as the remote address,
+> +but that socket is connected to a different socket.
+> +.TP
+>  .B EPIPE
+>  Remote socket was closed on a stream socket.
+>  If enabled, a
+> --=20
+> 2.56.0
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--tdxzhyyue7oy42ea
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr7l4wACgkQ64mZXMKQ
+wqn1Ng/8DIbLhh8q76r4liNOemlXV0+SxMAIzAptd/c+BvO3p2ffkjKsA4qjhYZo
+ewfysSYumWK+2CTh4yoRdjrnlsF2vMNBiVVvFSZDcB+95WjCD2jdVgL62SuMchx3
+5AmXSiB2xfuHntfmbvzAeyWBWcBuwjIRCFtFtTR5qrErOfhi2oqdaP1aZUDyNPOv
+9qA4O7wSLqjwsVx4I8NLi9t128m+4EsbSshdTTrvwdhR41oV9gN0WtNMLfqhXGcp
+XNPmMmYIyLnZTdR/PD7DJqoWoY6xaIg3UQ3P8Tr0VlzoOED1VVsg5QgGltmxUOT5
+qYtl04rjmXp+va9maKU2uqGu7HAX7F9JOQFMm7jqGvNmSfD1NVvjz7cXs3RYIc5q
+zpqWw7ZXshV5Wgo9KpuldiKJ1jhdnnZE7V0rRxayHy9bYSOf+Z/WgqtaKHErUup6
+odPwyXiBzs5BCDgymL5HuPUn9+Qzwaeddy/b91ZVXD589mJroFnSfbGttd1ynHxZ
+6DCFix4qwA1EAoGmW5EVLqGzAiw9j/N5EFww1KSRsFeWKXWT6EyvVA8SJqn8zCrX
+cSkR9bRKI8mOr0Dz8pZuYE/a/E+fkoufz/hEASM4moaRNRjxY0rlPcMHfj47Knj1
+gPRcsUcEMfpd2vsDURNZZcxjz7bf+VMcALa1SfVgg9c4vfcKOkE=
+=c/X/
+-----END PGP SIGNATURE-----
+
+--tdxzhyyue7oy42ea--
