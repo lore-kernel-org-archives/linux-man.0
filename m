@@ -1,76 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794791027;
-	b=Y3+QRwyJR25W5WcChO4hHAP2MVxjNK/6uXKiUqScXBb8QEjURPAhC3zMIwiV+w/jKsI9
-	 QunHz+Ln+SWT2UO1ggR3MqJo7bCgRRL4b7CG7DOlqqhb91U5y/ORRpckuHf35prmCZ+cB
-	 dG91hEQLj40JIYHwpxKEBDb/4R8zs8KPfvMu9FmgQvFStGOloS4GE1VKSDpa6GtVYHBAQ
-	 RrOxVrjE7zqqQR8hDhKpZ9mQTMPuVdUnnD1+Pp2ksGTgmaECnqykV33EOO/3E5VmtfNdL
-	 F/5Gd4gK/sedPj5ICNTK6NrFx8Zb6Hs+LEwqrP5XSRHOSjnb3VvIwBNqei+crJvzdQQ==
+	t=1794800001;
+	b=5snrNyfoN8VLo5X5Xqs6HpP0PQtvunyrtALxtHS/CllvBo9+yAA68nK7T2VCDDbflKUQ
+	 SqZUjTJDQc6/rPj1852pcGMycjvVB4YSVjYukTkL/JbfojfRsFZFjcz6GI7+7/0JU1xcA
+	 0ZYN8Af0gug141WafEQ4X00/lWIA6rTFudzURTwR64Ip2chN0hbeuY/0ftubJis9KrUky
+	 3DB1ydaYlFSbIN+RAbUymBSvCAMtN3eSKyux6/T9GcjBgrsHdYC5CXiOnYGa8zaY44oXy
+	 nF0V60hHFbZlCOHqE/RDOtI2hkwluMx9vyMNgCikLf2y7yBJm8jRhruxgu2RK9DPMOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794791027;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794800001;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=5HM7djkr7cB1R2fKoH/wLMh2DujTGaNQ6slbvwyV1Ts=;
-	b=C0qqRCtuk6ehk5fey+wgOUc8pzWxfNQ9+TRlDNz24LUpDfM3Y7XYM3/8sihQIqsFjuw9
-	 LZmb+RykS/tUoVK/9HuX85U0tiCSXwXnTVcrZUosxIn2dFGmSdQxREWhigBs8vnjhT8S2
-	 b8tqspqcZnU+c5l6FbvVvZyLW7Ufl+sxvtr91rzQqwZAkaYvsfYxkcL+VpuEywHTpM2vL
-	 mKbsOI1jYm4R9beMOXwwZhEZ7Rs4RSnR3CnFgxp2sdytQ4+hyT5MXhjpAME8oSjfHgD23
-	 9zucIH4jFfudF63FZIP3ggtuiVomkXkeEhkeUn80IuwPBWqy5uYe1g/jZH+aJhF+Zqg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+	b=1hNJaRuPpezF8+8FHYTFgbMHSNVApGwZ3LAtJlr7f62O/OfCsQ+umJKNfWKQOsmdEjpQ
+	 cfFLIH/FgKIFcz3cHJ/rKgXuItnO1y78dWZhbEPKk5uzQvztqEMtosxb7ftzMqa2QeYO+
+	 026Lvrvwx29Mm3gLrmcfY3sNbVOW4cPsFXhWEa3w9r25YYrDHgijnjVJdQG8KxDvvSitV
+	 AeXiU57msXLsOmKC6AUsbQEqbQvBPJEwj4GcaC0b22kHOgan3rLT1cmUQrWWnWr1C+Gew
+	 NDKJDtD6EJjNmQFSxfLR/2sOqZv0eB+oTCg0bAXmul636BMJtiUcDP7GTp00mQ733hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EBwkZNm+;
-	arc=none smtp.remote-ip=209.85.210.197
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hgaUM0ak;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4F7606A32C
-	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 01:03:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D4F7606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F46606A321
+	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 03:33:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4F46606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EBwkZNm+
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8b847ab3fd3so809612b3a.2
-        for <linux-man@vger.kernel.org>; Sun, 15 Nov 2026 17:03:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hgaUM0ak
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-9495f083657so281965285a.0
+        for <linux-man@vger.kernel.org>; Sun, 15 Nov 2026 19:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794791026; x=1795395826; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5HM7djkr7cB1R2fKoH/wLMh2DujTGaNQ6slbvwyV1Ts=;
-        b=EBwkZNm+4p2sgqCP+q3xyODjIZRPqldiUwOO2uC7MQSFNuRtSQ1isuq7TiNFHpuQ30
-         tnPM8FHaQXohuyOkuml2dDLumxWJILQhijAccPb53w1uZJnVXCfEKEGMwYgIhFqD0dvV
-         gm0hFrEw0BwRY4EYKZ2mYFYMr/YhJt+QrmV6mWHk4ZuGkfVSqBX9ZAp8R+NUr34adCL4
-         a45E8OQ/gge/iwGT4MZhIWnFePd56SHmsZqpxRG9p/kcv1wXmIWzdAByHwjq1nAV66vL
-         H/SOZbIOCCx+jwdqL/rjWe1gwZq0lj5oFWPkNYLsjinaMOQ1uXBgZWHbDgn/egsMf3Nx
-         ZgMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794791026; x=1795395826;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794799999; x=1795404799; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5HM7djkr7cB1R2fKoH/wLMh2DujTGaNQ6slbvwyV1Ts=;
-        b=yRElnlLR14IgvhfLACNaybdQbr5I7zoqSLFRzmf2OxdexIFHBS7d//zfznzPu47YN5
-         Gyu+BUxThQYRJKVXp8LS3bAZ9itDRR2WteR+ejP1GjHiLsY40hlw38AcWOc+0qH/n3NZ
-         HivhXkL8EAKuZKUu2pK4jeUCtul3ckrbrYmTERSVnGStLvOI1Mkovp8nhSEkOamduU40
-         SdFPGYTsdAcD15rmI9bOpCZskoWIwa3FG6ezk0itBhDShee9hf2aJcfRc0cywpoecvfI
-         X7z7brBAY1+8I8kIRO++nbBoxEnp4tNDPBdaEdag/b5ACV5GaWZMG47SADBkEen/0SWu
-         11qA==
-X-Forwarded-Encrypted: i=1; AL+hErFpKoCMUq+CTYR5FIJlHnkbc6wa543LQME9zhd4dIBmA0zmRx9hKmWA6+emWzMbKvSwUAk+knJsVpc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QtcvRi+arhX3ye6GYFM9Z9SyG/FICW4WXhmL4Ezyc86r0zG2E
-	iujmrhL93l6wfJbQK43a34H73of5/55rYUKK2UyJm24aydcogo4am2VNKh59OoTQvkY7GsbNNWz
-	JES3gnQ==
-X-Received: from pgbm14-n2.prod.google.com ([2002:a05:6a02:618e:20b0:cdd:a60b:df36])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:918a:b0:3fa:e66a:fc42
- with SMTP id adf61e73a8af0-3fae66b089dmr2154673637.42.1794791026322; Sun, 15
- Nov 2026 17:03:46 -0800 (PST)
-Date: Mon, 16 Nov 2026 01:03:45 +0000
-In-Reply-To: <20261103202211.13820-7-gnoack3000@gmail.com>
+        bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+        b=hgaUM0akhfIblJZRHS1um/ResgJtAxAoSHYbf4DebsNzZSgSEOTK2PUUFJYr46ycbO
+         SvWxtAghL3ugAZ9pai5SU6+wNpu+O9I3gK3N1i5RZMuiWf+59EDoF67X+yQGTmWaDo6c
+         8V4HYkdesumvwLnYssRCdcJB25yQNTfhnma7NQNRpRzsoCt4MLeF7Ia7ZMEC5YYn8fUm
+         UoEHspP2YPaP2rFpG2KWdLg/f2d2n41NxSjOdw9txt8/iddqYt9CxJQhpzGFzhZE+RSM
+         o6aXlJjWDz/vL1egZ6Y7tUMkgakD0MUgVXKktRggv0cn7BZ88ASPRxmwXt/9bEeu2vQW
+         qQWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794799999; x=1795404799;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+        b=OYd9+ush/4j6youAh7KXjFFEFCg0bcb/C3L2xKXWGMDVjAtvDHafHjYFksAESh04OO
+         nY55LOO3kNtX2kTvlOrJPiRjI2nRP6vyDLazYbiyDptiH+qVIdqqQfxRde/vns5KntHF
+         F1IiZQ2USgplZ0FOrVV/JSH0AW76dioLx8NvSzqbJ+TDeUuG0JJeL7BBfw6XZWCzllvz
+         qHxU7SWHEGpnzauKNdx76cAAFCjNEixFbTr9vbksOSUcYYtvRf+5FN1HrGZZ3UuXgXgG
+         sD8KXR8GYtev5uJzA5LLSCpolBKuVIjs0f6zqmVyrOf6WyU5pTdWeiuf+X4iqTCfz13e
+         D0BA==
+X-Gm-Message-State: APuU4Z+p651qJIRHYcOUrPy206ULjH9VDrvnpXONvSMUXVQeFcOpL16f
+	F3R/wdtswIyKJgWLfAxqThZE3QcMOkvPvuT59+Mb5jj3GrFXI9UEyojI5585WA==
+X-Gm-Gg: AYBFou3KrAHOVGu49qCCBGYwxSHSJhI7gtYVWoq9qcgA5VlqAkfTYLsFprzvldDMC1r
+	r86WR41RVUIxDtxAdPGC8Ixl4EV2ijK+ux9AdAszICzFUhfmrYFeI4Blr+f1sNhc5OIXpnlNniL
+	Joh0eUr7+ZeBQcuf/vKBN1Ba2wbXv1hX6aEkiOWEbuAwGJG9X2aoIKo0+sdtyzVjf+JKBCqw4gT
+	/w9exBicqkf+KdU4p1/GgoF45sYHfPj2JAiBOKTJoaKzbMeGPpgwwar9OYJKL8Cglsijyl2IPIH
+	PSCl6+VPkJSxm7xgHF5oasIFA+Jk3zPzm7ouvRC+EwswwmuheEPiBEkg6m5XpVTrlXC3pf6KGEQ
+	PSj0nool/lwkQPYYvHi3dabigz+L32ehCVYiBg5cSDA3S498aLSr5Wg4twyXT4V+e6eDWeoGxC1
+	jWQsQV2Ow218X8azNXTxEUT/3fXZxvF+deIUolW3B4+IubR4oKVhceDJxbE8GvGsoxWiUZSlBD3
+	IgA3tbNkmmWC167+sUXF6QhRjXQbIWcFlqKBJue8L+QOlxLBZ9QDgl3b84TJRerh4BT0aGuiOVU
+	7J2gQ2IScqDaLOQbdli3nwA2fd9vSHkh8qiFnsqRggbsNAwGt/T1kaZvnQM=
+X-Received: by 2002:a05:620a:40d2:b0:949:76ed:591f with SMTP id af79cd13be357-94976ed5e0emr393702685a.8.1794799999296;
+        Sun, 15 Nov 2026 19:33:19 -0800 (PST)
+Received: from daniel-desktop3.localnet ([204.48.77.170])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c836f62sm753411885a.23.2026.11.15.19.33.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 19:33:18 -0800 (PST)
+From: Daniel Tang <danielzgtg.opensource@gmail.com>
+To: linux-man@vger.kernel.org,
+ Christian Brauner <christian.brauner@ubuntu.com>,
+ Alejandro Colomar <alx.manpages@gmail.com>,
+ Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
+Date: Sun, 15 Nov 2026 22:33:16 -0500
+Message-ID: <6099049.DvuYhMxLoT@daniel-desktop3>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -79,111 +94,38 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261103202211.13820-1-gnoack3000@gmail.com> <20261103202211.13820-7-gnoack3000@gmail.com>
-Message-ID: <avpWXS_uoWG0ibxI@google.com>
-Subject: Re: [PATCH v2 6/8] man/man7/unix.7: Document SO_PASSPIDFD,
- SO_PEERPIDFD, and SCM_PIDFD
-From: Kuniyuki Iwashima <kuniyu@google.com>
-To: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
-Cc: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Christian Brauner <brauner@kernel.org>, 
-	Eric Dumazet <edumazet@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 03 Nov 2026 21:22:08 +0100, G=C3=BCnther Noack wrote:
-> These were added in linux.git 5e2ff6704a27 (2023-06-12; "scm: add
-> SO_PASSPIDFD and SCM_PIDFD") and 7b26952a91cf (2023-06-12; "net: core:
-> add getsockopt SO_PEERPIDFD"), both in Linux 6.5.  They are the PID
-> file descriptor counterparts of SO_PASSCRED/SCM_CREDENTIALS and
-> SO_PEERCRED.
->=20
-> SO_PASSPIDFD
-> 	sk_setsockopt() and sk_getsockopt() in net/core/sock.c handle it
-> 	as a boolean flag for AF_UNIX sockets (EOPNOTSUPP otherwise).
-> 	Like SO_PASSCRED, it triggers autobind, which was already
-> 	mentioned in "Autobind feature".
->=20
-> SCM_PIDFD
-> 	scm_pidfd_recv() in net/core/scm.c creates the PID file
-> 	descriptor from scm->pid, which is the PID given in the sender's
-> 	SCM_CREDENTIALS, or the sender's own PID by default.  The fd is
-> 	created with O_CLOEXEC by pidfd_prepare().  If pidfd_prepare()
-> 	fails, its negative error number is put into the cmsg data.
-> 	Sending SCM_PIDFD is rejected by __scm_send() (EINVAL).
->=20
-> 	Since Linux 6.17, with c679d17d3f2d (2025-07-04; "af_unix:
-> 	enable handing out pidfds for reaped tasks in SCM_PIDFD"),
-> 	PIDFD_STALE is passed, so this also works for reaped processes.
-> 	Before that, pidfd_prepare() returned -EINVAL for them.
->=20
-> SO_PEERPIDFD
-> 	sk_getsockopt() returns a PID file descriptor for sk_peer_pid,
-> 	or fails with ENODATA if there is none.
->=20
-> 	Since Linux 6.16, with 20b70e58961b (2025-04-28; "net, pidfs:
-> 	enable handing out pidfds for reaped sk->sk_peer_pid"), this also
-> 	works for reaped processes on AF_UNIX sockets.  Before that, it
-> 	failed with EINVAL.
->=20
-> Cc: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> Cc: Eric Dumazet <edumazet@kernel.org>
-> Assisted-by: LLM
-> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> ---
->  man/man7/unix.7 | 100 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 100 insertions(+)
->=20
-> diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> index 93a0a335e791..140e77ea12ee 100644
-> --- a/man/man7/unix.7
-> +++ b/man/man7/unix.7
-> @@ -311,6 +311,32 @@ .SS Socket options
->  .BR getsockopt (2)
->  is an integer boolean flag.
->  .TP
-> +.BR SO_PASSPIDFD " (since Linux 6.5)"
-> +Enabling this socket option causes receipt of a PID file descriptor
-> +(see
-> +.BR pidfd_open (2))
-> +referring to the sending process in an
-> +.B SCM_PIDFD
-> +ancillary message in each subsequently received message
-> +(see below).
-> +.IP
-> +As with
-> +.BR SO_PASSCRED ,
-> +when this option is set on a socket that is not bound to an address,
-> +the socket is autobound to a unique name in the abstract namespace
-> +when
-> +.BR connect (2)
-> +or
-> +.BR sendmsg (2)
-> +is called on it;
-> +see "Autobind feature", below.
-> +.IP
-> +The value given as an argument to
-> +.BR setsockopt (2)
-> +and returned as the result of
-> +.BR getsockopt (2)
-> +is an integer boolean flag.
-> +.TP
->  .B SO_PASSSEC
->  Enables receiving of the security context of the peer socket
->  in an ancillary message of type
-> @@ -362,6 +388,43 @@ .SS Socket options
->  .B AF_UNIX
->  socket pairs created using
->  .BR socketpair (2).
-> +.TP
-> +.BR SO_PEERPIDFD " (since Linux 6.5)"
-> +.\" commit 7b26952a91cf65ff1cc867a2382a8964d8c0ee7d
+The problematic reference had been copied from openat2.2, where it was
+fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
+performed the same fix for mount_setattr.2.
 
-Same, otherwise looks good.
+Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mount_setattr() system call")
+Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@kernel.org/
+Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
+---
+ man2/mount_setattr.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+diff --git a/man2/mount_setattr.2 b/man2/mount_setattr.2
+index 77233f589..5f26119cc 100644
+--- a/man2/mount_setattr.2
++++ b/man2/mount_setattr.2
+@@ -786,7 +786,7 @@ acting as an implicit version number.
+ (Because new extension fields will always
+ be appended, the structure size will always increase.)
+ This extensibility design is very similar to other system calls such as
+-.BR perf_setattr (2),
++.BR sched_setattr (2),
+ .BR perf_event_open (2),
+ .BR clone3 (2)
+ and
+-- 
+2.53.0
 
-Thanks !
+
+
