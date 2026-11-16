@@ -1,63 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794780728;
-	b=ArPRbO/AG9k9TUZWjdhpSX9Uv9b/3NRQ5SpT0zzAQz/DVThUhL2eFgxsGUiZfoc4HuhW
-	 siDO039QPcbvLjCZQqRRmofo2fZ/VVKpJRsamJXe2jILVL2L+CWlRDXeGJOVupWfVYgrF
-	 417VWPspxnKldGh4/o3TG1ndSKURu2/KPcrBEdpbsWrbP+FCXE7MkexQQilQU0LGXpsyi
-	 mmRfxjJCYe8EB6Zhe4djwoLNtHk8DONO6h5zeyEDEInoD+SCWGG3A3L7R4jOb73Tu4ytO
-	 t2eePRqjGf0sAfI/k+7JgsTVJf5Rc4PoagIDvgphHuc0VBVn3kUyHzwzrOVMDB9kwiQ==
+	t=1794790108;
+	b=1PlUfbSdmzEKxHcYEslzuM+675DusGMciOxe+MuSjoW+SYq1BCh7PylJUN6ACt3xBwST
+	 EN9KX5X29P5P7qs+kZWCJoHBcH3Ykor6cBUG2i3BaVihwZGJ2ZScgRSmSqG+lTcF5TD6o
+	 KHEzj7HgHr+jAUFhxTCATtc2h6e59VPu8riaCWTtX2LqCtZLwGQ3l6PmnhksnmIAcrIyq
+	 Blvjg5Az8aSS9sCexoJJk8rzbBe0zQDdIRhPdpYlxg/uWlbbnsa4hZtqkVhXSLX/fx3Wz
+	 zwI//DOJEo9bplCG6OmTvgvCYRWXSjkw7fnDKDxnveLR6uh1mU6QBsAQjNA+tRAwZ9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794780728;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794790108;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=q9s42YVPhc56VTV+G1TekC9EyggoNH/5JmNGm6Xx0OY=;
-	b=G3NlcQpPNgauL0GS5F2pFxEtsGmPB+LqiVlzu7kYfwpExO1OtVu9M4O+XKW3+lcWOqST
-	 5mbbOHpG+Lnl0l77pFK/ZBlcbpFbPvjwL0HVwwZ0MUKreobC6vHi3k3AOkgbp6tdbXvYw
-	 zc36R7UT1gCrpgYUJjv8s/JXUgZikIXwIrsqj0di9ApGALpr6QJHGzp2ZIndN4n1Y78qI
-	 l+fEveVqsON2uO8mqdHWdfll8glmTVPJVPKRluOypNG5Ce3KswQF6goDqiaSHBr5Ndp6d
-	 9CFLmVIdSnQQPOC2cLXVuqavXMUqS96v4I1YGeG2ceJuZhFHK7Gk/dCIPDOFG8qn4Yg==
+	bh=2QSuctT4YvidP3fl470TOGAf8o2ewX8qStIO4CjJvOI=;
+	b=iT+WHKDqIR3rrAs7H1n007bek5+4bQlDhbozwaTYMvqc65w14C1rHinKaCfoN34M5ttE
+	 KlvCpHTfBNlt+hStGfDV+O1Nls0QDogcC49RFE5qcEQQ9j4Bp3jED79+na5gpwgZX6tul
+	 QLS0NHFfVhGNzsh6iXNtPTcjQpCCP3nYWLD79bAADj7y+U+FfU77H4F8vLT/kySPRSbz/
+	 hxbcRE+QmD0KijUL7Z3kyFI2NuOMosI2GONpvD4dWjN6BR5TNtst3aUAquQpckNWgEJNt
+	 kVLu10Kmajulv8GCF0/wNM/jqQX7H1kboyWcm5OV3Lk3e//BpJk21Goe9bBUzbk1H1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=2dU+DbgF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NmBqjLuG;
+	arc=none smtp.remote-ip=209.85.210.199
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B646606A31F;
-	Sun, 15 Nov 2026 22:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CADA606A31F
+	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 00:48:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CADA606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=2dU+DbgF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80C81F000C4;
-	Sun, 15 Nov 2026 22:12:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NmBqjLuG
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8a079256596so2008976b3a.0
+        for <linux-man@vger.kernel.org>; Sun, 15 Nov 2026 16:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1794780727;
-	bh=q9s42YVPhc56VTV+G1TekC9EyggoNH/5JmNGm6Xx0OY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=2dU+DbgFDrqSj3PWmmULOFhMRJrMipQby1pDwXNQGxLi46AXNwWZX7utTYV4vHXMw
-	 OuPTqGy1iRd0KdBcAa+7e2q56eUOyyVc+qL8yfUS0ZDGXQiZX1nqa8ER3jfu0eQFvY
-	 gnkUjz6mfockveWho3dsBBhBNdBl3oqMsZUPEw20=
-Date: Sun, 15 Nov 2026 14:12:06 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yingjie Wang <x-professor@outlook.com>
-Cc: Manfred Spraul <manfred@colorfullife.com>, Alexey Gladkov
- <legion@kernel.org>, "Eric W . Biederman" <ebiederm@xmission.com>, Vasily
- Averin <vasily.averin@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, Michal =?ISO-8859-1?Q?Koutn=FD?=
- <mkoutny@suse.com>, Michal Hocko <mhocko@suse.com>, Alejandro Colomar
- <alx@kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
- "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>
-Subject: Re: [PATCH v5 0/3] ipc/sem: account dynamic sops arrays and
- validate SEMOPM
-Message-Id: <20261115141206.920bdc8c5a84073712bb5c3b@linux-foundation.org>
-In-Reply-To: <cover.1793250194.git.x-professor@outlook.com>
-References: <cover.1793250194.git.x-professor@outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20260707; t=1794790107; x=1795394907; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2QSuctT4YvidP3fl470TOGAf8o2ewX8qStIO4CjJvOI=;
+        b=NmBqjLuGe9BXNpXCHpmPbLRodus8oqcabkmhx5yoM9yuIZv+OokylctAqbfO4xd5we
+         /HvthZ50dgiYmowCvYmuYmFMZPuq5SeQ9qWeax4R2PUiMTzs4Q/Wt8g9vvNTE1p78oqu
+         TBw867lXPEWhO1czcng86QWNZqZN4ZylWuqVYB+Z70JfalWyVrm55KKygQi3MNb6NNpn
+         wMun5/MXEX7dg1HLGDL6YkADunI4w3IrcEEtlXXaJJaPSsNA7jRTeoUIBFPnViSkzqni
+         gWZE73TVBIPSRem7qFzToFT5hGmfCoroNagPhxOdn2q53SKZ++jnjBc1DWx9+2Ew5zQK
+         vp6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794790107; x=1795394907;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2QSuctT4YvidP3fl470TOGAf8o2ewX8qStIO4CjJvOI=;
+        b=rFCCQoToO0VFsWLNGa4QCrnuhFQbvd+6i9+W7wZuqVQQZHpL9JXkah+xlsKWwGLHNQ
+         pmNbJcjehdO6ffrTasmVwG7S4GjI6qf26TIZWieHlmCrhljuPo5llkKYpgF/T4bl3Kwq
+         ikUqrS3v39zuXgBOmJNywvEbD8Y9PGn2G7LdHw1Py5Tl7DuD6eSmFrTPLy10XXWpqFz8
+         VbTgLsp/Px8+v92AU9tbJxuL8AEzqx873LP7cQw6TC45CrWM3abWLMkLK90/KRUyat5V
+         aZ32eXkjQl4GKlJ0UCQPLU0Wv4cbAT8+x+SvpjpXGmWleV8vMVP/0LG+sdqoPZoanBTK
+         iHfg==
+X-Forwarded-Encrypted: i=1; AL+hErFstb8waWpxrMQDmFx3Q+tPJDURuNcahTOGv7R3SSoQ2mXyUCSIxr70uHXSiXAKj99xa2LLbuOrMQU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9EZg5achJAJrSVltAqpFFcdGJkEEcpyEdyWdPXZ6Nyt6QKGNaB
+	TAzdk0KWIVsNMgteysrqCQJfuT4sZei3DIBw9z5UaQ1aIP4NalmH5vh0sjKt13shFFu0Ue4Lmt+
+	6QSQFvA==
+X-Received: from pgby22-n2.prod.google.com ([2002:a05:6a02:6516:20b0:cdd:c2f7:a077])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:644c:b0:3eb:affa:32c9
+ with SMTP id adf61e73a8af0-3f7a22a901fmr6049157637.0.1794790107436; Sun, 15
+ Nov 2026 16:48:27 -0800 (PST)
+Date: Mon, 16 Nov 2026 00:48:26 +0000
+In-Reply-To: <20261103202136.13574-4-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -67,111 +80,46 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261103202136.13574-1-gnoack3000@gmail.com> <20261103202136.13574-4-gnoack3000@gmail.com>
+Message-ID: <avpSdJAn4DSR8qnd@google.com>
+Subject: Re: [PATCH v2 3/6] man/man7/unix.7: SIOCINQ: Document behavior for SOCK_SEQPACKET
+From: Kuniyuki Iwashima <kuniyu@google.com>
+To: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
+Cc: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Oct 2026 05:03:24 +0000 Yingjie Wang <x-professor@outlook.com> wrote:
+On Tue, 03 Nov 2026 21:21:33 +0100, G=C3=BCnther Noack wrote:
+> Document the SIOCINQ behavior for SOCK_SEQPACKET,
+> which sums up the lengths of all messages in the receive queue.
+>=20
+> Restructure sentence order, so that socket type differences are
+> discussed in on paragraph, and commonalities in the next.
+>=20
+> For reference, the SIOCINQ lookup is implemented in
+> unix_inq_len() in linux.git net/unix/af_unix.c.
+>=20
+> This function first rejects SIOCINQ for listening sockets with
+> -EINVAL, then does a case analysis for the three types of Unix Domain
+> Sockets:
+>=20
+> For SOCK_STREAM, the result is:
+>=20
+> 	return READ_ONCE(unix_sk(sk)->inq_len);
+>=20
+> For SOCK_SEQPACKET, the result is calculated using:
+>=20
+> 	skb_queue_walk(&sk->sk_receive_queue, skb)
+>         	amount +=3D unix_skb_len(skb);
+>=20
+> For SOCK_DGRAM, the result is:
+>=20
+> 	skb =3D skb_peek(&sk->sk_receive_queue);
+> 	if (skb)
+> 		amount =3D skb->len;
+>=20
+> Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> Assisted-by: LLM
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
 
-> Shakeel, thanks for the suggestion.
-
-Thanks.  Shakeel, please review [1/3]?
-
-> Patch 1 now uses GFP_KERNEL_ACCOUNT for every dynamically allocated sops
-> array. The first 64 operations still use the existing stack buffer. The
-> fixed 1000-operation exemption and its conditional allocation flags have
-> been removed.
-> 
-> I compared this version with v4 in a 4-vCPU KVM guest. The benchmark process
-> was pinned to one vCPU. Each number is the median of 21 samples from three
-> fresh boots of each kernel. In a leaf memory cgroup, the changes were:
-> 
->                                       65       500      1000
->   successful semop()                   +3.2%     +3.2%     +2.3%
->   allocation-focused invalid semid     +5.6%     +9.1%    +11.9%
-> 
-> The invalid-sem-id case allocates and copies the operation array before
-> returning EINVAL, so it emphasizes allocation overhead. The 64-operation
-> stack controls changed by 0.9% and 0.5%, respectively. The already-accounted
-> 1001-operation controls changed by 1.0% and -0.2%. Successful calls in the
-> root cgroup changed by at most 2.3%, including the controls.
-> 
-> The sysctl handler parses writes into a temporary array while holding a
-> per-IPC-namespace mutex. The mutex covers the snapshot, validation, and
-> publication, so a failed write leaves the live settings unchanged and a
-> partial write cannot restore fields from an older snapshot. The snapshot and
-> publication use READ_ONCE() and WRITE_ONCE(), and reads continue through
-> proc_dointvec(). The unused sem_check_semmni() helper is also removed.
-> 
-> The UAPI warning about physical fragmentation is obsolete now that the
-> operation array uses kvmalloc(). The header describes SEMOPM as the
-> compiled-in default and retains the uniform <= INT_MAX range comment.
-> 
-> Patches 2 and 3 are unchanged from v4 and retain Manfred's Reviewed-by tags.
-> The series is based on 7be4bc52fd9e ("Merge tag 'driver-core-7.4-rc1' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core").
-
-Thing is, the above is largely about what-changed-since-last-time. 
-It's useful info, but it's short-term development-time stuff.  Most of
-this is inappropriate for the long-term kernel record.
-
-I had LLM suggest a replacement [0/N].  wdyt?
-
-: An IPC namespace owner can raise SEMOPM and make semop() allocate a large
-: operation array.  A blocked call retains the array.  These allocations are
-: currently uncharged to the caller's memory cgroup, so repeated calls can
-: consume host memory beyond a container's limit.  In one test, a call
-: retained 60,936,448 bytes while a 32 MiB cgroup recorded less than 1 MiB. 
-: Sixteen concurrent calls retained 100,860,416 bytes while the cgroup
-: recorded about 1.3 MiB.
-: 
-: The SEMOPM sysctl also accepts negative values.  Because the operation
-: count is unsigned, SEMOPM=-1 becomes an effective limit of UINT_MAX. 
-: Separately, a rejected kernel.sem write can leave earlier fields changed:
-: an invalid SEMMNI can return ERANGE after setting SEMOPM to zero, causing
-: subsequent nonempty semop() calls in that IPC namespace to fail with
-: E2BIG.
-: 
-: Patch 1 charges dynamically allocated operation arrays in the regular
-: semop() path to the caller's memory cgroup.  Patch 2 parses and validates
-: kernel.sem writes before publishing them and serializes writers within
-: each IPC namespace.  Patch 3 removes the obsolete warning that SEMOPM
-: above 1000 risks physical memory fragmentation; the operation array uses
-: kvmalloc().
-: 
-: Accounting contains the large-array case when the caller's memory cgroup
-: has an effective limit.  The series does not impose a maximum on positive
-: SEMOPM values, so a root or unlimited cgroup can still request large
-: allocations.
-: 
-: Validation included x86-64 and i386 builds, initial and user-owned IPC
-: namespace checks, concurrent sysctl writes, operation-count boundaries,
-: and allocation cleanup on success and error paths.  In a limited memory
-: cgroup, accounting increased median successful-call time by 2.3% to 3.2%
-: for 65, 500 and 1000 operations; the allocation-focused invalid semaphore
-: ID case increased by 5.6% to 11.9%.
-
-Also, [1/3] and [2/3] are cc:stable but include no clear description of
-why we're recommending backports.  Backportable patches should clearly
-state the userspace-visible runtime effects of the bug which is being
-fixed.  Our downstream people (-stable maintainers and further
-downstream) are swamped with bugfixes, so let's help them out!
-
-So for [1/3] I inserted this statement:
-
-: A caller can raise SEMOPM and keep large, uncharged operation arrays alive
-: in blocked semop() calls.  Repeating this from a memory-limited cgroup can
-: exhaust host memory outside that cgroup, causing reclaim, stalls, or OOM
-: kills of unrelated processes.  Charging the arrays lets an effective memcg
-: limit contain that memory use.
-
-and for [2/3] I inserted
-
-: A negative SEMOPM becomes a large unsigned limit in semop(), allowing
-: operation counts that the configured limit should reject.  Separately, a
-: kernel.sem write can return ERANGE for an invalid SEMMNI while leaving
-: earlier fields changed; if it leaves SEMOPM at zero, subsequent nonempty
-: semop() calls in that IPC namespace fail with E2BIG.  Validate the whole
-: write before changing the live settings.
-
-Please check these also.
-
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
