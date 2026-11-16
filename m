@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794790281;
-	b=NdNGHniI9qK0kIpB2wfE9p1PhTdbV/5VAd+DckWd/gR0kXUXkR0UYiCV7wKDRfCceFlo
-	 7OsMFOw/q8AaoNYfiS41tE/GWNHisvnDDUybMPUJHoPNUrubOQ1l6kSWbxpbOOcgB4hBT
-	 hEJphyJu0OlF62WSYNucL2gQYWsECNEfwn/nUm9Bb+LqBWr7Z5Gkon+zSKaURIjd4XknK
-	 K6iACEpnNM2ZR7rvUYouqW3qCcn2F1SZOrxhsnd0LSwCTVfq8Ft2rSkw+BF/WKVPYHIbV
-	 vUi2p2OA5n0BEKcSUvopFaRNzOd5eA6SqdnpLFPNPkEZ+jLcoNeQ7SNmjQ0sDdElQwA==
+	t=1794790353;
+	b=eaAjMFTa2jNcW4gntXNoMbBj8gI85vdeFiGkeLkbdnCzX712A4KMEoSSTpUXdjNLckkN
+	 yTUrN6gP1LllA0tfDrOELTpgnmaK2HG5boftD6Mb56qVxdaEdfg2wjC2lBxESzeicopyD
+	 Xly/9dPZVL3cTpZGLJEW/HrpAqAbBhiUSeX0FZRcMS4u26twPYvYQQ9QkRs17e1i9crLR
+	 OYysZCwLeiXN1BtQ4icMcKyrGLRiZEvIRuTUqZk2wfgl+iXSmVDJiJ8i5DGiirEpjZA2G
+	 oJC/FU26UX/LTfG5riH8pKLWMfLJImIakbC56D/WY4eMx1xCIibEw+tYIlSv0QaZUIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794790281;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794790353;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=6dN0tbN8V70YxKH46SCZDmNw1DyDWLlzHZjGMAqjNwM=;
-	b=MQXr2SUr4+o2NrAKep2iHXDKDFzoKswpdgmXFv8rJQElmkMABOicbV+hQazAFv0e/L8J
-	 rtNzu5Z77FrMmb9ODe/3AszR+5M0zyd/iFFjki2HW+nsrJkSOdCztARX6uwOBu3LEGQVo
-	 nxYTFJ5/gRkoO76KnI9/z0kzHGnY4o55VjgpVp9U1cTcouCkNYNO16GlaKVUbzOvGx8Pt
-	 lFzzlMRz1wgoXvbRNJR0qhJ5TZ2WJgiqfL2UIS7fEzyo17cGWmQuy1mJdol5ArsuKvBdw
-	 VcdQjM/oRYvZjrSWPYMWK5Yh0MC/bzkFvqWRznnUO9M4/zDpBJIq+Mah8YKesA8xGiQ==
+	bh=VT3WjsEZiQ5a1FiBCHJ+awFmPBiTX0v4a/HZzxXP1yA=;
+	b=LqUT3rOJnRs4NWzxfHedQFw5JSe5swoZWYBeohkMRiWvllQTRIIwdTUWKg9kdKDYfDlC
+	 sKDC+gkc7rwVMM8asnRW8rpqhhbS1lgmPkiWp5CMx1bLbZEC9X2uEiRncOxAOU2R2nE7k
+	 44IHT6Hgcm2SQ6DJPyflcE5GovwFBYIrFL7A9rH1AQTS7AAhP3qcj3q7t5k5P3Yo8Ahyi
+	 D2RXq/AmcKdJk28GMMjeOzbaXrQ9/cmHsjn1JpkxPn994tz+sUwQ6EcxM+u8FCTvahfl0
+	 R91k8QHf+kQ6I039PUL7gGIJqf3NvbUQO1ncOCNj4ia9YzzrxFoakoDpEjqlXTb5nVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OHIdKPOG;
-	arc=none smtp.remote-ip=209.85.214.197
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=id15ru+B;
+	arc=none smtp.remote-ip=209.85.210.200
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9EB606A323
-	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 00:51:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F9EB606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5197F606A31F
+	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 00:52:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5197F606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OHIdKPOG
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e95f8543c9so40073355ad.3
-        for <linux-man@vger.kernel.org>; Sun, 15 Nov 2026 16:51:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=id15ru+B
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8a065e2933fso3987603b3a.3
+        for <linux-man@vger.kernel.org>; Sun, 15 Nov 2026 16:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794790281; x=1795395081; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794790353; x=1795395153; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=6dN0tbN8V70YxKH46SCZDmNw1DyDWLlzHZjGMAqjNwM=;
-        b=OHIdKPOGwRTRxuEcbdIksMVP5ciFb7h2LMaqPSFYsS4TV1scjr0KUE2ZAsMyzIIo/7
-         fWU3Wp6vQDqy5RPdLBUUIB3bX7OBl1v/khw7SIg+4uQbUClxVh+VsUaH/M99T0J0zPxu
-         p5gWCEbsLGSxqHkHwXvNL8GrcIPVz/Xg+iYk3ArwKLC6J8/XRCooYhJv4nkfcGkjPR8W
-         QI0x2ekKQ3mrop9swAs6eVZiCB7tSnODfVp3QkP+/wAMNwM3/+D46C0PkXSeE8wMvGKQ
-         zCcXxc49RzhoATUrIlQ4vPJsJRUWe7VR/cbB8ASGtqr4Jd+OGuxd97SOuFc8OPzR0/cb
-         ZEYg==
+        bh=VT3WjsEZiQ5a1FiBCHJ+awFmPBiTX0v4a/HZzxXP1yA=;
+        b=id15ru+BTMxOxdoru+0vxNkPhUgyaH2PD+DGOCgX2Vxgit2lxcUcqzdho+GBCuvP3z
+         N9XbfPz0TCNHUBiGreRmeg0LFgenoHBrwbT8Ad6+hWH7yRMjbLVh5cNRVDA8JzxNI2sv
+         eOxQaBoGAsc/EpQ7DllMtSSYxzG7/iRXNFY5ZxyccTu2D2qJDdN83rYaOH3kXYzAvvj9
+         7tjqkpWopNnQoTkjnI6b5JcCuPfzw7lv46zoxhdJh5IReR9OcIwwwDcQYBibfhPg2CSy
+         LikKZPvnNpeQmKo/9tM4TAq15RBMp57lMrZ2QIQY8Pyzfk/92iEbygqtc0XFceigb/y6
+         zuWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794790281; x=1795395081;
+        d=1e100.net; s=20260707; t=1794790353; x=1795395153;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6dN0tbN8V70YxKH46SCZDmNw1DyDWLlzHZjGMAqjNwM=;
-        b=Ib7BGiU7bl2AHC4Qhp/Xxr695Po+ElTq8kP/E7uk8Ue8ZIF+UEUzobSxnqNau4ioHw
-         qSN9QQS7xgd04GRId1BL8+CueGgQKxgSTbQZc4vFl3VEHbaZxSgImZ07wPbWR39AhZwF
-         SnKeYoG0CaCokDHbsoid8ZoXj3tP2GJ/Svwa3giZzmSNjKHB6h4OtfrtgFjk7lj7Cltz
-         oCsRWXPFVC1HUiew42kXxP7dhgfAymjlssJuc7GagI5brr95QFzwACa2copkITEnRWn0
-         VUYGnA3rUpLRBbb1eiK0s1o9SXiMmlADvyuzbd0VQdOUTAnIgz9hLN9ztqFsncfFUS6X
-         O24A==
-X-Forwarded-Encrypted: i=1; AL+hErE1GrcqrBagXF8hdUq6ZYchsbw9txGCADrzf+LzWSg1cvY4vZusr9Yu8R1SqxQrs7qqVyIHOKW3al0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/D1/F34gct2p6VPfmRKDemQPw6CJEH6aDO2QtQX2gaQc48pebk
-	Dhc28/Il1XKEsVHnXO8w4FSZHfrqloFUHeD7LsHFfx6zI1LiDMgWgMDX87K3HrWAtRGXMpz4FtO
-	Z77ORkg==
-X-Received: from plbkv6.prod.google.com ([2002:a17:903:28c6:b0:2ed:630:40ae])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1b2d:b0:2e9:8e0a:cc4d
- with SMTP id d9443c01a7336-2ee0dee4092mr83401325ad.41.1794790280169; Sun, 15
- Nov 2026 16:51:20 -0800 (PST)
-Date: Mon, 16 Nov 2026 00:51:19 +0000
-In-Reply-To: <20261103202136.13574-7-gnoack3000@gmail.com>
+        bh=VT3WjsEZiQ5a1FiBCHJ+awFmPBiTX0v4a/HZzxXP1yA=;
+        b=eMcw0GfcEQITSoMuFizUxvShcW0xvhu/mDpyOm39ENviTJ2fvCBsfkBiZaNlYpz3HC
+         8abIZTX4HxlQx1PhvOb//rn+ACjKAfGumfgEG6k1X2pKgPr0k80xKgqWoxZC2USUegmw
+         /h9F4/1cDYy5cmiG4b7WS/2fwf+1s9Qxbe6B4APpIFA7ZB/5VgtWFJkPO0uzy4N1Uc/A
+         Penl7ej7N7++S699fSCr1ASl8kUpSsPPSwsAxz0TaIXC5TydJoZwRPweYhxMD2RkwYL2
+         3NBulZcwxFSSK48a5qZRgUAqY0zzxc1Eca3C1yQJU1luG3rptGcjQph4sRjjgaJsXMpW
+         S6UQ==
+X-Forwarded-Encrypted: i=1; AL+hErGQQjOlFV5fYbjmIFtE8yIEVXl1X+DyaRoWYt7+Q5F9ArFrih33O1scMmn4KJxvt4qG+3iscTzu3Pk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/zezfa+ddemyFEFknDSM/UbRamZqlA/mFWVrucUa4mKByJvzU
+	ATuiySStAzAKj6KNR1TNQCHM1Vkd+y7iYX5ADYTIRceQr3GrELiI+m/7ku7H1jVtnyc4zVqytk0
+	XlsUyDw==
+X-Received: from pgjb4.prod.google.com ([2002:a63:cf44:0:b0:cc7:5400:3218])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:a10e:b0:3de:4c08:174
+ with SMTP id adf61e73a8af0-3f7a7ccb1a9mr8980011637.33.1794790352488; Sun, 15
+ Nov 2026 16:52:32 -0800 (PST)
+Date: Mon, 16 Nov 2026 00:52:32 +0000
+In-Reply-To: <20261103202211.13820-3-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -80,45 +80,48 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-References: <20261103202136.13574-1-gnoack3000@gmail.com> <20261103202136.13574-7-gnoack3000@gmail.com>
-Message-ID: <avpTfVwL7BEtKjeO@google.com>
-Subject: Re: [PATCH v2 6/6] man/man7/unix.7: ERRORS: Document EACCES, EAGAIN,
- EMSGSIZE, ENOSPC, and EPERM
+References: <20261103202211.13820-1-gnoack3000@gmail.com> <20261103202211.13820-3-gnoack3000@gmail.com>
+Message-ID: <avpTxVySkPfwWolT@google.com>
+Subject: Re: [PATCH v2 2/8] man/man7/unix.7: Multiple same-typed SCM_*
+ messages may be sent in one message
 From: Kuniyuki Iwashima <kuniyu@google.com>
 To: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
-Cc: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org, 
+	Michael Kerrisk <mtk.manpages@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 03 Nov 2026 21:21:36 +0100, G=C3=BCnther Noack wrote:
-> These are all returned directly from linux.git net/unix/af_unix.c:
+On Tue, 03 Nov 2026 21:22:04 +0100, G=C3=BCnther Noack wrote:
+> In the Linux kernel code, __scm_send() in linux.git net/core/scm.c
+> walks all control messages in a loop like this:
 >=20
-> EACCES
-> 	unix_find_bsd() checks path_permission(&path, MAY_WRITE) on the
-> 	socket file of the remote address.  The rule was already described
-> 	in prose, but the error was not listed.
+> 	for_each_cmsghdr(cmsg, msg) {
+> 		// ...
+> 		switch (cmsg->cmsg_type)
+> 		{
+> 		case SCM_RIGHTS:
+> 			... append(!) file descriptors
+> 			    up to the SCM_MAX_FD limit ...
+> 			break;
+> 		case SCM_CREDENTIALS:
+> 			... replace previously set credentials ...
+> 			break;
+> 		default:
+> 			goto error;
+> 		}
+> 	}
 >=20
-> EAGAIN
-> 	unix_stream_connect() returns -EAGAIN when the listener's backlog
-> 	is full and the socket is nonblocking (there is no EINPROGRESS for
-> 	AF_UNIX).  unix_dgram_sendmsg() returns -EAGAIN when the receiver's
-> 	queue is full and the send would block.
+> So it is possible to pass multiple SCM_* messages -- they will compose
+> if possible and override the previous value if not.  Since their
+> contents are being conflated that way, they will appear as one message
+> again on the receiving side.
 >=20
-> EMSGSIZE
-> 	unix_dgram_sendmsg() fails if 'len > sk->sk_sndbuf - 32'.  This is
-> 	the limit described in "Sockets API".
+> Keep the recommendation as portability advice, and describe the Linux
+> behavior.
 >=20
-> ENOSPC
-> 	unix_autobind() fails when all 2^20 autobind names are taken.
->=20
-> EPERM
-> 	unix_dgram_connect() and unix_dgram_sendmsg() fail if
-> 	!unix_may_send(), that is, if the target datagram socket is
-> 	connected to a socket other than the caller's.
->=20
-> 	This is not something that the remote end normally does,
-> 	but it's a possible corner case.
->=20
+> Fixes: 5b5cb1958062 (2018-07-10; "unix.7: When sending ancillary data, on=
+ly one item of each type may be sent")
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
 > Cc: Kuniyuki Iwashima <kuniyu@google.com>
 > Assisted-by: LLM
 > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
