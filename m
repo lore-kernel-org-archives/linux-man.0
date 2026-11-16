@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.127
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794802439;
-	b=y20zij9P1pof/1E/s3kip4aE2Uq/KyvsMhalXixMGGlhF//sViM+B3EEMeLAjhjvvtZA
-	 WEIboVdstlYsdZxyV6ccL2g4NgNYLATnYqCbriHNiy/LKfZeSLR7gAOeYrz8qBT9wUNju
-	 kDbXhJuwBvOpKjjseK1048qHcOrG1XqPpDywex8ypGF0T45maP1W1JE8u64GnfZ9gTwh7
-	 T9P1y1ub1KBv5upcO8To29mqhnQN7/gzeIbD7Z0VaD1+2dZo9PSOYEDAEWRZIn31DGFnK
-	 oayQ36VR2HazFTgxxetHgNiiIF1FK2jQ3H1XNA9vlKM469X5u7Csb/BHhWzrgR9q18Q==
+	t=1794802759;
+	b=1UYqneghjg87nkyGVKm99yjeCRcgZWXiOGaGMFavelgcOM5/GVtCKAKR3Z0thDApo3IS
+	 ftVlWS6dU00bh5SKqYiVpZBCeJEX+lZCaC7ojiYgyLKHaWc48GPy8Pq9rDKDrLW4ymtBV
+	 hN3d7KJPGIUJb10EZA5jxj59BKNs38On8sepE7FbDp0U/8DDwCgZlLQlYaviWA5CXS1iA
+	 VxxfogM+bGsE0gwa6JYzP+xoYGaZt6rs14zZvSVGdmOFRYBNn52jB82Vmpb2j0aTUmiL1
+	 tgsphcYBoiGG0Fp32XOtu4H8XTjIEUlOCefUsJg5IpVnpW1vw22O3iIHjyFxu8buM4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794802439;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794802759;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=FHvuJtluF3E17fuD17Qr8YtY6RUeccc6EGa69X2cBYQ=;
-	b=X26TySOSvJo0xvqgco3uigYvQmC0Ge+KwSGmjzr2uSW3DHybOj0mFG05VgP+SGRNA6q/
-	 A5XIp0c2TnlqTO/IjKUFgzuu8nNuRTIZBpY8Sf+AEn3oa9Dl1mLhlSq+ioVO2txGRSogk
-	 7HiBC2BUngod84WABgOLCAk3x5/K/3iaBad3SpSIpHlvnKQpqxLZ9aNQiGi7O0qEzJTjl
-	 9z6sYVWlBSzjq7pSV2W4HZdC8uLUkmGALkx6UKV7XEwWpbR5I8bnNr2TKYhPYZ9qSOgI/
-	 mIO6tDPzDa4lWtQAJctYUL6xo15Wf7GnWtiaw1J+s6emYMLsuG0wcTOCmWkr/KvVmyQ==
+	bh=n4CDV4ziRFU3xddHncpYnLzq3A+HLPidciJ1bfu5cIk=;
+	b=4NevJewooo9806kATJ24NJBW72lzzuR6QSDUzPaCWe27lXBCHJKCxuipg/Te2fFvJc/d
+	 M6TkKNixQKyM4TbXKnEqvSNBG3TK5cxRJp8WI+qan573N29l96xQgSMqYfhU6emYeHIil
+	 hZw+HegSJeiJe0Rf8oLLgKMGQBTC6Qw5/w30LbEQ85q1UqLg6QsCbVl3IbQD//zS0b1UW
+	 7jRUuEtyyRGZxBZMs7tFO0K+Xj6nV+5Vpz3t+iUT7hTPWjEyGCWjZiV4BzbME9+bGWcxh
+	 u/RXbdaIUQ3MIym7oFvlMxKOMbeQyx2rNske6hctngIYvk29naZtbwYHlpBgIEvtH+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZNtryHMX;
-	arc=none smtp.remote-ip=95.215.58.78
-Received: from mta1.migadu.com (out-78.mta1.migadu.com [95.215.58.78])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Jw0iSV5Y;
+	arc=none smtp.remote-ip=95.215.58.127
+Received: from mta1.migadu.com (out-127.mta1.migadu.com [95.215.58.127])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0B606A329
-	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 04:13:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CF0B606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AD0606A32F
+	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 04:19:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57AD0606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZNtryHMX
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Jw0iSV5Y
 X-Envelope-To: linux-man@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=UeR2OVY7Ll0L67nI5WQ8q8etyrOik3DMQLuEe3vfhjU=;
+DKIM-Signature: a=rsa-sha256; bh=IjpKErh6Re8z+1/3lW8pFvWGsn41vSm3orTI4RjKMEE=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794802435; v=1; x=1795407235;
- b=ZNtryHMXk2646niLSKQLkzDyvLxIcw/w5qBDbvmZxvsBpQAhb/6/66FKmcGmbzGGLl3NnPD4
- LYryBZcguBNcIEkJiA2BSxfK2AtMYpXCksMLs5vUK5EVnIGOHe9G9Q+HvSLlHjRsowkscnkdO1B
- 0me0s/O9q2PczDxQ9sZCxzyQ=
+ t=1794802756; v=1; x=1795407556;
+ b=Jw0iSV5Yzt7XlM7CPt8TBpBWyib0JnfRWnaLD39IkMnizBJ8ngyyPVR3ljoABA4N2yRb199j
+ 8QtSD2okD/RlDSshHDqP5dFxT5xPa9z+H75Hahv9tzUP+lT5D9pCDFtf++YjQ5NFdt6p2PdaPXw
+ QtW+ZinnBn3t3hBT/+TzKOmg=
 X-Envelope-To: linux-man@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 43362223296a28e1;
-	Mon, 16 Nov 2026 04:13:55 +0000
-X-Mizu-Trace-ID: 43362223296a28e1
+Received: by smtp.migadu.com with ESMTPS id 59a289117738f648;
+	Mon, 16 Nov 2026 04:19:16 +0000
+X-Mizu-Trace-ID: 59a289117738f648
 X-Migadu-Flow: FLOW_OUT
-Date: Sun, 15 Nov 2026 20:13:50 -0800
+Date: Sun, 15 Nov 2026 20:19:12 -0800
 From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Yingjie Wang <x-professor@outlook.com>, 
+To: Yingjie Wang <x-professor@outlook.com>
+Cc: "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
 	Manfred Spraul <manfred@colorfullife.com>, Alexey Gladkov <legion@kernel.org>, 
 	"Eric W . Biederman" <ebiederm@xmission.com>, Vasily Averin <vasily.averin@linux.dev>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
@@ -57,12 +57,12 @@ Cc: Yingjie Wang <x-professor@outlook.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
 	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
 	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, 
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>, Davidlohr Bueso <dave@stgolabs.net>
-Subject: Re: [PATCH v5 0/3] ipc/sem: account dynamic sops arrays and validate
- SEMOPM
-Message-ID: <avqC4DnjkMZHjRrq@linux.dev>
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v5 1/3] ipc/sem: account dynamically allocated sops
+ arrays to memcg
+Message-ID: <avqD2Z3KJwPsCcVG@linux.dev>
 References: <cover.1793250194.git.x-professor@outlook.com>
- <20261115141206.920bdc8c5a84073712bb5c3b@linux-foundation.org>
+ <07d9034ec1fb5b6fd5eed2cf60ef3c84d5149e51.1793250194.git.x-professor@outlook.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -74,15 +74,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261115141206.920bdc8c5a84073712bb5c3b@linux-foundation.org>
+In-Reply-To: <07d9034ec1fb5b6fd5eed2cf60ef3c84d5149e51.1793250194.git.x-professor@outlook.com>
 
-On Sun, Nov 15, 2026 at 02:12:06PM -0800, Andrew Morton wrote:
-> On Thu, 29 Oct 2026 05:03:24 +0000 Yingjie Wang <x-professor@outlook.com> wrote:
+On Thu, Oct 29, 2026 at 05:03:25AM +0000, Yingjie Wang wrote:
+> Commit 6a4746ba0619 ("ipc: remove memcg accounting for sops objects in
+> do_semtimedop()") removed accounting based on the assumption that sops
+> arrays would remain small, describing a maximum cost of two pages.
 > 
-> > Shakeel, thanks for the suggestion.
+> SEMOPM is a UAPI default that can be changed at build time and through
+> the per-namespace sysctl. Commit 50ec499b9a43 ("sysctl: allow change
+> system v ipc sysctls inside ipc namespace") made that limit tunable by
+> IPC namespace owners without capabilities in the initial user namespace.
 > 
-> Thanks.  Shakeel, please review [1/3]?
+> do_semtimedop() keeps up to SEMOPM_FAST operations on the stack. Charge
+> every larger, dynamically allocated operation array to the caller's memory
+> cgroup. This avoids a second size threshold and prevents a configured
+> SEMOPM limit from expanding an unaccounted heap-allocation range.
 > 
+> In a 4-vCPU KVM guest, with the benchmark pinned to one vCPU in a leaf
+> memory cgroup, accounting raised the median time per successful semop()
+> call by 2.3% to 3.2% for 65, 500 and 1000 operations, compared with
+> unaccounted allocation. An invalid semid, which allocates and copies the
+> array before returning EINVAL, rose by 5.6% to 11.9%. The 64-operation
+> stack path changed by at most 0.9%, and successful calls in the root
+> cgroup by at most 2.3%. Each result used 21 samples from three boots.
 
-This fell through the cracks. I will take a look at the series soon.
+There is no kmem accounting in root cgroup, do you know why there is an increase
+of 2.3% there? 
 
+> 
+> Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Link: https://lore.kernel.org/r/20261016152609.2528805-1-x-professor@outlook.com
+> Fixes: 6a4746ba0619 ("ipc: remove memcg accounting for sops objects in do_semtimedop()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
+> ---
+>  ipc/sem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/ipc/sem.c b/ipc/sem.c
+> index 5ec41de7e85b2..ea95cca5bb0ec 100644
+> --- a/ipc/sem.c
+> +++ b/ipc/sem.c
+> @@ -2234,7 +2234,7 @@ static long do_semtimedop(int semid, struct sembuf __user *tsops,
+>  		return -EINVAL;
+>  
+>  	if (nsops > SEMOPM_FAST) {
+> -		sops = kvmalloc_objs(*sops, nsops);
+> +		sops = kvmalloc_objs(*sops, nsops, GFP_KERNEL_ACCOUNT);
+>  		if (sops == NULL)
+>  			return -ENOMEM;
+>  	}
+> -- 
+> 2.43.0
+> 
