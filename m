@@ -1,53 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794873280;
-	b=ysXuNim2wuHUjPMbLoaizcxwKp0EkFIgFOWKvrG4sJUCtjlRCD1BFhKYeIhmg9slwuQ1
-	 CHWfFX5pmzRR6b4UY7/i8siED48cwXaEa8oegysjcFpNFIAtU3xSQGVZYv9yAd2XmbjyE
-	 Gl94BqWTwbTk8EXP5yWYbta3t1gWJLw27rYXYiMdhSwTGB2QzN9F1HAcX/tUFO4AfNePt
-	 KZwvfcwARv7QCBt6HFIUCpzXfIn+qkRQ1BixDEjJ90AT8ulOMJx05vm5UaP8aG0C9TxT9
-	 JpKNVXfcevojmMOSldB5wb+XGMWHYiW6s0vNj6wIn6teekr62Y5AtoOhdyfi52yrGhQ==
+	t=1794873808;
+	b=zQB/anRn4kk9E6bEhnnwjdDq25tftvijAaF8/RdNy039BHzegz+ovskQjtsA7Oa9ZXtS
+	 guups+NqEF632mY0/vPk/rRcKsCh7/AuTRXvkalPAPWVmpJlgLJ9jEXKnG6nOzd1K2etx
+	 84XX6JYCUQsD0Jv01F7qe8oKtJNbbu2L6LFMVaTrCH0h5BEXjlEmdj7ASGATZfyrKfPlq
+	 A07pO4s+k7HOeogx10OuBVF/dpLc59U50qd1fJnJct3G06KZ4Cv/WKR2s7w8IzlD4cK9D
+	 W8D8qHAYCcs4OLUOpAAJqr77o1yMmdETBO/8GQaHz2wQ5wCUQgz587GRmlSHbR6APbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794873280;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794873808;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=b76LVHiSCISPES9U8FAuaAOaOaHjNVBG84bAuQX/cLQ=;
-	b=YaooAl1rawgm2hZleEIzRbUnLHf5HSwAj1EcTH+EfXpIr7gq8r5RApHFJlNkclqtJ+uI
-	 VswJrI/rHHHbubfYLzbIMnQiF05hQD/kynN3L5D3JfJgwOLWYoc0KZnM93M0urararxw8
-	 Mkm4hmsrcPDp1ME/rtV3NGnNlPEZRsejAMxLu0cFjlrjUllCYSH/pUYTJ076v2uQOlSV0
-	 fhBBVxYSBJxz8cgcqyU+VUWsHdKK2hNU5/gnbfZ6wwR6YDI2lGkn13e0Ye91CD7tbLVeU
-	 7sdunDMo2r/I0d/rwXEsXK3uQGF8nx0owlDYikiTDezBVJqmTpOf8TCihvs3Yj8EGnA==
+	bh=3egGb1yTaR5T+abPV32Q7s/CnDfUohQ8vNkrtdSvGHo=;
+	b=2aq7ZSuI9+z3MYOYZ8IPeGWKZNjeIVkDEQbT8g1h11GIuJ8ir2YTLceTJXXCUqhRFjH6
+	 egiPCZtxGqNmlRGSdLmge3P7f0EZ6lNsWdcwkgwIljzD1Qy9nFZMa4N5dPtYqAZbrsPiQ
+	 6SLIlnk2W8eKZ5I+hji4Z3Auz+L+3rwSEql/GM5GGeI099fOdR5puQt8xU5zINvxCletY
+	 w8imrVwgY+VahXI3JqOJIueOCphvdTowlRzuZNNkUu4cukb9galnVr44LMSJx7fI6O+gB
+	 6Cpzhxl9Rl84qLNm/+X9zXuRBMhm8eHjVHlyncneVvMb9JMrOnNkCiIkeesQOTf7Gng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEiBrzuw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTKCwgOr;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2FD606A31C
-	for <linux-man@vger.kernel.org>; Mon, 16 Nov 2026 23:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1C2606A31C;
+	Tue, 17 Nov 2026 00:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEiBrzuw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FA81F000C4;
-	Mon, 16 Nov 2026 23:54:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTKCwgOr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868A51F000C4;
+	Tue, 17 Nov 2026 00:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794873280;
-	bh=b76LVHiSCISPES9U8FAuaAOaOaHjNVBG84bAuQX/cLQ=;
+	s=k20260515; t=1794873807;
+	bh=3egGb1yTaR5T+abPV32Q7s/CnDfUohQ8vNkrtdSvGHo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AEiBrzuweV6+aeDPpK3lOO1HMKMxceGjQ02FzyY5C7SOvPPcJXAPmJZcdjdIvbGrZ
-	 4DA5NfysfOuPBE97qswsoL+FkGxxJPP4o4yhOCuphYayPRQp5OAyHUo2bPc1u/NlZX
-	 iwq1hPyfOiKOmrvwht6jkDdydnZjtTOpfwVEdN6Tp66dF1exyR9yRkS8OaKiwdXNuo
-	 AmCFtSzSiLF3QJ2Nh0Hz4MTmRdZyNVd28C32ZvgN+opX3jWVO/CmriBCcxPQzLG008
-	 cHTWExmrQ+bLqAIniupXxTmMPblVvWoIf7POJmHAincNzywF+PWnEMYhs5Kj73ijH+
-	 wjK5bP4i56T+A==
-Date: Tue, 17 Nov 2026 00:54:37 +0100
+	b=nTKCwgOri5yr35gUkLZJOeYS0lDuEz47J9rdQffNOcKKD9U0uX5msK39KmJ6qR4f0
+	 uRB5nrlHpVACol+go4U9wXOPJ3eqr4cJ2QJSbw8pRqMDAjcBaSkBCq1Hs07k/bGqKg
+	 6sZegWVv87dieb74Gld+5AxMurth1ozJ9+AxnyQP4W1+0gKTVb/Y7VjFhCf/TsJ1nu
+	 /pMMmZQNLLokKS8Ko29FyFTBAa/sqjHtzRtGW2wWOyvqfya7Brz58YI1Nj33gC9BM9
+	 k2hsKi1dZwqs6NDrur6O2To92/UyxKw8ttMr+2RPAGf/yM5J9oCP2lcHI9K3hJxTiT
+	 OImOM2fLybbqA==
+Date: Tue, 17 Nov 2026 01:03:21 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] {unix,socket,bind}.7: General Unix Domain Socket
- fixes
-Message-ID: <avuXnvrwa00Ylil2@devuan>
-References: <20261103202136.13574-1-gnoack3000@gmail.com>
- <au3Np8P5kn1EOFMc@devuan>
+To: Daniel Tang <danielzgtg.opensource@gmail.com>
+Cc: linux-man@vger.kernel.org, 
+	Christian Brauner <christian.brauner@ubuntu.com>, Alejandro Colomar <alx.manpages@gmail.com>, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
+Message-ID: <avuYP6-OQJMhLqCn@devuan>
+References: <6099049.DvuYhMxLoT@daniel-desktop3>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -58,85 +60,100 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fbnhks7wzecmvvvf"
+	protocol="application/pgp-signature"; boundary="dnzxl4algc3lluj6"
 Content-Disposition: inline
-In-Reply-To: <au3Np8P5kn1EOFMc@devuan>
+In-Reply-To: <6099049.DvuYhMxLoT@daniel-desktop3>
 
 
---fbnhks7wzecmvvvf
+--dnzxl4algc3lluj6
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] {unix,socket,bind}.7: General Unix Domain Socket
- fixes
-Message-ID: <avuXnvrwa00Ylil2@devuan>
-References: <20261103202136.13574-1-gnoack3000@gmail.com>
- <au3Np8P5kn1EOFMc@devuan>
+To: Daniel Tang <danielzgtg.opensource@gmail.com>
+Cc: linux-man@vger.kernel.org, 
+	Christian Brauner <christian.brauner@ubuntu.com>, Alejandro Colomar <alx.manpages@gmail.com>, 
+	Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
+Message-ID: <avuYP6-OQJMhLqCn@devuan>
+References: <6099049.DvuYhMxLoT@daniel-desktop3>
 MIME-Version: 1.0
-In-Reply-To: <au3Np8P5kn1EOFMc@devuan>
+In-Reply-To: <6099049.DvuYhMxLoT@daniel-desktop3>
 
-Hi!
+Hi Daniel,
 
-> Date: 2026-11-06 13:54:08+0100
-> From: Alejandro Colomar <alx+linux-man@kernel.org>
+> Date: 2026-11-15 22:33:16-0500
+> From: Daniel Tang <danielzgtg.opensource@gmail.com>
 >
-[...]
-> >=20
-> >=20
-> > G=C3=BCnther Noack (6):
-> >   man/man7/socket.7: SO_PEEK_OFF: This option is no longer specific to
-> >     unix(7)
-> >   man/man7/unix.7: SO_PEERCRED: Also works for SOCK_SEQPACKET
-> >   man/man7/unix.7: SIOCINQ: Document behavior for SOCK_SEQPACKET
-> >   man/man7/unix.7: Explain Abstract UDS scoping to the network namespace
-> >   man/man2/bind.2: ERRORS: EACCES: Write permission on the directory is
-> >     required
-> >   man/man7/unix.7: ERRORS: Document EACCES, EAGAIN, EMSGSIZE, ENOSPC,
-> >     and EPERM
-> >=20
+> The problematic reference had been copied from openat2.2, where it was
+> fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
+> performed the same fix for mount_setattr.2.
 >=20
-> I've applied the patches reviewed by Kuniyuki.  Those are: 1, 2, and 5.
+> Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mo=
+unt_setattr() system call")
+> Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyp=
+har.com/
+> Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyp=
+har.com/
+> Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@=
+kernel.org/
+> Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
+> ---
+>  man2/mount_setattr.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've now applied patches 3 and 4, after the new reviews from K.
+You seem to have a very old copy of the git repository.
+See dcde2f70372b (2024-05-02; "man/, share/mk/: Move man*/ to man/").
+Would you mind rebasing the patch?
 
 
 Have a lovely night!
 Alex
 
 >=20
->=20
-> Have a lovely day!
-> Alex
->=20
+> diff --git a/man2/mount_setattr.2 b/man2/mount_setattr.2
+> index 77233f589..5f26119cc 100644
+> --- a/man2/mount_setattr.2
+> +++ b/man2/mount_setattr.2
+> @@ -786,7 +786,7 @@ acting as an implicit version number.
+>  (Because new extension fields will always
+>  be appended, the structure size will always increase.)
+>  This extensibility design is very similar to other system calls such as
+> -.BR perf_setattr (2),
+> +.BR sched_setattr (2),
+>  .BR perf_event_open (2),
+>  .BR clone3 (2)
+>  and
 > --=20
-> <https://www.alejandro-colomar.es>
-
-
+> 2.53.0
+>=20
+>=20
+>=20
+>=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---fbnhks7wzecmvvvf
+--dnzxl4algc3lluj6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr7l70ACgkQ64mZXMKQ
-wqlVNA/+JYOmvsg+XSHV4LmK/eby8nG7xiEs1O4Usee2D22cDD46QhC5CtZ1t9cB
-yNV+TNLsZPhfvG+6Es+Yc4XXQuiCv1czBIuc61d10BHHzPlKOzqatBej6vCxs9kr
-ClNLKq7KbCwWxiwCfThRDW/FVwemp55BLRapba54dqnPidaT5qP+W2aWs4hRxURx
-wAopnrULFuMB4T+u0gqGiTvQYHeJLCBMuxC2O6XhonUdASpRMVwENESmKGTpjo0M
-AbrmchlVuRtUkrkRNAOIFSA4VWNM6PSwgvCFgZOuIPaumgYbSGxKy3LGS/IxZxUZ
-c5zE00VryTTISnyItrOdxYRQUbUKwaIWO/DwCTBP9JOgmQggcWyR9beISGhTOiC7
-4vsrFPISe3rOpPmJrJW/ht02Hkrn7oNcm8Zm2jhpDGiDqf8iOv5OX62TLKm26EIX
-6m7vlTCjq8+i4d7imLPGZXzjwt8f9Nb8NVzhDjHe7Olh3DFwY6x3RyJeokrbcWlM
-LAEJkCyNdvaVsCetuPasm9fF19Jj++BA28BYN5x8V3ng2oL3esbl49vpLdjDLyuN
-EOolEgucSx7FU0VteWTEFtgi4pManwMNSFhXrnAYDbOuByT7PqmZpY7ukTR0Lh8I
-3KTMzCvHWokOlF6fFsQyBl8Ganb0fuGUfKvQU3tDulzFwxjAQw4=
-=HpIX
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr7mckACgkQ64mZXMKQ
+wql7Pw/+NkxZ7e2iZ0zwBns03B9wjAQTuzX9lVqVTjhT1JdpvxQf5nToT4TjTtMQ
+vxLcSj6nX7uBrlJplAWKEkEaJ5YbtkRtuyt6ZgOdLuNuugn6wxCo+HhhyVN5wCBl
+QgssIWMvDLRgNTtC7PJJN0amyEC5RQOqQvdJtKDnezpW3AcDFCtnp+4is+aqdWX9
+rQDpJbOqv+kYlJ1j4gEf+eWfKHsAyyS36wVHlMecdkXBBJIo013RATt9efDpAJE+
+h4VZcNu/8dSRrtoVQsMczUV1W7rkPnGPWv2xAJE0QgdF/vxHe2pRWWNw7/W5c8A+
+MejT7SAub95XhCYdLBJgPawGgtKkwJzBsCwXE3Qd/Dq0Myn3NCC3HSQGmAyCMc2P
+wHfotSwJunYx+ZA5gVW0zmVLQKyWL0VBNO1xPROh1s7ZT97LVlKI6mjAP9QHknG7
+vXzpFWA95v1aXprcVBES2trHIiAmm95QGmPpVqa5cElcvDXRV/QC8jVaIFbEAtP6
+uKGvYtI9aFDVe2eTXl09e1wuOZqUa4Nf0jVmK7EzU/r5c50zBa7HltGgnFZW+R/2
+oyXUDnpEReYctXqvXu7czCwmKkwEYWbjthYiWk2RzWa3j9TzwOxyH03DVQJLV0c8
+ClcFWY/WNAE/ysS4w/8u0eAOkhXWPZ240uoztRU9q1uCIAPK6Fw=
+=3p8L
 -----END PGP SIGNATURE-----
 
---fbnhks7wzecmvvvf--
+--dnzxl4algc3lluj6--
