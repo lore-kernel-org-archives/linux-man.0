@@ -1,60 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794908852;
-	b=jOehVBK8LiU/xB96eSr+Vw34IMd3QrPgsL0tAHdmvZZsqaTizOolMRkYmRbYQFE5yLIf
-	 X3ylpggeqPNoGBUQUjfKo3bLobQOzhs5rfHrkdWt9TqrdjWjRfN5VxONhNi/+wTcdOwLs
-	 fGIOaNwNq5ev25ez8J9wSt/cuvhg5p5m73DY39QGH8ziIsSbsIF0OvyaBzcFNOJBYJw8z
-	 +vYX8X1cmKIlvN441K2jBj6uIDqk8pbLOFLZbIrRPnkkRhVE66ZqoV3T39IyuP3UGDSn7
-	 CjiofSsk8jxzBioKv3Ijw/PvSdYrz6V+xZiIm6fSo4W5lzdx7kj/KxvxthdZCNRrOVQ==
+	t=1794943069;
+	b=h3WFsN0yVaoPx8e3vH8xVXH4FGC7Ka/JcjAjEA783a426Xmmt448nFydpl7Iv1iz4/mF
+	 KWzMlBsv5zkeWqr8EuDRmdmvQtHtF/O197C6G0tB0SytVa0TtMPFxq+ORgj9zICyz5HN2
+	 9U6o2qZmgizyOYLrKxyLNfwg5GI2ya2kiafnlEzasAQFfG3/Ditt/Hg4j/aVJQGmrJHuy
+	 hgbJBTndbtcS4lVUAWBoklG3s8TaQOGZDBPDqW0CB1igK3CMh6UOO42HwrhQso9IJ9K8O
+	 7o+48PbQctV1bJ5m6ZL2B70NAgWNH84E0pkI2u5XSwx/yz3qkYYy+oiBph79qhyPknQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794908852;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794943069;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=VCEo6u6IE2xkVY7dvRUVotw2Jy4zToqlp5X6HR3nAl8=;
-	b=MAXBKQoSfuEVLBjRFhI/fMS5mBpW2xlVC4XWff01fxu3o+5W+3cJ/Zv6kB/Z/3+UWXfS
-	 eCJt/eeZ2fnLzANgT2XU70cipTpC+5Pz0qV0rXIwaE2VMQPsB1FVMSRZQDuCm3nHVVVxo
-	 yiCGYLScmaKbUiFVWtUrJOUsna9JMutw23c07IZb22AUQdEOWlS4yfSMTeOl4xhumqqZI
-	 jVL5G2gH77SExC5G58G3n84U4HVCTy1vSc3LDuO2Mfrj7+x5HuQFakRRk9h4MLg9UGGeK
-	 8eYSBXGHhH75fiusgEv5XXCSajfJmShKrLj0h0tM2J5yTnpDjypQtEOPpuorPYSRzxQ==
+	bh=g1ZUU0mnasxC6gCTz396aoEyaOGhArK6BAtfau5KALo=;
+	b=Is158jo3BrwomaiY9fmRNBduQJ7KYIOXK8TN6ucY06a3OUUkwJtRgsF9cQHgMHhdf2iX
+	 Yid/nX2QKi5FrYM/kJlFB2Sun7n95sEM+A5Wh0tHHkxzEkJXs0BIUiLIChWAMUpGJRSwf
+	 t2Zzi/HVzyHjuipq5s5UFR6NxEUYx+Z1f5yfZwd3kDHxiSzibUdJdHO5FEr5MLyFX4woq
+	 BeQQzXofbsFVusLt7qbZ+ZMnVkV8peJBmrRcCm1u0DKCNP9ru9/slg9/OlxGf4aU0MkEX
+	 Hepfhg+kUE9JdFmN7wJVD4XhmWM8oLHT/UIUCtd5PtoO2vZROSe33JrshBx5XVPr3yw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJlsId23;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSyhkUlD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C70606A31C
-	for <linux-man@vger.kernel.org>; Tue, 17 Nov 2026 09:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB46606A31C
+	for <linux-man@vger.kernel.org>; Tue, 17 Nov 2026 19:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJlsId23
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06CB41F000C5;
-	Tue, 17 Nov 2026 09:47:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSyhkUlD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EA321F000C4;
+	Tue, 17 Nov 2026 19:17:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794908852;
-	bh=VCEo6u6IE2xkVY7dvRUVotw2Jy4zToqlp5X6HR3nAl8=;
+	s=k20260515; t=1794943069;
+	bh=g1ZUU0mnasxC6gCTz396aoEyaOGhArK6BAtfau5KALo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eJlsId23xE18u2kQeKDb5J5wPw+84HbqMGg2RpC300Oo1HQnocEQjo1jb60aXb84z
-	 DKDrs8rLhhUbsFgXz6Rpru+qI8RFLYzNhalcGAmbBDmGWuShU9W5qnnFziqwKx77QO
-	 3oWqtEdox2eoI701rjL6Wy2DNcEsNod3vQiAuvZ5T6Jo0V3dMBe715UttVp3+17src
-	 +yKg2xauAOOIaOxFXP0rJv5Ze72z+q/RhNxLOk+92CbAKfjY6LAklxpaNM2EX9icAW
-	 JVoExUT6JHmCAB80ct3MHW1ZsrThCraF4+fKgA4olOEyjxr0xrTb5Hme5Hty1ec+kA
-	 ey37V2cM2FotQ==
-Date: Tue, 17 Nov 2026 10:47:28 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Matthieu Buffet <matthieu@buffet.re>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] man/man?/landlock*.?: Document UDP support
-Message-ID: <avwiSt7sMInH0_d-@devuan>
-References: <e354fb0d-2173-4015-b945-c413bb1b1c44@buffet.re>
- <20261102233932.29912-1-matthieu@buffet.re>
- <20261102233932.29912-2-matthieu@buffet.re>
- <20261106.73089117d0af@gnoack.org>
- <au8HcBs37d1yUkZ0@debian>
- <bc495b26-2e26-4fc0-934b-37d55cb423a8@buffet.re>
- <avogyPekOEm-xBPV@devuan>
- <20261115215359.tcfw7u3apvbqxde5@illithid>
+	b=QSyhkUlDVF9tnrMy1gMbamAP0nM5SVSV6lphXudzh7YmY0cSQKalG6F50HY5gTdHS
+	 wl5PT2nfxHrXxJtgWnvla7H0/72ZbywBCZWopP1gSIDs8rFzj9bPek+nR8u51ZjlZS
+	 jykjduNRvJ0IjcS4MMQU9UTOVsdVkBY8Y8FMgFkPHNTs4as86jxUUyhUR+WrB2DolH
+	 qDGy6gPwJIaBIXAMi+9KL9P+apd5Xu/lStBC7M3C4ZulShviapTsmd0uevSdAAIETD
+	 hHbabSQB+vaKpqQrnBAyvp5l8p+ZwdoZvexRUDLWGUeBVtkUpXrkvSkp93h+xU6tkM
+	 Yc/QAvcyI/ybw==
+Date: Tue, 17 Nov 2026 20:17:44 +0100
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
+	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
+	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+Message-ID: <avyn9TUpxZ6N6sQS@devuan>
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+ <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+ <atpnWiYQzs_HZ1Q7@debian>
+ <CAFs=pgZZeOg7vmkyTjwZdnafYFxn+Yogd9usEzX9Bmv87Z-P4A@mail.gmail.com>
+ <attQRCILbrngR_70@debian>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -65,151 +67,199 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jatvloovxso4n7p7"
+	protocol="application/pgp-signature"; boundary="zltiq7z67rob7ec3"
 Content-Disposition: inline
-In-Reply-To: <20261115215359.tcfw7u3apvbqxde5@illithid>
+In-Reply-To: <attQRCILbrngR_70@debian>
 
 
---jatvloovxso4n7p7
+--zltiq7z67rob7ec3
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Matthieu Buffet <matthieu@buffet.re>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] man/man?/landlock*.?: Document UDP support
-Message-ID: <avwiSt7sMInH0_d-@devuan>
-References: <e354fb0d-2173-4015-b945-c413bb1b1c44@buffet.re>
- <20261102233932.29912-1-matthieu@buffet.re>
- <20261102233932.29912-2-matthieu@buffet.re>
- <20261106.73089117d0af@gnoack.org>
- <au8HcBs37d1yUkZ0@debian>
- <bc495b26-2e26-4fc0-934b-37d55cb423a8@buffet.re>
- <avogyPekOEm-xBPV@devuan>
- <20261115215359.tcfw7u3apvbqxde5@illithid>
+From: Alejandro Colomar <alx+linux-man@kernel.org>
+To: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, 
+	Sam James <sam@gentoo.org>, Carlos O'Donell <carlos@redhat.com>, 
+	"Joseph S. Myers" <josmyers@redhat.com>, Martin Uecker <uecker@tugraz.at>, 
+	Guillem Jover <guillem@hadrons.org>, g.branden.robinson@gmail.com, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
+Subject: Re: [PATCH] man/: SYNOPSIS: Remove GNU forward-declarations of
+ parameters for lengths of array parameters
+Message-ID: <avyn9TUpxZ6N6sQS@devuan>
+References: <79b27ba6d0eb7a511f23607a4f3612d4f6911f24.1792687206.git.alx@kernel.org>
+ <CAEHU8x9jET+vcrR0NpDz6t57egQG8TZqx5XtV52srH9ZRvdxSQ@mail.gmail.com>
+ <atpnWiYQzs_HZ1Q7@debian>
+ <CAFs=pgZZeOg7vmkyTjwZdnafYFxn+Yogd9usEzX9Bmv87Z-P4A@mail.gmail.com>
+ <attQRCILbrngR_70@debian>
 MIME-Version: 1.0
-In-Reply-To: <20261115215359.tcfw7u3apvbqxde5@illithid>
+In-Reply-To: <attQRCILbrngR_70@debian>
 
-Hi Branden,
+Hi Michael,
 
-> Date: 2026-11-15 15:53:59-0600
-> From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+> Date: 2026-10-23 14:42:24+0200
+> From: Alejandro Colomar <alx+linux-man@kernel.org>
 >
-> Hi Alex,
+> Hi Michael,
 >=20
-> At 2026-11-15T22:18:06+0100, Alejandro Colomar wrote:
-> > > Date: 2026-11-15 21:55:50+0100
-> > > From: Matthieu Buffet <matthieu@buffet.re>
-> > > On 11/6/26 11:02 PM, G=C3=BCnther Noack wrote:
-> > > > On Tue, Nov 03, 2026 at 12:39:32AM +0100, Matthieu Buffet wrote:
-> > > >>   A Landlock rule with port 0
-> > > >>   and the
-> > > >>   .B LANDLOCK_ACCESS_NET_BIND_TCP
-> > > >> -right means that requesting to bind on port 0 is allowed
-> > > >> -and it will automatically translate to binding on the related port
-> > > range.
-> > > >> +or
-> > > >> +.B LANDLOCK_ACCESS_NET_BIND_UDP
-> > > >> +right means that requesting to bind on port 0
-> > > >> +(explicitly, or implicitly
-> > > >> +for instance by sending a datagram on an unbound UDP socket)
-> > > >> +is allowed
-> > > >> +and it will automatically translate to binding on a kernel-assign=
-ed
-> > > ephemeral port.
+> > Date: 2026-10-23 08:53:22-0300
+> > From: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+> >
+> [...]
+> > > > > Also, this syntax is not very dangerous: a programmer thinking
+> > > > > that a forward declaration is actually a normal parameter will pa=
+ss a
+> > > > > wrong number of arguments to the function, and thus will have com=
+piler
+> > > > > errors.  This syntax is quite robust, as it requires several bugs=
+ to
+> > > > > happen in the same code to pass compilation silently.  If one rep=
+laces
+> > > > > ';' with ',', the parameter will be declared twice, which is an e=
+rror.
+> > > > > If one renames a forward declaration, it will not match a paramet=
+er, and
+> > > > > will result in a compiler error.  Only if both mistakes happen at=
+ once,
+> > > > > the compilation would pass, but then the call sites would also ha=
+ve to
+> > > > > match the bogus declaration.  And also, the function definition w=
+ould
+> > > > > have unused parameters, which would trigger diagnostics.  So, con=
+cerning
+> > > > > safety, this feature is not very dangerous, even if used by someo=
+ne who
+> > > > > is very confused.
+> >=20
+> > It is not enough to say that the compiler will warn people about the
+> > incorrect arguments. I have seen people do the strangest (incorrect)
+> > things to "fix" warnings and errors they get from the compiler.
+>=20
+> Hmmmm.
+>=20
+> > > > > Do we think programmers are unable to ever learn this new syntax?
 > > > >
-> > > > With the caveat of not being a native speaker either, the commas in
-> > > > this sentence feel wrong to me.
-> > >=20
-> > > I was trying to make the comma match the fact that the example only a=
-pplies
-> > > to the implicit case, but if it sounds wrong let's use your suggestio=
-n.
+> > > > No, because programmers are clever and it is relatively simple. I w=
+rote a
+> > > > paper that explored the drawbacks of the syntax and recommended
+> > > > standardising a subset (which I assume is what you are using).
 > >=20
-> > Perhaps you could use two levels of separation, with ';':
-> >=20
-> > 	(explicitly;
-> > 	or implicitly,
-> > 	for instance, by sending a datagram ...)
-> >=20
-> > But this is a bit beyond my expertise.  I've CCd Branden, which will
-> > surely be able to help.
+> > I have talked with programmers with *decades* of C programming
+> > experience who are unfamiliar with this syntax. Indeed, when I first
+> > got bug reports about, I also was unfamiliar with it, and thought it
+> > was just a bug in the manual page.
 >=20
-> Well, maybe.
+> I agree with this.  Very very few people knew about this feature until
+> it started being discussed recently, and still very few people know
+> about it.  I only knew about it around 3 years ago or so.
 >=20
-> I don't know of hard rules governing this sort of construction, but use
-> of a semicolon here "feels" wrong, as you're not joining independent
-> clauses nor are you separating list items, at least some of which
-> contain commas.
+> What I wonder is whether people can get familiar with it in one or two
+> years of exposure to it.
 >=20
-> I might use an em dash here.  But, trying to interpret this language for
-> myself, I think the best solution might be to recast to break up this
-> long sentence into shorter ones.
+> One way to test that would be to wait until Fedora contains this syntax
+> at least in one release, to get it exposed to more programmers.  So far,
+> Fedora remains in man-pages-6.13, and the first version with this
+> syntax was 6.14 (1.5 years ago).  Carlos is working on getting the
+> packaging updated.
 >=20
-> Thus:
+> There are risks in both alternatives: if we have the GNU C syntax,
+> there's a risk with programmers workarounding compiler errors in weird
+> ways.  If we have the invalid syntax without forward declarations, the
+> risk is in people using that syntax in their own code and triggering UB
+> or least logic errors.  The latter risk is a persistent one; there's no
+> expectation that the risk will ever decrease.  The former risk (that of
+> using GNU C syntax), I expect the risk to be temporary, until
+> programmers get accustomed to this syntax.
 >=20
-> A Landlock rule with port 0
-> and the
-> .B LANDLOCK_ACCESS_NET_BIND_TCP
-> or
-> .B LANDLOCK_ACCESS_NET_BIND_UDP
-> right means that a port 0 binding request is allowed,
-> automatically translating
-> to a binding on a kernel-assigned ephemeral port.
-> Such binding can be done explicitly or implicitly.
-> Sending a datagram on an unbound UDP socket is one implicit means.
+> I'd accept adding this patch if there's an overwhelming majority that
+> I'm being a bit paranoid about the risk of using invalid syntax, and
+> that I'm understating the risk of using GNU C syntax.
 
-Thanks!  That sounds good.  Perhaps we could put the last sentence in
-parentheses, as it's not part of the specification.
+The C Committee has discussed this feature, and now my concerns about it
+have relaxed somewhat.  I'll probably apply the patch after the next
+release.
 
-	A Landlock rule with port 0
-	and the
-	.B LANDLOCK_ACCESS_NET_BIND_TCP
-	or
-	.B LANDLOCK_ACCESS_NET_BIND_UDP
-	right means that a port 0 binding request is allowed,
-	automatically translating
-	to a binding on a kernel-assigned ephemeral port.
-	Such binding can be done explicitly or implicitly
-	(sending a datagram on an unbound UDP socket is one implicit means).
 
-Have a lovely day!
+Have a lovely night!
 Alex
 
 >=20
-> I also recast the text to tighten wording, to reduce use of passive
-> voice, and to favor present tense over future.
+> I'd like to hear explicit comments from Carlos, Sam, and Joseph before
+> taking a decision.  But if they seem to agree with that point of view,
+> I'd take the patch, even with my own NAK (I'm willing to document both
+> ACKs and NAKs).
 >=20
-> Does this help?
+> I've now also CCed a few more people, since I'm also curious about their
+> opinions.
 >=20
-> Regards,
-> Branden
+> So far, the patch would have:
+>=20
+> 	Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
+> 	Nacked-by: Alejandro Colomar <alx@kernel.org>
+> 	Nacked-by: Martin Uecker <uecker@tugraz.at>
+> 	Nacked-by: Christopher Bazley <chris.bazley.wg14@gmail.com>
+> 	Acked-by: Mark Harris <mark.hsj@gmail.com>
+> 	Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
+> 	Signed-off-by: Alejandro Colomar <alx@kernel.org>
+>=20
+> (those ACKs and NAKs transformed from messages saying they want or don't
+>  want the patch.)
+>=20
+> (Before anyone comments the possibility of going back to simple pointer
+>  syntax, that's certainly not coming back.  The information about array
+>  lengths is fundamental in the SYNOPSIS.)
+>=20
+> [...]
+> > My preference would be the earlier status quo: standard C syntax, with
+>=20
+> As a reminder, it was never standard C syntax.  We have always had
+> non-standard exceptions in prototypes, such as open(2) having two
+> declarations (as if C++ overload syntax).  It was ISO C syntax regarding
+> array parameters, though: we used pointer syntax.  But as said above,
+> I really disliked having that information only in the DESCRIPTION.
+>=20
+> > an explanation in the manual page text that explains the relationship
+> > between the arguments. The current proposed patch is a compromise: it
+> > has the disadvantage of being nonstandard C, but does at least clearly
+> > hint at the relationship between the arguments.
+>=20
+> Agree.
+>=20
+>=20
+> Have a lovely day!
+> Alex
+>=20
+> > Thanks,
+> >=20
+> > Michael
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
 
 
 
 --=20
 <https://www.alejandro-colomar.es>
 
---jatvloovxso4n7p7
+--zltiq7z67rob7ec3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr8IqUACgkQ64mZXMKQ
-wqmJTw//W4MzC2AxxQ6Fb9uWb0WWqUs+9DsHoeacxs/gDdJQ7ZY843ckP6HReLxg
-XLFOn2yhvKGv0iqcNij0k8trlWEj9Tnxe5ivNHGOlvUeiKkieDAkVPr5CsxukzbY
-QYLGx218mdtbn1plZ4Dmx+so18n+bYUUpxsBvTt4zYIALW0GjPWkaB6xQPdK+wCm
-UKnwzssen0PxZSR6B95OegouecCbc/DWQYzIY3VTnXocXva2Xey7RyQFcuTorqJR
-vWmgzK1CsPUD7TXQkcek97lxsMWxe020WSFKEZF4wai3RyoB9jQhot1DKpGIKOza
-7UlKOI1/lZdFyV/OhwWTYnPTYtvNfcHN3dLKa/80IFhrLWOEnyqiuz8yaQDlCzON
-OkxB/UcOlbRYlusv5/io8eOg46TkPYOCcyU9AS/Nv34lPiJAQFGJhIokEEGGh+PH
-knoWz9W2tmNlFoVH3Wlezr5wUzpAZ55ENfVJClTpFx2uyfaFjgbZYrM+K9bwuaN6
-0u4bZBuddDwvtZUbT+lH5C0JaG36H3Xv5ipYZ6PT5MeFPwaWzvvaX7N4z684/5VX
-4ZkLRNhNViyPMJnTaA/NXDCqBla6mdKKieKh6JpbkyBF0PcQZicEyOpmyeD8yGch
-Pm5QcLAFkZkdxtHgYZ26ngEx82rZXpSN4Q9jj4fUSY0F2niJAfY=
-=a1hm
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr8qFMACgkQ64mZXMKQ
+wqn4QRAAnyfT2dmItbg2aw897dsTlsOQ64ZoZEW5Ry+W3um+ib6QY9osQp7QmvWP
+BPtcngtdtU0oTXQvaCBQTaBaLrtngjtzuhIpwO+uFcktY2KsnpPBdoxjlGNeF6hG
+qZPwGtLGIxDG1J5wBnrgUBynUzcnAMgehIReWe79WA67wJbSDh0zYLXP2lKjl7e3
+GA/TeYGGqoT7uUFwAXoOqb4d1uvGNyfn67T7N9anUyui4xepp8W8jzx+eOt3bDug
+v32s+IZ1IteJQ5T3nQRwGxrM57QLYLa+9MBhWQffzBLa3dPrsqDvT6Elyd82lEzo
+Lk50wIVNdijY7qvTvjO2UDatLZFy5L5DEOvevtTK+hkKT/3c8ybts+y7Fa1Ba27J
+pH6HBoBVfCi2EzgCsAwlUMooC3hHzeBnSZehLL7ok2cp5jSugr0iej+TFIHjVaOA
+GcvOcuTldygXgRyf5Y4CKPpwa/lLKQl+e5/7VlrIqROY+AnV/3ikkBX3UT6piLTW
+JMCq+6sdJI3cpG4qWUhr4YIuHv/bv8LTiZoV2eNSp0VePsUgz7r61BIP0VifHs0i
+iOptenxq7PGTdnummLSaS2hOiSQQc/gmaF2pRYr65KwZCaEstOcs7wmhGjLPGavA
+Oz0Q6/jcDTtlolPvAJhb4EbvAnvR62M13eIohzBN8KX3nFkZd2Q=
+=29Ty
 -----END PGP SIGNATURE-----
 
---jatvloovxso4n7p7--
+--zltiq7z67rob7ec3--
