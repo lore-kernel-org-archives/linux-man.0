@@ -1,53 +1,186 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794962732;
-	b=tFCQ10DCIllO9P7RDMSjkXJBff+c7OSVC/8lgv+u73eAZc1+SPulmTPkU5tvcpMXdUN4
-	 rU+BNhNtxEjTzVhRumf1Djzbtm4gzO/kchHGt2Yyn/TYukHgVSMnUac2IK0Zh9im0Zx07
-	 3mdU1y8NZZksygLynr/sdhGvtjiXoovSNTli0xkUsGcjF25pj6kdnLYW59yfFSf5NHg/W
-	 tK8RzsaRT2tCqglgQSojGDugVEar2iz2l8TQVuvyqHUVEJMSBZTYL7WKSM6MuVJ07rOUk
-	 wmWY94MlSYy8zJiYVQJ9YyYrghYsTJJj87lwYYTS8/IOW+GkCkhufOv05FSf43UAXPQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794962732;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rAgPJYJM0vLv/+TYKZ2AQ2v1w5mwpZ0TNnHYCvx2etA=;
-	b=KxzeRKQ9bT0f9jAXWtBSW1CB45EGl+VV9/xWQXKLhn4syXnBiOvyAMv0py7Ia06V6n84
-	 SKOoEOwAqco9zgxrcRiedKFx0NcpfHCwcEXzZ4yh3jn8HIwDLa8gBcD+5GXD/G8nWwUWC
-	 oasNWlyV5VWgnK+feNFWJjgegk/4A/s9vZwMdCBEZK9FyO3ZFnJ+GBnZvR9o7ue2HrUgS
-	 bildYlRVtoIMgyZCMbAusEDFfcYrHd2ZPKA3XjD5tjuXevDyRYcQjZ8+0saukuA55agei
-	 E5APiX7X22Kl6K3zk6RQabIyTKAhqXh6CTm31TH7jF04k7Wl4cKTDTwa1CV8Q+fYFkQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jkHfElRw;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
+ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794963356;
+	b=bimZjXvMV3enIqBRD8bkIQ8MZs6c3FM77kRkdWIoJTlat1fZsEn3BQk4KeD1hob471dA
+	 Y2GRvWWmdjVeSXMRUHs+pbV17IvOOeVkPACIBZnj0RGz49X37KWCwMPx4Uoe/8FXCmYxm
+	 OW/t6Zkh46vmTc2OjnCAJ2LLpEhm+QDzCslX0RbjUB1ScvIt7HHhdS1VdR1wjpDsuonAh
+	 qiekxwqFA9r0vVglReWx7gFUSyJoskcAQ5hepF+a1kFL+RQipNudPvzexb45hk37SbGtx
+	 J01+VEk66G6SW3GyrXZfWH9LX0Hd7X9qprTG0PJ/ZJ5Rkvj7Q+90E65XMNfhgcbtaYg==
+ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794963356;
+	h=Received:Resent-From:Resent-Date:Resent-Message-ID:Resent-To:
+	 Received:X-Envelope-To:Received:X-Mizu-Trace-ID:X-Migadu-Flow:
+	 X-Spam-Score:X-Migadu-Queue-Id:X-Migadu-Scanner:X-Migadu-Spam-Score:
+	 X-Migadu-Country:Received:Received:Received:DMARC-Filter:
+	 DKIM-Signature:Received:X-MC-Unique:X-Mimecast-MFC-AGG-ID:Received:
+	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
+	 X-Mimecast-Originator:Content-Transfer-Encoding:content-type:X-TUID;
+	bh=uP0T8kPi+7saDxFfp1MVK7nrMHpuLNMsuiVr7gaVB08=;
+	b=LOtYaIyYKpBD+TY/N3oW6WnDFUeTAJr0ijjmXQItYCigbNtPGQ9LuS+hivbq82GNUmtq
+	 nBMVDMN8huJwh/qoaNYzgKg2VJ9VO9so/LvLQ7Yzb6sm7tHPmS8zINpuQ4lrbImYjkPt+
+	 kXYoEsbhNjFGE7BBK21Wo6YS0x8mZRP5dS8P0YLIOO+XNHtaakH8QCxCRLZVZRBNnrOFl
+	 W1h9xIm7AseqF+tlGjWlaDP4LY08FLCr9WvRVYCmB+SUZ2rcAS3pqZEuHzfh14mREotK8
+	 KKULQseIeZvetQ5YETh74tuM8jNBw+XCDTtkSs1crk/V4N+ZCFG3gXUvSyzy7OfoBtg==
+ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
+	dkim=fail reason="signature verification failed" header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aRnpLftr;
+	arc=fail smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7168606A32A
-	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 00:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A449606A31C
+	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 00:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jkHfElRw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A5E1F000C4;
-	Wed, 18 Nov 2026 00:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794962732;
-	bh=rAgPJYJM0vLv/+TYKZ2AQ2v1w5mwpZ0TNnHYCvx2etA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jkHfElRwRJXHevZtCW3d/ovoOLrCHU6fDypcRlXCY6Bgz3KAnQhKqmZJRVKlJBROC
-	 iFx56LcABz3li9Dig3grltvFR00H0gJ2kr8bTZ5LTwbXZg0RumwuoBIc8uLkgz+ByE
-	 wsLbYchqJoSwyFSMh5SP/tkyfPr+SeEgUxhxvL6R0rDRIjp9U2aVcjg5S6c1wwvJRp
-	 OyTxenmQ2l6StO5+AIF11tp6P3F599YQ7dZ/zW8v2smyQ+ViMrnvEjAMnB9Mrx8kI1
-	 RbeB44B6m6JSlh3ljBTrHC32nw3raYBkQ5Pn68AhgjFDZ+41Gl487mKqHywg0D9TIG
-	 YYP2N2P8Siq9g==
-Date: Wed, 18 Nov 2026 01:45:29 +0100
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Jorge Almeida <jjalmeida@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [bug report] opendir(3): document file offset behavior for
- fdopendir()
-Message-ID: <avz09FM5Bf5n6g-4@devuan>
-References: <CAKpSnp+XojktUF=UL81JZ2bFyBSxXHneFSBsiPi2BMg043xa3g@mail.gmail.com>
- <aveC_KnRVLx8eCkt@devuan>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aRnpLftr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392811F000C4
+	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 00:55:55 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aRnpLftr
+Resent-From: Alejandro Colomar <alx+linux-man@kernel.org>
+Resent-Date: Wed, 18 Nov 2026 01:55:52 +0100
+Resent-Message-ID: <avz3mAaBTdBsjaaq@devuan>
+Resent-To: linux-man@vger.kernel.org
+Received: from mizu1.migadu.com ([135.125.171.180])
+	by soraStorage0.migadu.com with LMTP id nl6hzmsuetagbm2j642a
+	for <foss@alejandro-colomar.es>; Tue, 17 Nov 2026 16:11:30 +0000
+X-Envelope-To: foss+linux-man@alejandro-colomar.es
+Received: from tor.source.kernel.org (172.105.4.254)
+	by mizu2.migadu.com with ESMTPS id cb0ec14718ee4b46;
+	Tue, 17 Nov 2026 16:11:30 +0000
+X-Mizu-Trace-ID: cb0ec14718ee4b46
+X-Migadu-Flow: FLOW_IN
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed;
+	d=alejandro-colomar.es; s=key1; t=1794931890;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=uP0T8kPi+7saDxFfp1MVK7nrMHpuLNMsuiVr7gaVB08=;
+	b=SICdTkORg00M95Wu/iY2vBhafUn3QXhuPm5wltwH5MvITGyLaprTxW+lZzxxbdGwegNwS5
+	K9M0gWNrl7uy2ML0+xxKadd5xZYGgoHG/wtf0FLiSAVNXPawKatxL+qgjw6K+6fzgSR1Li
+	GdekqIu7xRekKce392U5YYuhlymB9sRDK9e9CQkS12UH8KzcjrzyPJGFIGnT65c5wNW4WF
+	diD8tNyBW/hs83I+Y9v2WGVs/CHM9hRhZzHQPnETOJakPw23S7Wyve/F1s6rQD+rhrpXUK
+	APKSWSPP4Bs9TE40N5SlyzReFMmnSFJZ2SD58Wkhv4qiuaXDqaOAfN2BGQ+j+w==
+X-Spam-Score: -6.50
+X-Migadu-Queue-Id: cb0ec14718ee4b46
+X-Migadu-Scanner: mx13.migadu.com
+Authentication-Results: mx13.migadu.com;
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=aRnpLftr;
+	arc=pass ("kernel.org:s=arc20260519:i=1");
+	spf=pass (mx13.migadu.com: domain of "SRS0=BWT8=JG=redhat.com=patsy@kernel.org" designates 172.105.4.254 as permitted sender) smtp.mailfrom="SRS0=BWT8=JG=redhat.com=patsy@kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com
+X-Migadu-Spam-Score: -6.50
+ARC-Seal: i=2; s=key1; d=alejandro-colomar.es; t=1794931890; a=rsa-sha256;
+	cv=pass;
+	b=K8l+c/VzE8DMRWJYP94me9iZtwvIyBVIJmsIKL08zwtvn9iGq5yznlAEZbze9+kSg6eS85
+	ejd7Nq4UXSeyIi0UGSI+6g0dmt3QVLbxqyo/+uy5YUPzu/z76ulNoFtokcsWqxxH6bpPQs
+	eSk5a3JJNCsAKvXILxjyYPPq1s0dRlkSzptKReNS6F8X0a7Xl9rD0n94YISMFI2z7WwGvs
+	anLcU3mO3ct+345Ikk5SkljoEccXQEc7I02PAvx0RaqKs8Ff2svDxgKR/CvmcneVx9y+oQ
+	nUKAD7O7Kf3foNIZCEkqF7s6FkgMwPK6t5sLgZgyOGMsHjydP4zHiYrymue9/w==
+ARC-Authentication-Results: i=2;
+	mx13.migadu.com;
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=aRnpLftr;
+	arc=pass ("kernel.org:s=arc20260519:i=1");
+	spf=pass (mx13.migadu.com: domain of "SRS0=BWT8=JG=redhat.com=patsy@kernel.org" designates 172.105.4.254 as permitted sender) smtp.mailfrom="SRS0=BWT8=JG=redhat.com=patsy@kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com
+X-Migadu-Country: SG
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id D1EF061185
+	for <foss+linux-man@alejandro-colomar.es>; Tue, 17 Nov 2026 16:11:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix)
+	id 9EEE21F000C4; Tue, 17 Nov 2026 16:11:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794931888;
+	b=NSL5dqQY15eHAgfD409lBQsHlwyeQW6lDU4Dqtx398jkGz8rMhU0+lQfn4QQ2miSmyrc
+	 MoyCN7wh/vs8cWgBniIaJa0o01B0LEvzxc1og4MDiFDP1yVpSpt/J3ht2D1Ow+zYZBuPC
+	 PW0tVFio6Y5FH8DA/5o7y4CCA5S0mt5tuqaFW8CUwlSBDi3DbxoPxHh+hH5ukpixtwPTg
+	 nOx5iOB8MnNdjCO9TLesD5dkt2CeClXu7AHDKTdpcMQvMSTMjHPmiXIGFPvc7ABwvjvPF
+	 lVFg+uAAiGxS4elW7FCkClqU9U1oFP8K5T9DiSPsYwoWnNXBV+qd73KBM+57YwultJg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794931888;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Mimecast-Spam-Score:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Transfer-Encoding:content-type;
+	bh=uP0T8kPi+7saDxFfp1MVK7nrMHpuLNMsuiVr7gaVB08=;
+	b=B8ZgCEZf0YL0/EK9F6SIeNclQDptWOsjPSK6z9LYR4gyeFjFtYsazRN711uXJgbinyKF
+	 oJ7wwNHZObVecyNSX3bJmlKuSIV5h3XTzKTHhaHvaBJqSKRjMzdxVL1/x8Tko2JIu2dQT
+	 83u5d4LzLDBdlotvye09ef1jumhC0TE61YmJw0WNEKxYckDqecoJAEPvh3EsVsuiyzvkT
+	 u3aDF6ubpdIvBjWuVchK8wEZYPQlKJXK1RJIIfuBiXTANvJD21uw+EE9RmPJOqDOO43Gi
+	 jrqt3NsiKRuUtf262xSzYpQoqocjHFuxCFqve7D8jPk/UNvfmQhyy9bHxU0BrtU/wtw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aRnpLftr;
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8B111F000C5
+	for <alx+linux-man@kernel.org>; Tue, 17 Nov 2026 16:11:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.kernel.org A8B111F000C5
+Authentication-Results: smtp.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794931886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uP0T8kPi+7saDxFfp1MVK7nrMHpuLNMsuiVr7gaVB08=;
+	b=aRnpLftrGQqXCO4bPQ5mOmztG/+hynmnyZ5Z6RlOPlhAMbuCIveZJ4O0UiXly9lh26zS2Y
+	hSM+ajloN49fmAoPg7P/pKqOdMDSFgGoJajqtJl8ZBbzUurxfBv4DykPHfCwDdj62EgDPL
+	NnxuZnEM/eNx3pEsQx6Ha7/86otw+CM=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-418-hd56YqnzPGq7XRGAsbAAZA-1; Tue, 17 Nov 2026 11:11:25 -0500
+X-MC-Unique: hd56YqnzPGq7XRGAsbAAZA-1
+X-Mimecast-MFC-AGG-ID: hd56YqnzPGq7XRGAsbAAZA_1794931885
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-92106c98714so12152136d6.3
+        for <alx+linux-man@kernel.org>; Tue, 17 Nov 2026 08:11:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794931885; x=1795536685;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uP0T8kPi+7saDxFfp1MVK7nrMHpuLNMsuiVr7gaVB08=;
+        b=17mbVf2sDNG5kGh0CL4x6VVDy3dP15TYyIg20mv3UNDf61Qg2EMsVil5oJ+aRBIab2
+         yx27LpYv4ch04K/9EW9GyaALer65lz1cb23g7H+U++JE/l/Ye5UCthaQ7oAi2qSzX4sF
+         15uMssUM63YdLYMYdSTNsS487qeMW26FUmYTwd6rnS0RAMSN7i6TTjH/HdsiCBvYs8k2
+         tER+WteSoVWbbOVYo8HZGHM4UxmfJdBzuNI0jgG28FIkrqYSPb5AkgnKtZ/RVuFRoj/Y
+         zMCHMlarAx0wkp9ZYH3c7/DhV5pRJQrn5xd3FvjkLQnXH90pTz20AD8EhXmZHMfnBRQD
+         Z/tA==
+X-Gm-Message-State: APuU4Z8qZ9kbr44tEu30A+H84eYvIX42IK8UaX6nSwenxRHO/DddqwkD
+	gY19dK1GdhsKmxlm4QtE0FIG8LX0Qwmo7iGkPEq6tmJWejfFmpCrm/C0NAEAKIhLzK3FksmuQbC
+	81raQzyNgEFcjtb8F+dDmCUPdNN2fbLOzwtfQrrZyuC+p4wozbN4zQqLYnnUIWic3rVRb+Pc0nW
+	GP/53CmAZuO0uPocrKq+DdhWuG5gyGMfJ0SQh/rxDI
+X-Gm-Gg: AZFdTZfbpSnRmisI/GVlotigbu/rW8nnBrjZzAKwgYl13u1Qa6cyQiWrDAgYauA2SZm
+	kVGMwhz+NRyjhb/otBuy1d6k+NiBLUC3mCbGP5anqjgBlzDIuxSgpf4+Ef5/FOwnlei8cLConT7
+	Z3fvfQ1cpF8gVGYl21GeVxySNLUDcA6Ei/YQ1jXX6ganf7al/TqbQLeWwX0puaC4rLMh4uWTkP1
+	agu6h4zF65Zl74IMRVuQE2qU5TWYzRAQrSvVGkDvcih5eploxKY6P4txC9035zGkZA0acA7PcoD
+	OgfDsPycnaS+todoKG/pkDWUHpm51m18SY9wNi6CQznuSsMifVbjC1xHrpk2CrC3KcdlQKvzYyn
+	NWc/XG8nI6z4s/iERaHq0jS5RHoYaaSNnYGdsHe/nFN2e7D+/REUQFBdYvPrp5vqT5y5lDt8Goa
+	xvD0V9XQ==
+X-Received: by 2002:a05:6214:2429:b0:921:e08:1d9d with SMTP id 6a1803df08f44-9210e08441emr20614256d6.49.1794931884507;
+        Tue, 17 Nov 2026 08:11:24 -0800 (PST)
+X-Received: by 2002:a05:6214:2429:b0:921:e08:1d9d with SMTP id 6a1803df08f44-9210e08441emr20613486d6.49.1794931883767;
+        Tue, 17 Nov 2026 08:11:23 -0800 (PST)
+Received: from pfrankli-thinkpadp16vgen1.redhat.corp ([2601:189:4700:15df:930e:dbbe:96f5:854f])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d5e579sm113638776d6.17.2026.11.17.08.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 08:11:22 -0800 (PST)
+From: Patsy Griffin <patsy@redhat.com>
+To: alx+linux-man@kernel.org
+Cc: linux-man@vger.kernel.org,
+	codonell@redhat.com,
+	fweimer@redhat.com,
+	Patsy Griffin <patsy@redhat.com>,
+	Carlos O'Donell <carlos@redhat.com>
+Subject: [PATCH] man/man7/credentials.7: Mention potential SELinux impact on credentials
+Date: Tue, 17 Nov 2026 11:10:46 -0500
+Message-ID: <20261117161046.2037417-1-patsy@redhat.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -57,134 +190,46 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jlxk4zbqn4pvb7gs"
-Content-Disposition: inline
-In-Reply-To: <aveC_KnRVLx8eCkt@devuan>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: -TUXlvRwGfba9WnJIXxTtusQbdxkcqZO6EjtSA3PVmo_1794931885
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+X-TUID: XEHmgscCTuA6
 
+An SELinux context may impact traditional credential access control.
 
---jlxk4zbqn4pvb7gs
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Jorge Almeida <jjalmeida@gmail.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [bug report] opendir(3): document file offset behavior for
- fdopendir()
-Message-ID: <avz09FM5Bf5n6g-4@devuan>
-References: <CAKpSnp+XojktUF=UL81JZ2bFyBSxXHneFSBsiPi2BMg043xa3g@mail.gmail.com>
- <aveC_KnRVLx8eCkt@devuan>
-MIME-Version: 1.0
-In-Reply-To: <aveC_KnRVLx8eCkt@devuan>
+Link: <https://bugzilla.redhat.com/show_bug.cgi?id=884625>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Carlos O'Donell <carlos@redhat.com>
+Signed-off-by: Patsy Griffin <patsy@redhat.com>
+---
+ man/man7/credentials.7 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Hi Jorge,
+diff --git a/man/man7/credentials.7 b/man/man7/credentials.7
+index b538b1702..21e42ec30 100644
+--- a/man/man7/credentials.7
++++ b/man/man7/credentials.7
+@@ -335,6 +335,12 @@ is carried through to all of the POSIX threads in a process.
+ See
+ .BR nptl (7)
+ for further details.
++.P
++Credentials may also be impacted by Security-Enhanced Linux (SELinux),
++if enabled.
++See
++.BR selinux (8)
++for further details.
+ .SH SEE ALSO
+ .BR bash (1),
+ .BR csh (1),
+@@ -386,4 +392,5 @@ for further details.
+ .BR system_data_types (7),
+ .BR unix (7),
+ .BR user_namespaces (7),
++.BR selinux (8),
+ .BR sudo (8)
+-- 
+2.56.0
 
-> Date: 2026-11-13 22:39:06+0100
-> From: Alejandro Colomar <alx+linux-man@kernel.org>
->
->=20
-> Hi Jorge,
->=20
-> > Date: 2026-11-13 21:28:32+0000
-> > From: Jorge Almeida <jjalmeida@gmail.com>
-> >
-> > Hi,
-> >=20
-> > The opendir(3) manual page currently describes fdopendir() as being
-> > "like opendir(), but returns a directory stream for the directory
-> > referred to by the open file descriptor fd."
-> >=20
-> > However, it omits a critical detail documented in POSIX (fdopendir(3p))
-> > and the BSD man pages: fdopendir() uses the current file offset of fd
-> > rather than resetting it to zero.
-> >=20
-> > If a caller duplicates an open directory descriptor with dup() and
-> > exhausts the stream with readdir(), subsequent dup() + fdopendir()
-> > calls will immediately hit EOF unless rewinddir() or lseek() is called.
-> > By contrast, fdopen(3) explicitly warns that the stream's file
-> > position indicator is set to that belonging to fd.
-> >=20
-> > Could a similar note be added to the fdopendir() description in
-> > opendir(3)?
-
-I have applied the following patch:
-
-	commit 7b4329e4945b1506f75c67c18730ad0191e09fb0
-	Author: Alejandro Colomar <alx@kernel.org>
-	Date:   2026-11-18 01:38:13 +0100
-
-	    man/man3/opendir.3: fdopendir(): Use wording mirroring that of fdopen(=
-3)
-	   =20
-	    The old documentation didn't clarify whether the position indicator was
-	    reset or was that of the existing file descriptor.  Let's use wording
-	    mirroring fdopen(3), which already made this clear.  This makes the
-	    pages more consistent.
-	   =20
-	    Reported-by: Jorge Almeida <jjalmeida@gmail.com>
-	    Message-ID: <CAKpSnp+XojktUF=3DUL81JZ2bFyBSxXHneFSBsiPi2BMg043xa3g@mai=
-l.gmail.com>
-	    Signed-off-by: Alejandro Colomar <alx@kernel.org>
-
-	diff --git a/man/man3/opendir.3 b/man/man3/opendir.3
-	index 443ea8f3dd0a..8184844893b9 100644
-	--- a/man/man3/opendir.3
-	+++ b/man/man3/opendir.3
-	@@ -43,16 +43,16 @@ .SH DESCRIPTION
-	 The
-	 .BR fdopendir ()
-	 function
-	-is like
-	-.BR opendir (),
-	-but returns a directory stream for the directory referred
-	-to by the open file descriptor
-	+associates a directory stream
-	+with the existing directory file descriptor,
-	 .IR fd .
-	-After a successful call to
-	-.BR fdopendir (),
-	-.I fd
-	-is used internally by the implementation,
-	-and should not otherwise be used by the application.
-	+The stream position indicator of the new directory stream
-	+is set to that belonging to
-	+.IR fd .
-	+The file descriptor is not dup'ed,
-	+and will be closed when the directory stream created by
-	+.BR fdopendir ()
-	+is closed.
-	 .SH RETURN VALUE
-	 The
-	 .BR opendir ()
-
-Let me know if you'd apply any changes after this patch.
-
-
-Cheers,
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---jlxk4zbqn4pvb7gs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr89SkACgkQ64mZXMKQ
-wqlmbQ/8D5ZxMEGSlh8+XCaNm/kEpMbYD660Ep1pSSdgV5/AwdFwQd3lSfCqNJ+m
-MKP66hvuIBMgchX/hmM21eDQgcyfz2mmV30xRirlEOU+xUlCqboLsWf+BY8ztLfN
-/0QmExawdJ+X3VEsMTehdqAFnt2RLj/aGRZSuD7+C2ZrtTpHIN3ankLaxxNBL5an
-OJc51/0Ypb8nhLW5nO0eJGChMM5KtCVj6YVx2f+8cxtPPXeebQwhQRNRc2jeP0Um
-Gqyn0LvmXBV65HwAk1yAuwly/HK4UG59jjk20H1JG+caFdR6ZjuPhUOfW21OxhA3
-eQm/3PVdB4D8uHoxr3NtxsEL9hqE5jeTrkb/9irvqXx/ZtH1HCJ1wUQCsYOINvnI
-mrVx9nCjqhyXXjCXIbiZPxEjt49SlByB97ecBREdvDQyWbbx1f3DyQG3zInv2J47
-Qofw4PjkjnsOqKkFoDwICYd78KJKIrH9mBaYfJAC4hrtZcr6CJpl0njAtHoiWro7
-PXhU935V3HBz8kfAbqWmtQi4An4y7OeXq62I7mpMa7BIkE9bc6AGmc9Odq3ilGsv
-F1XR+vdrMWxgw8/FBJ6fMlf+jA95Ap+AacvTES7LaBbiPzUzPHGpXjr2q8iNzEF9
-EAmDanWKRy4LZVdmNdYDgQIXuEJdjJaihNQJFLU6/ksn9OH+mYY=
-=Z9BU
------END PGP SIGNATURE-----
-
---jlxk4zbqn4pvb7gs--
