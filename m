@@ -1,60 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794963393;
-	b=tD/ZfwZbjMycgLqJJsXQf+SUrwvfdDAslOKS7ntNy1q59GBJPpnf71rr8Owi77XngGPL
-	 n9gTfTlqswgfk/NK0yOzVbVJF5OFI1Wk4drmFvRGkBdaNJCgf/KnpvlDv91FN02pSOA4N
-	 E1BeVSZQh6XvecnHmAGTo5PFjCYvTPmgYQJJVfnqCukA5fRd0WhNdbwXUhr89hGLIlWQX
-	 DELQGDJ30l7uE1J+9GIoiEE83vCQXJCB0RlJ5h4qjq05COOyAO0KKg+AjO8ok0A2S+fx7
-	 YlAdgmZXRQUsBmzCipjc4qMry3+dwqo/9sJ7wDxIrzQWt9RCEEyL6TPAP/I8uiynexQ==
+	t=1794963600;
+	b=vHV9f8Emp0D95p9caCrMKkqZ+JwTXz5x9a1izw4sY9Xtic7UjgZITUR7pefPXgCpVQFt
+	 wcMtRUws7A+vlJPTZHJP2BugwjP3DFBmrF83CFdJOzW4Yu22LO9mMzygTcjkjR4HFAuIu
+	 Ok1bSHu/YH/kiphtkPqSKMGlX4qwaTrrEKAv8rYJ0q/QlCc9aFm25LcbqxwqZNZF2rFxr
+	 MGWPzNAA7ZBT/M2j2o8CFHBDBizfzAUOxqOfbvT/MaxwJPYeIEzoEtDxQM2QSIDZiGZUD
+	 dVuVkX96w0zmvoneZGvn+heQQHlO3yEJiDGFa1YFeo+dEa2Vm9qyGABg0d/4moUlo4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794963393;
-	h=Received:DKIM-Signature:Resent-From:Resent-Date:Resent-Message-ID:
-	 Resent-To:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hSFSV1o3BBVUgxVZgA8QFkYqkl2evwkFMjVFAFiJiWo=;
-	b=uInYwqeUY1FQ9rqlfpLu4X/zaV/dfrMN1OZxNbvwtkSriVenDpTRGOq8DazFZMI78gpY
-	 9RPGQ8hLapMge9DHNF0rnAIiAE5KNwcXKzElw6k3JMYr99n4/X4pxIhI1eFu/05/N0F9q
-	 oCEZKtpf3E8rnBGieUOz/j97xBkCWVhawtekt2B5lc0uivT27I/y5duR/+Zh1vS6oYk3J
-	 7tbWYRtSEjwnFvTOr4pc4TgBVbT3T8zjGwr9X7kjGLueKaXDUROTWxGuypF48yWK0l5rt
-	 89zSQfW64NCAJ3G9TVockIq8vgXBtdIuC4qxS60ZCUmKwL4AfSbUq+1OTOzpiW1d6iA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794963600;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BSQ6Br/O9kYjwM+EnT/AzR1q80SEHbqf5VR/WcPiMrg=;
+	b=MLHKFSaY6hC+9l9GFn0nknqkty+ENhosVMXAmrOeWok7vsM5FE+YSnbUXZjh8XC3hsVb
+	 il27qeoRXaZup/19SLoOVMUCWTsTSVYGShsrSEw1sMcJQH2zMjpMOZSBmC9W9Rho0S9EK
+	 WAb6kOJPGSsQmoWCW9vms6DIX/lw0qHdYm5MQJqxYVi1AshX3CJlf/ueX3qYDf/18Jgbt
+	 koOu/QNyZkrtFkVI2Vg/nBD1/zaIVXMVHdS8Y5vu8KPuqoNmfzlW7lleiANxvBGvxo5u1
+	 fgLK8MdK7jtXvPs3GbggL5hq9bqFkjWA/5/oBOU4nRi5aj+6ZG2A/zftULvdsWJIWBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HUKVS7Lg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FtFidoSX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D927C606A31C
-	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 00:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B97F606A31C
+	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 01:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HUKVS7Lg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0A01F000C4
-	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 00:56:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FtFidoSX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0D431F000C4;
+	Wed, 18 Nov 2026 00:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794963393;
-	bh=hSFSV1o3BBVUgxVZgA8QFkYqkl2evwkFMjVFAFiJiWo=;
-	h=Resent-From:Resent-Date:Resent-To:Date:From:To:Cc:Subject:
-	 References:In-Reply-To;
-	b=HUKVS7Lg643E34/8sw9sP8hxbE+r+46I6qXD9sucF4nEWAG8YmfSz9X8+3PjZ3K8/
-	 4bYmiNZABIxMAdCTZSXuW30hIaYcBE9G/FYaEbvqLOYMqEeREOJakTCurhbZYLK7Pt
-	 WkZ8/9nKdA2OGNUuvDalppY29klJ+0WyGfleCwwHHugIwkuqIpo7MXiLIQPRjNTWef
-	 Jb5LWs6uuulOxoXXiuPglckYLgfpjLxkZwCGjmVHdY8FG+t5OX03iZfp6ROn8xPouo
-	 A18dMUBb49vGuEDCpLyR7RdkITjgDxsXec1kIS/reQDOweh49Ge4djnljI6AQKSj1G
-	 PIvLQD7916dJA==
-Resent-From: Alejandro Colomar <alx+linux-man@kernel.org>
-Resent-Date: Wed, 18 Nov 2026 01:56:30 +0100
-Resent-Message-ID: <avz3vpb4HLayaty8@devuan>
-Resent-To: linux-man@vger.kernel.org
-Date: Wed, 18 Nov 2026 01:30:21 +0100
+	s=k20260515; t=1794963599;
+	bh=BSQ6Br/O9kYjwM+EnT/AzR1q80SEHbqf5VR/WcPiMrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FtFidoSXU9uPYx8wdzMdHbrx/3/j5gI+fnwO8utAVrglVL2bExPqt47sgu/coR4Rc
+	 M0fW36Cdp4mK65yXLbFaxZzo5VBwljiR8k4f4rtTfzwywuQ3UF4LU6om83MggjAGX1
+	 J6eNAcP5CSzRUauSuhOwieiAnOik2KFm2opw32zUi74lll9jB6kBA7jlKCKzoP23JK
+	 NL22waxdzd7aV6Irldw+bM0ydenDIs3bNNn3D69DN0ib89X17rvDG/g6rCgD5z1pRo
+	 83IABUQe0pY3MKN36J++Xjst2zl6xJWKYUCgwLCKTjWBKY6aXk+SWZXSTEppbBNXEQ
+	 l5fK38/JYiUOA==
+Date: Wed, 18 Nov 2026 01:59:56 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Carlos O'Donell <codonell@redhat.com>
-Cc: Patsy Griffin <patsy@redhat.com>, linux-man@vger.kernel.org, 
-	fweimer@redhat.com, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] man/man7/credentials.7: Mention potential SELinux impact
- on credentials
-Message-ID: <avzxg3GZmPo1k0Le@devuan>
-References: <20261117161046.2037417-1-patsy@redhat.com>
- <1458827a-f1eb-41cb-8b42-d4a088fcb550@redhat.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v2 2/8] man/man7/unix.7: Multiple same-typed SCM_*
+ messages may be sent in one message
+Message-ID: <avz4awkoCeYWYGeW@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
+ <20261103202211.13820-3-gnoack3000@gmail.com>
+ <avpTxVySkPfwWolT@google.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -65,43 +60,69 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xekqg4d7l64m3q4e"
+	protocol="application/pgp-signature"; boundary="4xw4nt5yqsgu3tab"
 Content-Disposition: inline
-In-Reply-To: <1458827a-f1eb-41cb-8b42-d4a088fcb550@redhat.com>
+In-Reply-To: <avpTxVySkPfwWolT@google.com>
 
 
---xekqg4d7l64m3q4e
+--4xw4nt5yqsgu3tab
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Carlos O'Donell <codonell@redhat.com>
-Cc: Patsy Griffin <patsy@redhat.com>, linux-man@vg.kernel.org, 
-	fweimer@redhat.com, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] man/man7/credentials.7: Mention potential SELinux impact
- on credentials
-Message-ID: <avzxg3GZmPo1k0Le@devuan>
-References: <20261117161046.2037417-1-patsy@redhat.com>
- <1458827a-f1eb-41cb-8b42-d4a088fcb550@redhat.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v2 2/8] man/man7/unix.7: Multiple same-typed SCM_*
+ messages may be sent in one message
+Message-ID: <avz4awkoCeYWYGeW@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
+ <20261103202211.13820-3-gnoack3000@gmail.com>
+ <avpTxVySkPfwWolT@google.com>
 MIME-Version: 1.0
-In-Reply-To: <1458827a-f1eb-41cb-8b42-d4a088fcb550@redhat.com>
+In-Reply-To: <avpTxVySkPfwWolT@google.com>
 
-Hi Patsy, Carlos,
+Hi Kuniyuki, G=C3=BCnther!
 
-> Date: 2026-11-17 19:13:30-0500
-> From: Carlos O'Donell <codonell@redhat.com>
+> Date: 2026-11-16 00:52:32+0000
+> From: Kuniyuki Iwashima <kuniyu@google.com>
 >
-> On 11/17/26 11:10 AM, Patsy Griffin wrote:
-> > An SELinux context may impact traditional credential access control.
+> On Tue, 03 Nov 2026 21:22:04 +0100, G=C3=BCnther Noack wrote:
+> > In the Linux kernel code, __scm_send() in linux.git net/core/scm.c
+> > walks all control messages in a loop like this:
 > >=20
-> > Link: <https://bugzilla.redhat.com/show_bug.cgi?id=3D884625>
-> > Cc: Florian Weimer <fweimer@redhat.com>
-> > Cc: Carlos O'Donell <carlos@redhat.com>
-> > Signed-off-by: Patsy Griffin <patsy@redhat.com>
+> > 	for_each_cmsghdr(cmsg, msg) {
+> > 		// ...
+> > 		switch (cmsg->cmsg_type)
+> > 		{
+> > 		case SCM_RIGHTS:
+> > 			... append(!) file descriptors
+> > 			    up to the SCM_MAX_FD limit ...
+> > 			break;
+> > 		case SCM_CREDENTIALS:
+> > 			... replace previously set credentials ...
+> > 			break;
+> > 		default:
+> > 			goto error;
+> > 		}
+> > 	}
+> >=20
+> > So it is possible to pass multiple SCM_* messages -- they will compose
+> > if possible and override the previous value if not.  Since their
+> > contents are being conflated that way, they will appear as one message
+> > again on the receiving side.
+> >=20
+> > Keep the recommendation as portability advice, and describe the Linux
+> > behavior.
+> >=20
+> > Fixes: 5b5cb1958062 (2018-07-10; "unix.7: When sending ancillary data, =
+only one item of each type may be sent")
+> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> > Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> > Assisted-by: LLM
+> > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
 >=20
-> LGTM.
->=20
-> Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
 
 Thanks!  I've applied the patch.
 
@@ -109,67 +130,27 @@ Thanks!  I've applied the patch.
 Have a lovely night!
 Alex
 
->=20
-> > ---
-> >   man/man7/credentials.7 | 7 +++++++
-> >   1 file changed, 7 insertions(+)
-> >=20
-> > diff --git a/man/man7/credentials.7 b/man/man7/credentials.7
-> > index b538b1702..21e42ec30 100644
-> > --- a/man/man7/credentials.7
-> > +++ b/man/man7/credentials.7
-> > @@ -335,6 +335,12 @@ is carried through to all of the POSIX threads in =
-a process.
-> >   See
-> >   .BR nptl (7)
-> >   for further details.
-> > +.P
-> > +Credentials may also be impacted by Security-Enhanced Linux (SELinux),
->=20
-> OK. Semantic newlines.
->=20
-> > +if enabled.
-> > +See
-> > +.BR selinux (8)
-> > +for further details.
->=20
-> OK. Yes, they can have an impact, and selinux.8 is a starting point.
->=20
-> >   .SH SEE ALSO
-> >   .BR bash (1),
-> >   .BR csh (1),
-> > @@ -386,4 +392,5 @@ for further details.
-> >   .BR system_data_types (7),
-> >   .BR unix (7),
-> >   .BR user_namespaces (7),
-> > +.BR selinux (8),
->=20
-> OK. Correctly sorted after 7 and then alpha.
->=20
-> >   .BR sudo (8)
->=20
-
 --=20
 <https://www.alejandro-colomar.es>
 
---xekqg4d7l64m3q4e
+--4xw4nt5yqsgu3tab
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr88ZkACgkQ64mZXMKQ
-wqnW8w/+NSCKug2Reaou6rALw5Vd3BeNkAQs/+9L9qu+ohr+FcFwxupLN9q+5mrV
-jvstUAdACQGJ6Wxlu2GQCH94VZc/D8KibxqQ7fKn9c98Ri62DQfxdsjDyrHn56xY
-nDtmGFyU3+8qtEUekUL6RrS5nV6j4dtz7+t5sRPSV52opkUKKgDKu9p9G4R/ztO9
-vnvb8P+nyIfcqLSp5/dCx6ChoSqxC4Z821jhW+05kmDsv+AIXXJtc1wy1xTPGNSs
-yjZdwv9gRzZLY8JNGcbsd9QWiBxqElaGC14G/+xO1I+LaqFlloQlwKIJ3BVneGWT
-UIjcFh5Es8SmW42yX+bRBATezdTb+M51m7ZwJBypdKwDYhdenEe8/WUF9tWvKNBV
-AJCs+K7dZpsioK41M5vNLu6A7mXQEevrt7L7+LrVMirFTEtCd/JRMfM+sjyzh2T7
-04S3wu6vtznBVyLMTxgIM88kqJjGNYZQsnp4MysMemrW11H7uVZm6wohmtVzAIi1
-oamlVMTsg5WShxp4wqM6IBvDQFwbYBtDuF/ii/bABftTxN2+EOFvrFmWkp4elOdw
-nDaRRBzkqF9N6PvEeOHVXLIrmnKnEkgHJMaO4zetBw1ZcEmAJRee+e8Zzkfo7egI
-uIWvZqEsHrkFOEp4MIQqi6CJlIcUbn9i28ak70Oewa6CmiSwVS0=
-=fR2n
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr8+IwACgkQ64mZXMKQ
+wqkv6hAAtvouRrd2i72KtuCsckcwOlN5boGjhhaywvYPci1X0yOqygO+vgyxBMQ1
+S/oQx3VWYlGqFNWaFiG1uaJRsK5vBYn3PgR7U83iKbsc1BANfO+okNe1zupnDMiX
+zEMYcPFl67PDG1ux6tLOQqDfX2iCV2wef8xhjw93+e0me8QxRv2uY9wRqfHfsJwy
+1F3YZxfVrH8geljT69mtIyx6NYQ5YAGD5iOnl4wKupBgyhtiCVF/s+dkBBilBa1r
+sPWjpk1Il4KHu1Y8qxfRV+Bn81cAA46DksLCfdnptIFWqPt5ysMSzRFnAfkeU0Zq
+ODEHWXVjHXK+AXPEtK9eRCBlYqYIThUQC8aZzOdHsF7QFm48LB44CnGuzqzAndHS
+MQkab8MGN3F43oP3xMgunhFeGMcnYyhcgclw4oi9/DacLG/plCa14IYYWGwU1UYz
+yqh62ohqtiQg9jrvzafR9WhRjPx/SYmnpqPQOct9/mdYp+B7x+Uh+Yln3gwE5f/+
+sdYnhmNmTpaWI0ZfK4p39Wrhfo8hfNl7E0gU/dEtF3YVM1nl25sV6fEZDYMu+EIY
+bUQ4JGFEjOzGISB5QSbDj2gF+SjRGRv9cRdtKZXboVW5K5nDZUvbO9+DopgQp0J7
+fJCjoBKAG2jDQMmG4HYSJ2CpZBgrOrBx+unC7qjJJ2OfPL1UGUc=
+=9cO6
 -----END PGP SIGNATURE-----
 
---xekqg4d7l64m3q4e--
+--4xw4nt5yqsgu3tab--
