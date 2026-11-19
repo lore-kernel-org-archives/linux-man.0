@@ -1,65 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.33.106.226
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795034909;
-	b=mMMQCR747RZZHxfoJNqum/2LxYxTrNwnMyZ/nIAVVCzVHkS4/inNSLmzNh7cb1f1DeKA
-	 yyUNDbPZwMUdCWnQL+C68EXn54WjS6IO+hyLRhea3sWkjnOcUK1zXOMW1FebkN5fZLcx3
-	 w1jQVNX8NRldBLre2DUxfpQe/R68+GD22ZiNOfQo7diIuOQBoogL+8uo5AyXCg83rX+SV
-	 lPuHscQa3jDQ0rWpRgs56a66AbjNTWqkjAIcnJMJwMT/2Jkjmv/A0meQ1HTf+pvs57/Ic
-	 fRAbDK+N68MDEq+/HfSd8ModcIaRlsUSHt/uGMkLWm984UAEqbV++0YLN48U2LP2w9g==
+	t=1795107980;
+	b=CZynjz6ti6dm3sV9/fa5G8Je1+zeOs6n+1JrMaLkEYH3dXYqweWH7QYVSmvdE8Tm0+MV
+	 2wvLc1ea/921Ev9HTr+62f3Q7Q2Y0CsrXX7ngH2guRSQX/+wnDx/9E6ElvBhtBa21NYxL
+	 AG9vl1APYBf7wXLnHrrOBZnfCZ9OSYqLC9niIMLUSMl88c5O3UnsQNOYwmLjhUvObiUXu
+	 BxQQil9LdPuTFkxTPGHbi2OQdP+k8R+Dpg0lQTMSs+AbMWoH4Nhbr0BWYVKx+6FXgWd2w
+	 x06rHsIR7HflnFZ6XV/VoHURhNxN7dGBaAyMM5RAIBfkILT4TbK4ULB1VaVqwpEtF+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795034909;
-	h=DMARC-Filter:Received:Received:Received:Received:From:To:CC:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy:DKIM-Signature:x-ovh-tracer-id:X-VR-SPAMSTATE:
-	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE;
-	bh=AP5+U1uYtrlh/18VEe/XfxBXXT/5CZbhhyUp9Vz0Lao=;
-	b=vy+UAb/QHvwD3L/4yYbxo6VvCauynSF+AT6HFlycT+xy2S3EwZ9bTwynuIswoQuH8ZAo
-	 77NffOjmIAOYCTXLLh3YoHEOLJxwJ4dY08PaBFEc5HNCXzGIEothDBTuzT+mGASaFSqd9
-	 xhyDde4ZljYSRKYQSWoTFPLLj+CIAkj5kZ4nRAActnAbimYLRb4ZORPq+Es1WpBBmndkx
-	 G6lz/KvkKdqDJWls333nPOuNtzYayXv+r88LfHkH1TRDCpKHOwd08BU7QR0JuARv71cLf
-	 8E1NwXFym7s6wg1B/UQXVko1sgxdcLCXgh7NqvyOCMXXucoyogJfLbDAfWHg6wGs3+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795107980;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=So7TZif3Af2OnokfZ+EejhgWtBpuQIZKbzG8ZslFxug=;
+	b=vW+q5BVR+nC3quiFJf9cKeyrwnREZz2A1ttccll6CVSK4zvrjujiQVFa5Bs+kUj+jH4u
+	 FijwKU/eZ1GkVrE7Qoj1X+vl+uLM6Mz9dX4pTDcFRyfHxLzK/2HZBoFhloMROfCtCQDnr
+	 QaU80SD+XFODHgwDNlqw7ml13rygxAq61wM0gHKBBh1PQkTyTRtRNO/pqoanYsmbH509R
+	 uVTgJV0CiIuHLMqsLPt7vZv7Yyxey876QX0ZFEnT4po3aSuUeM4zw5MyTBfrcJP8q8o+M
+	 4mq0Ev4GyAb4ZkSCTem08VqJdIkC+ZzaCyXlHyupxrbnP27NT9ay72aIEnk/p00ceSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=buffet.re;
-	spf=pass smtp.mailfrom=buffet.re;
-	dkim=pass header.d=buffet.re header.i=@buffet.re header.a=rsa-sha256 header.s=ovhemp1250268-selector1 header.b=UBiYUKi3;
-	arc=none smtp.remote-ip=178.33.106.226
-Received: from 1.mo564.mail-out.ovh.net (1.mo564.mail-out.ovh.net [178.33.106.226])
+	dmarc=pass header.from=maowtm.org;
+	spf=pass smtp.mailfrom=maowtm.org;
+	dkim=pass header.d=maowtm.org header.i=@maowtm.org header.a=rsa-sha256 header.s=fm3 header.b=nW4e5ybk;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=q9Q1HuBC;
+	arc=none smtp.remote-ip=202.12.124.151
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E349606A320
-	for <linux-man@vger.kernel.org>; Wed, 18 Nov 2026 20:48:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E349606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=buffet.re
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=buffet.re
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D754C606A324
+	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 17:06:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D754C606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maowtm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=buffet.re header.i=@buffet.re header.a=rsa-sha256 header.s=ovhemp1250268-selector1 header.b=UBiYUKi3
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net [79.137.60.221])
-	by mo564.mail-out.ovh.net (Postfix) with ESMTPS id 4jVDFw2P1wz8548;
-	Wed, 18 Nov 2026 20:48:20 +0000 (UTC)
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net. [127.0.0.1])
-        by director1.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <mic@digikod.net>; Wed, 18 Nov 2026 20:48:20 +0000 (UTC)
-Received: from DAG5EX1.emp3.local (unknown [10.108.54.59])
-	by director1.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4jVDFv6sP0z5vLY;
-	Wed, 18 Nov 2026 20:48:19 +0000 (UTC)
-Received: from localhost.localdomain (88.142.38.18) by DAG5EX1.emp3.local
- (172.16.2.51) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Wed, 18 Nov
- 2026 21:48:19 +0100
-From: Matthieu Buffet <matthieu@buffet.re>
-To: Alejandro Colomar <alx@kernel.org>, "G . Branden Robinson"
-	<g.branden.robinson@gmail.com>
-CC: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	dkim=pass (2048-bit key, unprotected) header.d=maowtm.org header.i=@maowtm.org header.a=rsa-sha256 header.s=fm3 header.b=nW4e5ybk;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=q9Q1HuBC
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2B1101D002DE
+	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 12:06:19 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 19 Nov 2026 12:06:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maowtm.org; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1795107978; x=1795194378; bh=So7TZif3Af2OnokfZ+Eej
+	hgWtBpuQIZKbzG8ZslFxug=; b=nW4e5ybkK7ViJP6k8ubkpO8vap7Xtmx7sVeGX
+	SiPhO1GNYCfZqR1d3VmeEV50kEKZrOubYl0ZPdx6Cx/tnNAJTOE3bguQFOur/I9t
+	G6HNt+9dGp1CL+1Y08JXUJTIaIPTm5F8t4JYul7kUQycVCfVhp67okR+dQNverna
+	KHyIUjTEHssbueCoyaFMljk0O4pxpXQWrDnRztOqK+7VPHCa6hf94HaNOBB+BHny
+	5SiC/31hLY2d3A4hnBSy+16pVkwl380aw2uqDa43SEYy+ZTflgr6Sd7ChCVYr8Yw
+	bXO1jf+naSdREU4mGg09L8lugyaVq511WXPssTJ1VMkGAULVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795107978; x=1795194378; bh=So7TZif3Af2OnokfZ+EejhgWtBpuQIZKbzG
+	8ZslFxug=; b=q9Q1HuBCaCZyFIyzUk8DipWC1lPYJ/sUc8roZAjdukuV1y/jYeB
+	bai4kRsSc0LKqMnEQrJPEy9EXfFflDxffcnvHaz8NfFLOdPCj2HGqP3qv0MfG6wr
+	n/SnrdlJYIdC59BF77WhYWIKjn10VsjG2d0M71YL/ekUzz7yhhBmgIfQVNE5Vx3F
+	Xr9PbJhnN10oykhsy74XFTgQ6ZMtX9GQTiKZ9tdKKe5F/1l37dZ3DLvkJKUCXppn
+	7zvudyhHpTi9sRGnVz5YsclINw5NJZqJ2XdBohAFtMqrCmvB85/lZfCqVdHTxsSl
+	rrQ3MkiPUrsBF7dTaV4yWPKCCV24S97EnHw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=maowtm.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795107978; d=maowtm.org;
+	mf=PG1AbWFvd3RtLm9yZz4=;
+	rt=PGxpbnV4LW1hbkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm3:rsa-sha256:pGI8uS2iuMoNQQP/7SASSkqlT38vPWRYzzRN832c2qPAn39
+	x+8dCxISnGczef47JRDjPxW1DaCbqkukhASpHE5eFcrmJ3pAWjiVevBoYrNS51T9
+	cEgOREXUnB/A6vKJ5mqmOZ6idLkYNTNkazywqbaowAFAUngWpqjOHjEkRTbkKfAp
+	YXH7S22J6lP2bYm8JhT5Y7oUB3FEkT8zHjNwlEHXBadKoR+86OyA3AkdLyFhJpGH
+	kjH5HxNarZOaIb+h3KVRlZDzMeiHjf6iuWza2uJqIzo29WuOCeRcZMH/1b+MTfhC
+	kExccYdldJdDS4hM+j59S/GbsrjB8D16Q8Lpwbg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:saRq3QSbahXZWGDdGgoLuJcTHLTp3D0+id88tac0w4Q=:o2nDvyIsDG0lUML+UPPuvzjfmaKT/oWdsb7QnY12LaU=;
+X-ME-Sender: <xms:iiz_amk2PVj4YlO3cYc6DiXRgGid2ixzXiLO3_S1qFNjsMduIENIkA>
+    <xme:iiz_aktn6-Ji0eW0p506aEI936Pnx5lXz0o4Vw28d9BwjoYqNFQXv2dt4ptlcRxS1
+    aZ6Y5R2r29WN_tRSlO31PcoTKRPigZ2Jc8Blhqj96l2-tpoZQ2YiOAr>
+X-ME-Received: <xmr:iiz_as_vPgNeBW_tR2SXulUABxjdqlE-I4BWp3nX94DfUa6ymizkmnGYFTpMvmmOrnCYtQ8E3JKgavX7wQGKSHpWTUNulwmT6jdxca4zr0bcf5X1apDv>
+X-ME-Proxy-Cause: dmFkZTFjeEDJ/Ck/K/CikTazXNbHzjAYKFuDsqhlGwAbeWSKtv6zaqcNEkMB5R7iNzLjcc
+    SUnj0xxuDVM4cs/B7cWjkdGD2jY/Hz9x6JzT1cbE/TYrrJNuTx+jboGGh8sUvYS0UDUTlH
+    R3TLawbusj6DjsJmTmJa4k3b/5AI1kV9UX4rC3kTo2dDCqvA34VuCyRSlF5Y8C1rK7sArF
+    dlbxaDlryDkdJZJIkSM6jACjKm2OXPYRPLtF48Fs8nfFsS8TKGTJcwtkthEKiWiIHdJn1C
+    TQG1QVutoaeki0daKbdQVqVR+qtVd03+3s++Co+F6REMDGrDTDslKbDw+B+jCx/BZFc/lU
+    syTQKowbbWVmS1P2ILfKrus8RwFSl5uWAbRXLKvoIbDve4FHSdNYldnjBuNwFMA3QOQAG5
+    kxtx1XuqC+Gfvql5Gef1Oxc/jrR+L8KYFobWr7MVWmG+0hW2zTUj+E2xB/8phZgAFz3Q0l
+    Pc9/1Cn9pijgWvlEOqphydNQUw4dM0vpfNF0Tjc9+SzLiHKljzcYsUXMLwtpYiZotTR2/y
+    Py4VzSLrMh8ogx2CTWCiamNp7YPzDebk2xIugnrvDrQLjTbGQaCPEIbyHKoM5o7Vrw3qR0
+    TllaKaCfRK6+0bkwmJ98NA4BkQnR7J3ktnd1t4WwRJL3J+THJRZywP9JbMlg
+X-ME-Proxy: <xmx:iiz_amM_tQeGPfNr7vDNx3K7ubmTGuae12_3iZEMMWClxG5NkAHnCg>
+    <xmx:iiz_aiGseJ0RTPSv_o6fO7P3laMImQivy7buL5-s9VgK6t4GKqmDuw>
+    <xmx:iiz_asRJb8fFkfwvXDXGK9rsWINehmClroaXXHLFIlGPCKYzoO93YQ>
+    <xmx:iiz_anvIkTWPDyGHwMPCD78ZuSBmhr88bMMMElX1VXj2oQZWRxwldA>
+    <xmx:iiz_avodfLgOvBLlBjmnxPXFW-3q2Cv-006tBpGJnAkoNbNNFcGlFcah>
+Feedback-ID: i580e4893:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Nov 2026 12:06:17 -0500 (EST)
+From: Tingmao Wang <m@maowtm.org>
+To: Alejandro Colomar <alx+linux-man@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+Cc: Tingmao Wang <m@maowtm.org>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	<linux-man@vger.kernel.org>, Matthieu Buffet <matthieu@buffet.re>
-Subject: [PATCH v4] man/man?/landlock*.?: Document UDP support
-Date: Wed, 18 Nov 2026 21:47:37 +0100
-Message-ID: <20261118204737.18079-1-matthieu@buffet.re>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <77089dd4-e776-4f56-8aad-508dcba53955@buffet.re>
-References: <77089dd4-e776-4f56-8aad-508dcba53955@buffet.re>
+	linux-man@vger.kernel.org
+Subject: [PATCH] man/man2/landlock_add_rule.2: Add a missing EINVAL case
+Date: Thu, 19 Nov 2026 17:05:53 +0000
+Message-ID: <20261119170554.224641-1-m@maowtm.org>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -70,181 +124,33 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CAS6.emp3.local (172.16.1.6) To DAG5EX1.emp3.local
- (172.16.2.51)
-DKIM-Signature: v=1; a=rsa-sha256; d=buffet.re; s=ovhemp1250268-selector1;
- c=relaxed/relaxed; t=1795034899; h=from:to:subject:date;
- bh=AP5+U1uYtrlh/18VEe/XfxBXXT/5CZbhhyUp9Vz0Lao=;
- b=UBiYUKi3EiK9DN3g1+cHPHCfJ8hmAE98EkBdxPXXS88TJFmZAH7yLM8/Lyu+KKlFBUCo6uQYJt4BYpi14/pMAj/+WXDH7oZ/QyncJfn/S1rcufRgN8QvOvYePBPtNIxL619sv93cZYwDGvaxxz3JsIaPLLA1VBWrQJO8WtDwC3NjNpJxO+do6UGPyfdLyaG2UkTUoRa1D6FwDnxWJnmSjlHbkZILuemUDRux6OVZBpIKNcCD+pQTkm2vHIiUBFU6/sBRftp2Fl/F71cNGCG+8FPY2roNasfiV9F3FfKH3yk/3e7Qa2w1O1BS3g6iSG1V3gnffzlGkdJrtLrlNfng+Q==
-x-ovh-tracer-id: 1086493410410324502
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTFMtW2AB3EjXEMP2BaEWkXY6yveiHaY8vKqXFtsNIHEEz9EpwE4BDeX3+g3Mghbj9ysIrktsJ14CVS2WLbeE+ACqQFytQjfVD825VcfShemX/QeMZTRl1/ykXPWTfYfbLxEly62KP6ZvmDjnkxsbQlcGGvrzrklm3Xff96AudztFvBbmRiNqghFkuEe2txC3vEs2pzhQq8RaT/4aLrsVfVKBqnwUoxWSl9PYEiNGlQgXfYG04DA8BHEE39P/ztzaPBq07mzhTRdFWC1kE1+smILK+dSeHZ9CLLFStIId8/z2KYzooNm3V2gcSbIAWPJoh/Gcp61ZtNv01j+NzCviiamjxUvrCTguV3ldcuL55LascdXojbtIyzf9/UmMx5NU/CLn+RHmIpw6q3PY0HwN9H831jwz1804CKGyRWO4+uzBeVPvaWIAkdy7DSLq/4rHIc/CUWLOEydph3rDtrGJLvddtMWE6ph6oz8BIgrZbqmsJeuuOAeDqyE9IxvbtCbXxnp/bMHGbkBstDixEpdCfnqVVlFnzJCagu2hGmJOZOjXx10A7wdcv/j6V1JU+5cv0glx+7aPhKHGb8xpSmYh/qR6y8yxnF6ejd88/ZbH2bk9kFxpI6UHZz51BnuHA8WW/KeZ760lvjfNHGdPjcE6DLAhJL/+VfSjIxZVUS4b8NEug
 
-Landlock support for UDP-specific policy was merged in 7.2 in
-linux.git 9a8ed15ce224 ("landlock: Add UDP bind() access control")
-and
-linux.git e61247a2e694 ("landlock: Add UDP send+connect access control")
+This is another way it can return EINVAL but is not documented.  Documenting
+it is useful to help rule out errors.
 
-Add documentation for new access rights, taken from the UAPI header with
-minor improvements to be backported into it:
-- clarify the most non-trivial behavior (auto-bind denials when sending
-  if BIND_UDP is handled) without restricting to the case where
-  CONNECT_SEND_UDP is handled
-- improve description of how AF_UNSPEC destination addresses behave:
-  connect() is always allowed, sending is always denied (instead of just
-  "not supported") on IPv6 UDP sockets
-- minor wording improvements, nothing else semantically different
+This syncs this doc with the same change in the kernel [1].
 
-Link: <https://github.com/landlock-lsm/linux/issues/66>
-Signed-off-by: Matthieu Buffet <matthieu@buffet.re>
+Link: https://lore.kernel.org/linux-security-module/20261116233139.206924-1-m@maowtm.org/ [1]
+Signed-off-by: Tingmao Wang <m@maowtm.org>
 ---
- man/man2/landlock_add_rule.2 | 14 +++++--
- man/man7/landlock.7          | 75 +++++++++++++++++++++++++++++++++++-
- 2 files changed, 83 insertions(+), 6 deletions(-)
+ man/man2/landlock_add_rule.2 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
-index 253498bfa2cf..d48a27292987 100644
+index 253498bfa..f6a812c7f 100644
 --- a/man/man2/landlock_add_rule.2
 +++ b/man/man2/landlock_add_rule.2
-@@ -82,7 +82,7 @@ just a file.
+@@ -206,6 +206,10 @@ .SH ERRORS
+ is not valid.
  .TP
- .BR LANDLOCK_RULE_NET_PORT "  (since Landlock ABI version 4)"
- For these rules,
--the object is a TCP port,
-+the object is a TCP or UDP port,
- and the related actions are defined with
- .IR "network access rights" .
- .IP
-@@ -120,8 +120,13 @@ with
- A Landlock rule with port 0
- and the
- .B LANDLOCK_ACCESS_NET_BIND_TCP
--right means that requesting to bind on port 0 is allowed
--and it will automatically translate to binding on the related port range.
-+or
-+.B LANDLOCK_ACCESS_NET_BIND_UDP
-+right means that a port 0 binding request is allowed,
-+automatically translating
-+to a binding on a kernel-assigned ephemeral port.
-+Such binding can be done explicitly or implicitly
-+(sending a datagram on an unbound UDP socket is one implicit means).
- .P
- .I flags
- is a bit mask of the following optional flags:
-@@ -181,7 +186,8 @@ can fail for the following reasons:
- .I rule_type
- is
- .BR LANDLOCK_RULE_NET_PORT ,
--but TCP is not supported by the running kernel.
-+but the kernel was built without
-+.BR CONFIG_INET .
- .TP
- .B EBADF
- .I ruleset_fd
-diff --git a/man/man7/landlock.7 b/man/man7/landlock.7
-index 006482c94e34..6621676c5ca7 100644
---- a/man/man7/landlock.7
-+++ b/man/man7/landlock.7
-@@ -53,8 +53,8 @@ For these rules, the object is a file hierarchy,
- and the related filesystem actions are defined with
- .IR "filesystem access rights" .
- .TP
--.BR "Network rules" " (since ABI v4)"
--For these rules, the object is a TCP port,
-+.BR "Network rules" " (since ABI v4 for TCP, v10 for UDP)"
-+For these rules, the object is a TCP or UDP port,
- and the related actions are defined with
- .IR "network access rights" .
- .\"
-@@ -279,6 +279,75 @@ Bind a TCP socket to a local port.
- .TP
- .BR LANDLOCK_ACCESS_NET_CONNECT_TCP "  (since Landlock ABI version 4)"
- Connect an active TCP socket to a remote port.
-+.P
-+And similarly for UDP port numbers:
+ .B EINVAL
++.I rule_type
++is not valid.
 +.TP
-+.BR LANDLOCK_ACCESS_NET_BIND_UDP "  (since Landlock ABI version 10)"
-+Bind UDP sockets to the given local port.
-+.TP
-+.BR LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP "  (since Landlock ABI version 10)"
-+Set the remote port of UDP sockets to the given port,
-+or send datagrams to the given remote port
-+ignoring any destination pre-set on a socket.
-+.P
-+Note on auto-binding:
-+Setting a remote address
-+or sending a first datagram
-+auto-binds
-+UDP sockets
-+to an ephemeral local source port
-+if not already bound.
-+To allow this if
-+.B LANDLOCK_ACCESS_NET_BIND_UDP
-+is handled
-+(even if
-+.B LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP
-+is not),
-+either:
-+.IP (a) 4
-+use a socket already bound to a port
-+before the ruleset started being enforced;
-+.IP (b) 4
-+grant
-+.B LANDLOCK_ACCESS_NET_BIND_UDP
-+on port 0, meaning
-+\[lq]any port in the ephemeral port range\[rq];
-+.IP (c) 4
-+grant
-+.B LANDLOCK_ACCESS_NET_BIND_UDP
-+on a specific port,
-+and call
-+.BR bind (2)
-+on that port before trying to
-+.BR connect (2)
-+or send datagrams.
-+.P
-+Note on
-+.BR AF_UNSPEC :
-+Calling
-+.BR connect (2)
-+on a TCP or UDP socket
-+with an address of the
-+.B AF_UNSPEC
-+family
-+can only dissolve existing associations,
-+and as such is always allowed.
-+If
-+.B LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP
-+is handled,
-+sending datagrams to explicit addresses of the
-+.B AF_UNSPEC
-+family on IPv6 UDP sockets
-+is not supported
-+and always results in a denial,
-+as if the policy rejected it:
-+use a
-+.I NULL
-+address instead to get the same semantics
-+inside and outside a Landlock domain.
-+Other uses of the
-+.B AF_UNSPEC
-+family have unchanged semantics.
- .\"
- .SS Scope flags
- These flags enable isolating a sandboxed process from a set of IPC actions.
-@@ -534,6 +603,8 @@ _	_	_
- 9	7.1	LANDLOCK_ACCESS_FS_RESOLVE_UNIX
- _	_	_
- 10	7.2	LANDLOCK_ADD_RULE_QUIET
-+\^	\^	LANDLOCK_ACCESS_NET_BIND_UDP
-+\^	\^	LANDLOCK_ACCESS_NET_CONNECT_SEND_UDP
- .TE
- .P
- Users should use the Landlock ABI version rather than the kernel version
-
-base-commit: 7b4329e4945b1506f75c67c18730ad0191e09fb0
++.B EINVAL
+ The rule accesses are inconsistent (i.e.,
+ .I rule_attr\->allowed_access
+ is not a subset of the ruleset handled accesses).
 -- 
-2.47.3
+2.56.1
 
