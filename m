@@ -1,52 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795130701;
-	b=X+t5Ie9IF5iY4FLx7WTgYejXTl++/UvuxCTpSi+EuSEMIsTy4mXgXoaDoAI7NTIUwugo
-	 NfetyQcbaFXVzMmDXWuvV8H7/omPHFCu1uN8pJUDFR0OP/2PXrjk6UHeaM2kcyj9gA6AU
-	 kLgEosR6n2kZvifE50Giy1VoaWjg5yo79EODsyCkrs+R/V+gdoJR7Bpn6RV/MISlaWpqm
-	 L9K+FnebyDoN6ter3D8046ymNO8pOk5Yq9zdSBjQCItPFdGtIymIIur0EJMYrMZllQqtq
-	 qdrCZPhqOhu9GCZKFDb3ca55KC25JYwVOn6DPJwgbn+AUqhDIsi9Tgk7DkBKsLTtjwA==
+	t=1795131426;
+	b=ytdm6GhgngGo7CuwlWqmOhyOgaobhQQM4vTMvtHC3kf+bFOAcumEFrCsFVNMhylPiofp
+	 p/G9xtstuT4xCS59xtbLjT86rx7K0stYmLagqCDB+362kmsLp3Okk4nAyz0PvWJs0MfQ2
+	 DIae21ZOrxjPFEhDw5dF1IiaYCIcwLPa8QeyRri+1a1EJSFPXn9b/zCwksA/bD+12NIE4
+	 ubhlMLP9c2riVe7N8l31imdtcf6d631Ji8Xkosi4A52AT8K3/i2jDcG0bDi0pOMk0fJLD
+	 xPQ73HwcW7FANF1fFUbfOgXEwA/gORE7KiCk31fyDKODQdXcKR8Epicd1XgAowdMoow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795130701;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795131426;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=If0DovYyj1fwRplxwLHsH5eJVYb98WA1na/LQ0D14qw=;
-	b=Wk8Zy9YpatedR2qnDkf8JnV/tRvIGh5VOLGpG4t1MrPjxZUdEffmHA01shQSwYJirxBi
-	 XNx1hFAZqwSR7KYeXdv7NNhXCoL9ngHBKDS4hsbBtY8yC6e5dvTU3Lr2oXZMLAflC13uA
-	 ELVHMCSvOdh7NWOJrXRxjBDpsVdaxN3dOY2UmtczQp8GkzGulilCLnOSSo/caKNQ5qNi1
-	 wg7c+qoXTtz4f+8JhatraADaVqpm0/EdiUSQkJIayJDwmPx5SM3XJg+j8GMzIcnGGoajD
-	 NE5K4Z/rORhK4ChoXAKBkoWdeaeRv/+te5tsd88LKbriX3Tq6mck8xXLCfzoB4XUZGg==
+	bh=Kr/6yQRjSlu4tKVFRCt4seSQ2jeg5CzOi03C+Tv930k=;
+	b=E7jrJmj7XOH08/FQumy3eDrUsUmleMTUTRL+/gCtoVlvHva8DTKiZfnZmj4/B8CqgTyN
+	 ttmNrfz9TLkOyL1YLA6AJTUVGcyZvXTDMCqPa1VqWZrMfQqySNRIKoEeIviHgpCqnvxVg
+	 UAodRlVE6rGp09FAqaUll1knW+TZI1/MN7iCpTlPSu8WNWWz+4+uzSUEcs9S8ibueyTHf
+	 Np4UqepoPzwSt0fPwE4njiwBpFXF68hVBKWnt5wPnFS7c8jzireuVIETGGRBbkP/4Q+UG
+	 xzgjYtg/lquK02+Tmm3iCf8QBEFQE8yyWQTSJdinr7nxKekwG3RjRatcU5M+gMLU78Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="S0/w5gJx";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JRmg73TG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8350606A325
-	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 23:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84906606A320
+	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 23:37:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S0/w5gJx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F531F000C4;
-	Thu, 19 Nov 2026 23:25:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JRmg73TG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 421F91F000C6;
+	Thu, 19 Nov 2026 23:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795130701;
-	bh=If0DovYyj1fwRplxwLHsH5eJVYb98WA1na/LQ0D14qw=;
+	s=k20260515; t=1795131426;
+	bh=Kr/6yQRjSlu4tKVFRCt4seSQ2jeg5CzOi03C+Tv930k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S0/w5gJxDWiIbL7xtUfu6gcA7SrQSTecThrDaNdN//5w7lFZfe9G39PJx3O91Z0lP
-	 NJuR0lPD7FGWA57ge0ccSeBYB5mXjbOoUz0xH/kraSfdRmyM7JhFSv2ZMp2e7xaHIH
-	 cDIBEmNGlu5v7c4psZeE9GAekuADRaLn5lD5jZxNecTC/sH3m19DYXFhCxHvCfiusA
-	 v9rlvwjlaWVcyduYkrxISdnYaDIDXOvezKMJOzL9KJn9C4r1S4hw8v+vTuBhkXFW0L
-	 lr/uA6ZX0kRi8w+DKB4bTcX8BvohrHGPhQbPPey1lZlGL2bbck2UxUPqjKSrit5aK7
-	 3pOLNRl7ABPbw==
-Date: Fri, 20 Nov 2026 00:24:58 +0100
+	b=JRmg73TGYI5K0FGmBSg5B3Yk6DW/s38pMR/RtzWp7QrxL+erGnbls1ZqcyFT3kXfF
+	 5UERp6tByWKGt41q0vFH9YABJDwxP0eobtgXz5u6Ryn1f7jVgS/zD9Kj7TIFT/GEDn
+	 r2icuC7eyLJUCqTgGEqLwZvvpIw0pSJ0FH9u77Uzb6fB9CBiiw9yC5pggpOKCH/U8q
+	 azsXFDCXMKZBiUvr94CVnVBzYw9twah420Te9sDbgCwyMyTqkylhZ1E/wXp/Tdz9DT
+	 QeW4tfbHMsLziNwCPPRu4F4fc0LqFOWrl4koqZ5OtuBPB5yPD11c7KnIoeH+f1ZQO1
+	 W6/pQajtf2ujg==
+Date: Fri, 20 Nov 2026 00:37:03 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Tingmao Wang <m@maowtm.org>
-Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man2/landlock_add_rule.2: Add a missing EINVAL case
-Message-ID: <av-FNlfcTNAu-yf3@devuan>
-References: <20261119170554.224641-1-m@maowtm.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] unix.7: Socket Options and SCM_* fixes
+Message-ID: <av-HtwHXlZBTpzZc@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -57,91 +56,143 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2l46z5metlci2a6z"
+	protocol="application/pgp-signature"; boundary="zudpfyxifzfaxzyx"
 Content-Disposition: inline
-In-Reply-To: <20261119170554.224641-1-m@maowtm.org>
+In-Reply-To: <20261103202211.13820-1-gnoack3000@gmail.com>
 
 
---2l46z5metlci2a6z
+--zudpfyxifzfaxzyx
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Tingmao Wang <m@maowtm.org>
-Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH] man/man2/landlock_add_rule.2: Add a missing EINVAL case
-Message-ID: <av-FNlfcTNAu-yf3@devuan>
-References: <20261119170554.224641-1-m@maowtm.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] unix.7: Socket Options and SCM_* fixes
+Message-ID: <av-HtwHXlZBTpzZc@devuan>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20261119170554.224641-1-m@maowtm.org>
+In-Reply-To: <20261103202211.13820-1-gnoack3000@gmail.com>
 
-Hi Tingmao,
+Hi G=C3=BCnther,
 
-> Date: 2026-11-19 17:05:53+0000
-> From: Tingmao Wang <m@maowtm.org>
+> Date: 2026-11-03 21:22:02+0100
+> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
 >
-> This is another way it can return EINVAL but is not documented.  Document=
-ing
-> it is useful to help rule out errors.
+> Hello!
 >=20
-> This syncs this doc with the same change in the kernel [1].
+> This is patch set (B) spun off from the "Documentation fixes in
+> unix(7)" patch set [1], which is now split into these three parts:
 >=20
-> Link: https://lore.kernel.org/linux-security-module/20261116233139.206924=
--1-m@maowtm.org/ [1]
-> Signed-off-by: Tingmao Wang <m@maowtm.org>
+>  (A) Miscellaneous fixes, mostly in unix.7, one in socket.7
+>  (B) Socket options and Socket-level Control Messages (SCM_*) <-- this one
+>  (C) sock_diag.7
 
-Thanks!  I've applied the patch.
+Would you mind rebasing and sending a revised patch set?
+There are some patches which I'd like to apply, but they don't apply
+cleanly.
+
+There's also some patches which I haven't applied yet (I commented on
+them).
 
 
 Have a lovely night!
 Alex
 
-> ---
->  man/man2/landlock_add_rule.2 | 4 ++++
->  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
-> index 253498bfa..f6a812c7f 100644
-> --- a/man/man2/landlock_add_rule.2
-> +++ b/man/man2/landlock_add_rule.2
-> @@ -206,6 +206,10 @@ .SH ERRORS
->  is not valid.
->  .TP
->  .B EINVAL
-> +.I rule_type
-> +is not valid.
-> +.TP
-> +.B EINVAL
->  The rule accesses are inconsistent (i.e.,
->  .I rule_attr\->allowed_access
->  is not a subset of the ruleset handled accesses).
+> This patch set fixes unix(7) documentation related to socket options
+> and SCM_* control messages.  The first 5 commits are fixes and factual
+> corrections, the last two commits are documenting two relevant new
+> features (PIDFD passing and SO_PASSRIGHTS).
+>=20
+> The patch set is based on the "miscellaneous" patch set (A) ("General
+> Unix Domain Socket fixes"), since it is touching some error code
+> documentation in the same corner as what is getting changed in (A).
+>=20
+> Thank you for your reviews of v1 and v2 of the still-joined patch set,
+> as well as of v1 of the split patch set.
+>=20
+> Changes in v2 (split):
+>=20
+> * Mention commit hashes in commit messages, not in groff comments
+> * Reword __scm_send() code snippet in commit message
+> * s/the last one takes effect/the last one is sent/
+> * Rewrite SCM_SECURITY section to be about byte buffers
+>   and independent of the LSM
+> * New commit:
+>   * Remove mentions of "namespace" in the general sense
+>=20
+> Changes in v1 (split):
+>=20
+> * Some commit message rewording (especially quoted the kernel code
+>   more directly).
+> * I removed the commit that changed the wording about Out-of-Band
+>   messaging, per Kuniyuki's suggestion in [2].
+> * The ETOOMANYREFS commit is a SCM_RIGHTS-specific error; the Autobind
+>   documentation change is included here because it refers to
+>   SO_PASSPIDFD.
+> * I am not 100% happy with how verbose the SCM_SECURITY change has
+>   become, but I don't see a good way to shorten it without cutting
+>   away from the substance.
+>=20
+> v1: https://lore.kernel.org/all/20261021212256.27961-1-gnoack3000@gmail.c=
+om/
+>=20
+> More details are attached in the commit notes.
+>=20
+> This patch set has been produced with the help of a LLM, which was
+> helpful for spotting a long list of inaccuracies, comparing the
+> documentation with the kernel implementation.  (More details in [1])
+>=20
+> =E2=80=93G=C3=BCnther
+>=20
+> P.S.: Part (C) will come soon, but not today any more. :)
+>       That part is more independent again and, being about "sock_diag",
+>       it is outside of the main unix(7) documentation.
+>=20
+>=20
+> G=C3=BCnther Noack (8):
+>   man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the conditions
+>   man/man7/unix.7: Multiple same-typed SCM_* messages may be sent in one
+>     message
+>   man/man7/unix.7: Autobind: Clarify when it happens, and mention
+>     SO_PASSPIDFD
+>   man/man7/unix.7: SCM_SECURITY: Generalize to other LSMs, not just
+>     SELinux
+>   man/man7/unix.7: SO_PASSSEC: wfix
+>   man/man7/unix.7: Document SO_PASSPIDFD, SO_PEERPIDFD, and SCM_PIDFD
+>   man/man7/unix.7: Document SO_PASSRIGHTS
+>   man/man7/unix.7: Remove mentions of "namespace" in the general sense
+>=20
+>  man/man7/unix.7 | 215 +++++++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 195 insertions(+), 20 deletions(-)
+>=20
 > --=20
-> 2.56.1
+> 2.56.0
 >=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---2l46z5metlci2a6z
+--zudpfyxifzfaxzyx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/hUoACgkQ64mZXMKQ
-wqn/Cw//e5MLprkXvZhjZjxv2m0F//yQJvkIxJuS83J/wgJLlen3HykbWzA7HvWj
-1Y//VgXxQgaWbznMMuUg+V4iUao1824vaQYicqA66sK/iISdzdud+Sc9g5g0YCMb
-3gISlCSUe+KtTVNhTpcFOLyfssRgpLY81AxEalHiTe6/18X0egOEmULQ5giPvk0U
-5WumImXxWyQQ5R7tHyOmD/GVomRTw7nv0JiRARP8zny8IDoY9RQ0i8jJeU7hg/Da
-2RuH6Is19NyhtcByqQNipuvZIvmvUzPGz/HyZlByrINhFUOdCfSOpJiN2JlW3gQp
-mWKqnt/sZmxrQI835WZNnY0nUCEi1HtcgNcbNgX5tECuPjH67LKYATx+3lGTihnH
-pDb0Rpte3oWlvT5PzF84ODLLej288ieLkstJoEJanMCK4Tsew4xnXfHKWo8Yoh92
-aaLqTBBeTU1kU+ZU2RWljjvB7DWQlP8d55IOUp3hJ0OiJoYDOj15tqPt4v6xBJ1F
-lN4QNMD+H40v3eizn6agVHS56eefOEJSy5PqoekfCeu16COyHqMne1NuQ3Bmg97Y
-GY8Z9bVlaK3wi8HNRs6f4fMxo9Z6A/F5ajqnrYVluiCVS9QLPErkMk7L+tDRSgSw
-X0iuaKHwc8pHJIB1nNa3FnrEpdJVGgI2E2rNDMMg9X4ubz+UVT0=
-=vsSe
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/iBMACgkQ64mZXMKQ
+wqm5kQ//ZQuwy4iuGxvi/G/Mo9AF6ZtYhs1BVDIJn3AARW5bU+b/djKClGbBG7bp
+KTfe6eQasdGdijyOv475Hz2NzuxBT/PqsesR1+ar/vdfMA8eHv3YV3nK0UFcB0b6
+L0wWpbYv25v/rgQQ00ynRkLMbW079f+ZpulcLgu8dAP0kLxseWzH4WmmDutjH+fG
+kLUkW0DwdQ4fg1OjnZr3XYIlqxgOxrLHkaHutGC6JAZPekU2/xknRS9GRoHRKVqM
+AGohTZmRdO9XU67noxvnQ1K0Yg9azrCiSwX8KS/eDmvPFiUQd3binsdQWFHixs57
+ol5BY7AIyg5XVVIude6y+KLvwP9Xw1MWPz4CqNM2khe4qK3XH9C+rqzbvQCSpQJ6
+2D5JP0z+uc3omXb5HCugyu1gXnASO++IpygtlQvxmPlxyJLkA08xu0CMAtF3+zjv
+11at3MQbjfaY+3Ent+pWV6YAorlJPmupGVd4P58N35YiDjGo3HoVwRLW/aY/P1bZ
+CC8vvGk6b2NqREk61swYyGIRna0yIm0lTaCKfySeLYebvVTSLKQ4U1RcgVB68REY
+I6VnVM7aLO6loff0OE36fvEshzyrsilY1ptE96rNaQA1v/E9n+pAC/ZQWYqSE2k+
+tpVa8Tvf98vwA2yLzzxzWiVN9g+Iu/vBmjXsO7NwWXMZTNSmhqk=
+=GGXt
 -----END PGP SIGNATURE-----
 
---2l46z5metlci2a6z--
+--zudpfyxifzfaxzyx--
