@@ -1,51 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795130576;
-	b=MREXDkox/cvoxY3g69eD/6Q40mJ1key1Z4jJdR6NVW3S9K/TMg+n/CfkSS67k8yMox4x
-	 YfuYMEV0/w1YC2HhOa2Zg8uUw0MgMv6/2PNQbjGsn2AUtcQvgii5YQAyBOadteECe8Qjz
-	 BtwAjDDU9tAL0gAOXj4GscJJeAKShisNVk3WD6v60ayXx9LLWIGTHU2NWzJSdair3Dpnm
-	 uAA+NPA/uIil6wyddyvpH9Fb4C52R6wEvM2qpB1YLIZIwbtinSBZ/Safu9NJzKNcS1LxS
-	 Id+AHJpaxaY98Ys/18hmUbVHn4yKIJZelymWu+akCGR2MpSCx1d1XXINzLJEFxUzhmg==
+	t=1795130701;
+	b=X+t5Ie9IF5iY4FLx7WTgYejXTl++/UvuxCTpSi+EuSEMIsTy4mXgXoaDoAI7NTIUwugo
+	 NfetyQcbaFXVzMmDXWuvV8H7/omPHFCu1uN8pJUDFR0OP/2PXrjk6UHeaM2kcyj9gA6AU
+	 kLgEosR6n2kZvifE50Giy1VoaWjg5yo79EODsyCkrs+R/V+gdoJR7Bpn6RV/MISlaWpqm
+	 L9K+FnebyDoN6ter3D8046ymNO8pOk5Yq9zdSBjQCItPFdGtIymIIur0EJMYrMZllQqtq
+	 qdrCZPhqOhu9GCZKFDb3ca55KC25JYwVOn6DPJwgbn+AUqhDIsi9Tgk7DkBKsLTtjwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795130576;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795130701;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3lbXIBNmUn1Zy+5qrZJpwgKNlT7cGaK0P9VXIOL3BVI=;
-	b=cmY90nF+RtBQIsy87+WkweeGMtfIgIFLVq5KuTZ+pbuU2T9MIOjLoLMzeLx9AF2N0ds5
-	 X+ZsBmpCO/i557M8iQMb3RB0XIp2cS//rSSj0VsFEppQ+X2FLEv94P3XqQVgfG9rCjgdZ
-	 +W1lCMxsqwUJ0/2heavFek8p01KRUAGa2kbfxRCIrxukrXiI+H33idY68bV7Tbk4+Vv/L
-	 qg/8IB1CFGF9C+RPdqMpa0wMQEwuTTYXrTTld7uj3Ryby4dQChZCZ1b6emhl6OI3HmWz6
-	 vK/fHhJLqDoa1KwFHw4oFbnRgboTP/tRNFqlz2+sqwWS41MIw84yoXZE5fKjrVxLhMg==
+	bh=If0DovYyj1fwRplxwLHsH5eJVYb98WA1na/LQ0D14qw=;
+	b=Wk8Zy9YpatedR2qnDkf8JnV/tRvIGh5VOLGpG4t1MrPjxZUdEffmHA01shQSwYJirxBi
+	 XNx1hFAZqwSR7KYeXdv7NNhXCoL9ngHBKDS4hsbBtY8yC6e5dvTU3Lr2oXZMLAflC13uA
+	 ELVHMCSvOdh7NWOJrXRxjBDpsVdaxN3dOY2UmtczQp8GkzGulilCLnOSSo/caKNQ5qNi1
+	 wg7c+qoXTtz4f+8JhatraADaVqpm0/EdiUSQkJIayJDwmPx5SM3XJg+j8GMzIcnGGoajD
+	 NE5K4Z/rORhK4ChoXAKBkoWdeaeRv/+te5tsd88LKbriX3Tq6mck8xXLCfzoB4XUZGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vlng+jsK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="S0/w5gJx";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212B5606A320
-	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 23:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8350606A325
+	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 23:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vlng+jsK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A9E41F000CA;
-	Thu, 19 Nov 2026 23:22:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S0/w5gJx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F531F000C4;
+	Thu, 19 Nov 2026 23:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795130576;
-	bh=3lbXIBNmUn1Zy+5qrZJpwgKNlT7cGaK0P9VXIOL3BVI=;
+	s=k20260515; t=1795130701;
+	bh=If0DovYyj1fwRplxwLHsH5eJVYb98WA1na/LQ0D14qw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Vlng+jsK3SS3FIIyvfsTgS7iTtsStcVwmC4da1vQp6OmHIAH3llwGP6dkaRnf4qYc
-	 07fYEAet25UcemdrhTjB+rsQ9gkI6Bz7SSz7ZJ+oEK1YQZq9iJUk6Y9Y6LkQQNS/Fx
-	 YXWwdeHxIpWMOCa/+UzOr6+r5xv2CgElntP5CPEwFCl5Cih6+DqjWD9dYkpsS8znEy
-	 3bNJgPG8zdavH5Aa3VHjIEAz8a7Bs7JqzalFPd9CL+KzMNZzu7ySFGyMUFibcmkzA1
-	 /nQ7zcsboGlY5y2KXwTVo+7CRqPs1utoENEKrv6RhJ2G2GBpKVRQoHNpCzVJXRPfCp
-	 +GpohxVEqSEfg==
-Date: Fri, 20 Nov 2026 00:22:52 +0100
+	b=S0/w5gJxDWiIbL7xtUfu6gcA7SrQSTecThrDaNdN//5w7lFZfe9G39PJx3O91Z0lP
+	 NJuR0lPD7FGWA57ge0ccSeBYB5mXjbOoUz0xH/kraSfdRmyM7JhFSv2ZMp2e7xaHIH
+	 cDIBEmNGlu5v7c4psZeE9GAekuADRaLn5lD5jZxNecTC/sH3m19DYXFhCxHvCfiusA
+	 v9rlvwjlaWVcyduYkrxISdnYaDIDXOvezKMJOzL9KJn9C4r1S4hw8v+vTuBhkXFW0L
+	 lr/uA6ZX0kRi8w+DKB4bTcX8BvohrHGPhQbPPey1lZlGL2bbck2UxUPqjKSrit5aK7
+	 3pOLNRl7ABPbw==
+Date: Fri, 20 Nov 2026 00:24:58 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Niklas =?utf-8?Q?Hamb=C3=BCchen?= <mail@nh2.me>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>
-Subject: Re: man 2 unshare: UNSHARE_EMPTY_MNTNS
-Message-ID: <av-DinDzrAeN_1mU@devuan>
-References: <64fb02fd-0ffa-4311-bf21-a3211e9d599e@nh2.me>
+To: Tingmao Wang <m@maowtm.org>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/landlock_add_rule.2: Add a missing EINVAL case
+Message-ID: <av-FNlfcTNAu-yf3@devuan>
+References: <20261119170554.224641-1-m@maowtm.org>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -56,98 +57,91 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4jhelst7tm3ddhus"
+	protocol="application/pgp-signature"; boundary="2l46z5metlci2a6z"
 Content-Disposition: inline
-In-Reply-To: <64fb02fd-0ffa-4311-bf21-a3211e9d599e@nh2.me>
+In-Reply-To: <20261119170554.224641-1-m@maowtm.org>
 
 
---4jhelst7tm3ddhus
+--2l46z5metlci2a6z
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Niklas =?utf-8?Q?Hamb=C3=BCchen?= <mail@nh2.me>
-Cc: linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>
-Subject: Re: man 2 unshare: UNSHARE_EMPTY_MNTNS
-Message-ID: <av-DinDzrAeN_1mU@devuan>
-References: <64fb02fd-0ffa-4311-bf21-a3211e9d599e@nh2.me>
+To: Tingmao Wang <m@maowtm.org>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH] man/man2/landlock_add_rule.2: Add a missing EINVAL case
+Message-ID: <av-FNlfcTNAu-yf3@devuan>
+References: <20261119170554.224641-1-m@maowtm.org>
 MIME-Version: 1.0
-In-Reply-To: <64fb02fd-0ffa-4311-bf21-a3211e9d599e@nh2.me>
+In-Reply-To: <20261119170554.224641-1-m@maowtm.org>
 
-Hi Niklas, Christian,
+Hi Tingmao,
 
-> Date: 2026-11-12 17:42:33+0100
-> From: Niklas Hamb=C3=BCchen <mail@nh2.me>
+> Date: 2026-11-19 17:05:53+0000
+> From: Tingmao Wang <m@maowtm.org>
 >
-> Dear man pages maintainers,
+> This is another way it can return EINVAL but is not documented.  Document=
+ing
+> it is useful to help rule out errors.
 >=20
-> I just want to point out that unshare has a new flag in Linux >=3D 7.1:
-> UNSHARE_EMPTY_MNTNS
+> This syncs this doc with the same change in the kernel [1].
 >=20
-> See e.g.
-> https://github.com/torvalds/linux/commit/9d4e752a24f740b31ca827bfab07010e=
-4e7f34b0#diff-871f39f0834631ea368e8539ee88840ade11866cd6104e91543f9387dd1b8=
-386R39-R52
->=20
-> "
-> This is useful for containers and sandboxes that want to
-> start with a minimal mount table and populate it from scratch rather
-> than inheriting and then tearing down the full mount tree.
-> "
->=20
-> Note a little quirk caused by this change:
->=20
-> This is the first `unshare` flag that isn't a `CLONE_*` one, so it breaks=
- the existing invariant that all `unshare` flags are also valid `clone3` fl=
-ags.
-> The commit remarks:
+> Link: https://lore.kernel.org/linux-security-module/20261116233139.206924=
+-1-m@maowtm.org/ [1]
+> Signed-off-by: Tingmao Wang <m@maowtm.org>
 
-That same commit also adds CLONE_EMPTY_MNTNS (according to the commit
-message, for clone3(2)).  Could you explain why there are two separate
-flags?  Would you mind writing a patch for the manual pages?
-
->=20
-> "
->  * unshare flags share the bit space with clone flags but only apply to t=
-he
->  * unshare syscall:
-> "
->=20
-> I guess that part isn't really relevant for the man page, but I
-> thought to point it out on this list, for searchability of this fact.
-
-It's probably relevant, I'd say.
+Thanks!  I've applied the patch.
 
 
 Have a lovely night!
 Alex
 
+> ---
+>  man/man2/landlock_add_rule.2 | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> Cheers,
-> Niklas
+> diff --git a/man/man2/landlock_add_rule.2 b/man/man2/landlock_add_rule.2
+> index 253498bfa..f6a812c7f 100644
+> --- a/man/man2/landlock_add_rule.2
+> +++ b/man/man2/landlock_add_rule.2
+> @@ -206,6 +206,10 @@ .SH ERRORS
+>  is not valid.
+>  .TP
+>  .B EINVAL
+> +.I rule_type
+> +is not valid.
+> +.TP
+> +.B EINVAL
+>  The rule accesses are inconsistent (i.e.,
+>  .I rule_attr\->allowed_access
+>  is not a subset of the ruleset handled accesses).
+> --=20
+> 2.56.1
+>=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---4jhelst7tm3ddhus
+--2l46z5metlci2a6z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/hMYACgkQ64mZXMKQ
-wqmDMw/6AqvaWSBpqOKoUhzG21+hXIMqW+d4gaViBvEmzuaqidB6hg0DSqzBc5gZ
-Y+iy+Ebt5BPQu1tbUfuawWsJmdkNdcyimtIQnQX7tbJ04O6rERMahyHdsBoEjeEh
-mXziYNF0BHo7LDPTFLqm1eDu3OCXit5L7IT5IB5fReP2qNT8byINQoiO9587gXUG
-7HlinzUPrnyWxgaM5SC85GnBnIn7wwZhF/CWlTGcN8wNqx9Oz6hzoCnXwIX4Sm0n
-2g/37wZer/hMDHJf+Ln1ihnQ/LyWnwFkKk9q9Fo3otGXKTNojjHEHvj3uYRA0gPU
-v0qQbZnyE/fB4XKeijB55DzzlkmegnSAmAWxF7op4bjjf6XqGx+GZ8Dh5q0SeL95
-3sxntTcYXr/1I0/amJ6rYqWB47UBvuy7TjhhjGCv+6xBm/iDyF3agkxdHKmNwNGm
-mjT/5paK47SvqPJN/zqx9kUdzEJuAf9odlOlMzddkPDQCCGMsTJaLn5wLEtxakW1
-t5S2mTHkgU1TzKEN5gUVLOkK4WSi9tK8LGjcMOcvYJYxvB6/MAuEi4DDc0KmGbgu
-A8/mNw7CIPa68s07h66hu1lMpMbQybu1ulyXYWmZo9a+BmJMjJyKkUKyMWgiqYP0
-J/BUaD3JzcymnxJ1sVzeOVssku6I3zPpmLHKQncFaI/T2wP0Vn4=
-=nnp9
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/hUoACgkQ64mZXMKQ
+wqn/Cw//e5MLprkXvZhjZjxv2m0F//yQJvkIxJuS83J/wgJLlen3HykbWzA7HvWj
+1Y//VgXxQgaWbznMMuUg+V4iUao1824vaQYicqA66sK/iISdzdud+Sc9g5g0YCMb
+3gISlCSUe+KtTVNhTpcFOLyfssRgpLY81AxEalHiTe6/18X0egOEmULQ5giPvk0U
+5WumImXxWyQQ5R7tHyOmD/GVomRTw7nv0JiRARP8zny8IDoY9RQ0i8jJeU7hg/Da
+2RuH6Is19NyhtcByqQNipuvZIvmvUzPGz/HyZlByrINhFUOdCfSOpJiN2JlW3gQp
+mWKqnt/sZmxrQI835WZNnY0nUCEi1HtcgNcbNgX5tECuPjH67LKYATx+3lGTihnH
+pDb0Rpte3oWlvT5PzF84ODLLej288ieLkstJoEJanMCK4Tsew4xnXfHKWo8Yoh92
+aaLqTBBeTU1kU+ZU2RWljjvB7DWQlP8d55IOUp3hJ0OiJoYDOj15tqPt4v6xBJ1F
+lN4QNMD+H40v3eizn6agVHS56eefOEJSy5PqoekfCeu16COyHqMne1NuQ3Bmg97Y
+GY8Z9bVlaK3wi8HNRs6f4fMxo9Z6A/F5ajqnrYVluiCVS9QLPErkMk7L+tDRSgSw
+X0iuaKHwc8pHJIB1nNa3FnrEpdJVGgI2E2rNDMMg9X4ubz+UVT0=
+=vsSe
 -----END PGP SIGNATURE-----
 
---4jhelst7tm3ddhus--
+--2l46z5metlci2a6z--
