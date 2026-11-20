@@ -1,58 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795185755;
-	b=OR81qa/VUI1OJ+rrzv3uPnaTq2cts+V8VrfcmxVUrPIJKFl6ZIK+czhjXccCPK3W5t9H
-	 lAvfKNggL1mKXepHoIirP+1CKWb6kSgDtdcqXq+q+1Pv5z3VlvdEDaaygvptGVwXyWyTQ
-	 IvFlvt9jdmK9zw9WK5lIrHNrdva4ElS24mLuR78pH1jpSZ5p4QQK9kak43gpg16MOj35a
-	 yjgRVzihmoqTJ9NqWrU+mUIRoufB0l+Bhic+pLAgUfGN6eJA3CCGQ03vwo9Rtq8fw3kL5
-	 DRIaAUt4X1u+WNxoWjVA5snLzsTeYYHWaywlm16oOMkUDAxsXQeIzYwpMYluj5YuYeA==
+	t=1795190374;
+	b=4LbrEZKe/w14O1dKJEODmWX74Fi78QpoxyML6rErUYjUp3WTmx7Zecp5eh+6oRq6BINQ
+	 PkKiWSQwNml4Pl5tsbvyWBPvSk/ItYg4GewvXMyJ+iVsWw5N0hqkUjQspTDGWLEnK+1k3
+	 YMobLCNDQXlDx99lsuVVNgePcAZVbe2GyIxGlIZf/AO/4Yfy8/cPzmylqkdEl8/4Gr3g0
+	 NY+xMPTGhXZQCafakol290rtgvRxq2b/0x47kRiWxXebBNAU5ugIm9WonkouKyW23p0HH
+	 pfnT/rRFNepe7wacqN55iG5AffalZC7g6ePtInIOJ5IG6QH7bP/dkz6fmUKW7dGKYKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795185755;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=VI7mssE3j72oHSkn4+thl2yb7tgU3bhRzwVm7L1BBZY=;
-	b=kX79Bu+x8frFqV2Nm9X18OfSMLoq4FAINAsSdNqKf3Ui2cUvhWwlyOFHi1++7mG0sRBD
-	 2r2F46j/I75nY0L5gfd+SmdnbK/QMUP3YDnn2tWq/U+7MzU3n55UjGdICnyl6ks6dVqhI
-	 7qzOAplX3n3vogpFpa5HarDgbIx4/jlmbCivP465Kmw9/va6IUAIY5OD1T2sCDKlYoT8Y
-	 ustHs61Dgy3AwXaxdBUYgzqeNjfDR0TTZoyIZ6Emb1nlyqjlHiI67pTuOfavH8bEiiL9z
-	 mXqFlFTXLidkCALBCY0IEwR8FEpqO47Tx65cn3vE8qYovBoIyb0XpR7AZd/62itEEgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190374;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
+	b=HPBvhcnhbMrdWYmoWSTDI2jZqCG7QAccJx7vn1016FV2e4+ENCErQU/vmhhQh4UeK+QQ
+	 EooUpFRw1CyZ2urwJAxxxz1ajyJza3NPQQpvuxPoeKkW2KQWH5sbbyajr10H+9gREd8rT
+	 ETzP8E4A8RHWhswmaMGmOOxzWXAxiOGQCHUGeQucdEbHhYJKo/xE1X0oRFjjprZ6BVakg
+	 OhXpNtuWidUBeA9rpueadfqEP44psjc0XzDY/K0QtIM8/woMpLDqBUA4XHRtrZHTdlMDt
+	 Lyt02l+lai7pTTQ9uT3r3Y7PQY+lCFxUdl0uoZc1Kdmf98uGKBshGOF75HfMZceAfMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HEydWSNJ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJPww47A;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159A606A320
-	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 14:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0400606A325
+	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 15:59:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0400606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HEydWSNJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B691F000D1;
-	Fri, 20 Nov 2026 14:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795185755;
-	bh=VI7mssE3j72oHSkn4+thl2yb7tgU3bhRzwVm7L1BBZY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HEydWSNJG47Q7H7Tydt89npBbYk9RmGIvMF0W1zxZKCHLqQlUbM7eC3ussf207ftu
-	 no7FpNLjITxiIIf9s6lqCqRnqHeOGpgZ2Q8UhTD/jjOtfhkq6M/gkr9JVYYfczToYm
-	 VGs+Jn2OCyxjuh7kpmnEkYv1XF42T1CfmQiMnNmfl2Zzd2IWyexYNVJ9uBhlTydByn
-	 M3x8JVgPOCxI18/aYDVw3tNWXjPZ26eSBUmSb4SHT8JYyuciVxG9ZsFLspZ8oo67JD
-	 C+NpY0z6IfyZvZsodKAegNxaMjJwAEZJzk+6tXCrE7fCcqaZJbzcWL6NSAbjbBUktd
-	 QJjYimmzTInKg==
-Date: Fri, 20 Nov 2026 15:42:31 +0100
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>
-Subject: Re: [PATCH v2 4/8] man/man7/unix.7: SCM_SECURITY: Generalize to
- other LSMs, not just SELinux
-Message-ID: <awBcLp1f5O660OTn@devuan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJPww47A
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso20155075e9.0
+        for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 07:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795190372; x=1795795172; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
+        b=ZJPww47AvwV/76TLj+dIhEZONVO6NmLZ6qAlEGZQoKu+h/J3w22kCFAZlHA448ICMw
+         VtCsjpnGYyMoXjqfjJockweuduWo0AJCLmo0zlr0uvbtgE+dWIn0Z23L/TFYZwZrqFK9
+         mbFIKqKiNjRBq9M4JzaAjzc5M1Edc07yuVnmCO+Jk6SGw+ZCxpUZEQoXRwePEOAQ1WRG
+         wnWifAyTL5Lug797C6Ghda/IIT/YTsrB7x+GTFwUSLZigvABpNattuwEd1beR1mlrKBv
+         ZLbZBT3ayaLdrwBt01A9vRrJUeisK4HRsB7pnHQOGdLQal6DVn+l4YOztIEcK4aEBvoI
+         gi9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795190372; x=1795795172;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
+        b=duq3YcAMwgWToUcQB5Ho39auwyc5Aq5dQDd6xc+P7pLYvcO4p1tsHpn3UKdhZ1y4T3
+         Uy6tfaRm1Y/nAP3yv/intH6TkRfYpaM8d8Ihx41SQ+5h9fnB9Z1bauqZekRzjzIxnHg3
+         yBEDxlI7Q3eqWfFTSXKkZLUDjb0BJmiVeYbX2IAGWoINQ6i3FJBtBXleVRQs2vqSqMVH
+         5K2VHvd6hnmXitpJlWyA061udQeydeja7Dcp28jjvhR+LJ3dU0hxfiHXwoevx5ujhqfO
+         qJ6Q9WCQFOr8H/WeQEQDLzIV0JCSwhEDhndVR35uDfeyjHxGQ1SZltaZ6vKrrdbeh9y6
+         aSIQ==
+X-Forwarded-Encrypted: i=1; AL+hErFsatoZQ+vVYQkHkLzndEzuPuAZIBWv45Scw5LFwGgGklO0JbwpCWdrdsBvRQGevPsvZyW4YcckxcQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+vYtkqLFwQ2YYdDFSFho4Z4Rri2zoD/dPexgV8rGg4l/O5lMD/
+	1j6KWKZIHnzLXoV9noJeVFKgfjxTgDBtNAZZykWwiX2eLikIKZeiaFrUvcvbq7OI
+X-Gm-Gg: AYBFou1HzkiJQN7ScsNKzbtzK66ph2yTDuvCApKAuC8Ecy83cuNbHhHobk0iYJEakRu
+	ZQiie6BPYYkHUkq4bOewyJktKdnYJDiADtI/ouKo1JK1k4t+waHX9AkHX0iXcr8nPu8xILRDZo/
+	OyxvgcyVpRj8NTfwiiEmuvEPNNPmE2/j5LpuJq8UlKT9+r7ChGRgBx6ly0sSktty0ExYw2VsR2P
+	M3ItU/5fHNMCjqnUvugceJ/sNmqg8f8gD7Vms/dHhOS+ZCY9DF8HmHuF61T6PBz+9K/jON2L6IN
+	Ip0wTsYBTknG7+g1ZpW3OEDNlGzTd6tFPDN4dvDDloy+7SvgEiUrM7XtQ+fallCqjhr2xKKXRnS
+	21xuCPWVCf9JsL8VXGhfs0UC/wf/sdHv7AFyMAObgsPHXX+uwvmuqSeNeLmj1NdB2Itu3dHdptd
+	Ls3FwxnlHyY0bu8obLcf8/gjmDnRmFzr077KWV+cHPcH8M2RhVcLhpua/Y/N5tBf23mCPAGUo8B
+	gSSdh2CPmqZpSzFJZqHjF13Z6N22DNeF1KdxlXyXvBbjEcOzjVwucVv+1wfWIKx+osZ6KtgStT2
+	JE1jd5h5yoBp7JbV6N1d2u6/J11BmigBYTVczYHn48AVMhFAJDX72g==
+X-Received: by 2002:a05:600c:6dc9:b0:4b9:f90b:1c4d with SMTP id 5b1f17b1804b1-4bb8613950amr88853515e9.5.1795190372220;
+        Fri, 20 Nov 2026 07:59:32 -0800 (PST)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b9abf15sm6018975f8f.43.2026.11.20.07.59.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 07:59:31 -0800 (PST)
+Date: Fri, 20 Nov 2026 16:59:26 +0100
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alejandro Colomar <alx+linux-man@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Eric Dumazet <edumazet@kernel.org>
+Subject: Re: [PATCH v2 6/8] man/man7/unix.7: Document SO_PASSPIDFD,
+ SO_PEERPIDFD, and SCM_PIDFD
+Message-ID: <20261120.a284167287ae@gnoack.org>
 References: <20261103202211.13820-1-gnoack3000@gmail.com>
- <20261103202211.13820-5-gnoack3000@gmail.com>
- <avz6f7OyIVCKusQ3@devuan>
- <20261120.790f70cab7b5@gnoack.org>
- <awBavx8g4q9pCZpZ@devuan>
+ <20261103202211.13820-7-gnoack3000@gmail.com>
+ <20261118-schnorren-apotheke-markant-b8178cac4a9b@brauner>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -62,224 +102,50 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="76lkj3zywylzt6vb"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awBavx8g4q9pCZpZ@devuan>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261118-schnorren-apotheke-markant-b8178cac4a9b@brauner>
+
+On Wed, Nov 18, 2026 at 05:24:53PM +0100, Christian Brauner wrote:
+> On Tue, Nov 03, 2026 at 09:22:08PM +0100, Günther Noack wrote:
+> > These were added in linux.git 5e2ff6704a27 (2023-06-12; "scm: add
+> > SO_PASSPIDFD and SCM_PIDFD") and 7b26952a91cf (2023-06-12; "net: core:
+> > add getsockopt SO_PEERPIDFD"), both in Linux 6.5.
+> 
+> Looks good.
+> 
+> Since 7.4 there's also SO_PASSPIDFD_THREAD, SO_PEERPIDFD_THREAD and
+> SCM_PIDFD_THREAD which hand out a thread pidfd (PIDFD_THREAD) instead
+> of one for the thread-group leader. Would be nice to document those as
+> well. Either here or in a follow-up.
+> 
+> Nit: if there's no sender pid no SCM_PIDFD message is generated at all.
+> 
+> Acked-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+Thanks for the review!
+
+Regarding the *_THREAD variants, they are intentionally left out here,
+because 7.4 is not final yet and so that change can only go later.  I
+would also like more complete documentation, but ultimately,
+documentation needs to be written by the feature authors so that it
+can stay up to date.
 
 
---76lkj3zywylzt6vb
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>
-Subject: Re: [PATCH v2 4/8] man/man7/unix.7: SCM_SECURITY: Generalize to
- other LSMs, not just SELinux
-Message-ID: <awBcLp1f5O660OTn@devuan>
-References: <20261103202211.13820-1-gnoack3000@gmail.com>
- <20261103202211.13820-5-gnoack3000@gmail.com>
- <avz6f7OyIVCKusQ3@devuan>
- <20261120.790f70cab7b5@gnoack.org>
- <awBavx8g4q9pCZpZ@devuan>
-MIME-Version: 1.0
-In-Reply-To: <awBavx8g4q9pCZpZ@devuan>
+Regarding the potentially missing SCM_PIDFD message, in my
+understanding, the scenarios where this can happen are:
 
-> Date: 2026-11-20 15:41:15+0100
-> From: Alejandro Colomar <alx+linux-man@kernel.org>
->
-> Hi G=C3=BCnther,
->=20
-> > Date: 2026-11-20 15:17:46+0100
-> > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> >
-> > On Wed, Nov 18, 2026 at 02:13:40AM +0100, Alejandro Colomar wrote:
-> > > Hi G=C3=BCnther,
-> > >=20
-> > > > Date: 2026-11-03 21:22:06+0100
-> > > > From: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> > > >
-> > > > Reword the description of SCM_SECURITY to not be specific to SELinu=
-x.
-> > > >=20
-> > > > The security context is populated in scm_passec() in linux.git
-> > > > net/core/scm.c, through the security_secid_to_secctx() LSM hook, wh=
-ich
-> > > > is currently implemented by SELinux, Smack and AppArmor.
-> > > >=20
-> > > > As clarified in [1], the returned security context is in the general
-> > > > case a byte buffer, not a null-terminated string.  The only LSM that
-> > > > returns a buffer with trailing null byte is SELinux, but even that =
-is
-> > > > not guaranteed in case that the message is truncated.
-> > > >=20
-> > > > Link: [1] <https://lore.kernel.org/all/auZcwYWv0NeiIR8d@google.com/>
-> > > > Fixes: ffad6a017f91 (2018-07-28; "unix.7: Document SCM_SECURITY anc=
-illary data")
-> > > > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> > > > Cc: Kuniyuki Iwashima <kuniyu@google.com>
-> > > > Cc: Eric Dumazet <edumazet@kernel.org>
-> > > > Cc: Paolo Abeni <pabeni@redhat.com>
-> > > > Cc: Willem de Bruijn <willemb@google.com>
-> > > > Assisted-by: LLM
-> > > > Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
-> > > > ---
-> > > >=20
-> > > > Notes:
-> > > >     This feature is also available in other LSMs.  Unfortunately, t=
-hey
-> > > >     implemented it inconsistently and that complicates the descript=
-ion of
-> > > >     how string boundaries are handled.  Linux does indeed neither
-> > > >     guarantee that this terminates with a NUL byte, nor that NAME_M=
-AX is
-> > > >     large enough to hold it.
-> > > >    =20
-> > > >     After confirmation from Kuniyuki Iwashima, this documents it as
-> > > >     returning a byte buffer.
-> > > >    =20
-> > > >     I prefer this variant over the previous longer one, also becaus=
-e it
-> > > >     refers to the individual LSMs for the exact format.  A reader o=
-f the
-> > > >     security context will require LSM-specific documentation anyway=
- to
-> > > >     interpret the security context.
-> > > >    =20
-> > > >     This patch is still LLM-assisted, but at this point, since ever=
-ything
-> > > >     is rewritten now, the only LLM-assisted part is the discovery t=
-hat
-> > > >     this part of the documentation could be improved.
-> > >=20
-> > > You may use 'Reported-by: LLM' for distinguishing such cases.
-> >=20
-> > Thanks, done.
-> >=20
-> > (Minor remark, btw; I have carried the Assisted-by: LLM convention
-> > over from the Linux kernel, but they have phased that practice out now
-> > and removed that convention from the guidelines.)
->=20
-> Yup; I'm aware.  We should still disclose it here.  I personally would
-> prefer distinguishing Suggested-by from Co-authored-by, FWIW, but at the
-> same time I refuse to say that an LLM has authored anything (rather, it
-> has stolen it from someone else), so Assisted-by might be more
-> appropriate.
->=20
-> Perhaps, I'd distinguish Reported-by, Suggested-by, and then use
-> Assisted-by for what a human would get Co-authored-by.
+* When the message was sent before SO_PASSPIDFD was enabled.
+* When recvmsg() on a stream socket returns 0 (EOF).
 
-TBH, when I gave the exception, I was thinking you'd take the
-suggestions, but completely write the text yourself.  I'm not too happy
-with taking stolen text.
+Is that correct?  I am not sure whether these corner cases are in
+scope for this documentation fix, and I am not sure I have the
+complete picture here. (Are there missing other cases? Does it also
+affect other process-identifying SCM_* rights?)
 
+For now, I'd lean to soften the wording about "in each subsequently
+received message" to "in subsequently received messages".
 
-Cheers,
-Alex
-
->=20
->=20
-> Have a lovely day!
-> Alex
->=20
-> >=20
-> >=20
-> > > >  man/man7/unix.7 | 19 +++++++++++--------
-> > > >  1 file changed, 11 insertions(+), 8 deletions(-)
-> > > >=20
-> > > > diff --git a/man/man7/unix.7 b/man/man7/unix.7
-> > > > index 61f06a74359b..c0e2bdbacdd8 100644
-> > > > --- a/man/man7/unix.7
-> > > > +++ b/man/man7/unix.7
-> > > > @@ -312,7 +312,7 @@ .SS Socket options
-> > > >  is an integer boolean flag.
-> > > >  .TP
-> > > >  .B SO_PASSSEC
-> > > > -Enables receiving of the SELinux security label of the peer socket
-> > > > +Enables receiving of the security label of the peer socket
-> > > >  in an ancillary message of type
-> > > >  .B SCM_SECURITY
-> > > >  (see below).
-> > > > @@ -538,13 +538,16 @@ .SS Ancillary messages
-> > > >  option must be enabled on the socket.
-> > > >  .TP
-> > > >  .B SCM_SECURITY
-> > > > -Receive the SELinux security context (the security label)
-> > > > -of the peer socket.
-> > > > -The received ancillary data is a null-terminated string containing
-> > > > -the security context.
-> > > > -The receiver should allocate at least
-> > > > -.B NAME_MAX
-> > > > -bytes in the data portion of the ancillary message for this data.
-> > > > +Receive the security context (the security label)
-> > > > +of the peer socket,
-> > > > +as provided by the active Linux Security Module (LSM).
-> > > > +The received ancillary data is a byte buffer.
-> > > > +.IP
-> > > > +The exact format of the security context buffer
-> > > > +is defined by the active major LSM.
-> > > > +For example,
-> > > > +SELinux returns a SELinux label as a string
-> > > > +(including a terminating null byte).
-> > >=20
-> > > Considering that the interface doesn't promise to respect the null by=
-te
-> > > written by SELinux, I think I'd entirely remove this example, and
-> > > instead focus on disclaiming that regardless of the format, the buffer
-> > > is truncated in a way that destroys the format.
-> > >=20
-> > > I'm not an expert of this feature (actually, never used it at all), so
-> > > maybe some silly question:
-> > >=20
-> > > How is a user supposed to know how much space to provide to prevent t=
-his
-> > > problematic truncation?  Is there a buffer size that will guarantee no
-> > > truncation?  If so, we should instruct programmers to use it.  And if
-> > > there's no possible size that fits all, we should probably warn about
-> > > it.
-> >=20
-> > The required space for the buffers is again dependent on LSM; in some
-> > LSMs, the buffer can (theoretically) be unbounded, but it's possible
-> > that you can calculate a maximum size if you understand how these LSMs
-> > are configured...
-> >=20
-> > I removed the example and will point out that truncation may happen in
-> > a buffer-unaware format, if the caller-nprovided buffer is not large
-> > enough.
-> >=20
-> > Thanks for the review!
-> > =E2=80=93G=C3=BCnther
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---76lkj3zywylzt6vb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmsAXFcACgkQ64mZXMKQ
-wqlpug/+OR7GTt9Q7LNt9nc9LHFDDq3tbPrqnAu3ELRU95Gr6Q/7zuRUUFj7a6OA
-AvIW7Ik8OvIWZIUwXyWYJf+cILCdYJc+PWJU0/5VRmK+d+TCTDUiXnBJNdMlbUXQ
-HJ8LPWm9o1/rBsOEB3vhBrXlVt0RgIrNrbqrHb+pbOuJT0AiUbn3MTXb+ctgcPaf
-vNgr8U3vzDKECtQu0nUJibU+CatSPtVuZHIDFCIQxWtF0DOBsaxSatZ3fK49zOsh
-iUcB+Auf5K1s0SWRDetjSZWr2WbM+s3E11+L/NOIJyCq8Vprp3AG1ABOPFZXIyjN
-IAdNsEJ79dc+lpDzWSiG23vwt8y8C7CjrMroMAgIIjaJ2Pm2ePP6bMAa9SRFTbC9
-ykvJ54COwcwcDMi7shNRAic/ghkLZdvQ4xQHNSJHtbQ/Hvy9xlQaxYjxwuth5U4W
-tKOVAdi1Wgj9FQGpZ8kVQ5jo9TFdBder4jXdEX91AiwcuN4rNO7y6ErB6xhasmsB
-vUuPt9qBtpzdCF7KPctSQhtpStAbTF+BX56/KIjeX+JrH04IDR6suy1OLhP/rPxA
-9wwQJDk4krjNya5S/UqC2x+KxrgBSM5I7PiGJqzKz+DlMwMZIvpKmn2FUkLhtleM
-J234PrfMFsj9ynnRlYAaI/c+Q+DqoD7MnrV0P3krIqNfh65k4m4=
-=bgl+
------END PGP SIGNATURE-----
-
---76lkj3zywylzt6vb--
+Thanks,
+–Günther
