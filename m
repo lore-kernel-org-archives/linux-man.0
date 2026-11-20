@@ -1,98 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190374;
-	b=4LbrEZKe/w14O1dKJEODmWX74Fi78QpoxyML6rErUYjUp3WTmx7Zecp5eh+6oRq6BINQ
-	 PkKiWSQwNml4Pl5tsbvyWBPvSk/ItYg4GewvXMyJ+iVsWw5N0hqkUjQspTDGWLEnK+1k3
-	 YMobLCNDQXlDx99lsuVVNgePcAZVbe2GyIxGlIZf/AO/4Yfy8/cPzmylqkdEl8/4Gr3g0
-	 NY+xMPTGhXZQCafakol290rtgvRxq2b/0x47kRiWxXebBNAU5ugIm9WonkouKyW23p0HH
-	 pfnT/rRFNepe7wacqN55iG5AffalZC7g6ePtInIOJ5IG6QH7bP/dkz6fmUKW7dGKYKg==
+	t=1795190535;
+	b=Ef5u6V/nSXTECx3OLb7CuqMezSa2AOciOPVJurY1h9MMpNLv1twchuXhUs0/O0bAFHc5
+	 bNMLVlW2vqReimqFCxcKOTVOvRayw13AirV30C305KZHD1GKdoX1MdsTQ9ty/cwsQDYEx
+	 WQm514xnseySw6YD4trLHpezhVBdkZl9/fc5VkvgLmuxdj34/YM+ZZ68+TYADCc3TmBzL
+	 JbU4It443NYfnk4fY4DcHC3D6m5SgCHrUKadi8Uo/n6IMQqM3WjxQqTSG25sP+4RP3k+H
+	 hPj+nTWba4lI8nYV0B39o4R831e1j39Ep3t6X4Nz7bqkV0XQ1fTTCXwlMFs4edKpkmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190374;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190535;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
 	 In-Reply-To;
-	bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
-	b=HPBvhcnhbMrdWYmoWSTDI2jZqCG7QAccJx7vn1016FV2e4+ENCErQU/vmhhQh4UeK+QQ
-	 EooUpFRw1CyZ2urwJAxxxz1ajyJza3NPQQpvuxPoeKkW2KQWH5sbbyajr10H+9gREd8rT
-	 ETzP8E4A8RHWhswmaMGmOOxzWXAxiOGQCHUGeQucdEbHhYJKo/xE1X0oRFjjprZ6BVakg
-	 OhXpNtuWidUBeA9rpueadfqEP44psjc0XzDY/K0QtIM8/woMpLDqBUA4XHRtrZHTdlMDt
-	 Lyt02l+lai7pTTQ9uT3r3Y7PQY+lCFxUdl0uoZc1Kdmf98uGKBshGOF75HfMZceAfMQ==
+	bh=BoNGsT1gLBLJ4wIln8rqxMNsDmtJTJkfS+MF0YRthII=;
+	b=Q8ZqoDf74FkQnEYg8C6Zkj52j+orQUlRDZ3rH5PU/NgtZn0BA2w7tIgk2pgMn6iI0jYu
+	 yNvv5IhqUqfQP1328tciyQNtBa5RVyhe2aQUVzM+kY8HjauKNpDhuCPZaVxEOobEwWmtt
+	 vaMPYhjGPMOlYPVpPEZ6c8HzQlNaQBJpOkUMdurLjGHXGL4Wbgmg18lGwaTktja9+tFG9
+	 RCi3PTLGlg2HD/puCBBZCqNYHDiFBdILMFjSrMBd5Cgs8NCZdaymOmHVq3AiZRoH7MLC6
+	 Ix0JH48wR/meI8tLIUUtEFe+8ZJYbuubx7+mn8PTiGjBmflHZgIeNruAqNzJG5vlyGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJPww47A;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z4TWOpZP;
+	arc=none smtp.remote-ip=209.85.218.48
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0400606A325
-	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 15:59:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0400606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25789606A339
+	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 16:02:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25789606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJPww47A
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso20155075e9.0
-        for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 07:59:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z4TWOpZP
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50cc7540b7so153634266b.0
+        for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 08:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795190372; x=1795795172; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795190533; x=1795795333; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
-        b=ZJPww47AvwV/76TLj+dIhEZONVO6NmLZ6qAlEGZQoKu+h/J3w22kCFAZlHA448ICMw
-         VtCsjpnGYyMoXjqfjJockweuduWo0AJCLmo0zlr0uvbtgE+dWIn0Z23L/TFYZwZrqFK9
-         mbFIKqKiNjRBq9M4JzaAjzc5M1Edc07yuVnmCO+Jk6SGw+ZCxpUZEQoXRwePEOAQ1WRG
-         wnWifAyTL5Lug797C6Ghda/IIT/YTsrB7x+GTFwUSLZigvABpNattuwEd1beR1mlrKBv
-         ZLbZBT3ayaLdrwBt01A9vRrJUeisK4HRsB7pnHQOGdLQal6DVn+l4YOztIEcK4aEBvoI
-         gi9w==
+        bh=BoNGsT1gLBLJ4wIln8rqxMNsDmtJTJkfS+MF0YRthII=;
+        b=z4TWOpZPAF+ATaDiKzxq5hXMxPjMaFXzHr7Fxpo7/tobT8LRQxK2THOYQ2hwpORpZm
+         PaXs/pLIz9YDDTykR83Eb/wFFY5XUplJFCDNwcJDH3SSsWE93+g76aljIxHTgFYVHq5d
+         sCD3pAoxcMIPtAmqEztHFKEm6gZuFTyPH12/mwh7LLC7RGmpESGsY8uATY5DDcDHq1g2
+         CBhf/RiwuJaV04Xw+OksN8/MWdZgzo60QBDMq8HPxAn9+A4a8kjtFVmcX3S9Cb8TQXka
+         gQRVw4Axl5VoQtkSqJsIS4mzXCvzSQhnUl8JCTyZSkNlQWa/3Vs3h1ce6Ebr1j16Prdl
+         nymw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795190372; x=1795795172;
+        d=1e100.net; s=20260707; t=1795190533; x=1795795333;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=zfiKNJsSRAVR2o9XGgmFSGR9Gzj/9JFoUEQ6pGThfOQ=;
-        b=duq3YcAMwgWToUcQB5Ho39auwyc5Aq5dQDd6xc+P7pLYvcO4p1tsHpn3UKdhZ1y4T3
-         Uy6tfaRm1Y/nAP3yv/intH6TkRfYpaM8d8Ihx41SQ+5h9fnB9Z1bauqZekRzjzIxnHg3
-         yBEDxlI7Q3eqWfFTSXKkZLUDjb0BJmiVeYbX2IAGWoINQ6i3FJBtBXleVRQs2vqSqMVH
-         5K2VHvd6hnmXitpJlWyA061udQeydeja7Dcp28jjvhR+LJ3dU0hxfiHXwoevx5ujhqfO
-         qJ6Q9WCQFOr8H/WeQEQDLzIV0JCSwhEDhndVR35uDfeyjHxGQ1SZltaZ6vKrrdbeh9y6
-         aSIQ==
-X-Forwarded-Encrypted: i=1; AL+hErFsatoZQ+vVYQkHkLzndEzuPuAZIBWv45Scw5LFwGgGklO0JbwpCWdrdsBvRQGevPsvZyW4YcckxcQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+vYtkqLFwQ2YYdDFSFho4Z4Rri2zoD/dPexgV8rGg4l/O5lMD/
-	1j6KWKZIHnzLXoV9noJeVFKgfjxTgDBtNAZZykWwiX2eLikIKZeiaFrUvcvbq7OI
-X-Gm-Gg: AYBFou1HzkiJQN7ScsNKzbtzK66ph2yTDuvCApKAuC8Ecy83cuNbHhHobk0iYJEakRu
-	ZQiie6BPYYkHUkq4bOewyJktKdnYJDiADtI/ouKo1JK1k4t+waHX9AkHX0iXcr8nPu8xILRDZo/
-	OyxvgcyVpRj8NTfwiiEmuvEPNNPmE2/j5LpuJq8UlKT9+r7ChGRgBx6ly0sSktty0ExYw2VsR2P
-	M3ItU/5fHNMCjqnUvugceJ/sNmqg8f8gD7Vms/dHhOS+ZCY9DF8HmHuF61T6PBz+9K/jON2L6IN
-	Ip0wTsYBTknG7+g1ZpW3OEDNlGzTd6tFPDN4dvDDloy+7SvgEiUrM7XtQ+fallCqjhr2xKKXRnS
-	21xuCPWVCf9JsL8VXGhfs0UC/wf/sdHv7AFyMAObgsPHXX+uwvmuqSeNeLmj1NdB2Itu3dHdptd
-	Ls3FwxnlHyY0bu8obLcf8/gjmDnRmFzr077KWV+cHPcH8M2RhVcLhpua/Y/N5tBf23mCPAGUo8B
-	gSSdh2CPmqZpSzFJZqHjF13Z6N22DNeF1KdxlXyXvBbjEcOzjVwucVv+1wfWIKx+osZ6KtgStT2
-	JE1jd5h5yoBp7JbV6N1d2u6/J11BmigBYTVczYHn48AVMhFAJDX72g==
-X-Received: by 2002:a05:600c:6dc9:b0:4b9:f90b:1c4d with SMTP id 5b1f17b1804b1-4bb8613950amr88853515e9.5.1795190372220;
-        Fri, 20 Nov 2026 07:59:32 -0800 (PST)
+        bh=BoNGsT1gLBLJ4wIln8rqxMNsDmtJTJkfS+MF0YRthII=;
+        b=v5d4XTnKt+UrSj1n60NjuJEwZEXikfC1DXRPPZVTfpra51bLRl36BUTJfgEKQKjtaz
+         2BIuENnlzDKsTU2OU7oobTFTLyw7jxtm3Le9y2Sw1/OOmpiSt8vGeddjbDrSx8czZZKt
+         Fp7cLajY7vLs7W7yCYmjvfPWyPYXMZQ8cllCA9KfrP9rVlli39eGwraQXRksZ1LtYA4h
+         l+JOjwKBznMOwnWi2XMLfFqhutusWjfVfkhsg7dtJEjc4xTG0iOlq/bXO3XydHU8n6aw
+         ZCvZuxxjlaupKvynxnhjpJP/iQ1iuh0fdCyCgGE0AAUYGIiy03ZzxAQhsTb3FoiBP3P4
+         Hktg==
+X-Forwarded-Encrypted: i=1; AL+hErEqVU3gvLmjtr6rx3W0bFwelISruzmVNQCNzs4sYRd8vmi7vI8VPUu1xmilbO2jGJ2ubvvxYhUKuPw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8onMDLSHiUlEjbx2429rg8qJMfNmvI+aJg75FzHblPBG1UyljS
+	4VPyqEybzMYgvhPFNBzwfT7XePfWlkaj2otib7hJ9AirLfx2Cu6oNLBM
+X-Gm-Gg: AYBFou3rcrtduCRxdc7k2S14zZ7rW7pwbxUYuGWKRZTslcYtzaD+RcsVt5HtljrPt93
+	PEjFyjxpLuFMP7CDq4wuZh6cIYcSb4O2vPapV80HR0wHOX/O9Saxo+2dMuUGDBc05QYbHtJAk/k
+	h3lPWVwi+tKp8LPqHUcI9iKNKpEVoUhlShKGpim6j4uFadnYMOXobJ4sVKFPY1zPODGjopI/2xu
+	1YQDANMb4AleZQe56Xw8fWMp4G5FKvT6/ziFruRicSq3vQ1PM5tsCiWgCKFsYCz9u+/LG7Bu9VT
+	+56Ah6sJAfZYr60U4RrA7PD9nCbPZwIg0xu1ruaYHQQ+INp1WkVPg++H7r4Y/lTdoEU2yumnl9b
+	G3JTweIMosmoVKvBmXm+nFbb0h0dtsc4STQyRFfYUNRULQQV6FaemPfbIkTGE2xsqd7rKdLq0BQ
+	CF7W/vVrFmSiUpl4rw1U5pvf6MKTgiqSF0G1+FbArZKflOuEOp0k8vRYIrrX5CVo05wqNfgAoMQ
+	lHmNMsTv7FyyP/LlGyfmbGMS/aAggYfVNT6ILMNSXmOfJRCV838Z3SYgFgurcXDDmF6CquHGq+I
+	x8GJIu8F6Q5JQ8bX7MRu2VoWR4GzF1yTURiqQPYSWCCMjO1ToGokfQ==
+X-Received: by 2002:a17:906:b04c:b0:c48:1977:e1c3 with SMTP id a640c23a62f3a-c513a818864mr293876966b.21.1795190533285;
+        Fri, 20 Nov 2026 08:02:13 -0800 (PST)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b9abf15sm6018975f8f.43.2026.11.20.07.59.31
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513afc679bsm112007866b.63.2026.11.20.08.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 07:59:31 -0800 (PST)
-Date: Fri, 20 Nov 2026 16:59:26 +0100
+        Fri, 20 Nov 2026 08:02:13 -0800 (PST)
+Date: Fri, 20 Nov 2026 17:02:11 +0100
 From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alejandro Colomar <alx+linux-man@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Eric Dumazet <edumazet@kernel.org>
-Subject: Re: [PATCH v2 6/8] man/man7/unix.7: Document SO_PASSPIDFD,
- SO_PEERPIDFD, and SCM_PIDFD
-Message-ID: <20261120.a284167287ae@gnoack.org>
+To: Alejandro Colomar <alx+linux-man@kernel.org>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] unix.7: Socket Options and SCM_* fixes
+Message-ID: <20261120.7a54b14f6ad9@gnoack.org>
 References: <20261103202211.13820-1-gnoack3000@gmail.com>
- <20261103202211.13820-7-gnoack3000@gmail.com>
- <20261118-schnorren-apotheke-markant-b8178cac4a9b@brauner>
+ <av-HtwHXlZBTpzZc@devuan>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -105,47 +100,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261118-schnorren-apotheke-markant-b8178cac4a9b@brauner>
+In-Reply-To: <av-HtwHXlZBTpzZc@devuan>
 
-On Wed, Nov 18, 2026 at 05:24:53PM +0100, Christian Brauner wrote:
-> On Tue, Nov 03, 2026 at 09:22:08PM +0100, Günther Noack wrote:
-> > These were added in linux.git 5e2ff6704a27 (2023-06-12; "scm: add
-> > SO_PASSPIDFD and SCM_PIDFD") and 7b26952a91cf (2023-06-12; "net: core:
-> > add getsockopt SO_PEERPIDFD"), both in Linux 6.5.
+Hello!
+
+On Fri, Nov 20, 2026 at 12:37:03AM +0100, Alejandro Colomar wrote:
+> > Date: 2026-11-03 21:22:02+0100
+> > From: Günther Noack <gnoack3000@gmail.com>
+> >
+> > Hello!
+> > 
+> > This is patch set (B) spun off from the "Documentation fixes in
+> > unix(7)" patch set [1], which is now split into these three parts:
+> > 
+> >  (A) Miscellaneous fixes, mostly in unix.7, one in socket.7
+> >  (B) Socket options and Socket-level Control Messages (SCM_*) <-- this one
+> >  (C) sock_diag.7
 > 
-> Looks good.
+> Would you mind rebasing and sending a revised patch set?
+> There are some patches which I'd like to apply, but they don't apply
+> cleanly.
 > 
-> Since 7.4 there's also SO_PASSPIDFD_THREAD, SO_PEERPIDFD_THREAD and
-> SCM_PIDFD_THREAD which hand out a thread pidfd (PIDFD_THREAD) instead
-> of one for the thread-group leader. Would be nice to document those as
-> well. Either here or in a follow-up.
-> 
-> Nit: if there's no sender pid no SCM_PIDFD message is generated at all.
-> 
-> Acked-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> There's also some patches which I haven't applied yet (I commented on
+> them).
 
-Thanks for the review!
+Thanks for your reviews on these!
 
-Regarding the *_THREAD variants, they are intentionally left out here,
-because 7.4 is not final yet and so that change can only go later.  I
-would also like more complete documentation, but ultimately,
-documentation needs to be written by the feature authors so that it
-can stay up to date.
+Yes, I am just on it :)
 
-
-Regarding the potentially missing SCM_PIDFD message, in my
-understanding, the scenarios where this can happen are:
-
-* When the message was sent before SO_PASSPIDFD was enabled.
-* When recvmsg() on a stream socket returns 0 (EOF).
-
-Is that correct?  I am not sure whether these corner cases are in
-scope for this documentation fix, and I am not sure I have the
-complete picture here. (Are there missing other cases? Does it also
-affect other process-identifying SCM_* rights?)
-
-For now, I'd lean to soften the wording about "in each subsequently
-received message" to "in subsequently received messages".
-
-Thanks,
 –Günther
