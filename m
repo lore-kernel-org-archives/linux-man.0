@@ -1,51 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795131426;
-	b=ytdm6GhgngGo7CuwlWqmOhyOgaobhQQM4vTMvtHC3kf+bFOAcumEFrCsFVNMhylPiofp
-	 p/G9xtstuT4xCS59xtbLjT86rx7K0stYmLagqCDB+362kmsLp3Okk4nAyz0PvWJs0MfQ2
-	 DIae21ZOrxjPFEhDw5dF1IiaYCIcwLPa8QeyRri+1a1EJSFPXn9b/zCwksA/bD+12NIE4
-	 ubhlMLP9c2riVe7N8l31imdtcf6d631Ji8Xkosi4A52AT8K3/i2jDcG0bDi0pOMk0fJLD
-	 xPQ73HwcW7FANF1fFUbfOgXEwA/gORE7KiCk31fyDKODQdXcKR8Epicd1XgAowdMoow==
+	t=1795134889;
+	b=Grb+CfLhKCg/ONDtRRqi2yY7o88ke5FjfSeA01KGtOXZHuae+V8auAsnhxCIVgIACS9X
+	 EvarhHzlhPf35vBSi9/h9GlUTijeyeUZA5n7hsMHq0xZt/wE6HUF3fv2IwFQDSqdI/Vnc
+	 PKJES38/iDGC1cywDWlMb15chE8v/rgxOI6XNZo9eVVfcy5xWksIVy8QaI9K0wTYlh/lM
+	 tvKfnQ7jINJrGP9HvVfl5Nd6qCKi3HwM0K8VTZVtT8ggZJoV0VlnEFz+eTRo1QJt3sQ5g
+	 25V7zLp79JdT1brT07Kk4SF3D6nuT2wo2iNXfBj7aIkaBeF82qQfodNiB2eiNdqjo1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795131426;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795134889;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Kr/6yQRjSlu4tKVFRCt4seSQ2jeg5CzOi03C+Tv930k=;
-	b=E7jrJmj7XOH08/FQumy3eDrUsUmleMTUTRL+/gCtoVlvHva8DTKiZfnZmj4/B8CqgTyN
-	 ttmNrfz9TLkOyL1YLA6AJTUVGcyZvXTDMCqPa1VqWZrMfQqySNRIKoEeIviHgpCqnvxVg
-	 UAodRlVE6rGp09FAqaUll1knW+TZI1/MN7iCpTlPSu8WNWWz+4+uzSUEcs9S8ibueyTHf
-	 Np4UqepoPzwSt0fPwE4njiwBpFXF68hVBKWnt5wPnFS7c8jzireuVIETGGRBbkP/4Q+UG
-	 xzgjYtg/lquK02+Tmm3iCf8QBEFQE8yyWQTSJdinr7nxKekwG3RjRatcU5M+gMLU78Q==
+	bh=JcOCgKK83tI620ccd7QGXNdEcRDvt0uf9IVVSCZNoXo=;
+	b=kXh05A09Gsih5yHpFgDaWhPAUQVIRo/1kIUjWDRmFZ+DyTcHSlS7xr03K0r1E7vIBHew
+	 0g+LHdlMM7+98HKoK3TqPFkpSmDEi4U9uyZYpMU+B8um5ng+Hib/n2jsIa0Sh8+B71X+E
+	 iWMlO4n3l10ABmbNvTdAVboKiyWtLUERwMlrEZHGpSlqV8BTww2Of6GJpysjMnToPaDvG
+	 sx/3b61xZ2koA9vfrUoIeURqG9gBt0PJzMIfRq/CGBQD1+583f6TZKVnBr6OLjT1JOwHK
+	 CDyUGxE/VBaRPWiwsblT1ZKCgHgOHrjtcIcJg7Cbimmorwo0Apvjm0TyM9hAsPWgm4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JRmg73TG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aelra8RV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84906606A320
-	for <linux-man@vger.kernel.org>; Thu, 19 Nov 2026 23:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1586606A325
+	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 00:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JRmg73TG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 421F91F000C6;
-	Thu, 19 Nov 2026 23:37:05 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aelra8RV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145321F000C6;
+	Fri, 20 Nov 2026 00:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795131426;
-	bh=Kr/6yQRjSlu4tKVFRCt4seSQ2jeg5CzOi03C+Tv930k=;
+	s=k20260515; t=1795134889;
+	bh=JcOCgKK83tI620ccd7QGXNdEcRDvt0uf9IVVSCZNoXo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JRmg73TGYI5K0FGmBSg5B3Yk6DW/s38pMR/RtzWp7QrxL+erGnbls1ZqcyFT3kXfF
-	 5UERp6tByWKGt41q0vFH9YABJDwxP0eobtgXz5u6Ryn1f7jVgS/zD9Kj7TIFT/GEDn
-	 r2icuC7eyLJUCqTgGEqLwZvvpIw0pSJ0FH9u77Uzb6fB9CBiiw9yC5pggpOKCH/U8q
-	 azsXFDCXMKZBiUvr94CVnVBzYw9twah420Te9sDbgCwyMyTqkylhZ1E/wXp/Tdz9DT
-	 QeW4tfbHMsLziNwCPPRu4F4fc0LqFOWrl4koqZ5OtuBPB5yPD11c7KnIoeH+f1ZQO1
-	 W6/pQajtf2ujg==
-Date: Fri, 20 Nov 2026 00:37:03 +0100
+	b=aelra8RVPROXTjx0A71Z4bMDD/nRdoR8vfRWV1dFHOuEuz2WNHY+PUEbizw8jc0Kt
+	 g5gXmblLansa+nxZVEiPK0m76uXNNpYZIKGhGHybQNkoFT/dAnh7/hkl+Juwb68KsZ
+	 WURmNxoE8hUfmu/qV3KWyQboQ726jiMJh6+nAijo6oWuiWpNTi1SPBjEL0DkcsrMbA
+	 rpphCIYe632sLKFfPKXBdhJ2H7wIdiehImGkjsZWPZ0QkyM1mIfdgIDs7mJkon9Kkh
+	 e25mRCJss9Vg8E30TrM48fWPlHy18YRiCduakYRYa2xoZmRf40lhln4W+Gl60iIo4l
+	 KXUKPvvXcR9og==
+Date: Fri, 20 Nov 2026 01:34:45 +0100
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] unix.7: Socket Options and SCM_* fixes
-Message-ID: <av-HtwHXlZBTpzZc@devuan>
-References: <20261103202211.13820-1-gnoack3000@gmail.com>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Alejandro Colomar <alx@kernel.org>, 
+	Xavier Leroy <Xavier.Leroy@inria.fr>, linux-man <linux-man@vger.kernel.org>, 
+	Michal Schorm <mschorm@redhat.com>
+Subject: Re: Two copyright notices missing in 6.20?
+Message-ID: <av-UBJhM_77OtKJA@devuan>
+References: <9d4eec62-bfab-4cf9-ac48-c77dd57b60ac@redhat.com>
+ <aukT75oZFuvhwiEd@devuan>
+ <0b9233b7-3c3f-4209-9d01-a1c94aaa8439@redhat.com>
+ <aun6mEuYKQG-1IKv@devuan>
+ <40697762-75d5-4d08-9740-4e68b379d80b@redhat.com>
+ <au0J1MGwWEwdnUSK@devuan>
+ <e2835e4f-3cb4-4b39-9a1d-a6b222e8bbb4@redhat.com>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -56,143 +64,99 @@ List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zudpfyxifzfaxzyx"
+	protocol="application/pgp-signature"; boundary="3ovmueibzat73h7s"
 Content-Disposition: inline
-In-Reply-To: <20261103202211.13820-1-gnoack3000@gmail.com>
+In-Reply-To: <e2835e4f-3cb4-4b39-9a1d-a6b222e8bbb4@redhat.com>
 
 
---zudpfyxifzfaxzyx
+--3ovmueibzat73h7s
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] unix.7: Socket Options and SCM_* fixes
-Message-ID: <av-HtwHXlZBTpzZc@devuan>
-References: <20261103202211.13820-1-gnoack3000@gmail.com>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: Alejandro Colomar <alx@kernel.org>, 
+	Xavier Leroy <Xavier.Leroy@inria.fr>, linux-man <linux-man@vger.kernel.org>, 
+	Michal Schorm <mschorm@redhat.com>
+Subject: Re: Two copyright notices missing in 6.20?
+Message-ID: <av-UBJhM_77OtKJA@devuan>
+References: <9d4eec62-bfab-4cf9-ac48-c77dd57b60ac@redhat.com>
+ <aukT75oZFuvhwiEd@devuan>
+ <0b9233b7-3c3f-4209-9d01-a1c94aaa8439@redhat.com>
+ <aun6mEuYKQG-1IKv@devuan>
+ <40697762-75d5-4d08-9740-4e68b379d80b@redhat.com>
+ <au0J1MGwWEwdnUSK@devuan>
+ <e2835e4f-3cb4-4b39-9a1d-a6b222e8bbb4@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20261103202211.13820-1-gnoack3000@gmail.com>
+In-Reply-To: <e2835e4f-3cb4-4b39-9a1d-a6b222e8bbb4@redhat.com>
 
-Hi G=C3=BCnther,
+Hi Carlos,
 
-> Date: 2026-11-03 21:22:02+0100
-> From: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> Date: 2026-11-09 16:42:39-0500
+> From: Carlos O'Donell <carlos@redhat.com>
 >
-> Hello!
+> On 11/5/26 6:06 PM, Alejandro Colomar wrote:
+> > Actually, I've looked at memcpy(3), and the text I thought might have
+> > come from glibc is not present in the glibc manual, so I guess it's
+> > from this project only.  The text from glibc might have been replaced
+> > entirely over time.
 >=20
-> This is patch set (B) spun off from the "Documentation fixes in
-> unix(7)" patch set [1], which is now split into these three parts:
+> Agreed.
 >=20
->  (A) Miscellaneous fixes, mostly in unix.7, one in socket.7
->  (B) Socket options and Socket-level Control Messages (SCM_*) <-- this one
->  (C) sock_diag.7
+> > Now we have a Ship of Theseus problem here.  The page doesn't seem to
+> > contain any copyrighted text, but are we allowed to just drop that
+> > license notice?  Any suggestions about memcpy(3)?
+> I think at this point the interface is so well understood and the text
+> sufficiently simple that we can keep memcpy.3 as-is for 6.20+.
+>=20
+> However, signbit.3 clearly says "Based on glibc infopages, copyright Free=
+ Software Foundation"
+>=20
+> Likewise "heavily based on glibc infopages, copyright Free Software Found=
+ation"
+>=20
+> Both of these should be rewritten from scratch IMO if we're going to ship
+> something that is legally permissible without being GFDL.
+>=20
+> I can't write these since I'm involved in reviewing artih.texi updates
+> for glibc.
+>=20
+> I think anyone else could probably write them.
 
-Would you mind rebasing and sending a revised patch set?
-There are some patches which I'd like to apply, but they don't apply
-cleanly.
-
-There's also some patches which I haven't applied yet (I commented on
-them).
+I've rewritten the pages.
 
 
 Have a lovely night!
 Alex
 
 >=20
-> This patch set fixes unix(7) documentation related to socket options
-> and SCM_* control messages.  The first 5 commits are fixes and factual
-> corrections, the last two commits are documenting two relevant new
-> features (PIDFD passing and SO_PASSRIGHTS).
->=20
-> The patch set is based on the "miscellaneous" patch set (A) ("General
-> Unix Domain Socket fixes"), since it is touching some error code
-> documentation in the same corner as what is getting changed in (A).
->=20
-> Thank you for your reviews of v1 and v2 of the still-joined patch set,
-> as well as of v1 of the split patch set.
->=20
-> Changes in v2 (split):
->=20
-> * Mention commit hashes in commit messages, not in groff comments
-> * Reword __scm_send() code snippet in commit message
-> * s/the last one takes effect/the last one is sent/
-> * Rewrite SCM_SECURITY section to be about byte buffers
->   and independent of the LSM
-> * New commit:
->   * Remove mentions of "namespace" in the general sense
->=20
-> Changes in v1 (split):
->=20
-> * Some commit message rewording (especially quoted the kernel code
->   more directly).
-> * I removed the commit that changed the wording about Out-of-Band
->   messaging, per Kuniyuki's suggestion in [2].
-> * The ETOOMANYREFS commit is a SCM_RIGHTS-specific error; the Autobind
->   documentation change is included here because it refers to
->   SO_PASSPIDFD.
-> * I am not 100% happy with how verbose the SCM_SECURITY change has
->   become, but I don't see a good way to shorten it without cutting
->   away from the substance.
->=20
-> v1: https://lore.kernel.org/all/20261021212256.27961-1-gnoack3000@gmail.c=
-om/
->=20
-> More details are attached in the commit notes.
->=20
-> This patch set has been produced with the help of a LLM, which was
-> helpful for spotting a long list of inaccuracies, comparing the
-> documentation with the kernel implementation.  (More details in [1])
->=20
-> =E2=80=93G=C3=BCnther
->=20
-> P.S.: Part (C) will come soon, but not today any more. :)
->       That part is more independent again and, being about "sock_diag",
->       it is outside of the main unix(7) documentation.
->=20
->=20
-> G=C3=BCnther Noack (8):
->   man/man7/unix.7: ERRORS: ETOOMANYREFS: Fix the conditions
->   man/man7/unix.7: Multiple same-typed SCM_* messages may be sent in one
->     message
->   man/man7/unix.7: Autobind: Clarify when it happens, and mention
->     SO_PASSPIDFD
->   man/man7/unix.7: SCM_SECURITY: Generalize to other LSMs, not just
->     SELinux
->   man/man7/unix.7: SO_PASSSEC: wfix
->   man/man7/unix.7: Document SO_PASSPIDFD, SO_PEERPIDFD, and SCM_PIDFD
->   man/man7/unix.7: Document SO_PASSRIGHTS
->   man/man7/unix.7: Remove mentions of "namespace" in the general sense
->=20
->  man/man7/unix.7 | 215 +++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 195 insertions(+), 20 deletions(-)
->=20
 > --=20
-> 2.56.0
+> Cheers,
+> Carlos.
 >=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 
---zudpfyxifzfaxzyx
+--3ovmueibzat73h7s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/iBMACgkQ64mZXMKQ
-wqm5kQ//ZQuwy4iuGxvi/G/Mo9AF6ZtYhs1BVDIJn3AARW5bU+b/djKClGbBG7bp
-KTfe6eQasdGdijyOv475Hz2NzuxBT/PqsesR1+ar/vdfMA8eHv3YV3nK0UFcB0b6
-L0wWpbYv25v/rgQQ00ynRkLMbW079f+ZpulcLgu8dAP0kLxseWzH4WmmDutjH+fG
-kLUkW0DwdQ4fg1OjnZr3XYIlqxgOxrLHkaHutGC6JAZPekU2/xknRS9GRoHRKVqM
-AGohTZmRdO9XU67noxvnQ1K0Yg9azrCiSwX8KS/eDmvPFiUQd3binsdQWFHixs57
-ol5BY7AIyg5XVVIude6y+KLvwP9Xw1MWPz4CqNM2khe4qK3XH9C+rqzbvQCSpQJ6
-2D5JP0z+uc3omXb5HCugyu1gXnASO++IpygtlQvxmPlxyJLkA08xu0CMAtF3+zjv
-11at3MQbjfaY+3Ent+pWV6YAorlJPmupGVd4P58N35YiDjGo3HoVwRLW/aY/P1bZ
-CC8vvGk6b2NqREk61swYyGIRna0yIm0lTaCKfySeLYebvVTSLKQ4U1RcgVB68REY
-I6VnVM7aLO6loff0OE36fvEshzyrsilY1ptE96rNaQA1v/E9n+pAC/ZQWYqSE2k+
-tpVa8Tvf98vwA2yLzzxzWiVN9g+Iu/vBmjXsO7NwWXMZTNSmhqk=
-=GGXt
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr/laUACgkQ64mZXMKQ
+wqmb+g//UobCkNh89cdePh1YHI5Mm9StwjpDQmvHhcPdu94vMj/kijOVT2htfRAi
+smHA5o7byRey87RdBMQts/guQEtV4Rbj9iID3Z8LzXXwPsHTqkrkAiOGpY5rKAJL
+pAzjPtd7UcKKeLTso7/A6Hdtgo9XTpUY/DpVoNZEBCp5+plk4nr1eX759KhPy740
+uGW46q2Y+DkL7RTFqjfz4UCdN/tP2Iaf4H+xdmnwtti3M/RFh/S2rikOiRyxTmJ2
+5dKfdEmIZksWgNcZOyVKmaAFTCuriIsU4NIJP+mTvqkiRTve51B5qpGBifO9KE3W
+by4bpOKazcicbPAIGGAQ8Im5aLEBNB9WkZB9yW0rxdjY7ng2jYOqFYjJh5NTQEY1
+ue1RHeY1F57k3eb9TUdGJc7L4z2sToCXmUe5wKe1C/7PNfdxI3FNpsu4O3y2nxXO
+wQwTpVtRnd/KVq50SLvvvpcmTMqMtvloSPMoNeNTmFqn+Xh8p51qrBIP+sDDPkpo
+7GG7xIMyFiKL0sz9BGuVvMarSYPcS93dYrFpxP0hX+pN4Nw9XMZR5B+2v7PjY/x2
+6YFyWk+b+/Nj+90X+r2P/y6TuEYpBIOSbCTOiwIT5j3Z58/JIh7nD4CbJgz9kixA
+LiznaOVjA98ImkL+/76cIq3lFqArp//HWjswK2wfzIw1Y3Zzv08=
+=bnD8
 -----END PGP SIGNATURE-----
 
---zudpfyxifzfaxzyx--
+--3ovmueibzat73h7s--
