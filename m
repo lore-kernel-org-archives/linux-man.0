@@ -1,95 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181159;
-	b=uhL6/ZBtYmKx5JD46VS3QcoazpNXmI4iX0otUI3NQCo/LaMmuV/DW3uRA6JAJeoegRrS
-	 6b0xAU6lGXuPPMd7ZNX6CdNTuVr+lFgKAB58cL2XOABzW8Oshc0ynb+nLubCN+9WjiDFW
-	 d58YRrtygQseM2hvl/GwboxDAj71KKx4kHEfP9XR8wIcskwNlS1NyV7kY4J2/3KuoZQio
-	 3sKWbsjUp+9XSkoEZ2nxcTbGb2PJFxN6ReXiS0DKufaPcBMgm3ZkvoZjnT1engnq5fUPG
-	 fwPXQ/t7LAOgwH8xRiT0HK3ljNf9B33Ok4oISyWuccVn9jBVg9gBnAoAwAE+JtC+PBw==
+	t=1795184274;
+	b=R5C/MFFODlFSRes7sW+Dupys1MhkLKXIPvaXuWZq6XahDH1QR4hMvT7Alc6TEH7nZhZt
+	 gwImE26Zjh9X9E0kD4mRl8IqsXjawLxYzt8Zo7vvmRfgpG5eztBGToMCEWW1XyxdcciW6
+	 Nk2A/S5UQWgbLIRGkhnGLARxck95a0lTgVyeO2K2X6Qhi84c8anUbsGX0y8B264HgdlEo
+	 yO/4sE5c5wZLVJ2WPpracIFFGXJuArptHfpnzLz2cVKonZN1zls0uu/KzP4rTpLoJWaHJ
+	 7iwnDTp8vMF1BqBFcBeaQpIqVHE1vA3JI+LBC34WhncgvplFblyux73UtyUYGXgzLOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181159;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795184274;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=uG4A/Zdt5W0lBThcQzNxmdvJZS1eY1IFBFK/WOZ0kSU=;
-	b=Sxs8r4tWsh/HmuR34LFuvIe6Qo6YawLrYK+Uoy8KytoFeff6sL1U6jQO4MSK0pNc6xgQ
-	 SIrC8AjtSR6izPuhsrfLufkTpmjFcjrofGtbmiM4OerOVXHon0BHhs/WE6lQZViV6G1FP
-	 L6JZDO+HO2lvUHjYXj4wskxZJkZpPsxaYm+W9UKmBl9QEpGNHaueCeGqvB/zBI/uxVzc0
-	 ZqXcOBHLSt8K9DA91EvYJIwH1Dur/OxhxikIx88pVzLPzKcecp6gX4TivVmqTxT2jzFAv
-	 A4mJj4RZr+cTnphFb+8h64bQdgmFvsTx+9dTGVLIqWwC+4ZoSr58cWvI7hMvTrLLacg==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=aBkA+2cSGNE4IyctVEQACzQH14etmyhS0s0tE853PcU=;
+	b=ullWgYvGYulrBN5SkIjBEVqBXImZ1e3cTQS0p5lrIg6hpyCgUf5/lesQcwC7Wlwrqk77
+	 ZrOln1iPuHx3TzY2KwFYPIIXCGZGt1AfJimduNBbLtTQxEQMOi/9nzeQb7t5E3Y2PygN0
+	 wz6BdtaFgirLzelyo4wAGsI+DPhGVDqnJH2ABgkoufH2DtELAOJR24d9KuP5qqnuYlHey
+	 0WSh7d2iLk01npOigCYVsaDBffrb13kMMdmPMP1e4Sxo04i32/TDP5sFAWYsdt7CAZPcI
+	 E9tEsKCIDCKDR/9Li0hpUnhlyADNdYWcweDPL4wS6KheUiu8X8p6eZY2Sf+ql3F2rZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qg4GmelK;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TjGnSKOk;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80388606A339
-	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 13:25:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80388606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EBB606A320
+	for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 14:17:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2EBB606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qg4GmelK
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb5b8ef642so7766915e9.1
-        for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 05:25:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TjGnSKOk
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so11202475e9.1
+        for <linux-man@vger.kernel.org>; Fri, 20 Nov 2026 06:17:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181158; x=1795785958; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uG4A/Zdt5W0lBThcQzNxmdvJZS1eY1IFBFK/WOZ0kSU=;
-        b=Qg4GmelKxdvPyOtAr8CRa3isJO4RCDPwzba//qU/j0p0StRJwZtuSQjUaVxCAMpieS
-         XgL1FzIPw26u5+qH8vtvUImRgd6O7HQqhC3/wmYFKy160rQQmTNmyrAqiXIuPCXZEPWl
-         vlSc8+ZQykcQJAdSm3mpwuLTRuwl3WOA7N3XG2ufDv6ERCwLhcX3tCEnZSdedmdd7mNp
-         elOmeDWLQaVFfqGTEZlvSca93/BjingKjrIEIZY6IjZ8uiE5kVamM/SKURzwhUqW18e4
-         1vm9gpTvyk7cKAGy+227xiWpR+vw6DvGc4ZP3hxrzbwZv0g2kzfOSyaGyNGveEzC3+Yu
-         VP/A==
+        d=gmail.com; s=20260707; t=1795184272; x=1795789072; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aBkA+2cSGNE4IyctVEQACzQH14etmyhS0s0tE853PcU=;
+        b=TjGnSKOk4QAZ+jTeKMBHjWBTQeSSHVZ3GkXOUFyk/Vb4WHyx26xB0VU1JQ3MY5zrF/
+         JzrhqUJvIt0ykvlf2Cv2frmJ1HVRDOwZYL7pk9rFqLDJ7PS15K492FyfGbVMLFOYyp9O
+         EQb6Q/LFPDIht9YM6BvdPmrkmbYsrgEbUHTSI9aCSVRlOoLb4AYHF5NTIBVryVepAmNJ
+         y7L0lSmCZTH0YKT9XHA/aoJLXwOVjOQYScz9Y/AvIonCkFOV/F2gcFnn8xu4aQV+uT6J
+         HdpZactYWhVnWldyRh1Jarl8f90fI/qy8Zzix2SMgma3qrKz0OdZPvR/17cklRo7Y9c5
+         Va6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181158; x=1795785958;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uG4A/Zdt5W0lBThcQzNxmdvJZS1eY1IFBFK/WOZ0kSU=;
-        b=1K6ftf5Cfgx3+yYLwH3SKaGgqtKX7uxfq5Vg+QJd6alZKolgr4O1JkDDzxSPisX8bK
-         kJiKdUlSVweda2nXiJJKivf0GZzwpoQWbQsj/yvZakdD7tlyNDOv11jQikPI8N8+uiZH
-         FO3sOgaKv0QuaNZ2ni16i7B3qBNvDUT7aomvvtR9n1YcQXyFK3RIAkFsyQ4R2URjPoWX
-         7FtIuBqdMNf+Okr+elbtryZs/5LeFBHyGpq6oemNcopopKirBplcPPeu5xOz7sGW2/dQ
-         G5JUOSi51SLct7ElBmgW6HKv57za8QcOUqWLBWH68qgTj6G2joRkbAoXbF10oPiPGB6B
-         t28Q==
-X-Forwarded-Encrypted: i=1; AL+hErE5PKxOIj1N7XyApGL7H4Z+Gubbz1yZC8vcedhegjwXKtsSc5Y6kYM3FNXGZiFKooDfEDtHY+2PkfU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TjMS+kUkhNoXCDh+Nat7v+CSLz/HA91NdaoRNsYF0T/WkBJ45
-	oSKJrSuuCBeCKTrIVzDxLevemx/n3FT3tAPhzBiroMcH26vWl8enP0/T6rD0bRNF
-X-Gm-Gg: AYBFou0NGiB2rHYwGkTk36ZkaBXlR73yY8m6xACYOBi7SUPa702F4zUPTn04JKvjIM/
-	TTRAopQLaI2YVdnPEZ58DG5Fcm54OOK5eBeP/cV5y1UDgtL1YozxHG8laBwefGxCdX0x+Y/0vYl
-	DrhS1WueRNjFyqExZv7vZIUdDy+Chhjecyh3UHXCZvRhfZvgV3RNDIhn51oriP8F47RXlxjLo/E
-	DmXsodVwxMr2U9mNGY28knY9kVkttgz9EKBdZCw0s0CBSFOYa0/n8yP8HHzsq4ESuQI3xfu9zGr
-	CkPR89EF8gsQYOpo3wpFLXKzn2jE8LIaoFFy6r2Rlh7D+OosBmsgbmvwDFcAxMwp0E0o830ytbP
-	5Jw1pJYpJqmxzGo1psevkRVtTomSVqJmF/BHB0eDf7dWJ2o0DuVfO6zEoHfsBBh4VrbQDhHsxND
-	Gbw1pX9YrUIKOJkKKJ8RdGObtfNt6wZEgim+pqMVD8MCMNf5t02+8SbK2B7lKH0SorWvquw516y
-	Dfc4d5HSu4irLiEa5Ck/yR5ORPA5AfXebWUkaKmlSX+oj9jRcMM/A5eSTEEptAIu4d3BLvzdfPs
-	LbqFZbkDxjW3HDx4LN3a5cdZRM62MlXu0zL22OpNvvXbAF88YtruFg==
-X-Received: by 2002:a05:600c:3b0e:b0:4a1:efba:511 with SMTP id 5b1f17b1804b1-4bb8882508emr70581525e9.35.1795181157849;
-        Fri, 20 Nov 2026 05:25:57 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795184272; x=1795789072;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aBkA+2cSGNE4IyctVEQACzQH14etmyhS0s0tE853PcU=;
+        b=CLJkRWYUB+j3nyf3EkWM7Ai2p577ftniQGMbYasMbsFnlyhcf+OhWzP5gyWzC9CKUl
+         m+n71K6CH5mLA3lMMUyM6zuZLuzb3SXBB0/tHOC/z7CNucrTxCbuC9Ha4jv4Sk8bmFcV
+         sLiqjynI2T3QPxGCzrwi7tPlAgKA/xaLZOLkuEOktTNFF4k9OHmDeoOV1KpO8/IUtyzn
+         DgI+sXhlglFYE2gd+c3g6MHPNqIJs0Leigzrs/IkQILht+YxnEXRlt310mG8r/5qROLs
+         HzkmElaZHIGQXc8SBFl6X4jsKYlJtpyZ9NAKqOXln2x2TCee6VyUThK85pcWyRId1bGC
+         R+nA==
+X-Forwarded-Encrypted: i=1; AL+hErHugQUnQ9nKqfhHDTazNItEz8f0Mu6c+1k1zyUXdreyEC1yBtFAEZ4uZVZQZCrkvr909See1vrenfs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9OQNOWDQ2u+++eIyIhAdfVkLoHT+zh0mtNEmvCWVLkZTBQKanL
+	bTth0Jp8kZ3zhsMo8LQND95nt9MSkFjnbqlpNNb4Wu5AKlVV+4ZYGYZi
+X-Gm-Gg: AYBFou16G9MPfWmnXTMJhZjnVuaJ9gGy4j22N+Myc2OkVMGk/KfLZkWHnbdxINcrN4m
+	QTl757ikifEZIiDKHgPkuOt2BZFpdZ2wauM5wYSpSbqRCtcH2DIC76lVFybpdzFr0tkwDwfGMvF
+	1LWth0vc1jZ0ZarHslkJjPms5jHiVvSzyMCSLgUI3Cgo6tBpQPMARl0KSiX2d7tCJXfkjEpqBLo
+	Hd9ei/4nQvacVgCu0f1Fy8xm/6E6IUqC78sSxkXqXd/IuFxjc0R915fsuBowNqmaYYwGgfVaLpY
+	zfrxb82BCZNsNdPZNRTxxSsJRDHmGxCW4wnifCUjx8fKVgYa81WdQOovUpq3E/e0ZUevujHx3Se
+	ruZzkR13ZsxoKaGYzY4eIWTT6ixTKg6Ud/Jge9j56t9sINHDhEPjQNjsO/Sw+sA5WbJyc1wpKRq
+	bEaSeHXUANfbq3SSe1G32jY5ON0Wi1PKBiPpBUb71ztdVhL54clajPMHN0eGnD/o1KzXcSrmtcU
+	vZnsDXPGDp/gX5brV2/ELkSjuI2GIhDTUj55MLrcOnYUDQInHj8W5YPhnspKQq/H33jHyRxI7Z4
+	F5Sp+I4075WViyknsBFpgvr0go4g9LuyqL77eq5LHqPpBcffgPkf7w==
+X-Received: by 2002:a05:600c:820e:b0:4ac:da92:2bd4 with SMTP id 5b1f17b1804b1-4bb887c9936mr79754755e9.1.1795184271973;
+        Fri, 20 Nov 2026 06:17:51 -0800 (PST)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm122879355e9.11.2026.11.20.05.25.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884911e3sm104774825e9.6.2026.11.20.06.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:25:57 -0800 (PST)
-From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
+        Fri, 20 Nov 2026 06:17:51 -0800 (PST)
+Date: Fri, 20 Nov 2026 15:17:46 +0100
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
 To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	linux-man@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: [PATCH v3 1/1] man/man7/unix.7: ERRORS: Document EACCES, EAGAIN, EMSGSIZE, ENOSPC, and EPERM
-Date: Fri, 20 Nov 2026 14:25:35 +0100
-Message-ID: <20261120132535.20557-2-gnoack3000@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261120132535.20557-1-gnoack3000@gmail.com>
-References: <20261120132535.20557-1-gnoack3000@gmail.com>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, linux-man@vger.kernel.org,
+	Michael Kerrisk <mtk.manpages@gmail.com>,
+	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>
+Subject: Re: [PATCH v2 4/8] man/man7/unix.7: SCM_SECURITY: Generalize to
+ other LSMs, not just SELinux
+Message-ID: <20261120.790f70cab7b5@gnoack.org>
+References: <20261103202211.13820-1-gnoack3000@gmail.com>
+ <20261103202211.13820-5-gnoack3000@gmail.com>
+ <avz6f7OyIVCKusQ3@devuan>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -99,116 +102,127 @@ List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-man+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <avz6f7OyIVCKusQ3@devuan>
 
-These are all returned directly from linux.git net/unix/af_unix.c:
+On Wed, Nov 18, 2026 at 02:13:40AM +0100, Alejandro Colomar wrote:
+> Hi Günther,
+> 
+> > Date: 2026-11-03 21:22:06+0100
+> > From: Günther Noack <gnoack3000@gmail.com>
+> >
+> > Reword the description of SCM_SECURITY to not be specific to SELinux.
+> > 
+> > The security context is populated in scm_passec() in linux.git
+> > net/core/scm.c, through the security_secid_to_secctx() LSM hook, which
+> > is currently implemented by SELinux, Smack and AppArmor.
+> > 
+> > As clarified in [1], the returned security context is in the general
+> > case a byte buffer, not a null-terminated string.  The only LSM that
+> > returns a buffer with trailing null byte is SELinux, but even that is
+> > not guaranteed in case that the message is truncated.
+> > 
+> > Link: [1] <https://lore.kernel.org/all/auZcwYWv0NeiIR8d@google.com/>
+> > Fixes: ffad6a017f91 (2018-07-28; "unix.7: Document SCM_SECURITY ancillary data")
+> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> > Cc: Kuniyuki Iwashima <kuniyu@google.com>
+> > Cc: Eric Dumazet <edumazet@kernel.org>
+> > Cc: Paolo Abeni <pabeni@redhat.com>
+> > Cc: Willem de Bruijn <willemb@google.com>
+> > Assisted-by: LLM
+> > Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> > ---
+> > 
+> > Notes:
+> >     This feature is also available in other LSMs.  Unfortunately, they
+> >     implemented it inconsistently and that complicates the description of
+> >     how string boundaries are handled.  Linux does indeed neither
+> >     guarantee that this terminates with a NUL byte, nor that NAME_MAX is
+> >     large enough to hold it.
+> >     
+> >     After confirmation from Kuniyuki Iwashima, this documents it as
+> >     returning a byte buffer.
+> >     
+> >     I prefer this variant over the previous longer one, also because it
+> >     refers to the individual LSMs for the exact format.  A reader of the
+> >     security context will require LSM-specific documentation anyway to
+> >     interpret the security context.
+> >     
+> >     This patch is still LLM-assisted, but at this point, since everything
+> >     is rewritten now, the only LLM-assisted part is the discovery that
+> >     this part of the documentation could be improved.
+> 
+> You may use 'Reported-by: LLM' for distinguishing such cases.
 
-EACCES
-	unix_find_bsd() checks path_permission(&path, MAY_WRITE) on the
-	socket file of the remote address.  The rule was already described
-	in prose, but the error was not listed.
+Thanks, done.
 
-EAGAIN
-	unix_stream_connect() returns -EAGAIN when the listener's backlog
-	is full and the socket is nonblocking (there is no EINPROGRESS for
-	AF_UNIX).  unix_dgram_sendmsg() returns -EAGAIN when the receiver's
-	queue is full and the send would block.
+(Minor remark, btw; I have carried the Assisted-by: LLM convention
+over from the Linux kernel, but they have phased that practice out now
+and removed that convention from the guidelines.)
 
-EMSGSIZE
-	unix_dgram_sendmsg() fails if 'len > sk->sk_sndbuf - 32'.  This is
-	the limit described in "Sockets API".
 
-ENOSPC
-	unix_autobind() fails when all 2^20 autobind names are taken.
+> >  man/man7/unix.7 | 19 +++++++++++--------
+> >  1 file changed, 11 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/man/man7/unix.7 b/man/man7/unix.7
+> > index 61f06a74359b..c0e2bdbacdd8 100644
+> > --- a/man/man7/unix.7
+> > +++ b/man/man7/unix.7
+> > @@ -312,7 +312,7 @@ .SS Socket options
+> >  is an integer boolean flag.
+> >  .TP
+> >  .B SO_PASSSEC
+> > -Enables receiving of the SELinux security label of the peer socket
+> > +Enables receiving of the security label of the peer socket
+> >  in an ancillary message of type
+> >  .B SCM_SECURITY
+> >  (see below).
+> > @@ -538,13 +538,16 @@ .SS Ancillary messages
+> >  option must be enabled on the socket.
+> >  .TP
+> >  .B SCM_SECURITY
+> > -Receive the SELinux security context (the security label)
+> > -of the peer socket.
+> > -The received ancillary data is a null-terminated string containing
+> > -the security context.
+> > -The receiver should allocate at least
+> > -.B NAME_MAX
+> > -bytes in the data portion of the ancillary message for this data.
+> > +Receive the security context (the security label)
+> > +of the peer socket,
+> > +as provided by the active Linux Security Module (LSM).
+> > +The received ancillary data is a byte buffer.
+> > +.IP
+> > +The exact format of the security context buffer
+> > +is defined by the active major LSM.
+> > +For example,
+> > +SELinux returns a SELinux label as a string
+> > +(including a terminating null byte).
+> 
+> Considering that the interface doesn't promise to respect the null byte
+> written by SELinux, I think I'd entirely remove this example, and
+> instead focus on disclaiming that regardless of the format, the buffer
+> is truncated in a way that destroys the format.
+> 
+> I'm not an expert of this feature (actually, never used it at all), so
+> maybe some silly question:
+> 
+> How is a user supposed to know how much space to provide to prevent this
+> problematic truncation?  Is there a buffer size that will guarantee no
+> truncation?  If so, we should instruct programmers to use it.  And if
+> there's no possible size that fits all, we should probably warn about
+> it.
 
-EPERM
-	unix_dgram_connect() and unix_dgram_sendmsg() fail if
-	!unix_may_send(), that is, if the target datagram socket is
-	connected to a socket other than the caller's.
+The required space for the buffers is again dependent on LSM; in some
+LSMs, the buffer can (theoretically) be unbounded, but it's possible
+that you can calculate a maximum size if you understand how these LSMs
+are configured...
 
-	This is not something that the remote end normally does,
-	but it's a possible corner case.
+I removed the example and will point out that truncation may happen in
+a buffer-unaware format, if the caller-nprovided buffer is not large
+enough.
 
-For EADDRINUSE, simplify and shorten the wording.
-
-Cc: Kuniyuki Iwashima <kuniyu@google.com>
-Assisted-by: LLM
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
-Signed-off-by: Günther Noack <gnoack3000@gmail.com>
----
- man/man7/unix.7 | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
-
-diff --git a/man/man7/unix.7 b/man/man7/unix.7
-index b7b14793c794..61f06a74359b 100644
---- a/man/man7/unix.7
-+++ b/man/man7/unix.7
-@@ -676,9 +676,24 @@ .SS Ioctls
- .\" and it may well change, probably best not to document this now.
- .SH ERRORS
- .TP
-+.B EACCES
-+Write permission is denied on the socket file
-+specified as the remote address to
-+.BR connect (2)
-+or
-+.BR sendto (2)
-+(see "Pathname socket ownership and permissions", above).
-+.TP
- .B EADDRINUSE
--The specified local address is already in use or the filesystem socket
--object already exists.
-+The specified local address is already in use
-+or the file already exists.
-+.TP
-+.B EAGAIN
-+The socket is nonblocking, and either
-+.BR connect (2)
-+was called on a stream or sequenced-packet socket
-+and the backlog of the listening socket is full,
-+or a datagram was sent to a socket whose receive queue is full.
- .TP
- .B EBADF
- This error can occur for
-@@ -715,6 +730,11 @@ .SH ERRORS
- called on an already connected socket or a target address was
- specified on a connected socket.
- .TP
-+.B EMSGSIZE
-+The datagram to be sent is larger than the limit imposed by the
-+.B SO_SNDBUF
-+socket option (see "Sockets API", above).
-+.TP
- .B ENFILE
- The system-wide limit on the total number of open files has been reached.
- .TP
-@@ -726,6 +746,11 @@ .SH ERRORS
- .B ENOMEM
- Out of memory.
- .TP
-+.B ENOSPC
-+The socket was to be autobound,
-+but all autobind addresses are in use
-+(see "Autobind feature", above).
-+.TP
- .B ENOTCONN
- Socket operation needs a target address, but the socket is not connected.
- .TP
-@@ -737,6 +762,13 @@ .SH ERRORS
- The sender passed invalid credentials in the
- .IR "struct ucred" .
- .TP
-+.B EPERM
-+.BR connect (2)
-+or
-+.BR sendto (2)
-+specified a datagram socket as the remote address,
-+but that socket is connected to a different socket.
-+.TP
- .B EPIPE
- Remote socket was closed on a stream socket.
- If enabled, a
--- 
-2.56.1
-
+Thanks for the review!
+–Günther
