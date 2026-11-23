@@ -1,71 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=189.126.112.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795290531;
-	b=F0Oekj1j9S1bimiJmT4dDWzxEuLlyBY5Po7pzbYGcsL2BLxldsoy0CdSo5zDpCWPPCuW
-	 6F6KiG8AOcBQ0wiu0NUH5yGtGEAi4OHtnL3mKZ4DhD3o16ql+j/UsER1sOHj3hBmOdc/I
-	 OPbNVCMlIviKpt8xU3rB0GQwFVkZSiM1wquT1ZiQabqhVFgfSvpoGHomh0e2c1mYU8Tul
-	 6DRbjjy9NSbH98Bs1kng4w9GziNmss0MBdOhAoUaknXHQm9OSBOAqmBNgHy7En6LHkh5Z
-	 Y3rQH/75W/9+e43wQI9rAcoqv9D3A0NGD5svmCVVXdEIgwg9/xTqu8dKuvBOUNtndHA==
+	t=1795423958;
+	b=3YoRYtIa57BSebKUQrWaHhtAsBYZ4/oyWeCs/pyIHaAh9oiEsrXfEVoumdKrwkQWFbGc
+	 p+/8D8fxDflZYRB1q1Isli04shDXKJeOHg4URFbBnk8p6P4p5CIeHXkvziazTQOSzmIjc
+	 UH7vjftuk9ZFsOVquS4gFp9QZF/41GsyIxRVXRfXPluwjlcdzCFlQaOPjS+cLyCd+FVK9
+	 fjqsV5R3HD63hwvI+muM0Nci6nLbCN4z7GyCFBgNKkW1Lz6gBh1JKSXeQ1/7oSlZTU5Xt
+	 n+EEWeuBZbXst8bHOxozjkgvwnG1gFZJHAOrQ5ZlANuoFefxhJ7zr1vEPykcLEZvz+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795290531;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:x-locaweb-id:
-	 x-locaweb-id:x-locaweb-id:X-LocaWeb-COR:X-AuthUser:Received:From:To:
-	 Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=f25wi+noIPVW7l0NY/ZhYcHxohJe8d9TByk1uv45d98=;
-	b=GHByLJZQcGGLwwH8G1xj3aQRC+4L+rqtTape1sA+NKL1TMIekyXhIEG6xO0Ngp+TQ7ih
-	 e1+AN3G2gNI6wwaM0pgw581HzZ4Bs8phgkTNExlZ2inhx1qxCusAKgnzAgiuS5S4+7nJ8
-	 PlgJV1p66vovB29EsWCTM5zkvY0GcrFGubP8WKU1PFeRTK+R/iDLAr2GE6FSRzOguBe7d
-	 Q11508RgTpDpgkXlMv4ctxj2cjcYlmFBmOIBRrqHsSIyPwDhEsXzPIlo3QXKIcxPQkJyh
-	 lRIWGha0N/5+k2uSzN4KNvfEh8s/+3wAhGB67XjBAFmP5UC8qd7W5RY5WiSItzcUQsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795423958;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LtN7iZoEtGFSFqg59Il0O89rNPHVtffr1dutJcdRl8g=;
+	b=h7ws+8ml6jXD1OcIqohyFgYi56/lCl71OLtYuqt+BT0miFJMZx4MOWuvA8WiyGPSmrTN
+	 8rD0oQX+QkqHzGfqNf8OomEP5c8NeSJC9j0Gyfd30rMefl6sOzHgrplFwSDTbbqANqXgH
+	 CmTaA9O4wMky8Wxh0g5ytYoyOnMgBrZA8YKLLnsi91yuqoDkYzSAtqsaqlFQJnkRsHbgX
+	 TXqYZKGEQ9pXlsO5Yf5qRJnBzyfYpTSnLPaJwa2fiGEpXDKjhw625R4Aucevvc3n7Ygb5
+	 4XkpVjyUJFWuhN+1X8rKeyb3/XIyD5f2U3GR4K6i0JYmRtLC6KRKHTUHRRNURXWJIjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cesarb.eti.br;
-	spf=pass smtp.mailfrom=cesarb.eti.br;
-	dkim=pass header.d=email.locaweb.com.br header.i=@email.locaweb.com.br header.a=rsa-sha256 header.s=lw header.b=OeZS1GO2;
-	arc=none smtp.remote-ip=189.126.112.3
-Received: from mail1893.delibird0002.locaweb.com.br (mail1893.delibird0002.locaweb.com.br [189.126.112.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UXWfMfPl;
+	arc=none smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CC4606A320
-	for <linux-man@vger.kernel.org>; Sat, 21 Nov 2026 19:48:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0CC4606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cesarb.eti.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cesarb.eti.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B20606A31A
+	for <linux-man@vger.kernel.org>; Mon, 23 Nov 2026 08:52:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7B20606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=email.locaweb.com.br header.i=@email.locaweb.com.br header.a=rsa-sha256 header.s=lw header.b=OeZS1GO2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=lw; d=email.locaweb.com.br;
- h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
- Content-Transfer-Encoding;
- bh=f25wi+noIPVW7l0NY/ZhYcHxohJe8d9TByk1uv45d98=;
- b=OeZS1GO2Wb0VplHoFrJ29DJ8D3NFdvS3oel6d3fZZnWb2/uqqKjLNY+5h0f6W4FDav2YljRRaBtB
-   AtPHpmQFSI2XOKTFP9POlOEJS9BNRYHYsTuzFHV9Maavog1A/0cioK619Gdf3gNWKh+9bhbDKv96
-   1J0od9xtYyqtsLJhAk04kcnpBsbBNdiokDXGLrQPded4Mjr0wPeL3fN1i9TYthnXexmDxodKDywW
-   NY3+iIopVx4vusYgevajZUkDTYpQ8Gy9JvHhnwEadaK7BMDZ9rbkie0qgWA9qXNxGabuFfevIleV
-   1IqEejWn7AJ4RI8I6EnT/+a5+ZPwhMKhiquIMQ==
-Received: from mcbain0004.email.locaweb.com.br (189.126.112.85) by mail201123.delibird0002.locaweb.com.br id h07qpi2n8lgv for <linux-man@vger.kernel.org>; Sat, 21 Nov 2026 16:48:41 -0300 (envelope-from <cesarb@cesarb.eti.br>)
-Received: from proxy.email-ssl.com.br (unknown [10.31.120.234])
-	by mcbain0004.email.locaweb.com.br (Postfix) with ESMTP id B62D11808AD;
-	Sat, 21 Nov 2026 16:48:41 -0300 (-03)
-x-locaweb-id: 5II90qkwcFl608adNSKU11Mhs1xf0MgAzPC-CIfMoteOMOLYZkorw41aZgtgCBGiz7JOWdNt-MIUbUFIqc5n_VfP5aYHWPJEum0HS-HjJOtOgiOfMU3koHhOe3HDlCeGBJzs4Hv1ysjw4EdvZifjJyMZKp4GQa8Zbjczz0wfBf3noD4EQ-254BAD56zdX-QNQnELvBaPep8Jq7mQTuftzA== NjM2NTczNjE3MjYyNDA2MzY1NzM2MTcyNjIyZTY1NzQ2OTJlNjI3Mg==
-x-locaweb-id: 5II90qkwcFl608adNSKU11Mhs1xf0MgAzPC-CIfMoteOMOLYZkorw41aZgtgCBGiz7JOWdNt-MIUbUFIqc5n_VfP5aYHWPJEum0HS-HjJOtOgiOfMU3koHhOe3HDlCeGBJzs4Hv1ysjw4EdvZifjJyMZKp4GQa8Zbjczz0wfBf3noD4EQ-254BAD56zdX-QNQnELvBaPep8Jq7mQTuftzA== NjM2NTczNjE3MjYyNDA2MzY1NzM2MTcyNjIyZTY1NzQ2OTJlNjI3Mg==
-x-locaweb-id: 5II90qkwcFl608adNSKU11Mhs1xf0MgAzPC-CIfMoteOMOLYZkorw41aZgtgCBGiz7JOWdNt-MIUbUFIqc5n_VfP5aYHWPJEum0HS-HjJOtOgiOfMU3koHhOe3HDlCeGBJzs4Hv1ysjw4EdvZifjJyMZKp4GQa8Zbjczz0wfBf3noD4EQ-254BAD56zdX-QNQnELvBaPep8Jq7mQTuftzA== NjM2NTczNjE3MjYyNDA2MzY1NzM2MTcyNjIyZTY1NzQ2OTJlNjI3Mg==
-X-LocaWeb-COR: locaweb_2009_x-mail
-X-AuthUser: cesarb@cesarb.eti.br
-Received: from desktop.home.cesarb.net (unknown [177.12.16.39])
-	(Authenticated sender: cesarb@cesarb.eti.br)
-	by proxy.email-ssl.com.br (Postfix) with ESMTPSA id 90CD74C07CA;
-	Sat, 21 Nov 2026 16:48:37 -0300 (-03)
-From: Cesar Eduardo Barros <cesarb@cesarb.eti.br>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UXWfMfPl
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c513a854320so500458566b.0
+        for <linux-man@vger.kernel.org>; Mon, 23 Nov 2026 00:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795423956; x=1796028756; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LtN7iZoEtGFSFqg59Il0O89rNPHVtffr1dutJcdRl8g=;
+        b=UXWfMfPltejKZnmZxR9Cmpi1Y1x6CYl4ajjK7A6b6bJXS5uObawylUTJMKZWgZA7O3
+         y0oz+Ddr4tCsZPyJ1X6ss6sZ5got3KhRGPkjis65hIo1MGhkM9H2UJkAJKjQQnC8asWz
+         +iu5KoKSJyttPBXVKv48wPQ0q1HTTlxop2MxMmHVIgEXJbijqxWelWemmukkC4+LyH8m
+         v2RCBEh4WDLKSIFGRVPFjXNeOLLVK+xbb7RjqArsRyWI6ZYOofiTo8q+14vYUkXpg4+U
+         b07gP1C13d2fEcIMynbLdfEdNJwgtnPAjhJuaEtdVYDdcnc/TQ8efdNaJqOSGgnFJxHa
+         TJ7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795423956; x=1796028756;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LtN7iZoEtGFSFqg59Il0O89rNPHVtffr1dutJcdRl8g=;
+        b=n+J1BQ3evUaTA27jxZY6sDUhs/CV28/FAyG+50BdAfe6u/4PHy5LN0Mv02t5LEu3SP
+         E5epQpvog1x/oZMjACdg+dhr2+6oY05jnrIgHe8Bl8HH1RdxTFgv9Ds/9KuaZPaePaDH
+         FdNBRcXtvaGg8qxCINeoTKx4YV0dbxHuZU5qGzcVFAqKNwObfMk8/7X3/nbN9nDUZFQ4
+         PaxyLxrIMm/g5hsrZqyndpxBswHjO+P4libGVZS6MbbCHuv+mOLoGIkwpg2c9BPkiWMp
+         /jOG7n3yDosfv280cBjNxZ8KebeQkH+rJsn2oxhCJ6bKyuZo4Bju6PX4LLV80D2WMQB5
+         ZzoA==
+X-Forwarded-Encrypted: i=1; AL+hErF9p0fyavJ8TtjZxB/cwjKZaurq01njjb3F+hdTF30FKorDuUjZCFiYIVqp+U0UHKh2Jhh+CDwnu0o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9/mk1f2YN5GipiYZNpCOaURevMzZBrwQ2BmrczJZVkBeFdYoTv
+	8PYS83Ta4+S3VM7VRij1k2BIRebRQblaNz2QdjLNKw0VsKYlRcLsct26
+X-Gm-Gg: AZFdTZeM/HxD7IjwupOO7AUT5PUt16aahPNTyte75BZTweEnpUfwwlGwNeFjeffVOHr
+	yhm9IT33PRMZe5i5sci9ohUT9XFYYznv+5VfjQY5AW9oGFOOi5gTWjPeZv8E3I+/pvF2xoKDLsk
+	2HZdQR+RRGOZP5SEHb0q0XNWfntC+F4s3cWB02NhZd+SdAUIsKbSKTERUiV+Kl0btSdBeTUdKCO
+	D+qkwtbBDyXPxZbp1vrTqwshvDcfHtgWqnz621RUTJP3tanP1xjg4GUQehDm92Xc8XHgupZR6ho
+	odEr3SYK3OucyCRPN9RHT6RuIklUJjyKVj/eezqpZuF4Jiqosgm4NYy/oHPxd2mDEFi5VC/cpXL
+	9dwLgsZDKk+7buiMHiMSEBOeDq6GuIdW7ReqZ9MEaQEobB/wC6PmmV+FfXlBWzsRGLhf69ZpmbL
+	RY8GlkWkxYhXCA5xlUTes6XkxApTghZMZLDMDlet7EudYPcnrnguLloQ5x+WweCVH1SyMxknWRZ
+	TY+L5oH0oFMF1WNGHknxAQGBBczIJl3tsqT/rShIWFePBamUK1HqCqK1zs5UpKUbYv0jpCJqLko
+	mRAQ4pKMGNcgs0R150xfyhr5oYMdW7Z9NzbCcog6TR1PyOUnCbn97Ycku8LOsSb6aUzGUtYy5bu
+	Mod4UnjvDb30=
+X-Received: by 2002:a17:906:1ed1:b0:c51:2fb:a039 with SMTP id a640c23a62f3a-c513a850365mr708667366b.12.1795423955909;
+        Mon, 23 Nov 2026 00:52:35 -0800 (PST)
+Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513b022b2bsm379328266b.83.2026.11.23.00.52.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 00:52:35 -0800 (PST)
+From: Amir Goldstein <amir73il@gmail.com>
 To: Alejandro Colomar <alx+linux-man@kernel.org>
-Cc: Cesar Eduardo Barros <cesarb@cesarb.eti.br>,
+Cc: Miklos Szeredi <mszeredi@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
 	linux-man@vger.kernel.org
-Subject: [PATCH v1 1/1] man/man2const/PR_SET_PTRACER.2const: Document EINVAL when Yama is not configured
-Date: Sat, 21 Nov 2026 16:48:07 -0300
-Message-ID: <cfc899195f8d66e3846133e0488d713d6eaf975c.1795289695.git.cesarb@cesarb.eti.br>
+Subject: [PATCH] man/man?/fanotify*: Fix release version of mount namespace events
+Date: Mon, 23 Nov 2026 09:52:34 +0100
+Message-ID: <20261123085234.1879489-1-amir73il@gmail.com>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <cover.1795289695.git.cesarb@cesarb.eti.br>
-References: <au8GKjxzoGpp4MqU@debian> <cover.1795289695.git.cesarb@cesarb.eti.br>
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Post: <mailto:linux-man@vger.kernel.org>
@@ -77,35 +99,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The man page for PR_SET_PTRACER mentions three cases in which
-prctl(PR_SET_PTRACER, ...) can fail with EINVAL, but there's a fourth
-case: when CONFIG_SECURITY_YAMA=n
+The mount events were added in kernel v6.15 not in v6.14.
 
-The code which deals with the three currently documented cases is at
-security/yama/yama_lsm.c which is only compiled when "Yama support" is
-configured.  When it isn't, it falls through to the default case at
-kernel/sys.c which returns EINVAL.
-
-Fixes: 6f86bef66936 (2013-01-11; "prctl.2: Document EINVAL error for PR_SET_PTRACER")
-Signed-off-by: Cesar Eduardo Barros <cesarb@cesarb.eti.br>
+Fixes: 4c4d9f0f5148 (2025-04-04; "man/man?/fanotify*: Document mount namespace events")
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- man/man2const/PR_SET_PTRACER.2const | 3 +++
- 1 file changed, 3 insertions(+)
+ man/man2/fanotify_init.2 | 2 +-
+ man/man2/fanotify_mark.2 | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man/man2const/PR_SET_PTRACER.2const b/man/man2const/PR_SET_PTRACER.2const
-index 48bd8f04e104..b07ee5ae4d2d 100644
---- a/man/man2const/PR_SET_PTRACER.2const
-+++ b/man/man2const/PR_SET_PTRACER.2const
-@@ -57,6 +57,9 @@ .SH ERRORS
- is not 0,
- .BR PR_SET_PTRACER_ANY ,
- nor the PID of an existing process.
-+.TP
-+.B EINVAL
-+Yama support is not built into the running kernel.
- .SH STANDARDS
- Linux.
- .SH HISTORY
+diff --git a/man/man2/fanotify_init.2 b/man/man2/fanotify_init.2
+index c84de7ea1..1f1b5e7f1 100644
+--- a/man/man2/fanotify_init.2
++++ b/man/man2/fanotify_init.2
+@@ -332,7 +332,7 @@ that the directory entry is referring to.
+ This is a synonym for
+ .RB ( FAN_REPORT_DFID_NAME | FAN_REPORT_FID | FAN_REPORT_TARGET_FID ).
+ .TP
+-.BR FAN_REPORT_MNT " (since Linux 6.14)"
++.BR FAN_REPORT_MNT " (since Linux 6.15)"
+ .\" commit 0f46d81f2bce970b1c562aa3c944a271bbec2729
+ This value allows the receipt of events which contain additional information
+ about the underlying mount correlated to an event.
+diff --git a/man/man2/fanotify_mark.2 b/man/man2/fanotify_mark.2
+index a3b77537c..bb8e45c74 100644
+--- a/man/man2/fanotify_mark.2
++++ b/man/man2/fanotify_mark.2
+@@ -101,7 +101,7 @@ If the filesystem object to be marked is not a directory, the error
+ .B ENOTDIR
+ shall be raised.
+ .TP
+-.BR FAN_MARK_MNTNS " (since Linux 6.14)"
++.BR FAN_MARK_MNTNS " (since Linux 6.15)"
+ .\" commit 0f46d81f2bce970b1c562aa3c944a271bbec2729
+ Mark the mount namespace specified by
+ .IR path .
+@@ -413,7 +413,7 @@ is required.
+ .TP
+ .B FAN_MNT_ATTACH
+ .TQ
+-.BR FAN_MNT_DETACH " (both since Linux 6.14)"
++.BR FAN_MNT_DETACH " (both since Linux 6.15)"
+ .\" commit 0f46d81f2bce970b1c562aa3c944a271bbec2729
+ Create an event when
+ a mount was attached to or detached from a marked mount namespace,
 -- 
 2.56.1
 
